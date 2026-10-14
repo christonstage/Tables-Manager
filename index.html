@@ -28,11 +28,13 @@
   .topbar { position: sticky; top: 0; z-index: 50; background: rgba(217, 56, 58, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.18); }
   
   /* Logo Alicetta Trattoria */
-  .brand-logo { display: flex; align-items: center; background: var(--logo-blue); padding: 5px 11px; border-radius: 10px; border: 1.5px solid #8D5B1C; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-  .brand-logo svg { height: 34px; width: auto; display: block; }
+  .brand-wrap { display: flex; align-items: center; gap: 6px; }
+  .brand-logo { display: flex; align-items: center; background: var(--logo-blue); padding: 5px 10px; border-radius: 10px; border: 1.5px solid #8D5B1C; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+  .brand-logo svg { height: 32px; width: auto; display: block; }
+  .sync-badge { font-size: 0.68rem; font-weight: 900; padding: 3px 6px; border-radius: 6px; background: rgba(0,0,0,0.25); white-space: nowrap; }
 
   .top-actions { display: flex; gap: 6px; }
-  .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 8px 11px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; cursor: pointer; }
+  .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 8px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
   .btn-top.active { background: var(--accent); color: #062329; border-color: #fff; font-weight: 800; }
 
   /* Room Switcher */
@@ -64,6 +66,7 @@
   .dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 900; }
   .dot.sent { background: #059669; color: #ffffff; }
   .dot.wait { background: #B8292B; color: #ffffff; }
+  .dot.done { background: #062329; color: #34d399; }
 
   /* Order Screen */
   .screen { display: none; padding: 12px 14px; }
@@ -150,7 +153,7 @@
   .btn-close-table { background: var(--card); color: #fff; border: 1px solid var(--border); flex: 0.5; }
 
   /* Form controls in Menu Mgr */
-  .form-control { padding: 10px; border-radius: 8px; background: var(--bg-deep); color: #fff; border: 1px solid var(--border); font-weight: 600; }
+  .form-control { padding: 10px; border-radius: 8px; background: var(--bg-deep); color: #fff; border: 1px solid var(--border); font-weight: 600; width: 100%; }
   .form-control::placeholder { color: rgba(255,255,255,0.75); }
 
   /* Receipt Modal */
@@ -162,38 +165,45 @@
   .btn-modal { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; }
 
   /* KDS View */
-  .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
-  .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 12px; padding: 12px; }
-  .kds-card.urgent { border-color: var(--gold); }
+  .kds-Banner { background: var(--card); border: 2px solid var(--gold); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .btn-kds-audio { background: var(--gold); color: #291502; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 900; font-size: 0.85rem; cursor: pointer; }
+  .btn-kds-audio.on { background: #34d399; color: #052e16; }
+  .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
+  .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+  .kds-card.urgent { border-color: var(--gold); background: #8F1D1F; animation: kdsFlash 1.2s ease-in-out 3; }
+  @keyframes kdsFlash {
+    0%, 100% { box-shadow: 0 0 0 rgba(245, 183, 0, 0); }
+    50% { box-shadow: 0 0 25px rgba(245, 183, 0, 0.95); background: var(--logo-blue); color: #062329; }
+  }
+  .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #34d399; color: #052e16; font-weight: 900; font-size: 0.8rem; cursor: pointer; }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR CON LOGO ALICETTA TRATTORIA -->
+<!-- TOPBAR CON LOGO ALICETTA TRATTORIA E STATO LIVE -->
 <div class="topbar">
-  <div class="brand-logo" title="Alicetta Trattoria">
-    <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
-      <!-- Pesce geometrico Alicetta -->
-      <g stroke="#7A4B12" stroke-width="2.2" fill="#9E6518" stroke-linejoin="round">
-        <polygon points="75,16 95,12 90,20"/>
-        <polygon points="95,12 115,12 103,20"/>
-        <polygon points="90,20 103,20 115,12 122,19 102,24"/>
-        <polygon points="75,16 90,20 102,24"/>
-        <polygon points="98,12 105,4 112,12" fill="#8C5814"/>
-        <polygon points="102,24 108,31 115,22" fill="#8C5814"/>
-        <polygon points="115,12 134,17 122,23" fill="none"/>
-        <polygon points="75,16 64,9 68,16 64,23" fill="none"/>
-      </g>
-      <circle cx="125" cy="17" r="1.8" fill="#7A4B12"/>
-      <!-- Lettering ALICETTA -->
-      <text x="110" y="51" text-anchor="middle" fill="#7A4B12" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text>
-      <!-- Linee e punto centrale -->
-      <line x1="28" y1="58" x2="98" y2="58" stroke="#7A4B12" stroke-width="1.6"/>
-      <circle cx="110" cy="58" r="2.2" fill="#7A4B12"/>
-      <line x1="122" y1="58" x2="192" y2="58" stroke="#7A4B12" stroke-width="1.6"/>
-      <!-- Sottotitolo TRATTORIA -->
-      <text x="110" y="69" text-anchor="middle" fill="#7A4B12" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text>
-    </svg>
+  <div class="brand-wrap">
+    <div class="brand-logo" title="Alicetta Trattoria">
+      <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#7A4B12" stroke-width="2.2" fill="#9E6518" stroke-linejoin="round">
+          <polygon points="75,16 95,12 90,20"/>
+          <polygon points="95,12 115,12 103,20"/>
+          <polygon points="90,20 103,20 115,12 122,19 102,24"/>
+          <polygon points="75,16 90,20 102,24"/>
+          <polygon points="98,12 105,4 112,12" fill="#8C5814"/>
+          <polygon points="102,24 108,31 115,22" fill="#8C5814"/>
+          <polygon points="115,12 134,17 122,23" fill="none"/>
+          <polygon points="75,16 64,9 68,16 64,23" fill="none"/>
+        </g>
+        <circle cx="125" cy="17" r="1.8" fill="#7A4B12"/>
+        <text x="110" y="51" text-anchor="middle" fill="#7A4B12" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text>
+        <line x1="28" y1="58" x2="98" y2="58" stroke="#7A4B12" stroke-width="1.6"/>
+        <circle cx="110" cy="58" r="2.2" fill="#7A4B12"/>
+        <line x1="122" y1="58" x2="192" y2="58" stroke="#7A4B12" stroke-width="1.6"/>
+        <text x="110" y="69" text-anchor="middle" fill="#7A4B12" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text>
+      </svg>
+    </div>
+    <div id="syncIndicator" class="sync-badge">🟡 Connessione...</div>
   </div>
   <div class="top-actions">
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
@@ -224,7 +234,7 @@
 
   <!-- Pulsanti Rapidi "DAI IL VIA" -->
   <div id="fireBox" class="fire-box" style="display:none;">
-    <div class="fire-title">⚡ Comandi Rapidi Marcia Cucina (TM-m30III)</div>
+    <div class="fire-title">⚡ Comandi Rapidi Marcia Cucina (KDS + TM-m30III)</div>
     <div class="fire-actions" id="fireButtonsContainer"></div>
   </div>
 
@@ -266,15 +276,32 @@
 
 <!-- VISTA 3: SCHERMO KDS CUCINA -->
 <div id="viewKds" class="screen">
-  <div style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
-    <h3 style="font-size:1.05rem;">🖥️ KDS Cucina in Tempo Reale</h3>
-    <span style="font-size:0.8rem; color:var(--muted);">Pronto per futuro Tablet</span>
+  <div class="kds-Banner">
+    <div>
+      <div style="font-weight:900; font-size:1.05rem;">🖥️ SCHERMO CUCINA (KDS LIVE)</div>
+      <div style="font-size:0.78rem; color:var(--muted);">Suona in automatico quando arriva una comanda o un "VIA"</div>
+    </div>
+    <div style="display:flex; gap:6px;">
+      <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO E SCHERMO ACCESO</button>
+      <button class="btn-note" onclick="playKitchenBell()">🔊 Test Suono</button>
+    </div>
   </div>
   <div class="kds-grid" id="kdsContainer"></div>
 </div>
 
-<!-- VISTA 4: GESTIONE MENU & STAMPANTE -->
+<!-- VISTA 4: GESTIONE MENU, CLOUD & STAMPANTE -->
 <div id="viewMenuMgr" class="screen">
+  <div class="cart-section">
+    <h3 style="margin-bottom:8px;">☁️ Sincronizzazione Cloud Firebase (Belgio)</h3>
+    <p style="font-size:0.8rem; color:var(--muted); margin-bottom:8px;">
+      Indirizzo del tuo Realtime Database Firebase per sincronizzare Telefoni e Tablet KDS:
+    </p>
+    <div style="display:flex; gap:6px;">
+      <input type="text" id="firebaseUrlInput" class="form-control" placeholder="https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app">
+      <button class="btn-note" style="padding:0 14px;" onclick="saveFirebaseUrl()">Salva URL</button>
+    </div>
+  </div>
+
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">🖨️ Impostazioni Epson TM-m30III</h3>
     <p style="font-size:0.82rem; color:var(--muted); margin-bottom:10px;">
@@ -317,6 +344,8 @@
 </div>
 
 <script>
+const DEFAULT_FIREBASE_URL = "https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app";
+
 const CATEGORIES = [
   "1 Coperto",
   "2 Bevande",
@@ -335,10 +364,7 @@ const MANDATE_LABELS = {
 };
 
 const DEFAULT_MENU = [
-  // 1 Coperto
   { id: 101, cat: "1 Coperto", name: "Pane e Coperto", price: 3.00 },
-
-  // 2 Bevande
   { id: 201, cat: "2 Bevande", name: "Acqua Frizzante", price: 3.00 },
   { id: 202, cat: "2 Bevande", name: "Acqua Naturale", price: 3.00 },
   { id: 203, cat: "2 Bevande", name: "Birra Nabò", price: 6.00 },
@@ -382,8 +408,6 @@ const DEFAULT_MENU = [
   { id: 241, cat: "2 Bevande", name: "Trabocco Cerasuolo Charmat", price: 18.00 },
   { id: 242, cat: "2 Bevande", name: "Trabocco Pecorino Charmat", price: 18.00 },
   { id: 243, cat: "2 Bevande", name: "Trebbiano Collefrisio", price: 22.00 },
-
-  // 3 Antipasti
   { id: 301, cat: "3 Antipasti", name: "Alicetta Marinata", price: 15.00 },
   { id: 302, cat: "3 Antipasti", name: "Alicette impanate e fritte con majo al prezzemolo", price: 13.00 },
   { id: 303, cat: "3 Antipasti", name: "Cetrioli", price: 4.00 },
@@ -401,8 +425,6 @@ const DEFAULT_MENU = [
   { id: 315, cat: "3 Antipasti", name: "Soutè di Vongole", price: 15.00 },
   { id: 316, cat: "3 Antipasti", name: "Tagliere Salumi Artigianali", price: 18.00 },
   { id: 317, cat: "3 Antipasti", name: "Verdure Saltate", price: 6.00 },
-
-  // 4 Primi Piatti
   { id: 401, cat: "4 Primi Piatti", name: "Cubetti Verrigni Vongole e crema Pachino", price: 14.00 },
   { id: 402, cat: "4 Primi Piatti", name: "Cubetto Totanetto", price: 14.00 },
   { id: 403, cat: "4 Primi Piatti", name: "Linguina Cozze", price: 13.00 },
@@ -412,23 +434,19 @@ const DEFAULT_MENU = [
   { id: 407, cat: "4 Primi Piatti", name: "Rigatoro Alici", price: 14.00 },
   { id: 408, cat: "4 Primi Piatti", name: "Spaghetti aglio e peperoncino Vongole", price: 13.00 },
   { id: 409, cat: "4 Primi Piatti", name: "Sugo Bimbi", price: 9.00 },
-
-  // 5 Secondi
   { id: 501, cat: "5 Secondi", name: "Baccalà in vasocottura con patate, peperoni", price: 16.00 },
   { id: 502, cat: "5 Secondi", name: "Braciola di pecora al carbone con m...", price: 18.00 },
   { id: 503, cat: "5 Secondi", name: "Fish & Chips Adriatico - Baccalà in pastella", price: 20.00 },
   { id: 504, cat: "5 Secondi", name: "Frittura di totanetti freschi dell'Adriatico", price: 17.00 },
   { id: 505, cat: "5 Secondi", name: "Maiale Nero Peligno", price: 20.00 },
   { id: 506, cat: "5 Secondi", name: "Sgombro al carbone con dressing al pomodoro", price: 18.00 },
-
-  // 6 Desserts
   { id: 601, cat: "6 Desserts", name: "Cantucci Amarene", price: 6.00 },
   { id: 602, cat: "6 Desserts", name: "Mouse al cioccolato", price: 6.00 },
   { id: 603, cat: "6 Desserts", name: "Pizzelle", price: 5.00 },
   { id: 604, cat: "6 Desserts", name: "Zaffermisù - tiramisù alla ricotta di pecora", price: 7.00 }
 ];
 
-const STORAGE_KEY = 'alicetta_pos_v3';
+const STORAGE_KEY = 'alicetta_pos_v4';
 
 let state = {
   currentRoom: 'interna',
@@ -436,50 +454,217 @@ let state = {
   currentMandata: 1,
   currentCategory: '1 Coperto',
   useRawBT: false,
+  firebaseUrl: DEFAULT_FIREBASE_URL,
   lastEscPosPayload: '',
+  lastAlertSignal: 0,
+  kdsAudioEnabled: false,
   menu: [],
   tables: {}
 };
 
-function initApp() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    const parsed = JSON.parse(saved);
-    state.menu = (parsed.menu && parsed.menu.length > 0) ? parsed.menu : DEFAULT_MENU;
-    state.tables = parsed.tables || buildDefaultTables();
-    // Assicura il supporto alla 4ª mandata anche sui tavoli già salvati in precedenza
-    Object.values(state.tables).forEach(t => {
-      if (!t.firedMandate) t.firedMandate = { 1: false, 2: false, 3: false, 4: false };
-      if (typeof t.firedMandate[4] === 'undefined') t.firedMandate[4] = false;
-    });
-    state.useRawBT = parsed.useRawBT || false;
-  } else {
-    state.menu = DEFAULT_MENU;
-    state.tables = buildDefaultTables();
-    saveState();
-  }
-  document.getElementById('chkRawbt').checked = state.useRawBT;
-  renderCategorySelect();
-  renderTables();
+let audioCtx = null;
+
+function normalizeTablesStructure(tablesObj) {
+  const def = buildDefaultTables();
+  if (!tablesObj) return def;
+  Object.keys(def).forEach(k => {
+    if (!tablesObj[k]) {
+      tablesObj[k] = def[k];
+    } else {
+      if (!Array.isArray(tablesObj[k].items)) tablesObj[k].items = [];
+      if (!tablesObj[k].firedMandate) tablesObj[k].firedMandate = { 1: false, 2: false, 3: false, 4: false };
+      if (!tablesObj[k].doneMandate) tablesObj[k].doneMandate = { 1: false, 2: false, 3: false, 4: false };
+    }
+  });
+  return tablesObj;
 }
 
 function buildDefaultTables() {
   const t = {};
   for (let i = 1; i <= 11; i++) {
-    t['INT_' + i] = { id: 'INT_' + i, name: 'Tavolo ' + i, room: 'interna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
+    t['INT_' + i] = { id: 'INT_' + i, name: 'Tavolo ' + i, room: 'interna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
   }
   for (let i = 1; i <= 5; i++) {
-    t['EST_' + i] = { id: 'EST_' + i, name: 'Esterno ' + i, room: 'esterna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
+    t['EST_' + i] = { id: 'EST_' + i, name: 'Esterno ' + i, room: 'esterna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
   }
   return t;
 }
 
-function saveState() {
+async function initApp() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    state.menu = (parsed.menu && parsed.menu.length > 0) ? parsed.menu : DEFAULT_MENU;
+    state.tables = normalizeTablesStructure(parsed.tables);
+    state.useRawBT = parsed.useRawBT || false;
+    state.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
+    state.lastAlertSignal = parsed.lastAlertSignal || 0;
+  } else {
+    state.menu = DEFAULT_MENU;
+    state.tables = buildDefaultTables();
+  }
+  document.getElementById('chkRawbt').checked = state.useRawBT;
+  document.getElementById('firebaseUrlInput').value = state.firebaseUrl;
+  renderCategorySelect();
+  renderTables();
+
+  // Avvia la sincronizzazione cloud in tempo reale con Firebase
+  await pullFromCloud(true);
+  setInterval(() => pullFromCloud(false), 1800);
+}
+
+function saveLocalOnly() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
     menu: state.menu,
     tables: state.tables,
-    useRawBT: state.useRawBT
+    useRawBT: state.useRawBT,
+    firebaseUrl: state.firebaseUrl,
+    lastAlertSignal: state.lastAlertSignal
   }));
+}
+
+async function saveState(triggerBell = false) {
+  if (triggerBell) {
+    state.lastAlertSignal = Date.now();
+  }
+  saveLocalOnly();
+  await pushToCloud();
+}
+
+/* =========================================================
+   SINCRONIZZAZIONE CLOUD FIREBASE REALTIME DATABASE
+   ========================================================= */
+function getCleanFirebaseUrl() {
+  return (state.firebaseUrl || DEFAULT_FIREBASE_URL).trim().replace(/\/$/, "");
+}
+
+async function pushToCloud() {
+  const badge = document.getElementById('syncIndicator');
+  try {
+    const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        updatedAt: Date.now(),
+        lastAlertSignal: state.lastAlertSignal,
+        tables: state.tables,
+        menu: state.menu
+      })
+    });
+    if (res.ok) {
+      badge.textContent = "🟢 LIVE";
+    } else {
+      badge.textContent = "🔴 Errore Regole";
+    }
+  } catch (e) {
+    badge.textContent = "🟠 Offline";
+  }
+}
+
+async function pullFromCloud(isInitial) {
+  const badge = document.getElementById('syncIndicator');
+  try {
+    const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json");
+    if (!res.ok) {
+      badge.textContent = "🔴 DB Bloccato";
+      return;
+    }
+    const data = await res.json();
+    badge.textContent = "🟢 LIVE";
+
+    if (!data) {
+      if (isInitial) await pushToCloud();
+      return;
+    }
+
+    // Se è arrivato un nuovo segnale di comanda/marcia, suona il campanello KDS!
+    if (data.lastAlertSignal && data.lastAlertSignal > state.lastAlertSignal) {
+      state.lastAlertSignal = data.lastAlertSignal;
+      playKitchenBell();
+    }
+
+    if (data.tables) {
+      state.tables = normalizeTablesStructure(data.tables);
+    }
+    if (data.menu && data.menu.length > 0) {
+      state.menu = data.menu;
+    }
+    saveLocalOnly();
+
+    // Aggiorna la schermata attiva senza interrompere l'operatore
+    if (document.getElementById('viewTables').classList.contains('active')) {
+      renderTables();
+    } else if (document.getElementById('viewKds').classList.contains('active')) {
+      renderKds();
+    } else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) {
+      renderOrderScreen();
+    }
+  } catch (e) {
+    badge.textContent = "🟠 Solo Locale";
+  }
+}
+
+function saveFirebaseUrl() {
+  const val = document.getElementById('firebaseUrlInput').value.trim();
+  if (!val.startsWith("https://")) {
+    alert("Inserisci un URL valido che inizi con https://");
+    return;
+  }
+  state.firebaseUrl = val;
+  saveLocalOnly();
+  pullFromCloud(true);
+  alert("URL Firebase salvato e collegato!");
+}
+
+/* =========================================================
+   CAMPANELLO SONORO CUCINA + SCHERMO SEMPRE ACCESO (KDS)
+   ========================================================= */
+async function enableKdsTabletMode() {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      await audioCtx.resume();
+    }
+    state.kdsAudioEnabled = true;
+    const btn = document.getElementById('btnKdsAudio');
+    btn.textContent = "✅ AUDIO KDS E SCHERMO SEMPRE ACCESO ATTIVI";
+    btn.classList.add('on');
+    playKitchenBell();
+
+    if ('wakeLock' in navigator) {
+      await navigator.wakeLock.request('screen');
+    }
+  } catch (e) {
+    playKitchenBell();
+  }
+}
+
+function playKitchenBell() {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    const now = audioCtx.currentTime;
+    // Doppio tono squillante da pass di cucina (Mi6 -> Do6)
+    [1318.5, 1046.5].forEach((freq, idx) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, now + idx * 0.22);
+      gain.gain.setValueAtTime(0.001, now + idx * 0.22);
+      gain.gain.exponentialRampToValueAtTime(0.9, now + idx * 0.22 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.22 + 0.55);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now + idx * 0.22);
+      osc.stop(now + idx * 0.22 + 0.6);
+    });
+  } catch (e) {}
 }
 
 function formatPrice(num) {
@@ -512,6 +697,7 @@ function selectRoom(room) {
 }
 
 function getTableTotal(table) {
+  if (!table || !table.items) return 0;
   return table.items.reduce((sum, it) => sum + (it.price * it.qty), 0);
 }
 
@@ -521,18 +707,22 @@ function renderTables() {
   Object.values(state.tables)
     .filter(t => t.room === state.currentRoom)
     .forEach(t => {
-      const busy = t.items.length > 0;
+      const busy = t.items && t.items.length > 0;
       const total = getTableTotal(t);
-      const hasM2 = t.items.some(i => i.mandata === 2);
-      const hasM3 = t.items.some(i => i.mandata === 3);
-      const hasM4 = t.items.some(i => i.mandata === 4);
 
       let dotsHtml = '';
       if (busy) {
-        if (t.sentOnce) dotsHtml += `<span class="dot sent">1ª IN CORSO</span>`;
-        if (hasM2) dotsHtml += `<span class="dot ${t.firedMandate[2] ? 'sent' : 'wait'}">2ª ${t.firedMandate[2] ? 'VIA✓' : 'ATTESA'}</span>`;
-        if (hasM3) dotsHtml += `<span class="dot ${t.firedMandate[3] ? 'sent' : 'wait'}">3ª ${t.firedMandate[3] ? 'VIA✓' : 'ATTESA'}</span>`;
-        if (hasM4) dotsHtml += `<span class="dot ${t.firedMandate[4] ? 'sent' : 'wait'}">4ª ${t.firedMandate[4] ? 'VIA✓' : 'ATTESA'}</span>`;
+        [1, 2, 3, 4].forEach(m => {
+          const hasM = t.items.some(i => i.mandata === m && i.name !== 'Pane e Coperto');
+          if (!hasM) return;
+          if (t.doneMandate && t.doneMandate[m]) {
+            dotsHtml += `<span class="dot done">${m}ª SERVITA✓</span>`;
+          } else if (t.firedMandate && t.firedMandate[m]) {
+            dotsHtml += `<span class="dot sent">${m}ª VIA🔥</span>`;
+          } else {
+            dotsHtml += `<span class="dot wait">${m}ª ATTESA</span>`;
+          }
+        });
       }
 
       const card = document.createElement('div');
@@ -561,7 +751,7 @@ function openTable(tableId) {
   document.getElementById('activeTableSub').textContent = t.room === 'interna' ? '❄️ Sala Interna' : '🕶️ Sala Esterna';
   document.getElementById('menuSearch').value = '';
   
-  setMandata(t.items.length === 0 ? 0 : 1);
+  setMandata((!t.items || t.items.length === 0) ? 0 : 1);
   renderCategories();
   renderMenuGrid();
   renderOrderScreen();
@@ -639,7 +829,7 @@ function triggerDishAnimation(cardEl) {
     try { navigator.vibrate(20); } catch (e) {}
   }
   cardEl.classList.remove('tap-anim');
-  void cardEl.offsetWidth; // Forza reflow per riavviare l'animazione anche su tocchi multipli rapidi
+  void cardEl.offsetWidth;
   cardEl.classList.add('tap-anim');
 
   const badge = document.createElement('span');
@@ -653,6 +843,7 @@ function triggerDishAnimation(cardEl) {
 
 function addItemToTable(menuItem) {
   const t = state.tables[state.activeTableId];
+  if (!t.items) t.items = [];
   const m = state.currentMandata;
   const existing = t.items.find(i => i.menuId === menuItem.id && i.mandata === m && !i.note);
   if (existing) {
@@ -669,7 +860,7 @@ function addItemToTable(menuItem) {
       note: ''
     });
   }
-  saveState();
+  saveState(false);
   renderOrderScreen();
 }
 
@@ -679,7 +870,7 @@ function changeItemQty(lineId, delta) {
   if (idx === -1) return;
   t.items[idx].qty += delta;
   if (t.items[idx].qty <= 0) t.items.splice(idx, 1);
-  saveState();
+  saveState(false);
   renderOrderScreen();
 }
 
@@ -690,16 +881,16 @@ function editItemNote(lineId) {
   const note = prompt(`Nota per ${item.name} (es. Senza aglio, Ben cotto, Dividere):`, item.note || '');
   if (note !== null) {
     item.note = note.trim();
-    saveState();
+    saveState(false);
     renderOrderScreen();
   }
 }
 
 function renderOrderScreen() {
   const t = state.tables[state.activeTableId];
+  if (!t) return;
   document.getElementById('activeTableTotal').textContent = '€ ' + formatPrice(getTableTotal(t));
 
-  // Gestione pulsanti "DAI IL VIA" (2ª, 3ª e 4ª mandata)
   const fireBox = document.getElementById('fireBox');
   const fireBtns = document.getElementById('fireButtonsContainer');
   fireBtns.innerHTML = '';
@@ -724,9 +915,8 @@ function renderOrderScreen() {
     fireBox.style.display = 'none';
   }
 
-  // Riepilogo carrello diviso per mandate (0..4)
   const cart = document.getElementById('cartContainer');
-  if (t.items.length === 0) {
+  if (!t.items || t.items.length === 0) {
     cart.innerHTML = '<div style="color:var(--muted); font-size:0.85rem;">Nessun piatto inserito. Seleziona la mandata e tocca gli articoli.</div>';
     return;
   }
@@ -770,13 +960,13 @@ function buildTimeStr() {
 
 function sendOrderToKitchen() {
   const t = state.tables[state.activeTableId];
-  if (!t || t.items.length === 0) {
+  if (!t || !t.items || t.items.length === 0) {
     alert("Inserisci almeno un articolo prima di inviare in cucina.");
     return;
   }
   t.sentOnce = true;
   t.firedMandate[1] = true;
-  saveState();
+  saveState(true); // Fa suonare il KDS in cucina!
   renderOrderScreen();
 
   const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
@@ -844,7 +1034,8 @@ function fireMandataTicket(mandataNum) {
   if (list.length === 0) return;
 
   t.firedMandate[mandataNum] = true;
-  saveState();
+  t.doneMandate[mandataNum] = false;
+  saveState(true); // Fa suonare il KDS in cucina!
   renderOrderScreen();
 
   const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
@@ -889,7 +1080,7 @@ function fireMandataTicket(mandataNum) {
 
 function showPreBill() {
   const t = state.tables[state.activeTableId];
-  if (!t || t.items.length === 0) return;
+  if (!t || !t.items || t.items.length === 0) return;
 
   const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
   const total = getTableTotal(t);
@@ -962,50 +1153,73 @@ function closeReceiptModal() {
 
 function freeCurrentTable() {
   const t = state.tables[state.activeTableId];
-  if (!t || t.items.length === 0) {
+  if (!t || !t.items || t.items.length === 0) {
     closeTableView();
     return;
   }
   if (confirm(`Vuoi azzerare e liberare ${t.name}?`)) {
     t.items = [];
     t.firedMandate = { 1: false, 2: false, 3: false, 4: false };
+    t.doneMandate = { 1: false, 2: false, 3: false, 4: false };
     t.sentOnce = false;
-    saveState();
+    saveState(false);
     closeTableView();
   }
 }
 
 /* =========================================================
-   VISTA KDS CUCINA & GESTIONE MENU
+   VISTA KDS CUCINA INTERATTIVA & GESTIONE MENU
    ========================================================= */
+function markMandataDone(tableId, mandataNum) {
+  const t = state.tables[tableId];
+  if (!t) return;
+  if (!t.doneMandate) t.doneMandate = { 1: false, 2: false, 3: false, 4: false };
+  t.doneMandate[mandataNum] = !t.doneMandate[mandataNum];
+  saveState(false);
+  renderKds();
+}
+
 function renderKds() {
   const container = document.getElementById('kdsContainer');
   container.innerHTML = '';
-  const activeTables = Object.values(state.tables).filter(t => t.items.length > 0);
+  const activeTables = Object.values(state.tables).filter(t => t.items && t.items.some(i => i.name !== 'Pane e Coperto'));
   if (activeTables.length === 0) {
-    container.innerHTML = '<div style="color:var(--muted);">Nessuna comanda attiva in cucina al momento.</div>';
+    container.innerHTML = '<div style="color:var(--muted); font-weight:700;">Nessuna comanda attiva in cucina al momento.</div>';
     return;
   }
   activeTables.forEach(t => {
+    const hasActiveFire = [1,2,3,4].some(m => t.firedMandate[m] && !t.doneMandate[m] && t.items.some(i => i.mandata === m));
     const card = document.createElement('div');
-    card.className = `kds-card ${t.firedMandate[2] || t.firedMandate[3] || t.firedMandate[4] ? 'urgent' : ''}`;
-    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;">
-      <b>${t.name}</b>
+    card.className = `kds-card ${hasActiveFire ? 'urgent' : ''}`;
+
+    const coperti = t.items.filter(i => i.name === 'Pane e Coperto').reduce((s, c) => s + c.qty, 0);
+    let html = `<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;">
+      <b style="font-size:1.05rem;">${t.name} ${coperti > 0 ? `(${coperti} cop.)` : ''}</b>
       <span style="font-size:0.78rem; color:var(--gold); font-weight:800;">${t.room === 'interna' ? '❄️ Interna' : '🕶️ Esterna'}</span>
     </div>`;
-    [1, 2, 3, 4].forEach(m => {
+
+    [0, 1, 2, 3, 4].forEach(m => {
       const mItems = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
       if (mItems.length === 0) return;
-      const statusBadge = (m === 1 || t.firedMandate[m])
-        ? `<span style="color:#34d399; font-weight:900;">🔥 MARCIARE ORA</span>`
-        : `<span style="color:var(--gold); font-weight:800;">⏳ IN ATTESA</span>`;
-      html += `<div style="margin-bottom:8px;">
-        <div style="font-size:0.78rem; display:flex; justify-content:space-between; margin-bottom:3px;">
-          <b>${m}ª MANDATA</b> ${statusBadge}
+
+      const isDone = t.doneMandate && t.doneMandate[m];
+      const isFired = (m === 0 || m === 1 || (t.firedMandate && t.firedMandate[m]));
+
+      const statusBadge = isDone
+        ? `<span style="color:#a7f3d0; font-weight:900;">✅ SERVITA</span>`
+        : isFired
+          ? `<span style="color:#34d399; font-weight:900;">🔥 MARCIARE ORA</span>`
+          : `<span style="color:var(--gold); font-weight:800;">⏳ IN ATTESA VIA</span>`;
+
+      html += `<div style="margin-bottom:10px; padding:8px; border-radius:8px; background:rgba(0,0,0,0.18); ${isDone ? 'opacity:0.48;' : ''}">
+        <div style="font-size:0.78rem; display:flex; justify-content:space-between; margin-bottom:4px;">
+          <b>${m === 0 ? 'SUBITO / BEV' : m + 'ª MANDATA'}</b> ${statusBadge}
         </div>
-        ${mItems.map(i => `<div style="font-size:0.88rem; padding-left:6px;">• <b>${i.qty}x</b> ${i.name}${i.note ? `<i style="color:var(--gold);">(${i.note})</i>` : ''}</div>`).join('')}
+        ${mItems.map(i => `<div style="font-size:0.92rem; padding-left:4px; ${isDone ? 'text-decoration:line-through;' : ''}">• <b>${i.qty}x</b> ${i.name}${i.note ? `<i style="color:var(--gold);">(${i.note})</i>` : ''}</div>`).join('')}
+        ${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? '↩️ Riapri Mandata' : '✅ SEGNA USCITA DALLA CUCINA'}</button>` : ''}
       </div>`;
     });
+
     card.innerHTML = html;
     container.appendChild(card);
   });
@@ -1013,7 +1227,7 @@ function renderKds() {
 
 function toggleRawbtSetting() {
   state.useRawBT = document.getElementById('chkRawbt').checked;
-  saveState();
+  saveLocalOnly();
 }
 
 function renderCategorySelect() {
@@ -1050,7 +1264,7 @@ function editMenuItem(id) {
   if (!isNaN(newPrice)) {
     item.name = newName.trim();
     item.price = newPrice;
-    saveState();
+    saveState(false);
     renderMenuMgr();
   }
 }
@@ -1058,7 +1272,7 @@ function editMenuItem(id) {
 function resetMenuToSumUp() {
   if (confirm("Vuoi ripristinare il menù originale Alicetta (68 articoli)?")) {
     state.menu = JSON.parse(JSON.stringify(DEFAULT_MENU));
-    saveState();
+    saveState(false);
     renderMenuMgr();
   }
 }
@@ -1074,13 +1288,13 @@ function addNewMenuItem() {
   state.menu.push({ id: Date.now(), cat, name, price });
   document.getElementById('newItemName').value = '';
   document.getElementById('newItemPrice').value = '';
-  saveState();
+  saveState(false);
   renderMenuMgr();
 }
 
 function deleteMenuItem(id) {
   state.menu = state.menu.filter(i => i.id !== id);
-  saveState();
+  saveState(false);
   renderMenuMgr();
 }
 
