@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alicetta Trattoria - Menù & Allergeni</title>
+<meta name="theme-color" content="#2ECC71">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  body { background: #2ECC71; color: #1F2937; font-family: 'Plus Jakarta Sans', sans-serif; padding: 20px 12px 50px 12px; margin: 0; }
+  .btn-tab { background: #1BE7FF; color: #062329; border: 2px solid #FF5733; padding: 10px 14px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  .btn-tab.active { background: #FF5733; color: #fff; }
+</style>
+</head>
+<body>
+  <div style="max-width:560px; margin:0 auto 16px auto; text-align:center; background:#1BE7FF; padding:18px; border-radius:14px; border:2px solid #FF5733;">
+    <h2 style="color:#FF5733; font-weight:900; font-size:1.5rem; margin-bottom:4px; letter-spacing:2px;">ALICETTA TRATTORIA</h2>
+    <p style="font-size:0.85rem; font-weight:800; color:#062329;">Fossacesia Marina (CH) — Buon Appetito!</p>
+  </div>
+  <div style="max-width:560px; margin:0 auto 16px auto; display:flex; gap:6px; justify-content:center; flex-wrap:wrap;">
+    <button class="btn-tab active" id="pTabGiorno" onclick="renderPubTab('giorno')">🍽️ Menù del Giorno</button>
+    <button class="btn-tab" id="pTabVini" onclick="renderPubTab('vini')">🍷 Carta Vini</button>
+    <button class="btn-tab" id="pTabAll" onclick="renderPubTab('allergeni')">⚠️ Allergeni</button>
+    <button class="btn-tab" style="background:#fff;" onclick="window.print()">🖨️ Stampa</button>
+  </div>
+  <div id="pubContent" style="max-width:560px; margin:0 auto;"></div>
+
+  <script>
+    const CHALKBOARD_DATA = [
+      "Polpette di granchio blu su salsa di zucca e olio alla salvia 14,00",
+      "Alicette impanate e fritte con majo al prezzemolo 13,00",
+      "Cozze gratinate con formaggio gregoriano, ventricina ed erbe aromatiche 13,00",
+      "Alici marinate, peperone dolce di Altino e pere croccanti 15,00",
+      "Soutè di cozze profumato all'alloro 13,00",
+      "Tagliere di salumi artigianali abruzzesi 18,00",
+      "Pallotte cace e ove 12,00",
+      "Prosciutto crudo di manzo Gregorio Rotolo con champignon crudo e senape in grani 16,00",
+      "Rigatoro affumicato Verrigni con alicette fresche, pane croccante alle erbe e olio al finocchietto 14,00",
+      "Qubetto Verrigni alle vongole e crema di rape 14,00",
+      "Linguina al limone Verrigni con cozze 13,00",
+      "Fish & Chips Adriatico (nasello in pastella di riso, chips di patate di Avezzano, salsa ai cetrioli, capperi e prezzemolo) 20,00",
+      "Sgombro al carbone con dressing al pomodoro confit, cipolle e capperi 18,00",
+      "Frittura di totanetti spillo freschi 17,00",
+      "Baccalà in vasocottura con patate, peperoni arrosto, olive e timo 16,00",
+      "Braciola di pecora al carbone con cicorietta saltata 18,00",
+      "Maiale Nero Peligno al carbone con cicorietta saltata 20,00",
+      "Cicorietta saltata 6,00",
+      "Zafferamisù (tiramisù alla ricotta di pecora e zafferano) 7,00",
+      "Cantucci alle mandorle con liquore Sottosopra 7,00",
+      "Plateau di formaggi artigianali abruzzesi 18,00"
+    ];
+
+    function guessCat(name) {
+      const n = name.toLowerCase();
+      if (/vino|calice|birra|acqua|trebbiano|cerasuolo|pecorino|montepulciano|passerina|amaro|caff/.test(n)) return "2 Bevande";
+      if (/tiramis|zafferamis|zaffermis|dolce|cantucc|pizzell|mousse|torta|gelato|sorbett|plateau\s*di\s*formagg/.test(n)) return "6 Desserts";
+      if (/spaghett|linguin|paccher|cubett|qubett|rigat|chitarr|pasta|gnocch|risott|tagliolin|fettuccin|raviol/.test(n)) return "4 Primi Piatti";
+      if (/frittur|baccal|sgombr|maiale|braciol|arrosto|grigliat|fish\s*&\s*chips|nasello|totanett|cicoriett/.test(n)) return "5 Secondi";
+      return "3 Antipasti";
+    }
+
+    function parseDishes() {
+      return CHALKBOARD_DATA.map(line => {
+        const pm = line.match(/(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i);
+        let price = 14, name = line;
+        if (pm) {
+          price = parseFloat(pm[1].replace(',', '.')) || 14;
+          name = line.slice(0, pm.index).replace(/[-–—:.€]+\s*$/, '').trim();
+        }
+        return { cat: guessCat(name), name, price };
+      });
+    }
+
+    function getAlgs(name) {
+      const n = name.toLowerCase();
+      const algs = [];
+      if (/pane|pasta|linguina|rigatoro|pizzell|cantucci|qubetto|pacchero|spaghetti|gnocch|farina|grano/i.test(n)) algs.push('Glutine');
+      if (/granchio|panocchie|scampi|gamberi/i.test(n)) algs.push('Crostacei');
+      if (/cozze|vongole|totanett/i.test(n)) algs.push('Molluschi');
+      if (/alici|alicette|baccalà|nasello|sgombro|pesce/i.test(n)) algs.push('Pesce');
+      if (/uova|cace e ove|majo|maionese|tiramisù|zafferamisù/i.test(n)) algs.push('Uova');
+      if (/formaggio|ricotta|gregoriano|latte|burro|cacio|pecorino|mozzarella/i.test(n)) algs.push('Latticini');
+      if (/mandorle|nocciole|noci/i.test(n)) algs.push('Frutta a guscio');
+      if (/senape/i.test(n)) algs.push('Senape');
+      if (/doc|igt|vino|calice|cerasuolo|trebbiano|pecorino|montepulciano|passerina|chardonnay|bollicine|charmat/i.test(n)) algs.push('Solfiti');
+      return algs.length > 0 ? algs : ['Nessun allergene maggiore dichiarato'];
+    }
+
+    function buildSec(title, items) {
+      if (!items || items.length === 0) return '';
+      const rows = items.map(d => `
+        <div style="display:flex; justify-content:space-between; align-items:baseline; padding:7px 0; border-bottom:1px dashed rgba(255,87,51,0.32); gap:12px;">
+          <b style="color:#062329; font-size:0.92rem; text-align:left;">• ${d.name}</b>
+          <span style="color:#FF5733; font-weight:900; white-space:nowrap;">€ ${d.price.toFixed(2).replace('.', ',')}</span>
+        </div>`).join('');
+      return `
+        <div style="margin-top:16px; margin-bottom:6px; background:#1BE7FF; color:#062329; padding:6px 12px; border-radius:8px; border-left:5px solid #FF5733; font-weight:900; font-size:0.88rem; letter-spacing:1.5px; text-transform:uppercase;">
+          ${title}
+        </div>
+        <div>${rows}</div>`;
+    }
+
+    function renderPubTab(tab) {
+      ['pTabGiorno','pTabVini','pTabAll'].forEach(id => document.getElementById(id).classList.remove('active'));
+      if(tab==='giorno') document.getElementById('pTabGiorno').classList.add('active');
+      if(tab==='vini') document.getElementById('pTabVini').classList.add('active');
+      if(tab==='allergeni') document.getElementById('pTabAll').classList.add('active');
+
+      const box = document.getElementById('pubContent');
+      const dishes = parseDishes();
+
+      if (tab === 'allergeni') {
+        const rows = dishes.map(d => `
+          <div style="display:flex; justify-content:space-between; align-items:baseline; padding:7px 0; border-bottom:1px dashed rgba(255,87,51,0.32); gap:12px;">
+            <b style="color:#062329; font-size:0.9rem; text-align:left;">• ${d.name}</b>
+            <span style="color:#FF5733; font-weight:900; font-size:0.8rem; white-space:nowrap;">${getAlgs(d.name).join(', ')}</span>
+          </div>`).join('');
+        box.innerHTML = `<div style="border:4px solid #FF5733; border-radius:18px; background:#fff; padding:22px;"><h3 style="color:#FF5733; text-align:center; margin-bottom:12px;">⚠️ TABELLA ALLERGENI (Reg. UE 1169/2011)</h3>${rows}</div>`;
+        return;
+      }
+
+      if (tab === 'vini') {
+        const drinks = dishes.filter(d => d.cat === '2 Bevande');
+        box.innerHTML = `<div style="border:4px solid #FF5733; border-radius:18px; background:#fff; padding:22px;"><h3 style="color:#FF5733; text-align:center; margin-bottom:12px;">🍷 CARTA DEI VINI</h3>${buildSec('Vini & Bevande', drinks)}</div>`;
+        return;
+      }
+
+      const antipasti = dishes.filter(d => d.cat === '3 Antipasti');
+      const primi = dishes.filter(d => d.cat === '4 Primi Piatti');
+      const secondi = dishes.filter(d => d.cat === '5 Secondi');
+      const desserts = dishes.filter(d => d.cat === '6 Desserts');
+
+      box.innerHTML = `
+        <div style="border:4px solid #FF5733; border-radius:18px; background:#fff; padding:22px;">
+          <h3 style="color:#FF5733; text-align:center; margin-bottom:12px;">✨ MENÙ DEL GIORNO ✨</h3>
+          ${buildSec('Antipasti', antipasti)}
+          ${buildSec('Primi Piatti', primi)}
+          ${buildSec('Secondi & Contorni', secondi)}
+          ${buildSec('Desserts', desserts)}
+        </div>`;
+    }
+
+    renderPubTab('giorno');
+  </script>
+</body>
+</html>
