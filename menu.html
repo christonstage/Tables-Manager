@@ -66,11 +66,20 @@
 
     function guessCat(name) {
       const n = name.toLowerCase();
-      if (/vino|calice|birra|acqua|trebbiano|cerasuolo|pecorino|montepulciano|passerina|chardonnay/i.test(n)) return "Bevande e Vini";
       if (/tiramis|zafferamis|cantucc|pizzell|mousse|cantucci/i.test(n)) return "6 Desserts";
       if (/spaghett|linguin|paccher|cubett|qubett|rigat|pasta/i.test(n)) return "4 Primi Piatti";
       if (/frittur|baccal|sgombr|maiale|braciol|fish\s*&\s*chips|nasello|totanett|cicoriett/i.test(n)) return "5 Secondi";
       return "3 Antipasti";
+    }
+
+    function classifyWineItem(name) {
+      const n = name.toLowerCase();
+      if (/calice/.test(n)) return 'calici';
+      if (/metodo classico|charmat|trabocco/.test(n)) return 'bollicine';
+      if (/cerasuolo|rosato|fossimatto/.test(n)) return 'cerasuoli';
+      if (/montepulciano|pinto\s*11|maleducato\s*11|dire\s*bere|febbre\s*d'abruzzo/.test(n)) return 'rossi';
+      if (/trebbiano|pecorino|passerina|chardonnay|maiolica|orange|blondie|pane\s*al\s*pane/.test(n)) return 'bianchi';
+      return 'bevande';
     }
 
     function parseItems(arr) {
@@ -81,7 +90,7 @@
           price = parseFloat(pm[1].replace(',', '.')) || 14;
           name = line.slice(0, pm.index).replace(/[-–—:.€]+\s*$/, '').trim();
         }
-        return { cat: guessCat(name), name, price };
+        return { name, price };
       });
     }
 
@@ -124,8 +133,8 @@
       const todayStr = new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
       if (tab === 'allergeni') {
-        const allItems = parseItems([...CHALKBOARD_DATA, ...WINE_DATA]);
-        const rows = allItems.map(d => `
+        const rawAll = [...parseItems(CHALKBOARD_DATA), ...parseItems(WINE_DATA)];
+        const rows = rawAll.map(d => `
           <div style="display:flex; justify-content:space-between; align-items:baseline; padding:8px 0; border-bottom:1px dashed rgba(255,87,51,0.25); gap:12px;">
             <b style="color:#062329; font-size:0.9rem; text-align:left;">• ${d.name}</b>
             <span style="color:#FF5733; font-weight:800; font-size:0.78rem; white-space:nowrap;">${getAlgs(d.name).join(', ')}</span>
@@ -140,16 +149,41 @@
       }
 
       if (tab === 'vini') {
-        const wines = parseItems(WINE_DATA);
+        const drinks = parseItems(WINE_DATA);
+        const bollicine = drinks.filter(d => classifyWineItem(d.name) === 'bollicine');
+        const bianchi = drinks.filter(d => classifyWineItem(d.name) === 'bianchi');
+        const cerasuoli = drinks.filter(d => classifyWineItem(d.name) === 'cerasuoli');
+        const rossi = drinks.filter(d => classifyWineItem(d.name) === 'rossi');
+        const calici = drinks.filter(d => classifyWineItem(d.name) === 'calici');
+        const bevande = drinks.filter(d => classifyWineItem(d.name) === 'bevande');
+
         box.innerHTML = `
           <div class="card-box">
-            <div class="brand-header">${LOGO_SVG}<h3 style="color:#FF5733; margin-top:10px; font-size:1.15rem;">🍷 CARTA DEI VINI & BEVANDE</h3><p style="font-size:0.75rem; font-weight:700; color:#062329;">Cantine Selezionate & Artigianali</p></div>
-            ${buildSec('Vini & Bevande', wines)}
+            <div class="brand-header">
+              ${LOGO_SVG}
+              <h3 style="color:#FF5733; margin-top:10px; font-size:1.15rem;">🍷 CARTA DEI VINI 🍷</h3>
+              <p style="font-size:0.8rem; font-weight:700; color:#062329; margin-top:2px;">Selezione Cantine Abruzzesi & Artigianali</p>
+            </div>
+            ${buildSec('🥂 Bollicine & Metodo Classico', bollicine)}
+            ${buildSec('🍷 Vini Bianchi & Orange', bianchi)}
+            ${buildSec('🌸 Cerasuoli & Rosati d\'Abruzzo', cerasuoli)}
+            ${buildSec('🍇 Vini Rossi & Montepulciano', rossi)}
+            ${buildSec('🍷 Calici al Vetro', calici)}
+            ${buildSec('🍺 Acqua, Birra & Caffetteria', bevande)}
           </div>`;
         return;
       }
 
-      const dishes = parseItems(CHALKBOARD_DATA);
+      const dishes = CHALKBOARD_DATA.map(line => {
+        const pm = line.match(/(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i);
+        let price = 14, name = line;
+        if (pm) {
+          price = parseFloat(pm[1].replace(',', '.')) || 14;
+          name = line.slice(0, pm.index).replace(/[-–—:.€]+\s*$/, '').trim();
+        }
+        return { cat: guessCat(name), name, price };
+      });
+
       box.innerHTML = `
         <div class="card-box">
           <div class="brand-header">
