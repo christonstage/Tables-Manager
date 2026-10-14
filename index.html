@@ -221,6 +221,29 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     </div>
   </div>
 
+  <!-- IMPORTAZIONE LAVAGNETTA FOTO OCR -->
+  <div class="cart-section">
+    <h3 style="margin-bottom:6px;">📸 Lavagnetta del Giorno (Foto OCR)</h3>
+    <p style="font-size:0.78rem; color:var(--muted); margin-bottom:8px;">
+      Scatta una foto alla lavagnetta: l'app legge i piatti e i prezzi in automatico.
+    </p>
+    <div style="display:grid; gap:8px;">
+      <select id="ocrDefaultCat" class="form-control">
+        <option value="AUTO">✨ Rileva Categoria in Automatico</option>
+        <option value="3 Antipasti">3 Antipasti</option>
+        <option value="4 Primi Piatti">4 Primi Piatti</option>
+        <option value="5 Secondi">5 Secondi</option>
+        <option value="6 Desserts">6 Desserts</option>
+        <option value="2 Bevande">2 Bevande</option>
+      </select>
+      <input type="file" id="chalkboardInput" accept="image/*" capture="environment" style="display:none;" onchange="processChalkboardPhoto(event)">
+      <button class="btn-main btn-bill" onclick="document.getElementById('chalkboardInput').click()">📷 Scatta Foto o Carica Lavagnetta</button>
+      <div id="ocrStatus" style="font-size:0.8rem; font-weight:800; color:var(--logo-coral); display:none;"></div>
+      <textarea id="ocrResultBox" class="form-control" rows="4" placeholder="Qui compariranno i piatti letti dalla foto (uno per riga, es: Chitarrina allo scoglio 16)..." style="font-size:0.82rem;"></textarea>
+      <button class="btn-main btn-print" onclick="importOcrLinesToMenu()">✅ Importa Piatti nel Menù</button>
+    </div>
+  </div>
+
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">📊 Report & Statistiche (Serata / Mese / Anno)</h3>
     <div class="rep-tabs">
@@ -237,21 +260,19 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   </div>
 
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">☁️ Firebase URL</h3>
-    <div style="display:flex; gap:6px;">
+    <h3 style="margin-bottom:8px;">☁️ Firebase URL & 🖨️ Stampante</h3>
+    <div style="display:flex; gap:6px; margin-bottom:10px;">
       <input type="text" id="firebaseUrlInput" class="form-control" placeholder="URL Firebase">
       <button class="btn-note" onclick="saveFirebaseUrl()">Salva</button>
     </div>
-  </div>
-  <div class="cart-section">
-    <h3 style="margin-bottom:8px;">🖨️ Stampante Epson TM-m30III</h3>
     <label style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.9rem;">
       <input type="checkbox" id="chkRawbt" onchange="toggleRawbtSetting()" style="width:18px; height:18px;">
-      Usa RawBT Diretto (ESC/POS 80mm)
+      Usa RawBT Diretto su Epson TM-m30III
     </label>
   </div>
+
   <div class="cart-section">
-    <h3 style="margin-bottom:10px;">📋 Catalogo (68 voci)</h3>
+    <h3 style="margin-bottom:10px;">📋 Catalogo (<span id="menuCountLbl">68</span> voci)</h3>
     <div id="menuMgrList"></div>
   </div>
 </div>
@@ -613,27 +634,35 @@ function getTableTotal(table) {
   return table.items.reduce((sum, it) => sum + (it.price * it.qty), 0);
 }
 
+/* ORDINE NUMERICO PERFETTO (Tavolo 1, 2, 3 ... 10, 11) */
 function renderTables() {
   const container = document.getElementById('tablesContainer');
   container.innerHTML = '';
-  Object.values(state.tables).filter(t => t.room === state.currentRoom).forEach(t => {
-    const busy = t.items && t.items.length > 0;
-    const total = getTableTotal(t);
-    let dotsHtml = '';
-    if (busy) {
-      [1, 2, 3, 4].forEach(m => {
-        if (!t.items.some(i => i.mandata === m && i.name !== 'Pane e Coperto')) return;
-        if (t.doneMandate && t.doneMandate[m]) dotsHtml += `<span class="dot done">${m}ª✓</span>`;
-        else if (t.firedMandate && t.firedMandate[m]) dotsHtml += `<span class="dot sent">${m}ª🔥</span>`;
-        else dotsHtml += `<span class="dot wait">${m}ª...</span>`;
-      });
-    }
-    const card = document.createElement('div');
-    card.className = `table-card ${busy ? 'busy' : 'free'}`;
-    card.onclick = () => openTable(t.id);
-    card.innerHTML = `<div class="table-name">${t.name}</div><div><span class="table-status ${busy ? 'status-busy' : 'status-free'}">${busy ? 'Occupato' : 'Libero'}</span></div>${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dotsHtml}</div>`;
-    container.appendChild(card);
-  });
+  Object.values(state.tables)
+    .filter(t => t.room === state.currentRoom)
+    .sort((a, b) => {
+      const numA = parseInt((a.id || '').split('_')[1], 10) || 0;
+      const numB = parseInt((b.id || '').split('_')[1], 10) || 0;
+      return numA - numB;
+    })
+    .forEach(t => {
+      const busy = t.items && t.items.length > 0;
+      const total = getTableTotal(t);
+      let dotsHtml = '';
+      if (busy) {
+        [1, 2, 3, 4].forEach(m => {
+          if (!t.items.some(i => i.mandata === m && i.name !== 'Pane e Coperto')) return;
+          if (t.doneMandate && t.doneMandate[m]) dotsHtml += `<span class="dot done">${m}ª✓</span>`;
+          else if (t.firedMandate && t.firedMandate[m]) dotsHtml += `<span class="dot sent">${m}ª🔥</span>`;
+          else dotsHtml += `<span class="dot wait">${m}ª...</span>`;
+        });
+      }
+      const card = document.createElement('div');
+      card.className = `table-card ${busy ? 'busy' : 'free'}`;
+      card.onclick = () => openTable(t.id);
+      card.innerHTML = `<div class="table-name">${t.name}</div><div><span class="table-status ${busy ? 'status-busy' : 'status-free'}">${busy ? 'Occupato' : 'Libero'}</span></div>${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dotsHtml}</div>`;
+      container.appendChild(card);
+    });
 }
 
 function openTable(tableId) {
@@ -809,12 +838,7 @@ function sendOrderToKitchen() {
   t.sentOnce = true; t.firedMandate[1] = true;
 
   const dishesList = t.items.filter(i => i.name !== 'Pane e Coperto').map(i => `<b>${i.qty}x</b> ${i.name}`).join(', ');
-  state.lastOrderEvent = {
-    id: Date.now(),
-    title: `COMANDA ${t.name.toUpperCase()}`,
-    waiter: state.waiterName || 'Staff',
-    summary: dishesList || 'Solo Coperti'
-  };
+  state.lastOrderEvent = { id: Date.now(), title: `COMANDA ${t.name.toUpperCase()}`, waiter: state.waiterName || 'Staff', summary: dishesList || 'Solo Coperti' };
   playKitchenBell();
   if (navigator.vibrate) try { navigator.vibrate([250, 100, 250]); } catch(e){}
   showOrderToast(state.lastOrderEvent);
@@ -850,12 +874,7 @@ function fireMandataTicket(mandataNum) {
   if (list.length === 0) return;
   t.firedMandate[mandataNum] = true; t.doneMandate[mandataNum] = false;
 
-  state.lastOrderEvent = {
-    id: Date.now(),
-    title: `🔥 VIA ${mandataNum}ª MANDATA - ${t.name.toUpperCase()}`,
-    waiter: state.waiterName || 'Staff',
-    summary: list.map(i => `<b>${i.qty}x</b> ${i.name}`).join(', ')
-  };
+  state.lastOrderEvent = { id: Date.now(), title: `🔥 VIA ${mandataNum}ª MANDATA - ${t.name.toUpperCase()}`, waiter: state.waiterName || 'Staff', summary: list.map(i => `<b>${i.qty}x</b> ${i.name}`).join(', ') };
   playKitchenBell();
   if (navigator.vibrate) try { navigator.vibrate([250, 100, 250]); } catch(e){}
   showOrderToast(state.lastOrderEvent);
@@ -924,6 +943,83 @@ function freeCurrentTable() {
 }
 
 /* =========================================================
+   IMPORTAZIONE FOTO LAVAGNETTA (OCR TESSERACT ITALIANO)
+   ========================================================= */
+function guessCategoryFromDishName(name, fallbackCat) {
+  if (fallbackCat && fallbackCat !== 'AUTO') return fallbackCat;
+  const n = name.toLowerCase();
+  if (/vino|calice|birra|acqua|trebbiano|cerasuolo|pecorino|montepulciano|passerina|amaro|caff/.test(n)) return "2 Bevande";
+  if (/tiramis|zaffermis|dolce|cantucc|pizzell|mousse|mouse|torta|gelato|sorbett|cheesecake/.test(n)) return "6 Desserts";
+  if (/spaghett|linguin|paccher|cubett|rigat|chitarr|pasta|gnocch|risott|tagliolin|fettuccin|raviol|mezze maniche/.test(n)) return "4 Primi Piatti";
+  if (/frittur|baccal|sgombr|maiale|braciol|arrosto|grigliat|pescato|rombo|orata|spigola|tonno|polpo arrosto|tagliata/.test(n)) return "5 Secondi";
+  return "3 Antipasti";
+}
+
+async function processChalkboardPhoto(ev) {
+  const file = ev.target.files && ev.target.files[0];
+  if (!file) return;
+  const statusEl = document.getElementById('ocrStatus');
+  statusEl.style.display = 'block';
+  statusEl.textContent = '⏳ Analisi foto lavagnetta in corso (attendi 5-10 secondi)...';
+
+  try {
+    if (!window.Tesseract) {
+      await new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+    const result = await window.Tesseract.recognize(file, 'ita');
+    const rawLines = (result.data.text || '').split('\n').map(l => l.trim()).filter(l => l.length > 2);
+    const cleaned = [];
+    rawLines.forEach(line => {
+      const cleanLine = line.replace(/^[-•*·~]+\s*/, '').trim();
+      if (cleanLine.length >= 3) cleaned.push(cleanLine);
+    });
+    document.getElementById('ocrResultBox').value = cleaned.join('\n');
+    statusEl.textContent = `✅ Letti ${cleaned.length} righi dalla lavagnetta! Controlla il testo qui sotto e premi Importa:`;
+  } catch (e) {
+    statusEl.textContent = '⚠️ Impossibile leggere la foto automaticamente. Puoi scrivere o dettare i piatti qui sotto:';
+  }
+  ev.target.value = '';
+}
+
+async function importOcrLinesToMenu() {
+  const raw = document.getElementById('ocrResultBox').value.trim();
+  if (!raw) { alert("Scatta prima una foto alla lavagnetta o scrivi almeno un piatto (es. Chitarrina allo scoglio 16)."); return; }
+  const fallbackCat = document.getElementById('ocrDefaultCat').value;
+  const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 2);
+  let added = 0;
+
+  lines.forEach(line => {
+    const priceMatch = line.match(/(?:€|eur)?\s*(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i);
+    let price = 14.00;
+    let dishName = line;
+    if (priceMatch) {
+      price = parseFloat(priceMatch[1].replace(',', '.'));
+      dishName = line.slice(0, priceMatch.index).replace(/[-–—:.]+\s*$/, '').trim();
+    }
+    if (dishName.length >= 2 && !isNaN(price)) {
+      const cat = guessCategoryFromDishName(dishName, fallbackCat);
+      state.menu.push({ id: Date.now() + Math.floor(Math.random() * 10000), cat, name: dishName, price });
+      added++;
+    }
+  });
+
+  if (added > 0) {
+    document.getElementById('ocrResultBox').value = '';
+    document.getElementById('ocrStatus').style.display = 'none';
+    await saveState(false);
+    renderMenuMgr();
+    alert(`✅ Importati ${added} nuovi piatti dalla lavagnetta nel menù di Alicetta!`);
+  } else {
+    alert("Nessun piatto valido trovato.");
+  }
+}
+
+/* =========================================================
    REPORTISTICA SERATA / MENSILE / ANNUALE + STAMPA 80MM
    ========================================================= */
 function selectReportPeriod(period) {
@@ -939,14 +1035,9 @@ function getFilteredHistory() {
   const todayISO = buildDateISO();
   const currentMonth = todayISO.slice(0, 7);
   const currentYear = todayISO.slice(0, 4);
-
-  if (state.reportPeriod === 'daily') {
-    return log.filter(e => !e.closedEvening);
-  } else if (state.reportPeriod === 'monthly') {
-    return log.filter(e => (e.date || todayISO).slice(0, 7) === currentMonth);
-  } else {
-    return log.filter(e => (e.date || todayISO).slice(0, 4) === currentYear);
-  }
+  if (state.reportPeriod === 'daily') return log.filter(e => !e.closedEvening);
+  if (state.reportPeriod === 'monthly') return log.filter(e => (e.date || todayISO).slice(0, 7) === currentMonth);
+  return log.filter(e => (e.date || todayISO).slice(0, 4) === currentYear);
 }
 
 function computeStatsData() {
@@ -975,15 +1066,7 @@ function updateDailyStats() {
     return;
   }
   const rankHtml = st.ranking.map((d, idx) => `${idx+1}. <b>${d[1]}x</b> ${d[0]} (€ ${formatPrice(st.revByDish[d[0]])})`).join('<br>');
-  c.innerHTML = `
-    <div style="font-weight:800; color:var(--logo-coral); margin-bottom:4px;">📌 REPORT ${label}</div>
-    • <b>Tavoli Chiusi:</b> ${st.countTables}<br>
-    • <b>Coperti Totali:</b> ${st.cop}<br>
-    • <b>Incasso Totale:</b> € ${formatPrice(st.rev)}<br>
-    <hr style="margin:6px 0; border:none; border-top:1px dashed var(--border);">
-    <b>🏆 Classifica Piatti & Vini Venduti:</b><br>
-    ${rankHtml || 'Nessun piatto'}
-  `;
+  c.innerHTML = `<div style="font-weight:800; color:var(--logo-coral); margin-bottom:4px;">📌 REPORT ${label}</div>• <b>Tavoli Chiusi:</b> ${st.countTables}<br>• <b>Coperti Totali:</b> ${st.cop}<br>• <b>Incasso Totale:</b> € ${formatPrice(st.rev)}<br><hr style="margin:6px 0; border:none; border-top:1px dashed var(--border);"><b>🏆 Classifica Piatti & Vini Venduti:</b><br>${rankHtml || 'Nessun piatto'}`;
 }
 
 function printStatsReport() {
@@ -992,25 +1075,15 @@ function printStatsReport() {
   const dateStr = new Date().toLocaleDateString('it-IT') + ' ' + buildTimeStr();
   const ESC = "\x1B", GS = "\x1D";
 
-  let preview = `==========================================\n      ALICETTA TABLEZ 1.0\n      ${label}\n      Data: ${dateStr}\n==========================================\n\n`;
-  preview += `TAVOLI CHIUSI:  ${st.countTables}\n`;
-  preview += `COPERTI TOTALI: ${st.cop}\n`;
-  preview += `INCASSO TOTALE: EUR ${formatPrice(st.rev)}\n`;
-  preview += `------------------------------------------\nCLASSIFICA PIATTI VENDUTI:\n`;
-
-  let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x18"+`ALICETTA TABLEZ 1.0\n`+ESC+"!\x08"+`${label}\n${dateStr}\n------------------------------------------\n`+ESC+"a\x00";
-  escpos += `TAVOLI CHIUSI:  ${st.countTables}\nCOPERTI TOTALI: ${st.cop}\n`;
-  escpos += ESC+"!\x18"+`INCASSO: EUR ${formatPrice(st.rev)}\n`+ESC+"!\x00";
-  escpos += "------------------------------------------\nCLASSIFICA PIATTI VENDUTI:\n";
+  let preview = `==========================================\n      ALICETTA TABLEZ 1.0\n      ${label}\n      Data: ${dateStr}\n==========================================\n\nTAVOLI CHIUSI:  ${st.countTables}\nCOPERTI TOTALI: ${st.cop}\nINCASSO TOTALE: EUR ${formatPrice(st.rev)}\n------------------------------------------\nCLASSIFICA PIATTI VENDUTI:\n`;
+  let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x18"+`ALICETTA TABLEZ 1.0\n`+ESC+"!\x08"+`${label}\n${dateStr}\n------------------------------------------\n`+ESC+"a\x00"+`TAVOLI CHIUSI:  ${st.countTables}\nCOPERTI TOTALI: ${st.cop}\n`+ESC+"!\x18"+`INCASSO: EUR ${formatPrice(st.rev)}\n`+ESC+"!\x00------------------------------------------\nCLASSIFICA PIATTI VENDUTI:\n";
 
   if (st.ranking.length === 0) {
-    preview += "Nessun articolo venduto.\n";
-    escpos += "Nessun articolo venduto.\n";
+    preview += "Nessun articolo venduto.\n"; escpos += "Nessun articolo venduto.\n";
   } else {
     st.ranking.forEach((d, idx) => {
       const rowStr = `${idx+1}. ${d[1]}x ${d[0].substring(0,22)} (EUR ${formatPrice(st.revByDish[d[0]])})`;
-      preview += rowStr + "\n";
-      escpos += rowStr + "\n";
+      preview += rowStr + "\n"; escpos += rowStr + "\n";
     });
   }
   preview += `==========================================\n`;
@@ -1021,16 +1094,13 @@ function printStatsReport() {
 async function resetCurrentEvening() {
   if (confirm("Vuoi chiudere e azzerare il Report di Fine Serata?\n(I dati resteranno comunque salvati nello storico Mensile e Annuale)")) {
     (state.historyLog || []).forEach(e => { e.closedEvening = true; });
-    await saveState(false);
-    updateDailyStats();
+    await saveState(false); updateDailyStats();
   }
 }
 
 async function resetAllHistory() {
   if (confirm("⚠️ ATTENZIONE: Vuoi azzerare TUTTO il registro storico (Serata, Mensile e Annuale)?")) {
-    state.historyLog = [];
-    await saveState(false);
-    updateDailyStats();
+    state.historyLog = []; await saveState(false); updateDailyStats();
   }
 }
 
@@ -1067,13 +1137,31 @@ function toggleRawbtSetting() { state.useRawBT = document.getElementById('chkRaw
 function renderMenuMgr() {
   const list = document.getElementById('menuMgrList');
   if (!list) return;
+  const cnt = document.getElementById('menuCountLbl');
+  if (cnt) cnt.textContent = state.menu.length;
   list.innerHTML = '';
   state.menu.forEach(item => {
     const row = document.createElement('div');
     row.className = 'cart-row'; row.style.borderBottom = '1px solid var(--border)';
-    row.innerHTML = `<div style="flex:1; font-size:0.85rem;">${item.name} — <span style="color:var(--logo-coral);">${formatPrice(item.price)}€</span></div>`;
+    row.innerHTML = `<div style="flex:1; font-size:0.82rem;"><b>[${item.cat}]</b> ${item.name} — <span style="color:var(--logo-coral); font-weight:800;">${formatPrice(item.price)}€</span></div><div class="cart-controls"><button class="btn-note" onclick="editMenuItem(${item.id})">✏️</button><button class="btn-qty" onclick="deleteMenuItem(${item.id})">🗑️</button></div>`;
     list.appendChild(row);
   });
+}
+
+function editMenuItem(id) {
+  const item = state.menu.find(i => i.id === id);
+  if (!item) return;
+  const n = prompt("Modifica nome piatto:", item.name);
+  if (!n || !n.trim()) return;
+  const p = parseFloat((prompt("Modifica prezzo (€):", item.price) || '').replace(',', '.'));
+  if (!isNaN(p)) { item.name = n.trim(); item.price = p; saveState(false); renderMenuMgr(); }
+}
+
+function deleteMenuItem(id) {
+  if (confirm("Eliminare questo piatto dal menù?")) {
+    state.menu = state.menu.filter(i => i.id !== id);
+    saveState(false); renderMenuMgr();
+  }
 }
 
 initApp();
