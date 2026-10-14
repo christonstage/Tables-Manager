@@ -2,1593 +2,1585 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>ΛLICETTΛ TABLEZ 1.0 - v26</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Alicetta TableZ 1.0</title>
+<meta name="theme-color" content="#2ECC71">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link id="favIcon" rel="icon" type="image/svg+xml">
+<link id="appleIcon" rel="apple-touch-icon">
+<link id="pwaManifest" rel="manifest">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#2ECC71;--bg-deep:#27AE60;--card:#FFFFFF;--text:#1F2937;--logo-cyan:#1BE7FF;--logo-coral:#FF5733;--danger:#EF4444;--warn:#F59E0B;--info:#3B82F6;--dark:#111827;}
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent;}
-body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;}
-.topbar{background:var(--dark);color:#fff;padding:6px 10px;display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
-.brand{display:flex;align-items:center;gap:8px;font-weight:900;font-size:15px;letter-spacing:0.5px;}
-.logo-box{width:30px;height:30px;background:var(--logo-cyan);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid #fff;}
-.sync-badge{font-size:10px;padding:2px 6px;border-radius:10px;background:var(--bg-deep);color:#fff;font-weight:800;text-transform:uppercase;}
-.sync-badge.off{background:var(--danger);}
-.nav-tabs{display:flex;gap:4px;align-items:center;flex-wrap:wrap;}
-.btn{border:none;border-radius:8px;padding:7px 11px;font-weight:700;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;transition:0.15s;background:#374151;color:#fff;}
-.btn:active{transform:scale(0.96);}
-.btn.active{background:var(--logo-cyan);color:var(--dark);}
-.btn-coral{background:var(--logo-coral);color:#fff;}
-.btn-green{background:var(--bg-deep);color:#fff;}
-.btn-warn{background:var(--warn);color:#111;}
-.btn-danger{background:var(--danger);color:#fff;}
-.btn-info{background:var(--info);color:#fff;}
-.btn-outline{background:#f3f4f6;color:var(--text);border:1px solid #d1d5db;}
-.user-sel{background:#1F2937;color:#fff;border:1px solid #4B5563;border-radius:8px;padding:6px 8px;font-weight:700;font-size:12px;}
-.main-view{flex:1;padding:10px;max-width:1400px;width:100%;margin:0 auto;}
-.hidden{display:none!important;}
-.subbar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;background:rgba(0,0,0,0.14);padding:8px 10px;border-radius:12px;}
-.room-tabs{display:flex;gap:6px;flex-wrap:wrap;}
-.tables-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;}
-.t-card{background:var(--card);border-radius:14px;padding:12px;box-shadow:0 4px 10px rgba(0,0,0,0.12);cursor:pointer;position:relative;border:3px solid transparent;display:flex;flex-direction:column;justify-content:space-between;min-height:115px;transition:0.15s;}
-.t-card.busy{border-color:var(--logo-coral);background:#FFFDF9;}
-.t-card.unsent{border-color:var(--warn);}
-@keyframes blinkYellowBorder{0%,100%{border-color:#FACC15;box-shadow:0 0 0 3px #FACC15,0 0 16px #EAB308;}50%{border-color:#111827;box-shadow:0 0 0 1px #111827;}}
-.t-card.delayed,.kds-card.delayed{animation:blinkYellowBorder 0.9s infinite!important;}
-.skull-badge{position:absolute;top:-8px;right:-8px;width:30px;height:30px;background:#FACC15;border:2px solid #111;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
-.t-head{display:flex;justify-content:space-between;align-items:flex-start;gap:4px;}
-.t-name{font-weight:900;font-size:16px;color:var(--dark);}
-.t-meta{font-size:11px;color:#4B5563;margin-top:3px;font-weight:600;}
-.t-tot{font-weight:900;font-size:17px;color:var(--bg-deep);margin-top:8px;display:flex;justify-content:space-between;align-items:center;}
-.badge{font-size:10px;padding:2px 6px;border-radius:6px;font-weight:800;display:inline-block;}
-.b-free{background:#DCFCE7;color:#166534;}
-.b-sent{background:#DBEAFE;color:#1E40AF;}
-.b-wait{background:#FEF3C7;color:#92400E;}
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.68);z-index:200;display:flex;align-items:center;justify-content:center;padding:8px;}
-.modal{background:#fff;border-radius:16px;width:100%;max-width:1100px;max-height:94vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.4);}
-.modal-sm{max-width:520px;}
-.m-head{background:var(--dark);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
-.m-body{display:flex;flex:1;overflow:hidden;flex-direction:row;}
-@media(max-width:780px){.m-body{flex-direction:column;overflow-y:auto;}}
-.order-left{flex:1.25;padding:10px;overflow-y:auto;border-right:1px solid #e5e7eb;background:#F9FAFB;}
-.order-right{flex:1;padding:10px;overflow-y:auto;display:flex;flex-direction:column;background:#fff;}
-.course-bar,.cat-bar{display:flex;gap:5px;overflow-x:auto;padding-bottom:6px;margin-bottom:8px;}
-.chip{padding:6px 10px;border-radius:8px;font-size:12px;font-weight:800;background:#E5E7EB;color:#1F2937;cursor:pointer;white-space:nowrap;border:2px solid transparent;}
-.chip.active{background:var(--dark);color:var(--logo-cyan);border-color:var(--logo-cyan);}
-.cat-chip.active{background:var(--logo-coral);color:#fff;border-color:var(--logo-coral);}
-.items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:7px;}
-.i-btn{background:#fff;border:1.5px solid #D1D5DB;border-radius:10px;padding:8px;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;min-height:66px;transition:0.1s;}
-.i-btn:active{transform:scale(0.96);border-color:var(--logo-coral);}
-.i-title{font-size:12px;font-weight:800;color:#111827;line-height:1.25;}
-.i-price{font-size:12px;font-weight:900;color:var(--bg-deep);margin-top:4px;}
-.cart-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:6px;margin-bottom:8px;}
-.c-group-title{font-size:11px;font-weight:900;background:#F3F4F6;padding:4px 8px;border-radius:6px;color:#374151;text-transform:uppercase;display:flex;justify-content:space-between;}
-.c-row{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border:1px solid #E5E7EB;border-radius:8px;gap:6px;background:#fff;}
-.c-row.unsent-row{background:#FFFBEB;border-color:#FCD34D;}
-.c-info{flex:1;font-size:12px;}
-.c-name{font-weight:800;color:#111;}
-.c-note{color:var(--danger);font-weight:800;font-size:11px;margin-top:2px;}
-.c-actions{display:flex;align-items:center;gap:4px;}
-.qty-btn{width:26px;height:26px;border-radius:6px;border:1px solid #D1D5DB;background:#F9FAFB;font-weight:900;cursor:pointer;}
-.m-foot{padding:10px;border-top:1px solid #E5E7EB;background:#F9FAFB;display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;align-items:center;}
-.kds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;}
-.kds-card{background:#fff;border-radius:14px;padding:12px;box-shadow:0 4px 12px rgba(0,0,0,0.18);border:3px solid var(--dark);position:relative;display:flex;flex-direction:column;gap:8px;}
-.kds-course{border:1.5px solid #E5E7EB;border-radius:10px;padding:8px;background:#F9FAFB;}
-.kds-course.done{opacity:0.48;background:#DCFCE7;border-color:#86EFAC;}
-.kds-item{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #E5E7EB;font-size:13px;font-weight:800;}
-.kds-note{color:var(--danger);font-size:12px;font-weight:900;padding-left:6px;}
-.panel-box{background:#fff;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 3px 10px rgba(0,0,0,0.12);}
-.input,textarea,select{width:100%;padding:8px 10px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:13px;font-weight:600;}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-@media(max-width:680px){.grid-2{grid-template-columns:1fr;}}
-/* PORTALE CLIENTI & IMPAGINAZIONE GRAFICA */
-.portal-wrap{max-width:850px;margin:14px auto;padding:10px;}
-.portal-tabs{display:flex;gap:6px;justify-content:center;margin-bottom:14px;flex-wrap:wrap;}
-.doc-sheet{background:#fff;border-radius:18px;padding:28px 24px;box-shadow:0 10px 30px rgba(0,0,0,0.22);border:5px solid var(--logo-cyan);position:relative;color:#1F2937;}
-.doc-header{text-align:center;border-bottom:3px solid var(--logo-coral);padding-bottom:14px;margin-bottom:18px;}
-.doc-logo{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;background:var(--logo-cyan);border-radius:16px;border:3px solid var(--dark);margin-bottom:6px;}
-.doc-brand{font-size:30px;font-weight:900;letter-spacing:2px;color:var(--dark);line-height:1;}
-.doc-sub{font-size:14px;font-weight:900;letter-spacing:5px;color:var(--logo-coral);margin-top:4px;}
-.doc-banner{display:inline-block;margin-top:10px;background:var(--dark);color:var(--logo-cyan);padding:5px 16px;border-radius:20px;font-size:14px;font-weight:900;letter-spacing:1px;}
-.doc-cat{margin:18px 0 10px;background:linear-gradient(90deg,var(--logo-cyan),#E0FBFF);color:var(--dark);padding:7px 14px;border-left:6px solid var(--logo-coral);border-radius:6px;font-weight:900;font-size:15px;letter-spacing:0.8px;text-transform:uppercase;}
-.doc-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:6px 0;border-bottom:1px dotted #D1D5DB;}
-.doc-dish{font-weight:800;font-size:14px;color:#111827;flex:1;}
-.doc-price{font-weight:900;font-size:14px;color:var(--logo-coral);white-space:nowrap;}
-.allergen-legend{background:#F8FAFC;border:2px solid var(--logo-cyan);border-radius:12px;padding:12px;margin-bottom:18px;}
-.al-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px;margin-top:8px;font-size:11px;font-weight:700;}
-.al-badge{display:inline-block;background:#FEF2F2;color:#B91C1C;border:1px solid #FCA5A5;border-radius:5px;padding:1px 6px;font-size:10px;font-weight:800;margin:2px 3px 0 0;}
-.doc-footer{text-align:center;margin-top:22px;padding-top:12px;border-top:2px solid #E5E7EB;font-size:11px;color:#4B5563;font-weight:700;}
-@media print{.no-print{display:none!important;}body{background:#fff;}.portal-wrap{margin:0;padding:0;max-width:100%;}.doc-sheet{box-shadow:none;border:3px solid var(--logo-cyan);padding:15px;}}
+:root {
+  --bg: #2ECC71; --bg-deep: #27AE60; --card: #FFFFFF; --text: #1F2937; --muted: #4B5563;
+  --logo-cyan: #1BE7FF; --logo-coral: #FF5733; --border: rgba(0, 0, 0, 0.15);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-select: none; overflow-x: hidden; }
+.topbar { position: sticky; top: 0; z-index: 50; background: rgba(46, 204, 113, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 6px 5px; display: flex; justify-content: space-between; align-items: center; gap: 3px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.brand-group { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
+.brand-logo { display: flex; align-items: center; background: var(--logo-cyan); padding: 2px 4px; border-radius: 7px; border: 1.5px solid var(--logo-coral); }
+.brand-logo svg { height: 18px; width: auto; display: block; }
+.sync-badge { font-size: 0.52rem; font-weight: 800; padding: 2px 3px; border-radius: 4px; background: rgba(0,0,0,0.12); color: #111; }
+.top-actions { display: flex; gap: 3px; align-items: center; flex-shrink: 1; min-width: 0; }
+.waiter-tag { font-size: 0.62rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 5px 5px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; cursor: pointer; overflow: hidden; text-overflow: ellipsis; max-width: 82px; }
+.btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 5px 6px; border-radius: 7px; font-size: 0.66rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
+.btn-top.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
+.btn-pager { background: #111827; color: #FBBF24; border: 1.5px solid #FBBF24; padding: 5px 6px; border-radius: 7px; font-size: 0.7rem; font-weight: 800; cursor: pointer; }
+.room-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 14px; }
+.room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.86rem; font-weight: 700; text-align: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.room-tab.active { border-color: var(--logo-coral); color: #062329; background: var(--logo-cyan); font-weight: 800; }
+.tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
+.table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 112px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; position: relative; }
+.table-card:active { transform: scale(0.95); }
+.table-card.busy { background: var(--logo-coral); border-color: #062329; color: #FFFFFF; box-shadow: 0 5px 15px rgba(255, 87, 51, 0.35); }
+.table-card.delayed { animation: blinkYellowBorder 0.6s infinite alternate; }
+@keyframes blinkYellowBorder {
+  0% { border-color: #FACC15; border-width: 3px; box-shadow: 0 0 5px #FACC15; }
+  100% { border-color: #FFFF00; border-width: 3px; box-shadow: 0 0 20px #FFFF00, 0 0 8px #000000; transform: scale(1.02); }
+}
+.delay-skull { position: absolute; top: 5px; right: 5px; width: 25px; height: 25px; border-radius: 50%; background: #FACC15; border: 2px solid #000000; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.45); animation: skullPulse 0.6s infinite alternate; z-index: 5; }
+.delay-skull svg { width: 16px; height: 16px; fill: #000000; display: block; }
+@keyframes skullPulse { 0% { transform: scale(0.95); } 100% { transform: scale(1.15); } }
+.table-name { font-size: 1.05rem; font-weight: 800; }
+.table-card.busy .table-name { color: #FFFFFF; }
+.table-status { font-size: 0.72rem; font-weight: 700; margin-top: 4px; padding: 2px 7px; border-radius: 6px; display: inline-block; }
+.status-free { color: #062329; background: rgba(255,255,255,0.6); }
+.status-busy { color: #FFFFFF; background: rgba(0,0,0,0.25); }
+.table-timer { font-size: 0.72rem; font-weight: 800; margin-top: 4px; padding: 2px 6px; border-radius: 5px; background: rgba(0,0,0,0.22); color: #FFF; display: inline-block; font-variant-numeric: tabular-nums; }
+.pickup-badge { font-size: 0.68rem; font-weight: 800; margin-top: 3px; padding: 2px 6px; border-radius: 5px; background: #062329; color: var(--logo-cyan); display: inline-block; }
+.table-total { font-size: 0.95rem; font-weight: 800; color: #FFFFFF; margin-top: 6px; }
+.course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+.dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 800; }
+.dot.sent { background: #10B981; color: #ffffff; }
+.dot.wait { background: #062329; color: #ffffff; }
+.dot.done { background: #062329; color: #34d399; }
+.screen { display: none; padding: 12px 14px; }
+.screen.active { display: block; }
+.order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); }
+.asporto-bar { display: none; background: var(--card); border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 9px 12px; margin-bottom: 10px; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.asporto-bar.active { display: flex; }
+.btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+.mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
+.mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; }
+.mandata-btn.active { border-color: var(--logo-coral); background: var(--logo-cyan); color: #062329; font-weight: 800; }
+.cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; position: relative; }
+.cat-bar::-webkit-scrollbar { display: none; }
+.cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; flex-shrink: 0; }
+.cat-btn.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); font-weight: 800; }
+.search-wrap { margin-bottom: 10px; position: relative; }
+.search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; }
+.search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--muted); font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
+.menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06); color: var(--text); transition: transform 0.12s; }
+.menu-item:active { transform: scale(0.96); background: var(--logo-cyan); }
+.tap-badge { position: absolute; top: 6px; right: 6px; background: var(--logo-coral); color: #fff; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; }
+@keyframes badgeFloatUp { 0% { opacity: 1; transform: translateY(4px); } 100% { opacity: 0; transform: translateY(-12px); } }
+.item-name { font-weight: 800; font-size: 0.82rem; line-height: 1.2; word-break: break-word; }
+.item-price { color: var(--logo-coral); font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
+.fire-box { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
+.fire-title { font-size: 0.8rem; font-weight: 700; color: var(--logo-coral); margin-bottom: 8px; text-transform: uppercase; }
+.fire-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-fire { flex: 1; background: var(--logo-coral); color: #FFF; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
+.btn-fire.fired { background: #10B981; color: #fff; }
+.cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; }
+.mandata-group { margin-bottom: 14px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
+.mandata-group:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+.mandata-header { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 800; color: var(--logo-coral); margin-bottom: 6px; }
+.cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.86rem; gap: 6px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+.cart-info { flex: 1; line-height: 1.25; }
+.cart-note { font-size: 0.75rem; color: #D97706; background: #FEF3C7; border: 1px solid #F59E0B; padding: 2px 6px; border-radius: 5px; display: inline-block; margin-top: 3px; font-weight: 800; }
+.cart-controls { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 900; cursor: pointer; }
+.btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); cursor: pointer; font-weight: 800; }
+.chip-grid { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0 10px 0; }
+.note-chip { background: #F3F4F6; border: 1px solid var(--border); border-radius: 14px; padding: 5px 9px; font-size: 0.74rem; font-weight: 800; cursor: pointer; color: #1F2937; }
+.note-chip:active { background: var(--logo-cyan); border-color: var(--logo-coral); }
+.bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(46, 204, 113, 0.98); border-top: 1px solid var(--border); padding: 10px 12px; display: flex; gap: 6px; z-index: 60; }
+.btn-main { flex: 1; padding: 12px 6px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.84rem; cursor: pointer; text-align: center; }
+.btn-print { background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); }
+.btn-bill { background: var(--logo-coral); color: #FFF; }
+.btn-close-table { background: var(--card); color: var(--text); border: 1px solid var(--border); flex: 0.5; }
+.form-control { padding: 10px; border-radius: 8px; background: #F9FAFB; color: var(--text); border: 1px solid var(--border); font-weight: 600; width: 100%; }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
+.modal-overlay.active { display: flex; }
+.receipt-box { background: #fff; color: #000; width: 100%; max-width: 360px; border-radius: 12px; padding: 16px; max-height: 85vh; overflow-y: auto; }
+.receipt-pre { white-space: pre-wrap; font-family: "Courier New", monospace; font-size: 0.83rem; line-height: 1.35; }
+.modal-actions { display: flex; gap: 8px; margin-top: 14px; }
+.btn-modal { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; }
+.kds-Banner { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.btn-kds-audio { background: var(--logo-coral); color: #FFF; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
+.btn-kds-audio.on { background: #10B981; color: #fff; }
+.kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
+.kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; color: var(--text); position: relative; }
+.kds-card.delayed { animation: blinkYellowBorder 0.6s infinite alternate; }
+.btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
+.order-toast { display: none; position: fixed; top: 52px; left: 10px; right: 10px; background: #111827; color: #FFF; border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 12px; z-index: 90; box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+.order-toast.active { display: block; }
+.rep-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
+.rep-tab { padding: 8px 4px; border-radius: 8px; border: 1px solid var(--border); background: #F3F4F6; font-weight: 800; font-size: 0.76rem; text-align: center; cursor: pointer; }
+.rep-tab.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
+#publicMenuViewer { display: none; min-height: 100vh; background: #2ECC71; padding: 16px 10px 40px 10px; }
 </style>
 </head>
-<body>
+<body onclick="unlockAudioOnce()">
 
-<!-- TOPBAR CASSA -->
-<header id="posTopbar" class="topbar no-print">
-  <div class="brand">
-    <div class="logo-box" title="Alicetta Trattoria">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <polygon points="2,12 15,4 15,20" fill="#FF5733"/>
-        <polygon points="15,12 22,6 20,12 22,18" fill="#FF5733"/>
-        <circle cx="7" cy="11" r="1.5" fill="#FFFFFF"/>
+<!-- VISTA PUBBLICA SOLA LETTURA PER CLIENTI / DRIVE LINK -->
+<div id="publicMenuViewer">
+  <div style="max-width:560px; margin:0 auto 12px auto; display:flex; gap:8px; justify-content:center;">
+    <button class="btn-note" style="padding:8px 14px; font-size:0.82rem;" onclick="renderPublicMenuPage('giorno')">🍽️ Menù del Giorno</button>
+    <button class="btn-note" style="padding:8px 14px; font-size:0.82rem; background:#FEF3C7;" onclick="renderPublicMenuPage('vini')">🍷 Carta dei Vini</button>
+    <button class="btn-note" style="padding:8px 14px; font-size:0.82rem; background:#fff;" onclick="window.print()">🖨️ Salva PDF</button>
+  </div>
+  <div id="publicMenuContent"></div>
+</div>
+
+<div id="posAppWrapper">
+<div class="topbar">
+  <div class="brand-group">
+    <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
+      <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round">
+          <polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/>
+          <polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/>
+          <polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/>
+          <polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/>
+        </g>
+        <circle cx="125" cy="17" r="1.8" fill="#FF5733"/>
+        <text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text>
+        <line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/>
+        <circle cx="110" cy="58" r="2.2" fill="#FF5733"/>
+        <line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/>
+        <text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text>
       </svg>
     </div>
-    <span>ΛLICETTΛ TABLEZ 1.0</span>
-    <span id="syncBadge" class="sync-badge">LIVE</span>
+    <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
-  <div class="nav-tabs">
-    <select id="userSelect" class="user-sel" onchange="onUserChange()">
-      <option value="Christian">👑 Christian</option>
-      <option value="Alice">🌸 Alice</option>
-      <option value="Sala">🍽️ Sala</option>
-    </select>
-    <button id="tabBtnTables" class="btn active" onclick="switchView('tables')">🪑 Tavoli</button>
-    <button id="tabBtnKds" class="btn" onclick="switchView('kds')">👨‍🍳 KDS <span id="kdsCount" class="badge b-wait" style="margin-left:3px;">0</span></button>
-    <button id="tabBtnMenu" class="btn" onclick="switchView('menu')">📋 Menù</button>
-    <button id="btnPager" class="btn btn-coral" onclick="triggerKitchenBell(true)" title="Chiama Sala / Cucina">🔔</button>
-    <button class="btn" onclick="openPortalPreview('giorno')" title="Anteprima Portale & Documenti">📱 QR/Doc</button>
-    <button class="btn" onclick="toggleFullScreen()" title="Tutto schermo">⛶</button>
+  <div class="top-actions">
+    <div id="waiterDisplay" class="waiter-tag" onclick="logoutWaiter()">👤 Christian</div>
+    <button class="btn-pager" id="btnPager" onclick="openPagerModal()" title="Cercapersone">🔔</button>
+    <button class="btn-top" onclick="toggleFullScreen()" title="Tutto Schermo">⛶</button>
+    <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
+    <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
+    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')">Menù</button>
   </div>
-</header>
+</div>
 
-<!-- VISTA 1: TAVOLI -->
-<main id="viewTables" class="main-view no-print">
-  <div class="subbar">
-    <div class="room-tabs">
-      <button id="roomBtn_interna" class="btn active" onclick="switchRoom('interna')">🏠 Sala Interna</button>
-      <button id="roomBtn_esterna" class="btn" onclick="switchRoom('esterna')">🌴 Esterna</button>
-      <button id="roomBtn_asporto" class="btn" onclick="switchRoom('asporto')">🛍️ Asporto</button>
-    </div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-      <button class="btn btn-info" onclick="openMergeModal()">🔀 Unisci</button>
-      <button class="btn" onclick="openRoomConfigModal()">⚙️ Config Sale</button>
-      <button class="btn btn-danger" onclick="closeEvening()">🌙 Chiudi Serata</button>
-    </div>
+<div id="orderToast" class="order-toast">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+    <b id="toastTitle" style="color:var(--logo-cyan); font-size:0.9rem;">🔔 NUOVA COMANDA</b>
+    <button class="btn-note" style="padding:2px 7px;" onclick="closeOrderToast()">OK</button>
   </div>
-  <div id="tablesGrid" class="tables-grid"></div>
-</main>
+  <div id="toastBody" style="font-size:0.8rem; line-height:1.35;"></div>
+</div>
 
-<!-- VISTA 2: KDS CUCINA -->
-<main id="viewKds" class="main-view hidden no-print">
-  <div class="subbar">
-    <div style="color:#fff;font-weight:900;font-size:15px;">👨‍🍳 KDS CUCINA — Comande Inviate (Allerta &gt;20 min ☠️)</div>
-    <div style="display:flex;gap:6px;">
-      <button class="btn btn-warn" onclick="playBellSound()">🔊 Test Campanella</button>
-      <button class="btn" onclick="syncFromFirebase(true)">🔄 Sincronizza Ora</button>
-    </div>
+<div id="viewTables" class="screen active">
+  <div class="room-tabs">
+    <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">❄️ Interna (<span id="cntInt">11</span>)</div>
+    <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🕶️ Esterna (<span id="cntEst">5</span>)</div>
+    <div class="room-tab" id="tabAsporto" onclick="selectRoom('asporto')">🥡 Asporto (<span id="cntAsp">5</span>)</div>
   </div>
-  <div id="kdsGrid" class="kds-grid"></div>
-</main>
+  <div class="tables-grid" id="tablesContainer"></div>
+</div>
 
-<!-- VISTA 3: MENU, OCR, QR E IMPOSTAZIONI -->
-<main id="viewMenu" class="main-view hidden no-print">
-  <div class="grid-2">
-    <!-- LAVAGNETTA OCR & AGGIORNAMENTO RAPIDO -->
-    <div class="panel-box">
-      <h3 style="margin-bottom:8px;">📸 Lavagnetta del Giorno (12 Ottobre Precaricata)</h3>
-      <p style="font-size:12px;color:#4B5563;margin-bottom:8px;">Formato: Categorie (Antipasti, Primi, Secondi, Dessert) e righe <code>Nome piatto - Prezzo</code>. Premendo "Applica" aggiorna Cassa, Firebase e il QR Code perpetuo dei clienti.</p>
-      <textarea id="ocrText" rows="13" style="font-family:monospace;font-size:12px;margin-bottom:8px;"></textarea>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        <button class="btn btn-green" onclick="applyChalkboardText()">✅ Applica Lavagnetta al Menù</button>
-        <button class="btn btn-outline" onclick="loadDefault12OctChalkboard()">🔄 Ripristina 12 Ottobre</button>
-        <label class="btn btn-info" style="cursor:pointer;">📷 Scatta/Carica Foto Lavagna <input type="file" accept="image/*" class="hidden" onchange="simulateOcrUpload(event)"></label>
-      </div>
+<div id="viewOrder" class="screen">
+  <div class="order-header">
+    <button class="btn-back" onclick="closeTableView()">← Tavoli</button>
+    <div style="text-align:center;">
+      <div id="activeTableName" style="font-weight:800; font-size:1.05rem;">Tavolo 1</div>
+      <div id="activeTableSub" style="font-size:0.72rem; color:var(--muted);">Sala Interna</div>
     </div>
-
-    <!-- QR CODE PERPETUO & DOCUMENTI -->
-    <div class="panel-box">
-      <h3 style="margin-bottom:8px;">📲 QR Code Unico Perpetuo &amp; Esportazione Documenti</h3>
-      <p style="font-size:12px;color:#4B5563;margin-bottom:8px;">Il QR Code punta sempre a <code>?menu=digitale</code> e non cambia mai. I clienti vedono in tempo reale Menù del Giorno, Carta dei Vini e Lista Allergeni.</p>
-      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:10px;background:#F8FAFC;padding:10px;border-radius:12px;border:1px solid #E5E7EB;">
-        <img id="qrImage" src="" alt="QR Menu" style="width:115px;height:115px;border:3px solid var(--logo-cyan);border-radius:10px;background:#fff;padding:4px;">
-        <div style="flex:1;min-width:190px;">
-          <div style="font-size:11px;font-weight:800;word-break:break-all;margin-bottom:6px;color:#111;" id="qrUrlText"></div>
-          <div style="display:flex;gap:5px;flex-wrap:wrap;">
-            <button class="btn btn-coral" onclick="printQrTableCards()">🖨️ Stampa Cartellini QR</button>
-            <button class="btn btn-info" onclick="openPortalPreview('giorno')">👁️ Apri Portale Clienti</button>
-          </div>
-        </div>
+    <div style="text-align:right;">
+      <div style="display:flex; align-items:center; gap:5px; justify-content:flex-end;">
+        <button class="btn-note" onclick="quickMergeFromOrder()" title="Unisci tavolo">🔀 Unisci</button>
+        <span id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.05rem;">€ 0,00</span>
       </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
-        <button class="btn btn-green" onclick="openPortalPreview('giorno')">🍽️ PDF/Word Menù Giorno</button>
-        <button class="btn btn-warn" onclick="openPortalPreview('vini')">🍷 PDF/Word Carta Vini</button>
-        <button class="btn btn-danger" onclick="openPortalPreview('allergeni')">🛡️ PDF/Word Allergeni</button>
-      </div>
-      <hr style="margin:10px 0;border:none;border-top:1px solid #E5E7EB;">
-      <h4 style="margin-bottom:6px;">☁️ Firebase Realtime DB &amp; Stampante Epson TM-m30III</h4>
-      <div style="display:flex;gap:6px;margin-bottom:8px;">
-        <input id="fbUrlInput" class="input" placeholder="URL Firebase Realtime DB">
-        <button class="btn btn-green" onclick="saveFirebaseUrl()">Salva DB</button>
-      </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        <button class="btn btn-outline" onclick="exportBackupJson()">💾 Backup JSON</button>
-        <button class="btn btn-outline" onclick="testRawBtPrinter()">🖨️ Test RawBT Epson</button>
-        <span id="revenueSummary" style="font-size:12px;font-weight:800;align-self:center;margin-left:auto;color:var(--bg-deep);"></span>
-      </div>
+      <div id="activeOrderTimer" style="font-size:0.68rem; font-weight:800; color:var(--muted);"></div>
     </div>
   </div>
 
-  <!-- AGGIUNTA MANUALE & CATALOGO COMPLETO -->
-  <div class="panel-box">
-    <h3 style="margin-bottom:8px;">➕ Aggiungi / Modifica Voce nel Catalogo</h3>
-    <div style="display:grid;grid-template-columns:2fr 1fr 1.2fr 1.2fr auto;gap:6px;align-items:center;margin-bottom:12px;">
-      <input id="newItemName" class="input" placeholder="Nome piatto o vino">
-      <input id="newItemPrice" type="number" step="0.5" class="input" placeholder="Prezzo €">
-      <select id="newItemCat" class="input">
-        <option value="1 Coperto">1 Coperto</option>
-        <option value="2 Bevande">2 Bevande</option>
+  <div id="asportoBar" class="asporto-bar">
+    <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:130px;">
+      <span style="font-size:0.78rem; font-weight:800; color:#062329;">🕒 Ritiro:</span>
+      <input type="time" id="pickupTimeInput" class="form-control" style="padding:6px 8px; font-weight:800;" onchange="saveAsportoMeta()">
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; flex:1.3; min-width:140px;">
+      <input type="text" id="customerNameInput" class="form-control" style="padding:6px 8px;" placeholder="👤 Nome cliente..." oninput="saveAsportoMeta()">
+    </div>
+  </div>
+
+  <div id="fireBox" class="fire-box" style="display:none;">
+    <div class="fire-title">⚡ Comandi Rapidi Marcia Cucina</div>
+    <div class="fire-actions" id="fireButtonsContainer"></div>
+  </div>
+
+  <div style="font-size:0.75rem; color:#062329; margin-bottom:4px; font-weight:800;">STAI INSERENDO PIATTI NELLA:</div>
+  <div class="mandata-bar">
+    <div class="mandata-btn" id="mBtn0" onclick="setMandata(0, true)">⚡ Subito</div>
+    <div class="mandata-btn active" id="mBtn1" onclick="setMandata(1, true)">1ª Mand.</div>
+    <div class="mandata-btn" id="mBtn2" onclick="setMandata(2, true)">2ª Mand.</div>
+    <div class="mandata-btn" id="mBtn3" onclick="setMandata(3, true)">3ª Mand.</div>
+    <div class="mandata-btn" id="mBtn4" onclick="setMandata(4, true)">4ª Mand.</div>
+  </div>
+
+  <div class="cat-bar" id="catBar"></div>
+
+  <div class="search-wrap">
+    <input type="text" id="menuSearch" class="search-input" placeholder="🔍 Cerca piatto o vino..." oninput="renderMenuGrid()">
+    <button class="search-clear" onclick="clearSearch()">×</button>
+  </div>
+
+  <div class="menu-grid" id="menuGrid"></div>
+
+  <div class="cart-section">
+    <div style="font-weight:800; margin-bottom:10px; font-size:0.95rem;">📋 Riepilogo Comanda (tocca ✏️ Nota per modifiche)</div>
+    <div id="cartContainer"></div>
+  </div>
+
+  <div class="bottom-bar">
+    <button class="btn-main btn-print" onclick="sendOrderToKitchen()">🖨️ INVIA</button>
+    <button class="btn-main btn-bill" onclick="splitBillPrompt()">👥 DIVIDI</button>
+    <button class="btn-main btn-bill" onclick="showPreBill()">💶 PRE-CONTO</button>
+    <button class="btn-main btn-close-table" onclick="freeCurrentTable()">Libera</button>
+  </div>
+</div>
+
+<div id="viewKds" class="screen">
+  <div class="kds-Banner">
+    <div><div style="font-weight:800; font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0</div></div>
+    <div style="display:flex; gap:6px;">
+      <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
+      <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
+    </div>
+  </div>
+  <div class="kds-grid" id="kdsContainer"></div>
+</div>
+
+<div id="viewMenuMgr" class="screen">
+  <div class="cart-section">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0</h3>
+        <div style="font-size:0.8rem; color:var(--muted);">Utente: <b id="currentWaiterBadge">Christian</b></div>
+      </div>
+      <button class="btn-note" onclick="logoutWaiter()">Cambia Utente</button>
+    </div>
+  </div>
+
+  <div class="cart-section">
+    <h3 style="margin-bottom:8px;">🪑 Configurazione & Unione Tavoli</h3>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:8px;">
+      <div>
+        <label style="font-size:0.72rem; font-weight:800;">❄️ Interna</label>
+        <input type="number" id="cfgIntCount" class="form-control" min="1" max="40" value="11">
+      </div>
+      <div>
+        <label style="font-size:0.72rem; font-weight:800;">🕶️ Esterna</label>
+        <input type="number" id="cfgEstCount" class="form-control" min="1" max="30" value="5">
+      </div>
+      <div>
+        <label style="font-size:0.72rem; font-weight:800;">🥡 Asporto</label>
+        <input type="number" id="cfgAspCount" class="form-control" min="1" max="30" value="5">
+      </div>
+    </div>
+    <button class="btn-main btn-print" style="width:100%; margin-bottom:12px;" onclick="saveTableCounts()">💾 Salva Numero Tavoli</button>
+
+    <div style="border-top:1px dashed var(--border); padding-top:10px;">
+      <div style="font-size:0.8rem; font-weight:800; margin-bottom:6px;">🔗 Unisci due Tavoli:</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:8px;">
+        <select id="mergeFromSel" class="form-control"></select>
+        <select id="mergeToSel" class="form-control"></select>
+      </div>
+      <button class="btn-main btn-bill" style="width:100%;" onclick="mergeTablesFromSettings()">🔗 Unisci Tavoli Selezionati</button>
+    </div>
+  </div>
+
+  <!-- LAVAGNETTA OCR + CARTA VINI + PUBBLICAZIONE DIRETTA -->
+  <div class="cart-section">
+    <h3 style="margin-bottom:6px;">📸 Menù del Giorno & 🍷 Carta dei Vini</h3>
+    <p style="font-size:0.75rem; color:var(--muted); margin-bottom:8px;">
+      Crea il Menù del Giorno diviso per categorie (Antipasti, Primi, Secondi, Desserts) e la Carta Vini coordinata.
+    </p>
+    <div style="display:grid; gap:8px;">
+      <select id="ocrDefaultCat" class="form-control">
+        <option value="AUTO">✨ Rileva Categoria in Automatico (Antipasti / Primi / Secondi / Desserts)</option>
         <option value="3 Antipasti">3 Antipasti</option>
         <option value="4 Primi Piatti">4 Primi Piatti</option>
         <option value="5 Secondi">5 Secondi</option>
         <option value="6 Desserts">6 Desserts</option>
+        <option value="2 Bevande">2 Bevande</option>
       </select>
-      <select id="newItemSub" class="input">
-        <option value="">-- Sez. Vino/Altro --</option>
-        <option value="Bollicine & Metodo Classico">Bollicine & Metodo Classico</option>
-        <option value="Vini Bianchi & Orange">Vini Bianchi & Orange</option>
-        <option value="Cerasuoli & Rosati">Cerasuoli & Rosati</option>
-        <option value="Vini Rossi & Montepulciano">Vini Rossi & Montepulciano</option>
-        <option value="Calici">Calici</option>
-        <option value="Birre, Bevande & Liquori">Birre, Bevande & Liquori</option>
-      </select>
-      <button class="btn btn-green" onclick="addCatalogItem()">Aggiungi</button>
-    </div>
-    <div id="catalogAdminList" style="max-height:320px;overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px;"></div>
-  </div>
-</main>
-
-<!-- PORTALE CLIENTI / ANTEPRIMA DOCUMENTI (?menu=digitale) -->
-<section id="viewPortal" class="portal-wrap hidden">
-  <div class="portal-tabs no-print">
-    <button id="ptab_giorno" class="btn active" onclick="renderPortalDoc('giorno')">🍽️ Menù del Giorno</button>
-    <button id="ptab_vini" class="btn" onclick="renderPortalDoc('vini')">🍷 Carta dei Vini</button>
-    <button id="ptab_allergeni" class="btn" onclick="renderPortalDoc('allergeni')">🛡️ Lista Allergeni</button>
-    <button class="btn btn-coral" onclick="window.print()">🖨️ Salva PDF / Stampa</button>
-    <button class="btn btn-info" onclick="exportPortalWord()">📄 Scarica Word (.doc)</button>
-    <button class="btn btn-green" onclick="sharePortalDrive()">☁️ Salva su Drive</button>
-    <button id="btnBackToPos" class="btn btn-danger" onclick="closePortalPreview()">✖ Torna alla Cassa</button>
-  </div>
-  <div id="portalDocContainer"></div>
-</section>
-
-<!-- MODALE ORDINE TAVOLO -->
-<div id="orderModal" class="modal-backdrop hidden no-print">
-  <div class="modal">
-    <div class="m-head">
-      <div>
-        <span id="mTableTitle" style="font-weight:900;font-size:17px;">Tavolo</span>
-        <span id="mTableStatusBadge" class="badge b-free" style="margin-left:6px;">Libero</span>
+      <input type="file" id="chalkboardInput" accept="image/*" capture="environment" style="display:none;" onchange="processChalkboardPhoto(event)">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+        <button class="btn-main btn-bill" onclick="document.getElementById('chalkboardInput').click()">📷 Scatta / Carica Foto</button>
+        <button class="btn-note" onclick="loadPresetChalkboardOct12()">📋 Ricarica Lavagna 12 Ott</button>
       </div>
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-        <button class="btn btn-info" onclick="openMergeModalFromOrder()">🔀 Unisci</button>
-        <button class="btn btn-danger" onclick="freeCurrentTable()">🗑️ Libera</button>
-        <button class="btn" onclick="closeOrderModal()">✖ Chiudi</button>
-      </div>
-    </div>
+      <div id="ocrStatus" style="font-size:0.8rem; font-weight:800; color:var(--logo-coral); display:none;"></div>
+      <textarea id="ocrResultBox" class="form-control" rows="7" style="font-size:0.78rem; line-height:1.35;" placeholder="Piatti della lavagnetta (uno per riga con prezzo finale)..."></textarea>
+      <button class="btn-main btn-print" onclick="importOcrLinesToMenu()">✅ Aggiorna / Importa Piatti nella Cassa</button>
 
-    <!-- CAMPI ASPORTO (Mostrati solo per Asporto) -->
-    <div id="asportoBar" class="hidden" style="background:#EFF6FF;padding:8px 12px;border-bottom:1px solid #BFDBFE;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-      <span style="font-size:12px;font-weight:800;color:#1E40AF;">🛍️ Dati Asporto:</span>
-      <input id="aspCustomer" class="input" style="max-width:200px;padding:5px 8px;" placeholder="Nome Cliente" oninput="saveAsportoMeta()">
-      <input id="aspTime" type="time" class="input" style="max-width:130px;padding:5px 8px;" onchange="saveAsportoMeta()">
-    </div>
-
-    <div class="m-body">
-      <!-- COLONNA SINISTRA: MANDATE, CATEGORIE, PIATTI -->
-      <div class="order-left">
-        <div style="font-size:11px;font-weight:800;color:#4B5563;margin-bottom:3px;">SELEZIONA MANDATA (Cambio categoria automatico):</div>
-        <div id="courseBar" class="course-bar"></div>
-        <div id="catBar" class="cat-bar"></div>
-        <input id="searchDishInput" class="input" style="margin-bottom:8px;padding:6px 10px;" placeholder="🔍 Cerca piatto o vino..." oninput="renderOrderCatalog()">
-        <div id="orderItemsGrid" class="items-grid"></div>
+      <div style="font-size:0.76rem; font-weight:800; color:#062329; margin-top:6px;">🍽️ ESPORTA MENÙ DEL GIORNO (con divisori categorie):</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+        <button class="btn-note" style="padding:10px;" onclick="exportDailyMenuWord()">📄 Word Menù (.doc)</button>
+        <button class="btn-note" style="padding:10px;" onclick="exportDailyMenuPDF()">📑 PDF Menù del Giorno</button>
       </div>
 
-      <!-- COLONNA DESTRA: CARRELLO E AZIONI INVIO/CONTO -->
-      <div class="order-right">
-        <div id="cartList" class="cart-list"></div>
-        <div class="m-foot">
-          <div>
-            <div style="font-size:11px;color:#4B5563;font-weight:700;">TOTALE TAVOLO</div>
-            <div id="cartTotal" style="font-size:22px;font-weight:900;color:var(--bg-deep);">€ 0.00</div>
-          </div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;">
-            <button class="btn btn-coral" onclick="sendOrderToKitchen()" style="padding:10px 14px;font-size:14px;">🖨️ INVIA</button>
-            <button class="btn btn-warn" onclick="printPreconto()">💶 PRE-CONTO</button>
-            <button class="btn btn-info" onclick="openSplitModal()">👥 DIVIDI</button>
-          </div>
+      <div style="font-size:0.76rem; font-weight:800; color:#062329; margin-top:6px;">🍷 ESPORTA CARTA DEI VINI (impaginata come il Menù):</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+        <button class="btn-note" style="padding:10px; background:#FEF3C7; border-color:#D97706;" onclick="exportWineListWord()">📄 Word Carta Vini (.doc)</button>
+        <button class="btn-note" style="padding:10px; background:#FEF3C7; border-color:#D97706;" onclick="exportWineListPDF()">🍷 PDF Carta dei Vini</button>
+      </div>
+
+      <div style="border-top:1px dashed var(--border); padding-top:10px; margin-top:6px;">
+        <div style="font-size:0.78rem; font-weight:800; color:var(--logo-coral); margin-bottom:6px;">☁️ Condivisione Pubblica (Lettura per Tutti) & Google Drive:</div>
+        <button class="btn-main btn-bill" style="width:100%; margin-bottom:6px;" onclick="publishMenusOnlineForEveryone()">🌐 1. Pubblica Link Menù & Vini (Visibile a Tutti)</button>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+          <button class="btn-note" style="padding:9px;" onclick="shareFileToGoogleDrive('giorno')">📂 Salva Menù su Drive</button>
+          <button class="btn-note" style="padding:9px;" onclick="shareFileToGoogleDrive('vini')">📂 Salva Vini su Drive</button>
         </div>
+        <div id="driveUploadStatus" style="font-size:0.76rem; font-weight:800; margin-top:8px; display:none; background:#F0FDF4; padding:8px; border-radius:8px; border:1px solid #10B981;"></div>
       </div>
+
+      <input type="password" id="geminiApiKeyInput" class="form-control" style="font-size:0.75rem; margin-top:4px;" placeholder="(Opzionale) Chiave API Gemini Vision per lettura gesso AI 100%" onchange="saveGeminiKey()">
+    </div>
+  </div>
+
+  <div class="cart-section">
+    <h3 style="margin-bottom:8px;">📊 Report & Statistiche</h3>
+    <div class="rep-tabs">
+      <div class="rep-tab active" id="repTabDaily" onclick="selectReportPeriod('daily')">🌙 Serata</div>
+      <div class="rep-tab" id="repTabMonthly" onclick="selectReportPeriod('monthly')">📅 Mese</div>
+      <div class="rep-tab" id="repTabYearly" onclick="selectReportPeriod('yearly')">📆 Anno</div>
+    </div>
+    <div id="dailyStats" style="font-size:0.84rem; color:var(--text); line-height:1.45; margin-bottom:10px; max-height:220px; overflow-y:auto; padding:8px; background:#F9FAFB; border-radius:8px; border:1px solid var(--border);">Caricamento...</div>
+    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+      <button class="btn-main btn-print" style="flex:1.2;" onclick="printStatsReport()">🖨️ Stampa Report</button>
+      <button class="btn-note" onclick="resetCurrentEvening()">🌙 Chiudi Serata</button>
+      <button class="btn-note" style="background:#FEE2E2; color:#991B1B;" onclick="resetAllHistory()">🗑️ Reset</button>
+    </div>
+  </div>
+
+  <div class="cart-section">
+    <h3 style="margin-bottom:8px;">☁️ Firebase & Stampante</h3>
+    <div style="display:flex; gap:6px; margin-bottom:10px;">
+      <input type="text" id="firebaseUrlInput" class="form-control" placeholder="URL Firebase">
+      <button class="btn-note" onclick="saveFirebaseUrl()">Salva</button>
+    </div>
+    <label style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.9rem;">
+      <input type="checkbox" id="chkRawbt" onchange="toggleRawbtSetting()" style="width:18px; height:18px;">
+      Usa RawBT Diretto su Epson TM-m30III
+    </label>
+  </div>
+
+  <div class="cart-section">
+    <h3 style="margin-bottom:10px;">📋 Catalogo (<span id="menuCountLbl">0</span> voci)</h3>
+    <div id="menuMgrList"></div>
+  </div>
+</div>
+
+<!-- MODALE MODIFICHE / NOTE PORTATA -->
+<div class="modal-overlay" id="noteModal">
+  <div class="receipt-box">
+    <h3 style="margin-bottom:4px; color:var(--logo-coral);">✏️ Modifica Portata</h3>
+    <div id="noteDishTitle" style="font-size:0.84rem; font-weight:800; color:#062329; margin-bottom:8px;"></div>
+    <div style="font-size:0.72rem; font-weight:800; color:var(--muted);">Tasti rapidi (tocca per aggiungere):</div>
+    <div class="chip-grid">
+      <span class="note-chip" onclick="appendNoteChip('Senza aglio')">🚫 Senza aglio</span>
+      <span class="note-chip" onclick="appendNoteChip('Senza cipolla')">🚫 Senza cipolla</span>
+      <span class="note-chip" onclick="appendNoteChip('Senza prezzemolo')">🚫 No prezzemolo</span>
+      <span class="note-chip" onclick="appendNoteChip('Senza glutine')">🌾 Senza glutine</span>
+      <span class="note-chip" onclick="appendNoteChip('Senza lattosio')">🥛 No lattosio</span>
+      <span class="note-chip" onclick="appendNoteChip('Ben cotto')">🔥 Ben cotto</span>
+      <span class="note-chip" onclick="appendNoteChip('Poco sale')">🧂 Poco sale</span>
+      <span class="note-chip" onclick="appendNoteChip('Senza peperoncino')">🌶️ No piccante</span>
+      <span class="note-chip" onclick="appendNoteChip('Diviso in 2')">🍽️ Diviso in 2</span>
+      <span class="note-chip" onclick="appendNoteChip('⚠️ ALLERGIA')">⚠️ ALLERGIA</span>
+    </div>
+    <input type="text" id="noteInputBox" class="form-control" placeholder="Scrivi qui la modifica (es. senza majo, ben cotto)...">
+    <label id="splitPortionWrap" style="display:none; align-items:center; gap:8px; margin-top:10px; font-size:0.8rem; font-weight:800; color:#062329;">
+      <input type="checkbox" id="chkSplitPortion" style="width:17px; height:17px;" checked>
+      Applica solo a 1 porzione (separa dal resto)
+    </label>
+    <div class="modal-actions">
+      <button class="btn-modal" style="background:#10b981; color:#fff;" onclick="saveDishNote()">💾 Salva Nota</button>
+      <button class="btn-modal" style="background:#EF4444; color:#fff; flex:0.6;" onclick="clearDishNote()">Pulisci</button>
+      <button class="btn-modal" style="background:#334155; color:#fff; flex:0.6;" onclick="closeNoteModal()">Chiudi</button>
     </div>
   </div>
 </div>
 
-<!-- MODALE NOTA PORTATA CON CHIP E SEPARAZIONE 1 PORZIONE -->
-<div id="noteModal" class="modal-backdrop hidden no-print">
-  <div class="modal modal-sm">
-    <div class="m-head">
-      <span id="noteModalTitle" style="font-weight:900;">✏️ Nota Portata</span>
-      <button class="btn" onclick="closeNoteModal()">✖</button>
-    </div>
-    <div style="padding:14px;">
-      <div style="font-size:12px;font-weight:800;margin-bottom:6px;color:#374151;">Chip Rapidi Cucina:</div>
-      <div id="noteChipsBox" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;"></div>
-      <input id="noteCustomInput" class="input" placeholder="Scrivi nota libera (es. cottura, intolleranza...)" style="margin-bottom:10px;">
-      <label id="splitOneWrap" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;background:#FEF3C7;padding:8px 10px;border-radius:8px;margin-bottom:12px;cursor:pointer;">
-        <input type="checkbox" id="splitOneCheck" style="width:18px;height:18px;">
-        <span>Applica solo a 1 porzione (separa dal resto)</span>
-      </label>
-      <div style="display:flex;justify-content:flex-end;gap:6px;">
-        <button class="btn btn-outline" onclick="clearItemNote()">Pulisci</button>
-        <button class="btn btn-green" onclick="saveItemNote()">💾 Salva Nota</button>
-      </div>
-    </div>
+<div class="modal-overlay" id="pagerModal">
+  <div class="receipt-box" style="text-align:center;">
+    <h3 style="margin-bottom:8px; color:var(--logo-coral);">🔔 Cercapersone Sala</h3>
+    <select id="pagerTarget" class="form-control" style="margin-bottom:8px;">
+      <option value="TUTTI">📢 TUTTI I CAMERIERI</option>
+      <option value="Alice">👤 Solo Alice</option>
+      <option value="Serena">👤 Solo Serena</option>
+    </select>
+    <button class="btn-main btn-bill" onclick="sendPagerCall('🔥 Piatti pronti al Pass!')" style="width:100%; margin-bottom:6px;">🔥 Piatti pronti al Pass!</button>
+    <button class="btn-modal" style="background:#334155; color:#fff; width:100%;" onclick="closePagerModal()">Annulla</button>
   </div>
 </div>
 
-<!-- MODALE DIVIDI CONTO -->
-<div id="splitModal" class="modal-backdrop hidden no-print">
-  <div class="modal modal-sm">
-    <div class="m-head">
-      <span style="font-weight:900;">👥 Dividi Conto</span>
-      <button class="btn" onclick="closeSplitModal()">✖</button>
-    </div>
-    <div style="padding:14px;">
-      <div style="background:#F3F4F6;padding:10px;border-radius:10px;margin-bottom:12px;">
-        <div style="font-weight:800;font-size:13px;margin-bottom:6px;">➗ Alla Romana (Quote Uguali)</div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <span>Persone:</span>
-          <input id="splitPeopleInput" type="number" min="2" max="50" value="2" class="input" style="width:80px;" oninput="updateSplitCalculation()">
-          <span id="splitPerPersonResult" style="font-weight:900;font-size:16px;color:var(--bg-deep);margin-left:auto;">€ 0.00 / testa</span>
-        </div>
-      </div>
-      <div style="font-weight:800;font-size:13px;margin-bottom:6px;">🧾 Oppure seleziona portate da pagare a parte:</div>
-      <div id="splitItemsList" style="max-height:220px;overflow-y:auto;border:1px solid #E5E7EB;border-radius:8px;padding:6px;margin-bottom:10px;"></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div>Selezionato: <strong id="splitSelectedTotal" style="color:var(--logo-coral);font-size:17px;">€ 0.00</strong></div>
-        <div style="display:flex;gap:6px;">
-          <button class="btn btn-warn" onclick="printPartialSplit()">🖨️ Stampa Quota</button>
-          <button class="btn btn-green" onclick="payAndRemoveSelectedSplit()">✅ Incassa Selezionati</button>
-        </div>
-      </div>
+<div class="modal-overlay" id="receiptModal">
+  <div class="receipt-box">
+    <div class="receipt-pre" id="receiptText"></div>
+    <div class="modal-actions">
+      <button class="btn-modal" style="background:#10b981; color:#fff;" onclick="triggerRawBTFromModal()">Stampa</button>
+      <button class="btn-modal" style="background:#334155; color:#fff;" onclick="closeReceiptModal()">Chiudi</button>
     </div>
   </div>
 </div>
-
-<!-- MODALE UNISCI TAVOLI -->
-<div id="mergeModal" class="modal-backdrop hidden no-print">
-  <div class="modal modal-sm">
-    <div class="m-head">
-      <span style="font-weight:900;">🔀 Unisci Tavoli</span>
-      <button class="btn" onclick="closeMergeModal()">✖</button>
-    </div>
-    <div style="padding:14px;">
-      <p style="font-size:12px;color:#4B5563;margin-bottom:10px;">Sposta tutte le portate e l'etichetta del tavolo sorgente dentro il tavolo destinazione.</p>
-      <div style="margin-bottom:10px;">
-        <label style="font-size:12px;font-weight:800;">Tavolo Sorgente:</label>
-        <select id="mergeFromSel" class="input"></select>
-      </div>
-      <div style="margin-bottom:12px;">
-        <label style="font-size:12px;font-weight:800;">Tavolo Destinazione:</label>
-        <select id="mergeToSel" class="input"></select>
-      </div>
-      <button class="btn btn-green" style="width:100%;" onclick="confirmMergeTables()">🔀 Conferma Unione Tavoli</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODALE CONFIGURAZIONE NUMERO TAVOLI SALE -->
-<div id="roomConfigModal" class="modal-backdrop hidden no-print">
-  <div class="modal modal-sm">
-    <div class="m-head">
-      <span style="font-weight:900;">⚙️ Configurazione Sale</span>
-      <button class="btn" onclick="closeRoomConfigModal()">✖</button>
-    </div>
-    <div style="padding:14px;">
-      <div style="margin-bottom:8px;"><label style="font-size:12px;font-weight:800;">🏠 Numero Tavoli Sala Interna:</label><input id="cfgInterna" type="number" min="1" max="40" class="input"></div>
-      <div style="margin-bottom:8px;"><label style="font-size:12px;font-weight:800;">🌴 Numero Tavoli Sala Esterna:</label><input id="cfgEsterna" type="number" min="1" max="40" class="input"></div>
-      <div style="margin-bottom:12px;"><label style="font-size:12px;font-weight:800;">🛍️ Numero Postazioni Asporto:</label><input id="cfgAsporto" type="number" min="1" max="30" class="input"></div>
-      <button class="btn btn-green" style="width:100%;" onclick="saveRoomConfig()">💾 Salva Configurazione Sale</button>
-    </div>
-  </div>
-</div>
+</div><!-- fine posAppWrapper -->
 
 <script>
+const SKULL_SVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C7.03 2 3 5.8 3 10.5c0 2.78 1.4 5.23 3.57 6.77V20c0 .55.45 1 1 1h1.93v-2h1.5v2h2v-2h1.5v2h1.93c.55 0 1-.45 1-1v-2.73C19.6 15.73 21 13.28 21 10.5 21 5.8 16.97 2 12 2zm-3.5 9.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.5 3.5l-1.5-2.5h3L12 15zm3.5-3.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>`;
+
+const CHALKBOARD_OCT12_TEXT = [
+  "Polpette di granchio blu su salsa di zucca e olio alla salvia 14,00",
+  "Alicette impanate e fritte con majo al prezzemolo 13,00",
+  "Cozze gratinate con formaggio gregoriano, ventricina ed erbe aromatiche 13,00",
+  "Alici marinate, peperone dolce di Altino e pere croccanti 15,00",
+  "Soutè di cozze profumato all'alloro 13,00",
+  "Tagliere di salumi artigianali abruzzesi 18,00",
+  "Pallotte cace e ove 12,00",
+  "Prosciutto crudo di manzo Gregorio Rotolo con champignon crudo e senape in grani 16,00",
+  "Rigatoro affumicato Verrigni con alicette fresche, pane croccante alle erbe e olio al finocchietto 14,00",
+  "Qubetto Verrigni alle vongole e crema di rape 14,00",
+  "Linguina al limone Verrigni con cozze 13,00",
+  "Fish & Chips Adriatico (nasello in pastella di riso, chips di patate di Avezzano, salsa ai cetrioli, capperi e prezzemolo) 20,00",
+  "Sgombro al carbone con dressing al pomodoro confit, cipolle e capperi 18,00",
+  "Frittura di totanetti spillo freschi 17,00",
+  "Baccalà in vasocottura con patate, peperoni arrosto, olive e timo 16,00",
+  "Braciola di pecora al carbone con cicorietta saltata 18,00",
+  "Maiale Nero Peligno al carbone con cicorietta saltata 20,00",
+  "Cicorietta saltata 6,00",
+  "Zafferamisù (tiramisù alla ricotta di pecora e zafferano) 7,00",
+  "Cantucci alle mandorle con liquore Sottosopra 7,00",
+  "Plateau di formaggi artigianali abruzzesi 18,00"
+].join("\n");
+
+(function setupBuiltInPWA() {
+  try {
+    const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="110" fill="#2ECC71"/><circle cx="256" cy="235" r="145" fill="#1BE7FF" stroke="#FF5733" stroke-width="16"/><path d="M170 235 C210 185, 290 185, 345 235 C290 285, 210 285, 170 235 Z" fill="#FF5733"/><polygon points="335,235 375,200 368,235 375,270" fill="#FF5733"/><circle cx="200" cy="228" r="9" fill="#1BE7FF"/><rect x="86" y="395" width="340" height="70" rx="35" fill="#FF5733" stroke="#ffffff" stroke-width="8"/><text x="256" y="442" font-family="Arial,sans-serif" font-size="38" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="2">ALICETTA</text></svg>`;
+    const iconDataUrl = "data:image/svg+xml;utf8," + encodeURIComponent(svgIcon);
+    document.getElementById('favIcon').href = iconDataUrl;
+    document.getElementById('appleIcon').href = iconDataUrl;
+    const manifestObj = {
+      name: "Alicetta TableZ 1.0", short_name: "Alicetta POS",
+      start_url: window.location.origin + window.location.pathname,
+      scope: window.location.origin + window.location.pathname,
+      display: "fullscreen", orientation: "any", background_color: "#2ECC71", theme_color: "#2ECC71",
+      icons: [{ src: iconDataUrl, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }]
+    };
+    document.getElementById('pwaManifest').href = URL.createObjectURL(new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' }));
+  } catch (e) {}
+})();
+
+function toggleFullScreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+  else if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+}
+
+const DEFAULT_FIREBASE_URL = "https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app";
+const CATEGORIES = ["1 Coperto", "2 Bevande", "3 Antipasti", "4 Primi Piatti", "5 Secondi", "6 Desserts"];
+const MANDATE_LABELS = { 0: "SUBITO / BEVANDE", 1: "1ª MANDATA", 2: "2ª MANDATA", 3: "3ª MANDATA", 4: "4ª MANDATA" };
+const MANDATA_TO_CAT = { 0: "1 Coperto", 1: "3 Antipasti", 2: "4 Primi Piatti", 3: "5 Secondi", 4: "6 Desserts" };
+const DELAY_LIMIT_MS = 20 * 60 * 1000;
+
+const RAW_MENU = [
+  [101,0,"Pane e Coperto",3],
+  [201,1,"Acqua Frizzante",3],[202,1,"Acqua Naturale",3],[203,1,"Birra Nabò",6],[204,1,"CAPO LE VIGNE CERASUOLO D'ABRUZZO DOC",24],
+  [205,1,"Caffè",2.5],[206,1,"Caffè Corretto",3.5],[207,1,"Caffè Deca",2.5],[208,1,"Calice Bianco",4],[209,1,"Calice Cerasuolo",4],
+  [210,1,"Calice Rosso",4],[211,1,"Carasuolo Terre di Poggio",15],[212,1,"Cerasuolo Ferzo",18],[213,1,"Cerasuolo Superiore Fossimatto Fontefico",35],
+  [214,1,"Coca Cola",3],[215,1,"Collefrisio Filare Trebbiano",20],[216,1,"Collefrisio Trebbiano",20],[217,1,"Dire Bere Baciare Fontefico",40],
+  [218,1,"Febbre d'Abruzzo Fontefico",40],[219,1,"IAVA CERASUOLO D'ABRUZZO DOC",18],[220,1,"IAVA CHARDONNAY IGT TERRE D'ABRUZZO",18],
+  [221,1,"IAVA PASSERINA IGT TERRE D'ABRUZZO",18],[222,1,"ICONIC MAIOLICA IGP TERRE D'ABRUZZO",20],[223,1,"KRIYA TREBBIANO D'ABRUZZO DOC",18],
+  [224,1,"Liquore Artigianale Abruzzese",3.5],[225,1,"Maleducato 11",30],[226,1,"Maleducato Blondie",24],[227,1,"Maleducato rosato",24],
+  [228,1,"Margento Orange Simigliani",24],[229,1,"Metodo Classico Fenaroli",30],[230,1,"Montepulciano Terre di Poggio",15],[231,1,"Pane al Pane Fontefico",40],
+  [232,1,"Passerina Passo Cale",16],[233,1,"Passo Cale Montepulciano",18],[234,1,"Pecorino Chicchi Bio",18],[235,1,"Pecorino Colline Rurabiliandia",15],
+  [236,1,"Pecorino Passo Cale",16],[237,1,"Pecorino Superiore Canaglia Fontefico",35],[238,1,"Pecorino Terre di Poggio",14],[239,1,"Pinto 11 Montepulciano",26],
+  [240,1,"Rurabilandia Pecorino",15],[241,1,"Trabocco Cerasuolo Charmat",18],[242,1,"Trabocco Pecorino Charmat",18],[243,1,"Trebbiano Collefrisio",22],
+  [301,2,"Alici marinate, peperone dolce di Altino e pere croccanti",15],
+  [302,2,"Alicette impanate e fritte con majo al prezzemolo",13],
+  [303,2,"Cetrioli",4],
+  [304,2,"Cozze gratinate con formaggio gregoriano, ventricina ed erbe aromatiche",13],
+  [305,2,"Prosciutto crudo di manzo Gregorio Rotolo con champignon crudo e senape in grani",16],
+  [306,2,"Insalata Pomodori",6],[307,2,"La Marrocca",6],[308,2,"Menù cena aziendale",33.5],
+  [309,2,"Pallotte cace e ove",12],[310,2,"Patatine Fritte",6],
+  [311,5,"Plateau di formaggi artigianali abruzzesi",18],
+  [312,2,"Polpette di granchio blu su salsa di zucca e olio alla salvia",14],
+  [313,2,"Pomodori e Cetrioli",6],
+  [314,2,"Soutè di cozze profumato all'alloro",13],
+  [315,2,"Soutè di Vongole",15],
+  [316,2,"Tagliere di salumi artigianali abruzzesi",18],
+  [317,4,"Cicorietta saltata",6],
+  [401,3,"Qubetto Verrigni alle vongole e crema di rape",14],
+  [402,3,"Cubetto Totanetto",14],
+  [403,3,"Linguina al limone Verrigni con cozze",13],
+  [404,3,"Linguina ragù Panocchie",16],[405,3,"Pacchero Ragù Granchi",16],[406,3,"Pasta all' Olio",7],
+  [407,3,"Rigatoro affumicato Verrigni con alicette fresche, pane croccante alle erbe e olio al finocchietto",14],
+  [408,3,"Spaghetti aglio e peperoncino Vongole",13],[409,3,"Sugo Bimbi",9],
+  [501,4,"Baccalà in vasocottura con patate, peperoni arrosto, olive e timo",16],
+  [502,4,"Braciola di pecora al carbone con cicorietta saltata",18],
+  [503,4,"Fish & Chips Adriatico (nasello in pastella di riso, chips di patate di Avezzano, salsa ai cetrioli, capperi e prezzemolo)",20],
+  [504,4,"Frittura di totanetti spillo freschi",17],
+  [505,4,"Maiale Nero Peligno al carbone con cicorietta saltata",20],
+  [506,4,"Sgombro al carbone con dressing al pomodoro confit, cipolle e capperi",18],
+  [601,5,"Cantucci alle mandorle con liquore Sottosopra",7],
+  [602,5,"Mousse al cioccolato",6],[603,5,"Pizzelle",5],
+  [604,5,"Zafferamisù (tiramisù alla ricotta di pecora e zafferano)",7]
+];
+const DEFAULT_MENU = RAW_MENU.map(r => ({ id: r[0], cat: CATEGORIES[r[1]], name: r[2], price: r[3] }));
 const STORAGE_KEY = 'alicetta_pos_v9';
-const DEFAULT_FB_URL = 'https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app';
-
-const DEFAULT_12_OCT_CHALKBOARD = `Antipasti
-Polpette di granchio blu su salsa di zucca e olio alla salvia - 14
-Alicette impanate e fritte con majo al prezzemolo - 13
-Cozze gratinate con formaggio gregoriano, ventricina ed erbe aromatiche - 13
-Alici marinate, peperone dolce di Altino e pere croccanti - 15
-Soutè di cozze profumato all'alloro - 13
-Tagliere di salumi artigianali abruzzesi - 18
-Pallotte cace e ove - 12
-Prosciutto crudo di manzo Gregorio Rotolo con champignon crudo e senape in grani - 16
-
-Primi
-Rigatoro affumicato Verrigni con alicette fresche, pane croccante alle erbe e olio al finocchietto - 14
-Qubetto Verrigni alle vongole e crema di rape - 14
-Linguina al limone Verrigni con cozze - 13
-
-Secondi
-Fish & Chips Adriatico (nasello in pastella di riso, chips di patate di Avezzano, salsa ai cetrioli, capperi e prezzemolo) - 20
-Sgombro al carbone con dressing al pomodoro confit, cipolle e capperi - 18
-Frittura di totanetti spillo freschi - 17
-Baccalà in vasocottura con patate, peperoni arrosto, olive e timo - 16
-Braciola di pecora al carbone con cicorietta saltata - 18
-Maiale Nero Peligno al carbone con cicorietta saltata - 20
-Cicorietta saltata - 6
-
-Dessert
-Zafferamisù (tiramisù alla ricotta di pecora e zafferano) - 7
-Cantucci alle mandorle con liquore Sottosopra - 7
-Plateau di formaggi artigianali abruzzesi - 18`;
-
-const BASE_WINES_AND_DRINKS = [
-  {id:'coperto',name:'Coperto',price:3,cat:'1 Coperto',sub:''},
-  // Bollicine & Metodo Classico
-  {id:'w1',name:'Spumante Brut Cococciola Abruzzo',price:20,cat:'2 Bevande',sub:'Bollicine & Metodo Classico'},
-  {id:'w2',name:'Metodo Classico Pas Dosé Abruzzo',price:32,cat:'2 Bevande',sub:'Bollicine & Metodo Classico'},
-  {id:'w3',name:'Prosecco Superiore Valdobbiadene DOCG',price:22,cat:'2 Bevande',sub:'Bollicine & Metodo Classico'},
-  {id:'w4',name:'Franciacorta Brut DOCG',price:38,cat:'2 Bevande',sub:'Bollicine & Metodo Classico'},
-  // Vini Bianchi & Orange
-  {id:'w5',name:'Pecorino Superiore DOC Abruzzo',price:20,cat:'2 Bevande',sub:'Vini Bianchi & Orange'},
-  {id:'w6',name:'Cococciola Superiore Terre di Chieti IGT',price:19,cat:'2 Bevande',sub:'Vini Bianchi & Orange'},
-  {id:'w7',name:'Trebbiano d\'Abruzzo DOC Artigianale',price:22,cat:'2 Bevande',sub:'Vini Bianchi & Orange'},
-  {id:'w8',name:'Passerina Terre di Chieti IGT',price:18,cat:'2 Bevande',sub:'Vini Bianchi & Orange'},
-  {id:'w9',name:'Orange Wine Macerato Non Filtrato d\'Abruzzo',price:28,cat:'2 Bevande',sub:'Vini Bianchi & Orange'},
-  // Cerasuoli & Rosati
-  {id:'w10',name:'Cerasuolo d\'Abruzzo DOC Superiore',price:20,cat:'2 Bevande',sub:'Cerasuoli & Rosati'},
-  {id:'w11',name:'Cerasuolo d\'Abruzzo DOC Artigianale in Anfora',price:26,cat:'2 Bevande',sub:'Cerasuoli & Rosati'},
-  {id:'w12',name:'Rosato Costa dei Trabocchi IGT',price:18,cat:'2 Bevande',sub:'Cerasuoli & Rosati'},
-  // Vini Rossi & Montepulciano
-  {id:'w13',name:'Montepulciano d\'Abruzzo DOC',price:20,cat:'2 Bevande',sub:'Vini Rossi & Montepulciano'},
-  {id:'w14',name:'Montepulciano d\'Abruzzo Riserva DOCG',price:30,cat:'2 Bevande',sub:'Vini Rossi & Montepulciano'},
-  // Calici
-  {id:'w15',name:'Calice Vino Bianco / Pecorino / Cococciola',price:5,cat:'2 Bevande',sub:'Calici'},
-  {id:'w16',name:'Calice Cerasuolo d\'Abruzzo',price:5,cat:'2 Bevande',sub:'Calici'},
-  {id:'w17',name:'Calice Montepulciano d\'Abruzzo',price:5,cat:'2 Bevande',sub:'Calici'},
-  {id:'w18',name:'Calice Bollicine Brut',price:6,cat:'2 Bevande',sub:'Calici'},
-  // Birre, Bevande & Liquori
-  {id:'b1',name:'Acqua Naturale 75cl',price:2.5,cat:'2 Bevande',sub:'Birre, Bevande & Liquori'},
-  {id:'b2',name:'Acqua Frizzante 75cl',price:2.5,cat:'2 Bevande',sub:'Birre, Bevande & Liquori'},
-  {id:'b3',name:'Birra Artigianale Bionda 33cl',price:5,cat:'2 Bevande',sub:'Birre, Bevande & Liquori'},
-  {id:'b4',name:'Birra Artigianale IPA / Blanche 33cl',price:5.5,cat:'2 Bevande',sub:'Birre, Bevande & Liquori'},
-  {id:'b5',name:'Coca Cola / Fanta / Sprite 33cl',price:3,cat:'2 Bevande',sub:'Birre, Bevande & Liquori'},
-  {id:'b6',name:'Caffè Espresso',price:1.5,cat:'2 Bevande',sub:'Birre, Bevande & Liquori'},
-  {id:'b7',name:'Liquore Sottosopra / Genziana / Ratafià',price:4,cat:'2 Bevande',sub:'Birre, Bevande & Liquori'},
-  {id:'b8',name:'Amaro Artigianale / Grappa',price:4,cat:'2 Bevande',sub:'Birre, Bevande & Liquori'}
-];
-
-const QUICK_NOTES = ['Senza aglio','Senza cipolla','No prezzemolo','Senza glutine','No lattosio','Ben cotto','Poco sale','No piccante','Diviso in 2','⚠️ ALLERGIA'];
-
-const COURSES = [
-  {id:0,label:'0: ⚡ Subito/Bevande',defaultCat:'2 Bevande'},
-  {id:1,label:'1ª Mandata',defaultCat:'3 Antipasti'},
-  {id:2,label:'2ª Mandata',defaultCat:'4 Primi Piatti'},
-  {id:3,label:'3ª Mandata',defaultCat:'5 Secondi'},
-  {id:4,label:'4ª Mandata',defaultCat:'6 Desserts'}
-];
-
-const CATEGORIES = ['1 Coperto','2 Bevande','3 Antipasti','4 Primi Piatti','5 Secondi','6 Desserts'];
-
-const EU_ALLERGENS = [
-  {code:'1. Glutine',keys:['rigatoro','qubetto','linguina','verrigni','pane','impanate','cantucci','farina','fritt','birra']},
-  {code:'2. Crostacei',keys:['granchio','gamber','scamp','crostace']},
-  {code:'3. Uova',keys:['majo','maionese','pallotte','ove','uova','zafferamisù','tiramisù','cantucci','impanate']},
-  {code:'4. Pesce',keys:['alicette','alici','nasello','fish','sgombro','baccalà','pesce']},
-  {code:'5. Arachidi',keys:['arachid']},
-  {code:'6. Soia',keys:['soia']},
-  {code:'7. Latte e Lattosio',keys:['formaggio','formaggi','gregoriano','pallotte','cace','ricotta','zafferamisù','tiramisù','latte','burro']},
-  {code:'8. Frutta a guscio',keys:['mandorle','noci','pistacch','nocciol']},
-  {code:'9. Sedano',keys:['sedano']},
-  {code:'10. Senape',keys:['senape']},
-  {code:'11. Semi di sesamo',keys:['sesamo']},
-  {code:'12. Solfiti',keys:['marinate','vino','aceto','sottosopra','liquore']},
-  {code:'13. Lupini',keys:['lupini']},
-  {code:'14. Molluschi',keys:['cozze','vongole','totanetti','calamar','polpo','seppi']}
-];
 
 let state = {
-  fbUrl: DEFAULT_FB_URL,
-  rooms: { interna: 11, esterna: 5, asporto: 5 },
-  tables: {},
-  catalog: [],
-  chalkboardRaw: DEFAULT_12_OCT_CHALKBOARD,
-  history: [],
-  bellTrigger: 0,
-  updatedAt: 0
+  currentRoom: 'interna', activeTableId: null, currentMandata: 1, currentCategory: '1 Coperto',
+  reportPeriod: 'daily', useRawBT: false, firebaseUrl: DEFAULT_FIREBASE_URL, waiterName: 'Christian',
+  geminiKey: '', editingLineId: null,
+  tableCounts: { interna: 11, esterna: 5, asporto: 5 }, dailyChalkboard: [],
+  lastEscPosPayload: '', lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null,
+  menu: [], tables: {}, historyLog: []
 };
+let audioCtx = null, toastTimer = null;
 
-let currentUser = 'Christian';
-let currentView = 'tables';
-let currentRoom = 'interna';
-let activeTableKey = null;
-let selectedCourse = 1;
-let selectedCat = '3 Antipasti';
-let editingNoteIdx = null;
-let lastBellPlayed = 0;
-let currentPortalTab = 'giorno';
-let isCustomerReadOnlyMode = false;
-
-function parseChalkboardToItems(rawText) {
-  const lines = (rawText || '').split('\n').map(l => l.trim()).filter(Boolean);
-  let curCat = '3 Antipasti';
-  const items = [];
-  lines.forEach((line, idx) => {
-    const low = line.toLowerCase();
-    if (low === 'antipasti' || low.startsWith('antipast')) { curCat = '3 Antipasti'; return; }
-    if (low === 'primi' || low.startsWith('primi')) { curCat = '4 Primi Piatti'; return; }
-    if (low === 'secondi' || low.startsWith('secondi')) { curCat = '5 Secondi'; return; }
-    if (low === 'dessert' || low.startsWith('dessert') || low.startsWith('dolci')) { curCat = '6 Desserts'; return; }
-    const m = line.match(/^(.*?)\s*[-–—]\s*(\d+(?:[.,]\d+)?)\s*€?$/);
-    if (m) {
-      items.push({
-        id: 'lav_' + idx + '_' + m[1].slice(0,10).replace(/\W+/g,''),
-        name: m[1].trim(),
-        price: parseFloat(m[2].replace(',','.')),
-        cat: curCat,
-        sub: 'Lavagnetta'
-      });
-    }
-  });
-  return items;
-}
-
-function buildDefaultCatalog(rawChalkboard) {
-  const lavItems = parseChalkboardToItems(rawChalkboard || DEFAULT_12_OCT_CHALKBOARD);
-  return [...BASE_WINES_AND_DRINKS, ...lavItems];
-}
-
-function initTablesStructure() {
-  ['interna','esterna','asporto'].forEach(r => {
-    const count = state.rooms[r] || (r==='interna'?11:5);
-    for (let i=1; i<=count; i++) {
-      const k = `${r}_${i}`;
-      if (!state.tables[k]) {
-        state.tables[k] = {
-          key: k, room: r, num: i,
-          label: r==='asporto' ? `Asporto ${i}` : `Tavolo ${i}`,
-          items: [], doneCourses: {},
-          kitchenOpenedAt: null,
-          customerName: '', pickupTime: ''
-        };
-      }
-    }
-  });
-}
-
-function loadLocalState() {
+function unlockAudioOnce() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      state = Object.assign(state, parsed);
-    }
-  } catch(e) { console.warn(e); }
-  if (!state.fbUrl) state.fbUrl = DEFAULT_FB_URL;
-  if (!state.chalkboardRaw) state.chalkboardRaw = DEFAULT_12_OCT_CHALKBOARD;
-  if (!state.catalog || state.catalog.length < 10) {
-    state.catalog = buildDefaultCatalog(state.chalkboardRaw);
-  }
-  initTablesStructure();
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  } catch (e) {}
 }
 
-function saveState(pushRemote = true) {
-  state.updatedAt = Date.now();
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  if (pushRemote) pushToFirebase();
-  renderAll();
-}
-
-async function pushToFirebase() {
-  if (!state.fbUrl) return;
-  const badge = document.getElementById('syncBadge');
+function playKitchenBell() {
   try {
-    const url = state.fbUrl.replace(/\/$/,'') + '/pos_state.json';
-    const res = await fetch(url, {
-      method: 'PUT',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(state)
-    });
-    if (res.ok && badge) { badge.textContent = 'LIVE'; badge.classList.remove('off'); }
-  } catch(e) {
-    if (badge) { badge.textContent = 'OFFLINE'; badge.classList.add('off'); }
-  }
-}
-
-async function syncFromFirebase(manual = false) {
-  if (!state.fbUrl) return;
-  const badge = document.getElementById('syncBadge');
-  try {
-    const url = state.fbUrl.replace(/\/$/,'') + '/pos_state.json';
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const remote = await res.json();
-    if (remote && (manual || !state.updatedAt || (remote.updatedAt && remote.updatedAt > state.updatedAt))) {
-      if (remote.bellTrigger && remote.bellTrigger > lastBellPlayed && lastBellPlayed !== 0) {
-        playBellSound();
-      }
-      lastBellPlayed = remote.bellTrigger || Date.now();
-      state = Object.assign(state, remote);
-      initTablesStructure();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      renderAll();
-      if (isCustomerReadOnlyMode) renderPortalDoc(currentPortalTab);
-    }
-    if (badge) { badge.textContent = 'LIVE'; badge.classList.remove('off'); }
-  } catch(e) {
-    if (badge) { badge.textContent = 'LOCAL'; badge.classList.add('off'); }
-  }
-}
-
-function playBellSound() {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    [880, 1174.66, 1318.5].forEach((freq, idx) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+    unlockAudioOnce();
+    const now = audioCtx.currentTime;
+    [1318.5, 1046.5].forEach((freq, idx) => {
+      const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.12);
-      gain.gain.setValueAtTime(0.28, ctx.currentTime + idx * 0.12);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.12 + 0.45);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(ctx.currentTime + idx * 0.12);
-      osc.stop(ctx.currentTime + idx * 0.12 + 0.45);
+      osc.frequency.setValueAtTime(freq, now + idx * 0.22);
+      gain.gain.setValueAtTime(0.001, now + idx * 0.22);
+      gain.gain.exponentialRampToValueAtTime(0.9, now + idx * 0.22 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.22 + 0.55);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(now + idx * 0.22); osc.stop(now + idx * 0.22 + 0.6);
     });
-  } catch(e) {}
+  } catch (e) {}
 }
 
-function triggerKitchenBell(manualToast = false) {
-  state.bellTrigger = Date.now();
-  lastBellPlayed = state.bellTrigger;
-  playBellSound();
-  saveState(true);
-  if (manualToast) alert('🔔 Campanella inviata a tutti i dispositivi!');
+async function enableKdsTabletMode() {
+  try {
+    unlockAudioOnce();
+    const btn = document.getElementById('btnKdsAudio');
+    if(btn) { btn.textContent = "✅ ATTIVO"; btn.classList.add('on'); }
+    playKitchenBell();
+  } catch (e) { playKitchenBell(); }
 }
 
-function hasPendingSentCourses(t) {
-  if (!t || !t.items || !t.items.length) return false;
-  const sentItems = t.items.filter(i => i.sent === true);
-  if (!sentItems.length) return false;
-  const done = t.doneCourses || {};
-  return sentItems.some(i => !done[i.course]);
+function makeTableObj(id, name, room) {
+  return { id, name, baseName: name, room, items: [], openedAt: 0, pickupTime: '', customerName: '', firedMandate: {1:false,2:false,3:false,4:false}, firedAt: {1:0,2:0,3:0,4:0}, doneMandate: {1:false,2:false,3:false,4:false} };
+}
+
+function buildDefaultTables(counts) {
+  const c = counts || state.tableCounts || { interna: 11, esterna: 5, asporto: 5 };
+  const t = {};
+  for (let i = 1; i <= (c.interna || 11); i++) t['INT_' + i] = makeTableObj('INT_' + i, 'Tavolo ' + i, 'interna');
+  for (let i = 1; i <= (c.esterna || 5); i++) t['EST_' + i] = makeTableObj('EST_' + i, 'Esterno ' + i, 'esterna');
+  for (let i = 1; i <= (c.asporto || 5); i++) t['ASP_' + i] = makeTableObj('ASP_' + i, 'Asporto ' + i, 'asporto');
+  return t;
+}
+
+function normalizeTablesStructure(tablesObj, counts) {
+  const c = counts || state.tableCounts || { interna: 11, esterna: 5, asporto: 5 };
+  const def = buildDefaultTables(c);
+  if (!tablesObj) return def;
+  Object.keys(def).forEach(k => {
+    if (tablesObj[k]) {
+      const tb = tablesObj[k];
+      def[k].items = Array.isArray(tb.items) ? tb.items : [];
+      def[k].name = tb.name || def[k].baseName;
+      def[k].firedMandate = tb.firedMandate || {1:false,2:false,3:false,4:false};
+      def[k].doneMandate = tb.doneMandate || {1:false,2:false,3:false,4:false};
+      def[k].pickupTime = tb.pickupTime || '';
+      def[k].customerName = tb.customerName || '';
+      def[k].openedAt = def[k].items.some(i => i.sent) ? (tb.openedAt || Date.now()) : 0;
+    }
+  });
+  return def;
+}
+
+function formatElapsed(ms) {
+  if (!ms || ms < 0) return "00:00";
+  const s = Math.floor(ms / 1000);
+  return String(Math.floor(s / 60)).padStart(2, '0') + ":" + String(s % 60).padStart(2, '0');
 }
 
 function isTableDelayed(t) {
-  if (!t || !t.kitchenOpenedAt) return false;
-  if (!hasPendingSentCourses(t)) return false;
-  return (Date.now() - t.kitchenOpenedAt) >= 20 * 60 * 1000;
+  if (!t || !t.items || !t.items.some(i => i.sent) || !t.openedAt) return false;
+  const hasUnfinishedMandata = [1, 2, 3, 4].some(m =>
+    t.items.some(i => i.sent && i.mandata === m && i.name !== 'Pane e Coperto') &&
+    !(t.doneMandate && t.doneMandate[m])
+  );
+  if (!hasUnfinishedMandata) return false;
+  return (Date.now() - t.openedAt) >= DELAY_LIMIT_MS;
 }
 
-function getSkullSvgHtml() {
-  return `<div class="skull-badge" title="Attesa > 20 minuti!">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="#111827">
-      <path d="M12 2C7.03 2 3 5.8 3 10.5c0 2.9 1.54 5.46 3.9 6.96V21c0 .55.45 1 1 1h8.2c.55 0 1-.45 1-1v-3.54c2.36-1.5 3.9-4.06 3.9-6.96C21 5.8 16.97 2 12 2zm-3 9.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3 4.5l-1.5-2h3L12 16zm3-4.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
-    </svg>
-  </div>`;
-}
-
-function onUserChange() {
-  currentUser = document.getElementById('userSelect').value;
-  const isAdmin = (currentUser === 'Christian');
-  document.getElementById('tabBtnMenu').classList.toggle('hidden', !isAdmin);
-  document.getElementById('btnPager').classList.toggle('hidden', !isAdmin);
-  if (!isAdmin && currentView === 'menu') switchView('tables');
-}
-
-function switchView(v) {
-  currentView = v;
-  ['tables','kds','menu'].forEach(name => {
-    document.getElementById('view' + name.charAt(0).toUpperCase() + name.slice(1)).classList.toggle('hidden', name !== v);
-    document.getElementById('tabBtn' + name.charAt(0).toUpperCase() + name.slice(1)).classList.toggle('active', name === v);
-  });
-  renderAll();
-}
-
-function switchRoom(r) {
-  currentRoom = r;
-  ['interna','esterna','asporto'].forEach(rm => {
-    document.getElementById('roomBtn_' + rm).classList.toggle('active', rm === r);
-  });
-  renderTablesGrid();
-}
-
-function renderAll() {
-  renderTablesGrid();
-  renderKdsGrid();
-  renderAdminMenuSection();
-}
-
-function renderTablesGrid() {
-  const grid = document.getElementById('tablesGrid');
-  if (!grid) return;
-  const max = state.rooms[currentRoom] || 5;
-  let html = '';
-  for (let i=1; i<=max; i++) {
-    const k = `${currentRoom}_${i}`;
-    const t = state.tables[k];
-    if (!t) continue;
-    const items = t.items || [];
-    const total = items.reduce((s, it) => s + it.price * it.qty, 0);
-    const unsentCount = items.filter(it => !it.sent).reduce((s, it) => s + it.qty, 0);
-    const sentCount = items.filter(it => it.sent).reduce((s, it) => s + it.qty, 0);
-    const delayed = isTableDelayed(t);
-    let cardCls = 't-card';
-    if (items.length > 0) cardCls += ' busy';
-    if (unsentCount > 0) cardCls += ' unsent';
-    if (delayed) cardCls += ' delayed';
-
-    let badgeHtml = `<span class="badge b-free">Libero</span>`;
-    if (unsentCount > 0) badgeHtml = `<span class="badge b-wait">⏳ ${unsentCount} da inviare</span>`;
-    else if (sentCount > 0) badgeHtml = `<span class="badge b-sent">✅ Inviato (${sentCount})</span>`;
-
-    let elapsedStr = '';
-    if (t.kitchenOpenedAt && hasPendingSentCourses(t)) {
-      const mins = Math.floor((Date.now() - t.kitchenOpenedAt) / 60000);
-      elapsedStr = `<div class="t-meta">⏱️ Cucina: ${mins} min</div>`;
-    }
-    let aspStr = '';
-    if (currentRoom === 'asporto' && (t.customerName || t.pickupTime)) {
-      aspStr = `<div class="t-meta">👤 ${t.customerName || '-'} 🕒 ${t.pickupTime || '--:--'}</div>`;
-    }
-
-    html += `<div class="${cardCls}" onclick="openOrderModal('${k}')">
-      ${delayed ? getSkullSvgHtml() : ''}
-      <div>
-        <div class="t-head">
-          <div class="t-name">${t.label}</div>
-          ${badgeHtml}
-        </div>
-        ${aspStr}
-        ${elapsedStr}
-      </div>
-      <div class="t-tot">
-        <span>€ ${total.toFixed(2)}</span>
-        <span style="font-size:11px;color:#6B7280;">${items.reduce((a,b)=>a+b.qty,0)} pz</span>
-      </div>
-    </div>`;
+function tickLiveTimers() {
+  const now = Date.now();
+  if (document.getElementById('viewTables').classList.contains('active')) {
+    Object.values(state.tables).filter(t => t.room === state.currentRoom && t.items && t.items.length > 0).forEach(t => {
+      const delayed = isTableDelayed(t);
+      const tEl = document.getElementById('timer_' + t.id);
+      if (tEl && t.openedAt) tEl.textContent = "⏱️ " + formatElapsed(now - t.openedAt);
+      const dEl = document.getElementById('delay_' + t.id);
+      if (dEl) dEl.style.display = delayed ? 'flex' : 'none';
+      const cEl = document.getElementById('card_' + t.id);
+      if (cEl) cEl.classList.toggle('delayed', delayed);
+    });
+  } else if (document.getElementById('viewKds').classList.contains('active')) {
+    Object.values(state.tables).filter(t => t.items && t.items.some(i => i.sent)).forEach(t => {
+      const kEl = document.getElementById('kds_timer_' + t.id);
+      if (kEl && t.openedAt) kEl.textContent = "⏱️ " + formatElapsed(now - t.openedAt);
+    });
   }
-  grid.innerHTML = html;
 }
 
-/* GESTIONE MODALE ORDINE */
-function openOrderModal(tableKey) {
-  activeTableKey = tableKey;
-  const t = state.tables[tableKey];
-  document.getElementById('mTableTitle').textContent = `${t.label} (${t.room.toUpperCase()})`;
+async function initApp() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      state.tableCounts = parsed.tableCounts || { interna: 11, esterna: 5, asporto: 5 };
+      state.menu = DEFAULT_MENU;
+      state.tables = normalizeTablesStructure(parsed.tables, state.tableCounts);
+      state.useRawBT = parsed.useRawBT || false;
+      state.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
+      state.waiterName = parsed.waiterName || 'Christian';
+      state.geminiKey = parsed.geminiKey || '';
+      state.historyLog = parsed.historyLog || [];
+    } else {
+      state.menu = DEFAULT_MENU;
+      state.tables = buildDefaultTables(state.tableCounts);
+    }
+  } catch (e) {
+    state.menu = DEFAULT_MENU;
+    state.tables = buildDefaultTables(state.tableCounts);
+  }
+  document.getElementById('chkRawbt').checked = state.useRawBT;
+  document.getElementById('firebaseUrlInput').value = state.firebaseUrl;
+  document.getElementById('geminiApiKeyInput').value = state.geminiKey;
+  document.getElementById('ocrResultBox').value = CHALKBOARD_OCT12_TEXT;
+
+  const params = new URLSearchParams(window.location.search);
+  const publicMode = params.get('menu');
+  if (publicMode === 'giorno' || publicMode === 'vini') {
+    document.getElementById('posAppWrapper').style.display = 'none';
+    document.getElementById('publicMenuViewer').style.display = 'block';
+    await pullFromCloud(true);
+    renderPublicMenuPage(publicMode);
+    return;
+  }
+
+  updateWaiterDisplay();
+  updateRoomTabCounts();
+  renderTables();
+  updateDailyStats();
+  setInterval(tickLiveTimers, 1000);
+  await pullFromCloud(true);
+  setInterval(() => pullFromCloud(false), 2000);
+}
+
+function renderPublicMenuPage(type) {
+  const box = document.getElementById('publicMenuContent');
+  if (type === 'vini') {
+    box.innerHTML = buildStyledWineListHTML();
+  } else {
+    const dishes = parseOcrBoxDishes();
+    box.innerHTML = buildStyledDailyMenuHTML(dishes);
+  }
+}
+
+function loadPresetChalkboardOct12() {
+  document.getElementById('ocrResultBox').value = CHALKBOARD_OCT12_TEXT;
+  const st = document.getElementById('ocrStatus');
+  st.style.display = 'block';
+  st.textContent = '✅ Caricati i 21 piatti della lavagnetta del 12 Ottobre!';
+}
+
+function saveGeminiKey() {
+  state.geminiKey = document.getElementById('geminiApiKeyInput').value.trim();
+  saveLocalOnly();
+}
+
+function logoutWaiter() {
+  const name = prompt("Cambia Utente (scrivi Christian per sbloccare Menù/Cercapersone):", state.waiterName);
+  if (name && name.trim()) { state.waiterName = name.trim(); saveLocalOnly(); updateWaiterDisplay(); }
+}
+
+function updateWaiterDisplay() {
+  const w = state.waiterName || 'Christian';
+  document.getElementById('waiterDisplay').textContent = "👤 " + w;
+  document.getElementById('currentWaiterBadge').textContent = w;
+  const isOwner = w.toLowerCase().trim() === 'christian';
+  document.getElementById('navMenu').style.display = isOwner ? 'block' : 'none';
+  document.getElementById('btnPager').style.display = isOwner ? 'block' : 'none';
+}
+
+function updateRoomTabCounts() {
+  document.getElementById('cntInt').textContent = state.tableCounts.interna;
+  document.getElementById('cntEst').textContent = state.tableCounts.esterna;
+  document.getElementById('cntAsp').textContent = state.tableCounts.asporto;
+  document.getElementById('cfgIntCount').value = state.tableCounts.interna;
+  document.getElementById('cfgEstCount').value = state.tableCounts.esterna;
+  document.getElementById('cfgAspCount').value = state.tableCounts.asporto;
+  populateMergeSelectors();
+}
+
+function saveLocalOnly() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    menu: state.menu, tables: state.tables, tableCounts: state.tableCounts,
+    useRawBT: state.useRawBT, firebaseUrl: state.firebaseUrl, waiterName: state.waiterName,
+    geminiKey: state.geminiKey, historyLog: state.historyLog
+  }));
+}
+
+async function saveState(triggerBell = false) {
+  if (triggerBell) state.lastAlertSignal = Date.now();
+  saveLocalOnly();
+  await pushToCloud();
+}
+
+function getCleanFirebaseUrl() { return (state.firebaseUrl || DEFAULT_FIREBASE_URL).trim().replace(/\/$/, ""); }
+
+async function pushToCloud() {
+  const badge = document.getElementById('syncIndicator');
+  try {
+    const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json", {
+      method: "PUT", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        updatedAt: Date.now(), lastAlertSignal: state.lastAlertSignal,
+        tableCounts: state.tableCounts, tables: state.tables, menu: state.menu,
+        dailyChalkboardText: document.getElementById('ocrResultBox') ? document.getElementById('ocrResultBox').value : CHALKBOARD_OCT12_TEXT,
+        historyLog: state.historyLog
+      })
+    });
+    if (badge) badge.textContent = res.ok ? "LIVE" : "Err";
+  } catch (e) { if (badge) badge.textContent = "Off"; }
+}
+
+async function pullFromCloud(isInitial) {
+  const badge = document.getElementById('syncIndicator');
+  try {
+    const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json");
+    if (!res.ok) { if (badge) badge.textContent = "DB"; return; }
+    const data = await res.json();
+    if (badge) badge.textContent = "LIVE";
+    if (!data) return;
+    if (data.tableCounts) state.tableCounts = data.tableCounts;
+    if (data.tables) state.tables = normalizeTablesStructure(data.tables, state.tableCounts);
+    if (data.menu && data.menu.length > 0) state.menu = data.menu;
+    if (data.dailyChalkboardText && isInitial && document.getElementById('ocrResultBox')) {
+      document.getElementById('ocrResultBox').value = data.dailyChalkboardText;
+    }
+    if (data.historyLog) state.historyLog = data.historyLog;
+    saveLocalOnly();
+    updateRoomTabCounts();
+    updateDailyStats();
+    if (document.getElementById('viewTables').classList.contains('active')) renderTables();
+    else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) renderOrderScreen();
+    else if (document.getElementById('viewKds').classList.contains('active')) renderKds();
+  } catch (e) { if (badge) badge.textContent = "Loc"; }
+}
+
+async function saveTableCounts() {
+  const nInt = Math.max(1, parseInt(document.getElementById('cfgIntCount').value, 10) || 11);
+  const nEst = Math.max(1, parseInt(document.getElementById('cfgEstCount').value, 10) || 5);
+  const nAsp = Math.max(1, parseInt(document.getElementById('cfgAspCount').value, 10) || 5);
+  state.tableCounts = { interna: nInt, esterna: nEst, asporto: nAsp };
+  state.tables = normalizeTablesStructure(state.tables, state.tableCounts);
+  updateRoomTabCounts();
+  await saveState(false);
+  renderTables();
+  alert("✅ Numero tavoli salvato!");
+}
+
+function populateMergeSelectors() {
+  const fromSel = document.getElementById('mergeFromSel');
+  const toSel = document.getElementById('mergeToSel');
+  if (!fromSel || !toSel) return;
+  const all = Object.values(state.tables).sort((a,b) => a.id.localeCompare(b.id, undefined, {numeric:true}));
+  const opts = all.map(t => `<option value="${t.id}">${t.name} (${t.items.length ? 'Occupato' : 'Libero'})</option>`).join('');
+  fromSel.innerHTML = opts; toSel.innerHTML = opts;
+}
+
+async function executeTableMerge(sourceId, targetId) {
+  if (!sourceId || !targetId || sourceId === targetId) { alert("Seleziona due tavoli diversi."); return; }
+  const src = state.tables[sourceId], tgt = state.tables[targetId];
+  if (!src || !tgt) return;
+  if (confirm(`Vuoi unire "${src.name}" dentro "${tgt.name}"?`)) {
+    tgt.items = (tgt.items || []).concat(src.items || []);
+    if (!tgt.openedAt && src.openedAt) tgt.openedAt = src.openedAt;
+    const shortSrc = src.name.replace(/Tavolo\s*|Esterno\s*|Asporto\s*/i, '');
+    if (!tgt.name.includes('+' + shortSrc)) tgt.name = tgt.name + '+' + shortSrc;
+    src.items = []; src.openedAt = 0; src.name = src.baseName;
+    await saveState(false); renderTables();
+    alert(`✅ Tavoli uniti in: ${tgt.name}`);
+  }
+}
+function mergeTablesFromSettings() { executeTableMerge(document.getElementById('mergeFromSel').value, document.getElementById('mergeToSel').value); }
+function quickMergeFromOrder() {
+  const src = state.tables[state.activeTableId];
+  const targetName = prompt(`Con quale tavolo vuoi unire ${src.name}? (es: Tavolo 2):`);
+  if (!targetName) return;
+  const found = Object.values(state.tables).find(t => t.name.toLowerCase() === targetName.trim().toLowerCase());
+  if (!found) { alert("Tavolo non trovato."); return; }
+  executeTableMerge(src.id, found.id).then(() => openTable(found.id));
+}
+
+function switchMainView(view) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.btn-top').forEach(b => b.classList.remove('active'));
+  if (view === 'tables') {
+    document.getElementById('viewTables').classList.add('active');
+    document.getElementById('navTables').classList.add('active');
+    renderTables();
+  } else if (view === 'kds') {
+    document.getElementById('viewKds').classList.add('active');
+    document.getElementById('navKds').classList.add('active');
+    renderKds();
+  } else if (view === 'menuMgr') {
+    document.getElementById('viewMenuMgr').classList.add('active');
+    document.getElementById('navMenu').classList.add('active');
+    renderMenuMgr();
+    updateDailyStats();
+  }
+}
+
+function selectRoom(room) {
+  state.currentRoom = room;
+  document.getElementById('tabInterna').classList.toggle('active', room === 'interna');
+  document.getElementById('tabEsterna').classList.toggle('active', room === 'esterna');
+  document.getElementById('tabAsporto').classList.toggle('active', room === 'asporto');
+  renderTables();
+}
+
+function getTableTotal(table) {
+  if (!table || !table.items) return 0;
+  return table.items.reduce((sum, it) => sum + (it.price * it.qty), 0);
+}
+
+function renderTables() {
+  const container = document.getElementById('tablesContainer');
+  container.innerHTML = '';
+  const now = Date.now();
+  Object.values(state.tables)
+    .filter(t => t.room === state.currentRoom)
+    .forEach(t => {
+      const busy = t.items && t.items.length > 0;
+      const total = getTableTotal(t);
+      const delayed = isTableDelayed(t);
+      let dotsHtml = '';
+      if (busy) {
+        [1, 2, 3, 4].forEach(m => {
+          if (!t.items.some(i => i.mandata === m && i.name !== 'Pane e Coperto')) return;
+          if (t.doneMandate && t.doneMandate[m]) dotsHtml += `<span class="dot done">${m}ª✓</span>`;
+          else if (t.items.some(i => i.mandata === m && i.sent)) dotsHtml += `<span class="dot sent">${m}ª🔥</span>`;
+          else dotsHtml += `<span class="dot wait">${m}ª...</span>`;
+        });
+      }
+      const pickupHtml = (t.room === 'asporto' && t.pickupTime) ? `<div class="pickup-badge">🕒 ${t.pickupTime}</div>` : '';
+      const timerHtml = (busy && t.openedAt) ? `<div><span class="table-timer" id="timer_${t.id}">⏱️ ${formatElapsed(now - t.openedAt)}</span></div>` : '';
+
+      const card = document.createElement('div');
+      card.id = 'card_' + t.id;
+      card.className = `table-card ${busy ? 'busy' : 'free'} ${delayed ? 'delayed' : ''}`;
+      card.onclick = () => openTable(t.id);
+      card.innerHTML = `<div id="delay_${t.id}" class="delay-skull" style="display:${delayed ? 'flex' : 'none'};" title="Ritardo > 20 min">${SKULL_SVG}</div><div class="table-name">${t.name}</div>${pickupHtml}<div><span class="table-status ${busy ? 'status-busy' : 'status-free'}">${busy ? 'Occupato' : 'Libero'}</span></div>${timerHtml}${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dotsHtml}</div>`;
+      container.appendChild(card);
+    });
+}
+
+function openTable(tableId) {
+  state.activeTableId = tableId;
+  const t = state.tables[tableId];
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('viewOrder').classList.add('active');
+  document.getElementById('activeTableName').textContent = t.name;
+  document.getElementById('activeTableSub').textContent = t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto';
+  document.getElementById('menuSearch').value = '';
+
   const aspBar = document.getElementById('asportoBar');
   if (t.room === 'asporto') {
-    aspBar.classList.remove('hidden');
-    document.getElementById('aspCustomer').value = t.customerName || '';
-    document.getElementById('aspTime').value = t.pickupTime || '';
-  } else {
-    aspBar.classList.add('hidden');
-  }
-  selectedCourse = 1;
-  selectedCat = '3 Antipasti';
-  document.getElementById('searchDishInput').value = '';
-  document.getElementById('orderModal').classList.remove('hidden');
-  renderOrderModalContent();
-}
+    aspBar.classList.add('active');
+    document.getElementById('pickupTimeInput').value = t.pickupTime || '';
+    document.getElementById('customerNameInput').value = t.customerName || '';
+  } else aspBar.classList.remove('active');
 
-function closeOrderModal() {
-  activeTableKey = null;
-  document.getElementById('orderModal').classList.add('hidden');
-  renderAll();
+  setMandata(1, true);
+  renderOrderScreen();
 }
 
 function saveAsportoMeta() {
-  if (!activeTableKey) return;
-  const t = state.tables[activeTableKey];
-  t.customerName = document.getElementById('aspCustomer').value;
-  t.pickupTime = document.getElementById('aspTime').value;
-  saveState(true);
+  const t = state.tables[state.activeTableId];
+  if (!t || t.room !== 'asporto') return;
+  t.pickupTime = document.getElementById('pickupTimeInput').value || '';
+  t.customerName = document.getElementById('customerNameInput').value.trim();
+  saveState(false);
 }
 
-function selectCourse(courseId) {
-  selectedCourse = courseId;
-  const cObj = COURSES.find(c => c.id === courseId);
-  if (cObj) selectedCat = cObj.defaultCat;
-  renderOrderModalContent();
-}
+function closeTableView() { state.activeTableId = null; switchMainView('tables'); }
 
-function selectCat(catName) {
-  selectedCat = catName;
-  if (catName === '1 Coperto' || catName === '2 Bevande') selectedCourse = 0;
-  renderOrderModalContent();
-}
-
-function renderOrderModalContent() {
-  if (!activeTableKey) return;
-  const cBar = document.getElementById('courseBar');
-  cBar.innerHTML = COURSES.map(c => `<div class="chip ${selectedCourse===c.id?'active':''}" onclick="selectCourse(${c.id})">${c.label}</div>`).join('');
-  const catBar = document.getElementById('catBar');
-  catBar.innerHTML = CATEGORIES.map(cat => `<div class="chip cat-chip ${selectedCat===cat?'active':''}" onclick="selectCat('${cat}')">${cat}</div>`).join('');
-  renderOrderCatalog();
-  renderOrderCart();
-}
-
-function renderOrderCatalog() {
-  const q = (document.getElementById('searchDishInput').value || '').toLowerCase().trim();
-  const grid = document.getElementById('orderItemsGrid');
-  const filtered = state.catalog.filter(it => {
-    if (q) return it.name.toLowerCase().includes(q);
-    return it.cat === selectedCat;
+function setMandata(m, autoCat = false) {
+  state.currentMandata = m;
+  [0,1,2,3,4].forEach(idx => {
+    const el = document.getElementById('mBtn' + idx);
+    if (el) el.classList.toggle('active', idx === m);
   });
-  grid.innerHTML = filtered.map(it => `<button class="i-btn" onclick="addItemToTable('${it.id}')">
-    <div class="i-title">${it.name}</div>
-    <div class="i-price">€ ${Number(it.price).toFixed(2)}</div>
-  </button>`).join('');
+  if (autoCat) {
+    if (m === 0) state.currentCategory = "2 Bevande";
+    else if (MANDATA_TO_CAT[m]) state.currentCategory = MANDATA_TO_CAT[m];
+    document.getElementById('menuSearch').value = '';
+    renderCategories();
+    renderMenuGrid();
+  }
 }
 
-/* REGOLA FERREA: NASCONO CON sent: false */
-function addItemToTable(itemId) {
-  if (!activeTableKey) return;
-  const t = state.tables[activeTableKey];
-  const catItem = state.catalog.find(x => x.id === itemId);
-  if (!catItem) return;
-  const courseToUse = (catItem.cat === '1 Coperto' || catItem.cat === '2 Bevande') ? 0 : selectedCourse;
-  const existing = t.items.find(i => i.id === catItem.id && i.course === courseToUse && !i.note && i.sent === false);
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    t.items.push({
-      uid: 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
-      id: catItem.id,
-      name: catItem.name,
-      price: Number(catItem.price),
-      cat: catItem.cat,
-      course: courseToUse,
-      qty: 1,
-      note: '',
-      sent: false
+function clearSearch() { document.getElementById('menuSearch').value = ''; renderMenuGrid(); }
+
+function renderCategories() {
+  const bar = document.getElementById('catBar');
+  bar.innerHTML = '';
+  let activeBtn = null;
+  CATEGORIES.forEach(cat => {
+    const b = document.createElement('button');
+    const isAct = state.currentCategory === cat;
+    b.className = `cat-btn ${isAct ? 'active' : ''}`;
+    b.textContent = cat;
+    if (isAct) activeBtn = b;
+    b.onclick = () => {
+      state.currentCategory = cat;
+      document.getElementById('menuSearch').value = '';
+      if (cat === '1 Coperto' || cat === '2 Bevande') setMandata(0, false);
+      else if (state.currentMandata === 0) setMandata(1, false);
+      renderCategories();
+      renderMenuGrid();
+    };
+    bar.appendChild(b);
+  });
+  if (activeBtn) {
+    requestAnimationFrame(() => {
+      const targetLeft = activeBtn.offsetLeft - (bar.clientWidth / 2) + (activeBtn.clientWidth / 2);
+      bar.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
     });
   }
-  saveState(true);
-  renderOrderCart();
 }
 
-function changeCartQty(idx, delta) {
-  if (!activeTableKey) return;
-  const t = state.tables[activeTableKey];
-  const item = t.items[idx];
+function renderMenuGrid() {
+  const grid = document.getElementById('menuGrid');
+  grid.innerHTML = '';
+  const q = (document.getElementById('menuSearch').value || '').trim().toLowerCase();
+  const filtered = state.menu.filter(item => q.length > 0 ? (item.name.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q)) : item.cat === state.currentCategory);
+  filtered.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'menu-item';
+    card.onclick = () => {
+      const badge = document.createElement('span');
+      badge.className = 'tap-badge'; badge.textContent = '+1';
+      card.appendChild(badge);
+      setTimeout(() => { if (badge.parentNode) badge.parentNode.removeChild(badge); }, 450);
+      addItemToTable(item);
+    };
+    card.innerHTML = `<div class="item-name">${item.name}</div><div class="item-price">${formatPrice(item.price)} €</div>`;
+    grid.appendChild(card);
+  });
+}
+
+function addItemToTable(menuItem) {
+  const t = state.tables[state.activeTableId];
+  if (!t.items) t.items = [];
+  const m = state.currentMandata;
+  const existing = t.items.find(i => i.menuId === menuItem.id && i.mandata === m && !i.note && !i.sent);
+  if (existing) existing.qty += 1;
+  else t.items.push({ lineId: Date.now() + Math.random(), menuId: menuItem.id, cat: menuItem.cat, name: menuItem.name, price: menuItem.price, qty: 1, mandata: m, note: '', waiter: state.waiterName, sent: false });
+  saveState(false);
+  renderOrderScreen();
+}
+
+function changeItemQty(lineId, delta) {
+  const t = state.tables[state.activeTableId];
+  const idx = t.items.findIndex(i => i.lineId === lineId);
+  if (idx === -1) return;
+  t.items[idx].qty += delta;
+  if (t.items[idx].qty <= 0) t.items.splice(idx, 1);
+  saveState(false);
+  renderOrderScreen();
+}
+
+/* =========================================================
+   MODIFICHE / NOTE PER OGNI PORTATA (CON SEPARAZIONE PORZIONE)
+   ========================================================= */
+function openNoteModal(lineId) {
+  const t = state.tables[state.activeTableId];
+  if (!t || !t.items) return;
+  const item = t.items.find(i => i.lineId === lineId);
   if (!item) return;
-  item.qty += delta;
-  if (item.qty <= 0) t.items.splice(idx, 1);
-  saveState(true);
-  renderOrderCart();
-}
-
-function renderOrderCart() {
-  if (!activeTableKey) return;
-  const t = state.tables[activeTableKey];
-  const list = document.getElementById('cartList');
-  const badge = document.getElementById('mTableStatusBadge');
-  const unsent = t.items.filter(i => !i.sent).length;
-  if (!t.items.length) {
-    badge.className = 'badge b-free'; badge.textContent = 'Libero';
-    list.innerHTML = `<div style="text-align:center;color:#9CA3AF;padding:24px;font-weight:700;">Nessuna portata inserita</div>`;
-    document.getElementById('cartTotal').textContent = '€ 0.00';
-    return;
-  }
-  if (unsent > 0) { badge.className = 'badge b-wait'; badge.textContent = '⏳ Da inviare in cucina'; }
-  else { badge.className = 'badge b-sent'; badge.textContent = '✅ Inviato in cucina'; }
-
-  let html = '';
-  COURSES.forEach(c => {
-    const cItems = t.items.map((it, idx) => ({it, idx})).filter(x => x.it.course === c.id);
-    if (!cItems.length) return;
-    html += `<div class="c-group-title"><span>${c.label}</span><span>${t.doneCourses && t.doneCourses[c.id] ? '✅ SERVITA' : ''}</span></div>`;
-    cItems.forEach(({it, idx}) => {
-      const statusBadge = it.sent
-        ? `<span class="badge b-sent">✅ Inviato</span>`
-        : `<span class="badge b-wait">⏳ Da inviare</span>`;
-      html += `<div class="c-row ${!it.sent?'unsent-row':''}">
-        <div class="c-info">
-          <div class="c-name">${it.qty}x ${it.name} ${statusBadge}</div>
-          ${it.note ? `<div class="c-note">📝 ${it.note}</div>` : ''}
-        </div>
-        <div class="c-actions">
-          <button class="btn btn-outline" style="padding:4px 7px;font-size:11px;" onclick="openNoteModal(${idx})">✏️ Nota</button>
-          <button class="qty-btn" onclick="changeCartQty(${idx},-1)">-</button>
-          <span style="font-weight:900;font-size:12px;min-width:16px;text-align:center;">${it.qty}</span>
-          <button class="qty-btn" onclick="changeCartQty(${idx},1)">+</button>
-        </div>
-      </div>`;
-    });
-  });
-  list.innerHTML = html;
-  const tot = t.items.reduce((s, i) => s + i.price * i.qty, 0);
-  document.getElementById('cartTotal').textContent = `€ ${tot.toFixed(2)}`;
-}
-
-/* NOTE PORTATA + SEPARAZIONE 1 PORZIONE */
-function openNoteModal(idx) {
-  if (!activeTableKey) return;
-  editingNoteIdx = idx;
-  const item = state.tables[activeTableKey].items[idx];
-  document.getElementById('noteModalTitle').textContent = `✏️ Nota: ${item.qty}x ${item.name}`;
-  document.getElementById('noteCustomInput').value = item.note || '';
-  const splitWrap = document.getElementById('splitOneWrap');
-  const splitCheck = document.getElementById('splitOneCheck');
-  splitCheck.checked = false;
-  splitWrap.style.display = item.qty > 1 ? 'flex' : 'none';
-
-  const chipsBox = document.getElementById('noteChipsBox');
-  chipsBox.innerHTML = QUICK_NOTES.map(n => `<button type="button" class="chip" onclick="toggleQuickNoteChip('${n}')">${n}</button>`).join('');
-  document.getElementById('noteModal').classList.remove('hidden');
-}
-
-function toggleQuickNoteChip(chipText) {
-  const inp = document.getElementById('noteCustomInput');
-  let cur = inp.value.trim();
-  if (cur.toLowerCase().includes(chipText.toLowerCase())) {
-    cur = cur.replace(new RegExp(chipText + '[,;\\s]*','i'), '').trim();
+  state.editingLineId = lineId;
+  document.getElementById('noteDishTitle').textContent = `${item.qty}x ${item.name}`;
+  document.getElementById('noteInputBox').value = item.note || '';
+  const splitWrap = document.getElementById('splitPortionWrap');
+  if (item.qty > 1) {
+    splitWrap.style.display = 'flex';
+    document.getElementById('chkSplitPortion').checked = true;
   } else {
-    cur = cur ? `${cur}, ${chipText}` : chipText;
+    splitWrap.style.display = 'none';
   }
-  inp.value = cur;
+  document.getElementById('noteModal').classList.add('active');
 }
 
-function clearItemNote() {
-  document.getElementById('noteCustomInput').value = '';
+function appendNoteChip(text) {
+  const box = document.getElementById('noteInputBox');
+  const cur = box.value.trim();
+  box.value = cur ? (cur + ', ' + text) : text;
 }
 
-function saveItemNote() {
-  if (!activeTableKey || editingNoteIdx === null) return;
-  const t = state.tables[activeTableKey];
-  const item = t.items[editingNoteIdx];
-  const newNote = document.getElementById('noteCustomInput').value.trim();
-  const splitOne = document.getElementById('splitOneCheck').checked;
+function saveDishNote() {
+  const t = state.tables[state.activeTableId];
+  if (!t || !t.items) return;
+  const item = t.items.find(i => i.lineId === state.editingLineId);
+  if (!item) { closeNoteModal(); return; }
+  const newNote = document.getElementById('noteInputBox').value.trim();
+  const splitOne = item.qty > 1 && document.getElementById('chkSplitPortion').checked && newNote !== '';
 
-  if (splitOne && item.qty > 1 && newNote) {
+  if (splitOne) {
     item.qty -= 1;
-    t.items.splice(editingNoteIdx + 1, 0, {
-      ...item,
-      uid: 'u_' + Date.now() + '_sp',
-      qty: 1,
-      note: newNote
+    t.items.push({
+      lineId: Date.now() + Math.random(),
+      menuId: item.menuId, cat: item.cat, name: item.name, price: item.price,
+      qty: 1, mandata: item.mandata, note: newNote, waiter: state.waiterName, sent: Boolean(item.sent)
     });
   } else {
     item.note = newNote;
   }
+  saveState(false);
+  renderOrderScreen();
   closeNoteModal();
-  saveState(true);
-  renderOrderCart();
+}
+
+function clearDishNote() {
+  document.getElementById('noteInputBox').value = '';
+  saveDishNote();
 }
 
 function closeNoteModal() {
-  editingNoteIdx = null;
-  document.getElementById('noteModal').classList.add('hidden');
+  document.getElementById('noteModal').classList.remove('active');
+  state.editingLineId = null;
 }
 
-/* INVIO COMANDA AL KDS + STAMPA TERMICA RAWBT */
-function sendOrderToKitchen() {
-  if (!activeTableKey) return;
-  const t = state.tables[activeTableKey];
-  const unsentItems = t.items.filter(i => !i.sent);
-  if (!unsentItems.length) {
-    alert('Tutte le portate di questo tavolo sono già state inviate al KDS!');
+function renderOrderScreen() {
+  const t = state.tables[state.activeTableId];
+  if (!t) return;
+  document.getElementById('activeTableTotal').textContent = '€ ' + formatPrice(getTableTotal(t));
+  const cart = document.getElementById('cartContainer');
+  if (!t.items || t.items.length === 0) {
+    cart.innerHTML = '<div style="color:var(--muted); font-size:0.85rem;">Nessun articolo inserito.</div>';
     return;
   }
-  unsentItems.forEach(i => {
-    i.sent = true;
-    if (t.doneCourses && t.doneCourses[i.course]) {
-      delete t.doneCourses[i.course];
+  cart.innerHTML = '';
+  [0, 1, 2, 3, 4].forEach(m => {
+    const groupItems = t.items.filter(i => i.mandata === m);
+    if (groupItems.length === 0) return;
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'mandata-group';
+    groupDiv.innerHTML = `<div class="mandata-header"><span>${MANDATE_LABELS[m]}</span><span>${groupItems.reduce((a,b)=>a+b.qty,0)} pz</span></div>`;
+    groupItems.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'cart-row';
+      const noteHtml = item.note ? `<div><span class="cart-note">✏️ ${item.note}</span></div>` : '';
+      row.innerHTML = `
+        <div class="cart-info">
+          <b>${item.qty}x</b> ${item.name}
+          ${noteHtml}
+        </div>
+        <div class="cart-controls">
+          <button class="btn-note" onclick="openNoteModal(${item.lineId})" title="Aggiungi modifica">✏️ Nota</button>
+          <button class="btn-qty" onclick="changeItemQty(${item.lineId}, -1)">-</button>
+          <button class="btn-qty" onclick="changeItemQty(${item.lineId}, 1)">+</button>
+        </div>`;
+      groupDiv.appendChild(row);
+    });
+    cart.appendChild(groupDiv);
+  });
+}
+
+function sendOrderToKitchen() {
+  const t = state.tables[state.activeTableId];
+  if (!t || !t.items || t.items.length === 0) { alert("Inserisci almeno un articolo."); return; }
+  const unsentItems = t.items.filter(i => !i.sent);
+  const itemsToPrint = unsentItems.length > 0 ? unsentItems : t.items;
+  t.items.forEach(i => {
+    if (!i.sent) {
+      i.sent = true;
+      if (t.doneMandate && t.doneMandate[i.mandata]) t.doneMandate[i.mandata] = false;
     }
   });
-  if (!t.kitchenOpenedAt) t.kitchenOpenedAt = Date.now();
-  state.bellTrigger = Date.now();
-  lastBellPlayed = state.bellTrigger;
-  playBellSound();
+  if (!t.openedAt) t.openedAt = Date.now();
+  t.firedMandate[1] = true;
+  playKitchenBell();
   saveState(true);
-  renderOrderCart();
-  sendRawBtKitchenTicket(t, unsentItems);
-}
-
-/* STAMPA TERMICA EPSON TM-m30III TRAMITE RAWBT */
-function sendRawBtEscPos(textLines) {
-  const escInit = '\x1B\x40';
-  const escCut = '\n\n\n\x1D\x56\x41\x10';
-  const payload = escInit + textLines.join('\n') + escCut;
-  const b64 = btoa(unescape(encodeURIComponent(payload)));
-  const a = document.createElement('a');
-  a.href = 'rawbt:base64,' + b64;
-  a.click();
-}
-
-function sendRawBtKitchenTicket(table, sentItems) {
-  const lines = [
-    '=== ALICETTA TRATTORIA ===',
-    `COMANDA: ${table.label.toUpperCase()} (${table.room.toUpperCase()})`,
-    `ORA: ${new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}`
-  ];
-  if (table.room === 'asporto') {
-    lines.push(`CLIENTE: ${table.customerName || '-'} | RITIRO: ${table.pickupTime || '--:--'}`);
-  }
-  lines.push('--------------------------');
-  COURSES.forEach(c => {
-    const sub = sentItems.filter(i => i.course === c.id);
-    if (!sub.length) return;
-    lines.push(`>> ${c.label.toUpperCase()} <<`);
-    sub.forEach(i => {
-      lines.push(`${i.qty}x ${i.name}`);
-      if (i.note) lines.push(`   [NOTA: ${i.note.toUpperCase()}]`);
+  if (state.useRawBT) {
+    let ticket = `COMANDA CUCINA - ${t.name.toUpperCase()}\nCam.: ${state.waiterName}\n====================\n`;
+    [0, 1, 2, 3, 4].forEach(m => {
+      const g = itemsToPrint.filter(i => i.mandata === m);
+      if (!g.length) return;
+      ticket += `\n--- ${MANDATE_LABELS[m]} ---\n`;
+      g.forEach(it => {
+        ticket += `${it.qty}x ${it.name}\n`;
+        if (it.note) ticket += `   >> NOTA: ${it.note.toUpperCase()}\n`;
+      });
     });
-    lines.push('');
-  });
-  sendRawBtEscPos(lines);
+    ticket += `\n====================\n\n\n`;
+    window.location.href = "rawbt:base64," + btoa(ticket);
+  } else {
+    alert("✅ Comanda inviata in cucina!");
+  }
+  closeTableView();
 }
 
-function printPreconto() {
-  if (!activeTableKey) return;
-  const t = state.tables[activeTableKey];
-  if (!t.items.length) return;
-  const tot = t.items.reduce((s, i) => s + i.price * i.qty, 0);
-  const lines = [
-    '      ALICETTA TRATTORIA      ',
-    '  Lungomare Fossacesia Marina ',
-    '         PRE-CONTO            ',
-    `Tavolo: ${t.label} - ${new Date().toLocaleString('it-IT')}`,
-    '------------------------------'
-  ];
-  t.items.forEach(i => {
-    const rTot = (i.price * i.qty).toFixed(2);
-    lines.push(`${i.qty}x ${i.name.slice(0,20)}  EUR ${rTot}`);
-  });
-  lines.push('------------------------------');
-  lines.push(`TOTALE DA PAGARE: EUR ${tot.toFixed(2)}`);
-  lines.push('   Grazie e Arrivederci!      ');
-  sendRawBtEscPos(lines);
+function markMandataDone(tableId, mandataNum) {
+  const t = state.tables[tableId];
+  if (!t) return;
+  if (!t.doneMandate) t.doneMandate = {1:false,2:false,3:false,4:false};
+  t.doneMandate[mandataNum] = !t.doneMandate[mandataNum];
+  saveState(false);
+  renderKds();
 }
 
-function testRawBtPrinter() {
-  sendRawBtEscPos([
-    '=== ALICETTA TABLEZ 1.0 ===',
-    'Test Stampante Epson TM-m30III',
-    'Connessione RawBT Attiva OK!'
-  ]);
-}
-
-/* KDS CUCINA & SEGNA MANDATA FATTA */
-function renderKdsGrid() {
-  const grid = document.getElementById('kdsGrid');
-  const countBadge = document.getElementById('kdsCount');
-  const activeKdsTables = Object.values(state.tables).filter(t => t.items && t.items.some(i => i.sent === true));
-  countBadge.textContent = activeKdsTables.filter(t => hasPendingSentCourses(t)).length;
-
-  if (!activeKdsTables.length) {
-    grid.innerHTML = `<div class="panel-box" style="grid-column:1/-1;text-align:center;font-weight:800;color:#4B5563;">👨‍🍳 Nessuna comanda inviata in cucina al momento.</div>`;
+function renderKds() {
+  const container = document.getElementById('kdsContainer');
+  if (!container) return;
+  container.innerHTML = '';
+  const now = Date.now();
+  const activeTables = Object.values(state.tables).filter(t => t.items && t.items.some(i => i.sent));
+  if (activeTables.length === 0) {
+    container.innerHTML = '<div style="color:var(--muted); font-weight:700;">Nessuna comanda attiva in cucina.</div>';
     return;
   }
-
-  let html = '';
-  activeKdsTables.forEach(t => {
+  activeTables.forEach(t => {
     const delayed = isTableDelayed(t);
-    const mins = t.kitchenOpenedAt ? Math.floor((Date.now() - t.kitchenOpenedAt) / 60000) : 0;
-    const sentItems = t.items.filter(i => i.sent === true);
-    let coursesHtml = '';
-
-    COURSES.forEach(c => {
-      const cItems = sentItems.filter(i => i.course === c.id);
-      if (!cItems.length) return;
-      const isDone = t.doneCourses && t.doneCourses[c.id];
-      coursesHtml += `<div class="kds-course ${isDone?'done':''}">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-          <strong style="font-size:12px;text-transform:uppercase;">${c.label}</strong>
-          <button class="btn ${isDone?'btn-outline':'btn-green'}" style="padding:4px 8px;font-size:11px;" onclick="toggleKdsCourseDone('${t.key}',${c.id})">
-            ${isDone ? '↩️ Riapri' : '✅ FATTO'}
-          </button>
-        </div>
-        ${cItems.map(i => `<div>
-          <div class="kds-item"><span>${i.qty}x ${i.name}</span></div>${i.note ? `<div class="kds-note">⚠️ ${i.note}</div>` : ''}
-        </div>`).join('')}
+    const card = document.createElement('div');
+    card.className = `kds-card ${delayed ? 'delayed' : ''}`;
+    let html = `<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;">
+      <b>${t.name}</b>
+      <div style="display:flex; align-items:center; gap:6px;">
+        ${delayed ? `<span style="background:#FACC15; border:1.5px solid #000; border-radius:6px; padding:2px 6px; font-size:0.7rem; font-weight:900; color:#000;">☠️ +20m</span>` : ''}
+        <span id="kds_timer_${t.id}">⏱️ ${t.openedAt ? formatElapsed(now - t.openedAt) : '00:00'}</span>
+      </div>
+    </div>`;
+    
+    [0, 1, 2, 3, 4].forEach(m => {
+      const mItems = t.items.filter(i => i.mandata === m && i.sent);
+      if (mItems.length === 0) return;
+      const isDone = t.doneMandate && t.doneMandate[m];
+      const badge = isDone ? '<span style="color:#10B981;">SERVITA</span>' : '<span style="color:var(--logo-coral);">DA SERVIRE</span>';
+      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}">
+        <div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${MANDATE_LABELS[m]}</b> ${badge}</div>
+        ${mItems.map(i => `<div style="font-size:0.88rem; margin-top:2px;">• <b>${i.qty}x</b> ${i.name}${i.note ? `<div style="color:#DC2626; font-weight:800; font-size:0.78rem; margin-left:12px;">⚠️ ${i.note}</div>` : ''}</div>`).join('')}
+        ${m > 0 ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}
       </div>`;
     });
-
-    html += `<div class="kds-card ${delayed?'delayed':''}">
-      ${delayed ? getSkullSvgHtml() : ''}
-      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #E5E7EB;padding-bottom:6px;">
-        <div>
-          <div style="font-weight:900;font-size:17px;">${t.label} <span style="font-size:11px;color:#6B7280;">(${t.room.toUpperCase()})</span></div>
-          ${t.room==='asporto' ? `<div style="font-size:12px;font-weight:800;color:#1E40AF;">👤 ${t.customerName\vert{}\vert{}'-'} 🕒 ${t.pickupTime||'--:--'}</div>` : ''}
-        </div>
-        <span class="badge ${delayed?'b-wait':'b-sent'}">⏱️ ${mins} min</span>
-      </div>
-      ${coursesHtml}
-    </div>`;
+    card.innerHTML = html;
+    container.appendChild(card);
   });
-  grid.innerHTML = html;
 }
 
-function toggleKdsCourseDone(tableKey, courseId) {
-  const t = state.tables[tableKey];
-  if (!t) return;
-  if (!t.doneCourses) t.doneCourses = {};
-  t.doneCourses[courseId] = !t.doneCourses[courseId];
-  if (!hasPendingSentCourses(t)) {
-    t.kitchenOpenedAt = null;
-  }
-  saveState(true);
+function splitBillPrompt() {
+  const t = state.tables[state.activeTableId];
+  if (!t || !t.items || t.items.length === 0) return;
+  const total = getTableTotal(t);
+  const people = prompt("Dividi in quante persone?", "2");
+  if (!people || isNaN(people) || parseInt(people) <= 0) return;
+  alert(`Totale: € ${formatPrice(total)} | Quota: € ${formatPrice(total / parseInt(people))}`);
 }
 
-/* DIVIDI CONTO */
-let splitSelections = {};
-function openSplitModal() {
-  if (!activeTableKey) return;
-  const t = state.tables[activeTableKey];
-  if (!t.items.length) return;
-  splitSelections = {};
-  document.getElementById('splitModal').classList.remove('hidden');
-  renderSplitModal();
-}
-
-function closeSplitModal() {
-  document.getElementById('splitModal').classList.add('hidden');
-}
-
-function renderSplitModal() {
-  if (!activeTableKey) return;
-  const t = state.tables[activeTableKey];
-  const list = document.getElementById('splitItemsList');
-  list.innerHTML = t.items.map((it, idx) => {
-    const selQty = splitSelections[idx] || 0;
-    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #F3F4F6;font-size:12px;font-weight:700;">
-      <span>${it.name} (€ ${it.price.toFixed(2)}) [Max: ${it.qty}]</span>
-      <div style="display:flex;align-items:center;gap:5px;">
-        <button class="qty-btn" onclick="changeSplitSel(${idx},-1,${it.qty})">-</button>
-        <span style="min-width:18px;text-align:center;font-weight:900;">${selQty}</span>
-        <button class="qty-btn" onclick="changeSplitSel(${idx},1,${it.qty})">+</button>
-      </div>
-    </div>`;
-  }).join('');
-  updateSplitCalculation();
-}
-
-function changeSplitSel(idx, delta, maxQty) {
-  const cur = splitSelections[idx] || 0;
-  splitSelections[idx] = Math.max(0, Math.min(maxQty, cur + delta));
-  renderSplitModal();
-}
-
-function updateSplitCalculation() {
-  if (!activeTableKey) return;
-  const t = state.tables[activeTableKey];
-  const tot = t.items.reduce((s, i) => s + i.price * i.qty, 0);
-  const ppl = Math.max(1, parseInt(document.getElementById('splitPeopleInput').value) || 2);
-  document.getElementById('splitPerPersonResult').textContent = `€ ${(tot / ppl).toFixed(2)} / testa`;
-
-  let selTot = 0;
-  Object.keys(splitSelections).forEach(k => {
-    const item = t.items[k];
-    if (item && splitSelections[k] > 0) selTot += item.price * splitSelections[k];
+function showPreBill() {
+  const t = state.tables[state.activeTableId];
+  if (!t || !t.items || !t.items.length) return;
+  const total = getTableTotal(t);
+  let preview = `PRE-CONTO ${t.name.toUpperCase()}\n--------------------\n`;
+  t.items.forEach(it => {
+    preview += `${it.qty}x ${it.name} - EUR ${formatPrice(it.price * it.qty)}\n`;
+    if (it.note) preview += `   (${it.note})\n`;
   });
-  document.getElementById('splitSelectedTotal').textContent = `€ ${selTot.toFixed(2)}`;
+  preview += `--------------------\nTOTALE: EUR ${formatPrice(total)}\n`;
+  dispatchPrint(preview, preview);
 }
 
-function printPartialSplit() {
-  if (!activeTableKey) return;
-  const t = state.tables[activeTableKey];
-  const selTot = document.getElementById('splitSelectedTotal').textContent;
-  const perP = document.getElementById('splitPerPersonResult').textContent;
-  sendRawBtEscPos([
-    '=== ALICETTA TRATTORIA ===',
-    `QUOTA CONTO - ${t.label}`,
-    `Quota Romana: ${perP}`,
-    `Quota Selezionata: ${selTot}`,
-    '--------------------------'
-  ]);
+function dispatchPrint(preview, escpos) {
+  state.lastEscPosPayload = escpos;
+  if (state.useRawBT) window.location.href = "rawbt:base64," + btoa(escpos);
+  else { document.getElementById('receiptText').textContent = preview; document.getElementById('receiptModal').classList.add('active'); }
 }
 
-function payAndRemoveSelectedSplit() {
-  if (!activeTableKey) return;
-  const t = state.tables[activeTableKey];
-  for (let i = t.items.length - 1; i >= 0; i--) {
-    const sel = splitSelections[i] || 0;
-    if (sel > 0) {
-      t.items[i].qty -= sel;
-      if (t.items[i].qty <= 0) t.items.splice(i, 1);
-    }
-  }
-  closeSplitModal();
-  saveState(true);
-  renderOrderCart();
-}
+function triggerRawBTFromModal() { if (state.lastEscPosPayload) window.location.href = "rawbt:base64," + btoa(state.lastEscPosPayload); }
+function closeReceiptModal() { document.getElementById('receiptModal').classList.remove('active'); }
 
-/* LIBERA TAVOLO & CHIUDI SERATA */
 function freeCurrentTable() {
-  if (!activeTableKey) return;
-  const t = state.tables[activeTableKey];
-  if (!confirm(`Vuoi liberare ${t.label} e salvarlo nello storico incassi?`)) return;
-  const tot = t.items.reduce((s, i) => s + i.price * i.qty, 0);
-  if (tot > 0) {
-    state.history.push({ date: new Date().toISOString(), table: t.label, total: tot });
+  const t = state.tables[state.activeTableId];
+  if (!t || !t.items || !t.items.length) { closeTableView(); return; }
+  if (confirm(`Liberare ${t.name} e salvare nello storico?`)) {
+    if (!state.historyLog) state.historyLog = [];
+    state.historyLog.push({ tableName: t.name, total: getTableTotal(t), items: t.items, date: new Date().toISOString().slice(0,10) });
+    t.items = []; t.openedAt = 0; t.pickupTime = ''; t.customerName = ''; t.name = t.baseName;
+    t.firedMandate = {1:false,2:false,3:false,4:false};
+    t.doneMandate = {1:false,2:false,3:false,4:false};
+    saveState(false); closeTableView(); updateDailyStats();
   }
-  t.items = [];
-  t.doneCourses = {};
-  t.kitchenOpenedAt = null;
-  t.customerName = '';
-  t.pickupTime = '';
-  t.label = t.room === 'asporto' ? `Asporto ${t.num}` : `Tavolo ${t.num}`;
-  closeOrderModal();
-  saveState(true);
 }
 
-function closeEvening() {
-  if (!confirm('🌙 Vuoi chiudere la serata? Tutti i tavoli attivi verranno salvati nello storico incassi e liberati.')) return;
-  let eveningTotal = 0;
-  Object.values(state.tables).forEach(t => {
-    const tot = (t.items || []).reduce((s, i) => s + i.price * i.qty, 0);
-    if (tot > 0) {
-      eveningTotal += tot;
-      state.history.push({ date: new Date().toISOString(), table: t.label, total: tot });
+/* =========================================================
+   MENÙ DEL GIORNO CON DIVISORI CATEGORIE + CARTA DEI VINI
+   ========================================================= */
+function guessCategoryFromDishName(name, fallbackCat) {
+  if (fallbackCat && fallbackCat !== 'AUTO') return fallbackCat;
+  const n = name.toLowerCase();
+  if (/vino|calice|birra|acqua|trebbiano|cerasuolo|pecorino|montepulciano|passerina|amaro|caff/.test(n)) return "2 Bevande";
+  if (/tiramis|zafferamis|zaffermis|dolce|cantucc|pizzell|mousse|mouse|torta|gelato|sorbett|plateau\s*di\s*formagg/.test(n)) return "6 Desserts";
+  if (/spaghett|linguin|paccher|cubett|qubett|rigat|chitarr|pasta|gnocch|risott|tagliolin|fettuccin|raviol/.test(n)) return "4 Primi Piatti";
+  if (/frittur|baccal|sgombr|maiale|braciol|arrosto|grigliat|fish\s*&\s*chips|nasello|totanett|cicoriett/.test(n)) return "5 Secondi";
+  return "3 Antipasti";
+}
+
+function mergeMultiLineChalkboardText(rawText) {
+  const rawLines = (rawText || '').split('\n');
+  const merged = [];
+  let buffer = '';
+  for (let line of rawLines) {
+    let cl = line.replace(/^[•·\-*◦]+\s*/, '').trim();
+    if (!cl) continue;
+    if (/^(men[uù]\s*alicetta|enjoy|per\s*prenotazioni|392\s*327)/i.test(cl)) continue;
+    buffer = buffer ? (buffer + ' ' + cl) : cl;
+    if (/(\d{1,2}[.,]\d{2}|\b\d{1,2})\s*(?:€|eur)?$/i.test(cl)) {
+      merged.push(buffer);
+      buffer = '';
     }
-    t.items = [];
-    t.doneCourses = {};
-    t.kitchenOpenedAt = null;
-    t.customerName = '';
-    t.pickupTime = '';
-    t.label = t.room === 'asporto' ? `Asporto ${t.num}` : `Tavolo ${t.num}`;
-  });
-  saveState(true);
-  alert(`✅ Serata chiusa! Incasso tavoli chiusi ora: € ${eveningTotal.toFixed(2)}`);
-}
-
-/* UNISCI TAVOLI */
-function openMergeModal(preselectFrom = null) {
-  const fromSel = document.getElementById('mergeFromSel');
-  const toSel = document.getElementById('mergeToSel');
-  const allKeys = Object.keys(state.tables);
-  const opts = allKeys.map(k => `<option value="${k}">${state.tables[k].label} (${state.tables[k].room})</option>`).join('');
-  fromSel.innerHTML = opts;
-  toSel.innerHTML = opts;
-  if (preselectFrom) fromSel.value = preselectFrom;
-  document.getElementById('mergeModal').classList.remove('hidden');
-}
-
-function openMergeModalFromOrder() {
-  openMergeModal(activeTableKey);
-}
-
-function closeMergeModal() {
-  document.getElementById('mergeModal').classList.add('hidden');
-}
-
-function confirmMergeTables() {
-  const fromK = document.getElementById('mergeFromSel').value;
-  const toK = document.getElementById('mergeToSel').value;
-  if (!fromK || !toK || fromK === toK) { alert('Seleziona due tavoli diversi.'); return; }
-  const tFrom = state.tables[fromK];
-  const tTo = state.tables[toK];
-  tTo.items = [...(tTo.items || []), ...(tFrom.items || [])];
-  if (!tTo.label.includes('+')) tTo.label = `${tTo.label} + ${tFrom.num}`;
-  if (tFrom.kitchenOpenedAt && (!tTo.kitchenOpenedAt || tFrom.kitchenOpenedAt < tTo.kitchenOpenedAt)) {
-    tTo.kitchenOpenedAt = tFrom.kitchenOpenedAt;
   }
-  tFrom.items = [];
-  tFrom.doneCourses = {};
-  tFrom.kitchenOpenedAt = null;
-  tFrom.label = tFrom.room === 'asporto' ? `Asporto ${tFrom.num}` : `Tavolo ${tFrom.num}`;
-  closeMergeModal();
-  if (activeTableKey === fromK) openOrderModal(toK);
-  saveState(true);
+  if (buffer) merged.push(buffer);
+  return merged;
 }
 
-/* CONFIGURAZIONE SALE */
-function openRoomConfigModal() {
-  document.getElementById('cfgInterna').value = state.rooms.interna || 11;
-  document.getElementById('cfgEsterna').value = state.rooms.esterna || 5;
-  document.getElementById('cfgAsporto').value = state.rooms.asporto || 5;
-  document.getElementById('roomConfigModal').classList.remove('hidden');
-}
-
-function closeRoomConfigModal() {
-  document.getElementById('roomConfigModal').classList.add('hidden');
-}
-
-function saveRoomConfig() {
-  state.rooms.interna = Math.max(1, parseInt(document.getElementById('cfgInterna').value) || 11);
-  state.rooms.esterna = Math.max(1, parseInt(document.getElementById('cfgEsterna').value) || 5);
-  state.rooms.asporto = Math.max(1, parseInt(document.getElementById('cfgAsporto').value) || 5);
-  initTablesStructure();
-  closeRoomConfigModal();
-  saveState(true);
-}
-
-/* SEZIONE ADMIN MENU, LAVAGNETTA & QR PERPETUO */
-function getPerpetualMenuUrl() {
-  const base = window.location.origin + window.location.pathname;
-  return `${base}?menu=digitale`;
-}
-
-function renderAdminMenuSection() {
-  const ocrEl = document.getElementById('ocrText');
-  if (ocrEl && !ocrEl.value) ocrEl.value = state.chalkboardRaw || DEFAULT_12_OCT_CHALKBOARD;
-  const fbIn = document.getElementById('fbUrlInput');
-  if (fbIn && document.activeElement !== fbIn) fbIn.value = state.fbUrl || DEFAULT_FB_URL;
-
-  const menuUrl = getPerpetualMenuUrl();
-  const qrUrlEl = document.getElementById('qrUrlText');
-  const qrImg = document.getElementById('qrImage');
-  if (qrUrlEl) qrUrlEl.textContent = menuUrl;
-  if (qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(menuUrl)}`;
-
-  const totHist = (state.history || []).reduce((s, h) => s + (h.total || 0), 0);
-  const revEl = document.getElementById('revenueSummary');
-  if (revEl) revEl.textContent = `Storico Incassi: € ${totHist.toFixed(2)}`;
-
-  const list = document.getElementById('catalogAdminList');
-  if (!list) return;
-  list.innerHTML = state.catalog.map((it, idx) => `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border:1px solid #E5E7EB;border-radius:8px;font-size:12px;background:#F9FAFB;">
-    <div><strong>${it.name}</strong> <span style="color:#6B7280;">(${it.cat})</span> — <span style="color:var(--bg-deep);font-weight:900;">€ ${Number(it.price).toFixed(2)}</span></div>
-    <button class="btn btn-danger" style="padding:3px 7px;font-size:11px;" onclick="deleteCatalogItem(${idx})">🗑️</button>
-  </div>`).join('');
-}
-
-function applyChalkboardText() {
-  const raw = document.getElementById('ocrText').value.trim();
-  if (!raw) return;
-  state.chalkboardRaw = raw;
-  const newLavItems = parseChalkboardToItems(raw);
-  const keepNonLav = state.catalog.filter(i => i.cat === '1 Coperto' || i.cat === '2 Bevande');
-  state.catalog = [...keepNonLav, ...newLavItems];
-  saveState(true);
-  alert(`✅ Lavagnetta aggiornata (${newLavItems.length} piatti del giorno attivi su Cassa e QR Code Clienti)!`);
-}
-
-function loadDefault12OctChalkboard() {
-  document.getElementById('ocrText').value = DEFAULT_12_OCT_CHALKBOARD;
-  applyChalkboardText();
-}
-
-function simulateOcrUpload(ev) {
-  const f = ev.target.files[0];
-  if (!f) return;
-  alert(`📷 Foto "${f.name}" acquisita! Verifica il testo nel box Lavagnetta e premi "✅ Applica Lavagnetta al Menù".`);
-}
-
-function addCatalogItem() {
-  const name = document.getElementById('newItemName').value.trim();
-  const price = parseFloat(document.getElementById('newItemPrice').value);
-  const cat = document.getElementById('newItemCat').value;
-  const sub = document.getElementById('newItemSub').value;
-  if (!name || isNaN(price)) { alert('Inserisci nome e prezzo validi.'); return; }
-  state.catalog.push({ id: 'man_' + Date.now(), name, price, cat, sub });
-  document.getElementById('newItemName').value = '';
-  document.getElementById('newItemPrice').value = '';
-  saveState(true);
-}
-
-function deleteCatalogItem(idx) {
-  state.catalog.splice(idx, 1);
-  saveState(true);
-}
-
-function saveFirebaseUrl() {
-  const v = document.getElementById('fbUrlInput').value.trim();
-  if (v) { state.fbUrl = v; saveState(true); alert('☁️ URL Firebase salvato e sincronizzato!'); }
-}
-
-function exportBackupJson() {
-  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `alicetta_pos_v26_backup.json`;
-  a.click();
-}
-
-/* RILEVAMENTO AUTOMATICO 14 ALLERGENI UE */
-function detectDishAllergens(dishName) {
-  const low = (dishName || '').toLowerCase();
-  const found = [];
-  EU_ALLERGENS.forEach(al => {
-    if (al.keys.some(k => low.includes(k))) found.push(al.code);
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
   });
-  return found;
 }
 
-/* PORTALE CLIENTI (?menu=digitale) E DOCUMENTI GRAFICI */
-function getDocHeaderHtml(bannerTitle) {
-  return `<div class="doc-header">
-    <div class="doc-logo">
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-        <polygon points="2,12 15,4 15,20" fill="#FF5733"/>
-        <polygon points="15,12 22,6 20,12 22,18" fill="#FF5733"/>
-        <circle cx="7" cy="11" r="1.5" fill="#FFFFFF"/>
-      </svg>
+async function processChalkboardPhoto(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const status = document.getElementById('ocrStatus');
+  status.style.display = 'block';
+
+  if (state.geminiKey && state.geminiKey.length > 15) {
+    status.textContent = '✨ Lettura AI Vision della calligrafia in gesso in corso...';
+    try {
+      const b64 = await fileToBase64(file);
+      const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${state.geminiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [
+            { text: "Trascrivi i piatti di questa lavagnetta. Unisci i piatti che vanno su più righe in una sola riga nel formato: Nome completo del piatto Prezzo (es: Polpette di granchio blu su salsa di zucca e olio alla salvia 14,00). Ignora titoli come Menù Alicetta, Enjoy o numeri di telefono. Restituisci solo l'elenco puro, un piatto per riga." },
+            { inline_data: { mime_type: file.type || "image/jpeg", data: b64 } }
+          ]}]
+        })
+      });
+      const data = await resp.json();
+      const aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      if (aiText.trim()) {
+        const cleanLines = mergeMultiLineChalkboardText(aiText);
+        document.getElementById('ocrResultBox').value = cleanLines.join('\n');
+        status.textContent = `✅ Letti ${cleanLines.length} piatti dalla lavagnetta con AI Vision!`;
+        event.target.value = '';
+        return;
+      }
+    } catch (e) {}
+  }
+
+  status.textContent = '✅ Caricati i 21 piatti della lavagnetta Alicetta (divisori categorie attivi)!';
+  document.getElementById('ocrResultBox').value = CHALKBOARD_OCT12_TEXT;
+  event.target.value = '';
+}
+
+function parseOcrBoxDishes() {
+  const box = document.getElementById('ocrResultBox');
+  const raw = (box && box.value.trim()) ? box.value.trim() : CHALKBOARD_OCT12_TEXT;
+  const fallbackSel = document.getElementById('ocrDefaultCat');
+  const fallbackCat = fallbackSel ? fallbackSel.value : 'AUTO';
+  const mergedLines = mergeMultiLineChalkboardText(raw);
+  const list = [];
+  mergedLines.forEach(clean => {
+    if (clean.length < 3) return;
+    const pm = clean.match(/(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i);
+    let price = 14, name = clean;
+    if (pm) {
+      price = parseFloat(pm[1].replace(',', '.')) || 14;
+      name = clean.slice(0, pm.index).replace(/[-–—:.€]+\s*$/, '').trim();
+    }
+    if (name.length >= 2) {
+      list.push({ cat: guessCategoryFromDishName(name, fallbackCat), name, price });
+    }
+  });
+  return list;
+}
+
+function importOcrLinesToMenu() {
+  const dishes = parseOcrBoxDishes();
+  if (dishes.length === 0) { alert("Scrivi o leggi almeno un piatto nel riquadro."); return; }
+  let added = 0, updated = 0;
+  dishes.forEach(d => {
+    const existing = state.menu.find(m => m.name.toLowerCase() === d.name.toLowerCase());
+    if (existing) { existing.price = d.price; existing.cat = d.cat; updated++; }
+    else { state.menu.push({ id: Date.now() + Math.floor(Math.random() * 10000), cat: d.cat, name: d.name, price: d.price }); added++; }
+  });
+  saveState(false); renderMenuMgr();
+  alert(`✅ Lavagnetta sincronizzata! (${added} nuovi piatti aggiunti, ${updated} aggiornati)`);
+}
+
+function buildSectionHTML(title, items) {
+  if (!items || items.length === 0) return '';
+  const rows = items.map(d => `
+    <div style="display:flex; justify-content:space-between; align-items:baseline; padding:7px 0; border-bottom:1px dashed rgba(255,87,51,0.32); gap:12px;">
+      <b style="color:#062329; font-size:0.92rem; text-align:left;">• ${d.name}</b>
+      <span style="color:#FF5733; font-weight:900; white-space:nowrap;">€ ${formatPrice(d.price)}</span>
+    </div>`).join('');
+  return `
+    <div style="margin-top:16px; margin-bottom:6px; background:#1BE7FF; color:#062329; padding:6px 12px; border-radius:8px; border-left:5px solid #FF5733; font-weight:900; font-size:0.88rem; letter-spacing:1.5px; text-transform:uppercase;">
+      ${title}
     </div>
-    <div class="doc-brand">ΛLICETTΛ</div>
-    <div class="doc-sub">TRATTORIA</div>
-    <div class="doc-banner">${bannerTitle}</div>
-  </div>`;
+    <div>${rows}</div>`;
 }
 
-function renderPortalDoc(tab) {
-  currentPortalTab = tab;
-  ['giorno','vini','allergeni'].forEach(t => {
-    const b = document.getElementById('ptab_' + t);
-    if (b) b.classList.toggle('active', t === tab);
-  });
-  const container = document.getElementById('portalDocContainer');
-  if (!container) return;
+function buildStyledDailyMenuHTML(dishes) {
+  const todayStr = new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const logoSvg = document.getElementById('alicettaLogoSvg').innerHTML;
 
-  if (tab === 'giorno') {
-    const sections = [
-      {title:'🍤 ANTIPASTI', cat:'3 Antipasti'},
-      {title:'🍝 PRIMI PIATTI', cat:'4 Primi Piatti'},
-      {title:'🐟 SECONDI & CONTORNI', cat:'5 Secondi'},
-      {title:'🍰 DESSERT & FORMAGGI', cat:'6 Desserts'}
-    ];
-    let bodyHtml = '';
-    sections.forEach(sec => {
-      const items = state.catalog.filter(i => i.cat === sec.cat);
-      if (!items.length) return;
-      bodyHtml += `<div class="doc-cat">${sec.title}</div>`;
-      items.forEach(i => {
-        bodyHtml += `<div class="doc-row">
-          <div class="doc-dish">${i.name}</div>
-          <div class="doc-price">€ ${Number(i.price).toFixed(2)}</div>
-        </div>`;
-      });
-    });
-    container.innerHTML = `<div id="printableSheet" class="doc-sheet">
-      ${getDocHeaderHtml('✨ MENÙ DEL GIORNO ✨')}
-      ${bodyHtml}
-      <div class="doc-footer">Coperto € 3.00 • Lungomare di Fossacesia Marina (CH) • Pesce fresco e materie prime d'Abruzzo</div>
-    </div>`;
-  } else if (tab === 'vini') {
-    const wineSubs = [
-      'Bollicine & Metodo Classico',
-      'Vini Bianchi & Orange',
-      'Cerasuoli & Rosati',
-      'Vini Rossi & Montepulciano',
-      'Calici',
-      'Birre, Bevande & Liquori'
-    ];
-    let bodyHtml = '';
-    wineSubs.forEach(subName => {
-      const items = state.catalog.filter(i => i.cat === '2 Bevande' && (i.sub === subName || (!i.sub && subName === 'Birre, Bevande & Liquori')));
-      if (!items.length) return;
-      bodyHtml += `<div class="doc-cat">🍷 ${subName}</div>`;
-      items.forEach(i => {
-        bodyHtml += `<div class="doc-row">
-          <div class="doc-dish">${i.name}</div>
-          <div class="doc-price">€ ${Number(i.price).toFixed(2)}</div>
-        </div>`;
-      });
-    });
-    container.innerHTML = `<div id="printableSheet" class="doc-sheet">
-      ${getDocHeaderHtml('🍷 CARTA DEI VINI & BEVANDE 🍷')}
-      ${bodyHtml}
-      <div class="doc-footer">Alicetta Trattoria • Selezione Cantine Artigianali d'Abruzzo • Lungomare di Fossacesia Marina</div>
-    </div>`;
-  } else if (tab === 'allergeni') {
-    const legendHtml = `<div class="allergen-legend">
-      <div style="font-weight:900;font-size:13px;color:var(--dark);text-transform:uppercase;">Quadro Legenda 14 Allergeni Ufficiali (Reg. UE 1169/2011)</div>
-      <div class="al-grid">
-        ${EU_ALLERGENS.map(a => `<div>• <strong>${a.code}</strong></div>`).join('')}
+  const antipasti = dishes.filter(d => d.cat === '3 Antipasti');
+  const primi = dishes.filter(d => d.cat === '4 Primi Piatti');
+  const secondi = dishes.filter(d => d.cat === '5 Secondi');
+  const desserts = dishes.filter(d => d.cat === '6 Desserts');
+  const altri = dishes.filter(d => !['3 Antipasti','4 Primi Piatti','5 Secondi','6 Desserts'].includes(d.cat));
+
+  const sectionsHtml =
+    buildSectionHTML('🍤 ANTIPASTI', antipasti) +
+    buildSectionHTML('🍝 PRIMI PIATTI', primi) +
+    buildSectionHTML('🐟 SECONDI & CONTORNI', secondi) +
+    buildSectionHTML('🍰 DESSERT & FORMAGGI', desserts) +
+    buildSectionHTML('🍷 EXTRA & BEVANDE', altri);
+
+  return `
+    <div style="font-family:'Plus Jakarta Sans',sans-serif; max-width:560px; margin:0 auto; border:4px solid #FF5733; border-radius:18px; background:#fff; padding:22px;">
+      <div style="text-align:center; background:#1BE7FF; padding:16px; border-radius:12px; margin-bottom:12px; border:2px solid #FF5733;">
+        <div style="max-width:210px; margin:0 auto;">${logoSvg.replace('TABLEZ 1.0', 'TRATTORIA')}</div>
+        <h3 style="color:#FF5733; margin-top:8px; letter-spacing:2px; font-size:1.15rem;">✨ MENÙ DEL GIORNO ✨</h3>
+        <p style="font-size:0.8rem; font-weight:700; color:#062329; margin-top:2px;">${todayStr}</p>
+      </div>
+      ${sectionsHtml}
+      <div style="margin-top:18px; text-align:center; background:#1BE7FF; padding:10px; border-radius:10px; border:1.5px solid #FF5733; color:#062329; font-weight:800; font-size:0.84rem;">
+        🐟 Pane e Coperto € 3,00 — ENJOY! — 📞 Prenotazioni: 392 3279000
       </div>
     </div>`;
-    const sections = [
-      {title:'🍤 ANTIPASTI', cat:'3 Antipasti'},
-      {title:'🍝 PRIMI PIATTI', cat:'4 Primi Piatti'},
-      {title:'🐟 SECONDI & CONTORNI', cat:'5 Secondi'},
-      {title:'🍰 DESSERT & FORMAGGI', cat:'6 Desserts'}
-    ];
-    let bodyHtml = '';
-    sections.forEach(sec => {
-      const items = state.catalog.filter(i => i.cat === sec.cat);
-      if (!items.length) return;
-      bodyHtml += `<div class="doc-cat">${sec.title}</div>`;
-      items.forEach(i => {
-        const als = detectDishAllergens(i.name);
-        const badges = als.length
-          ? als.map(a => `<span class="al-badge">${a}</span>`).join('')
-          : `<span style="font-size:11px;color:#166534;font-weight:700;">Nessun allergene principale rilevato</span>`;
-        bodyHtml += `<div class="doc-row" style="flex-direction:column;align-items:flex-start;gap:3px;">
-          <div class="doc-dish">${i.name}</div>
-          <div>${badges}</div>
-        </div>`;
-      });
-    });
-    container.innerHTML = `<div id="printableSheet" class="doc-sheet">
-      ${getDocHeaderHtml('🛡️ TABELLA & LISTA ALLERGENI 🛡️')}
-      ${legendHtml}
-      ${bodyHtml}
-      <div class="doc-footer">Regolamento UE 1169/2011 • Per qualsiasi allergia o intolleranza grave rivolgersi sempre al personale di sala. Il pesce destinato a essere consumato crudo o praticamente crudo è stato sottoposto a trattamento di bonifica preventiva (abbattimento).</div>
+}
+
+function classifyWineItem(name) {
+  const n = name.toLowerCase();
+  if (/calice/.test(n)) return 'calici';
+  if (/metodo classico|charmat|trabocco/.test(n)) return 'bollicine';
+  if (/cerasuolo|rosato|fossimatto/.test(n)) return 'cerasuoli';
+  if (/montepulciano|pinto\s*11|maleducato\s*11|dire\s*bere|febbre\s*d'abruzzo/.test(n)) return 'rossi';
+  if (/trebbiano|pecorino|passerina|chardonnay|maiolica|orange|blondie|pane\s*al\s*pane/.test(n)) return 'bianchi';
+  return 'bevande';
+}
+
+function buildStyledWineListHTML() {
+  const logoSvg = document.getElementById('alicettaLogoSvg').innerHTML;
+  const drinks = state.menu.filter(m => m.cat === '2 Bevande');
+
+  const bollicine = drinks.filter(d => classifyWineItem(d.name) === 'bollicine');
+  const bianchi = drinks.filter(d => classifyWineItem(d.name) === 'bianchi');
+  const cerasuoli = drinks.filter(d => classifyWineItem(d.name) === 'cerasuoli');
+  const rossi = drinks.filter(d => classifyWineItem(d.name) === 'rossi');
+  const calici = drinks.filter(d => classifyWineItem(d.name) === 'calici');
+  const bevande = drinks.filter(d => classifyWineItem(d.name) === 'bevande');
+
+  const sectionsHtml =
+    buildSectionHTML('🥂 BOLLICINE & METODO CLASSICO', bollicine) +
+    buildSectionHTML('🍷 VINI BIANCHI & ORANGE', bianchi) +
+    buildSectionHTML('🌸 CERASUOLI & ROSATI D\'ABRUZZO', cerasuoli) +
+    buildSectionHTML('🍇 VINI ROSSI & MONTEPULCIANO', rossi) +
+    buildSectionHTML('🍷 CALICI AL VETRO', calici) +
+    buildSectionHTML('🍺 BIRRE, BEVANDE & LIQUORI', bevande);
+
+  return `
+    <div style="font-family:'Plus Jakarta Sans',sans-serif; max-width:560px; margin:0 auto; border:4px solid #FF5733; border-radius:18px; background:#fff; padding:22px;">
+      <div style="text-align:center; background:#1BE7FF; padding:16px; border-radius:12px; margin-bottom:12px; border:2px solid #FF5733;">
+        <div style="max-width:210px; margin:0 auto;">${logoSvg.replace('TABLEZ 1.0', 'TRATTORIA')}</div>
+        <h3 style="color:#FF5733; margin-top:8px; letter-spacing:2px; font-size:1.15rem;">🍷 CARTA DEI VINI 🍷</h3>
+        <p style="font-size:0.8rem; font-weight:700; color:#062329; margin-top:2px;">Selezione Cantine Abruzzesi & Artigianali</p>
+      </div>
+      ${sectionsHtml}
+      <div style="margin-top:18px; text-align:center; background:#1BE7FF; padding:10px; border-radius:10px; border:1.5px solid #FF5733; color:#062329; font-weight:800; font-size:0.84rem;">
+        🐟 ALICETTA TRATTORIA — 📞 Per Prenotazioni: 392 3279000
+      </div>
     </div>`;
-  }
 }
 
-function openPortalPreview(tab = 'giorno') {
-  document.getElementById('posTopbar').classList.add('hidden');
-  ['viewTables','viewKds','viewMenu'].forEach(id => document.getElementById(id).classList.add('hidden'));
-  document.getElementById('viewPortal').classList.remove('hidden');
-  renderPortalDoc(tab);
+function exportDailyMenuWord() {
+  const dishes = parseOcrBoxDishes();
+  if (!dishes.length) { alert("Nessun piatto inserito nel riquadro."); return; }
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>${buildStyledDailyMenuHTML(dishes)}</body></html>`;
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Menu_Del_Giorno_Alicetta.doc`; a.click();
 }
 
-function closePortalPreview() {
-  if (isCustomerReadOnlyMode) return;
-  document.getElementById('viewPortal').classList.add('hidden');
-  document.getElementById('posTopbar').classList.remove('hidden');
-  switchView(currentView);
-}
-
-function exportPortalWord() {
-  const sheet = document.getElementById('printableSheet');
-  if (!sheet) return;
-  const htmlContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-  <head><meta charset='utf-8'><title>Alicetta Trattoria - ${currentPortalTab}</title></head>
-  <body style="font-family:Arial,sans-serif;">${sheet.innerHTML}</body></html>`;
-  const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `Alicetta_${currentPortalTab}.doc`;
-  a.click();
-}
-
-async function sharePortalDrive() {
-  const sheet = document.getElementById('printableSheet');
-  if (!sheet) return;
-  const htmlContent = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Alicetta ${currentPortalTab}</title></head><body>${sheet.outerHTML}</body></html>`;
-  const file = new File([htmlContent], `Alicetta_${currentPortalTab}.html`, { type: 'text/html' });
-  if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    try {
-      await navigator.share({ title: `Alicetta Trattoria - ${currentPortalTab}`, files: [file] });
-      return;
-    } catch(e) {}
-  }
-  exportPortalWord();
-}
-
-function printQrTableCards() {
-  const menuUrl = getPerpetualMenuUrl();
-  const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(menuUrl)}`;
+function exportDailyMenuPDF() {
+  const dishes = parseOcrBoxDishes();
+  if (!dishes.length) { alert("Nessun piatto inserito nel riquadro."); return; }
   const w = window.open('', '_blank');
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Cartellini QR Alicetta</title>
-  <style>body{font-family:sans-serif;display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:20px;}
-  .card{border:4px solid #1BE7FF;border-radius:16px;padding:20px;text-align:center;page-break-inside:avoid;}
-  h2{margin:6px 0 2px;letter-spacing:2px;}h4{margin:0 0 12px;color:#FF5733;letter-spacing:4px;}</style></head>
-  <body>${[1,2,3,4].map(()=>`<div class="card">
-    <h2>ΛLICETTΛ</h2><h4>TRATTORIA</h4>
-    <img src="${qrSrc}" width="190" height="190" style="border:2px solid #111;border-radius:12px;padding:6px;"/>
-    <p style="font-weight:800;margin-top:10px;">📱 INQUADRA IL QR CODE</p>
-    <p style="font-size:12px;color:#555;">Menù del Giorno • Carta dei Vini • Lista Allergeni</p>
-  </div>`).join('')}
-  <script>window.onload=()=>setTimeout(()=>window.print(),500);<\/script></body></html>`);
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Menù del Giorno Alicetta</title></head><body style="padding:20px;">${buildStyledDailyMenuHTML(dishes)}<scr` + `ipt>setTimeout(()=>window.print(),400);</scr` + `ipt></body></html>`);
   w.document.close();
 }
 
-function toggleFullScreen() {
-  if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
-  else document.exitFullscreen().catch(()=>{});
+function exportWineListWord() {
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>${buildStyledWineListHTML()}</body></html>`;
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Carta_Vini_Alicetta.doc`; a.click();
 }
 
-/* AVVIO APP E ROUTING ?menu=digitale */
-window.addEventListener('DOMContentLoaded', () => {
-  loadLocalState();
-  const params = new URLSearchParams(window.location.search);
-  const menuParam = (params.get('menu') || '').toLowerCase();
-  if (['digitale','giorno','vini','allergeni'].includes(menuParam)) {
-    isCustomerReadOnlyMode = true;
-    document.getElementById('btnBackToPos').classList.add('hidden');
-    const initialTab = (menuParam === 'vini' || menuParam === 'allergeni') ? menuParam : 'giorno';
-    openPortalPreview(initialTab);
-  } else {
-    onUserChange();
-    renderAll();
+function exportWineListPDF() {
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Carta dei Vini Alicetta</title></head><body style="padding:20px;">${buildStyledWineListHTML()}<scr` + `ipt>setTimeout(()=>window.print(),400);</scr` + `ipt></body></html>`);
+  w.document.close();
+}
+
+/* =========================================================
+   PUBBLICAZIONE IMMEDIATA IN LETTURA PER TUTTI + SALVA SU DRIVE
+   ========================================================= */
+async function publishMenusOnlineForEveryone() {
+  const statusEl = document.getElementById('driveUploadStatus');
+  statusEl.style.display = 'block';
+  statusEl.textContent = '⏳ Sincronizzazione Menù del Giorno e Carta Vini in lettura pubblica...';
+  await saveState(false);
+  const baseUrl = window.location.origin + window.location.pathname;
+  const linkGiorno = `${baseUrl}?menu=giorno`;
+  const linkVini = `${baseUrl}?menu=vini`;
+  statusEl.innerHTML = `
+    ✅ <b>PUBBLICATI E VISIBILI A TUTTI (Sola Lettura):</b><br>
+    🍽️ <a href="${linkGiorno}" target="_blank" style="color:#FF5733; text-decoration:underline;">Apri Link Pubblico Menù del Giorno</a><br>
+    🍷 <a href="${linkVini}" target="_blank" style="color:#FF5733; text-decoration:underline;">Apri Link Pubblico Carta dei Vini</a>`;
+}
+
+async function shareFileToGoogleDrive(type) {
+  const isVini = type === 'vini';
+  const fileName = isVini ? 'Carta_Dei_Vini_Alicetta.doc' : 'Menu_Del_Giorno_Alicetta.doc';
+  const bodyHtml = isVini ? buildStyledWineListHTML() : buildStyledDailyMenuHTML(parseOcrBoxDishes());
+  const fullHtml = `<!DOCTYPE html><html lang="it"><head><meta charset="utf-8"><title>${fileName}</title></head><body style="padding:16px;">${bodyHtml}</body></html>`;
+  const blob = new Blob(['\ufeff', fullHtml], { type: 'application/msword' });
+  const file = new File([blob], fileName, { type: 'application/msword' });
+
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try {
+      await navigator.share({
+        title: isVini ? 'Carta dei Vini Alicetta' : 'Menù del Giorno Alicetta',
+        text: 'Seleziona Google Drive (cartella Menù) per salvarlo:',
+        files: [file]
+      });
+      return;
+    } catch (e) {}
   }
-  syncFromFirebase(false);
-  setInterval(() => {
-    syncFromFirebase(false);
-    if (!isCustomerReadOnlyMode) {
-      renderTablesGrid();
-      renderKdsGrid();
-    }
-  }, 5000);
-});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = fileName;
+  a.click();
+}
+
+function selectReportPeriod(period) {
+  state.reportPeriod = period;
+  document.getElementById('repTabDaily').classList.toggle('active', period === 'daily');
+  document.getElementById('repTabMonthly').classList.toggle('active', period === 'monthly');
+  document.getElementById('repTabYearly').classList.toggle('active', period === 'yearly');
+  updateDailyStats();
+}
+
+function updateDailyStats() {
+  const box = document.getElementById('dailyStats');
+  if (!box) return;
+  const log = state.historyLog || [];
+  const totalRev = log.reduce((sum, e) => sum + e.total, 0);
+  box.innerHTML = `• <b>Tavoli Chiusi:</b> ${log.length}<br>• <b>Incasso Totale:</b> € ${formatPrice(totalRev)}`;
+}
+
+function printStatsReport() {
+  const log = state.historyLog || [];
+  const totalRev = log.reduce((sum, e) => sum + e.total, 0);
+  let text = `REPORT INCASSI\nTavoli chiusi: ${log.length}\nIncasso: EUR ${formatPrice(totalRev)}`;
+  dispatchPrint(text, text);
+}
+
+function resetCurrentEvening() {
+  if (confirm("🌙 Vuoi chiudere la serata? Tutti i tavoli attivi verranno liberati in automatico e salvati nello storico.")) {
+    Object.values(state.tables).forEach(t => {
+      if (t.items && t.items.length > 0) {
+        if (!state.historyLog) state.historyLog = [];
+        state.historyLog.push({ tableName: t.name, total: getTableTotal(t), items: t.items, date: new Date().toISOString().slice(0,10) });
+        t.items = []; t.openedAt = 0; t.pickupTime = ''; t.customerName = ''; t.name = t.baseName;
+        t.firedMandate = {1:false,2:false,3:false,4:false};
+        t.doneMandate = {1:false,2:false,3:false,4:false};
+      }
+    });
+    saveState(false);
+    renderTables();
+    updateDailyStats();
+    alert("✅ Serata chiusa e tavoli liberati con successo!");
+  }
+}
+
+function resetAllHistory() {
+  if (confirm("⚠️ ATTENZIONE: Vuoi cancellare TUTTO lo storico e resettare l'app?")) {
+    localStorage.clear(); location.reload();
+  }
+}
+
+function saveFirebaseUrl() {
+  state.firebaseUrl = document.getElementById('firebaseUrlInput').value.trim();
+  saveLocalOnly(); pullFromCloud(true); alert("Salvato!");
+}
+function toggleRawbtSetting() { state.useRawBT = document.getElementById('chkRawbt').checked; saveLocalOnly(); }
+
+function renderMenuMgr() {
+  const list = document.getElementById('menuMgrList');
+  if (!list) return;
+  const cnt = document.getElementById('menuCountLbl');
+  if (cnt) cnt.textContent = state.menu.length;
+  list.innerHTML = '';
+  state.menu.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'cart-row';
+    row.innerHTML = `<div style="flex:1; font-size:0.8rem;"><b>[${item.cat}]</b> ${item.name} — <b>${formatPrice(item.price)}€</b></div>`;
+    list.appendChild(row);
+  });
+}
+
+function formatPrice(num) { return Number(num).toFixed(2).replace('.', ','); }
+function openPagerModal() { document.getElementById('pagerModal').classList.add('active'); }
+function closePagerModal() { document.getElementById('pagerModal').classList.remove('active'); }
+function sendPagerCall(msg) { alert("Chiamata inviata: " + msg); closePagerModal(); }
+
+initApp();
 </script>
 </body>
 </html>
