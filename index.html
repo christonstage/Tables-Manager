@@ -12,7 +12,8 @@
     --card-hover: #9E1F21;
     --text: #FFFFFF;
     --muted: #FFE3E2;
-    --accent: #00C8E5;       /* Turchese Alicetta */
+    --accent: #00C8E5;       /* Turchese acceso */
+    --logo-blue: #00B8D4;    /* Azzurro Logo Alicetta */
     --gold: #F5B700;         /* Oro Alicetta */
     --free: #10B981;
     --busy: #F59E0B;
@@ -27,7 +28,7 @@
   .topbar { position: sticky; top: 0; z-index: 50; background: rgba(217, 56, 58, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.18); }
   
   /* Logo Alicetta Trattoria */
-  .brand-logo { display: flex; align-items: center; background: #00B8D4; padding: 5px 11px; border-radius: 10px; border: 1.5px solid #8D5B1C; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+  .brand-logo { display: flex; align-items: center; background: var(--logo-blue); padding: 5px 11px; border-radius: 10px; border: 1.5px solid #8D5B1C; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .brand-logo svg { height: 34px; width: auto; display: block; }
 
   .top-actions { display: flex; gap: 6px; }
@@ -41,19 +42,28 @@
 
   /* Tables Grid */
   .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
-  .table-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.1s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-  .table-card:active { transform: scale(0.96); }
+  .table-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s, background 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+  .table-card:active { transform: scale(0.95); }
   .table-card.free { border-color: rgba(255, 255, 255, 0.45); }
-  .table-card.busy { border-color: var(--gold); background: #8F1D1F; }
-  .table-name { font-size: 1.05rem; font-weight: 800; }
+  
+  /* Tavolo Occupato colorato con l'Azzurro del Logo Alicetta */
+  .table-card.busy {
+    background: var(--logo-blue);
+    border-color: #FFFFFF;
+    color: #062329;
+    box-shadow: 0 5px 15px rgba(0, 184, 212, 0.45);
+  }
+  .table-name { font-size: 1.05rem; font-weight: 900; }
+  .table-card.busy .table-name { color: #062329; }
   .table-status { font-size: 0.75rem; font-weight: 800; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
   .status-free { color: #052e16; background: #34d399; }
-  .status-busy { color: #451a03; background: #fbbf24; }
-  .table-total { font-size: 0.92rem; font-weight: 800; color: #fff; margin-top: 6px; }
+  .status-busy { color: #451a03; background: #fbbf24; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+  .table-total { font-size: 0.95rem; font-weight: 900; color: #fff; margin-top: 6px; }
+  .table-card.busy .table-total { color: #062329; }
   .course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
-  .dot { font-size: 0.65rem; padding: 2px 5px; border-radius: 4px; font-weight: 800; }
-  .dot.sent { background: #34d399; color: #052e16; }
-  .dot.wait { background: #00C8E5; color: #062329; }
+  .dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 900; }
+  .dot.sent { background: #059669; color: #ffffff; }
+  .dot.wait { background: #B8292B; color: #ffffff; }
 
   /* Order Screen */
   .screen { display: none; padding: 12px 14px; }
@@ -61,10 +71,10 @@
   .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
   .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 800; cursor: pointer; }
 
-  /* Mandata Selector */
-  .mandata-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; }
-  .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 10px; font-size: 0.76rem; font-weight: 800; text-align: center; cursor: pointer; }
-  .mandata-btn.active { border-color: #fff; background: var(--accent); color: #062329; }
+  /* Mandata Selector (5 pulsanti: Subito + 1ª, 2ª, 3ª, 4ª) */
+  .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
+  .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 800; text-align: center; cursor: pointer; transition: 0.15s; }
+  .mandata-btn.active { border-color: #fff; background: var(--accent); color: #062329; font-weight: 900; }
 
   /* Category Tabs */
   .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; }
@@ -78,10 +88,38 @@
   .search-input::placeholder { color: rgba(255,255,255,0.7); }
   .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
 
-  /* Menu Items Grid */
+  /* Menu Items Grid & Tap Animation */
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
-  .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
-  .menu-item:active { background: var(--card-hover); transform: scale(0.97); }
+  .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.12); transition: transform 0.12s, background-color 0.15s, border-color 0.15s; }
+  
+  @keyframes dishTapPulse {
+    0%   { transform: scale(1); background-color: var(--card); }
+    35%  { transform: scale(0.91); background-color: var(--logo-blue); border-color: #fff; box-shadow: 0 0 14px rgba(0, 200, 229, 0.85); }
+    100% { transform: scale(1); background-color: var(--card); }
+  }
+  .menu-item.tap-anim {
+    animation: dishTapPulse 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tap-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: var(--gold);
+    color: #062329;
+    font-weight: 900;
+    font-size: 0.78rem;
+    padding: 2px 7px;
+    border-radius: 12px;
+    pointer-events: none;
+    animation: badgeFloatUp 0.45s ease-out forwards;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  @keyframes badgeFloatUp {
+    0%   { opacity: 1; transform: translateY(4px) scale(0.8); }
+    50%  { opacity: 1; transform: translateY(-4px) scale(1.1); }
+    100% { opacity: 0; transform: translateY(-12px) scale(1); }
+  }
+
   .item-name { font-weight: 700; font-size: 0.84rem; line-height: 1.22; word-break: break-word; }
   .item-price { color: var(--gold); font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
 
@@ -167,8 +205,8 @@
 <!-- VISTA 1: MAPPA TAVOLI -->
 <div id="viewTables" class="screen active">
   <div class="room-tabs">
-    <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">🏠 Sala Interna (11)</div>
-    <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🌿 Sala Esterna (5)</div>
+    <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">❄️ Sala Interna (11)</div>
+    <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🕶️ Sala Esterna (5)</div>
   </div>
   <div class="tables-grid" id="tablesContainer"></div>
 </div>
@@ -190,13 +228,14 @@
     <div class="fire-actions" id="fireButtonsContainer"></div>
   </div>
 
-  <!-- Selettore Mandata Corrente -->
+  <!-- Selettore Mandata Corrente (Subito + 1ª, 2ª, 3ª, 4ª) -->
   <div style="font-size:0.75rem; color:var(--muted); margin-bottom:4px; font-weight:800;">STAI INSERENDO PIATTI NELLA:</div>
   <div class="mandata-bar">
-    <div class="mandata-btn" id="mBtn0" onclick="setMandata(0)">⚡ Subito/Bev</div>
-    <div class="mandata-btn active" id="mBtn1" onclick="setMandata(1)">1ª Mandata</div>
-    <div class="mandata-btn" id="mBtn2" onclick="setMandata(2)">2ª Mandata</div>
-    <div class="mandata-btn" id="mBtn3" onclick="setMandata(3)">3ª Mandata</div>
+    <div class="mandata-btn" id="mBtn0" onclick="setMandata(0)">⚡ Subito</div>
+    <div class="mandata-btn active" id="mBtn1" onclick="setMandata(1)">1ª Mand.</div>
+    <div class="mandata-btn" id="mBtn2" onclick="setMandata(2)">2ª Mand.</div>
+    <div class="mandata-btn" id="mBtn3" onclick="setMandata(3)">3ª Mand.</div>
+    <div class="mandata-btn" id="mBtn4" onclick="setMandata(4)">4ª Mand.</div>
   </div>
 
   <!-- Categorie Menù SumUp -->
@@ -291,11 +330,12 @@ const MANDATE_LABELS = {
   0: "SUBITO / BEVANDE",
   1: "1ª MANDATA (MARCIA)",
   2: "2ª MANDATA",
-  3: "3ª MANDATA"
+  3: "3ª MANDATA",
+  4: "4ª MANDATA"
 };
 
 const DEFAULT_MENU = [
-  // 1 Coperto (rimossi articoli a 0,00 €)
+  // 1 Coperto
   { id: 101, cat: "1 Coperto", name: "Pane e Coperto", price: 3.00 },
 
   // 2 Bevande
@@ -407,6 +447,11 @@ function initApp() {
     const parsed = JSON.parse(saved);
     state.menu = (parsed.menu && parsed.menu.length > 0) ? parsed.menu : DEFAULT_MENU;
     state.tables = parsed.tables || buildDefaultTables();
+    // Assicura il supporto alla 4ª mandata anche sui tavoli già salvati in precedenza
+    Object.values(state.tables).forEach(t => {
+      if (!t.firedMandate) t.firedMandate = { 1: false, 2: false, 3: false, 4: false };
+      if (typeof t.firedMandate[4] === 'undefined') t.firedMandate[4] = false;
+    });
     state.useRawBT = parsed.useRawBT || false;
   } else {
     state.menu = DEFAULT_MENU;
@@ -421,10 +466,10 @@ function initApp() {
 function buildDefaultTables() {
   const t = {};
   for (let i = 1; i <= 11; i++) {
-    t['INT_' + i] = { id: 'INT_' + i, name: 'Tavolo ' + i, room: 'interna', items: [], firedMandate: { 1: false, 2: false, 3: false }, sentOnce: false };
+    t['INT_' + i] = { id: 'INT_' + i, name: 'Tavolo ' + i, room: 'interna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
   }
   for (let i = 1; i <= 5; i++) {
-    t['EST_' + i] = { id: 'EST_' + i, name: 'Esterno ' + i, room: 'esterna', items: [], firedMandate: { 1: false, 2: false, 3: false }, sentOnce: false };
+    t['EST_' + i] = { id: 'EST_' + i, name: 'Esterno ' + i, room: 'esterna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
   }
   return t;
 }
@@ -480,12 +525,14 @@ function renderTables() {
       const total = getTableTotal(t);
       const hasM2 = t.items.some(i => i.mandata === 2);
       const hasM3 = t.items.some(i => i.mandata === 3);
+      const hasM4 = t.items.some(i => i.mandata === 4);
 
       let dotsHtml = '';
       if (busy) {
         if (t.sentOnce) dotsHtml += `<span class="dot sent">1ª IN CORSO</span>`;
         if (hasM2) dotsHtml += `<span class="dot ${t.firedMandate[2] ? 'sent' : 'wait'}">2ª ${t.firedMandate[2] ? 'VIA✓' : 'ATTESA'}</span>`;
         if (hasM3) dotsHtml += `<span class="dot ${t.firedMandate[3] ? 'sent' : 'wait'}">3ª ${t.firedMandate[3] ? 'VIA✓' : 'ATTESA'}</span>`;
+        if (hasM4) dotsHtml += `<span class="dot ${t.firedMandate[4] ? 'sent' : 'wait'}">4ª ${t.firedMandate[4] ? 'VIA✓' : 'ATTESA'}</span>`;
       }
 
       const card = document.createElement('div');
@@ -511,7 +558,7 @@ function openTable(tableId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('viewOrder').classList.add('active');
   document.getElementById('activeTableName').textContent = t.name;
-  document.getElementById('activeTableSub').textContent = t.room === 'interna' ? 'Sala Interna' : 'Sala Esterna';
+  document.getElementById('activeTableSub').textContent = t.room === 'interna' ? '❄️ Sala Interna' : '🕶️ Sala Esterna';
   document.getElementById('menuSearch').value = '';
   
   setMandata(t.items.length === 0 ? 0 : 1);
@@ -527,8 +574,9 @@ function closeTableView() {
 
 function setMandata(m) {
   state.currentMandata = m;
-  [0,1,2,3].forEach(idx => {
-    document.getElementById('mBtn' + idx).classList.toggle('active', idx === m);
+  [0,1,2,3,4].forEach(idx => {
+    const el = document.getElementById('mBtn' + idx);
+    if (el) el.classList.toggle('active', idx === m);
   });
 }
 
@@ -574,13 +622,33 @@ function renderMenuGrid() {
   filtered.forEach(item => {
     const card = document.createElement('div');
     card.className = 'menu-item';
-    card.onclick = () => addItemToTable(item);
+    card.onclick = () => {
+      triggerDishAnimation(card);
+      addItemToTable(item);
+    };
     card.innerHTML = `
       <div class="item-name">${item.name}</div>
       <div class="item-price">${formatPrice(item.price)} €</div>
     `;
     grid.appendChild(card);
   });
+}
+
+function triggerDishAnimation(cardEl) {
+  if (navigator.vibrate) {
+    try { navigator.vibrate(20); } catch (e) {}
+  }
+  cardEl.classList.remove('tap-anim');
+  void cardEl.offsetWidth; // Forza reflow per riavviare l'animazione anche su tocchi multipli rapidi
+  cardEl.classList.add('tap-anim');
+
+  const badge = document.createElement('span');
+  badge.className = 'tap-badge';
+  badge.textContent = '+1';
+  cardEl.appendChild(badge);
+  setTimeout(() => {
+    if (badge.parentNode) badge.parentNode.removeChild(badge);
+  }, 450);
 }
 
 function addItemToTable(menuItem) {
@@ -631,34 +699,32 @@ function renderOrderScreen() {
   const t = state.tables[state.activeTableId];
   document.getElementById('activeTableTotal').textContent = '€ ' + formatPrice(getTableTotal(t));
 
-  // Gestione pulsanti "DAI IL VIA"
+  // Gestione pulsanti "DAI IL VIA" (2ª, 3ª e 4ª mandata)
   const fireBox = document.getElementById('fireBox');
   const fireBtns = document.getElementById('fireButtonsContainer');
   fireBtns.innerHTML = '';
   const hasM2 = t.items.some(i => i.mandata === 2);
   const hasM3 = t.items.some(i => i.mandata === 3);
+  const hasM4 = t.items.some(i => i.mandata === 4);
 
-  if (hasM2 || hasM3) {
+  if (hasM2 || hasM3 || hasM4) {
     fireBox.style.display = 'block';
-    if (hasM2) {
-      const b2 = document.createElement('button');
-      b2.className = `btn-fire ${t.firedMandate[2] ? 'fired' : ''}`;
-      b2.textContent = t.firedMandate[2] ? '✅ 2ª MANDATA GIÀ INVIATA (Ristampa)' : '🔥 DAI IL VIA 2ª MANDATA';
-      b2.onclick = () => fireMandataTicket(2);
-      fireBtns.appendChild(b2);
-    }
-    if (hasM3) {
-      const b3 = document.createElement('button');
-      b3.className = `btn-fire ${t.firedMandate[3] ? 'fired' : ''}`;
-      b3.textContent = t.firedMandate[3] ? '✅ 3ª MANDATA GIÀ INVIATA (Ristampa)' : '🔥 DAI IL VIA 3ª MANDATA';
-      b3.onclick = () => fireMandataTicket(3);
-      fireBtns.appendChild(b3);
-    }
+    [2, 3, 4].forEach(mNum => {
+      if (t.items.some(i => i.mandata === mNum)) {
+        const btn = document.createElement('button');
+        btn.className = `btn-fire ${t.firedMandate[mNum] ? 'fired' : ''}`;
+        btn.textContent = t.firedMandate[mNum]
+          ? `✅ ${mNum}ª MANDATA GIÀ INVIATA (Ristampa)`
+          : `🔥 DAI IL VIA ${mNum}ª MANDATA`;
+        btn.onclick = () => fireMandataTicket(mNum);
+        fireBtns.appendChild(btn);
+      }
+    });
   } else {
     fireBox.style.display = 'none';
   }
 
-  // Riepilogo carrello diviso per mandate
+  // Riepilogo carrello diviso per mandate (0..4)
   const cart = document.getElementById('cartContainer');
   if (t.items.length === 0) {
     cart.innerHTML = '<div style="color:var(--muted); font-size:0.85rem;">Nessun piatto inserito. Seleziona la mandata e tocca gli articoli.</div>';
@@ -666,7 +732,7 @@ function renderOrderScreen() {
   }
 
   cart.innerHTML = '';
-  [0, 1, 2, 3].forEach(m => {
+  [0, 1, 2, 3, 4].forEach(m => {
     const groupItems = t.items.filter(i => i.mandata === m);
     if (groupItems.length === 0) return;
 
@@ -740,13 +806,14 @@ function sendOrderToKitchen() {
     escpos += ESC + "!" + "\x08" + `COPERTI AL TAVOLO: ${totCoperti}\n` + ESC + "!" + "\x00";
   }
 
-  [0, 1, 2, 3].forEach(m => {
+  [0, 1, 2, 3, 4].forEach(m => {
     const list = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
     if (list.length === 0) return;
 
     const headerTitle = m === 1 ? ">>> 1a MANDATA (MARCIA SUBITO) <<<" :
                         m === 2 ? "--- 2a MANDATA (ATTENDI VIA) ---" :
                         m === 3 ? "--- 3a MANDATA (ATTENDI VIA) ---" :
+                        m === 4 ? "--- 4a MANDATA (ATTENDI VIA) ---" :
                                   "--- SUBITO / BEVANDE ---";
 
     preview += `${headerTitle}\n`;
@@ -901,7 +968,7 @@ function freeCurrentTable() {
   }
   if (confirm(`Vuoi azzerare e liberare ${t.name}?`)) {
     t.items = [];
-    t.firedMandate = { 1: false, 2: false, 3: false };
+    t.firedMandate = { 1: false, 2: false, 3: false, 4: false };
     t.sentOnce = false;
     saveState();
     closeTableView();
@@ -921,12 +988,12 @@ function renderKds() {
   }
   activeTables.forEach(t => {
     const card = document.createElement('div');
-    card.className = `kds-card ${t.firedMandate[2] || t.firedMandate[3] ? 'urgent' : ''}`;
+    card.className = `kds-card ${t.firedMandate[2] || t.firedMandate[3] || t.firedMandate[4] ? 'urgent' : ''}`;
     let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;">
       <b>${t.name}</b>
-      <span style="font-size:0.78rem; color:var(--gold); font-weight:800;">${t.room === 'interna' ? 'Interna' : 'Esterna'}</span>
+      <span style="font-size:0.78rem; color:var(--gold); font-weight:800;">${t.room === 'interna' ? '❄️ Interna' : '🕶️ Esterna'}</span>
     </div>`;
-    [1, 2, 3].forEach(m => {
+    [1, 2, 3, 4].forEach(m => {
       const mItems = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
       if (mItems.length === 0) return;
       const statusBadge = (m === 1 || t.firedMandate[m])
