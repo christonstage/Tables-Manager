@@ -50,7 +50,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .dot.wait { background: #062329; color: #ffffff; }
 .dot.done { background: #062329; color: #34d399; }
 .delay-dot { position: absolute; top: 7px; right: 7px; width: 15px; height: 15px; border-radius: 50%; background: #DC2626; border: 2px solid #FFFFFF; box-shadow: 0 0 10px #DC2626; animation: blinkRed 0.65s infinite alternate; z-index: 5; }
-.delay-pill { background: #DC2626; color: #FFF; font-size: 0.65rem; font-weight: 900; padding: 2px 6px; border-radius: 6px; border: 1.5px solid #FFF; animation: blinkRed 0.65s infinite alternate; display: inline-flex; align-items: center; }
 @keyframes blinkRed { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0.25; transform: scale(1.18); box-shadow: 0 0 15px #FF0000; } }
 .screen { display: none; padding: 12px 14px; }
 .screen.active { display: block; }
@@ -324,6 +323,18 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
       <input type="checkbox" id="chkRawbt" onchange="toggleRawbtSetting()" style="width:18px; height:18px;">
       Usa RawBT Diretto su Epson TM-m30III
     </label>
+  </div>
+</div>
+
+<div class="modal-overlay" id="pagerModal">
+  <div class="receipt-box" style="text-align:center;">
+    <h3 style="margin-bottom:8px; color:var(--logo-coral);">🔔 Cercapersone Sala</h3>
+    <select id="pagerTarget" class="form-control" style="margin-bottom:8px;">
+      <option value="TUTTI">📢 TUTTI I CAMERIERI</option>
+      <option value="Alice">👤 Solo Alice</option>
+    </select>
+    <button class="btn-main btn-bill" onclick="sendPagerCall('🔥 Piatti pronti al Pass!')" style="width:100%; margin-bottom:6px;">🔥 Piatti pronti al Pass!</button>
+    <button class="btn-modal" style="background:#334155; color:#fff; width:100%;" onclick="closePagerModal()">Annulla</button>
   </div>
 </div>
 
@@ -860,6 +871,15 @@ function sendOrderToKitchen() {
   closeTableView();
 }
 
+function markMandataDone(tableId, mandataNum) {
+  const t = state.tables[tableId];
+  if (!t) return;
+  if (!t.doneMandate) t.doneMandate = {1:false,2:false,3:false,4:false};
+  t.doneMandate[mandataNum] = !t.doneMandate[mandataNum];
+  saveState(false);
+  renderKds();
+}
+
 function renderKds() {
   const container = document.getElementById('kdsContainer');
   if (!container) return;
@@ -873,7 +893,20 @@ function renderKds() {
   activeTables.forEach(t => {
     const card = document.createElement('div');
     card.className = 'kds-card';
-    card.innerHTML = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span id="kds_timer_${t.id}">⏱️ ${t.openedAt ? formatElapsed(now - t.openedAt) : '00:00'}</span></div>${t.items.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name}</div>`).join('')}`;
+    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span id="kds_timer_${t.id}">⏱️ ${t.openedAt ? formatElapsed(now - t.openedAt) : '00:00'}</span></div>`;
+    
+    [0, 1, 2, 3, 4].forEach(m => {
+      const mItems = t.items.filter(i => i.mandata === m);
+      if (mItems.length === 0) return;
+      const isDone = t.doneMandate && t.doneMandate[m];
+      const badge = isDone ? '<span style="color:#10B981;">SERVITA</span>' : '<span style="color:var(--logo-coral);">DA SERVIRE</span>';
+      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}">
+        <div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${MANDATE_LABELS[m]}</b> ${badge}</div>
+        ${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name}</div>`).join('')}
+        ${m > 0 ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}
+      </div>`;
+    });
+    card.innerHTML = html;
     container.appendChild(card);
   });
 }
@@ -914,6 +947,7 @@ function freeCurrentTable() {
     state.historyLog.push({ tableName: t.name, total: getTableTotal(t), items: t.items, date: new Date().toISOString().slice(0,10) });
     t.items = []; t.openedAt = 0; t.pickupTime = ''; t.customerName = ''; t.name = t.baseName;
     t.firedMandate = {1:false,2:false,3:false,4:false};
+    t.doneMandate = {1:false,2:false,3:false,4:false};
     saveState(false); closeTableView(); updateDailyStats();
   }
 }
@@ -998,8 +1032,20 @@ function printStatsReport() {
 }
 
 function resetCurrentEvening() {
-  if (confirm("Azzerare i tavoli chiusi della serata corrente?")) {
-    state.historyLog = []; saveState(false); updateDailyStats(); alert("Serata azzerata.");
+  if (confirm("🌙 Vuoi chiudere la serata? Tutti i tavoli attivi verranno liberati in automatico e salvati nello storico.")) {
+    Object.values(state.tables).forEach(t => {
+      if (t.items && t.items.length > 0) {
+        if (!state.historyLog) state.historyLog = [];
+        state.historyLog.push({ tableName: t.name, total: getTableTotal(t), items: t.items, date: new Date().toISOString().slice(0,10) });
+        t.items = []; t.openedAt = 0; t.pickupTime = ''; t.customerName = ''; t.name = t.baseName;
+        t.firedMandate = {1:false,2:false,3:false,4:false};
+        t.doneMandate = {1:false,2:false,3:false,4:false};
+      }
+    });
+    saveState(false);
+    renderTables();
+    updateDailyStats();
+    alert("✅ Serata chiusa e tavoli liberati con successo!");
   }
 }
 
