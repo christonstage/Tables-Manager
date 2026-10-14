@@ -23,37 +23,34 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .btn-top.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
 .btn-pager { background: #111827; color: #FBBF24; border: 1.5px solid #FBBF24; padding: 5px 6px; border-radius: 7px; font-size: 0.7rem; font-weight: 800; cursor: pointer; }
 .room-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 14px; }
-.room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.86rem; font-weight: 700; text-align: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; text-align: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
 .room-tab.active { border-color: var(--logo-coral); color: #062329; background: var(--logo-cyan); font-weight: 800; }
 .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
 .table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 12px 8px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 112px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; position: relative; }
 .table-card:active { transform: scale(0.95); }
 .table-card.busy { background: var(--logo-coral); border-color: #062329; color: #FFFFFF; box-shadow: 0 5px 15px rgba(255, 87, 51, 0.35); }
-.table-name { font-size: 1.02rem; font-weight: 800; }
+.table-name { font-size: 1rem; font-weight: 800; }
 .table-card.busy .table-name { color: #FFFFFF; }
 .table-status { font-size: 0.72rem; font-weight: 700; margin-top: 4px; padding: 2px 7px; border-radius: 6px; display: inline-block; }
 .status-free { color: #062329; background: rgba(255,255,255,0.6); }
 .status-busy { color: #FFFFFF; background: rgba(0,0,0,0.25); }
 .table-timer { font-size: 0.72rem; font-weight: 800; margin-top: 4px; padding: 2px 6px; border-radius: 5px; background: rgba(0,0,0,0.22); color: #FFF; display: inline-block; font-variant-numeric: tabular-nums; }
-.pickup-badge { font-size: 0.7rem; font-weight: 800; margin-top: 3px; padding: 2px 6px; border-radius: 5px; background: #062329; color: var(--logo-cyan); display: inline-block; }
+.pickup-badge { font-size: 0.68rem; font-weight: 800; margin-top: 3px; padding: 2px 6px; border-radius: 5px; background: #062329; color: var(--logo-cyan); display: inline-block; }
 .table-total { font-size: 0.92rem; font-weight: 800; color: #FFFFFF; margin-top: 4px; }
 .course-dots { display: flex; justify-content: center; gap: 3px; margin-top: 5px; flex-wrap: wrap; }
 .dot { font-size: 0.62rem; padding: 2px 5px; border-radius: 5px; font-weight: 800; }
 .dot.sent { background: #10B981; color: #ffffff; }
 .dot.wait { background: #062329; color: #ffffff; }
 .dot.done { background: #062329; color: #34d399; }
-
-/* Pallino Rosso Lampeggiante Allerta Ritardo > 20 min */
 .delay-dot { position: absolute; top: 7px; right: 7px; width: 15px; height: 15px; border-radius: 50%; background: #DC2626; border: 2px solid #FFFFFF; box-shadow: 0 0 10px #DC2626; animation: blinkRed 0.65s infinite alternate; z-index: 5; }
-.delay-pill { background: #DC2626; color: #FFF; font-size: 0.66rem; font-weight: 900; padding: 2px 6px; border-radius: 6px; border: 1.5px solid #FFF; animation: blinkRed 0.65s infinite alternate; display: inline-flex; align-items: center; gap: 3px; }
-@keyframes blinkRed { 0% { opacity: 1; transform: scale(1); box-shadow: 0 0 4px #DC2626; } 100% { opacity: 0.25; transform: scale(1.18); box-shadow: 0 0 16px #FF0000; } }
-
+.delay-pill { background: #DC2626; color: #FFF; font-size: 0.65rem; font-weight: 900; padding: 2px 6px; border-radius: 6px; border: 1.5px solid #FFF; animation: blinkRed 0.65s infinite alternate; display: inline-flex; align-items: center; }
+@keyframes blinkRed { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0.25; transform: scale(1.18); box-shadow: 0 0 15px #FF0000; } }
 .screen { display: none; padding: 12px 14px; }
 .screen.active { display: block; }
-.order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); }
+.order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); gap: 6px; }
 .asporto-bar { display: none; background: var(--card); border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 9px 12px; margin-bottom: 10px; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .asporto-bar.active { display: flex; }
-.btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+.btn-back { background: var(--bg-deep); color: #fff; border: none; padding: 8px 10px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
 .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; }
 .mandata-btn.active { border-color: var(--logo-coral); background: var(--logo-cyan); color: #062329; font-weight: 800; }
@@ -65,7 +62,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; }
 .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--muted); font-size: 1.1rem; font-weight: 800; cursor: pointer; }
 .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
-.menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06); color: var(--text); transition: transform 0.12s; }
+.menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06); color: var(--text); }
 .menu-item:active { transform: scale(0.96); background: var(--logo-cyan); }
 .tap-badge { position: absolute; top: 6px; right: 6px; background: var(--logo-coral); color: #fff; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; }
 @keyframes badgeFloatUp { 0% { opacity: 1; transform: translateY(4px); } 100% { opacity: 0; transform: translateY(-12px); } }
@@ -87,14 +84,14 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 900; cursor: pointer; }
 .btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); cursor: pointer; font-weight: 700; }
 .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(46, 204, 113, 0.98); border-top: 1px solid var(--border); padding: 10px 12px; display: flex; gap: 6px; z-index: 60; }
-.btn-main { flex: 1; padding: 12px 6px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.84rem; cursor: pointer; text-align: center; }
+.btn-main { flex: 1; padding: 12px 6px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; text-align: center; }
 .btn-print { background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); }
 .btn-bill { background: var(--logo-coral); color: #FFF; }
 .btn-close-table { background: var(--card); color: var(--text); border: 1px solid var(--border); flex: 0.5; }
 .form-control { padding: 9px; border-radius: 8px; background: #F9FAFB; color: var(--text); border: 1px solid var(--border); font-weight: 600; width: 100%; }
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
 .modal-overlay.active { display: flex; }
-.receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 12px; padding: 16px; max-height: 85vh; overflow-y: auto; }
+.receipt-box { background: #fff; color: #000; width: 100%; max-width: 350px; border-radius: 12px; padding: 16px; max-height: 85vh; overflow-y: auto; }
 .receipt-pre { white-space: pre-wrap; font-family: "Courier New", monospace; font-size: 0.83rem; line-height: 1.35; }
 .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
 .btn-modal { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; }
@@ -105,10 +102,8 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; color: var(--text); position: relative; }
 .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 .order-toast { display: none; position: fixed; top: 52px; left: 10px; right: 10px; background: #111827; color: #FFF; border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 12px; z-index: 90; box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
-.order-toast.active { display: block; animation: slideDown 0.25s ease-out; }
-@keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.pager-alert { background: var(--logo-coral); color: #fff; text-align: center; border: 3px solid #fff; animation: pulseAlert 0.8s infinite alternate; }
-@keyframes pulseAlert { from { transform: scale(0.98); } to { transform: scale(1.02); box-shadow: 0 0 30px #FF5733; } }
+.order-toast.active { display: block; }
+.pager-alert { background: var(--logo-coral); color: #fff; text-align: center; border: 3px solid #fff; }
 .rep-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
 .rep-tab { padding: 8px 4px; border-radius: 8px; border: 1px solid var(--border); background: #F3F4F6; font-weight: 800; font-size: 0.76rem; text-align: center; cursor: pointer; }
 .rep-tab.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
@@ -116,10 +111,10 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 </head>
 <body onclick="unlockAudioOnce()">
 
-<div class="topbar">
+<div class="topbar" id="mainTopbar">
   <div class="brand-group">
     <div class="brand-logo" title="Alicetta TableZ 1.0">
-      <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
+      <svg id="alicettaLogoSvg" viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
         <g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round">
           <polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/>
           <polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/>
@@ -137,11 +132,11 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
-    <div id="waiterDisplay" class="waiter-tag" onclick="logoutWaiter()">👤 --</div>
-    <button class="btn-pager" id="btnPager" onclick="openPagerModal()" style="display:none;" title="Cercapersone Camerieri">🔔</button>
+    <div id="waiterDisplay" class="waiter-tag" onclick="logoutWaiter()">👤 Christian</div>
+    <button class="btn-pager" id="btnPager" onclick="openPagerModal()" title="Cercapersone">🔔</button>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
     <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
-    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;">Menù</button>
+    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')">Menù</button>
   </div>
 </div>
 
@@ -155,9 +150,9 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 
 <div id="viewTables" class="screen active">
   <div class="room-tabs">
-    <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">❄️ Interna (11)</div>
-    <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🕶️ Esterna (5)</div>
-    <div class="room-tab" id="tabAsporto" onclick="selectRoom('asporto')">🥡 Asporto</div>
+    <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">❄️ Interna (<span id="cntInt">11</span>)</div>
+    <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🕶️ Esterna (<span id="cntEst">5</span>)</div>
+    <div class="room-tab" id="tabAsporto" onclick="selectRoom('asporto')">🥡 Asporto (<span id="cntAsp">5</span>)</div>
   </div>
   <div class="tables-grid" id="tablesContainer"></div>
 </div>
@@ -170,15 +165,17 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
       <div id="activeTableSub" style="font-size:0.72rem; color:var(--muted);">Sala Interna</div>
     </div>
     <div style="text-align:right;">
-      <div id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.05rem;">€ 0,00</div>
+      <div style="display:flex; align-items:center; gap:5px; justify-content:flex-end;">
+        <button class="btn-note" onclick="quickMergeFromOrder()" title="Unisci o Sposta tavolo">🔀 Unisci</button>
+        <span id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.05rem;">€ 0,00</span>
+      </div>
       <div id="activeOrderTimer" style="font-size:0.68rem; font-weight:800; color:var(--muted);"></div>
     </div>
   </div>
 
-  <!-- BARRA ORARIO DI RITIRO E CLIENTE (SOLO ASPORTO) -->
   <div id="asportoBar" class="asporto-bar">
     <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:130px;">
-      <span style="font-size:0.78rem; font-weight:800; color:#062329; white-space:nowrap;">🕒 Ritiro:</span>
+      <span style="font-size:0.78rem; font-weight:800; color:#062329;">🕒 Ritiro:</span>
       <input type="time" id="pickupTimeInput" class="form-control" style="padding:6px 8px; font-weight:800;" onchange="saveAsportoMeta()">
     </div>
     <div style="display:flex; align-items:center; gap:6px; flex:1.3; min-width:140px;">
@@ -238,14 +235,44 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     <div style="display:flex; justify-content:space-between; align-items:center;">
       <div>
         <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0</h3>
-        <div style="font-size:0.8rem; color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
+        <div style="font-size:0.8rem; color:var(--muted);">Utente: <b id="currentWaiterBadge">Christian</b></div>
       </div>
-      <button class="btn-note" onclick="logoutWaiter()">Logout</button>
+      <button class="btn-note" onclick="logoutWaiter()">Cambia Utente</button>
     </div>
   </div>
 
+  <!-- CONFIGURAZIONE NUMERO TAVOLI E UNIONE TAVOLI -->
   <div class="cart-section">
-    <h3 style="margin-bottom:6px;">📸 Lavagnetta del Giorno (Foto OCR)</h3>
+    <h3 style="margin-bottom:8px;">🪑 Configurazione & Unione Tavoli</h3>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:8px;">
+      <div>
+        <label style="font-size:0.72rem; font-weight:800;">❄️ Interna</label>
+        <input type="number" id="cfgIntCount" class="form-control" min="1" max="40" value="11">
+      </div>
+      <div>
+        <label style="font-size:0.72rem; font-weight:800;">🕶️ Esterna</label>
+        <input type="number" id="cfgEstCount" class="form-control" min="1" max="30" value="5">
+      </div>
+      <div>
+        <label style="font-size:0.72rem; font-weight:800;">🥡 Asporto</label>
+        <input type="number" id="cfgAspCount" class="form-control" min="1" max="30" value="5">
+      </div>
+    </div>
+    <button class="btn-main btn-print" style="width:100%; margin-bottom:12px;" onclick="saveTableCounts()">💾 Salva Numero Tavoli</button>
+
+    <div style="border-top:1px dashed var(--border); padding-top:10px;">
+      <div style="font-size:0.8rem; font-weight:800; margin-bottom:6px;">🔗 Unisci due Tavoli (Somma comande e unisce i nomi):</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:8px;">
+        <select id="mergeFromSel" class="form-control"></select>
+        <select id="mergeToSel" class="form-control"></select>
+      </div>
+      <button class="btn-main btn-bill" style="width:100%;" onclick="mergeTablesFromSettings()">🔗 Unisci Tavoli Selezionati</button>
+    </div>
+  </div>
+
+  <!-- LAVAGNETTA OCR + PDF/WORD + DRIVE LINK PUBBLICO -->
+  <div class="cart-section">
+    <h3 style="margin-bottom:6px;">📸 Lavagnetta OCR ➔ Menù PDF / Word & Drive</h3>
     <div style="display:grid; gap:8px;">
       <select id="ocrDefaultCat" class="form-control">
         <option value="AUTO">✨ Rileva Categoria in Automatico</option>
@@ -256,13 +283,22 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
         <option value="2 Bevande">2 Bevande</option>
       </select>
       <input type="file" id="chalkboardInput" accept="image/*" capture="environment" style="display:none;" onchange="processChalkboardPhoto(event)">
-      <button class="btn-main btn-bill" onclick="document.getElementById('chalkboardInput').click()">📷 Scatta Foto o Carica Lavagnetta</button>
+      <button class="btn-main btn-bill" onclick="document.getElementById('chalkboardInput').click()">📷 1. Scatta Foto alla Lavagnetta</button>
       <div id="ocrStatus" style="font-size:0.8rem; font-weight:800; color:var(--logo-coral); display:none;"></div>
-      <textarea id="ocrResultBox" class="form-control" rows="3" placeholder="Piatti letti dalla foto (es: Chitarrina allo scoglio 16)..."></textarea>
-      <button class="btn-main btn-print" onclick="importOcrLinesToMenu()">✅ Importa Piatti nel Menù</button>
+      <textarea id="ocrResultBox" class="form-control" rows="4" placeholder="Piatti letti dalla lavagnetta (uno per riga, es: Chitarrina allo scoglio 16)..."></textarea>
+      <button class="btn-main btn-print" onclick="importOcrLinesToMenu()">✅ 2. Importa Piatti nella Cassa</button>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:4px;">
+        <button class="btn-note" style="padding:10px;" onclick="exportDailyMenuWord()">📄 Scarica Word (.doc)</button>
+        <button class="btn-note" style="padding:10px;" onclick="exportDailyMenuPDF()">📑 Crea PDF Grafico</button>
+      </div>
+      <button class="btn-main" style="background:#111827; color:#FBBF24; border:1.5px solid #FBBF24;" onclick="publishMenuAndDrive()">☁️ 3. Pubblica su Drive / Crea Link Pubblico Senza Restrizioni</button>
+      <div id="publicMenuLinkBox" style="display:none; padding:8px; background:#F0FDF4; border:1px solid #16A34A; border-radius:8px; font-size:0.78rem; word-break:break-all;"></div>
+      <input type="text" id="driveWebhookInput" class="form-control" style="font-size:0.75rem;" placeholder="(Opzionale) URL Google Apps Script per salvataggio automatico su tuo Google Drive" onchange="saveDriveWebhook()">
     </div>
   </div>
 
+  <!-- REPORTISTICA -->
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">📊 Report & Statistiche (Serata / Mese / Anno)</h3>
     <div class="rep-tabs">
@@ -294,6 +330,11 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     <h3 style="margin-bottom:10px;">📋 Catalogo (<span id="menuCountLbl">68</span> voci)</h3>
     <div id="menuMgrList"></div>
   </div>
+</div>
+
+<!-- VISTA PUBBLICA MENU DEL GIORNO (ACCESSIBILE DA TUTTI SENZA RESTRIZIONI) -->
+<div id="viewPublicMenu" class="screen">
+  <div id="publicMenuContent" style="background:#fff; border-radius:16px; padding:20px; max-width:540px; margin:10px auto; box-shadow:0 10px 30px rgba(0,0,0,0.2); text-align:center;"></div>
 </div>
 
 <div class="modal-overlay" id="pagerModal">
@@ -338,7 +379,7 @@ const DEFAULT_FIREBASE_URL = "https://alicetta-tables-default-rtdb.europe-west1.
 const CATEGORIES = ["1 Coperto", "2 Bevande", "3 Antipasti", "4 Primi Piatti", "5 Secondi", "6 Desserts"];
 const MANDATE_LABELS = { 0: "SUBITO / BEVANDE", 1: "1ª MANDATA", 2: "2ª MANDATA", 3: "3ª MANDATA", 4: "4ª MANDATA" };
 const MANDATA_TO_CAT = { 0: "1 Coperto", 1: "3 Antipasti", 2: "4 Primi Piatti", 3: "5 Secondi", 4: "6 Desserts" };
-const DELAY_LIMIT_MS = 20 * 60 * 1000; // 20 Minuti
+const DELAY_LIMIT_MS = 20 * 60 * 1000;
 
 const RAW_MENU = [
   [101,0,"Pane e Coperto",3],
@@ -369,8 +410,9 @@ const STORAGE_KEY = 'alicetta_pos_v9';
 
 let state = {
   currentRoom: 'interna', activeTableId: null, currentMandata: 1, currentCategory: '1 Coperto',
-  reportPeriod: 'daily', useRawBT: false, firebaseUrl: DEFAULT_FIREBASE_URL, waiterName: '',
-  lastEscPosPayload: '', lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null,
+  reportPeriod: 'daily', useRawBT: false, firebaseUrl: DEFAULT_FIREBASE_URL, waiterName: 'Christian',
+  driveWebhook: '', tableCounts: { interna: 11, esterna: 5, asporto: 5 },
+  dailyChalkboard: [], lastEscPosPayload: '', lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null,
   menu: [], tables: {}, historyLog: []
 };
 let audioCtx = null, toastTimer = null;
@@ -382,62 +424,55 @@ function unlockAudioOnce() {
   } catch (e) {}
 }
 
-function buildDefaultTables() {
+function makeTableObj(id, name, room) {
+  return { id, name, baseName: name, room, items: [], openedAt: 0, pickupTime: '', customerName: '', firedMandate: { 1: false, 2: false, 3: false, 4: false }, firedAt: { 1: 0, 2: 0, 3: 0, 4: 0 }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
+}
+
+function buildDefaultTables(counts) {
+  const c = counts || state.tableCounts || { interna: 11, esterna: 5, asporto: 5 };
   const t = {};
-  for (let i = 1; i <= 11; i++) t['INT_' + i] = { id: 'INT_' + i, name: 'Tavolo ' + i, room: 'interna', items: [], openedAt: 0, pickupTime: '', customerName: '', firedMandate: { 1: false, 2: false, 3: false, 4: false }, firedAt: { 1: 0, 2: 0, 3: 0, 4: 0 }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
-  for (let i = 1; i <= 5; i++) t['EST_' + i] = { id: 'EST_' + i, name: 'Esterno ' + i, room: 'esterna', items: [], openedAt: 0, pickupTime: '', customerName: '', firedMandate: { 1: false, 2: false, 3: false, 4: false }, firedAt: { 1: 0, 2: 0, 3: 0, 4: 0 }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
-  for (let i = 1; i <= 5; i++) t['ASP_' + i] = { id: 'ASP_' + i, name: 'Asporto ' + i, room: 'asporto', items: [], openedAt: 0, pickupTime: '', customerName: '', firedMandate: { 1: false, 2: false, 3: false, 4: false }, firedAt: { 1: 0, 2: 0, 3: 0, 4: 0 }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
+  for (let i = 1; i <= (c.interna || 11); i++) t['INT_' + i] = makeTableObj('INT_' + i, 'Tavolo ' + i, 'interna');
+  for (let i = 1; i <= (c.esterna || 5); i++) t['EST_' + i] = makeTableObj('EST_' + i, 'Esterno ' + i, 'esterna');
+  for (let i = 1; i <= (c.asporto || 5); i++) t['ASP_' + i] = makeTableObj('ASP_' + i, 'Asporto ' + i, 'asporto');
   return t;
 }
 
-function normalizeTablesStructure(tablesObj) {
-  const def = buildDefaultTables();
+function normalizeTablesStructure(tablesObj, counts) {
+  const c = counts || state.tableCounts || { interna: 11, esterna: 5, asporto: 5 };
+  const def = buildDefaultTables(c);
   if (!tablesObj) return def;
   Object.keys(def).forEach(k => {
-    if (!tablesObj[k]) tablesObj[k] = def[k];
-    else {
+    if (tablesObj[k]) {
       const tb = tablesObj[k];
-      if (!Array.isArray(tb.items)) tb.items = [];
-      if (!tb.firedMandate) tb.firedMandate = { 1: false, 2: false, 3: false, 4: false };
-      if (!tb.firedAt) tb.firedAt = { 1: 0, 2: 0, 3: 0, 4: 0 };
-      if (!tb.doneMandate) tb.doneMandate = { 1: false, 2: false, 3: false, 4: false };
-      if (typeof tb.pickupTime !== 'string') tb.pickupTime = '';
-      if (typeof tb.customerName !== 'string') tb.customerName = '';
-      if (tb.items.length > 0 && !tb.openedAt) tb.openedAt = Date.now();
-      if (tb.items.length === 0) tb.openedAt = 0;
+      def[k].items = Array.isArray(tb.items) ? tb.items : [];
+      def[k].name = tb.name || def[k].baseName;
+      def[k].firedMandate = tb.firedMandate || { 1: false, 2: false, 3: false, 4: false };
+      def[k].firedAt = tb.firedAt || { 1: 0, 2: 0, 3: 0, 4: 0 };
+      def[k].doneMandate = tb.doneMandate || { 1: false, 2: false, 3: false, 4: false };
+      def[k].pickupTime = tb.pickupTime || '';
+      def[k].customerName = tb.customerName || '';
+      def[k].openedAt = (def[k].items.length > 0) ? (tb.openedAt || Date.now()) : 0;
     }
   });
-  return tablesObj;
+  return def;
 }
 
-/* =========================================================
-   TIMER DINAMICO & CONTROLLO RITARDO > 20 MINUTI
-   ========================================================= */
 function formatElapsed(ms) {
   if (!ms || ms < 0) return "00:00";
-  const totalSec = Math.floor(ms / 1000);
-  const mins = Math.floor(totalSec / 60);
-  const secs = totalSec % 60;
-  return String(mins).padStart(2, '0') + ":" + String(secs).padStart(2, '0');
+  const s = Math.floor(ms / 1000);
+  return String(Math.floor(s / 60)).padStart(2, '0') + ":" + String(s % 60).padStart(2, '0');
 }
 
 function isTableDelayed(t) {
   if (!t || !t.items || t.items.length === 0 || !t.openedAt) return false;
   const now = Date.now();
-  // Controlla se esiste almeno una mandata (1..4) con piatti non ancora confermata uscita dalla cucina (!doneMandate[m])
   const kitchenDishes = t.items.filter(i => i.name !== 'Pane e Coperto' && i.mandata > 0);
   if (kitchenDishes.length === 0) return false;
-
   for (let m = 1; m <= 4; m++) {
-    const hasCourse = kitchenDishes.some(i => i.mandata === m);
-    if (!hasCourse) continue;
-    const isExited = t.doneMandate && t.doneMandate[m];
-    if (!isExited) {
-      // Se la mandata è stata inviata/marciata usa il suo timestamp, altrimenti usa openedAt (solo per la 1a mandata)
+    if (!kitchenDishes.some(i => i.mandata === m)) continue;
+    if (!(t.doneMandate && t.doneMandate[m])) {
       const refTime = (t.firedAt && t.firedAt[m]) ? t.firedAt[m] : (m === 1 ? t.openedAt : 0);
-      if (refTime > 0 && (now - refTime) >= DELAY_LIMIT_MS) {
-        return true;
-      }
+      if (refTime > 0 && (now - refTime) >= DELAY_LIMIT_MS) return true;
     }
   }
   return false;
@@ -458,11 +493,9 @@ function tickLiveTimers() {
     if (hdrT) {
       if (t && t.items && t.items.length > 0 && t.openedAt) {
         const delayed = isTableDelayed(t);
-        hdrT.innerHTML = `${delayed ? '🔴 RITARDO ' : '⏱️ '}${formatElapsed(now - t.openedAt)}`;
+        hdrT.innerHTML = (delayed ? '🔴 RITARDO ' : '⏱️ ') + formatElapsed(now - t.openedAt);
         hdrT.style.color = delayed ? '#DC2626' : 'var(--muted)';
-      } else {
-        hdrT.textContent = '';
-      }
+      } else hdrT.textContent = '';
     }
   } else if (document.getElementById('viewKds').classList.contains('active')) {
     Object.values(state.tables).filter(t => t.items && t.items.length > 0).forEach(t => {
@@ -473,63 +506,86 @@ function tickLiveTimers() {
 }
 
 async function initApp() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    const parsed = JSON.parse(saved);
-    state.menu = (parsed.menu && parsed.menu.length > 0) ? parsed.menu : DEFAULT_MENU;
-    state.tables = normalizeTablesStructure(parsed.tables);
-    state.useRawBT = parsed.useRawBT || false;
-    state.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
-    state.waiterName = parsed.waiterName || '';
-    state.lastAlertSignal = parsed.lastAlertSignal || 0;
-    state.lastOrderEvent = parsed.lastOrderEvent || null;
-    state.lastPagerEvent = parsed.lastPagerEvent || null;
-    state.historyLog = parsed.historyLog || [];
-  } else {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      state.tableCounts = parsed.tableCounts || { interna: 11, esterna: 5, asporto: 5 };
+      state.menu = (parsed.menu && parsed.menu.length > 0) ? parsed.menu : DEFAULT_MENU;
+      state.tables = normalizeTablesStructure(parsed.tables, state.tableCounts);
+      state.useRawBT = parsed.useRawBT || false;
+      state.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
+      state.waiterName = (parsed.waiterName && parsed.waiterName.trim()) ? parsed.waiterName.trim() : 'Christian';
+      state.driveWebhook = parsed.driveWebhook || '';
+      state.dailyChalkboard = parsed.dailyChalkboard || [];
+      state.lastAlertSignal = parsed.lastAlertSignal || 0;
+      state.lastOrderEvent = parsed.lastOrderEvent || null;
+      state.lastPagerEvent = parsed.lastPagerEvent || null;
+      state.historyLog = parsed.historyLog || [];
+    } else {
+      state.menu = DEFAULT_MENU;
+      state.tables = buildDefaultTables(state.tableCounts);
+    }
+  } catch (e) {
     state.menu = DEFAULT_MENU;
-    state.tables = buildDefaultTables();
+    state.tables = buildDefaultTables(state.tableCounts);
   }
-
-  if (!state.waiterName.trim()) askWaiterName();
-  else updateWaiterDisplay();
 
   document.getElementById('chkRawbt').checked = state.useRawBT;
   document.getElementById('firebaseUrlInput').value = state.firebaseUrl;
+  document.getElementById('driveWebhookInput').value = state.driveWebhook;
+  updateWaiterDisplay();
+  updateRoomTabCounts();
   renderTables();
   updateDailyStats();
+
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('menu') === 'oggi') {
+    await pullFromCloud(false);
+    showPublicDailyMenuPage();
+    return;
+  }
 
   setInterval(tickLiveTimers, 1000);
   await pullFromCloud(true);
   setInterval(() => pullFromCloud(false), 1600);
 }
 
-function askWaiterName() {
-  const name = prompt("Benvenuto in Alicetta TableZ 1.0!\nInserisci il tuo nome (es. Christian, Alice, Serena):", "Christian");
-  state.waiterName = (name && name.trim()) ? name.trim() : "Staff";
-  saveLocalOnly();
-  updateWaiterDisplay();
-}
-
 function logoutWaiter() {
-  state.waiterName = '';
-  saveLocalOnly();
-  askWaiterName();
+  const name = prompt("Cambia Utente (scrivi Christian per vedere Menù e Cercapersone, oppure nome cameriere):", state.waiterName || "Christian");
+  if (name && name.trim()) {
+    state.waiterName = name.trim();
+    saveLocalOnly();
+    updateWaiterDisplay();
+    if (state.waiterName.toLowerCase() !== 'christian' && document.getElementById('viewMenuMgr').classList.contains('active')) {
+      switchMainView('tables');
+    }
+  }
 }
 
 function updateWaiterDisplay() {
-  const lbl = document.getElementById('waiterDisplay');
-  if (lbl) lbl.textContent = "👤 " + (state.waiterName || 'Staff');
-  const badge = document.getElementById('currentWaiterBadge');
-  if (badge) badge.textContent = state.waiterName || 'Staff';
-  const isOwner = state.waiterName.toLowerCase().trim() === 'christian';
+  const w = state.waiterName || 'Christian';
+  document.getElementById('waiterDisplay').textContent = "👤 " + w;
+  document.getElementById('currentWaiterBadge').textContent = w;
+  const isOwner = w.toLowerCase().trim() === 'christian';
   document.getElementById('navMenu').style.display = isOwner ? 'block' : 'none';
   document.getElementById('btnPager').style.display = isOwner ? 'block' : 'none';
 }
 
+function updateRoomTabCounts() {
+  document.getElementById('cntInt').textContent = state.tableCounts.interna;
+  document.getElementById('cntEst').textContent = state.tableCounts.esterna;
+  document.getElementById('cntAsp').textContent = state.tableCounts.asporto;
+  document.getElementById('cfgIntCount').value = state.tableCounts.interna;
+  document.getElementById('cfgEstCount').value = state.tableCounts.esterna;
+  document.getElementById('cfgAspCount').value = state.tableCounts.asporto;
+}
+
 function saveLocalOnly() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    menu: state.menu, tables: state.tables, useRawBT: state.useRawBT,
-    firebaseUrl: state.firebaseUrl, waiterName: state.waiterName,
+    menu: state.menu, tables: state.tables, tableCounts: state.tableCounts,
+    useRawBT: state.useRawBT, firebaseUrl: state.firebaseUrl, waiterName: state.waiterName,
+    driveWebhook: state.driveWebhook, dailyChalkboard: state.dailyChalkboard,
     historyLog: state.historyLog, lastAlertSignal: state.lastAlertSignal,
     lastOrderEvent: state.lastOrderEvent, lastPagerEvent: state.lastPagerEvent
   }));
@@ -553,6 +609,7 @@ async function pushToCloud() {
       body: JSON.stringify({
         updatedAt: Date.now(), lastAlertSignal: state.lastAlertSignal,
         lastOrderEvent: state.lastOrderEvent, lastPagerEvent: state.lastPagerEvent,
+        tableCounts: state.tableCounts, dailyChalkboard: state.dailyChalkboard,
         tables: state.tables, menu: state.menu, historyLog: state.historyLog
       })
     });
@@ -585,22 +642,82 @@ async function pullFromCloud(isInitial) {
       if (!wasInitialP) {
         const myName = (state.waiterName || '').toLowerCase().trim();
         const target = (data.lastPagerEvent.target || 'TUTTI').toLowerCase().trim();
-        if (target === 'tutti' || target === myName) {
-          triggerIncomingPagerAlert(data.lastPagerEvent);
-        }
+        if (target === 'tutti' || target === myName) triggerIncomingPagerAlert(data.lastPagerEvent);
       }
     }
 
-    if (data.lastAlertSignal && data.lastAlertSignal > state.lastAlertSignal) state.lastAlertSignal = data.lastAlertSignal;
-    if (data.tables) state.tables = normalizeTablesStructure(data.tables);
+    if (data.tableCounts) state.tableCounts = data.tableCounts;
+    if (data.dailyChalkboard) state.dailyChalkboard = data.dailyChalkboard;
+    if (data.tables) state.tables = normalizeTablesStructure(data.tables, state.tableCounts);
     if (data.menu && data.menu.length > 0) state.menu = data.menu;
     if ('historyLog' in data) state.historyLog = data.historyLog || [];
     saveLocalOnly();
+    updateRoomTabCounts();
     updateDailyStats();
     if (document.getElementById('viewTables').classList.contains('active')) renderTables();
     else if (document.getElementById('viewKds').classList.contains('active')) renderKds();
     else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) renderOrderScreen();
   } catch (e) { badge.textContent = "Loc"; }
+}
+
+/* =========================================================
+   MODIFICA NUMERO TAVOLI E UNIONE TAVOLI
+   ========================================================= */
+async function saveTableCounts() {
+  const nInt = Math.max(1, parseInt(document.getElementById('cfgIntCount').value, 10) || 11);
+  const nEst = Math.max(1, parseInt(document.getElementById('cfgEstCount').value, 10) || 5);
+  const nAsp = Math.max(1, parseInt(document.getElementById('cfgAspCount').value, 10) || 5);
+  state.tableCounts = { interna: nInt, esterna: nEst, asporto: nAsp };
+  state.tables = normalizeTablesStructure(state.tables, state.tableCounts);
+  updateRoomTabCounts();
+  populateMergeSelectors();
+  await saveState(false);
+  renderTables();
+  alert(`✅ Numero tavoli aggiornato: Interna (${nInt}), Esterna (${nEst}), Asporto (${nAsp})!`);
+}
+
+function populateMergeSelectors() {
+  const fromSel = document.getElementById('mergeFromSel');
+  const toSel = document.getElementById('mergeToSel');
+  if (!fromSel || !toSel) return;
+  const all = Object.values(state.tables).sort((a,b) => a.id.localeCompare(b.id, undefined, {numeric:true}));
+  const opts = all.map(t => `<option value="${t.id}">${t.name} (${t.items.length ? 'Occupato' : 'Libero'})</option>`).join('');
+  fromSel.innerHTML = opts;
+  toSel.innerHTML = opts;
+  if (all.length > 1) toSel.selectedIndex = 1;
+}
+
+async function executeTableMerge(sourceId, targetId) {
+  if (!sourceId || !targetId || sourceId === targetId) { alert("Seleziona due tavoli diversi."); return; }
+  const src = state.tables[sourceId], tgt = state.tables[targetId];
+  if (!src || !tgt) return;
+  if (confirm(`Vuoi unire "${src.name}" dentro "${tgt.name}"?`)) {
+    tgt.items = (tgt.items || []).concat(src.items || []);
+    if (!tgt.openedAt) tgt.openedAt = src.openedAt || Date.now();
+    const shortSrc = src.name.replace(/Tavolo\s*|Esterno\s*|Asporto\s*/i, '');
+    if (!tgt.name.includes('+' + shortSrc)) tgt.name = tgt.name + '+' + shortSrc;
+    src.items = []; src.openedAt = 0; src.name = src.baseName;
+    src.firedMandate = {1:false,2:false,3:false,4:false};
+    src.doneMandate = {1:false,2:false,3:false,4:false};
+    await saveState(false);
+    populateMergeSelectors();
+    renderTables();
+    alert(`✅ Tavoli uniti in: ${tgt.name}`);
+  }
+}
+
+function mergeTablesFromSettings() {
+  executeTableMerge(document.getElementById('mergeFromSel').value, document.getElementById('mergeToSel').value);
+}
+
+function quickMergeFromOrder() {
+  const src = state.tables[state.activeTableId];
+  if (!src) return;
+  const targetName = prompt(`Con quale tavolo vuoi unire/spostare ${src.name}? (Scrivi es: Tavolo 2 oppure Esterno 3):`);
+  if (!targetName || !targetName.trim()) return;
+  const found = Object.values(state.tables).find(t => t.name.toLowerCase() === targetName.trim().toLowerCase() || t.baseName.toLowerCase() === targetName.trim().toLowerCase());
+  if (!found) { alert("Tavolo non trovato."); return; }
+  executeTableMerge(src.id, found.id).then(() => openTable(found.id));
 }
 
 function showOrderToast(ev) {
@@ -701,6 +818,7 @@ function switchMainView(view) {
   } else if (view === 'menuMgr') {
     document.getElementById('viewMenuMgr').classList.add('active');
     document.getElementById('navMenu').classList.add('active');
+    populateMergeSelectors();
     renderMenuMgr();
     updateDailyStats();
   }
@@ -740,22 +858,13 @@ function renderTables() {
         });
       }
       const pickupHtml = (t.room === 'asporto' && t.pickupTime) ? `<div class="pickup-badge">🕒 Ritiro ${t.pickupTime}</div>` : '';
-      const custHtml = (t.room === 'asporto' && t.customerName) ? `<div style="font-size:0.72rem; font-weight:800; opacity:0.95;">👤 ${t.customerName}</div>` : '';
+      const custHtml = (t.room === 'asporto' && t.customerName) ? `<div style="font-size:0.72rem; font-weight:800;">👤 ${t.customerName}</div>` : '';
       const timerHtml = (busy && t.openedAt) ? `<div><span class="table-timer" id="timer_${t.id}">⏱️ ${formatElapsed(now - t.openedAt)}</span></div>` : '';
 
       const card = document.createElement('div');
       card.className = `table-card ${busy ? 'busy' : 'free'}`;
       card.onclick = () => openTable(t.id);
-      card.innerHTML = `
-        <div id="delay_${t.id}" class="delay-dot" style="display:${delayed ? 'block' : 'none'};" title="Ritardo > 20 min!"></div>
-        <div class="table-name">${t.name}</div>
-        ${custHtml}
-        ${pickupHtml}
-        <div><span class="table-status ${busy ? 'status-busy' : 'status-free'}">${busy ? 'Occupato' : 'Libero'}</span></div>
-        ${timerHtml}
-        ${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}
-        <div class="course-dots">${dotsHtml}</div>
-      `;
+      card.innerHTML = `<div id="delay_${t.id}" class="delay-dot" style="display:${delayed ? 'block' : 'none'};"></div><div class="table-name">${t.name}</div>${custHtml}${pickupHtml}<div><span class="table-status ${busy ? 'status-busy' : 'status-free'}">${busy ? 'Occupato' : 'Libero'}</span></div>${timerHtml}${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dotsHtml}</div>`;
       container.appendChild(card);
     });
 }
@@ -774,9 +883,7 @@ function openTable(tableId) {
     aspBar.classList.add('active');
     document.getElementById('pickupTimeInput').value = t.pickupTime || '';
     document.getElementById('customerNameInput').value = t.customerName || '';
-  } else {
-    aspBar.classList.remove('active');
-  }
+  } else aspBar.classList.remove('active');
 
   setMandata((!t.items || t.items.length === 0) ? 0 : 1, true);
   renderOrderScreen();
@@ -804,9 +911,7 @@ function setMandata(m, autoCat = false) {
     if (m === 0) {
       const hasCop = t && t.items && t.items.some(i => i.name === 'Pane e Coperto');
       state.currentCategory = hasCop ? "2 Bevande" : "1 Coperto";
-    } else if (MANDATA_TO_CAT[m]) {
-      state.currentCategory = MANDATA_TO_CAT[m];
-    }
+    } else if (MANDATA_TO_CAT[m]) state.currentCategory = MANDATA_TO_CAT[m];
     document.getElementById('menuSearch').value = '';
     renderCategories();
     renderMenuGrid();
@@ -867,13 +972,11 @@ function renderMenuGrid() {
 function addItemToTable(menuItem) {
   const t = state.tables[state.activeTableId];
   if (!t.items) t.items = [];
-  if (t.items.length === 0 || !t.openedAt) {
-    t.openedAt = Date.now();
-  }
+  if (t.items.length === 0 || !t.openedAt) t.openedAt = Date.now();
   const m = state.currentMandata;
-  if (m > 0 && (!t.firedAt || !t.firedAt[m])) {
+  if (m === 1 && (!t.firedAt || !t.firedAt[1])) {
     if (!t.firedAt) t.firedAt = { 1: 0, 2: 0, 3: 0, 4: 0 };
-    if (m === 1) t.firedAt[1] = t.openedAt;
+    t.firedAt[1] = t.openedAt;
   }
   const existing = t.items.find(i => i.menuId === menuItem.id && i.mandata === m && !i.note);
   if (existing) existing.qty += 1;
@@ -972,10 +1075,8 @@ function sendOrderToKitchen() {
   saveState(true); renderOrderScreen();
   const timeStr = buildTimeStr(), ESC = "\x1B", GS = "\x1D";
   let preview = `==========================================\n   ALICETTA TABLEZ 1.0 - ${t.name.toUpperCase()}\n   Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n`;
-  if (t.room === 'asporto') {
-    if (t.pickupTime) preview += `   >>> ORARIO RITIRO: ${t.pickupTime} <<<\n`;
-    if (t.customerName) preview += `   CLIENTE: ${t.customerName.toUpperCase()}\n`;
-  }
+  if (t.room === 'asporto' && t.pickupTime) preview += `   >>> ORARIO RITIRO: ${t.pickupTime} <<<\n`;
+  if (t.room === 'asporto' && t.customerName) preview += `   CLIENTE: ${t.customerName.toUpperCase()}\n`;
   preview += `==========================================\n\n`;
 
   let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x38"+`${t.name.toUpperCase()}\n`+ESC+"!\x08"+`Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n`;
@@ -1034,7 +1135,7 @@ function showPreBill() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) return;
   const total = getTableTotal(t), ESC = "\x1B", GS = "\x1D";
-  let preview = `==========================================\n   ALICETTA TABLEZ 1.0 - PRE-CONTO\n   ${t.name.toUpperCase()}${t.pickupTime ? ' (Ritiro ' + t.pickupTime + ')' : ''}\n==========================================\n\n`;
+  let preview = `==========================================\n   ALICETTA TABLEZ 1.0 - PRE-CONTO\n   ${t.name.toUpperCase()}\n==========================================\n\n`;
   let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x08"+`ALICETTA TABLEZ 1.0\nPRE-CONTO ${t.name.toUpperCase()}\n------------------------------------------\n`+ESC+"a\x00"+ESC+"!\x00";
   t.items.forEach(it => {
     const line = `${it.qty}x ${it.name.substring(0, 20)} EUR ${formatPrice(it.price * it.qty)}`;
@@ -1075,7 +1176,7 @@ function freeCurrentTable() {
       items: JSON.parse(JSON.stringify(t.items)),
       time: buildTimeStr(), date: buildDateISO(), closedEvening: false
     });
-    t.items = []; t.openedAt = 0; t.pickupTime = ''; t.customerName = '';
+    t.items = []; t.openedAt = 0; t.pickupTime = ''; t.customerName = ''; t.name = t.baseName;
     t.firedMandate = {1:false,2:false,3:false,4:false};
     t.firedAt = {1:0,2:0,3:0,4:0};
     t.doneMandate = {1:false,2:false,3:false,4:false};
@@ -1085,16 +1186,36 @@ function freeCurrentTable() {
 }
 
 /* =========================================================
-   IMPORTAZIONE FOTO LAVAGNETTA (OCR TESSERACT ITALIANO)
+   LAVAGNETTA OCR ➔ WORD (.DOC), PDF GRAFICO & GOOGLE DRIVE
    ========================================================= */
 function guessCategoryFromDishName(name, fallbackCat) {
   if (fallbackCat && fallbackCat !== 'AUTO') return fallbackCat;
   const n = name.toLowerCase();
   if (/vino|calice|birra|acqua|trebbiano|cerasuolo|pecorino|montepulciano|passerina|amaro|caff/.test(n)) return "2 Bevande";
-  if (/tiramis|zaffermis|dolce|cantucc|pizzell|mousse|mouse|torta|gelato|sorbett|cheesecake/.test(n)) return "6 Desserts";
-  if (/spaghett|linguin|paccher|cubett|rigat|chitarr|pasta|gnocch|risott|tagliolin|fettuccin|raviol|mezze maniche/.test(n)) return "4 Primi Piatti";
-  if (/frittur|baccal|sgombr|maiale|braciol|arrosto|grigliat|pescato|rombo|orata|spigola|tonno|polpo arrosto|tagliata/.test(n)) return "5 Secondi";
+  if (/tiramis|zaffermis|dolce|cantucc|pizzell|mousse|mouse|torta|gelato|sorbett/.test(n)) return "6 Desserts";
+  if (/spaghett|linguin|paccher|cubett|rigat|chitarr|pasta|gnocch|risott|tagliolin|fettuccin|raviol/.test(n)) return "4 Primi Piatti";
+  if (/frittur|baccal|sgombr|maiale|braciol|arrosto|grigliat|pescato|rombo|orata|spigola|tonno/.test(n)) return "5 Secondi";
   return "3 Antipasti";
+}
+
+function parseOcrTextLines() {
+  const raw = document.getElementById('ocrResultBox').value.trim();
+  const fallbackCat = document.getElementById('ocrDefaultCat').value;
+  if (!raw) return state.dailyChalkboard || [];
+  const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 2);
+  const parsed = [];
+  lines.forEach(line => {
+    const pm = line.match(/(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i);
+    let price = 14.00, dishName = line;
+    if (pm) {
+      price = parseFloat(pm[1].replace(',', '.'));
+      dishName = line.slice(0, pm.index).replace(/[-–—:.€]+\s*$/, '').trim();
+    }
+    if (dishName.length >= 2 && !isNaN(price)) {
+      parsed.push({ cat: guessCategoryFromDishName(dishName, fallbackCat), name: dishName, price });
+    }
+  });
+  return parsed;
 }
 
 async function processChalkboardPhoto(ev) {
@@ -1102,7 +1223,7 @@ async function processChalkboardPhoto(ev) {
   if (!file) return;
   const statusEl = document.getElementById('ocrStatus');
   statusEl.style.display = 'block';
-  statusEl.textContent = '⏳ Analisi foto lavagnetta in corso (5-10s)...';
+  statusEl.textContent = '⏳ Lettura foto lavagnetta in corso (5-10s)...';
   try {
     if (!window.Tesseract) {
       await new Promise((res, rej) => {
@@ -1115,7 +1236,7 @@ async function processChalkboardPhoto(ev) {
     const result = await window.Tesseract.recognize(file, 'ita');
     const cleaned = (result.data.text || '').split('\n').map(l => l.replace(/^[-•*·~]+\s*/, '').trim()).filter(l => l.length >= 3);
     document.getElementById('ocrResultBox').value = cleaned.join('\n');
-    statusEl.textContent = `✅ Letti ${cleaned.length} righi! Verifica e premi Importa:`;
+    statusEl.textContent = `✅ Letti ${cleaned.length} piatti! Ora puoi importarli o creare PDF/Word/Drive:`;
   } catch (e) {
     statusEl.textContent = '⚠️ Scrivi o incolla i piatti qui sotto:';
   }
@@ -1123,30 +1244,102 @@ async function processChalkboardPhoto(ev) {
 }
 
 async function importOcrLinesToMenu() {
-  const raw = document.getElementById('ocrResultBox').value.trim();
-  if (!raw) { alert("Scatta prima una foto o scrivi almeno un piatto."); return; }
-  const fallbackCat = document.getElementById('ocrDefaultCat').value;
-  const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 2);
-  let added = 0;
-  lines.forEach(line => {
-    const priceMatch = line.match(/(?:€|eur)?\s*(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i);
-    let price = 14.00, dishName = line;
-    if (priceMatch) {
-      price = parseFloat(priceMatch[1].replace(',', '.'));
-      dishName = line.slice(0, priceMatch.index).replace(/[-–—:.]+\s*$/, '').trim();
-    }
-    if (dishName.length >= 2 && !isNaN(price)) {
-      const cat = guessCategoryFromDishName(dishName, fallbackCat);
-      state.menu.push({ id: Date.now() + Math.floor(Math.random() * 10000), cat, name: dishName, price });
-      added++;
-    }
+  const list = parseOcrTextLines();
+  if (list.length === 0) { alert("Scatta prima una foto o scrivi almeno un piatto nel riquadro."); return; }
+  state.dailyChalkboard = list;
+  list.forEach(d => {
+    state.menu.push({ id: Date.now() + Math.floor(Math.random() * 10000), cat: d.cat, name: d.name, price: d.price });
   });
-  if (added > 0) {
-    document.getElementById('ocrResultBox').value = '';
-    document.getElementById('ocrStatus').style.display = 'none';
-    await saveState(false); renderMenuMgr();
-    alert(`✅ Importati ${added} nuovi piatti nel menù!`);
+  await saveState(false); renderMenuMgr();
+  alert(`✅ Importati ${list.length} piatti della lavagnetta nel menù!`);
+}
+
+function buildStyledDailyMenuHTML(dishes) {
+  const todayStr = new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const logoSvg = document.getElementById('alicettaLogoSvg').outerHTML;
+  const rows = (dishes && dishes.length ? dishes : state.dailyChalkboard).map(d => `
+    <div style="display:flex; justify-content:space-between; align-items:baseline; padding:10px 0; border-bottom:1px dashed rgba(255,87,51,0.35); font-size:1.05rem;">
+      <span style="font-weight:800; color:#062329; text-align:left;">${d.name}</span>
+      <span style="font-weight:900; color:#FF5733; white-space:nowrap; margin-left:12px;">€ ${formatPrice(d.price)}</span>
+    </div>
+  `).join('');
+
+  return `
+    <div style="font-family:'Plus Jakarta Sans',sans-serif; max-width:520px; margin:0 auto; border:4px solid #FF5733; border-radius:18px; overflow:hidden; background:#FFFFFF; color:#062329;">
+      <div style="background:#1BE7FF; padding:22px 16px; text-align:center; border-bottom:3px solid #FF5733;">
+        <div style="max-width:240px; margin:0 auto;">${logoSvg.replace('TABLEZ 1.0', 'TRATTORIA')}</div>
+        <div style="margin-top:8px; font-weight:800; color:#FF5733; font-size:0.9rem; text-transform:uppercase; letter-spacing:2px;">✨ Menù del Giorno ✨</div>
+        <div style="font-size:0.78rem; color:#062329; font-weight:700; margin-top:4px;">${todayStr}</div>
+      </div>
+      <div style="padding:20px 22px;">
+        ${rows || '<p style="text-align:center; color:#666;">Nessun piatto del giorno inserito.</p>'}
+      </div>
+      <div style="background:#1BE7FF; padding:10px; text-align:center; font-size:0.75rem; font-weight:800; color:#062329; border-top:2px solid #FF5733;">
+        🐟 Alicetta Trattoria — Pescato & Tradizione Abruzzese
+      </div>
+    </div>
+  `;
+}
+
+function exportDailyMenuWord() {
+  const list = parseOcrTextLines();
+  if (list.length > 0) state.dailyChalkboard = list;
+  const htmlDoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Menu del Giorno Alicetta</title></head><body>${buildStyledDailyMenuHTML(state.dailyChalkboard)}</body></html>`;
+  const blob = new Blob(['\ufeff', htmlDoc], { type: 'application/msword' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `Menu_Alicetta_${buildDateISO()}.doc`;
+  a.click();
+}
+
+function exportDailyMenuPDF() {
+  const list = parseOcrTextLines();
+  if (list.length > 0) state.dailyChalkboard = list;
+  const w = window.open('', '_blank');
+  if (!w) { showPublicDailyMenuPage(); window.print(); return; }
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Menù del Giorno - Alicetta Trattoria</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"></head><body style="padding:20px; background:#fff;">${buildStyledDailyMenuHTML(state.dailyChalkboard)}<script>setTimeout(()=>window.print(),500);<\/script></body></html>`);
+  w.document.close();
+}
+
+function saveDriveWebhook() {
+  state.driveWebhook = document.getElementById('driveWebhookInput').value.trim();
+  saveLocalOnly();
+}
+
+async function publishMenuAndDrive() {
+  const list = parseOcrTextLines();
+  if (list.length > 0) state.dailyChalkboard = list;
+  await saveState(false);
+
+  const publicUrl = window.location.origin + window.location.pathname + "?menu=oggi";
+  const box = document.getElementById('publicMenuLinkBox');
+  box.style.display = 'block';
+  let driveMsg = '';
+
+  if (state.driveWebhook && state.driveWebhook.startsWith('https://')) {
+    try {
+      const res = await fetch(state.driveWebhook, {
+        method: 'POST',
+        body: JSON.stringify({ filename: `Menu_Alicetta_${buildDateISO()}.html`, html: buildStyledDailyMenuHTML(state.dailyChalkboard) })
+      });
+      const j = await res.json();
+      if (j && j.url) driveMsg = `<br>📂 <b>Link Google Drive Pubblico:</b> <a href="${j.url}" target="_blank">${j.url}</a>`;
+    } catch (e) {}
   }
+
+  box.innerHTML = `✅ <b>Link Pubblico Diretto (Senza Restrizioni):</b><br><a href="${publicUrl}" target="_blank" style="color:#062329; font-weight:800;">${publicUrl}</a>${driveMsg}<br><button class="btn-note" style="margin-top:6px;" onclick="navigator.clipboard.writeText('${publicUrl}'); alert('Link copiato!');">📋 Copia Link da inviare o condividere</button>`;
+}
+
+function showPublicDailyMenuPage() {
+  document.getElementById('mainTopbar').style.display = 'none';
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('viewPublicMenu').classList.add('active');
+  document.getElementById('publicMenuContent').innerHTML = buildStyledDailyMenuHTML(state.dailyChalkboard) + `
+    <div style="margin-top:14px; display:flex; gap:8px; justify-content:center;">
+      <button class="btn-note" style="padding:10px 14px;" onclick="window.print()">📑 Salva PDF / Stampa</button>
+      <button class="btn-note" style="padding:10px 14px;" onclick="exportDailyMenuWord()">📄 Scarica Word</button>
+    </div>
+  `;
 }
 
 /* =========================================================
@@ -1242,8 +1435,7 @@ function renderKds() {
     let html = `<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px; gap:4px; flex-wrap:wrap;">
       <b>${t.name}${custLbl}</b>
       <div style="display:flex; align-items:center; gap:5px;">
-        ${pickupBadge}
-        ${delayBadge}
+        ${pickupBadge}${delayBadge}
         <span id="kds_timer_${t.id}" style="font-size:0.75rem; font-weight:800; background:#111827; color:#fff; padding:2px 6px; border-radius:5px;">⏱️ ${t.openedAt ? formatElapsed(now - t.openedAt) : '00:00'}</span>
       </div>
     </div>`;
