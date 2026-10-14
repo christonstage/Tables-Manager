@@ -3,94 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta Trattoria POS</title>
+<title>Alicetta Trattoria - Comande & Tavoli</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #2ECC71; --bg-deep: #27AE60; --card: #FFFFFF; --text: #1F2937; --muted: #4B5563;
-  --logo-cyan: #1BE7FF; --logo-coral: #FF5733; --border: rgba(0,0,0,0.15);
+  --logo-cyan: #1BE7FF; --logo-coral: #FF5733; --border: rgba(0, 0, 0, 0.15);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
 body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-select: none; overflow-x: hidden; }
-.topbar { position: sticky; top: 0; z-index: 50; background: rgba(46,204,113,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-.brand-group { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
-.brand-logo { display: flex; align-items: center; background: var(--logo-cyan); padding: 3px 5px; border-radius: 7px; border: 1.5px solid var(--logo-coral); }
-.brand-logo svg { height: 20px; width: auto; display: block; }
-.sync-badge { font-size: 0.6rem; padding: 2px 3px; border-radius: 50%; background: rgba(255,255,255,0.75); line-height: 1; }
-.top-actions { display: flex; gap: 4px; align-items: center; flex-shrink: 1; min-width: 0; }
-.waiter-tag { font-size: 0.68rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 6px 7px; border-radius: 7px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 92px; cursor: pointer; }
-.btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 6px 7px; border-radius: 7px; font-size: 0.72rem; font-weight: 800; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.topbar { position: sticky; top: 0; z-index: 50; background: rgba(46, 204, 113, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 6px 6px; display: flex; justify-content: space-between; align-items: center; gap: 3px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.brand-group { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
+.brand-logo { display: flex; align-items: center; background: var(--logo-cyan); padding: 2px 5px; border-radius: 7px; border: 1.5px solid var(--logo-coral); }
+.brand-logo svg { height: 19px; width: auto; display: block; }
+.sync-badge { font-size: 0.54rem; font-weight: 800; padding: 2px 4px; border-radius: 4px; background: rgba(0,0,0,0.12); white-space: nowrap; color: #111; }
+.top-actions { display: flex; gap: 3px; align-items: center; flex-shrink: 1; min-width: 0; }
+.waiter-tag { font-size: 0.64rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 5px 6px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; cursor: pointer; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
+.btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 5px 6px; border-radius: 7px; font-size: 0.68rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
 .btn-top.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
 .room-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 14px; }
-.room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; text-align: center; cursor: pointer; }
+.room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.86rem; font-weight: 700; text-align: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
 .room-tab.active { border-color: var(--logo-coral); color: #062329; background: var(--logo-cyan); font-weight: 800; }
 .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
-.table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; transition: transform 0.1s; }
+.table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; }
 .table-card:active { transform: scale(0.95); }
-.table-card.busy { background: var(--logo-coral); border-color: #062329; color: #FFF; box-shadow: 0 5px 15px rgba(255,87,51,0.35); }
+.table-card.busy { background: var(--logo-coral); border-color: #062329; color: #FFFFFF; box-shadow: 0 5px 15px rgba(255, 87, 51, 0.35); }
 .table-name { font-size: 1.05rem; font-weight: 800; }
-.table-status { font-size: 0.74rem; font-weight: 700; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
-.status-free { color: #062329; background: rgba(255,255,255,0.65); }
-.status-busy { color: #FFF; background: rgba(0,0,0,0.28); }
-.table-total { font-size: 0.95rem; font-weight: 800; color: #FFF; margin-top: 6px; }
+.table-card.busy .table-name { color: #FFFFFF; }
+.table-status { font-size: 0.75rem; font-weight: 700; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
+.status-free { color: #062329; background: rgba(255,255,255,0.6); }
+.status-busy { color: #FFFFFF; background: rgba(0,0,0,0.25); }
+.table-total { font-size: 0.95rem; font-weight: 800; color: #FFFFFF; margin-top: 6px; }
 .course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
-.dot { font-size: 0.64rem; padding: 2px 6px; border-radius: 5px; font-weight: 800; }
-.dot.sent { background: #10B981; color: #fff; }
-.dot.wait { background: #062329; color: #fff; }
+.dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 800; }
+.dot.sent { background: #10B981; color: #ffffff; }
+.dot.wait { background: #062329; color: #ffffff; }
 .dot.done { background: #062329; color: #34d399; }
 .screen { display: none; padding: 12px 14px; }
 .screen.active { display: block; }
-.order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); gap: 6px; }
-.btn-back { background: var(--bg-deep); color: #fff; border: none; padding: 8px 10px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
+.order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); }
+.btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
 .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; }
 .mandata-btn.active { border-color: var(--logo-coral); background: var(--logo-cyan); color: #062329; font-weight: 800; }
 .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; }
 .cat-bar::-webkit-scrollbar { display: none; }
-.cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.84rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
+.cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
 .cat-btn.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); font-weight: 800; }
 .search-wrap { margin-bottom: 10px; position: relative; }
 .search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; }
 .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--muted); font-size: 1.1rem; font-weight: 800; cursor: pointer; }
 .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
-.menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06); transition: transform 0.12s, background 0.12s; }
-.menu-item.tap-anim { transform: scale(0.93); background: var(--logo-cyan); border-color: var(--logo-coral); }
-.tap-badge { position: absolute; top: 6px; right: 6px; background: var(--logo-coral); color: #fff; font-weight: 800; font-size: 0.76rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: floatUp 0.4s ease-out forwards; }
-@keyframes floatUp { 0% { opacity: 1; transform: translateY(4px); } 100% { opacity: 0; transform: translateY(-12px); } }
-.item-name { font-weight: 800; font-size: 0.83rem; line-height: 1.2; word-break: break-word; }
+.menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06); color: var(--text); transition: transform 0.12s; }
+.menu-item:active { transform: scale(0.96); background: var(--logo-cyan); }
+.tap-badge { position: absolute; top: 6px; right: 6px; background: var(--logo-coral); color: #fff; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; }
+@keyframes badgeFloatUp { 0% { opacity: 1; transform: translateY(4px); } 100% { opacity: 0; transform: translateY(-12px); } }
+.item-name { font-weight: 800; font-size: 0.84rem; line-height: 1.22; word-break: break-word; }
 .item-price { color: var(--logo-coral); font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
 .fire-box { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
-.fire-title { font-size: 0.78rem; font-weight: 800; color: var(--logo-coral); margin-bottom: 8px; text-transform: uppercase; }
+.fire-title { font-size: 0.8rem; font-weight: 700; color: var(--logo-coral); margin-bottom: 8px; text-transform: uppercase; }
 .fire-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.btn-fire { flex: 1; background: var(--logo-coral); color: #FFF; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.84rem; cursor: pointer; min-width: 135px; }
+.btn-fire { flex: 1; background: var(--logo-coral); color: #FFF; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
 .btn-fire.fired { background: #10B981; color: #fff; }
 .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; }
 .mandata-group { margin-bottom: 14px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
 .mandata-group:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
-.mandata-header { display: flex; justify-content: space-between; font-size: 0.84rem; font-weight: 800; color: var(--logo-coral); margin-bottom: 6px; }
-.cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.86rem; gap: 6px; }
+.mandata-header { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 800; color: var(--logo-coral); margin-bottom: 6px; }
+.cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.88rem; gap: 6px; }
 .cart-info { flex: 1; }
-.cart-note { font-size: 0.75rem; color: var(--logo-coral); font-style: italic; display: block; font-weight: 600; }
+.cart-note { font-size: 0.76rem; color: var(--logo-coral); font-style: italic; display: block; font-weight: 600; }
 .cart-controls { display: flex; align-items: center; gap: 5px; }
 .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 900; cursor: pointer; }
-.btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); cursor: pointer; font-weight: 800; }
-.bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(46,204,113,0.98); border-top: 1px solid var(--border); padding: 10px; display: flex; gap: 6px; z-index: 60; }
-.btn-main { flex: 1; padding: 12px 6px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; text-align: center; }
-.btn-print { background: var(--logo-cyan); color: #062329; border: 1.5px solid var(--logo-coral); }
+.btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); cursor: pointer; font-weight: 700; }
+.bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(46, 204, 113, 0.98); border-top: 1px solid var(--border); padding: 10px 12px; display: flex; gap: 6px; z-index: 60; }
+.btn-main { flex: 1; padding: 12px 6px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.84rem; cursor: pointer; text-align: center; }
+.btn-print { background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); }
 .btn-bill { background: var(--logo-coral); color: #FFF; }
-.btn-close-table { background: var(--card); color: var(--text); border: 1px solid var(--border); flex: 0.6; }
+.btn-close-table { background: var(--card); color: var(--text); border: 1px solid var(--border); flex: 0.5; }
 .form-control { padding: 10px; border-radius: 8px; background: #F9FAFB; color: var(--text); border: 1px solid var(--border); font-weight: 600; width: 100%; }
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
 .modal-overlay.active { display: flex; }
-.receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 12px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-height: 85vh; overflow-y: auto; }
-.receipt-pre { white-space: pre-wrap; font-family: "Courier New", monospace; font-size: 0.84rem; line-height: 1.35; }
+.receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 8px; padding: 16px; font-family: "Courier New", monospace; max-height: 85vh; overflow-y: auto; }
+.receipt-pre { white-space: pre-wrap; font-family: "Courier New", monospace; font-size: 0.85rem; line-height: 1.35; }
 .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
-.btn-modal { flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; }
+.btn-modal { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; }
 .kds-Banner { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-.btn-kds-audio { background: var(--logo-coral); color: #FFF; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.84rem; cursor: pointer; }
-.btn-kds-audio.on { background: #10B981; }
-.kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
-.kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; }
+.btn-kds-audio { background: var(--logo-coral); color: #FFF; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
+.btn-kds-audio.on { background: #10B981; color: #fff; }
+.kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
+.kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; color: var(--text); }
 .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 </style>
 </head>
@@ -98,7 +99,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 
 <div class="topbar">
   <div class="brand-group">
-    <div class="brand-logo">
+    <div class="brand-logo" title="Alicetta Trattoria">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
         <g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round">
           <polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/>
@@ -114,13 +115,13 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
         <text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text>
       </svg>
     </div>
-    <div id="syncIndicator" class="sync-badge">🟢</div>
+    <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
-    <div id="waiterDisplay" class="waiter-tag" onclick="openWaiterModal()">👤 Staff ⏻</div>
+    <div id="waiterDisplay" class="waiter-tag" onclick="logoutWaiter()">👤 --</div>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
     <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
-    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;">⚙️</button>
+    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;">Menù</button>
   </div>
 </div>
 
@@ -137,13 +138,10 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   <div class="order-header">
     <button class="btn-back" onclick="closeTableView()">← Tavoli</button>
     <div style="text-align:center;">
-      <div id="activeTableName" style="font-weight:800; font-size:1.05rem;">Tavolo 1</div>
-      <div id="activeTableSub" style="font-size:0.72rem; color:var(--muted);">Sala Interna</div>
+      <div id="activeTableName" style="font-weight:800; font-size:1.1rem;">Tavolo 1</div>
+      <div id="activeTableSub" style="font-size:0.75rem; color:var(--muted);">Sala Interna</div>
     </div>
-    <div style="display:flex; align-items:center; gap:6px;">
-      <button class="btn-note" onclick="moveOrMergeTable()">🔀 Sposta</button>
-      <div id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.05rem;">€ 0,00</div>
-    </div>
+    <div id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.1rem;">€ 0,00</div>
   </div>
 
   <div id="fireBox" class="fire-box" style="display:none;">
@@ -151,7 +149,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     <div class="fire-actions" id="fireButtonsContainer"></div>
   </div>
 
-  <div style="font-size:0.74rem; color:#062329; margin-bottom:4px; font-weight:800;">SELEZIONA MANDATA:</div>
+  <div style="font-size:0.75rem; color:#062329; margin-bottom:4px; font-weight:800;">STAI INSERENDO PIATTI NELLA:</div>
   <div class="mandata-bar">
     <div class="mandata-btn" id="mBtn0" onclick="setMandata(0, true)">⚡ Subito</div>
     <div class="mandata-btn active" id="mBtn1" onclick="setMandata(1, true)">1ª Mand.</div>
@@ -177,14 +175,14 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   <div class="bottom-bar">
     <button class="btn-main btn-print" onclick="sendOrderToKitchen()">🖨️ INVIA</button>
     <button class="btn-main btn-bill" onclick="splitBillPrompt()">👥 DIVIDI</button>
-    <button class="btn-main btn-bill" onclick="showPreBill()">💶 CONTO</button>
+    <button class="btn-main btn-bill" onclick="showPreBill()">💶 PRE-CONTO</button>
     <button class="btn-main btn-close-table" onclick="freeCurrentTable()">Libera</button>
   </div>
 </div>
 
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800; font-size:1rem;">🖥️ SCHERMO CUCINA (KDS LIVE)</div>
+    <div><div style="font-weight:800; font-size:1.05rem;">🖥️ SCHERMO CUCINA (KDS LIVE)</div></div>
     <div style="display:flex; gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -195,65 +193,33 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">👤 Utente attivo: <span id="currentWaiterBadge" style="color:var(--logo-coral);">--</span></h3>
-    <button class="btn-note" onclick="openWaiterModal()">Cambia Utente / Logout</button>
+    <h3 style="margin-bottom:8px;">👤 Cameriere: <span id="currentWaiterBadge" style="color:var(--logo-coral);">--</span></h3>
+    <button class="btn-note" onclick="logoutWaiter()">Logout Cameriere</button>
   </div>
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">📊 Registro Storico di Fine Serata</h3>
-    <div id="dailyStats" style="font-size:0.85rem; color:var(--muted); line-height:1.4; margin-bottom:8px;"></div>
-    <button class="btn-note" onclick="clearHistoryLog()">🗑️ Azzera Statistiche</button>
+    <div id="dailyStats" style="font-size:0.85rem; color:var(--muted); line-height:1.4;">Caricamento...</div>
   </div>
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">☁️ Firebase URL</h3>
     <div style="display:flex; gap:6px;">
-      <input type="text" id="firebaseUrlInput" class="form-control">
+      <input type="text" id="firebaseUrlInput" class="form-control" placeholder="URL Firebase">
       <button class="btn-note" onclick="saveFirebaseUrl()">Salva</button>
     </div>
   </div>
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">🖨️ Stampante Epson TM-m30III</h3>
+    <h3 style="margin-bottom:8px;">🖨️ Stampante</h3>
     <label style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.9rem;">
       <input type="checkbox" id="chkRawbt" onchange="toggleRawbtSetting()" style="width:18px; height:18px;">
-      Invia direttamente a RawBT (ESC/POS 80mm)
+      Usa RawBT
     </label>
   </div>
   <div class="cart-section">
-    <h3 style="margin-bottom:10px;">➕ Aggiungi Articolo al Menù</h3>
-    <div style="display:grid; gap:8px;">
-      <select id="newItemCat" class="form-control"></select>
-      <input type="text" id="newItemName" class="form-control" placeholder="Nome piatto o vino">
-      <input type="number" step="0.5" id="newItemPrice" class="form-control" placeholder="Prezzo €">
-      <button class="btn-main btn-print" onclick="addNewMenuItem()">Salva nel Menù</button>
-    </div>
-  </div>
-  <div class="cart-section">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <h3>📋 Catalogo (68 voci)</h3>
-      <button class="btn-note" onclick="resetMenuToSumUp()">🔄 Ripristina</button>
-    </div>
+    <h3 style="margin-bottom:10px;">📋 Catalogo (68 voci)</h3>
     <div id="menuMgrList"></div>
   </div>
 </div>
 
-<!-- MODALE CAMERIERE / LOGOUT -->
-<div class="modal-overlay" id="waiterModal">
-  <div class="receipt-box" style="text-align:center;">
-    <h3 style="margin-bottom:8px; color:#062329;">👤 Chi sta usando il terminale?</h3>
-    <p style="font-size:0.78rem; color:#4B5563; margin-bottom:12px;">Seleziona <b>Christian</b> per mostrare il tasto ⚙️ Impostazioni.</p>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
-      <button class="btn-main btn-print" onclick="setWaiter('Christian')">👑 Christian</button>
-      <button class="btn-main btn-bill" onclick="setWaiter('Alice')">👤 Alice</button>
-      <button class="btn-main btn-bill" onclick="setWaiter('Serena')">👤 Serena</button>
-      <button class="btn-main btn-bill" onclick="setWaiter('Sala')">👤 Sala</button>
-    </div>
-    <div style="display:flex; gap:6px;">
-      <input type="text" id="customWaiterInput" class="form-control" placeholder="Altro nome...">
-      <button class="btn-note" onclick="setCustomWaiter()">Entra</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODALE SCONTRINO -->
 <div class="modal-overlay" id="receiptModal">
   <div class="receipt-box">
     <div class="receipt-pre" id="receiptText"></div>
@@ -295,7 +261,7 @@ const RAW_MENU = [
   [601,5,"Cantucci Amarene",6],[602,5,"Mouse al cioccolato",6],[603,5,"Pizzelle",5],[604,5,"Zaffermisù - tiramisù alla ricotta di pecora",7]
 ];
 const DEFAULT_MENU = RAW_MENU.map(r => ({ id: r[0], cat: CATEGORIES[r[1]], name: r[2], price: r[3] }));
-const STORAGE_KEY = 'alicetta_pos_v11';
+const STORAGE_KEY = 'alicetta_pos_v9';
 
 let state = {
   currentRoom: 'interna', activeTableId: null, currentMandata: 1, currentCategory: '1 Coperto',
@@ -306,9 +272,9 @@ let audioCtx = null;
 
 function buildDefaultTables() {
   const t = {};
-  for (let i = 1; i <= 11; i++) t['INT_'+i] = { id:'INT_'+i, name:'Tavolo '+i, room:'interna', items:[], firedMandate:{1:false,2:false,3:false,4:false}, doneMandate:{1:false,2:false,3:false,4:false}, sentOnce:false };
-  for (let i = 1; i <= 5; i++) t['EST_'+i] = { id:'EST_'+i, name:'Esterno '+i, room:'esterna', items:[], firedMandate:{1:false,2:false,3:false,4:false}, doneMandate:{1:false,2:false,3:false,4:false}, sentOnce:false };
-  for (let i = 1; i <= 5; i++) t['ASP_'+i] = { id:'ASP_'+i, name:'Asporto '+i, room:'asporto', items:[], firedMandate:{1:false,2:false,3:false,4:false}, doneMandate:{1:false,2:false,3:false,4:false}, sentOnce:false };
+  for (let i = 1; i <= 11; i++) t['INT_' + i] = { id: 'INT_' + i, name: 'Tavolo ' + i, room: 'interna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
+  for (let i = 1; i <= 5; i++) t['EST_' + i] = { id: 'EST_' + i, name: 'Esterno ' + i, room: 'esterna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
+  for (let i = 1; i <= 5; i++) t['ASP_' + i] = { id: 'ASP_' + i, name: 'Asporto ' + i, room: 'asporto', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
   return t;
 }
 
@@ -319,75 +285,64 @@ function normalizeTablesStructure(tablesObj) {
     if (!tablesObj[k]) tablesObj[k] = def[k];
     else {
       if (!Array.isArray(tablesObj[k].items)) tablesObj[k].items = [];
-      if (!tablesObj[k].firedMandate) tablesObj[k].firedMandate = {1:false,2:false,3:false,4:false};
-      if (!tablesObj[k].doneMandate) tablesObj[k].doneMandate = {1:false,2:false,3:false,4:false};
+      if (!tablesObj[k].firedMandate) tablesObj[k].firedMandate = { 1: false, 2: false, 3: false, 4: false };
+      if (!tablesObj[k].doneMandate) tablesObj[k].doneMandate = { 1: false, 2: false, 3: false, 4: false };
     }
   });
   return tablesObj;
 }
 
-function initApp() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const p = JSON.parse(saved);
-      state.menu = (p.menu && p.menu.length > 0) ? p.menu : DEFAULT_MENU;
-      state.tables = normalizeTablesStructure(p.tables);
-      state.useRawBT = p.useRawBT || false;
-      state.firebaseUrl = p.firebaseUrl || DEFAULT_FIREBASE_URL;
-      state.waiterName = p.waiterName || '';
-      state.lastAlertSignal = p.lastAlertSignal || 0;
-      state.historyLog = p.historyLog || [];
-    } else {
-      state.menu = DEFAULT_MENU;
-      state.tables = buildDefaultTables();
-    }
-  } catch (e) {
+async function initApp() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    state.menu = (parsed.menu && parsed.menu.length > 0) ? parsed.menu : DEFAULT_MENU;
+    state.tables = normalizeTablesStructure(parsed.tables);
+    state.useRawBT = parsed.useRawBT || false;
+    state.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
+    state.waiterName = parsed.waiterName || '';
+    state.lastAlertSignal = parsed.lastAlertSignal || 0;
+    state.historyLog = parsed.historyLog || [];
+  } else {
     state.menu = DEFAULT_MENU;
     state.tables = buildDefaultTables();
   }
 
+  if (!state.waiterName.trim()) askWaiterName();
+  else updateWaiterDisplay();
+
   document.getElementById('chkRawbt').checked = state.useRawBT;
   document.getElementById('firebaseUrlInput').value = state.firebaseUrl;
-  renderCategorySelect();
   renderTables();
   updateDailyStats();
-  updateWaiterDisplay();
 
-  if (!state.waiterName.trim()) {
-    openWaiterModal();
-  }
-
-  pullFromCloud(true);
+  await pullFromCloud(true);
   setInterval(() => pullFromCloud(false), 1800);
 }
 
-function openWaiterModal() {
-  document.getElementById('customWaiterInput').value = '';
-  document.getElementById('waiterModal').classList.add('active');
-}
-
-function setWaiter(name) {
-  state.waiterName = name.trim();
-  document.getElementById('waiterModal').classList.remove('active');
+function askWaiterName() {
+  const name = prompt("Inserisci il tuo nome (es. Christian o nome cameriere):", "Christian");
+  state.waiterName = (name && name.trim()) ? name.trim() : "Staff";
   saveLocalOnly();
   updateWaiterDisplay();
-  if (document.getElementById('viewMenuMgr').classList.contains('active') && state.waiterName.toLowerCase() !== 'christian') {
-    switchMainView('tables');
-  }
 }
 
-function setCustomWaiter() {
-  const val = document.getElementById('customWaiterInput').value.trim();
-  if (val) setWaiter(val);
+function logoutWaiter() {
+  state.waiterName = '';
+  saveLocalOnly();
+  askWaiterName();
 }
 
 function updateWaiterDisplay() {
-  const w = state.waiterName || 'Staff';
-  document.getElementById('waiterDisplay').textContent = "👤 " + w + " ⏻";
-  document.getElementById('currentWaiterBadge').textContent = w;
-  const isOwner = w.toLowerCase().trim() === 'christian';
-  document.getElementById('navMenu').style.display = isOwner ? 'inline-block' : 'none';
+  const lbl = document.getElementById('waiterDisplay');
+  if (lbl) lbl.textContent = "👤 " + (state.waiterName || 'Staff');
+  const badge = document.getElementById('currentWaiterBadge');
+  if (badge) badge.textContent = state.waiterName || 'Staff';
+  const menuBtn = document.getElementById('navMenu');
+  if (menuBtn) {
+    const isOwner = state.waiterName.toLowerCase().trim() === 'christian';
+    menuBtn.style.display = isOwner ? 'block' : 'none';
+  }
 }
 
 function saveLocalOnly() {
@@ -415,17 +370,17 @@ async function pushToCloud() {
       method: "PUT", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ updatedAt: Date.now(), lastAlertSignal: state.lastAlertSignal, tables: state.tables, menu: state.menu, historyLog: state.historyLog })
     });
-    badge.textContent = res.ok ? "🟢" : "🔴";
-  } catch (e) { badge.textContent = "🟠"; }
+    badge.textContent = res.ok ? "LIVE" : "Err";
+  } catch (e) { badge.textContent = "Off"; }
 }
 
 async function pullFromCloud(isInitial) {
   const badge = document.getElementById('syncIndicator');
   try {
     const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json");
-    if (!res.ok) { badge.textContent = "🔴"; return; }
+    if (!res.ok) { badge.textContent = "DB"; return; }
     const data = await res.json();
-    badge.textContent = "🟢";
+    badge.textContent = "LIVE";
     if (!data) { if (isInitial) await pushToCloud(); return; }
     if (data.lastAlertSignal && data.lastAlertSignal > state.lastAlertSignal) {
       state.lastAlertSignal = data.lastAlertSignal;
@@ -439,16 +394,13 @@ async function pullFromCloud(isInitial) {
     if (document.getElementById('viewTables').classList.contains('active')) renderTables();
     else if (document.getElementById('viewKds').classList.contains('active')) renderKds();
     else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) renderOrderScreen();
-  } catch (e) { badge.textContent = "🟠"; }
+  } catch (e) { badge.textContent = "Loc"; }
 }
 
 function saveFirebaseUrl() {
   const val = document.getElementById('firebaseUrlInput').value.trim();
   if (!val.startsWith("https://")) { alert("URL non valido"); return; }
-  state.firebaseUrl = val;
-  saveLocalOnly();
-  pullFromCloud(true);
-  alert("Salvato!");
+  state.firebaseUrl = val; saveLocalOnly(); pullFromCloud(true); alert("Salvato!");
 }
 
 async function enableKdsTabletMode() {
@@ -456,8 +408,7 @@ async function enableKdsTabletMode() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') await audioCtx.resume();
     const btn = document.getElementById('btnKdsAudio');
-    btn.textContent = "✅ ATTIVO";
-    btn.classList.add('on');
+    btn.textContent = "✅ ATTIVO"; btn.classList.add('on');
     playKitchenBell();
     if ('wakeLock' in navigator) await navigator.wakeLock.request('screen');
   } catch (e) { playKitchenBell(); }
@@ -546,20 +497,19 @@ function openTable(tableId) {
   document.getElementById('activeTableName').textContent = t.name;
   document.getElementById('activeTableSub').textContent = t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto';
   document.getElementById('menuSearch').value = '';
-  const isEmpty = !t.items || t.items.length === 0;
-  setMandata(isEmpty ? 0 : 1, true);
+  setMandata((!t.items || t.items.length === 0) ? 0 : 1, true);
   renderOrderScreen();
 }
 
 function closeTableView() { state.activeTableId = null; switchMainView('tables'); }
 
-function setMandata(m, autoSwitchCat = false) {
+function setMandata(m, autoCat = false) {
   state.currentMandata = m;
   [0,1,2,3,4].forEach(idx => {
     const el = document.getElementById('mBtn' + idx);
     if (el) el.classList.toggle('active', idx === m);
   });
-  if (autoSwitchCat) {
+  if (autoCat) {
     const t = state.tables[state.activeTableId];
     if (m === 0) {
       const hasCop = t && t.items && t.items.some(i => i.name === 'Pane e Coperto');
@@ -578,13 +528,10 @@ function clearSearch() { document.getElementById('menuSearch').value = ''; rende
 function renderCategories() {
   const bar = document.getElementById('catBar');
   bar.innerHTML = '';
-  let activeEl = null;
   CATEGORIES.forEach(cat => {
     const b = document.createElement('button');
-    const isAct = state.currentCategory === cat;
-    b.className = `cat-btn ${isAct ? 'active' : ''}`;
+    b.className = `cat-btn ${state.currentCategory === cat ? 'active' : ''}`;
     b.textContent = cat;
-    if (isAct) activeEl = b;
     b.onclick = () => {
       state.currentCategory = cat;
       document.getElementById('menuSearch').value = '';
@@ -595,7 +542,6 @@ function renderCategories() {
     };
     bar.appendChild(b);
   });
-  if (activeEl) setTimeout(() => activeEl.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }), 30);
 }
 
 function renderMenuGrid() {
@@ -608,12 +554,10 @@ function renderMenuGrid() {
     card.className = 'menu-item';
     card.onclick = () => {
       if (navigator.vibrate) try { navigator.vibrate(20); } catch(e){}
-      card.classList.add('tap-anim');
-      setTimeout(() => card.classList.remove('tap-anim'), 160);
       const badge = document.createElement('span');
       badge.className = 'tap-badge'; badge.textContent = '+1';
       card.appendChild(badge);
-      setTimeout(() => { if (badge.parentNode) badge.parentNode.removeChild(badge); }, 400);
+      setTimeout(() => { if (badge.parentNode) badge.parentNode.removeChild(badge); }, 450);
       addItemToTable(item);
     };
     card.innerHTML = `<div class="item-name">${item.name}</div><div class="item-price">${formatPrice(item.price)} €</div>`;
@@ -697,27 +641,7 @@ function splitBillPrompt() {
   const total = getTableTotal(t);
   const people = prompt("In quante persone volete dividere il conto?", "2");
   if (!people || isNaN(people) || parseInt(people) <= 0) return;
-  alert(`Totale Tavolo: € ${formatPrice(total)}\nPersone: ${people}\nQuota a testa: € ${formatPrice(total / parseInt(people))}`);
-}
-
-function moveOrMergeTable() {
-  const currentT = state.tables[state.activeTableId];
-  if (!currentT || !currentT.items || currentT.items.length === 0) { alert("Tavolo vuoto."); return; }
-  const targetName = prompt("Sposta/Unisci su quale tavolo? (es. Tavolo 5 o Esterno 2):");
-  if (!targetName || !targetName.trim()) return;
-  const targetKey = Object.keys(state.tables).find(k => state.tables[k].name.toLowerCase() === targetName.trim().toLowerCase());
-  if (!targetKey) { alert("Tavolo non trovato."); return; }
-  const targetT = state.tables[targetKey];
-  if (targetT.id === currentT.id) return;
-  if (confirm(`Spostare tutti i piatti da ${currentT.name} a ${targetT.name}?`)) {
-    targetT.items = (targetT.items || []).concat(currentT.items);
-    currentT.items = [];
-    currentT.firedMandate = {1:false,2:false,3:false,4:false};
-    currentT.doneMandate = {1:false,2:false,3:false,4:false};
-    currentT.sentOnce = false;
-    saveState(false);
-    openTable(targetT.id);
-  }
+  alert(`Totale Tavolo: € ${formatPrice(total)}\nPersone: ${people}\nQuota pro-capite: € ${formatPrice(total / parseInt(people))}`);
 }
 
 function buildTimeStr() { return new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }); }
@@ -733,8 +657,7 @@ function sendOrderToKitchen() {
   const coperti = t.items.filter(i => i.name === 'Pane e Coperto');
   if (coperti.length > 0) {
     const totC = coperti.reduce((s, c) => s + c.qty, 0);
-    preview += `COPERTI: ${totC}\n\n`;
-    escpos += ESC+"!\x08"+`COPERTI: ${totC}\n`+ESC+"!\x00";
+    preview += `COPERTI: ${totC}\n\n`; escpos += ESC+"!\x08"+`COPERTI: ${totC}\n`+ESC+"!\x00";
   }
   [0, 1, 2, 3, 4].forEach(m => {
     const list = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
@@ -816,10 +739,6 @@ function freeCurrentTable() {
   }
 }
 
-function clearHistoryLog() {
-  if (confirm("Azzerare le statistiche della serata?")) { state.historyLog = []; saveState(false); updateDailyStats(); }
-}
-
 function updateDailyStats() {
   const c = document.getElementById('dailyStats');
   if (!c) return;
@@ -831,7 +750,7 @@ function updateDailyStats() {
     e.items.forEach(it => { if (it.name !== 'Pane e Coperto') counts[it.name] = (counts[it.name] || 0) + it.qty; });
   });
   const top = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 3);
-  c.innerHTML = `• <b>Tavoli Chiusi:</b> ${log.length}<br>• <b>Coperti Totali:</b> ${cop}<br>• <b>Incasso Totale:</b> € ${formatPrice(rev)}<br>• <b>Top Piatti:</b> ${top.length ? top.map(d => `${d[0]} (${d[1]}x)`).join(', ') : 'Nessuno'}`;
+  c.innerHTML = `• <b>Tavoli Chiusi:</b> ${log.length}<br>• <b>Coperti Totali:</b> ${cop}<br>• <b>Incasso Totale:</b> € ${formatPrice(rev)}<br>• <b>Piatti più venduti:</b> ${top.length ? top.map(d => `${d[0]} (${d[1]}x)`).join(', ') : 'Nessuno'}`;
 }
 
 function markMandataDone(tableId, mandataNum) {
@@ -845,62 +764,35 @@ function renderKds() {
   const container = document.getElementById('kdsContainer');
   container.innerHTML = '';
   const activeTables = Object.values(state.tables).filter(t => t.items && t.items.some(i => i.name !== 'Pane e Coperto'));
-  if (activeTables.length === 0) { container.innerHTML = '<div style="color:#062329; font-weight:800;">Nessuna comanda attiva in cucina.</div>'; return; }
+  if (activeTables.length === 0) { container.innerHTML = '<div style="color:var(--muted); font-weight:700;">Nessuna comanda attiva.</div>'; return; }
   activeTables.forEach(t => {
     const card = document.createElement('div');
     card.className = 'kds-card';
-    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--logo-coral); font-weight:800;">${t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto'}</span></div>`;
+    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--logo-coral);">${t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto'}</span></div>`;
     [0, 1, 2, 3, 4].forEach(m => {
       const mItems = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
       if (mItems.length === 0) return;
       const isDone = t.doneMandate && t.doneMandate[m];
       const isFired = (m === 0 || m === 1 || (t.firedMandate && t.firedMandate[m]));
-      const badge = isDone ? `<span style="color:#10B981; font-weight:800;">SERVITA</span>` : isFired ? `<span style="color:#10B981; font-weight:800;">🔥 MARCIARE</span>` : `<span style="color:var(--logo-coral); font-weight:800;">⏳ ATTESA</span>`;
-      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}"><div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${m === 0 ? 'SUBITO' : m + 'ª MANDATA'}</b> ${badge}</div>${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter \vert{}\vert{} 'Staff'})</span>${i.note ? `<i style="color:var(--logo-coral);">(${i.note})</i>` : ''}</div>`).join('')}${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}</div>`;
+      const badge = isDone ? `<span style="color:#10B981;">SERVITA</span>` : isFired ? `<span style="color:#10B981;">MARCIARE</span>` : `<span style="color:var(--logo-coral);">ATTESA</span>`;
+      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}"><div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${m === 0 ? 'SUBITO' : m + 'ª MANDATA'}</b> ${badge}</div>${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter || 'Staff'})</span></div>`).join('')}${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}</div>`;
     });
     card.innerHTML = html; container.appendChild(card);
   });
 }
 
 function toggleRawbtSetting() { state.useRawBT = document.getElementById('chkRawbt').checked; saveLocalOnly(); }
-function renderCategorySelect() { document.getElementById('newItemCat').innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join(''); }
 
 function renderMenuMgr() {
   const list = document.getElementById('menuMgrList');
+  if (!list) return;
   list.innerHTML = '';
   state.menu.forEach(item => {
     const row = document.createElement('div');
     row.className = 'cart-row'; row.style.borderBottom = '1px solid var(--border)';
-    row.innerHTML = `<div style="flex:1; font-size:0.84rem;"><b>[${item.cat}]</b> ${item.name} — <span style="color:var(--logo-coral); font-weight:800;">${formatPrice(item.price)}€</span></div><div class="cart-controls"><button class="btn-note" onclick="editMenuItem(${item.id})">✏️</button><button class="btn-qty" onclick="deleteMenuItem(${item.id})">🗑️</button></div>`;
+    row.innerHTML = `<div style="flex:1; font-size:0.85rem;">${item.name} — <span style="color:var(--logo-coral);">${formatPrice(item.price)}€</span></div>`;
     list.appendChild(row);
   });
-}
-
-function editMenuItem(id) {
-  const item = state.menu.find(i => i.id === id);
-  if (!item) return;
-  const n = prompt("Modifica nome:", item.name);
-  if (!n || !n.trim()) return;
-  const p = parseFloat((prompt("Modifica prezzo (€):", item.price) || '').replace(',', '.'));
-  if (!isNaN(p)) { item.name = n.trim(); item.price = p; saveState(false); renderMenuMgr(); }
-}
-
-function addNewMenuItem() {
-  const cat = document.getElementById('newItemCat').value;
-  const name = document.getElementById('newItemName').value.trim();
-  const price = parseFloat(document.getElementById('newItemPrice').value.replace(',', '.'));
-  if (!name || isNaN(price)) { alert("Inserisci nome e prezzo validi."); return; }
-  state.menu.push({ id: Date.now(), cat, name, price });
-  document.getElementById('newItemName').value = ''; document.getElementById('newItemPrice').value = '';
-  saveState(false); renderMenuMgr();
-}
-
-function deleteMenuItem(id) {
-  if (confirm("Rimuovere questo piatto?")) { state.menu = state.menu.filter(i => i.id !== id); saveState(false); renderMenuMgr(); }
-}
-
-function resetMenuToSumUp() {
-  if (confirm("Ripristinare i 68 articoli originali?")) { state.menu = JSON.parse(JSON.stringify(DEFAULT_MENU)); saveState(false); renderMenuMgr(); }
 }
 
 initApp();
