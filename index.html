@@ -21,18 +21,19 @@
     --border: rgba(0, 0, 0, 0.15);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-  body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-select: none; }
+  body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-select: none; overflow-x: hidden; }
   
-  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(46, 204, 113, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  /* Topbar ottimizzata per entrare al 100% sullo schermo senza tagli */
+  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(46, 204, 113, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 100%; }
   
-  .brand-group { display: flex; align-items: center; gap: 4px; }
-  .brand-logo { display: flex; align-items: center; background: var(--logo-cyan); padding: 3px 6px; border-radius: 8px; border: 1.5px solid var(--logo-coral); box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
-  .brand-logo svg { height: 24px; width: auto; display: block; }
-  .sync-badge { font-size: 0.58rem; font-weight: 800; padding: 2px 4px; border-radius: 4px; background: rgba(0,0,0,0.1); white-space: nowrap; color: #111; }
+  .brand-group { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+  .brand-logo { display: flex; align-items: center; background: var(--logo-cyan); padding: 3px 5px; border-radius: 7px; border: 1.5px solid var(--logo-coral); box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+  .brand-logo svg { height: 21px; width: auto; display: block; }
+  .sync-badge { font-size: 0.62rem; font-weight: 800; padding: 2px 4px; border-radius: 50%; background: rgba(255,255,255,0.7); line-height: 1; }
 
-  .top-actions { display: flex; gap: 4px; align-items: center; }
-  .waiter-tag { font-size: 0.68rem; font-weight: 700; color: #fff; background: var(--logo-coral); padding: 4px 6px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; cursor: pointer; }
-  .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 6px 8px; border-radius: 8px; font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .top-actions { display: flex; gap: 4px; align-items: center; flex-shrink: 1; min-width: 0; }
+  .waiter-tag { font-size: 0.68rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 6px 7px; border-radius: 7px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 96px; cursor: pointer; }
+  .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 6px 8px; border-radius: 7px; font-size: 0.72rem; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.08); flex-shrink: 0; }
   .btn-top.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); font-weight: 800; }
 
   .room-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 14px; }
@@ -43,7 +44,7 @@
   .table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; }
   .table-card:active { transform: scale(0.95); }
   
-  /* Tavolo Occupato con i colori del logo (Corallo) */
+  /* Tavolo Occupato con il Corallo del pesce e scritta Alicetta */
   .table-card.busy {
     background: var(--logo-coral);
     border-color: #062329;
@@ -53,8 +54,8 @@
   .table-name { font-size: 1.05rem; font-weight: 800; }
   .table-card.busy .table-name { color: #FFFFFF; }
   .table-status { font-size: 0.75rem; font-weight: 700; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
-  .status-free { color: #062329; background: rgba(255,255,255,0.6); }
-  .status-busy { color: #FFFFFF; background: rgba(0,0,0,0.25); }
+  .status-free { color: #062329; background: rgba(255,255,255,0.65); }
+  .status-busy { color: #FFFFFF; background: rgba(0,0,0,0.28); }
   .table-total { font-size: 0.95rem; font-weight: 800; color: #FFFFFF; margin-top: 6px; }
   .course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
   .dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 800; }
@@ -64,14 +65,14 @@
 
   .screen { display: none; padding: 12px 14px; }
   .screen.active { display: block; }
-  .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-  .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+  .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,0.06); gap: 6px; }
+  .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 10px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 
   .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
   .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; }
   .mandata-btn.active { border-color: var(--logo-coral); background: var(--logo-cyan); color: #062329; font-weight: 800; }
 
-  .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; }
+  .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; scroll-behavior: smooth; }
   .cat-bar::-webkit-scrollbar { display: none; }
   .cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
   .cat-btn.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); font-weight: 800; }
@@ -83,7 +84,7 @@
 
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
   .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06); color: var(--text); transition: transform 0.12s; }
-  .menu-item:active { transform: scale(0.97); }
+  .menu-item:active { transform: scale(0.95); background: var(--logo-cyan); }
   .tap-badge { position: absolute; top: 6px; right: 6px; background: var(--logo-coral); color: #fff; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; }
   @keyframes badgeFloatUp {
     0%   { opacity: 1; transform: translateY(4px) scale(0.8); }
@@ -110,11 +111,11 @@
   .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 900; cursor: pointer; }
   .btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); cursor: pointer; font-weight: 700; }
 
-  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(46, 204, 113, 0.98); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.08); }
-  .btn-main { flex: 1; padding: 13px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.92rem; cursor: pointer; text-align: center; }
-  .btn-print { background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); }
+  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(46, 204, 113, 0.98); border-top: 1px solid var(--border); padding: 10px 10px; display: flex; gap: 6px; z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.08); }
+  .btn-main { flex: 1; padding: 12px 6px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; text-align: center; white-space: nowrap; }
+  .btn-print { background: var(--logo-cyan); color: #062329; border: 1.5px solid var(--logo-coral); }
   .btn-bill { background: var(--logo-coral); color: #FFF; }
-  .btn-close-table { background: var(--card); color: var(--text); border: 1px solid var(--border); flex: 0.5; }
+  .btn-close-table { background: var(--card); color: var(--text); border: 1px solid var(--border); flex: 0.6; }
 
   .form-control { padding: 10px; border-radius: 8px; background: #F9FAFB; color: var(--text); border: 1px solid var(--border); font-weight: 600; width: 100%; }
   .form-control::placeholder { color: #9CA3AF; }
@@ -159,13 +160,13 @@
         <text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text>
       </svg>
     </div>
-    <div id="syncIndicator" class="sync-badge">LIVE</div>
+    <div id="syncIndicator" class="sync-badge" title="Stato Sincronizzazione Cloud">🟢</div>
   </div>
   <div class="top-actions">
-    <div id="waiterDisplay" class="waiter-tag" onclick="logoutWaiter()" title="Tocca per fare Logout">👤 -- (Esc)</div>
+    <div id="waiterDisplay" class="waiter-tag" onclick="logoutWaiter()" title="Tocca per cambiare utente">👤 -- ⏻</div>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
     <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
-    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;">Menù</button>
+    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;" title="Impostazioni e Menù">⚙️</button>
   </div>
 </div>
 
@@ -182,10 +183,13 @@
   <div class="order-header">
     <button class="btn-back" onclick="closeTableView()">← Tavoli</button>
     <div style="text-align:center;">
-      <div id="activeTableName" style="font-weight:800; font-size:1.1rem;">Tavolo 1</div>
-      <div id="activeTableSub" style="font-size:0.75rem; color:var(--muted);">Sala Interna</div>
+      <div id="activeTableName" style="font-weight:800; font-size:1.05rem;">Tavolo 1</div>
+      <div id="activeTableSub" style="font-size:0.72rem; color:var(--muted);">Sala Interna</div>
     </div>
-    <div id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.1rem;">€ 0,00</div>
+    <div style="display:flex; align-items:center; gap:6px;">
+      <button class="btn-note" onclick="moveOrMergeTable()" title="Sposta o Unisci tavolo">🔀 Sposta</button>
+      <div id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.05rem;">€ 0,00</div>
+    </div>
   </div>
 
   <div id="fireBox" class="fire-box" style="display:none;">
@@ -193,13 +197,13 @@
     <div class="fire-actions" id="fireButtonsContainer"></div>
   </div>
 
-  <div style="font-size:0.75rem; color:var(--muted); margin-bottom:4px; font-weight:700;">STAI INSERENDO PIATTI NELLA:</div>
+  <div style="font-size:0.75rem; color:#062329; margin-bottom:4px; font-weight:800;">SELEZIONA MANDATA (CAMBIA CATEGORIA IN AUTOMATICO):</div>
   <div class="mandata-bar">
-    <div class="mandata-btn" id="mBtn0" onclick="setMandata(0)">⚡ Subito</div>
-    <div class="mandata-btn active" id="mBtn1" onclick="setMandata(1)">1ª Mand.</div>
-    <div class="mandata-btn" id="mBtn2" onclick="setMandata(2)">2ª Mand.</div>
-    <div class="mandata-btn" id="mBtn3" onclick="setMandata(3)">3ª Mand.</div>
-    <div class="mandata-btn" id="mBtn4" onclick="setMandata(4)">4ª Mand.</div>
+    <div class="mandata-btn" id="mBtn0" onclick="setMandata(0, true)">⚡ Subito</div>
+    <div class="mandata-btn active" id="mBtn1" onclick="setMandata(1, true)">1ª Mand.</div>
+    <div class="mandata-btn" id="mBtn2" onclick="setMandata(2, true)">2ª Mand.</div>
+    <div class="mandata-btn" id="mBtn3" onclick="setMandata(3, true)">3ª Mand.</div>
+    <div class="mandata-btn" id="mBtn4" onclick="setMandata(4, true)">4ª Mand.</div>
   </div>
 
   <div class="cat-bar" id="catBar"></div>
@@ -218,8 +222,8 @@
 
   <div class="bottom-bar">
     <button class="btn-main btn-print" onclick="sendOrderToKitchen()">🖨️ INVIA</button>
-    <button class="btn-main btn-bill" onclick="splitBillPrompt()">👥 CONTO DIVISO</button>
-    <button class="btn-main btn-bill" onclick="showPreBill()">💶 PRE-CONTO</button>
+    <button class="btn-main btn-bill" onclick="splitBillPrompt()">👥 DIVIDI</button>
+    <button class="btn-main btn-bill" onclick="showPreBill()">💶 CONTO</button>
     <button class="btn-main btn-close-table" onclick="freeCurrentTable()">Libera</button>
   </div>
 </div>
@@ -239,13 +243,14 @@
 
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">👤 Cameriere: <span id="currentWaiterBadge" style="color:var(--logo-coral);">--</span></h3>
-    <button class="btn-note" onclick="logoutWaiter()">Logout Cameriere</button>
+    <h3 style="margin-bottom:8px;">👤 Utente attivo: <span id="currentWaiterBadge" style="color:var(--logo-coral);">--</span></h3>
+    <button class="btn-note" onclick="logoutWaiter()">Cambia Utente / Logout</button>
   </div>
 
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">📊 Registro Storico di Fine Serata</h3>
-    <div id="dailyStats" style="font-size:0.85rem; color:var(--muted); line-height:1.4;">Caricamento...</div>
+    <div id="dailyStats" style="font-size:0.85rem; color:var(--muted); line-height:1.4; margin-bottom:8px;">Caricamento...</div>
+    <button class="btn-note" onclick="clearHistoryLog()">🗑️ Azzera Statistiche Serata</button>
   </div>
 
   <div class="cart-section">
@@ -257,11 +262,21 @@
   </div>
 
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">🖨️ Stampante</h3>
+    <h3 style="margin-bottom:8px;">🖨️ Stampante Epson TM-m30III</h3>
     <label style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.9rem;">
       <input type="checkbox" id="chkRawbt" onchange="toggleRawbtSetting()" style="width:18px; height:18px;">
-      Usa RawBT
+      Invia direttamente a RawBT (ESC/POS 80mm)
     </label>
+  </div>
+
+  <div class="cart-section">
+    <h3 style="margin-bottom:10px;">➕ Aggiungi Articolo al Menù</h3>
+    <div style="display:grid; gap:8px;">
+      <select id="newItemCat" class="form-control"></select>
+      <input type="text" id="newItemName" class="form-control" placeholder="Nome piatto o vino">
+      <input type="number" step="0.5" id="newItemPrice" class="form-control" placeholder="Prezzo € (es. 14.00)">
+      <button class="btn-main btn-print" onclick="addNewMenuItem()">Salva nel Menù</button>
+    </div>
   </div>
 
   <div class="cart-section">
@@ -287,6 +302,15 @@
 const DEFAULT_FIREBASE_URL = "https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app";
 const CATEGORIES = ["1 Coperto", "2 Bevande", "3 Antipasti", "4 Primi Piatti", "5 Secondi", "6 Desserts"];
 const MANDATE_LABELS = { 0: "SUBITO / BEVANDE", 1: "1ª MANDATA", 2: "2ª MANDATA", 3: "3ª MANDATA", 4: "4ª MANDATA" };
+
+// Mappa automatica: Mandata -> Categoria Menù
+const MANDATA_TO_CATEGORY = {
+  0: "1 Coperto",
+  1: "3 Antipasti",
+  2: "4 Primi Piatti",
+  3: "5 Secondi",
+  4: "6 Desserts"
+};
 
 const DEFAULT_MENU = [
   { id: 101, cat: "1 Coperto", name: "Pane e Coperto", price: 3.00 },
@@ -371,7 +395,7 @@ const DEFAULT_MENU = [
   { id: 604, cat: "6 Desserts", name: "Zaffermisù - tiramisù alla ricotta di pecora", price: 7.00 }
 ];
 
-const STORAGE_KEY = 'alicetta_pos_v9';
+const STORAGE_KEY = 'alicetta_pos_v10';
 
 let state = {
   currentRoom: 'interna',
@@ -466,22 +490,27 @@ function askWaiterName() {
 }
 
 function logoutWaiter() {
-  state.waiterName = '';
-  saveLocalOnly();
-  askWaiterName();
+  if (confirm(`Vuoi uscire dal profilo "${state.waiterName || 'Staff'}" e cambiare utente?`)) {
+    state.waiterName = '';
+    saveLocalOnly();
+    askWaiterName();
+    if (document.getElementById('viewMenuMgr').classList.contains('active') && state.waiterName.toLowerCase().trim() !== 'christian') {
+      switchMainView('tables');
+    }
+  }
 }
 
 function updateWaiterDisplay() {
   const lbl = document.getElementById('waiterDisplay');
-  if (lbl) lbl.textContent = "👤 " + (state.waiterName || 'Staff') + " (Esc)";
+  if (lbl) lbl.textContent = "👤 " + (state.waiterName || 'Staff') + " ⏻";
   const badge = document.getElementById('currentWaiterBadge');
   if (badge) badge.textContent = state.waiterName || 'Staff';
 
-  // Mostra il tasto Menù (Impostazioni) SOLO se il nome è Christian (o il titolare)
+  // Mostra il tasto ⚙️ (Impostazioni/Menù) SOLO a Christian
   const menuBtn = document.getElementById('navMenu');
   if (menuBtn) {
     const isOwner = state.waiterName.toLowerCase().trim() === 'christian';
-    menuBtn.style.display = isOwner ? 'block' : 'none';
+    menuBtn.style.display = isOwner ? 'inline-block' : 'none';
   }
 }
 
@@ -523,13 +552,9 @@ async function pushToCloud() {
         historyLog: state.historyLog
       })
     });
-    if (res.ok) {
-      badge.textContent = "LIVE";
-    } else {
-      badge.textContent = "Err";
-    }
+    badge.textContent = res.ok ? "🟢" : "🔴";
   } catch (e) {
-    badge.textContent = "Off";
+    badge.textContent = "🟠";
   }
 }
 
@@ -538,11 +563,11 @@ async function pullFromCloud(isInitial) {
   try {
     const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json");
     if (!res.ok) {
-      badge.textContent = "DB";
+      badge.textContent = "🔴";
       return;
     }
     const data = await res.json();
-    badge.textContent = "LIVE";
+    badge.textContent = "🟢";
 
     if (!data) {
       if (isInitial) await pushToCloud();
@@ -574,7 +599,7 @@ async function pullFromCloud(isInitial) {
       renderOrderScreen();
     }
   } catch (e) {
-    badge.textContent = "Loc";
+    badge.textContent = "🟠";
   }
 }
 
@@ -712,9 +737,8 @@ function openTable(tableId) {
   document.getElementById('activeTableSub').textContent = t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto';
   document.getElementById('menuSearch').value = '';
   
-  setMandata((!t.items || t.items.length === 0) ? 0 : 1);
-  renderCategories();
-  renderMenuGrid();
+  const isEmpty = !t.items || t.items.length === 0;
+  setMandata(isEmpty ? 0 : 1, true);
   renderOrderScreen();
 }
 
@@ -723,12 +747,25 @@ function closeTableView() {
   switchMainView('tables');
 }
 
-function setMandata(m) {
+function setMandata(m, autoSwitchCategory = false) {
   state.currentMandata = m;
   [0,1,2,3,4].forEach(idx => {
     const el = document.getElementById('mBtn' + idx);
     if (el) el.classList.toggle('active', idx === m);
   });
+
+  if (autoSwitchCategory) {
+    const t = state.tables[state.activeTableId];
+    if (m === 0) {
+      const hasCoperto = t && t.items && t.items.some(i => i.name === 'Pane e Coperto');
+      state.currentCategory = hasCoperto ? "2 Bevande" : "1 Coperto";
+    } else if (MANDATA_TO_CATEGORY[m]) {
+      state.currentCategory = MANDATA_TO_CATEGORY[m];
+    }
+    document.getElementById('menuSearch').value = '';
+    renderCategories();
+    renderMenuGrid();
+  }
 }
 
 function clearSearch() {
@@ -739,23 +776,34 @@ function clearSearch() {
 function renderCategories() {
   const bar = document.getElementById('catBar');
   bar.innerHTML = '';
+  let activeBtnEl = null;
+
   CATEGORIES.forEach(cat => {
     const b = document.createElement('button');
-    b.className = `cat-btn ${state.currentCategory === cat ? 'active' : ''}`;
+    const isAct = state.currentCategory === cat;
+    b.className = `cat-btn ${isAct ? 'active' : ''}`;
     b.textContent = cat;
+    if (isAct) activeBtnEl = b;
+
     b.onclick = () => {
       state.currentCategory = cat;
       document.getElementById('menuSearch').value = '';
       if (cat === '1 Coperto' || cat === '2 Bevande') {
-        setMandata(0);
+        setMandata(0, false);
       } else if (state.currentMandata === 0) {
-        setMandata(1);
+        setMandata(1, false);
       }
       renderCategories();
       renderMenuGrid();
     };
     bar.appendChild(b);
   });
+
+  if (activeBtnEl) {
+    setTimeout(() => {
+      activeBtnEl.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }, 30);
+  }
 }
 
 function renderMenuGrid() {
@@ -906,6 +954,31 @@ function splitBillPrompt() {
   if (!people || isNaN(people) || parseInt(people) <= 0) return;
   const share = total / parseInt(people);
   alert(`Totale Tavolo: € ${formatPrice(total)}\nNumero Persone: ${people}\nQuota pro-capite: € ${formatPrice(share)}`);
+}
+
+function moveOrMergeTable() {
+  const currentT = state.tables[state.activeTableId];
+  if (!currentT || !currentT.items || currentT.items.length === 0) { alert("Tavolo vuoto."); return; }
+  const targetName = prompt("Inserisci il nome del tavolo di destinazione (es. Tavolo 5 o Esterno 2):");
+  if (!targetName || !targetName.trim()) return;
+
+  const targetKey = Object.keys(state.tables).find(k => state.tables[k].name.toLowerCase() === targetName.trim().toLowerCase());
+  if (!targetKey) {
+    alert("Tavolo non trovato. Scrivi es. 'Tavolo 3' o 'Esterno 1'.");
+    return;
+  }
+  const targetT = state.tables[targetKey];
+  if (targetT.id === currentT.id) return;
+
+  if (confirm(`Vuoi spostare/unire tutti i piatti da ${currentT.name} a ${targetT.name}?`)) {
+    targetT.items = (targetT.items || []).concat(currentT.items);
+    currentT.items = [];
+    currentT.firedMandate = { 1: false, 2: false, 3: false, 4: false };
+    currentT.doneMandate = { 1: false, 2: false, 3: false, 4: false };
+    currentT.sentOnce = false;
+    saveState(false);
+    openTable(targetT.id);
+  }
 }
 
 function buildTimeStr() {
@@ -1066,6 +1139,14 @@ function freeCurrentTable() {
   }
 }
 
+function clearHistoryLog() {
+  if (confirm("Vuoi azzerare il registro storico di fine serata?")) {
+    state.historyLog = [];
+    saveState(false);
+    updateDailyStats();
+  }
+}
+
 function updateDailyStats() {
   const container = document.getElementById('dailyStats');
   if (!container) return;
@@ -1110,24 +1191,24 @@ function renderKds() {
   container.innerHTML = '';
   const activeTables = Object.values(state.tables).filter(t => t.items && t.items.some(i => i.name !== 'Pane e Coperto'));
   if (activeTables.length === 0) {
-    container.innerHTML = '<div style="color:var(--muted); font-weight:700;">Nessuna comanda attiva.</div>';
+    container.innerHTML = '<div style="color:#062329; font-weight:800;">Nessuna comanda attiva in cucina.</div>';
     return;
   }
   activeTables.forEach(t => {
     const card = document.createElement('div');
     card.className = `kds-card`;
-    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--logo-coral);">${t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto'}</span></div>`;
+    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--logo-coral); font-weight:800;">${t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto'}</span></div>`;
 
     [0, 1, 2, 3, 4].forEach(m => {
       const mItems = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
       if (mItems.length === 0) return;
       const isDone = t.doneMandate && t.doneMandate[m];
       const isFired = (m === 0 || m === 1 || (t.firedMandate && t.firedMandate[m]));
-      const statusBadge = isDone ? `<span style="color:#10B981;">SERVITA</span>` : isFired ? `<span style="color:#10B981;">MARCIARE</span>` : `<span style="color:var(--logo-coral);">ATTESA</span>`;
+      const statusBadge = isDone ? `<span style="color:#10B981; font-weight:800;">SERVITA</span>` : isFired ? `<span style="color:#10B981; font-weight:800;">🔥 MARCIARE</span>` : `<span style="color:var(--logo-coral); font-weight:800;">⏳ ATTESA</span>`;
 
       html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}">
         <div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${m === 0 ? 'SUBITO' : m + 'ª MANDATA'}</b> ${statusBadge}</div>
-        ${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter || 'Staff'})</span></div>`).join('')}
+        ${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter \vert{}\vert{} 'Staff'})</span>${i.note ? `<i style="color:var(--logo-coral);">(${i.note})</i>` : ''}</div>`).join('')}
         ${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}
       </div>`;
     });
@@ -1154,9 +1235,62 @@ function renderMenuMgr() {
     const row = document.createElement('div');
     row.className = 'cart-row';
     row.style.borderBottom = '1px solid var(--border)';
-    row.innerHTML = `<div style="flex:1; font-size:0.85rem;">${item.name} — <span style="color:var(--logo-coral);">${formatPrice(item.price)}€</span></div>`;
+    row.innerHTML = `
+      <div style="flex:1; font-size:0.84rem;"><b>[${item.cat}]</b> ${item.name} — <span style="color:var(--logo-coral); font-weight:800;">${formatPrice(item.price)}€</span></div>
+      <div class="cart-controls">
+        <button class="btn-note" onclick="editMenuItem(${item.id})">✏️</button>
+        <button class="btn-qty" onclick="deleteMenuItem(${item.id})">🗑️</button>
+      </div>
+    `;
     list.appendChild(row);
   });
+}
+
+function editMenuItem(id) {
+  const item = state.menu.find(i => i.id === id);
+  if (!item) return;
+  const newName = prompt("Modifica nome articolo:", item.name);
+  if (newName === null || !newName.trim()) return;
+  const newPriceStr = prompt("Modifica prezzo (€):", item.price.toString());
+  if (newPriceStr === null) return;
+  const newPrice = parseFloat(newPriceStr.replace(',', '.'));
+  if (!isNaN(newPrice)) {
+    item.name = newName.trim();
+    item.price = newPrice;
+    saveState(false);
+    renderMenuMgr();
+  }
+}
+
+function addNewMenuItem() {
+  const cat = document.getElementById('newItemCat').value;
+  const name = document.getElementById('newItemName').value.trim();
+  const price = parseFloat(document.getElementById('newItemPrice').value.replace(',', '.'));
+  if (!name || isNaN(price)) {
+    alert("Inserisci nome e prezzo validi.");
+    return;
+  }
+  state.menu.push({ id: Date.now(), cat, name, price });
+  document.getElementById('newItemName').value = '';
+  document.getElementById('newItemPrice').value = '';
+  saveState(false);
+  renderMenuMgr();
+}
+
+function deleteMenuItem(id) {
+  if (confirm("Vuoi rimuovere questo piatto dal menù?")) {
+    state.menu = state.menu.filter(i => i.id !== id);
+    saveState(false);
+    renderMenuMgr();
+  }
+}
+
+function resetMenuToSumUp() {
+  if (confirm("Vuoi ripristinare il menù originale Alicetta (68 articoli)?")) {
+    state.menu = JSON.parse(JSON.stringify(DEFAULT_MENU));
+    saveState(false);
+    renderMenuMgr();
+  }
 }
 
 initApp();
