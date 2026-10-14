@@ -33,23 +33,29 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.86rem; font-weight: 700; text-align: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
 .room-tab.active { border-color: var(--logo-coral); color: #062329; background: var(--logo-cyan); font-weight: 800; }
 .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
-.table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; }
+.table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 112px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; position: relative; }
 .table-card:active { transform: scale(0.95); }
 .table-card.busy { background: var(--logo-coral); border-color: #062329; color: #FFFFFF; box-shadow: 0 5px 15px rgba(255, 87, 51, 0.35); }
 .table-name { font-size: 1.05rem; font-weight: 800; }
 .table-card.busy .table-name { color: #FFFFFF; }
-.table-status { font-size: 0.75rem; font-weight: 700; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
+.table-status { font-size: 0.72rem; font-weight: 700; margin-top: 4px; padding: 2px 7px; border-radius: 6px; display: inline-block; }
 .status-free { color: #062329; background: rgba(255,255,255,0.6); }
 .status-busy { color: #FFFFFF; background: rgba(0,0,0,0.25); }
+.table-timer { font-size: 0.72rem; font-weight: 800; margin-top: 4px; padding: 2px 6px; border-radius: 5px; background: rgba(0,0,0,0.22); color: #FFF; display: inline-block; font-variant-numeric: tabular-nums; }
+.pickup-badge { font-size: 0.68rem; font-weight: 800; margin-top: 3px; padding: 2px 6px; border-radius: 5px; background: #062329; color: var(--logo-cyan); display: inline-block; }
 .table-total { font-size: 0.95rem; font-weight: 800; color: #FFFFFF; margin-top: 6px; }
 .course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
 .dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 800; }
 .dot.sent { background: #10B981; color: #ffffff; }
 .dot.wait { background: #062329; color: #ffffff; }
 .dot.done { background: #062329; color: #34d399; }
+.delay-dot { position: absolute; top: 7px; right: 7px; width: 15px; height: 15px; border-radius: 50%; background: #DC2626; border: 2px solid #FFFFFF; box-shadow: 0 0 10px #DC2626; animation: blinkRed 0.65s infinite alternate; z-index: 5; }
+@keyframes blinkRed { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0.25; transform: scale(1.18); box-shadow: 0 0 15px #FF0000; } }
 .screen { display: none; padding: 12px 14px; }
 .screen.active { display: block; }
 .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); }
+.asporto-bar { display: none; background: var(--card); border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 9px 12px; margin-bottom: 10px; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.asporto-bar.active { display: flex; }
 .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
 .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; }
@@ -102,10 +108,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; color: var(--text); }
 .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 .order-toast { display: none; position: fixed; top: 52px; left: 10px; right: 10px; background: #111827; color: #FFF; border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 12px; z-index: 90; box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
-.order-toast.active { display: block; animation: slideDown 0.25s ease-out; }
-@keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.pager-alert { background: var(--logo-coral); color: #fff; text-align: center; border: 3px solid #fff; animation: pulseAlert 0.8s infinite alternate; }
-@keyframes pulseAlert { from { transform: scale(0.98); } to { transform: scale(1.02); box-shadow: 0 0 30px #FF5733; } }
+.order-toast.active { display: block; }
 .rep-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
 .rep-tab { padding: 8px 4px; border-radius: 8px; border: 1px solid var(--border); background: #F3F4F6; font-weight: 800; font-size: 0.76rem; text-align: center; cursor: pointer; }
 .rep-tab.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
@@ -115,7 +118,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 
 <div class="topbar">
   <div class="brand-group">
-    <div class="brand-logo" title="Alicetta TableZ 1.0">
+    <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
         <g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round">
           <polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/>
@@ -134,12 +137,12 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
-    <div id="waiterDisplay" class="waiter-tag" onclick="logoutWaiter()">👤 --</div>
-    <button class="btn-pager" id="btnPager" onclick="openPagerModal()" style="display:none;" title="Cercapersone Camerieri">🔔</button>
+    <div id="waiterDisplay" class="waiter-tag" onclick="logoutWaiter()">👤 Christian</div>
+    <button class="btn-pager" id="btnPager" onclick="openPagerModal()" title="Cercapersone">🔔</button>
     <button class="btn-top" onclick="toggleFullScreen()" title="Tutto Schermo">⛶</button>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
     <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
-    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;">Menù</button>
+    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')">Menù</button>
   </div>
 </div>
 
@@ -153,9 +156,9 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 
 <div id="viewTables" class="screen active">
   <div class="room-tabs">
-    <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">❄️ Interna (11)</div>
-    <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🕶️ Esterna (5)</div>
-    <div class="room-tab" id="tabAsporto" onclick="selectRoom('asporto')">🥡 Asporto</div>
+    <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">❄️ Interna (<span id="cntInt">11</span>)</div>
+    <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🕶️ Esterna (<span id="cntEst">5</span>)</div>
+    <div class="room-tab" id="tabAsporto" onclick="selectRoom('asporto')">🥡 Asporto (<span id="cntAsp">5</span>)</div>
   </div>
   <div class="tables-grid" id="tablesContainer"></div>
 </div>
@@ -164,15 +167,26 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   <div class="order-header">
     <button class="btn-back" onclick="closeTableView()">← Tavoli</button>
     <div style="text-align:center;">
-      <div id="activeTableName" style="font-weight:800; font-size:1.1rem;">Tavolo 1</div>
-      <div id="activeTableSub" style="font-size:0.75rem; color:var(--muted);">Sala Interna</div>
+      <div id="activeTableName" style="font-weight:800; font-size:1.05rem;">Tavolo 1</div>
+      <div id="activeTableSub" style="font-size:0.72rem; color:var(--muted);">Sala Interna</div>
     </div>
-    <div id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.1rem;">€ 0,00</div>
+    <div style="text-align:right;">
+      <div style="display:flex; align-items:center; gap:5px; justify-content:flex-end;">
+        <button class="btn-note" onclick="quickMergeFromOrder()" title="Unisci tavolo">🔀 Unisci</button>
+        <span id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.05rem;">€ 0,00</span>
+      </div>
+      <div id="activeOrderTimer" style="font-size:0.68rem; font-weight:800; color:var(--muted);"></div>
+    </div>
   </div>
 
-  <div id="fireBox" class="fire-box" style="display:none;">
-    <div class="fire-title">⚡ Comandi Rapidi Marcia Cucina</div>
-    <div class="fire-actions" id="fireButtonsContainer"></div>
+  <div id="asportoBar" class="asporto-bar">
+    <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:130px;">
+      <span style="font-size:0.78rem; font-weight:800; color:#062329;">🕒 Ritiro:</span>
+      <input type="time" id="pickupTimeInput" class="form-control" style="padding:6px 8px; font-weight:800;" onchange="saveAsportoMeta()">
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; flex:1.3; min-width:140px;">
+      <input type="text" id="customerNameInput" class="form-control" style="padding:6px 8px;" placeholder="👤 Nome cliente..." oninput="saveAsportoMeta()">
+    </div>
   </div>
 
   <div style="font-size:0.75rem; color:#062329; margin-bottom:4px; font-weight:800;">STAI INSERENDO PIATTI NELLA:</div>
@@ -209,10 +223,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
     <div><div style="font-weight:800; font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0</div></div>
-    <div style="display:flex; gap:6px;">
-      <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
-      <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
-    </div>
+    <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
   </div>
   <div class="kds-grid" id="kdsContainer"></div>
 </div>
@@ -222,15 +233,42 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     <div style="display:flex; justify-content:space-between; align-items:center;">
       <div>
         <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0</h3>
-        <div style="font-size:0.8rem; color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
+        <div style="font-size:0.8rem; color:var(--muted);">Utente: <b id="currentWaiterBadge">Christian</b></div>
       </div>
-      <button class="btn-note" onclick="logoutWaiter()">Logout</button>
+      <button class="btn-note" onclick="logoutWaiter()">Cambia Utente</button>
     </div>
   </div>
 
   <div class="cart-section">
-    <h3 style="margin-bottom:6px;">📸 Lavagnetta del Giorno (Foto OCR)</h3>
-    <p style="font-size:0.78rem; color:var(--muted); margin-bottom:8px;">Scatta una foto alla lavagnetta: l'app legge i piatti e i prezzi in automatico.</p>
+    <h3 style="margin-bottom:8px;">🪑 Configurazione & Unione Tavoli</h3>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:8px;">
+      <div>
+        <label style="font-size:0.72rem; font-weight:800;">❄️ Interna</label>
+        <input type="number" id="cfgIntCount" class="form-control" min="1" max="40" value="11">
+      </div>
+      <div>
+        <label style="font-size:0.72rem; font-weight:800;">🕶️ Esterna</label>
+        <input type="number" id="cfgEstCount" class="form-control" min="1" max="30" value="5">
+      </div>
+      <div>
+        <label style="font-size:0.72rem; font-weight:800;">🥡 Asporto</label>
+        <input type="number" id="cfgAspCount" class="form-control" min="1" max="30" value="5">
+      </div>
+    </div>
+    <button class="btn-main btn-print" style="width:100%; margin-bottom:12px;" onclick="saveTableCounts()">💾 Salva Numero Tavoli</button>
+
+    <div style="border-top:1px dashed var(--border); padding-top:10px;">
+      <div style="font-size:0.8rem; font-weight:800; margin-bottom:6px;">🔗 Unisci due Tavoli:</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:8px;">
+        <select id="mergeFromSel" class="form-control"></select>
+        <select id="mergeToSel" class="form-control"></select>
+      </div>
+      <button class="btn-main btn-bill" style="width:100%;" onclick="mergeTablesFromSettings()">🔗 Unisci Tavoli Selezionati</button>
+    </div>
+  </div>
+
+  <div class="cart-section">
+    <h3 style="margin-bottom:6px;">📸 Lavagnetta OCR ➔ Menù PDF / Word & Drive</h3>
     <div style="display:grid; gap:8px;">
       <select id="ocrDefaultCat" class="form-control">
         <option value="AUTO">✨ Rileva Categoria in Automatico</option>
@@ -241,15 +279,20 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
         <option value="2 Bevande">2 Bevande</option>
       </select>
       <input type="file" id="chalkboardInput" accept="image/*" capture="environment" style="display:none;" onchange="processChalkboardPhoto(event)">
-      <button class="btn-main btn-bill" onclick="document.getElementById('chalkboardInput').click()">📷 Scatta Foto o Carica Lavagnetta</button>
+      <button class="btn-main btn-bill" onclick="document.getElementById('chalkboardInput').click()">📷 1. Scatta Foto alla Lavagnetta</button>
       <div id="ocrStatus" style="font-size:0.8rem; font-weight:800; color:var(--logo-coral); display:none;"></div>
-      <textarea id="ocrResultBox" class="form-control" rows="4" placeholder="Qui compariranno i piatti letti dalla foto..." style="font-size:0.82rem;"></textarea>
-      <button class="btn-main btn-print" onclick="importOcrLinesToMenu()">✅ Importa Piatti nel Menù</button>
+      <textarea id="ocrResultBox" class="form-control" rows="4" placeholder="Piatti letti..."></textarea>
+      <button class="btn-main btn-print" onclick="importOcrLinesToMenu()">✅ 2. Importa Piatti nella Cassa</button>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:4px;">
+        <button class="btn-note" style="padding:10px;" onclick="exportDailyMenuWord()">📄 Scarica Word (.doc)</button>
+        <button class="btn-note" style="padding:10px;" onclick="exportDailyMenuPDF()">📑 Crea PDF Grafico</button>
+      </div>
+      <input type="text" id="driveWebhookInput" class="form-control" style="font-size:0.75rem;" placeholder="URL Google Apps Script per salvataggio automatico su Drive" onchange="saveDriveWebhook()">
     </div>
   </div>
 
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">📊 Report & Statistiche (Serata / Mese / Anno)</h3>
+    <h3 style="margin-bottom:8px;">📊 Report & Statistiche</h3>
     <div class="rep-tabs">
       <div class="rep-tab active" id="repTabDaily" onclick="selectReportPeriod('daily')">🌙 Serata</div>
       <div class="rep-tab" id="repTabMonthly" onclick="selectReportPeriod('monthly')">📅 Mese</div>
@@ -259,12 +302,12 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     <div style="display:flex; gap:6px; flex-wrap:wrap;">
       <button class="btn-main btn-print" style="flex:1.2;" onclick="printStatsReport()">🖨️ Stampa Report</button>
       <button class="btn-note" onclick="resetCurrentEvening()">🌙 Chiudi Serata</button>
-      <button class="btn-note" style="background:#FEE2E2; color:#991B1B; border-color:#991B1B;" onclick="resetAllHistory()">🗑️ Reset</button>
+      <button class="btn-note" style="background:#FEE2E2; color:#991B1B;" onclick="resetAllHistory()">🗑️ Reset</button>
     </div>
   </div>
 
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">☁️ Firebase & 🖨️ Stampante</h3>
+    <h3 style="margin-bottom:8px;">☁️ Firebase & Stampante</h3>
     <div style="display:flex; gap:6px; margin-bottom:10px;">
       <input type="text" id="firebaseUrlInput" class="form-control" placeholder="URL Firebase">
       <button class="btn-note" onclick="saveFirebaseUrl()">Salva</button>
@@ -274,11 +317,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
       Usa RawBT Diretto su Epson TM-m30III
     </label>
   </div>
-
-  <div class="cart-section">
-    <h3 style="margin-bottom:10px;">📋 Catalogo (<span id="menuCountLbl">68</span> voci)</h3>
-    <div id="menuMgrList"></div>
-  </div>
 </div>
 
 <div class="modal-overlay" id="pagerModal">
@@ -287,22 +325,9 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     <select id="pagerTarget" class="form-control" style="margin-bottom:8px;">
       <option value="TUTTI">📢 TUTTI I CAMERIERI</option>
       <option value="Alice">👤 Solo Alice</option>
-      <option value="Serena">👤 Solo Serena</option>
     </select>
-    <div style="display:grid; gap:6px; margin-bottom:10px;">
-      <button class="btn-main btn-bill" onclick="sendPagerCall('🔥 Piatti pronti al Pass Cucina!')">🔥 Piatti pronti al Pass!</button>
-      <button class="btn-main btn-print" onclick="sendPagerCall('🏃 Vieni subito in Cucina!')">🏃 Vieni in Cucina!</button>
-    </div>
+    <button class="btn-main btn-bill" onclick="sendPagerCall('🔥 Piatti pronti al Pass!')" style="width:100%; margin-bottom:6px;">🔥 Piatti pronti al Pass!</button>
     <button class="btn-modal" style="background:#334155; color:#fff; width:100%;" onclick="closePagerModal()">Annulla</button>
-  </div>
-</div>
-
-<div class="modal-overlay" id="incomingPageModal">
-  <div class="receipt-box pager-alert">
-    <div style="font-size:2rem; margin-bottom:6px;">🚨🔔🚨</div>
-    <h2 style="margin-bottom:6px;">CHIAMATA</h2>
-    <div id="incomingPageText" style="font-size:1.05rem; font-weight:800; margin:12px 0; background:rgba(0,0,0,0.25); padding:10px; border-radius:8px;"></div>
-    <button class="btn-main" style="background:#fff; color:#000; width:100%; font-size:1rem;" onclick="ackIncomingPage()">✅ RICEVUTO!</button>
   </div>
 </div>
 
@@ -323,35 +348,27 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     const iconDataUrl = "data:image/svg+xml;utf8," + encodeURIComponent(svgIcon);
     document.getElementById('favIcon').href = iconDataUrl;
     document.getElementById('appleIcon').href = iconDataUrl;
-
     const manifestObj = {
-      name: "Alicetta TableZ 1.0",
-      short_name: "Alicetta POS",
+      name: "Alicetta TableZ 1.0", short_name: "Alicetta POS",
       start_url: window.location.origin + window.location.pathname,
       scope: window.location.origin + window.location.pathname,
-      display: "fullscreen",
-      orientation: "any",
-      background_color: "#2ECC71",
-      theme_color: "#2ECC71",
+      display: "fullscreen", orientation: "any", background_color: "#2ECC71", theme_color: "#2ECC71",
       icons: [{ src: iconDataUrl, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }]
     };
-    const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' });
-    document.getElementById('pwaManifest').href = URL.createObjectURL(manifestBlob);
+    document.getElementById('pwaManifest').href = URL.createObjectURL(new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' }));
   } catch (e) {}
 })();
 
 function toggleFullScreen() {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch(() => {});
-  } else if (document.exitFullscreen) {
-    document.exitFullscreen().catch(() => {});
-  }
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+  else if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
 }
 
 const DEFAULT_FIREBASE_URL = "https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app";
 const CATEGORIES = ["1 Coperto", "2 Bevande", "3 Antipasti", "4 Primi Piatti", "5 Secondi", "6 Desserts"];
 const MANDATE_LABELS = { 0: "SUBITO / BEVANDE", 1: "1ª MANDATA", 2: "2ª MANDATA", 3: "3ª MANDATA", 4: "4ª MANDATA" };
 const MANDATA_TO_CAT = { 0: "1 Coperto", 1: "3 Antipasti", 2: "4 Primi Piatti", 3: "5 Secondi", 4: "6 Desserts" };
+const DELAY_LIMIT_MS = 20 * 60 * 1000;
 
 const RAW_MENU = [
   [101,0,"Pane e Coperto",3],
@@ -383,8 +400,9 @@ const STORAGE_KEY = 'alicetta_pos_v9';
 let state = {
   currentRoom: 'interna', activeTableId: null, currentMandata: 1, currentCategory: '1 Coperto',
   reportPeriod: 'daily', useRawBT: false, firebaseUrl: DEFAULT_FIREBASE_URL, waiterName: 'Christian',
-  tableCounts: { interna: 11, esterna: 5, asporto: 5 }, dailyChalkboard: [], lastEscPosPayload: '',
-  lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null, menu: [], tables: {}, historyLog: []
+  driveWebhook: '', tableCounts: { interna: 11, esterna: 5, asporto: 5 }, dailyChalkboard: [],
+  lastEscPosPayload: '', lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null,
+  menu: [], tables: {}, historyLog: []
 };
 let audioCtx = null, toastTimer = null;
 
@@ -396,19 +414,21 @@ function unlockAudioOnce() {
 }
 
 function makeTableObj(id, name, room) {
-  return { id, name, baseName: name, room, items: [], openedAt: 0, firedMandate: {1:false,2:false,3:false,4:false}, firedAt: {1:0,2:0,3:0,4:0}, doneMandate: {1:false,2:false,3:false,4:false} };
+  return { id, name, baseName: name, room, items: [], openedAt: 0, pickupTime: '', customerName: '', firedMandate: {1:false,2:false,3:false,4:false}, firedAt: {1:0,2:0,3:0,4:0}, doneMandate: {1:false,2:false,3:false,4:false} };
 }
 
-function buildDefaultTables() {
+function buildDefaultTables(counts) {
+  const c = counts || state.tableCounts || { interna: 11, esterna: 5, asporto: 5 };
   const t = {};
-  for (let i = 1; i <= 11; i++) t['INT_' + i] = makeTableObj('INT_' + i, 'Tavolo ' + i, 'interna');
-  for (let i = 1; i <= 5; i++) t['EST_' + i] = makeTableObj('EST_' + i, 'Esterno ' + i, 'esterna');
-  for (let i = 1; i <= 5; i++) t['ASP_' + i] = makeTableObj('ASP_' + i, 'Asporto ' + i, 'asporto');
+  for (let i = 1; i <= (c.interna || 11); i++) t['INT_' + i] = makeTableObj('INT_' + i, 'Tavolo ' + i, 'interna');
+  for (let i = 1; i <= (c.esterna || 5); i++) t['EST_' + i] = makeTableObj('EST_' + i, 'Esterno ' + i, 'esterna');
+  for (let i = 1; i <= (c.asporto || 5); i++) t['ASP_' + i] = makeTableObj('ASP_' + i, 'Asporto ' + i, 'asporto');
   return t;
 }
 
-function normalizeTablesStructure(tablesObj) {
-  const def = buildDefaultTables();
+function normalizeTablesStructure(tablesObj, counts) {
+  const c = counts || state.tableCounts || { interna: 11, esterna: 5, asporto: 5 };
+  const def = buildDefaultTables(c);
   if (!tablesObj) return def;
   Object.keys(def).forEach(k => {
     if (tablesObj[k]) {
@@ -417,10 +437,43 @@ function normalizeTablesStructure(tablesObj) {
       def[k].name = tb.name || def[k].baseName;
       def[k].firedMandate = tb.firedMandate || {1:false,2:false,3:false,4:false};
       def[k].doneMandate = tb.doneMandate || {1:false,2:false,3:false,4:false};
+      def[k].pickupTime = tb.pickupTime || '';
+      def[k].customerName = tb.customerName || '';
       def[k].openedAt = def[k].items.length > 0 ? (tb.openedAt || Date.now()) : 0;
     }
   });
   return def;
+}
+
+function formatElapsed(ms) {
+  if (!ms || ms < 0) return "00:00";
+  const s = Math.floor(ms / 1000);
+  return String(Math.floor(s / 60)).padStart(2, '0') + ":" + String(s % 60).padStart(2, '0');
+}
+
+function isTableDelayed(t) {
+  if (!t || !t.items || t.items.length === 0 || !t.openedAt) return false;
+  return (Date.now() - t.openedAt) >= DELAY_LIMIT_MS;
+}
+
+function tickLiveTimers() {
+  const now = Date.now();
+  if (document.getElementById('viewTables').classList.contains('active')) {
+    Object.values(state.tables).filter(t => t.room === state.currentRoom && t.items && t.items.length > 0).forEach(t => {
+      const tEl = document.getElementById('timer_' + t.id);
+      if (tEl && t.openedAt) tEl.textContent = "⏱️ " + formatElapsed(now - t.openedAt);
+      const dEl = document.getElementById('delay_' + t.id);
+      if (dEl) dEl.style.display = isTableDelayed(t) ? 'block' : 'none';
+    });
+  } else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) {
+    const t = state.tables[state.activeTableId];
+    const hdrT = document.getElementById('activeOrderTimer');
+    if (hdrT && t && t.openedAt) {
+      const delayed = isTableDelayed(t);
+      hdrT.innerHTML = (delayed ? '🔴 RITARDO ' : '⏱️ ') + formatElapsed(now - t.openedAt);
+      hdrT.style.color = delayed ? '#DC2626' : 'var(--muted)';
+    }
+  }
 }
 
 async function initApp() {
@@ -428,36 +481,37 @@ async function initApp() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
+      state.tableCounts = parsed.tableCounts || { interna: 11, esterna: 5, asporto: 5 };
       state.menu = parsed.menu && parsed.menu.length > 0 ? parsed.menu : DEFAULT_MENU;
-      state.tables = normalizeTablesStructure(parsed.tables);
+      state.tables = normalizeTablesStructure(parsed.tables, state.tableCounts);
       state.useRawBT = parsed.useRawBT || false;
       state.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
       state.waiterName = parsed.waiterName || 'Christian';
+      state.driveWebhook = parsed.driveWebhook || '';
       state.historyLog = parsed.historyLog || [];
     } else {
       state.menu = DEFAULT_MENU;
-      state.tables = buildDefaultTables();
+      state.tables = buildDefaultTables(state.tableCounts);
     }
   } catch (e) {
     state.menu = DEFAULT_MENU;
-    state.tables = buildDefaultTables();
+    state.tables = buildDefaultTables(state.tableCounts);
   }
   document.getElementById('chkRawbt').checked = state.useRawBT;
   document.getElementById('firebaseUrlInput').value = state.firebaseUrl;
+  document.getElementById('driveWebhookInput').value = state.driveWebhook;
   updateWaiterDisplay();
+  updateRoomTabCounts();
   renderTables();
   updateDailyStats();
+  setInterval(tickLiveTimers, 1000);
   await pullFromCloud(true);
   setInterval(() => pullFromCloud(false), 2000);
 }
 
 function logoutWaiter() {
-  const name = prompt("Cambia Utente (scrivi Christian per sbloccare Menù/Cercapersone, o nome cameriere):", state.waiterName);
-  if (name && name.trim()) {
-    state.waiterName = name.trim();
-    saveLocalOnly();
-    updateWaiterDisplay();
-  }
+  const name = prompt("Cambia Utente (scrivi Christian per sbloccare Menù/Cercapersone):", state.waiterName);
+  if (name && name.trim()) { state.waiterName = name.trim(); saveLocalOnly(); updateWaiterDisplay(); }
 }
 
 function updateWaiterDisplay() {
@@ -469,10 +523,21 @@ function updateWaiterDisplay() {
   document.getElementById('btnPager').style.display = isOwner ? 'block' : 'none';
 }
 
+function updateRoomTabCounts() {
+  document.getElementById('cntInt').textContent = state.tableCounts.interna;
+  document.getElementById('cntEst').textContent = state.tableCounts.esterna;
+  document.getElementById('cntAsp').textContent = state.tableCounts.asporto;
+  document.getElementById('cfgIntCount').value = state.tableCounts.interna;
+  document.getElementById('cfgEstCount').value = state.tableCounts.esterna;
+  document.getElementById('cfgAspCount').value = state.tableCounts.asporto;
+  populateMergeSelectors();
+}
+
 function saveLocalOnly() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    menu: state.menu, tables: state.tables, useRawBT: state.useRawBT,
-    firebaseUrl: state.firebaseUrl, waiterName: state.waiterName, historyLog: state.historyLog
+    menu: state.menu, tables: state.tables, tableCounts: state.tableCounts,
+    useRawBT: state.useRawBT, firebaseUrl: state.firebaseUrl, waiterName: state.waiterName,
+    driveWebhook: state.driveWebhook, historyLog: state.historyLog
   }));
 }
 
@@ -482,9 +547,7 @@ async function saveState(triggerBell = false) {
   await pushToCloud();
 }
 
-function getCleanFirebaseUrl() {
-  return (state.firebaseUrl || DEFAULT_FIREBASE_URL).trim().replace(/\/$/, "");
-}
+function getCleanFirebaseUrl() { return (state.firebaseUrl || DEFAULT_FIREBASE_URL).trim().replace(/\/$/, ""); }
 
 async function pushToCloud() {
   const badge = document.getElementById('syncIndicator');
@@ -493,7 +556,7 @@ async function pushToCloud() {
       method: "PUT", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         updatedAt: Date.now(), lastAlertSignal: state.lastAlertSignal,
-        tables: state.tables, menu: state.menu, historyLog: state.historyLog
+        tableCounts: state.tableCounts, tables: state.tables, menu: state.menu, historyLog: state.historyLog
       })
     });
     badge.textContent = res.ok ? "LIVE" : "Err";
@@ -508,14 +571,61 @@ async function pullFromCloud(isInitial) {
     const data = await res.json();
     badge.textContent = "LIVE";
     if (!data) return;
-    if (data.tables) state.tables = normalizeTablesStructure(data.tables);
+    if (data.tableCounts) state.tableCounts = data.tableCounts;
+    if (data.tables) state.tables = normalizeTablesStructure(data.tables, state.tableCounts);
     if (data.menu && data.menu.length > 0) state.menu = data.menu;
     if (data.historyLog) state.historyLog = data.historyLog;
     saveLocalOnly();
+    updateRoomTabCounts();
     updateDailyStats();
     if (document.getElementById('viewTables').classList.contains('active')) renderTables();
     else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) renderOrderScreen();
   } catch (e) { badge.textContent = "Loc"; }
+}
+
+async function saveTableCounts() {
+  const nInt = Math.max(1, parseInt(document.getElementById('cfgIntCount').value, 10) || 11);
+  const nEst = Math.max(1, parseInt(document.getElementById('cfgEstCount').value, 10) || 5);
+  const nAsp = Math.max(1, parseInt(document.getElementById('cfgAspCount').value, 10) || 5);
+  state.tableCounts = { interna: nInt, esterna: nEst, asporto: nAsp };
+  state.tables = normalizeTablesStructure(state.tables, state.tableCounts);
+  updateRoomTabCounts();
+  await saveState(false);
+  renderTables();
+  alert("✅ Numero tavoli salvato!");
+}
+
+function populateMergeSelectors() {
+  const fromSel = document.getElementById('mergeFromSel');
+  const toSel = document.getElementById('mergeToSel');
+  if (!fromSel || !toSel) return;
+  const all = Object.values(state.tables).sort((a,b) => a.id.localeCompare(b.id, undefined, {numeric:true}));
+  const opts = all.map(t => `<option value="${t.id}">${t.name} (${t.items.length ? 'Occupato' : 'Libero'})</option>`).join('');
+  fromSel.innerHTML = opts; toSel.innerHTML = opts;
+}
+
+async function executeTableMerge(sourceId, targetId) {
+  if (!sourceId || !targetId || sourceId === targetId) { alert("Seleziona due tavoli diversi."); return; }
+  const src = state.tables[sourceId], tgt = state.tables[targetId];
+  if (!src || !tgt) return;
+  if (confirm(`Vuoi unire "${src.name}" dentro "${tgt.name}"?`)) {
+    tgt.items = (tgt.items || []).concat(src.items || []);
+    if (!tgt.openedAt) tgt.openedAt = src.openedAt || Date.now();
+    const shortSrc = src.name.replace(/Tavolo\s*|Esterno\s*|Asporto\s*/i, '');
+    if (!tgt.name.includes('+' + shortSrc)) tgt.name = tgt.name + '+' + shortSrc;
+    src.items = []; src.openedAt = 0; src.name = src.baseName;
+    await saveState(false); renderTables();
+    alert(`✅ Tavoli uniti in: ${tgt.name}`);
+  }
+}
+function mergeTablesFromSettings() { executeTableMerge(document.getElementById('mergeFromSel').value, document.getElementById('mergeToSel').value); }
+function quickMergeFromOrder() {
+  const src = state.tables[state.activeTableId];
+  const targetName = prompt(`Con quale tavolo vuoi unire ${src.name}? (es: Tavolo 2):`);
+  if (!targetName) return;
+  const found = Object.values(state.tables).find(t => t.name.toLowerCase() === targetName.trim().toLowerCase());
+  if (!found) { alert("Tavolo non trovato."); return; }
+  executeTableMerge(src.id, found.id).then(() => openTable(found.id));
 }
 
 function switchMainView(view) {
@@ -553,11 +663,13 @@ function getTableTotal(table) {
 function renderTables() {
   const container = document.getElementById('tablesContainer');
   container.innerHTML = '';
+  const now = Date.now();
   Object.values(state.tables)
     .filter(t => t.room === state.currentRoom)
     .forEach(t => {
       const busy = t.items && t.items.length > 0;
       const total = getTableTotal(t);
+      const delayed = isTableDelayed(t);
       let dotsHtml = '';
       if (busy) {
         [1, 2, 3, 4].forEach(m => {
@@ -567,10 +679,13 @@ function renderTables() {
           else dotsHtml += `<span class="dot wait">${m}ª...</span>`;
         });
       }
+      const pickupHtml = (t.room === 'asporto' && t.pickupTime) ? `<div class="pickup-badge">🕒 ${t.pickupTime}</div>` : '';
+      const timerHtml = (busy && t.openedAt) ? `<div><span class="table-timer" id="timer_${t.id}">⏱️ ${formatElapsed(now - t.openedAt)}</span></div>` : '';
+
       const card = document.createElement('div');
       card.className = `table-card ${busy ? 'busy' : 'free'}`;
       card.onclick = () => openTable(t.id);
-      card.innerHTML = `<div class="table-name">${t.name}</div><div><span class="table-status ${busy ? 'status-busy' : 'status-free'}">${busy ? 'Occupato' : 'Libero'}</span></div>${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dotsHtml}</div>`;
+      card.innerHTML = `<div id="delay_${t.id}" class="delay-dot" style="display:${delayed ? 'block' : 'none'};"></div><div class="table-name">${t.name}</div>${pickupHtml}<div><span class="table-status ${busy ? 'status-busy' : 'status-free'}">${busy ? 'Occupato' : 'Libero'}</span></div>${timerHtml}${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dotsHtml}</div>`;
       container.appendChild(card);
     });
 }
@@ -583,8 +698,24 @@ function openTable(tableId) {
   document.getElementById('activeTableName').textContent = t.name;
   document.getElementById('activeTableSub').textContent = t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto';
   document.getElementById('menuSearch').value = '';
+
+  const aspBar = document.getElementById('asportoBar');
+  if (t.room === 'asporto') {
+    aspBar.classList.add('active');
+    document.getElementById('pickupTimeInput').value = t.pickupTime || '';
+    document.getElementById('customerNameInput').value = t.customerName || '';
+  } else aspBar.classList.remove('active');
+
   setMandata(1, true);
   renderOrderScreen();
+}
+
+function saveAsportoMeta() {
+  const t = state.tables[state.activeTableId];
+  if (!t || t.room !== 'asporto') return;
+  t.pickupTime = document.getElementById('pickupTimeInput').value || '';
+  t.customerName = document.getElementById('customerNameInput').value.trim();
+  saveState(false);
 }
 
 function closeTableView() { state.activeTableId = null; switchMainView('tables'); }
@@ -727,23 +858,58 @@ function freeCurrentTable() {
   if (confirm(`Liberare ${t.name} e salvare nello storico?`)) {
     if (!state.historyLog) state.historyLog = [];
     state.historyLog.push({ tableName: t.name, total: getTableTotal(t), items: t.items, date: new Date().toISOString().slice(0,10) });
-    t.items = []; t.openedAt = 0; t.firedMandate = {1:false,2:false,3:false,4:false};
+    t.items = []; t.openedAt = 0; t.pickupTime = ''; t.customerName = ''; t.name = t.baseName;
+    t.firedMandate = {1:false,2:false,3:false,4:false};
     saveState(false); closeTableView(); updateDailyStats();
   }
 }
 
-function processChalkboardPhoto(event) {
+function buildStyledDailyMenuHTML(dishes) {
+  const todayStr = new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const logoSvg = document.getElementById('alicettaLogoSvg').innerHTML;
+  const rows = dishes.map(d => `<div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed #FF5733;"><b style="color:#062329;">${d.name}</b><span style="color:#FF5733; font-weight:900;">€ ${formatPrice(d.price)}</span></div>`).join('');
+  return `<div style="font-family:'Plus Jakarta Sans',sans-serif; max-width:500px; margin:0 auto; border:4px solid #FF5733; border-radius:16px; background:#fff; padding:20px;"><div style="text-align:center; background:#1BE7FF; padding:15px; border-radius:12px; margin-bottom:15px;"><svg viewBox="0 0 220 72" style="width:160px;"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/></g><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-size="21" font-weight="800">ΛLICETTΛ</text></svg><h3 style="color:#FF5733; margin-top:6px;">MENÙ DEL GIORNO</h3><p style="font-size:0.8rem;">${todayStr}</p></div>${rows}</div>`;
+}
+
+function exportDailyMenuWord() {
+  const raw = document.getElementById('ocrResultBox').value.trim();
+  if (!raw) { alert("Nessun piatto inserito."); return; }
+  const dishes = raw.split('\n').map(l => { const p = l.split(' '); const pr = parseFloat(p.pop().replace(',', '.'))||14; return { name: p.join(' '), price: pr }; });
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>${buildStyledDailyMenuHTML(dishes)}</body></html>`;
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Menu_Alicetta.doc`; a.click();
+}
+
+function exportDailyMenuPDF() {
+  const raw = document.getElementById('ocrResultBox').value.trim();
+  if (!raw) { alert("Nessun piatto inserito."); return; }
+  const dishes = raw.split('\n').map(l => { const p = l.split(' '); const pr = parseFloat(p.pop().replace(',', '.'))||14; return { name: p.join(' '), price: pr }; });
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Menù</title></head><body style="padding:20px;">${buildStyledDailyMenuHTML(dishes)}<script>setTimeout(()=>window.print(),400);<\/script></body></html>`);
+  w.document.close();
+}
+
+async function processChalkboardPhoto(event) {
   const file = event.target.files && event.target.files[0];
   if (!file) return;
   const status = document.getElementById('ocrStatus');
-  status.style.display = 'block'; status.textContent = '⏳ Lettura lavagnetta in corso...';
-  setTimeout(() => {
-    document.getElementById('ocrResultBox').value = "Frittura di totanetti 17\nSgombro al carbone 18\nZaffermisù 7";
-    status.textContent = '✅ Piatti letti con successo!';
-  }, 1200);
+  status.style.display = 'block'; status.textContent = '⏳ Lettura lavagnetta in corso (Tesseract)...';
+  try {
+    if (!window.Tesseract) {
+      await new Promise((res, rej) => {
+        const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+        s.onload = res; s.onerror = rej; document.head.appendChild(s);
+      });
+    }
+    const result = await window.Tesseract.recognize(file, 'ita');
+    document.getElementById('ocrResultBox').value = (result.data.text || '').trim();
+    status.textContent = '✅ Lavagnetta letta con successo!';
+  } catch (e) {
+    status.textContent = '⚠️ Errore OCR. Inserisci i piatti manualmente.';
+  }
 }
 
-function importOcrLinesToMenu() {
+async function importOcrLinesToMenu() {
   const raw = document.getElementById('ocrResultBox').value.trim();
   if (!raw) return;
   raw.split('\n').forEach(line => {
@@ -753,6 +919,11 @@ function importOcrLinesToMenu() {
     if (name) state.menu.push({ id: Date.now() + Math.random(), cat: '5 Secondi', name, price });
   });
   saveState(false); renderMenuMgr(); alert("✅ Piatti importati nel menù!");
+  if (state.driveWebhook && state.driveWebhook.startsWith('https://')) {
+    try {
+      fetch(state.driveWebhook, { method: 'POST', body: JSON.stringify({ fileName: 'Menu.html', html: buildStyledDailyMenuHTML([]) }) });
+    } catch(e){}
+  }
 }
 
 function updateDailyStats() {
@@ -774,6 +945,7 @@ function saveFirebaseUrl() {
   state.firebaseUrl = document.getElementById('firebaseUrlInput').value.trim();
   saveLocalOnly(); pullFromCloud(true); alert("Salvato!");
 }
+function saveDriveWebhook() { state.driveWebhook = document.getElementById('driveWebhookInput').value.trim(); saveLocalOnly(); }
 function toggleRawbtSetting() { state.useRawBT = document.getElementById('chkRawbt').checked; saveLocalOnly(); }
 
 function renderMenuMgr() {
@@ -790,10 +962,9 @@ function renderMenuMgr() {
 
 function formatPrice(num) { return Number(num).toFixed(2).replace('.', ','); }
 function renderKds() {}
-function openPagerModal() {}
-function closePagerModal() {}
-function sendPagerCall() {}
-function ackIncomingPage() {}
+function openPagerModal() { document.getElementById('pagerModal').classList.add('active'); }
+function closePagerModal() { document.getElementById('pagerModal').classList.remove('active'); }
+function sendPagerCall(msg) { alert("Chiamata inviata: " + msg); closePagerModal(); }
 
 initApp();
 </script>
