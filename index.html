@@ -605,7 +605,7 @@ function normalizeTablesStructure(tablesObj, counts) {
       def[k].doneMandate = tb.doneMandate || {1:false,2:false,3:false,4:false};
       def[k].pickupTime = tb.pickupTime || '';
       def[k].customerName = tb.customerName || '';
-      def[k].openedAt = def[k].items.some(i => i.sent) ? (tb.openedAt || Date.now()) : 0;
+      def[k].openedAt = def[k].items.length > 0 ? (tb.openedAt || Date.now()) : 0;
     }
   });
   return def;
@@ -618,9 +618,9 @@ function formatElapsed(ms) {
 }
 
 function isTableDelayed(t) {
-  if (!t || !t.items || !t.items.some(i => i.sent) || !t.openedAt) return false;
+  if (!t || !t.items || t.items.length === 0 || !t.openedAt) return false;
   const hasUnfinishedMandata = [1, 2, 3, 4].some(m =>
-    t.items.some(i => i.sent && i.mandata === m && i.name !== 'Pane e Coperto') &&
+    t.items.some(i => i.mandata === m && i.name !== 'Pane e Coperto') &&
     !(t.doneMandate && t.doneMandate[m])
   );
   if (!hasUnfinishedMandata) return false;
@@ -640,7 +640,7 @@ function tickLiveTimers() {
       if (cEl) cEl.classList.toggle('delayed', delayed);
     });
   } else if (document.getElementById('viewKds').classList.contains('active')) {
-    Object.values(state.tables).filter(t => t.items && t.items.some(i => i.sent)).forEach(t => {
+    Object.values(state.tables).filter(t => t.items && t.items.length > 0).forEach(t => {
       const kEl = document.getElementById('kds_timer_' + t.id);
       if (kEl && t.openedAt) kEl.textContent = "⏱️ " + formatElapsed(now - t.openedAt);
     });
@@ -673,6 +673,7 @@ async function initApp() {
   document.getElementById('geminiApiKeyInput').value = state.geminiKey;
   document.getElementById('ocrResultBox').value = CHALKBOARD_OCT12_TEXT;
 
+  // Controlla se l'utente ha aperto il link pubblico di sola lettura (?menu=giorno oppure ?menu=vini)
   const params = new URLSearchParams(window.location.search);
   const publicMode = params.get('menu');
   if (publicMode === 'giorno' || publicMode === 'vini') {
@@ -821,7 +822,7 @@ async function executeTableMerge(sourceId, targetId) {
   if (!src || !tgt) return;
   if (confirm(`Vuoi unire "${src.name}" dentro "${tgt.name}"?`)) {
     tgt.items = (tgt.items || []).concat(src.items || []);
-    if (!tgt.openedAt && src.openedAt) tgt.openedAt = src.openedAt;
+    if (!tgt.openedAt) tgt.openedAt = src.openedAt || Date.now();
     const shortSrc = src.name.replace(/Tavolo\s*|Esterno\s*|Asporto\s*/i, '');
     if (!tgt.name.includes('+' + shortSrc)) tgt.name = tgt.name + '+' + shortSrc;
     src.items = []; src.openedAt = 0; src.name = src.baseName;
@@ -886,7 +887,7 @@ function renderTables() {
         [1, 2, 3, 4].forEach(m => {
           if (!t.items.some(i => i.mandata === m && i.name !== 'Pane e Coperto')) return;
           if (t.doneMandate && t.doneMandate[m]) dotsHtml += `<span class="dot done">${m}ª✓</span>`;
-          else if (t.items.some(i => i.mandata === m && i.sent)) dotsHtml += `<span class="dot sent">${m}ª🔥</span>`;
+          else if (t.firedMandate && t.firedMandate[m]) dotsHtml += `<span class="dot sent">${m}ª🔥</span>`;
           else dotsHtml += `<span class="dot wait">${m}ª...</span>`;
         });
       }
@@ -1000,10 +1001,11 @@ function renderMenuGrid() {
 function addItemToTable(menuItem) {
   const t = state.tables[state.activeTableId];
   if (!t.items) t.items = [];
+  if (t.items.length === 0 || !t.openedAt) t.openedAt = Date.now();
   const m = state.currentMandata;
-  const existing = t.items.find(i => i.menuId === menuItem.id && i.mandata === m && !i.note && !i.sent);
+  const existing = t.items.find(i => i.menuId === menuItem.id && i.mandata === m && !i.note);
   if (existing) existing.qty += 1;
-  else t.items.push({ lineId: Date.now() + Math.random(), menuId: menuItem.id, cat: menuItem.cat, name: menuItem.name, price: menuItem.price, qty: 1, mandata: m, note: '', waiter: state.waiterName, sent: false });
+  else t.items.push({ lineId: Date.now() + Math.random(), menuId: menuItem.id, cat: menuItem.cat, name: menuItem.name, price: menuItem.price, qty: 1, mandata: m, note: '', waiter: state.waiterName });
   saveState(false);
   renderOrderScreen();
 }
@@ -1058,7 +1060,7 @@ function saveDishNote() {
     t.items.push({
       lineId: Date.now() + Math.random(),
       menuId: item.menuId, cat: item.cat, name: item.name, price: item.price,
-      qty: 1, mandata: item.mandata, note: newNote, waiter: state.waiterName, sent: Boolean(item.sent)
+      qty: 1, mandata: item.mandata, note: newNote, waiter: state.waiterName
     });
   } else {
     item.note = newNote;
@@ -1117,22 +1119,13 @@ function renderOrderScreen() {
 function sendOrderToKitchen() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) { alert("Inserisci almeno un articolo."); return; }
-  const unsentItems = t.items.filter(i => !i.sent);
-  const itemsToPrint = unsentItems.length > 0 ? unsentItems : t.items;
-  t.items.forEach(i => {
-    if (!i.sent) {
-      i.sent = true;
-      if (t.doneMandate && t.doneMandate[i.mandata]) t.doneMandate[i.mandata] = false;
-    }
-  });
-  if (!t.openedAt) t.openedAt = Date.now();
   t.firedMandate[1] = true;
   playKitchenBell();
   saveState(true);
   if (state.useRawBT) {
     let ticket = `COMANDA CUCINA - ${t.name.toUpperCase()}\nCam.: ${state.waiterName}\n====================\n`;
     [0, 1, 2, 3, 4].forEach(m => {
-      const g = itemsToPrint.filter(i => i.mandata === m);
+      const g = t.items.filter(i => i.mandata === m);
       if (!g.length) return;
       ticket += `\n--- ${MANDATE_LABELS[m]} ---\n`;
       g.forEach(it => {
@@ -1162,7 +1155,7 @@ function renderKds() {
   if (!container) return;
   container.innerHTML = '';
   const now = Date.now();
-  const activeTables = Object.values(state.tables).filter(t => t.items && t.items.some(i => i.sent));
+  const activeTables = Object.values(state.tables).filter(t => t.items && t.items.length > 0);
   if (activeTables.length === 0) {
     container.innerHTML = '<div style="color:var(--muted); font-weight:700;">Nessuna comanda attiva in cucina.</div>';
     return;
@@ -1180,7 +1173,7 @@ function renderKds() {
     </div>`;
     
     [0, 1, 2, 3, 4].forEach(m => {
-      const mItems = t.items.filter(i => i.mandata === m && i.sent);
+      const mItems = t.items.filter(i => i.mandata === m);
       if (mItems.length === 0) return;
       const isDone = t.doneMandate && t.doneMandate[m];
       const badge = isDone ? '<span style="color:#10B981;">SERVITA</span>' : '<span style="color:var(--logo-coral);">DA SERVIRE</span>';
