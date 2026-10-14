@@ -7,74 +7,74 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #E8F4F1;           /* Verde pastello tenue */
-    --bg-deep: #D0EBE5;      
+    --bg: #2ECC71;           /* Verde prato */
+    --bg-deep: #27AE60;      
     --card: #FFFFFF;         
-    --card-hover: #F2F9F7;
+    --card-hover: #F0FDF4;
     --text: #1F2937;
     --muted: #4B5563;
-    --logo-blue: #00B8D4;    /* Turchese del logo per tavoli liberi */
-    --logo-gold: #9E6518;    /* Marrone/Oro del pesce per tavoli occupati */
+    --logo-cyan: #1BE7FF;    /* Azzurro brillante del logo per tavoli liberi */
+    --logo-coral: #FF5733;   /* Corallo/Arancio del logo per tavoli occupati */
     --gold: #D97706;         
     --free: #10B981;
     --busy: #F59E0B;
-    --border: rgba(0, 0, 0, 0.12);
+    --border: rgba(0, 0, 0, 0.15);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
   body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-select: none; }
   
-  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(232, 244, 241, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(46, 204, 113, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
   
   .brand-group { display: flex; align-items: center; gap: 4px; }
-  .brand-logo { display: flex; align-items: center; background: var(--logo-blue); padding: 3px 6px; border-radius: 8px; border: 1.5px solid #8D5B1C; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+  .brand-logo { display: flex; align-items: center; background: var(--logo-cyan); padding: 3px 6px; border-radius: 8px; border: 1.5px solid var(--logo-coral); box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
   .brand-logo svg { height: 24px; width: auto; display: block; }
-  .sync-badge { font-size: 0.58rem; font-weight: 800; padding: 2px 4px; border-radius: 4px; background: rgba(0,0,0,0.1); white-space: nowrap; color: #1F2937; }
+  .sync-badge { font-size: 0.58rem; font-weight: 800; padding: 2px 4px; border-radius: 4px; background: rgba(0,0,0,0.1); white-space: nowrap; color: #111; }
 
   .top-actions { display: flex; gap: 4px; align-items: center; }
-  .waiter-tag { font-size: 0.68rem; font-weight: 700; color: #7A4B12; background: rgba(158, 101, 24, 0.15); padding: 4px 6px; border-radius: 6px; border: 1px solid rgba(158, 101, 24, 0.3); white-space: nowrap; cursor: pointer; }
+  .waiter-tag { font-size: 0.68rem; font-weight: 700; color: #fff; background: var(--logo-coral); padding: 4px 6px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; cursor: pointer; }
   .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 6px 8px; border-radius: 8px; font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-  .btn-top.active { background: var(--logo-blue); color: #062329; border-color: #8D5B1C; font-weight: 800; }
+  .btn-top.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); font-weight: 800; }
 
   .room-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 14px; }
   .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.88rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-  .room-tab.active { border-color: #8D5B1C; color: #062329; background: var(--logo-blue); font-weight: 800; }
+  .room-tab.active { border-color: var(--logo-coral); color: #062329; background: var(--logo-cyan); font-weight: 800; }
 
   .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
-  .table-card { background: var(--logo-blue); border: 2px solid #8D5B1C; border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; }
+  .table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; }
   .table-card:active { transform: scale(0.95); }
   
-  /* Tavolo Occupato con i colori del pesce e della scritta Alicetta */
+  /* Tavolo Occupato con i colori del logo (Corallo) */
   .table-card.busy {
-    background: var(--logo-gold);
-    border-color: #3D2306;
+    background: var(--logo-coral);
+    border-color: #062329;
     color: #FFFFFF;
-    box-shadow: 0 5px 15px rgba(158, 101, 24, 0.35);
+    box-shadow: 0 5px 15px rgba(255, 87, 51, 0.35);
   }
   .table-name { font-size: 1.05rem; font-weight: 800; }
   .table-card.busy .table-name { color: #FFFFFF; }
   .table-status { font-size: 0.75rem; font-weight: 700; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
-  .status-free { color: #062329; background: rgba(255,255,255,0.5); }
-  .status-busy { color: #FFFFFF; background: #3D2306; }
+  .status-free { color: #062329; background: rgba(255,255,255,0.6); }
+  .status-busy { color: #FFFFFF; background: rgba(0,0,0,0.25); }
   .table-total { font-size: 0.95rem; font-weight: 800; color: #FFFFFF; margin-top: 6px; }
   .course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
   .dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 800; }
   .dot.sent { background: #10B981; color: #ffffff; }
-  .dot.wait { background: #3D2306; color: #ffffff; }
+  .dot.wait { background: #062329; color: #ffffff; }
   .dot.done { background: #062329; color: #34d399; }
 
   .screen { display: none; padding: 12px 14px; }
   .screen.active { display: block; }
   .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-  .btn-back { background: var(--bg-deep); color: var(--text); border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+  .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
   .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
   .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; }
-  .mandata-btn.active { border-color: #8D5B1C; background: var(--logo-blue); color: #062329; font-weight: 800; }
+  .mandata-btn.active { border-color: var(--logo-coral); background: var(--logo-cyan); color: #062329; font-weight: 800; }
 
   .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; }
   .cat-bar::-webkit-scrollbar { display: none; }
   .cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
-  .cat-btn.active { background: var(--logo-blue); color: #062329; border-color: #8D5B1C; font-weight: 800; }
+  .cat-btn.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); font-weight: 800; }
 
   .search-wrap { margin-bottom: 10px; position: relative; }
   .search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
@@ -84,36 +84,36 @@
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
   .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06); color: var(--text); transition: transform 0.12s; }
   .menu-item:active { transform: scale(0.97); }
-  .tap-badge { position: absolute; top: 6px; right: 6px; background: var(--logo-gold); color: #fff; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; }
+  .tap-badge { position: absolute; top: 6px; right: 6px; background: var(--logo-coral); color: #fff; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; }
   @keyframes badgeFloatUp {
     0%   { opacity: 1; transform: translateY(4px) scale(0.8); }
     100% { opacity: 0; transform: translateY(-12px) scale(1); }
   }
 
   .item-name { font-weight: 800; font-size: 0.84rem; line-height: 1.22; word-break: break-word; }
-  .item-price { color: var(--logo-gold); font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
+  .item-price { color: var(--logo-coral); font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
 
-  .fire-box { background: var(--card); border: 2px solid var(--logo-gold); border-radius: 12px; padding: 10px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-  .fire-title { font-size: 0.8rem; font-weight: 700; color: var(--logo-gold); margin-bottom: 8px; text-transform: uppercase; }
+  .fire-box { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+  .fire-title { font-size: 0.8rem; font-weight: 700; color: var(--logo-coral); margin-bottom: 8px; text-transform: uppercase; }
   .fire-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn-fire { flex: 1; background: var(--logo-gold); color: #FFF; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
+  .btn-fire { flex: 1; background: var(--logo-coral); color: #FFF; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
   .btn-fire.fired { background: #10B981; color: #fff; }
 
   .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
   .mandata-group { margin-bottom: 14px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
   .mandata-group:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
-  .mandata-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 800; color: var(--logo-gold); margin-bottom: 6px; text-transform: uppercase; }
+  .mandata-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 800; color: var(--logo-coral); margin-bottom: 6px; text-transform: uppercase; }
   .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.88rem; gap: 6px; }
   .cart-info { flex: 1; }
-  .cart-note { font-size: 0.76rem; color: var(--logo-gold); font-style: italic; display: block; font-weight: 600; }
+  .cart-note { font-size: 0.76rem; color: var(--logo-coral); font-style: italic; display: block; font-weight: 600; }
   .cart-controls { display: flex; align-items: center; gap: 5px; }
-  .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: var(--text); font-weight: 900; cursor: pointer; }
-  .btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--logo-blue); color: #062329; border: 1px solid #8D5B1C; cursor: pointer; font-weight: 700; }
+  .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 900; cursor: pointer; }
+  .btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); cursor: pointer; font-weight: 700; }
 
-  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(232, 244, 241, 0.98); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.08); }
+  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(46, 204, 113, 0.98); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.08); }
   .btn-main { flex: 1; padding: 13px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.92rem; cursor: pointer; text-align: center; }
-  .btn-print { background: var(--logo-blue); color: #062329; border: 1px solid #8D5B1C; }
-  .btn-bill { background: var(--logo-gold); color: #FFF; }
+  .btn-print { background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); }
+  .btn-bill { background: var(--logo-coral); color: #FFF; }
   .btn-close-table { background: var(--card); color: var(--text); border: 1px solid var(--border); flex: 0.5; }
 
   .form-control { padding: 10px; border-radius: 8px; background: #F9FAFB; color: var(--text); border: 1px solid var(--border); font-weight: 600; width: 100%; }
@@ -126,12 +126,12 @@
   .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
   .btn-modal { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; }
 
-  .kds-Banner { background: var(--card); border: 2px solid var(--logo-gold); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-  .btn-kds-audio { background: var(--logo-gold); color: #FFF; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
+  .kds-Banner { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+  .btn-kds-audio { background: var(--logo-coral); color: #FFF; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
   .btn-kds-audio.on { background: #10B981; color: #fff; }
   .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
   .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); color: var(--text); }
-  .kds-card.urgent { border-color: var(--logo-gold); }
+  .kds-card.urgent { border-color: var(--logo-coral); }
   .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 </style>
 </head>
@@ -141,28 +141,28 @@
   <div class="brand-group">
     <div class="brand-logo" title="Alicetta Trattoria">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="#7A4B12" stroke-width="2.2" fill="#9E6518" stroke-linejoin="round">
+        <g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round">
           <polygon points="75,16 95,12 90,20"/>
           <polygon points="95,12 115,12 103,20"/>
           <polygon points="90,20 103,20 115,12 122,19 102,24"/>
           <polygon points="75,16 90,20 102,24"/>
-          <polygon points="98,12 105,4 112,12" fill="#8C5814"/>
-          <polygon points="102,24 108,31 115,22" fill="#8C5814"/>
+          <polygon points="98,12 105,4 112,12" fill="#FF5733"/>
+          <polygon points="102,24 108,31 115,22" fill="#FF5733"/>
           <polygon points="115,12 134,17 122,23" fill="none"/>
           <polygon points="75,16 64,9 68,16 64,23" fill="none"/>
         </g>
-        <circle cx="125" cy="17" r="1.8" fill="#7A4B12"/>
-        <text x="110" y="51" text-anchor="middle" fill="#7A4B12" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text>
-        <line x1="28" y1="58" x2="98" y2="58" stroke="#7A4B12" stroke-width="1.6"/>
-        <circle cx="110" cy="58" r="2.2" fill="#7A4B12"/>
-        <line x1="122" y1="58" x2="192" y2="58" stroke="#7A4B12" stroke-width="1.6"/>
-        <text x="110" y="69" text-anchor="middle" fill="#7A4B12" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text>
+        <circle cx="125" cy="17" r="1.8" fill="#FF5733"/>
+        <text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text>
+        <line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/>
+        <circle cx="110" cy="58" r="2.2" fill="#FF5733"/>
+        <line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/>
+        <text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text>
       </svg>
     </div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
-    <div id="waiterDisplay" class="waiter-tag" onclick="changeWaiter()" title="Tocca per cambiare cameriere">👤 --</div>
+    <div id="waiterDisplay" class="waiter-tag" onclick="logoutWaiter()" title="Tocca per fare Logout">👤 -- (Esc)</div>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
     <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
     <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;">Menù</button>
@@ -185,7 +185,7 @@
       <div id="activeTableName" style="font-weight:800; font-size:1.1rem;">Tavolo 1</div>
       <div id="activeTableSub" style="font-size:0.75rem; color:var(--muted);">Sala Interna</div>
     </div>
-    <div id="activeTableTotal" style="font-weight:800; color:var(--logo-gold); font-size:1.1rem;">€ 0,00</div>
+    <div id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.1rem;">€ 0,00</div>
   </div>
 
   <div id="fireBox" class="fire-box" style="display:none;">
@@ -239,8 +239,8 @@
 
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">👤 Cameriere: <span id="currentWaiterBadge" style="color:var(--logo-gold);">--</span></h3>
-    <button class="btn-note" onclick="changeWaiter()">Cambia Nome</button>
+    <h3 style="margin-bottom:8px;">👤 Cameriere: <span id="currentWaiterBadge" style="color:var(--logo-coral);">--</span></h3>
+    <button class="btn-note" onclick="logoutWaiter()">Logout Cameriere</button>
   </div>
 
   <div class="cart-section">
@@ -371,7 +371,7 @@ const DEFAULT_MENU = [
   { id: 604, cat: "6 Desserts", name: "Zaffermisù - tiramisù alla ricotta di pecora", price: 7.00 }
 ];
 
-const STORAGE_KEY = 'alicetta_pos_v8';
+const STORAGE_KEY = 'alicetta_pos_v9';
 
 let state = {
   currentRoom: 'interna',
@@ -465,15 +465,17 @@ function askWaiterName() {
   }
 }
 
-function changeWaiter() {
+function logoutWaiter() {
+  state.waiterName = '';
+  saveLocalOnly();
   askWaiterName();
 }
 
 function updateWaiterDisplay() {
   const lbl = document.getElementById('waiterDisplay');
-  if (lbl) lbl.textContent = "👤 " + state.waiterName;
+  if (lbl) lbl.textContent = "👤 " + (state.waiterName || 'Staff') + " (Esc)";
   const badge = document.getElementById('currentWaiterBadge');
-  if (badge) badge.textContent = state.waiterName;
+  if (badge) badge.textContent = state.waiterName || 'Staff';
 
   // Mostra il tasto Menù (Impostazioni) SOLO se il nome è Christian (o il titolare)
   const menuBtn = document.getElementById('navMenu');
@@ -694,7 +696,7 @@ function renderTables() {
             ${busy ? 'Occupato' : 'Libero'}
           </span>
         </div>
-        ${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.7; margin-top:6px;">Tocca per aprire</div>`}
+        ${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}
         <div class="course-dots">${dotsHtml}</div>
       `;
       container.appendChild(card);
@@ -1114,14 +1116,14 @@ function renderKds() {
   activeTables.forEach(t => {
     const card = document.createElement('div');
     card.className = `kds-card`;
-    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--logo-gold);">${t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto'}</span></div>`;
+    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--logo-coral);">${t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto'}</span></div>`;
 
     [0, 1, 2, 3, 4].forEach(m => {
       const mItems = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
       if (mItems.length === 0) return;
       const isDone = t.doneMandate && t.doneMandate[m];
       const isFired = (m === 0 || m === 1 || (t.firedMandate && t.firedMandate[m]));
-      const statusBadge = isDone ? `<span style="color:#10B981;">SERVITA</span>` : isFired ? `<span style="color:#10B981;">MARCIARE</span>` : `<span style="color:var(--logo-gold);">ATTESA</span>`;
+      const statusBadge = isDone ? `<span style="color:#10B981;">SERVITA</span>` : isFired ? `<span style="color:#10B981;">MARCIARE</span>` : `<span style="color:var(--logo-coral);">ATTESA</span>`;
 
       html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}">
         <div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${m === 0 ? 'SUBITO' : m + 'ª MANDATA'}</b> ${statusBadge}</div>
@@ -1152,7 +1154,7 @@ function renderMenuMgr() {
     const row = document.createElement('div');
     row.className = 'cart-row';
     row.style.borderBottom = '1px solid var(--border)';
-    row.innerHTML = `<div style="flex:1; font-size:0.85rem;">${item.name} — <span style="color:var(--logo-gold);">${formatPrice(item.price)}€</span></div>`;
+    row.innerHTML = `<div style="flex:1; font-size:0.85rem;">${item.name} — <span style="color:var(--logo-coral);">${formatPrice(item.price)}€</span></div>`;
     list.appendChild(row);
   });
 }
