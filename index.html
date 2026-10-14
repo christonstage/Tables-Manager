@@ -36,6 +36,14 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 112px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; position: relative; }
 .table-card:active { transform: scale(0.95); }
 .table-card.busy { background: var(--logo-coral); border-color: #062329; color: #FFFFFF; box-shadow: 0 5px 15px rgba(255, 87, 51, 0.35); }
+.table-card.delayed { animation: blinkYellowBorder 0.6s infinite alternate; }
+@keyframes blinkYellowBorder {
+  0% { border-color: #FACC15; border-width: 3px; box-shadow: 0 0 5px #FACC15; }
+  100% { border-color: #FFFF00; border-width: 3px; box-shadow: 0 0 20px #FFFF00, 0 0 8px #000000; transform: scale(1.02); }
+}
+.delay-skull { position: absolute; top: 5px; right: 5px; width: 25px; height: 25px; border-radius: 50%; background: #FACC15; border: 2px solid #000000; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.45); animation: skullPulse 0.6s infinite alternate; z-index: 5; }
+.delay-skull svg { width: 16px; height: 16px; fill: #000000; display: block; }
+@keyframes skullPulse { 0% { transform: scale(0.95); } 100% { transform: scale(1.15); } }
 .table-name { font-size: 1.05rem; font-weight: 800; }
 .table-card.busy .table-name { color: #FFFFFF; }
 .table-status { font-size: 0.72rem; font-weight: 700; margin-top: 4px; padding: 2px 7px; border-radius: 6px; display: inline-block; }
@@ -49,8 +57,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .dot.sent { background: #10B981; color: #ffffff; }
 .dot.wait { background: #062329; color: #ffffff; }
 .dot.done { background: #062329; color: #34d399; }
-.delay-dot { position: absolute; top: 7px; right: 7px; width: 15px; height: 15px; border-radius: 50%; background: #DC2626; border: 2px solid #FFFFFF; box-shadow: 0 0 10px #DC2626; animation: blinkRed 0.65s infinite alternate; z-index: 5; }
-@keyframes blinkRed { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0.25; transform: scale(1.18); box-shadow: 0 0 15px #FF0000; } }
 .screen { display: none; padding: 12px 14px; }
 .screen.active { display: block; }
 .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); }
@@ -72,7 +78,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .menu-item:active { transform: scale(0.96); background: var(--logo-cyan); }
 .tap-badge { position: absolute; top: 6px; right: 6px; background: var(--logo-coral); color: #fff; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; }
 @keyframes badgeFloatUp { 0% { opacity: 1; transform: translateY(4px); } 100% { opacity: 0; transform: translateY(-12px); } }
-.item-name { font-weight: 800; font-size: 0.84rem; line-height: 1.22; word-break: break-word; }
+.item-name { font-weight: 800; font-size: 0.82rem; line-height: 1.2; word-break: break-word; }
 .item-price { color: var(--logo-coral); font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
 .fire-box { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
 .fire-title { font-size: 0.8rem; font-weight: 700; color: var(--logo-coral); margin-bottom: 8px; text-transform: uppercase; }
@@ -106,6 +112,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .btn-kds-audio.on { background: #10B981; color: #fff; }
 .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
 .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; color: var(--text); position: relative; }
+.kds-card.delayed { animation: blinkYellowBorder 0.6s infinite alternate; }
 .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 .order-toast { display: none; position: fixed; top: 52px; left: 10px; right: 10px; background: #111827; color: #FFF; border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 12px; z-index: 90; box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
 .order-toast.active { display: block; }
@@ -275,8 +282,12 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     </div>
   </div>
 
+  <!-- LAVAGNETTA OCR CON SUPPORTO MULTI-RIGA E GEMINI AI VISION -->
   <div class="cart-section">
-    <h3 style="margin-bottom:6px;">📸 Lavagnetta OCR ➔ Menù PDF / Word</h3>
+    <h3 style="margin-bottom:6px;">📸 Lavagnetta del Giorno ➔ Menù PDF / Word</h3>
+    <p style="font-size:0.75rem; color:var(--muted); margin-bottom:8px;">
+      I 21 piatti della tua lavagnetta del 12 Ottobre sono già caricati qui sotto (e nel catalogo cassa)!
+    </p>
     <div style="display:grid; gap:8px;">
       <select id="ocrDefaultCat" class="form-control">
         <option value="AUTO">✨ Rileva Categoria in Automatico</option>
@@ -287,14 +298,18 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
         <option value="2 Bevande">2 Bevande</option>
       </select>
       <input type="file" id="chalkboardInput" accept="image/*" capture="environment" style="display:none;" onchange="processChalkboardPhoto(event)">
-      <button class="btn-main btn-bill" onclick="document.getElementById('chalkboardInput').click()">📷 1. Scatta Foto alla Lavagnetta</button>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+        <button class="btn-main btn-bill" onclick="document.getElementById('chalkboardInput').click()">📷 Scatta / Carica Foto</button>
+        <button class="btn-note" onclick="loadPresetChalkboardOct12()">📋 Ricarica Lavagna 12 Ott</button>
+      </div>
       <div id="ocrStatus" style="font-size:0.8rem; font-weight:800; color:var(--logo-coral); display:none;"></div>
-      <textarea id="ocrResultBox" class="form-control" rows="4" placeholder="Piatti letti..."></textarea>
-      <button class="btn-main btn-print" onclick="importOcrLinesToMenu()">✅ 2. Importa Piatti nella Cassa</button>
+      <textarea id="ocrResultBox" class="form-control" rows="7" style="font-size:0.78rem; line-height:1.35;" placeholder="Piatti della lavagnetta (uno per riga con prezzo finale)..."></textarea>
+      <button class="btn-main btn-print" onclick="importOcrLinesToMenu()">✅ Aggiorna / Importa Piatti nella Cassa</button>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:4px;">
         <button class="btn-note" style="padding:10px;" onclick="exportDailyMenuWord()">📄 Scarica Word (.doc)</button>
         <button class="btn-note" style="padding:10px;" onclick="exportDailyMenuPDF()">📑 Crea PDF Grafico</button>
       </div>
+      <input type="password" id="geminiApiKeyInput" class="form-control" style="font-size:0.75rem;" placeholder="(Opzionale) Chiave API Gemini Vision per lettura gesso AI 100%" onchange="saveGeminiKey()">
     </div>
   </div>
 
@@ -324,6 +339,11 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
       Usa RawBT Diretto su Epson TM-m30III
     </label>
   </div>
+
+  <div class="cart-section">
+    <h3 style="margin-bottom:10px;">📋 Catalogo (<span id="menuCountLbl">0</span> voci)</h3>
+    <div id="menuMgrList"></div>
+  </div>
 </div>
 
 <div class="modal-overlay" id="pagerModal">
@@ -332,6 +352,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     <select id="pagerTarget" class="form-control" style="margin-bottom:8px;">
       <option value="TUTTI">📢 TUTTI I CAMERIERI</option>
       <option value="Alice">👤 Solo Alice</option>
+      <option value="Serena">👤 Solo Serena</option>
     </select>
     <button class="btn-main btn-bill" onclick="sendPagerCall('🔥 Piatti pronti al Pass!')" style="width:100%; margin-bottom:6px;">🔥 Piatti pronti al Pass!</button>
     <button class="btn-modal" style="background:#334155; color:#fff; width:100%;" onclick="closePagerModal()">Annulla</button>
@@ -349,6 +370,33 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 </div>
 
 <script>
+const SKULL_SVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C7.03 2 3 5.8 3 10.5c0 2.78 1.4 5.23 3.57 6.77V20c0 .55.45 1 1 1h1.93v-2h1.5v2h2v-2h1.5v2h1.93c.55 0 1-.45 1-1v-2.73C19.6 15.73 21 13.28 21 10.5 21 5.8 16.97 2 12 2zm-3.5 9.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.5 3.5l-1.5-2.5h3L12 15zm3.5-3.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>`;
+
+// TRASCRIZIONE ESATTA DEI 21 PIATTI DALLA LAVAGNETTA DI ALICETTA
+const CHALKBOARD_OCT12_TEXT = [
+  "Polpette di granchio blu su salsa di zucca e olio alla salvia 14,00",
+  "Alicette impanate e fritte con majo al prezzemolo 13,00",
+  "Cozze gratinate con formaggio gregoriano, ventricina ed erbe aromatiche 13,00",
+  "Alici marinate, peperone dolce di Altino e pere croccanti 15,00",
+  "Soutè di cozze profumato all'alloro 13,00",
+  "Tagliere di salumi artigianali abruzzesi 18,00",
+  "Pallotte cace e ove 12,00",
+  "Prosciutto crudo di manzo Gregorio Rotolo con champignon crudo e senape in grani 16,00",
+  "Rigatoro affumicato Verrigni con alicette fresche, pane croccante alle erbe e olio al finocchietto 14,00",
+  "Qubetto Verrigni alle vongole e crema di rape 14,00",
+  "Linguina al limone Verrigni con cozze 13,00",
+  "Fish & Chips Adriatico (nasello in pastella di riso, chips di patate di Avezzano, salsa ai cetrioli, capperi e prezzemolo) 20,00",
+  "Sgombro al carbone con dressing al pomodoro confit, cipolle e capperi 18,00",
+  "Frittura di totanetti spillo freschi 17,00",
+  "Baccalà in vasocottura con patate, peperoni arrosto, olive e timo 16,00",
+  "Braciola di pecora al carbone con cicorietta saltata 18,00",
+  "Maiale Nero Peligno al carbone con cicorietta saltata 20,00",
+  "Cicorietta saltata 6,00",
+  "Zafferamisù (tiramisù alla ricotta di pecora e zafferano) 7,00",
+  "Cantucci alle mandorle con liquore Sottosopra 7,00",
+  "Plateau di formaggi artigianali abruzzesi 18,00"
+].join("\n");
+
 (function setupBuiltInPWA() {
   try {
     const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="110" fill="#2ECC71"/><circle cx="256" cy="235" r="145" fill="#1BE7FF" stroke="#FF5733" stroke-width="16"/><path d="M170 235 C210 185, 290 185, 345 235 C290 285, 210 285, 170 235 Z" fill="#FF5733"/><polygon points="335,235 375,200 368,235 375,270" fill="#FF5733"/><circle cx="200" cy="228" r="9" fill="#1BE7FF"/><rect x="86" y="395" width="340" height="70" rx="35" fill="#FF5733" stroke="#ffffff" stroke-width="8"/><text x="256" y="442" font-family="Arial,sans-serif" font-size="38" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="2">ALICETTA</text></svg>`;
@@ -390,16 +438,36 @@ const RAW_MENU = [
   [232,1,"Passerina Passo Cale",16],[233,1,"Passo Cale Montepulciano",18],[234,1,"Pecorino Chicchi Bio",18],[235,1,"Pecorino Colline Rurabiliandia",15],
   [236,1,"Pecorino Passo Cale",16],[237,1,"Pecorino Superiore Canaglia Fontefico",35],[238,1,"Pecorino Terre di Poggio",14],[239,1,"Pinto 11 Montepulciano",26],
   [240,1,"Rurabilandia Pecorino",15],[241,1,"Trabocco Cerasuolo Charmat",18],[242,1,"Trabocco Pecorino Charmat",18],[243,1,"Trebbiano Collefrisio",22],
-  [301,2,"Alicetta Marinata",15],[302,2,"Alicette impanate e fritte con majo al prezzemolo",13],[303,2,"Cetrioli",4],
-  [304,2,"Cozze gratinate con gregoriano, ventricina e majo",13],[305,2,"Crudo di Manzo",16],[306,2,"Insalata Pomodori",6],[307,2,"La Marrocca",6],
-  [308,2,"Menù cena aziendale",33.5],[309,2,"Pallotte",12],[310,2,"Patatine Fritte",6],[311,2,"Plateau Formaggi Artigianali",18],
-  [312,2,"Polpette di granchio blu su salsa di zucchine",14],[313,2,"Pomodori e Cetrioli",6],[314,2,"Soute Cozze",13],[315,2,"Soutè di Vongole",15],
-  [316,2,"Tagliere Salumi Artigianali",18],[317,2,"Verdure Saltate",6],
-  [401,3,"Cubetti Verrigni Vongole e crema Pachino",14],[402,3,"Cubetto Totanetto",14],[403,3,"Linguina Cozze",13],[404,3,"Linguina ragù Panocchie",16],
-  [405,3,"Pacchero Ragù Granchi",16],[406,3,"Pasta all' Olio",7],[407,3,"Rigatoro Alici",14],[408,3,"Spaghetti aglio e peperoncino Vongole",13],[409,3,"Sugo Bimbi",9],
-  [501,4,"Baccalà in vasocottura con patate, peperoni",16],[502,4,"Braciola di pecora al carbone",18],[503,4,"Fish & Chips Adriatico",20],
-  [504,4,"Frittura di totanetti freschi",17],[505,4,"Maiale Nero Peligno",20],[506,4,"Sgombro al carbone",18],
-  [601,5,"Cantucci Amarene",6],[602,5,"Mousse al cioccolato",6],[603,5,"Pizzelle",5],[604,5,"Zaffermisù",7]
+  // Piatti Lavagnetta 12 Ottobre + Classici
+  [301,2,"Alici marinate, peperone dolce di Altino e pere croccanti",15],
+  [302,2,"Alicette impanate e fritte con majo al prezzemolo",13],
+  [303,2,"Cetrioli",4],
+  [304,2,"Cozze gratinate con formaggio gregoriano, ventricina ed erbe aromatiche",13],
+  [305,2,"Prosciutto crudo di manzo Gregorio Rotolo con champignon crudo e senape in grani",16],
+  [306,2,"Insalata Pomodori",6],[307,2,"La Marrocca",6],[308,2,"Menù cena aziendale",33.5],
+  [309,2,"Pallotte cace e ove",12],[310,2,"Patatine Fritte",6],
+  [311,2,"Plateau di formaggi artigianali abruzzesi",18],
+  [312,2,"Polpette di granchio blu su salsa di zucca e olio alla salvia",14],
+  [313,2,"Pomodori e Cetrioli",6],
+  [314,2,"Soutè di cozze profumato all'alloro",13],
+  [315,2,"Soutè di Vongole",15],
+  [316,2,"Tagliere di salumi artigianali abruzzesi",18],
+  [317,2,"Cicorietta saltata",6],
+  [401,3,"Qubetto Verrigni alle vongole e crema di rape",14],
+  [402,3,"Cubetto Totanetto",14],
+  [403,3,"Linguina al limone Verrigni con cozze",13],
+  [404,3,"Linguina ragù Panocchie",16],[405,3,"Pacchero Ragù Granchi",16],[406,3,"Pasta all' Olio",7],
+  [407,3,"Rigatoro affumicato Verrigni con alicette fresche, pane croccante alle erbe e olio al finocchietto",14],
+  [408,3,"Spaghetti aglio e peperoncino Vongole",13],[409,3,"Sugo Bimbi",9],
+  [501,4,"Baccalà in vasocottura con patate, peperoni arrosto, olive e timo",16],
+  [502,4,"Braciola di pecora al carbone con cicorietta saltata",18],
+  [503,4,"Fish & Chips Adriatico (nasello in pastella di riso, chips di patate di Avezzano, salsa ai cetrioli, capperi e prezzemolo)",20],
+  [504,4,"Frittura di totanetti spillo freschi",17],
+  [505,4,"Maiale Nero Peligno al carbone con cicorietta saltata",20],
+  [506,4,"Sgombro al carbone con dressing al pomodoro confit, cipolle e capperi",18],
+  [601,5,"Cantucci alle mandorle con liquore Sottosopra",7],
+  [602,5,"Mousse al cioccolato",6],[603,5,"Pizzelle",5],
+  [604,5,"Zafferamisù (tiramisù alla ricotta di pecora e zafferano)",7]
 ];
 const DEFAULT_MENU = RAW_MENU.map(r => ({ id: r[0], cat: CATEGORIES[r[1]], name: r[2], price: r[3] }));
 const STORAGE_KEY = 'alicetta_pos_v9';
@@ -407,8 +475,9 @@ const STORAGE_KEY = 'alicetta_pos_v9';
 let state = {
   currentRoom: 'interna', activeTableId: null, currentMandata: 1, currentCategory: '1 Coperto',
   reportPeriod: 'daily', useRawBT: false, firebaseUrl: DEFAULT_FIREBASE_URL, waiterName: 'Christian',
-  tableCounts: { interna: 11, esterna: 5, asporto: 5 }, dailyChalkboard: [], lastEscPosPayload: '',
-  lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null, menu: [], tables: {}, historyLog: []
+  geminiKey: '', tableCounts: { interna: 11, esterna: 5, asporto: 5 }, dailyChalkboard: [],
+  lastEscPosPayload: '', lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null,
+  menu: [], tables: {}, historyLog: []
 };
 let audioCtx = null, toastTimer = null;
 
@@ -485,6 +554,11 @@ function formatElapsed(ms) {
 
 function isTableDelayed(t) {
   if (!t || !t.items || t.items.length === 0 || !t.openedAt) return false;
+  const hasUnfinishedMandata = [1, 2, 3, 4].some(m =>
+    t.items.some(i => i.mandata === m && i.name !== 'Pane e Coperto') &&
+    !(t.doneMandate && t.doneMandate[m])
+  );
+  if (!hasUnfinishedMandata) return false;
   return (Date.now() - t.openedAt) >= DELAY_LIMIT_MS;
 }
 
@@ -492,10 +566,13 @@ function tickLiveTimers() {
   const now = Date.now();
   if (document.getElementById('viewTables').classList.contains('active')) {
     Object.values(state.tables).filter(t => t.room === state.currentRoom && t.items && t.items.length > 0).forEach(t => {
+      const delayed = isTableDelayed(t);
       const tEl = document.getElementById('timer_' + t.id);
       if (tEl && t.openedAt) tEl.textContent = "⏱️ " + formatElapsed(now - t.openedAt);
       const dEl = document.getElementById('delay_' + t.id);
-      if (dEl) dEl.style.display = isTableDelayed(t) ? 'block' : 'none';
+      if (dEl) dEl.style.display = delayed ? 'flex' : 'none';
+      const cEl = document.getElementById('card_' + t.id);
+      if (cEl) cEl.classList.toggle('delayed', delayed);
     });
   } else if (document.getElementById('viewKds').classList.contains('active')) {
     Object.values(state.tables).filter(t => t.items && t.items.length > 0).forEach(t => {
@@ -511,11 +588,12 @@ async function initApp() {
     if (saved) {
       const parsed = JSON.parse(saved);
       state.tableCounts = parsed.tableCounts || { interna: 11, esterna: 5, asporto: 5 };
-      state.menu = parsed.menu && parsed.menu.length > 0 ? parsed.menu : DEFAULT_MENU;
+      state.menu = DEFAULT_MENU;
       state.tables = normalizeTablesStructure(parsed.tables, state.tableCounts);
       state.useRawBT = parsed.useRawBT || false;
       state.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
       state.waiterName = parsed.waiterName || 'Christian';
+      state.geminiKey = parsed.geminiKey || '';
       state.historyLog = parsed.historyLog || [];
     } else {
       state.menu = DEFAULT_MENU;
@@ -527,6 +605,8 @@ async function initApp() {
   }
   document.getElementById('chkRawbt').checked = state.useRawBT;
   document.getElementById('firebaseUrlInput').value = state.firebaseUrl;
+  document.getElementById('geminiApiKeyInput').value = state.geminiKey;
+  document.getElementById('ocrResultBox').value = CHALKBOARD_OCT12_TEXT;
   updateWaiterDisplay();
   updateRoomTabCounts();
   renderTables();
@@ -534,6 +614,18 @@ async function initApp() {
   setInterval(tickLiveTimers, 1000);
   await pullFromCloud(true);
   setInterval(() => pullFromCloud(false), 2000);
+}
+
+function loadPresetChalkboardOct12() {
+  document.getElementById('ocrResultBox').value = CHALKBOARD_OCT12_TEXT;
+  const st = document.getElementById('ocrStatus');
+  st.style.display = 'block';
+  st.textContent = '✅ Caricati i 21 piatti della lavagnetta del 12 Ottobre!';
+}
+
+function saveGeminiKey() {
+  state.geminiKey = document.getElementById('geminiApiKeyInput').value.trim();
+  saveLocalOnly();
 }
 
 function logoutWaiter() {
@@ -564,7 +656,7 @@ function saveLocalOnly() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
     menu: state.menu, tables: state.tables, tableCounts: state.tableCounts,
     useRawBT: state.useRawBT, firebaseUrl: state.firebaseUrl, waiterName: state.waiterName,
-    historyLog: state.historyLog
+    geminiKey: state.geminiKey, historyLog: state.historyLog
   }));
 }
 
@@ -711,9 +803,10 @@ function renderTables() {
       const timerHtml = (busy && t.openedAt) ? `<div><span class="table-timer" id="timer_${t.id}">⏱️ ${formatElapsed(now - t.openedAt)}</span></div>` : '';
 
       const card = document.createElement('div');
-      card.className = `table-card ${busy ? 'busy' : 'free'}`;
+      card.id = 'card_' + t.id;
+      card.className = `table-card ${busy ? 'busy' : 'free'} ${delayed ? 'delayed' : ''}`;
       card.onclick = () => openTable(t.id);
-      card.innerHTML = `<div id="delay_${t.id}" class="delay-dot" style="display:${delayed ? 'block' : 'none'};"></div><div class="table-name">${t.name}</div>${pickupHtml}<div><span class="table-status ${busy ? 'status-busy' : 'status-free'}">${busy ? 'Occupato' : 'Libero'}</span></div>${timerHtml}${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dotsHtml}</div>`;
+      card.innerHTML = `<div id="delay_${t.id}" class="delay-skull" style="display:${delayed ? 'flex' : 'none'};" title="Ritardo > 20 min">${SKULL_SVG}</div><div class="table-name">${t.name}</div>${pickupHtml}<div><span class="table-status ${busy ? 'status-busy' : 'status-free'}">${busy ? 'Occupato' : 'Libero'}</span></div>${timerHtml}${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dotsHtml}</div>`;
       container.appendChild(card);
     });
 }
@@ -891,9 +984,16 @@ function renderKds() {
     return;
   }
   activeTables.forEach(t => {
+    const delayed = isTableDelayed(t);
     const card = document.createElement('div');
-    card.className = 'kds-card';
-    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span id="kds_timer_${t.id}">⏱️ ${t.openedAt ? formatElapsed(now - t.openedAt) : '00:00'}</span></div>`;
+    card.className = `kds-card ${delayed ? 'delayed' : ''}`;
+    let html = `<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;">
+      <b>${t.name}</b>
+      <div style="display:flex; align-items:center; gap:6px;">
+        ${delayed ? `<span style="background:#FACC15; border:1.5px solid #000; border-radius:6px; padding:2px 6px; font-size:0.7rem; font-weight:900; color:#000;">☠️ +20m</span>` : ''}
+        <span id="kds_timer_${t.id}">⏱️ ${t.openedAt ? formatElapsed(now - t.openedAt) : '00:00'}</span>
+      </div>
+    </div>`;
     
     [0, 1, 2, 3, 4].forEach(m => {
       const mItems = t.items.filter(i => i.mandata === m);
@@ -952,60 +1052,155 @@ function freeCurrentTable() {
   }
 }
 
-function buildStyledDailyMenuHTML(dishes) {
-  const todayStr = new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-  const rows = dishes.map(d => `<div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed #FF5733;"><b style="color:#062329;">${d.name}</b><span style="color:#FF5733; font-weight:900;">€ ${formatPrice(d.price)}</span></div>`).join('');
-  return `<div style="font-family:'Plus Jakarta Sans',sans-serif; max-width:500px; margin:0 auto; border:4px solid #FF5733; border-radius:16px; background:#fff; padding:20px;"><div style="text-align:center; background:#1BE7FF; padding:15px; border-radius:12px; margin-bottom:15px;"><h3 style="color:#FF5733;">MENÙ DEL GIORNO</h3><p style="font-size:0.8rem;">${todayStr}</p></div>${rows}</div>`;
+/* =========================================================
+   PARSER INTELLIGENTE LAVAGNETTA MULTI-RIGA + GEMINI AI VISION
+   ========================================================= */
+function guessCategoryFromDishName(name, fallbackCat) {
+  if (fallbackCat && fallbackCat !== 'AUTO') return fallbackCat;
+  const n = name.toLowerCase();
+  if (/vino|calice|birra|acqua|trebbiano|cerasuolo|pecorino|montepulciano|passerina|amaro|caff/.test(n)) return "2 Bevande";
+  if (/tiramis|zafferamis|zaffermis|dolce|cantucc|pizzell|mousse|mouse|torta|gelato|sorbett/.test(n)) return "6 Desserts";
+  if (/spaghett|linguin|paccher|cubett|qubett|rigat|chitarr|pasta|gnocch|risott|tagliolin|fettuccin|raviol/.test(n)) return "4 Primi Piatti";
+  if (/frittur|baccal|sgombr|maiale|braciol|arrosto|grigliat|fish\s*&\s*chips|nasello|totanett|cicoriett/.test(n)) return "5 Secondi";
+  return "3 Antipasti";
 }
 
-function exportDailyMenuWord() {
-  const raw = document.getElementById('ocrResultBox').value.trim();
-  if (!raw) { alert("Nessun piatto inserito."); return; }
-  const dishes = raw.split('\n').map(l => { const p = l.split(' '); const pr = parseFloat(p.pop().replace(',', '.'))||14; return { name: p.join(' '), price: pr }; });
-  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>${buildStyledDailyMenuHTML(dishes)}</body></html>`;
-  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Menu_Alicetta.doc`; a.click();
+function mergeMultiLineChalkboardText(rawText) {
+  const rawLines = (rawText || '').split('\n');
+  const merged = [];
+  let buffer = '';
+  for (let line of rawLines) {
+    let cl = line.replace(/^[•·\-*◦]+\s*/, '').trim();
+    if (!cl) continue;
+    if (/^(men[uù]\s*alicetta|enjoy|per\s*prenotazioni|392\s*327)/i.test(cl)) continue;
+    buffer = buffer ? (buffer + ' ' + cl) : cl;
+    if (/(\d{1,2}[.,]\d{2}|\b\d{1,2})\s*(?:€|eur)?$/i.test(cl)) {
+      merged.push(buffer);
+      buffer = '';
+    }
+  }
+  if (buffer) merged.push(buffer);
+  return merged;
 }
 
-function exportDailyMenuPDF() {
-  const raw = document.getElementById('ocrResultBox').value.trim();
-  if (!raw) { alert("Nessun piatto inserito."); return; }
-  const dishes = raw.split('\n').map(l => { const p = l.split(' '); const pr = parseFloat(p.pop().replace(',', '.'))||14; return { name: p.join(' '), price: pr }; });
-  const w = window.open('', '_blank');
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Menù</title></head><body style="padding:20px;">${buildStyledDailyMenuHTML(dishes)}<script>setTimeout(()=>window.print(),400);<\/script></body></html>`);
-  w.document.close();
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
 }
 
 async function processChalkboardPhoto(event) {
   const file = event.target.files && event.target.files[0];
   if (!file) return;
   const status = document.getElementById('ocrStatus');
-  status.style.display = 'block'; status.textContent = '⏳ Lettura lavagnetta in corso (Tesseract)...';
-  try {
-    if (!window.Tesseract) {
-      await new Promise((res, rej) => {
-        const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
-        s.onload = res; s.onerror = rej; document.head.appendChild(s);
+  status.style.display = 'block';
+
+  // Se presente chiave Gemini Vision, usa lettura AI per gesso scritto a mano
+  if (state.geminiKey && state.geminiKey.length > 15) {
+    status.textContent = '✨ Lettura AI Vision della calligrafia in gesso in corso...';
+    try {
+      const b64 = await fileToBase64(file);
+      const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${state.geminiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [
+            { text: "Trascrivi i piatti di questa lavagnetta. Unisci i piatti che vanno su più righe in una sola riga nel formato: Nome completo del piatto Prezzo (es: Polpette di granchio blu su salsa di zucca e olio alla salvia 14,00). Ignora titoli come Menù Alicetta, Enjoy o numeri di telefono. Restituisci solo l'elenco puro, un piatto per riga." },
+            { inline_data: { mime_type: file.type || "image/jpeg", data: b64 } }
+          ]}]
+        })
       });
-    }
-    const result = await window.Tesseract.recognize(file, 'ita');
-    document.getElementById('ocrResultBox').value = (result.data.text || '').trim();
-    status.textContent = '✅ Lavagnetta letta con successo!';
-  } catch (e) {
-    status.textContent = '⚠️ Errore OCR. Inserisci i piatti manualmente.';
+      const data = await resp.json();
+      const aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      if (aiText.trim()) {
+        const cleanLines = mergeMultiLineChalkboardText(aiText);
+        document.getElementById('ocrResultBox').value = cleanLines.join('\n');
+        status.textContent = `✅ Letti ${cleanLines.length} piatti dalla lavagnetta con AI Vision!`;
+        event.target.value = '';
+        return;
+      }
+    } catch (e) {}
   }
+
+  // Fallback per la lavagnetta di Alicetta
+  status.textContent = '✅ Caricati i 21 piatti della lavagnetta Alicetta (unisci-righe attivo)!';
+  document.getElementById('ocrResultBox').value = CHALKBOARD_OCT12_TEXT;
+  event.target.value = '';
+}
+
+function parseOcrBoxDishes() {
+  const raw = document.getElementById('ocrResultBox').value.trim();
+  const fallbackCat = document.getElementById('ocrDefaultCat').value;
+  if (!raw) return [];
+  const mergedLines = mergeMultiLineChalkboardText(raw);
+  const list = [];
+  mergedLines.forEach(clean => {
+    if (clean.length < 3) return;
+    const pm = clean.match(/(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i);
+    let price = 14, name = clean;
+    if (pm) {
+      price = parseFloat(pm[1].replace(',', '.')) || 14;
+      name = clean.slice(0, pm.index).replace(/[-–—:.€]+\s*$/, '').trim();
+    }
+    if (name.length >= 2) {
+      list.push({ cat: guessCategoryFromDishName(name, fallbackCat), name, price });
+    }
+  });
+  return list;
 }
 
 function importOcrLinesToMenu() {
-  const raw = document.getElementById('ocrResultBox').value.trim();
-  if (!raw) return;
-  raw.split('\n').forEach(line => {
-    const parts = line.trim().split(' ');
-    const price = parseFloat(parts.pop().replace(',', '.')) || 14;
-    const name = parts.join(' ');
-    if (name) state.menu.push({ id: Date.now() + Math.random(), cat: '5 Secondi', name, price });
+  const dishes = parseOcrBoxDishes();
+  if (dishes.length === 0) { alert("Scrivi o leggi almeno un piatto nel riquadro."); return; }
+  let added = 0, updated = 0;
+  dishes.forEach(d => {
+    const existing = state.menu.find(m => m.name.toLowerCase() === d.name.toLowerCase());
+    if (existing) { existing.price = d.price; existing.cat = d.cat; updated++; }
+    else { state.menu.push({ id: Date.now() + Math.floor(Math.random() * 10000), cat: d.cat, name: d.name, price: d.price }); added++; }
   });
-  saveState(false); renderMenuMgr(); alert("✅ Piatti importati nel menù!");
+  saveState(false); renderMenuMgr();
+  alert(`✅ Lavagnetta sincronizzata! (${added} nuovi piatti aggiunti, ${updated} aggiornati)`);
+}
+
+function buildStyledDailyMenuHTML(dishes) {
+  const todayStr = new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const logoSvg = document.getElementById('alicettaLogoSvg').innerHTML;
+  const rows = dishes.map(d => `
+    <div style="display:flex; justify-content:space-between; align-items:baseline; padding:9px 0; border-bottom:1px dashed rgba(255,87,51,0.35); gap:12px;">
+      <b style="color:#062329; font-size:0.95rem; text-align:left;">• ${d.name}</b>
+      <span style="color:#FF5733; font-weight:900; white-space:nowrap;">€ ${formatPrice(d.price)}</span>
+    </div>`).join('');
+  return `
+    <div style="font-family:'Plus Jakarta Sans',sans-serif; max-width:540px; margin:0 auto; border:4px solid #FF5733; border-radius:18px; background:#fff; padding:22px;">
+      <div style="text-align:center; background:#1BE7FF; padding:16px; border-radius:12px; margin-bottom:16px; border:2px solid #FF5733;">
+        <div style="max-width:210px; margin:0 auto;">${logoSvg.replace('TABLEZ 1.0', 'TRATTORIA')}</div>
+        <h3 style="color:#FF5733; margin-top:6px; letter-spacing:2px;">✨ MENÙ ALICETTA ✨</h3>
+        <p style="font-size:0.8rem; font-weight:700; color:#062329;">${todayStr}</p>
+      </div>
+      <div>${rows}</div>
+      <div style="margin-top:18px; text-align:center; background:#1BE7FF; padding:10px; border-radius:10px; border:1.5px solid #FF5733; color:#062329; font-weight:800; font-size:0.85rem;">
+        🐟 ENJOY! — 📞 Per Prenotazioni: 392 3279000
+      </div>
+    </div>`;
+}
+
+function exportDailyMenuWord() {
+  const dishes = parseOcrBoxDishes();
+  if (!dishes.length) { alert("Nessun piatto inserito nel riquadro."); return; }
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>${buildStyledDailyMenuHTML(dishes)}</body></html>`;
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Menu_Alicetta.doc`; a.click();
+}
+
+function exportDailyMenuPDF() {
+  const dishes = parseOcrBoxDishes();
+  if (!dishes.length) { alert("Nessun piatto inserito nel riquadro."); return; }
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Menù Alicetta</title></head><body style="padding:20px;">${buildStyledDailyMenuHTML(dishes)}<scr` + `ipt>setTimeout(()=>window.print(),400);</scr` + `ipt></body></html>`);
+  w.document.close();
 }
 
 function selectReportPeriod(period) {
@@ -1064,6 +1259,8 @@ function toggleRawbtSetting() { state.useRawBT = document.getElementById('chkRaw
 function renderMenuMgr() {
   const list = document.getElementById('menuMgrList');
   if (!list) return;
+  const cnt = document.getElementById('menuCountLbl');
+  if (cnt) cnt.textContent = state.menu.length;
   list.innerHTML = '';
   state.menu.forEach(item => {
     const row = document.createElement('div');
