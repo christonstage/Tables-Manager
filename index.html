@@ -4,118 +4,105 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Alicetta Trattoria - Comande & Tavoli</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #FF5E5B;           /* Vibrant Coral principale */
-    --bg-deep: #D9383A;      /* Coral profondo per barre e controlli */
-    --card: #B8292B;         /* Card corallo scuro ad alto contrasto */
-    --card-hover: #9E1F21;
+    --bg: #18191A;           /* Sfondo grigio scuro effetto carbonio opaco */
+    --bg-deep: #121213;      /* Grigio profondo per barre */
+    --card: #242526;         /* Card grigio scuro */
+    --card-hover: #3A3B3C;
     --text: #FFFFFF;
-    --muted: #FFE3E2;
+    --muted: #B0B3B8;
     --accent: #00C8E5;       /* Turchese acceso */
     --logo-blue: #00B8D4;    /* Azzurro Logo Alicetta */
     --gold: #F5B700;         /* Oro Alicetta */
     --free: #10B981;
     --busy: #F59E0B;
-    --fire: #111827;
-    --purple: #7C3AED;
-    --border: rgba(255, 255, 255, 0.28);
+    --border: rgba(255, 255, 255, 0.15);
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
   body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-select: none; }
   
   /* Top Navigation */
-  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(217, 56, 58, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.18); }
+  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(24, 25, 26, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
   
   /* Logo Alicetta Trattoria */
   .brand-wrap { display: flex; align-items: center; gap: 6px; }
-  .brand-logo { display: flex; align-items: center; background: var(--logo-blue); padding: 5px 10px; border-radius: 10px; border: 1.5px solid #8D5B1C; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+  .brand-logo { display: flex; align-items: center; background: var(--logo-blue); padding: 5px 10px; border-radius: 10px; border: 1.5px solid #8D5B1C; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
   .brand-logo svg { height: 32px; width: auto; display: block; }
-  .sync-badge { font-size: 0.68rem; font-weight: 900; padding: 3px 6px; border-radius: 6px; background: rgba(0,0,0,0.25); white-space: nowrap; }
+  .sync-badge { font-size: 0.68rem; font-weight: 800; padding: 3px 6px; border-radius: 6px; background: rgba(255,255,255,0.1); white-space: nowrap; }
 
-  .top-actions { display: flex; gap: 6px; }
+  .top-actions { display: flex; gap: 6px; align-items: center; }
+  .waiter-tag { font-size: 0.75rem; font-weight: 700; color: var(--gold); background: rgba(245, 183, 0, 0.12); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(245, 183, 0, 0.3); }
   .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 8px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
   .btn-top.active { background: var(--accent); color: #062329; border-color: #fff; font-weight: 800; }
 
   /* Room Switcher */
   .room-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 14px; }
-  .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 12px; border-radius: 12px; font-size: 0.98rem; font-weight: 800; text-align: center; cursor: pointer; transition: 0.15s; box-shadow: 0 3px 8px rgba(0,0,0,0.12); }
-  .room-tab.active { border-color: #fff; color: #062329; background: var(--accent); }
+  .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 12px; border-radius: 12px; font-size: 0.98rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+  .room-tab.active { border-color: #fff; color: #062329; background: var(--accent); font-weight: 800; }
 
   /* Tables Grid */
   .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
-  .table-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s, background 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+  .table-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s, background 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.25); }
   .table-card:active { transform: scale(0.95); }
-  .table-card.free { border-color: rgba(255, 255, 255, 0.45); }
+  .table-card.free { border-color: rgba(255, 255, 255, 0.2); }
   
-  /* Tavolo Occupato colorato con l'Azzurro del Logo Alicetta */
+  /* Tavolo Occupato Azzurro Logo Alicetta */
   .table-card.busy {
     background: var(--logo-blue);
     border-color: #FFFFFF;
     color: #062329;
-    box-shadow: 0 5px 15px rgba(0, 184, 212, 0.45);
+    box-shadow: 0 5px 15px rgba(0, 184, 212, 0.4);
   }
-  .table-name { font-size: 1.05rem; font-weight: 900; }
+  .table-name { font-size: 1.05rem; font-weight: 800; }
   .table-card.busy .table-name { color: #062329; }
-  .table-status { font-size: 0.75rem; font-weight: 800; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
+  .table-status { font-size: 0.75rem; font-weight: 700; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
   .status-free { color: #052e16; background: #34d399; }
   .status-busy { color: #451a03; background: #fbbf24; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
-  .table-total { font-size: 0.95rem; font-weight: 900; color: #fff; margin-top: 6px; }
+  .table-total { font-size: 0.95rem; font-weight: 800; color: #fff; margin-top: 6px; }
   .table-card.busy .table-total { color: #062329; }
   .course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
-  .dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 900; }
+  .dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 800; }
   .dot.sent { background: #059669; color: #ffffff; }
-  .dot.wait { background: #B8292B; color: #ffffff; }
+  .dot.wait { background: #3A3B3C; color: #ffffff; }
   .dot.done { background: #062329; color: #34d399; }
 
   /* Order Screen */
   .screen { display: none; padding: 12px 14px; }
   .screen.active { display: block; }
-  .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
-  .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+  .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+  .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
-  /* Mandata Selector (5 pulsanti: Subito + 1ª, 2ª, 3ª, 4ª) */
+  /* Mandata Selector */
   .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
-  .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 800; text-align: center; cursor: pointer; transition: 0.15s; }
-  .mandata-btn.active { border-color: #fff; background: var(--accent); color: #062329; font-weight: 900; }
+  .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; }
+  .mandata-btn.active { border-color: #fff; background: var(--accent); color: #062329; font-weight: 800; }
 
   /* Category Tabs */
   .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; }
   .cat-bar::-webkit-scrollbar { display: none; }
-  .cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 800; white-space: nowrap; cursor: pointer; }
-  .cat-btn.active { background: #fff; color: var(--card); border-color: #fff; }
+  .cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
+  .cat-btn.active { background: #fff; color: var(--card); border-color: #fff; font-weight: 800; }
 
   /* Search input */
   .search-wrap { margin-bottom: 10px; position: relative; }
   .search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; }
-  .search-input::placeholder { color: rgba(255,255,255,0.7); }
+  .search-input::placeholder { color: rgba(255,255,255,0.5); }
   .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
 
   /* Menu Items Grid & Tap Animation */
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
-  .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.12); transition: transform 0.12s, background-color 0.15s, border-color 0.15s; }
+  .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.2); transition: transform 0.12s, background-color 0.15s, border-color 0.15s; }
   
   @keyframes dishTapPulse {
     0%   { transform: scale(1); background-color: var(--card); }
     35%  { transform: scale(0.91); background-color: var(--logo-blue); border-color: #fff; box-shadow: 0 0 14px rgba(0, 200, 229, 0.85); }
     100% { transform: scale(1); background-color: var(--card); }
   }
-  .menu-item.tap-anim {
-    animation: dishTapPulse 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-  }
+  .menu-item.tap-anim { animation: dishTapPulse 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
   .tap-badge {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    background: var(--gold);
-    color: #062329;
-    font-weight: 900;
-    font-size: 0.78rem;
-    padding: 2px 7px;
-    border-radius: 12px;
-    pointer-events: none;
-    animation: badgeFloatUp 0.45s ease-out forwards;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    position: absolute; top: 6px; right: 6px; background: var(--gold); color: #062329; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   }
   @keyframes badgeFloatUp {
     0%   { opacity: 1; transform: translateY(4px) scale(0.8); }
@@ -124,40 +111,40 @@
   }
 
   .item-name { font-weight: 700; font-size: 0.84rem; line-height: 1.22; word-break: break-word; }
-  .item-price { color: var(--gold); font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
+  .item-price { color: var(--gold); font-weight: 800; font-size: 0.84rem; margin-top: 8px; }
 
   /* Fire / Via Quick Buttons */
-  .fire-box { background: #8F1D1F; border: 2px solid var(--gold); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
-  .fire-title { font-size: 0.8rem; font-weight: 800; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; }
+  .fire-box { background: #2A2B2D; border: 2px solid var(--gold); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
+  .fire-title { font-size: 0.8rem; font-weight: 700; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; }
   .fire-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn-fire { flex: 1; background: var(--gold); color: #291502; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 900; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
+  .btn-fire { flex: 1; background: var(--gold); color: #291502; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
   .btn-fire.fired { background: #34d399; color: #052e16; }
 
   /* Cart / Comanda List */
-  .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.14); }
+  .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
   .mandata-group { margin-bottom: 14px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
   .mandata-group:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
-  .mandata-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 900; color: var(--gold); margin-bottom: 6px; text-transform: uppercase; }
+  .mandata-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 800; color: var(--gold); margin-bottom: 6px; text-transform: uppercase; }
   .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.88rem; gap: 6px; }
   .cart-info { flex: 1; }
   .cart-note { font-size: 0.76rem; color: var(--gold); font-style: italic; display: block; font-weight: 600; }
   .cart-controls { display: flex; align-items: center; gap: 5px; }
-  .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 900; cursor: pointer; }
+  .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 800; cursor: pointer; }
   .btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--bg-deep); color: #fff; border: 1px solid var(--border); cursor: pointer; font-weight: 700; }
 
   /* Bottom Bar */
-  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(217, 56, 58, 0.98); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.2); }
-  .btn-main { flex: 1; padding: 13px; border-radius: 10px; border: none; font-weight: 900; font-size: 0.92rem; cursor: pointer; text-align: center; }
+  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(24, 25, 26, 0.98); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.3); }
+  .btn-main { flex: 1; padding: 13px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.92rem; cursor: pointer; text-align: center; }
   .btn-print { background: var(--accent); color: #062329; }
   .btn-bill { background: #fff; color: var(--card); }
   .btn-close-table { background: var(--card); color: #fff; border: 1px solid var(--border); flex: 0.5; }
 
   /* Form controls in Menu Mgr */
   .form-control { padding: 10px; border-radius: 8px; background: var(--bg-deep); color: #fff; border: 1px solid var(--border); font-weight: 600; width: 100%; }
-  .form-control::placeholder { color: rgba(255,255,255,0.75); }
+  .form-control::placeholder { color: rgba(255,255,255,0.5); }
 
   /* Receipt Modal */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.78); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
   .modal-overlay.active { display: flex; }
   .receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 8px; padding: 16px; font-family: "Courier New", Courier, monospace; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-height: 85vh; overflow-y: auto; }
   .receipt-pre { white-space: pre-wrap; font-family: "Courier New", Courier, monospace; font-size: 0.85rem; line-height: 1.35; }
@@ -166,21 +153,17 @@
 
   /* KDS View */
   .kds-Banner { background: var(--card); border: 2px solid var(--gold); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .btn-kds-audio { background: var(--gold); color: #291502; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 900; font-size: 0.85rem; cursor: pointer; }
+  .btn-kds-audio { background: var(--gold); color: #291502; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
   .btn-kds-audio.on { background: #34d399; color: #052e16; }
   .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
-  .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-  .kds-card.urgent { border-color: var(--gold); background: #8F1D1F; animation: kdsFlash 1.2s ease-in-out 3; }
-  @keyframes kdsFlash {
-    0%, 100% { box-shadow: 0 0 0 rgba(245, 183, 0, 0); }
-    50% { box-shadow: 0 0 25px rgba(245, 183, 0, 0.95); background: var(--logo-blue); color: #062329; }
-  }
-  .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #34d399; color: #052e16; font-weight: 900; font-size: 0.8rem; cursor: pointer; }
+  .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); }
+  .kds-card.urgent { border-color: var(--gold); background: #2A2B2D; }
+  .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #34d399; color: #052e16; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR CON LOGO ALICETTA TRATTORIA E STATO LIVE -->
+<!-- TOPBAR CON LOGO ALICETTA TRATTORIA E CAMeriere -->
 <div class="topbar">
   <div class="brand-wrap">
     <div class="brand-logo" title="Alicetta Trattoria">
@@ -206,6 +189,7 @@
     <div id="syncIndicator" class="sync-badge">🟡 Connessione...</div>
   </div>
   <div class="top-actions">
+    <div id="waiterDisplay" class="waiter-tag" onclick="changeWaiter()" title="Tocca per cambiare cameriere">👤 --</div>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
     <button class="btn-top" id="navKds" onclick="switchMainView('kds')">🖥️ KDS</button>
     <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')">⚙️ Menù</button>
@@ -226,20 +210,18 @@
   <div class="order-header">
     <button class="btn-back" onclick="closeTableView()">← Tavoli</button>
     <div style="text-align:center;">
-      <div id="activeTableName" style="font-weight:900; font-size:1.1rem;">Tavolo 1</div>
+      <div id="activeTableName" style="font-weight:800; font-size:1.1rem;">Tavolo 1</div>
       <div id="activeTableSub" style="font-size:0.75rem; color:var(--muted);">Sala Interna</div>
     </div>
-    <div id="activeTableTotal" style="font-weight:900; color:var(--gold); font-size:1.1rem;">€ 0,00</div>
+    <div id="activeTableTotal" style="font-weight:800; color:var(--gold); font-size:1.1rem;">€ 0,00</div>
   </div>
 
-  <!-- Pulsanti Rapidi "DAI IL VIA" -->
   <div id="fireBox" class="fire-box" style="display:none;">
     <div class="fire-title">⚡ Comandi Rapidi Marcia Cucina (KDS + TM-m30III)</div>
     <div class="fire-actions" id="fireButtonsContainer"></div>
   </div>
 
-  <!-- Selettore Mandata Corrente (Subito + 1ª, 2ª, 3ª, 4ª) -->
-  <div style="font-size:0.75rem; color:var(--muted); margin-bottom:4px; font-weight:800;">STAI INSERENDO PIATTI NELLA:</div>
+  <div style="font-size:0.75rem; color:var(--muted); margin-bottom:4px; font-weight:700;">STAI INSERENDO PIATTI NELLA:</div>
   <div class="mandata-bar">
     <div class="mandata-btn" id="mBtn0" onclick="setMandata(0)">⚡ Subito</div>
     <div class="mandata-btn active" id="mBtn1" onclick="setMandata(1)">1ª Mand.</div>
@@ -248,25 +230,20 @@
     <div class="mandata-btn" id="mBtn4" onclick="setMandata(4)">4ª Mand.</div>
   </div>
 
-  <!-- Categorie Menù SumUp -->
   <div class="cat-bar" id="catBar"></div>
 
-  <!-- Cerca rapido nel menù -->
   <div class="search-wrap">
     <input type="text" id="menuSearch" class="search-input" placeholder="🔍 Cerca piatto o vino in tutto il menù..." oninput="renderMenuGrid()">
     <button class="search-clear" onclick="clearSearch()">×</button>
   </div>
 
-  <!-- Piatti della Categoria -->
   <div class="menu-grid" id="menuGrid"></div>
 
-  <!-- Riepilogo Comanda Divisa per Mandate -->
   <div class="cart-section">
-    <div style="font-weight:900; margin-bottom:10px; font-size:0.95rem;">📋 Riepilogo Comanda al Tavolo</div>
+    <div style="font-weight:800; margin-bottom:10px; font-size:0.95rem;">📋 Riepilogo Comanda al Tavolo</div>
     <div id="cartContainer"></div>
   </div>
 
-  <!-- Barra Azioni Fissa in Basso -->
   <div class="bottom-bar">
     <button class="btn-main btn-print" onclick="sendOrderToKitchen()">🖨️ INVIA CUCINA</button>
     <button class="btn-main btn-bill" onclick="showPreBill()">💶 PRE-CONTO</button>
@@ -278,7 +255,7 @@
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
     <div>
-      <div style="font-weight:900; font-size:1.05rem;">🖥️ SCHERMO CUCINA (KDS LIVE)</div>
+      <div style="font-weight:800; font-size:1.05rem;">🖥️ SCHERMO CUCINA (KDS LIVE)</div>
       <div style="font-size:0.78rem; color:var(--muted);">Suona in automatico quando arriva una comanda o un "VIA"</div>
     </div>
     <div style="display:flex; gap:6px;">
@@ -292,10 +269,15 @@
 <!-- VISTA 4: GESTIONE MENU, CLOUD & STAMPANTE -->
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section">
+    <h3 style="margin-bottom:8px;">👤 Profilo Cameriere Attivo</h3>
+    <div style="display:flex; gap:6px; align-items:center;">
+      <span id="currentWaiterBadge" style="font-weight:700; color:var(--gold);">Nessuno</span>
+      <button class="btn-note" onclick="changeWaiter()">Cambia Nome Cameriere</button>
+    </div>
+  </div>
+
+  <div class="cart-section">
     <h3 style="margin-bottom:8px;">☁️ Sincronizzazione Cloud Firebase (Belgio)</h3>
-    <p style="font-size:0.8rem; color:var(--muted); margin-bottom:8px;">
-      Indirizzo del tuo Realtime Database Firebase per sincronizzare Telefoni e Tablet KDS:
-    </p>
     <div style="display:flex; gap:6px;">
       <input type="text" id="firebaseUrlInput" class="form-control" placeholder="https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app">
       <button class="btn-note" style="padding:0 14px;" onclick="saveFirebaseUrl()">Salva URL</button>
@@ -304,10 +286,7 @@
 
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">🖨️ Impostazioni Epson TM-m30III</h3>
-    <p style="font-size:0.82rem; color:var(--muted); margin-bottom:10px;">
-      Attiva l'invio diretto a <b>RawBT</b> (per stampare e tagliare la carta in 1 secondo sulla TM-m30III) oppure usa l'anteprima a schermo.
-    </p>
-    <label style="display:flex; align-items:center; gap:8px; font-weight:800; font-size:0.9rem; margin-bottom:8px;">
+    <label style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.9rem; margin-bottom:8px;">
       <input type="checkbox" id="chkRawbt" onchange="toggleRawbtSetting()" style="width:18px; height:18px;">
       Invia direttamente a RawBT (ESC/POS 80mm)
     </label>
@@ -345,23 +324,8 @@
 
 <script>
 const DEFAULT_FIREBASE_URL = "https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app";
-
-const CATEGORIES = [
-  "1 Coperto",
-  "2 Bevande",
-  "3 Antipasti",
-  "4 Primi Piatti",
-  "5 Secondi",
-  "6 Desserts"
-];
-
-const MANDATE_LABELS = {
-  0: "SUBITO / BEVANDE",
-  1: "1ª MANDATA (MARCIA)",
-  2: "2ª MANDATA",
-  3: "3ª MANDATA",
-  4: "4ª MANDATA"
-};
+const CATEGORIES = ["1 Coperto", "2 Bevande", "3 Antipasti", "4 Primi Piatti", "5 Secondi", "6 Desserts"];
+const MANDATE_LABELS = { 0: "SUBITO / BEVANDE", 1: "1ª MANDATA (MARCIA)", 2: "2ª MANDATA", 3: "3ª MANDATA", 4: "4ª MANDATA" };
 
 const DEFAULT_MENU = [
   { id: 101, cat: "1 Coperto", name: "Pane e Coperto", price: 3.00 },
@@ -446,7 +410,7 @@ const DEFAULT_MENU = [
   { id: 604, cat: "6 Desserts", name: "Zaffermisù - tiramisù alla ricotta di pecora", price: 7.00 }
 ];
 
-const STORAGE_KEY = 'alicetta_pos_v4';
+const STORAGE_KEY = 'alicetta_pos_v5';
 
 let state = {
   currentRoom: 'interna',
@@ -455,6 +419,7 @@ let state = {
   currentCategory: '1 Coperto',
   useRawBT: false,
   firebaseUrl: DEFAULT_FIREBASE_URL,
+  waiterName: '',
   lastEscPosPayload: '',
   lastAlertSignal: 0,
   kdsAudioEnabled: false,
@@ -498,19 +463,51 @@ async function initApp() {
     state.tables = normalizeTablesStructure(parsed.tables);
     state.useRawBT = parsed.useRawBT || false;
     state.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
+    state.waiterName = parsed.waiterName || '';
     state.lastAlertSignal = parsed.lastAlertSignal || 0;
   } else {
     state.menu = DEFAULT_MENU;
     state.tables = buildDefaultTables();
   }
+
+  // Richiedi il nome cameriere se non impostato
+  if (!state.waiterName.trim()) {
+    askWaiterName();
+  } else {
+    updateWaiterDisplay();
+  }
+
   document.getElementById('chkRawbt').checked = state.useRawBT;
   document.getElementById('firebaseUrlInput').value = state.firebaseUrl;
   renderCategorySelect();
   renderTables();
 
-  // Avvia la sincronizzazione cloud in tempo reale con Firebase
   await pullFromCloud(true);
   setInterval(() => pullFromCloud(false), 1800);
+}
+
+function askWaiterName() {
+  const name = prompt("Inserisci il nome del cameriere (es. Christian, Alice, Mario):", "Cameriere");
+  if (name && name.trim()) {
+    state.waiterName = name.trim();
+    saveLocalOnly();
+    updateWaiterDisplay();
+  } else {
+    state.waiterName = "Staff";
+    saveLocalOnly();
+    updateWaiterDisplay();
+  }
+}
+
+function changeWaiter() {
+  askWaiterName();
+}
+
+function updateWaiterDisplay() {
+  const lbl = document.getElementById('waiterDisplay');
+  if (lbl) lbl.textContent = "👤 " + state.waiterName;
+  const badge = document.getElementById('currentWaiterBadge');
+  if (badge) badge.textContent = state.waiterName;
 }
 
 function saveLocalOnly() {
@@ -519,6 +516,7 @@ function saveLocalOnly() {
     tables: state.tables,
     useRawBT: state.useRawBT,
     firebaseUrl: state.firebaseUrl,
+    waiterName: state.waiterName,
     lastAlertSignal: state.lastAlertSignal
   }));
 }
@@ -531,9 +529,6 @@ async function saveState(triggerBell = false) {
   await pushToCloud();
 }
 
-/* =========================================================
-   SINCRONIZZAZIONE CLOUD FIREBASE REALTIME DATABASE
-   ========================================================= */
 function getCleanFirebaseUrl() {
   return (state.firebaseUrl || DEFAULT_FIREBASE_URL).trim().replace(/\/$/, "");
 }
@@ -577,7 +572,6 @@ async function pullFromCloud(isInitial) {
       return;
     }
 
-    // Se è arrivato un nuovo segnale di comanda/marcia, suona il campanello KDS!
     if (data.lastAlertSignal && data.lastAlertSignal > state.lastAlertSignal) {
       state.lastAlertSignal = data.lastAlertSignal;
       playKitchenBell();
@@ -591,7 +585,6 @@ async function pullFromCloud(isInitial) {
     }
     saveLocalOnly();
 
-    // Aggiorna la schermata attiva senza interrompere l'operatore
     if (document.getElementById('viewTables').classList.contains('active')) {
       renderTables();
     } else if (document.getElementById('viewKds').classList.contains('active')) {
@@ -616,9 +609,6 @@ function saveFirebaseUrl() {
   alert("URL Firebase salvato e collegato!");
 }
 
-/* =========================================================
-   CAMPANELLO SONORO CUCINA + SCHERMO SEMPRE ACCESO (KDS)
-   ========================================================= */
 async function enableKdsTabletMode() {
   try {
     if (!audioCtx) {
@@ -650,7 +640,6 @@ function playKitchenBell() {
       audioCtx.resume();
     }
     const now = audioCtx.currentTime;
-    // Doppio tono squillante da pass di cucina (Mi6 -> Do6)
     [1318.5, 1046.5].forEach((freq, idx) => {
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
@@ -857,6 +846,7 @@ function addItemToTable(menuItem) {
       price: menuItem.price,
       qty: 1,
       mandata: m,
+      waiter: state.waiterName || 'Staff',
       note: ''
     });
   }
@@ -935,7 +925,7 @@ function renderOrderScreen() {
       row.className = 'cart-row';
       row.innerHTML = `
         <div class="cart-info">
-          <b>${item.qty}x</b> ${item.name}
+          <b>${item.qty}x</b> ${item.name} <span style="font-size:0.72rem; color:var(--muted);">(${item.waiter || 'Staff'})</span>
           ${item.note ? `<span class="cart-note">👉 Nota: ${item.note}</span>` : ''}
         </div>
         <div class="cart-controls">
@@ -950,9 +940,6 @@ function renderOrderScreen() {
   });
 }
 
-/* =========================================================
-   GENERATORE SCONTRINI 80MM ESC/POS PER EPSON TM-m30III
-   ========================================================= */
 function buildTimeStr() {
   const now = new Date();
   return now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
@@ -966,7 +953,7 @@ function sendOrderToKitchen() {
   }
   t.sentOnce = true;
   t.firedMandate[1] = true;
-  saveState(true); // Fa suonare il KDS in cucina!
+  saveState(true);
   renderOrderScreen();
 
   const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
@@ -975,7 +962,8 @@ function sendOrderToKitchen() {
   let preview = "";
   preview += "==========================================\n";
   preview += `   ALICETTA TRATTORIA - ${t.name.toUpperCase()}\n`;
-  preview += `      ${salaName} - Ore ${timeStr}\n`;
+  preview += `   Cameriere: ${state.waiterName || 'Staff'} - ${salaName}\n`;
+  preview += `   Ore ${timeStr}\n`;
   preview += "==========================================\n\n";
 
   const ESC = "\x1B";
@@ -985,7 +973,7 @@ function sendOrderToKitchen() {
   escpos += ESC + "!" + "\x38";
   escpos += `${t.name.toUpperCase()}\n`;
   escpos += ESC + "!" + "\x08";
-  escpos += `${salaName} - Ore ${timeStr}\n`;
+  escpos += `Cam: ${state.waiterName || 'Staff'} - Ore ${timeStr}\n`;
   escpos += "------------------------------------------\n";
   escpos += ESC + "a" + "\x00";
 
@@ -1010,7 +998,7 @@ function sendOrderToKitchen() {
     escpos += "\n" + ESC + "!" + "\x08" + headerTitle + "\n" + ESC + "!" + "\x00";
 
     list.forEach(it => {
-      const line = `${it.qty}x ${it.name}`;
+      const line = `${it.qty}x ${it.name} (${it.waiter || 'Staff'})`;
       preview += `  ${line}\n`;
       escpos += ESC + "!" + "\x18" + `${it.qty}x ${it.name}\n` + ESC + "!" + "\x00";
       if (it.note) {
@@ -1035,7 +1023,7 @@ function fireMandataTicket(mandataNum) {
 
   t.firedMandate[mandataNum] = true;
   t.doneMandate[mandataNum] = false;
-  saveState(true); // Fa suonare il KDS in cucina!
+  saveState(true);
   renderOrderScreen();
 
   const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
@@ -1167,9 +1155,6 @@ function freeCurrentTable() {
   }
 }
 
-/* =========================================================
-   VISTA KDS CUCINA INTERATTIVA & GESTIONE MENU
-   ========================================================= */
 function markMandataDone(tableId, mandataNum) {
   const t = state.tables[tableId];
   if (!t) return;
@@ -1206,16 +1191,16 @@ function renderKds() {
       const isFired = (m === 0 || m === 1 || (t.firedMandate && t.firedMandate[m]));
 
       const statusBadge = isDone
-        ? `<span style="color:#a7f3d0; font-weight:900;">✅ SERVITA</span>`
+        ? `<span style="color:#a7f3d0; font-weight:800;">✅ SERVITA</span>`
         : isFired
-          ? `<span style="color:#34d399; font-weight:900;">🔥 MARCIARE ORA</span>`
-          : `<span style="color:var(--gold); font-weight:800;">⏳ IN ATTESA VIA</span>`;
+          ? `<span style="color:#34d399; font-weight:800;">🔥 MARCIARE ORA</span>`
+          : `<span style="color:var(--gold); font-weight:700;">⏳ IN ATTESA VIA</span>`;
 
       html += `<div style="margin-bottom:10px; padding:8px; border-radius:8px; background:rgba(0,0,0,0.18); ${isDone ? 'opacity:0.48;' : ''}">
         <div style="font-size:0.78rem; display:flex; justify-content:space-between; margin-bottom:4px;">
           <b>${m === 0 ? 'SUBITO / BEV' : m + 'ª MANDATA'}</b> ${statusBadge}
         </div>
-        ${mItems.map(i => `<div style="font-size:0.92rem; padding-left:4px; ${isDone ? 'text-decoration:line-through;' : ''}">• <b>${i.qty}x</b> ${i.name}${i.note ? `<i style="color:var(--gold);">(${i.note})</i>` : ''}</div>`).join('')}
+        ${mItems.map(i => `<div style="font-size:0.92rem; padding-left:4px; ${isDone ? 'text-decoration:line-through;' : ''}">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.75rem; color:var(--muted);">(${i.waiter \vert{}\vert{} 'Staff'})</span>${i.note ? `<i style="color:var(--gold);">(${i.note})</i>` : ''}</div>`).join('')}
         ${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? '↩️ Riapri Mandata' : '✅ SEGNA USCITA DALLA CUCINA'}</button>` : ''}
       </div>`;
     });
