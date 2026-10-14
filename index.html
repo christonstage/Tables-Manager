@@ -50,6 +50,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .dot.wait { background: #062329; color: #ffffff; }
 .dot.done { background: #062329; color: #34d399; }
 .delay-dot { position: absolute; top: 7px; right: 7px; width: 15px; height: 15px; border-radius: 50%; background: #DC2626; border: 2px solid #FFFFFF; box-shadow: 0 0 10px #DC2626; animation: blinkRed 0.65s infinite alternate; z-index: 5; }
+.delay-pill { background: #DC2626; color: #FFF; font-size: 0.65rem; font-weight: 900; padding: 2px 6px; border-radius: 6px; border: 1.5px solid #FFF; animation: blinkRed 0.65s infinite alternate; display: inline-flex; align-items: center; }
 @keyframes blinkRed { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0.25; transform: scale(1.18); box-shadow: 0 0 15px #FF0000; } }
 .screen { display: none; padding: 12px 14px; }
 .screen.active { display: block; }
@@ -105,7 +106,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .btn-kds-audio { background: var(--logo-coral); color: #FFF; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
 .btn-kds-audio.on { background: #10B981; color: #fff; }
 .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
-.kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; color: var(--text); }
+.kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; color: var(--text); position: relative; }
 .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 .order-toast { display: none; position: fixed; top: 52px; left: 10px; right: 10px; background: #111827; color: #FFF; border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 12px; z-index: 90; box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
 .order-toast.active { display: block; }
@@ -189,6 +190,11 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     </div>
   </div>
 
+  <div id="fireBox" class="fire-box" style="display:none;">
+    <div class="fire-title">⚡ Comandi Rapidi Marcia Cucina</div>
+    <div class="fire-actions" id="fireButtonsContainer"></div>
+  </div>
+
   <div style="font-size:0.75rem; color:#062329; margin-bottom:4px; font-weight:800;">STAI INSERENDO PIATTI NELLA:</div>
   <div class="mandata-bar">
     <div class="mandata-btn" id="mBtn0" onclick="setMandata(0, true)">⚡ Subito</div>
@@ -223,7 +229,10 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
     <div><div style="font-weight:800; font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0</div></div>
-    <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
+    <div style="display:flex; gap:6px;">
+      <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
+      <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
+    </div>
   </div>
   <div class="kds-grid" id="kdsContainer"></div>
 </div>
@@ -268,7 +277,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   </div>
 
   <div class="cart-section">
-    <h3 style="margin-bottom:6px;">📸 Lavagnetta OCR ➔ Menù PDF / Word & Drive</h3>
+    <h3 style="margin-bottom:6px;">📸 Lavagnetta OCR ➔ Menù PDF / Word</h3>
     <div style="display:grid; gap:8px;">
       <select id="ocrDefaultCat" class="form-control">
         <option value="AUTO">✨ Rileva Categoria in Automatico</option>
@@ -287,7 +296,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
         <button class="btn-note" style="padding:10px;" onclick="exportDailyMenuWord()">📄 Scarica Word (.doc)</button>
         <button class="btn-note" style="padding:10px;" onclick="exportDailyMenuPDF()">📑 Crea PDF Grafico</button>
       </div>
-      <input type="text" id="driveWebhookInput" class="form-control" style="font-size:0.75rem;" placeholder="URL Google Apps Script per salvataggio automatico su Drive" onchange="saveDriveWebhook()">
     </div>
   </div>
 
@@ -316,18 +324,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
       <input type="checkbox" id="chkRawbt" onchange="toggleRawbtSetting()" style="width:18px; height:18px;">
       Usa RawBT Diretto su Epson TM-m30III
     </label>
-  </div>
-</div>
-
-<div class="modal-overlay" id="pagerModal">
-  <div class="receipt-box" style="text-align:center;">
-    <h3 style="margin-bottom:8px; color:var(--logo-coral);">🔔 Cercapersone Sala</h3>
-    <select id="pagerTarget" class="form-control" style="margin-bottom:8px;">
-      <option value="TUTTI">📢 TUTTI I CAMERIERI</option>
-      <option value="Alice">👤 Solo Alice</option>
-    </select>
-    <button class="btn-main btn-bill" onclick="sendPagerCall('🔥 Piatti pronti al Pass!')" style="width:100%; margin-bottom:6px;">🔥 Piatti pronti al Pass!</button>
-    <button class="btn-modal" style="background:#334155; color:#fff; width:100%;" onclick="closePagerModal()">Annulla</button>
   </div>
 </div>
 
@@ -400,9 +396,8 @@ const STORAGE_KEY = 'alicetta_pos_v9';
 let state = {
   currentRoom: 'interna', activeTableId: null, currentMandata: 1, currentCategory: '1 Coperto',
   reportPeriod: 'daily', useRawBT: false, firebaseUrl: DEFAULT_FIREBASE_URL, waiterName: 'Christian',
-  driveWebhook: '', tableCounts: { interna: 11, esterna: 5, asporto: 5 }, dailyChalkboard: [],
-  lastEscPosPayload: '', lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null,
-  menu: [], tables: {}, historyLog: []
+  tableCounts: { interna: 11, esterna: 5, asporto: 5 }, dailyChalkboard: [], lastEscPosPayload: '',
+  lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null, menu: [], tables: {}, historyLog: []
 };
 let audioCtx = null, toastTimer = null;
 
@@ -411,6 +406,32 @@ function unlockAudioOnce() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') audioCtx.resume();
   } catch (e) {}
+}
+
+function playKitchenBell() {
+  try {
+    unlockAudioOnce();
+    const now = audioCtx.currentTime;
+    [1318.5, 1046.5].forEach((freq, idx) => {
+      const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, now + idx * 0.22);
+      gain.gain.setValueAtTime(0.001, now + idx * 0.22);
+      gain.gain.exponentialRampToValueAtTime(0.9, now + idx * 0.22 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.22 + 0.55);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(now + idx * 0.22); osc.stop(now + idx * 0.22 + 0.6);
+    });
+  } catch (e) {}
+}
+
+async function enableKdsTabletMode() {
+  try {
+    unlockAudioOnce();
+    const btn = document.getElementById('btnKdsAudio');
+    if(btn) { btn.textContent = "✅ ATTIVO"; btn.classList.add('on'); }
+    playKitchenBell();
+  } catch (e) { playKitchenBell(); }
 }
 
 function makeTableObj(id, name, room) {
@@ -465,14 +486,11 @@ function tickLiveTimers() {
       const dEl = document.getElementById('delay_' + t.id);
       if (dEl) dEl.style.display = isTableDelayed(t) ? 'block' : 'none';
     });
-  } else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) {
-    const t = state.tables[state.activeTableId];
-    const hdrT = document.getElementById('activeOrderTimer');
-    if (hdrT && t && t.openedAt) {
-      const delayed = isTableDelayed(t);
-      hdrT.innerHTML = (delayed ? '🔴 RITARDO ' : '⏱️ ') + formatElapsed(now - t.openedAt);
-      hdrT.style.color = delayed ? '#DC2626' : 'var(--muted)';
-    }
+  } else if (document.getElementById('viewKds').classList.contains('active')) {
+    Object.values(state.tables).filter(t => t.items && t.items.length > 0).forEach(t => {
+      const kEl = document.getElementById('kds_timer_' + t.id);
+      if (kEl && t.openedAt) kEl.textContent = "⏱️ " + formatElapsed(now - t.openedAt);
+    });
   }
 }
 
@@ -487,7 +505,6 @@ async function initApp() {
       state.useRawBT = parsed.useRawBT || false;
       state.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
       state.waiterName = parsed.waiterName || 'Christian';
-      state.driveWebhook = parsed.driveWebhook || '';
       state.historyLog = parsed.historyLog || [];
     } else {
       state.menu = DEFAULT_MENU;
@@ -499,7 +516,6 @@ async function initApp() {
   }
   document.getElementById('chkRawbt').checked = state.useRawBT;
   document.getElementById('firebaseUrlInput').value = state.firebaseUrl;
-  document.getElementById('driveWebhookInput').value = state.driveWebhook;
   updateWaiterDisplay();
   updateRoomTabCounts();
   renderTables();
@@ -537,7 +553,7 @@ function saveLocalOnly() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
     menu: state.menu, tables: state.tables, tableCounts: state.tableCounts,
     useRawBT: state.useRawBT, firebaseUrl: state.firebaseUrl, waiterName: state.waiterName,
-    driveWebhook: state.driveWebhook, historyLog: state.historyLog
+    historyLog: state.historyLog
   }));
 }
 
@@ -580,6 +596,7 @@ async function pullFromCloud(isInitial) {
     updateDailyStats();
     if (document.getElementById('viewTables').classList.contains('active')) renderTables();
     else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) renderOrderScreen();
+    else if (document.getElementById('viewKds').classList.contains('active')) renderKds();
   } catch (e) { badge.textContent = "Loc"; }
 }
 
@@ -740,20 +757,29 @@ function clearSearch() { document.getElementById('menuSearch').value = ''; rende
 function renderCategories() {
   const bar = document.getElementById('catBar');
   bar.innerHTML = '';
+  let activeBtn = null;
   CATEGORIES.forEach(cat => {
     const b = document.createElement('button');
     const isAct = state.currentCategory === cat;
     b.className = `cat-btn ${isAct ? 'active' : ''}`;
     b.textContent = cat;
+    if (isAct) activeBtn = b;
     b.onclick = () => {
       state.currentCategory = cat;
       document.getElementById('menuSearch').value = '';
       if (cat === '1 Coperto' || cat === '2 Bevande') setMandata(0, false);
+      else if (state.currentMandata === 0) setMandata(1, false);
       renderCategories();
       renderMenuGrid();
     };
     bar.appendChild(b);
   });
+  if (activeBtn) {
+    requestAnimationFrame(() => {
+      const targetLeft = activeBtn.offsetLeft - (bar.clientWidth / 2) + (activeBtn.clientWidth / 2);
+      bar.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+    });
+  }
 }
 
 function renderMenuGrid() {
@@ -824,6 +850,34 @@ function renderOrderScreen() {
   });
 }
 
+function sendOrderToKitchen() {
+  const t = state.tables[state.activeTableId];
+  if (!t || !t.items || t.items.length === 0) { alert("Inserisci almeno un articolo."); return; }
+  t.firedMandate[1] = true;
+  playKitchenBell();
+  saveState(true);
+  alert("✅ Comanda inviata in cucina!");
+  closeTableView();
+}
+
+function renderKds() {
+  const container = document.getElementById('kdsContainer');
+  if (!container) return;
+  container.innerHTML = '';
+  const now = Date.now();
+  const activeTables = Object.values(state.tables).filter(t => t.items && t.items.length > 0);
+  if (activeTables.length === 0) {
+    container.innerHTML = '<div style="color:var(--muted); font-weight:700;">Nessuna comanda attiva in cucina.</div>';
+    return;
+  }
+  activeTables.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'kds-card';
+    card.innerHTML = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span id="kds_timer_${t.id}">⏱️ ${t.openedAt ? formatElapsed(now - t.openedAt) : '00:00'}</span></div>${t.items.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name}</div>`).join('')}`;
+    container.appendChild(card);
+  });
+}
+
 function splitBillPrompt() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) return;
@@ -835,12 +889,12 @@ function splitBillPrompt() {
 
 function showPreBill() {
   const t = state.tables[state.activeTableId];
-  if (!t || !t.items || t.items.length === 0) return;
-  const total = getTableTotal(t), ESC = "\x1B", GS = "\x1D";
+  if (!t || !t.items || !t.items.length) return;
+  const total = getTableTotal(t);
   let preview = `PRE-CONTO ${t.name.toUpperCase()}\n--------------------\n`;
   t.items.forEach(it => { preview += `${it.qty}x ${it.name} - EUR ${formatPrice(it.price * it.qty)}\n`; });
   preview += `--------------------\nTOTALE: EUR ${formatPrice(total)}\n`;
-  dispatchPrint(preview, ESC+"@"+preview+GS+"V\x42\x00");
+  dispatchPrint(preview, preview);
 }
 
 function dispatchPrint(preview, escpos) {
@@ -866,9 +920,8 @@ function freeCurrentTable() {
 
 function buildStyledDailyMenuHTML(dishes) {
   const todayStr = new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-  const logoSvg = document.getElementById('alicettaLogoSvg').innerHTML;
   const rows = dishes.map(d => `<div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed #FF5733;"><b style="color:#062329;">${d.name}</b><span style="color:#FF5733; font-weight:900;">€ ${formatPrice(d.price)}</span></div>`).join('');
-  return `<div style="font-family:'Plus Jakarta Sans',sans-serif; max-width:500px; margin:0 auto; border:4px solid #FF5733; border-radius:16px; background:#fff; padding:20px;"><div style="text-align:center; background:#1BE7FF; padding:15px; border-radius:12px; margin-bottom:15px;"><svg viewBox="0 0 220 72" style="width:160px;"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/></g><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-size="21" font-weight="800">ΛLICETTΛ</text></svg><h3 style="color:#FF5733; margin-top:6px;">MENÙ DEL GIORNO</h3><p style="font-size:0.8rem;">${todayStr}</p></div>${rows}</div>`;
+  return `<div style="font-family:'Plus Jakarta Sans',sans-serif; max-width:500px; margin:0 auto; border:4px solid #FF5733; border-radius:16px; background:#fff; padding:20px;"><div style="text-align:center; background:#1BE7FF; padding:15px; border-radius:12px; margin-bottom:15px;"><h3 style="color:#FF5733;">MENÙ DEL GIORNO</h3><p style="font-size:0.8rem;">${todayStr}</p></div>${rows}</div>`;
 }
 
 function exportDailyMenuWord() {
@@ -909,7 +962,7 @@ async function processChalkboardPhoto(event) {
   }
 }
 
-async function importOcrLinesToMenu() {
+function importOcrLinesToMenu() {
   const raw = document.getElementById('ocrResultBox').value.trim();
   if (!raw) return;
   raw.split('\n').forEach(line => {
@@ -919,11 +972,14 @@ async function importOcrLinesToMenu() {
     if (name) state.menu.push({ id: Date.now() + Math.random(), cat: '5 Secondi', name, price });
   });
   saveState(false); renderMenuMgr(); alert("✅ Piatti importati nel menù!");
-  if (state.driveWebhook && state.driveWebhook.startsWith('https://')) {
-    try {
-      fetch(state.driveWebhook, { method: 'POST', body: JSON.stringify({ fileName: 'Menu.html', html: buildStyledDailyMenuHTML([]) }) });
-    } catch(e){}
-  }
+}
+
+function selectReportPeriod(period) {
+  state.reportPeriod = period;
+  document.getElementById('repTabDaily').classList.toggle('active', period === 'daily');
+  document.getElementById('repTabMonthly').classList.toggle('active', period === 'monthly');
+  document.getElementById('repTabYearly').classList.toggle('active', period === 'yearly');
+  updateDailyStats();
 }
 
 function updateDailyStats() {
@@ -941,11 +997,22 @@ function printStatsReport() {
   dispatchPrint(text, text);
 }
 
+function resetCurrentEvening() {
+  if (confirm("Azzerare i tavoli chiusi della serata corrente?")) {
+    state.historyLog = []; saveState(false); updateDailyStats(); alert("Serata azzerata.");
+  }
+}
+
+function resetAllHistory() {
+  if (confirm("⚠️ ATTENZIONE: Vuoi cancellare TUTTO lo storico e resettare l'app?")) {
+    localStorage.clear(); location.reload();
+  }
+}
+
 function saveFirebaseUrl() {
   state.firebaseUrl = document.getElementById('firebaseUrlInput').value.trim();
   saveLocalOnly(); pullFromCloud(true); alert("Salvato!");
 }
-function saveDriveWebhook() { state.driveWebhook = document.getElementById('driveWebhookInput').value.trim(); saveLocalOnly(); }
 function toggleRawbtSetting() { state.useRawBT = document.getElementById('chkRawbt').checked; saveLocalOnly(); }
 
 function renderMenuMgr() {
@@ -961,7 +1028,6 @@ function renderMenuMgr() {
 }
 
 function formatPrice(num) { return Number(num).toFixed(2).replace('.', ','); }
-function renderKds() {}
 function openPagerModal() { document.getElementById('pagerModal').classList.add('active'); }
 function closePagerModal() { document.getElementById('pagerModal').classList.remove('active'); }
 function sendPagerCall(msg) { alert("Chiamata inviata: " + msg); closePagerModal(); }
