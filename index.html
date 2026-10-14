@@ -12,15 +12,16 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
 body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-select: none; overflow-x: hidden; }
-.topbar { position: sticky; top: 0; z-index: 50; background: rgba(46, 204, 113, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 6px 6px; display: flex; justify-content: space-between; align-items: center; gap: 3px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.topbar { position: sticky; top: 0; z-index: 50; background: rgba(46, 204, 113, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 6px 5px; display: flex; justify-content: space-between; align-items: center; gap: 3px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 .brand-group { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
-.brand-logo { display: flex; align-items: center; background: var(--logo-cyan); padding: 2px 5px; border-radius: 7px; border: 1.5px solid var(--logo-coral); }
-.brand-logo svg { height: 19px; width: auto; display: block; }
-.sync-badge { font-size: 0.54rem; font-weight: 800; padding: 2px 4px; border-radius: 4px; background: rgba(0,0,0,0.12); white-space: nowrap; color: #111; }
+.brand-logo { display: flex; align-items: center; background: var(--logo-cyan); padding: 2px 4px; border-radius: 7px; border: 1.5px solid var(--logo-coral); }
+.brand-logo svg { height: 18px; width: auto; display: block; }
+.sync-badge { font-size: 0.52rem; font-weight: 800; padding: 2px 3px; border-radius: 4px; background: rgba(0,0,0,0.12); color: #111; }
 .top-actions { display: flex; gap: 3px; align-items: center; flex-shrink: 1; min-width: 0; }
-.waiter-tag { font-size: 0.64rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 5px 6px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; cursor: pointer; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
-.btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 5px 6px; border-radius: 7px; font-size: 0.68rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
+.waiter-tag { font-size: 0.62rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 5px 5px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; cursor: pointer; overflow: hidden; text-overflow: ellipsis; max-width: 82px; }
+.btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 5px 6px; border-radius: 7px; font-size: 0.66rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
 .btn-top.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
+.btn-pager { background: #111827; color: #FBBF24; border: 1.5px solid #FBBF24; padding: 5px 6px; border-radius: 7px; font-size: 0.7rem; font-weight: 800; cursor: pointer; }
 .room-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 14px; }
 .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.86rem; font-weight: 700; text-align: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
 .room-tab.active { border-color: var(--logo-coral); color: #062329; background: var(--logo-cyan); font-weight: 800; }
@@ -46,9 +47,9 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
 .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; }
 .mandata-btn.active { border-color: var(--logo-coral); background: var(--logo-cyan); color: #062329; font-weight: 800; }
-.cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; }
+.cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; position: relative; }
 .cat-bar::-webkit-scrollbar { display: none; }
-.cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
+.cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; flex-shrink: 0; }
 .cat-btn.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); font-weight: 800; }
 .search-wrap { margin-bottom: 10px; position: relative; }
 .search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; }
@@ -81,9 +82,9 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .btn-bill { background: var(--logo-coral); color: #FFF; }
 .btn-close-table { background: var(--card); color: var(--text); border: 1px solid var(--border); flex: 0.5; }
 .form-control { padding: 10px; border-radius: 8px; background: #F9FAFB; color: var(--text); border: 1px solid var(--border); font-weight: 600; width: 100%; }
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
 .modal-overlay.active { display: flex; }
-.receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 8px; padding: 16px; font-family: "Courier New", monospace; max-height: 85vh; overflow-y: auto; }
+.receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 12px; padding: 16px; max-height: 85vh; overflow-y: auto; }
 .receipt-pre { white-space: pre-wrap; font-family: "Courier New", monospace; font-size: 0.85rem; line-height: 1.35; }
 .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
 .btn-modal { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; }
@@ -93,9 +94,16 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
 .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; color: var(--text); }
 .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
+
+/* Banner Notifica Comanda e Cercapersone */
+.order-toast { display: none; position: fixed; top: 52px; left: 10px; right: 10px; background: #111827; color: #FFF; border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 12px; z-index: 90; box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+.order-toast.active { display: block; animation: slideDown 0.25s ease-out; }
+@keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.pager-alert { background: var(--logo-coral); color: #fff; text-align: center; border: 3px solid #fff; animation: pulseAlert 0.8s infinite alternate; }
+@keyframes pulseAlert { from { transform: scale(0.98); } to { transform: scale(1.02); box-shadow: 0 0 30px #FF5733; } }
 </style>
 </head>
-<body>
+<body onclick="unlockAudioOnce()">
 
 <div class="topbar">
   <div class="brand-group">
@@ -119,10 +127,20 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   </div>
   <div class="top-actions">
     <div id="waiterDisplay" class="waiter-tag" onclick="logoutWaiter()">👤 --</div>
+    <button class="btn-pager" id="btnPager" onclick="openPagerModal()" style="display:none;" title="Cercapersone Camerieri">🔔</button>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
     <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
     <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;">Menù</button>
   </div>
+</div>
+
+<!-- NOTIFICA LIVE COMANDA APPENA INVIATA -->
+<div id="orderToast" class="order-toast">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+    <b id="toastTitle" style="color:var(--logo-cyan); font-size:0.9rem;">🔔 NUOVA COMANDA</b>
+    <button class="btn-note" style="padding:2px 7px;" onclick="closeOrderToast()">OK</button>
+  </div>
+  <div id="toastBody" style="font-size:0.8rem; line-height:1.35;"></div>
 </div>
 
 <div id="viewTables" class="screen active">
@@ -220,6 +238,37 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   </div>
 </div>
 
+<!-- MODALE INVIO CERCAPERSONE (SOLO CHRISTIAN) -->
+<div class="modal-overlay" id="pagerModal">
+  <div class="receipt-box" style="text-align:center;">
+    <h3 style="margin-bottom:8px; color:var(--logo-coral);">🔔 Cercapersone Sala</h3>
+    <p style="font-size:0.78rem; color:#4B5563; margin-bottom:10px;">Fai suonare e vibrare i telefoni dei camerieri:</p>
+    <select id="pagerTarget" class="form-control" style="margin-bottom:8px;">
+      <option value="TUTTI">📢 TUTTI I CAMERIERI</option>
+      <option value="Alice">👤 Solo Alice</option>
+      <option value="Serena">👤 Solo Serena</option>
+      <option value="Sala">👤 Solo Sala</option>
+    </select>
+    <div style="display:grid; gap:6px; margin-bottom:10px;">
+      <button class="btn-main btn-bill" onclick="sendPagerCall('🔥 Piatti pronti al Pass Cucina!')">🔥 Piatti pronti al Pass!</button>
+      <button class="btn-main btn-print" onclick="sendPagerCall('🏃 Vieni subito in Cucina!')">🏃 Vieni in Cucina!</button>
+      <button class="btn-main btn-print" onclick="sendPagerCall('💶 Serve supporto in Sala / Cassa!')">💶 Supporto in Sala/Cassa!</button>
+    </div>
+    <button class="btn-modal" style="background:#334155; color:#fff; width:100%;" onclick="closePagerModal()">Annulla</button>
+  </div>
+</div>
+
+<!-- MODALE ALLARME RICEZIONE CERCAPERSONE -->
+<div class="modal-overlay" id="incomingPageModal">
+  <div class="receipt-box pager-alert">
+    <div style="font-size:2rem; margin-bottom:6px;">🚨🔔🚨</div>
+    <h2 style="margin-bottom:6px;">CHIAMATA DA CHRISTIAN</h2>
+    <div id="incomingPageText" style="font-size:1.05rem; font-weight:800; margin:12px 0; background:rgba(0,0,0,0.25); padding:10px; border-radius:8px;"></div>
+    <button class="btn-main" style="background:#fff; color:#000; width:100%; font-size:1rem;" onclick="ackIncomingPage()">✅ RICEVUTO, ARRIVO!</button>
+  </div>
+</div>
+
+<!-- MODALE SCONTRINO -->
 <div class="modal-overlay" id="receiptModal">
   <div class="receipt-box">
     <div class="receipt-pre" id="receiptText"></div>
@@ -266,9 +315,16 @@ const STORAGE_KEY = 'alicetta_pos_v9';
 let state = {
   currentRoom: 'interna', activeTableId: null, currentMandata: 1, currentCategory: '1 Coperto',
   useRawBT: false, firebaseUrl: DEFAULT_FIREBASE_URL, waiterName: '', lastEscPosPayload: '',
-  lastAlertSignal: 0, menu: [], tables: {}, historyLog: []
+  lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null, menu: [], tables: {}, historyLog: []
 };
-let audioCtx = null;
+let audioCtx = null, toastTimer = null;
+
+function unlockAudioOnce() {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  } catch (e) {}
+}
 
 function buildDefaultTables() {
   const t = {};
@@ -302,6 +358,8 @@ async function initApp() {
     state.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
     state.waiterName = parsed.waiterName || '';
     state.lastAlertSignal = parsed.lastAlertSignal || 0;
+    state.lastOrderEvent = parsed.lastOrderEvent || null;
+    state.lastPagerEvent = parsed.lastPagerEvent || null;
     state.historyLog = parsed.historyLog || [];
   } else {
     state.menu = DEFAULT_MENU;
@@ -317,11 +375,11 @@ async function initApp() {
   updateDailyStats();
 
   await pullFromCloud(true);
-  setInterval(() => pullFromCloud(false), 1800);
+  setInterval(() => pullFromCloud(false), 1600);
 }
 
 function askWaiterName() {
-  const name = prompt("Inserisci il tuo nome (es. Christian o nome cameriere):", "Christian");
+  const name = prompt("Inserisci il tuo nome (es. Christian, Alice, Serena):", "Christian");
   state.waiterName = (name && name.trim()) ? name.trim() : "Staff";
   saveLocalOnly();
   updateWaiterDisplay();
@@ -338,18 +396,17 @@ function updateWaiterDisplay() {
   if (lbl) lbl.textContent = "👤 " + (state.waiterName || 'Staff');
   const badge = document.getElementById('currentWaiterBadge');
   if (badge) badge.textContent = state.waiterName || 'Staff';
-  const menuBtn = document.getElementById('navMenu');
-  if (menuBtn) {
-    const isOwner = state.waiterName.toLowerCase().trim() === 'christian';
-    menuBtn.style.display = isOwner ? 'block' : 'none';
-  }
+  const isOwner = state.waiterName.toLowerCase().trim() === 'christian';
+  document.getElementById('navMenu').style.display = isOwner ? 'block' : 'none';
+  document.getElementById('btnPager').style.display = isOwner ? 'block' : 'none';
 }
 
 function saveLocalOnly() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
     menu: state.menu, tables: state.tables, useRawBT: state.useRawBT,
     firebaseUrl: state.firebaseUrl, waiterName: state.waiterName,
-    historyLog: state.historyLog, lastAlertSignal: state.lastAlertSignal
+    historyLog: state.historyLog, lastAlertSignal: state.lastAlertSignal,
+    lastOrderEvent: state.lastOrderEvent, lastPagerEvent: state.lastPagerEvent
   }));
 }
 
@@ -368,7 +425,11 @@ async function pushToCloud() {
   try {
     const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json", {
       method: "PUT", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ updatedAt: Date.now(), lastAlertSignal: state.lastAlertSignal, tables: state.tables, menu: state.menu, historyLog: state.historyLog })
+      body: JSON.stringify({
+        updatedAt: Date.now(), lastAlertSignal: state.lastAlertSignal,
+        lastOrderEvent: state.lastOrderEvent, lastPagerEvent: state.lastPagerEvent,
+        tables: state.tables, menu: state.menu, historyLog: state.historyLog
+      })
     });
     badge.textContent = res.ok ? "LIVE" : "Err";
   } catch (e) { badge.textContent = "Off"; }
@@ -382,9 +443,33 @@ async function pullFromCloud(isInitial) {
     const data = await res.json();
     badge.textContent = "LIVE";
     if (!data) { if (isInitial) await pushToCloud(); return; }
+
+    // 1. Notifica Comanda Live a tutti i camerieri (Suono + Vibrazione + Popup)
+    if (data.lastOrderEvent && (!state.lastOrderEvent || data.lastOrderEvent.id > state.lastOrderEvent.id)) {
+      const wasInitial = isInitial && !state.lastOrderEvent;
+      state.lastOrderEvent = data.lastOrderEvent;
+      if (!wasInitial) {
+        playKitchenBell();
+        if (navigator.vibrate) try { navigator.vibrate([250, 100, 250]); } catch(e){}
+        showOrderToast(data.lastOrderEvent);
+      }
+    }
+
+    // 2. Cercapersone da Christian ai camerieri
+    if (data.lastPagerEvent && (!state.lastPagerEvent || data.lastPagerEvent.id > state.lastPagerEvent.id)) {
+      const wasInitialP = isInitial && !state.lastPagerEvent;
+      state.lastPagerEvent = data.lastPagerEvent;
+      if (!wasInitialP) {
+        const myName = (state.waiterName || '').toLowerCase().trim();
+        const target = (data.lastPagerEvent.target || 'TUTTI').toLowerCase().trim();
+        if (target === 'tutti' || target === myName) {
+          triggerIncomingPagerAlert(data.lastPagerEvent);
+        }
+      }
+    }
+
     if (data.lastAlertSignal && data.lastAlertSignal > state.lastAlertSignal) {
       state.lastAlertSignal = data.lastAlertSignal;
-      playKitchenBell();
     }
     if (data.tables) state.tables = normalizeTablesStructure(data.tables);
     if (data.menu && data.menu.length > 0) state.menu = data.menu;
@@ -397,6 +482,55 @@ async function pullFromCloud(isInitial) {
   } catch (e) { badge.textContent = "Loc"; }
 }
 
+function showOrderToast(ev) {
+  document.getElementById('toastTitle').textContent = `🔔 ${ev.title} (${ev.waiter})`;
+  document.getElementById('toastBody').innerHTML = ev.summary;
+  const t = document.getElementById('orderToast');
+  t.classList.add('active');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('active'), 8000);
+}
+function closeOrderToast() { document.getElementById('orderToast').classList.remove('active'); }
+
+function openPagerModal() { document.getElementById('pagerModal').classList.add('active'); }
+function closePagerModal() { document.getElementById('pagerModal').classList.remove('active'); }
+
+async function sendPagerCall(msg) {
+  const target = document.getElementById('pagerTarget').value;
+  state.lastPagerEvent = { id: Date.now(), target, msg, time: buildTimeStr() };
+  closePagerModal();
+  await saveState(false);
+  alert(`Chiamata inviata a: ${target}`);
+}
+
+function triggerIncomingPagerAlert(ev) {
+  playPagerSiren();
+  if (navigator.vibrate) try { navigator.vibrate([500, 150, 500, 150, 700]); } catch(e){}
+  document.getElementById('incomingPageText').textContent = `${ev.msg} (Per: ${ev.target})`;
+  document.getElementById('incomingPageModal').classList.add('active');
+}
+function ackIncomingPage() {
+  document.getElementById('incomingPageModal').classList.remove('active');
+  if (navigator.vibrate) try { navigator.vibrate(0); } catch(e){}
+}
+
+function playPagerSiren() {
+  try {
+    unlockAudioOnce();
+    const now = audioCtx.currentTime;
+    [1567.98, 1174.66, 1567.98, 1174.66, 1567.98].forEach((freq, idx) => {
+      const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(freq, now + idx * 0.18);
+      gain.gain.setValueAtTime(0.01, now + idx * 0.18);
+      gain.gain.exponentialRampToValueAtTime(0.8, now + idx * 0.18 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.18 + 0.16);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(now + idx * 0.18); osc.stop(now + idx * 0.18 + 0.17);
+    });
+  } catch (e) {}
+}
+
 function saveFirebaseUrl() {
   const val = document.getElementById('firebaseUrlInput').value.trim();
   if (!val.startsWith("https://")) { alert("URL non valido"); return; }
@@ -405,8 +539,7 @@ function saveFirebaseUrl() {
 
 async function enableKdsTabletMode() {
   try {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioCtx.state === 'suspended') await audioCtx.resume();
+    unlockAudioOnce();
     const btn = document.getElementById('btnKdsAudio');
     btn.textContent = "✅ ATTIVO"; btn.classList.add('on');
     playKitchenBell();
@@ -416,8 +549,7 @@ async function enableKdsTabletMode() {
 
 function playKitchenBell() {
   try {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
+    unlockAudioOnce();
     const now = audioCtx.currentTime;
     [1318.5, 1046.5].forEach((freq, idx) => {
       const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
@@ -528,10 +660,13 @@ function clearSearch() { document.getElementById('menuSearch').value = ''; rende
 function renderCategories() {
   const bar = document.getElementById('catBar');
   bar.innerHTML = '';
+  let activeBtn = null;
   CATEGORIES.forEach(cat => {
     const b = document.createElement('button');
-    b.className = `cat-btn ${state.currentCategory === cat ? 'active' : ''}`;
+    const isAct = state.currentCategory === cat;
+    b.className = `cat-btn ${isAct ? 'active' : ''}`;
     b.textContent = cat;
+    if (isAct) activeBtn = b;
     b.onclick = () => {
       state.currentCategory = cat;
       document.getElementById('menuSearch').value = '';
@@ -542,6 +677,13 @@ function renderCategories() {
     };
     bar.appendChild(b);
   });
+  // Scorrimento matematico automatico del tasto categoria attivo al centro della barra
+  if (activeBtn) {
+    requestAnimationFrame(() => {
+      const targetLeft = activeBtn.offsetLeft - (bar.clientWidth / 2) + (activeBtn.clientWidth / 2);
+      bar.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+    });
+  }
 }
 
 function renderMenuGrid() {
@@ -650,6 +792,19 @@ function sendOrderToKitchen() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) { alert("Inserisci almeno un articolo."); return; }
   t.sentOnce = true; t.firedMandate[1] = true;
+
+  // Costruisce l'avviso live per tutti i camerieri
+  const dishesList = t.items.filter(i => i.name !== 'Pane e Coperto').map(i => `<b>${i.qty}x</b> ${i.name}`).join(', ');
+  state.lastOrderEvent = {
+    id: Date.now(),
+    title: `COMANDA ${t.name.toUpperCase()}`,
+    waiter: state.waiterName || 'Staff',
+    summary: dishesList || 'Solo Coperti'
+  };
+  playKitchenBell();
+  if (navigator.vibrate) try { navigator.vibrate([250, 100, 250]); } catch(e){}
+  showOrderToast(state.lastOrderEvent);
+
   saveState(true); renderOrderScreen();
   const timeStr = buildTimeStr(), ESC = "\x1B", GS = "\x1D";
   let preview = `==========================================\n   ALICETTA TRATTORIA - ${t.name.toUpperCase()}\n   Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n==========================================\n\n`;
@@ -680,6 +835,17 @@ function fireMandataTicket(mandataNum) {
   const list = t.items.filter(i => i.mandata === mandataNum);
   if (list.length === 0) return;
   t.firedMandate[mandataNum] = true; t.doneMandate[mandataNum] = false;
+
+  state.lastOrderEvent = {
+    id: Date.now(),
+    title: `🔥 VIA ${mandataNum}ª MANDATA - ${t.name.toUpperCase()}`,
+    waiter: state.waiterName || 'Staff',
+    summary: list.map(i => `<b>${i.qty}x</b> ${i.name}`).join(', ')
+  };
+  playKitchenBell();
+  if (navigator.vibrate) try { navigator.vibrate([250, 100, 250]); } catch(e){}
+  showOrderToast(state.lastOrderEvent);
+
   saveState(true); renderOrderScreen();
   const timeStr = buildTimeStr(), ESC = "\x1B", GS = "\x1D";
   let preview = `******************************************\n   🔥 VIA ${mandataNum}a MANDATA! (${t.name.toUpperCase()})\n   Ore ${timeStr}\n******************************************\n\n`;
