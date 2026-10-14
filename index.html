@@ -7,134 +7,132 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #18191A;           /* Sfondo grigio carbonio */
-    --bg-deep: #121213;      
-    --card: #242526;         
-    --card-hover: #3A3B3C;
-    --text: #FFFFFF;
-    --muted: #B0B3B8;
-    --accent: #00C8E5;       
-    --logo-blue: #00B8D4;    
-    --gold: #F5B700;         
-    --coral: #FF9164;        /* Vibrant Coral per i tasti/tavoli liberi */
-    --dusty-blue: #899BAE;   /* Dusty Blue per i tavoli occupati */
+    --bg: #E8F4F1;           /* Verde pastello tenue */
+    --bg-deep: #D0EBE5;      
+    --card: #FFFFFF;         
+    --card-hover: #F2F9F7;
+    --text: #1F2937;
+    --muted: #4B5563;
+    --logo-blue: #00B8D4;    /* Turchese del logo per tavoli liberi */
+    --logo-gold: #9E6518;    /* Marrone/Oro del pesce per tavoli occupati */
+    --gold: #D97706;         
     --free: #10B981;
     --busy: #F59E0B;
-    --border: rgba(255, 255, 255, 0.15);
+    --border: rgba(0, 0, 0, 0.12);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
   body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-select: none; }
   
-  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(24, 25, 26, 0.98); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(232, 244, 241, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
   
-  .brand-group { display: flex; align-items: center; gap: 6px; }
-  .brand-logo { display: flex; align-items: center; background: var(--logo-blue); padding: 4px 8px; border-radius: 8px; border: 1.5px solid #8D5B1C; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
-  .brand-logo svg { height: 28px; width: auto; display: block; }
-  .sync-badge { font-size: 0.65rem; font-weight: 800; padding: 3px 6px; border-radius: 6px; background: rgba(255,255,255,0.1); white-space: nowrap; }
+  .brand-group { display: flex; align-items: center; gap: 4px; }
+  .brand-logo { display: flex; align-items: center; background: var(--logo-blue); padding: 3px 6px; border-radius: 8px; border: 1.5px solid #8D5B1C; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+  .brand-logo svg { height: 24px; width: auto; display: block; }
+  .sync-badge { font-size: 0.58rem; font-weight: 800; padding: 2px 4px; border-radius: 4px; background: rgba(0,0,0,0.1); white-space: nowrap; color: #1F2937; }
 
-  .top-actions { display: flex; gap: 5px; align-items: center; }
-  .waiter-tag { font-size: 0.72rem; font-weight: 700; color: var(--gold); background: rgba(245, 183, 0, 0.12); padding: 5px 7px; border-radius: 6px; border: 1px solid rgba(245, 183, 0, 0.3); white-space: nowrap; cursor: pointer; }
-  .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 7px 9px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
-  .btn-top.active { background: var(--accent); color: #062329; border-color: #fff; font-weight: 800; }
+  .top-actions { display: flex; gap: 4px; align-items: center; }
+  .waiter-tag { font-size: 0.68rem; font-weight: 700; color: #7A4B12; background: rgba(158, 101, 24, 0.15); padding: 4px 6px; border-radius: 6px; border: 1px solid rgba(158, 101, 24, 0.3); white-space: nowrap; cursor: pointer; }
+  .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 6px 8px; border-radius: 8px; font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .btn-top.active { background: var(--logo-blue); color: #062329; border-color: #8D5B1C; font-weight: 800; }
 
   .room-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 14px; }
-  .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.88rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
-  .room-tab.active { border-color: #fff; color: #062329; background: var(--coral); font-weight: 800; }
+  .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.88rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+  .room-tab.active { border-color: #8D5B1C; color: #062329; background: var(--logo-blue); font-weight: 800; }
 
   .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
-  .table-card { background: var(--coral); border: 2px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.25); color: #222; }
+  .table-card { background: var(--logo-blue); border: 2px solid #8D5B1C; border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; }
   .table-card:active { transform: scale(0.95); }
   
-  /* Tavolo Occupato Dusty Blue */
+  /* Tavolo Occupato con i colori del pesce e della scritta Alicetta */
   .table-card.busy {
-    background: var(--dusty-blue);
-    border-color: #FFFFFF;
-    color: #062329;
-    box-shadow: 0 5px 15px rgba(137, 155, 174, 0.45);
+    background: var(--logo-gold);
+    border-color: #3D2306;
+    color: #FFFFFF;
+    box-shadow: 0 5px 15px rgba(158, 101, 24, 0.35);
   }
   .table-name { font-size: 1.05rem; font-weight: 800; }
-  .table-card.busy .table-name { color: #062329; }
+  .table-card.busy .table-name { color: #FFFFFF; }
   .table-status { font-size: 0.75rem; font-weight: 700; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
-  .status-free { color: #fff; background: rgba(0,0,0,0.3); }
-  .status-busy { color: #062329; background: #fbbf24; }
-  .table-total { font-size: 0.95rem; font-weight: 800; color: #062329; margin-top: 6px; }
+  .status-free { color: #062329; background: rgba(255,255,255,0.5); }
+  .status-busy { color: #FFFFFF; background: #3D2306; }
+  .table-total { font-size: 0.95rem; font-weight: 800; color: #FFFFFF; margin-top: 6px; }
   .course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
   .dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 800; }
-  .dot.sent { background: #059669; color: #ffffff; }
-  .dot.wait { background: #222; color: #ffffff; }
+  .dot.sent { background: #10B981; color: #ffffff; }
+  .dot.wait { background: #3D2306; color: #ffffff; }
   .dot.done { background: #062329; color: #34d399; }
 
   .screen { display: none; padding: 12px 14px; }
   .screen.active { display: block; }
-  .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
-  .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+  .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+  .btn-back { background: var(--bg-deep); color: var(--text); border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
   .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
   .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; }
-  .mandata-btn.active { border-color: #fff; background: var(--coral); color: #062329; font-weight: 800; }
+  .mandata-btn.active { border-color: #8D5B1C; background: var(--logo-blue); color: #062329; font-weight: 800; }
 
   .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; }
   .cat-bar::-webkit-scrollbar { display: none; }
   .cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
-  .cat-btn.active { background: var(--coral); color: #062329; border-color: #fff; font-weight: 800; }
+  .cat-btn.active { background: var(--logo-blue); color: #062329; border-color: #8D5B1C; font-weight: 800; }
 
   .search-wrap { margin-bottom: 10px; position: relative; }
-  .search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; }
-  .search-input::placeholder { color: rgba(255,255,255,0.5); }
-  .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+  .search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .search-input::placeholder { color: #9CA3AF; }
+  .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--muted); font-size: 1.1rem; font-weight: 800; cursor: pointer; }
 
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
-  .menu-item { background: var(--coral); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.2); color: #062329; transition: transform 0.12s; }
+  .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06); color: var(--text); transition: transform 0.12s; }
   .menu-item:active { transform: scale(0.97); }
-  .tap-badge { position: absolute; top: 6px; right: 6px; background: var(--gold); color: #062329; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; }
+  .tap-badge { position: absolute; top: 6px; right: 6px; background: var(--logo-gold); color: #fff; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; }
   @keyframes badgeFloatUp {
     0%   { opacity: 1; transform: translateY(4px) scale(0.8); }
     100% { opacity: 0; transform: translateY(-12px) scale(1); }
   }
 
   .item-name { font-weight: 800; font-size: 0.84rem; line-height: 1.22; word-break: break-word; }
-  .item-price { color: #062329; font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
+  .item-price { color: var(--logo-gold); font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
 
-  .fire-box { background: var(--card); border: 2px solid var(--coral); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
-  .fire-title { font-size: 0.8rem; font-weight: 700; color: var(--coral); margin-bottom: 8px; text-transform: uppercase; }
+  .fire-box { background: var(--card); border: 2px solid var(--logo-gold); border-radius: 12px; padding: 10px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+  .fire-title { font-size: 0.8rem; font-weight: 700; color: var(--logo-gold); margin-bottom: 8px; text-transform: uppercase; }
   .fire-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn-fire { flex: 1; background: var(--coral); color: #062329; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
-  .btn-fire.fired { background: #34d399; color: #052e16; }
+  .btn-fire { flex: 1; background: var(--logo-gold); color: #FFF; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
+  .btn-fire.fired { background: #10B981; color: #fff; }
 
-  .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
+  .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
   .mandata-group { margin-bottom: 14px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
   .mandata-group:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
-  .mandata-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 800; color: var(--gold); margin-bottom: 6px; text-transform: uppercase; }
+  .mandata-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 800; color: var(--logo-gold); margin-bottom: 6px; text-transform: uppercase; }
   .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.88rem; gap: 6px; }
   .cart-info { flex: 1; }
-  .cart-note { font-size: 0.76rem; color: var(--gold); font-style: italic; display: block; font-weight: 600; }
+  .cart-note { font-size: 0.76rem; color: var(--logo-gold); font-style: italic; display: block; font-weight: 600; }
   .cart-controls { display: flex; align-items: center; gap: 5px; }
-  .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--coral); color: #062329; font-weight: 900; cursor: pointer; }
-  .btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--bg-deep); color: #fff; border: 1px solid var(--border); cursor: pointer; font-weight: 700; }
+  .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: var(--text); font-weight: 900; cursor: pointer; }
+  .btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--logo-blue); color: #062329; border: 1px solid #8D5B1C; cursor: pointer; font-weight: 700; }
 
-  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(24, 25, 26, 0.98); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.3); }
+  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(232, 244, 241, 0.98); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.08); }
   .btn-main { flex: 1; padding: 13px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.92rem; cursor: pointer; text-align: center; }
-  .btn-print { background: var(--coral); color: #062329; }
-  .btn-bill { background: var(--dusty-blue); color: #062329; }
-  .btn-close-table { background: var(--card); color: #fff; border: 1px solid var(--border); flex: 0.5; }
+  .btn-print { background: var(--logo-blue); color: #062329; border: 1px solid #8D5B1C; }
+  .btn-bill { background: var(--logo-gold); color: #FFF; }
+  .btn-close-table { background: var(--card); color: var(--text); border: 1px solid var(--border); flex: 0.5; }
 
-  .form-control { padding: 10px; border-radius: 8px; background: var(--bg-deep); color: #fff; border: 1px solid var(--border); font-weight: 600; width: 100%; }
-  .form-control::placeholder { color: rgba(255,255,255,0.5); }
+  .form-control { padding: 10px; border-radius: 8px; background: #F9FAFB; color: var(--text); border: 1px solid var(--border); font-weight: 600; width: 100%; }
+  .form-control::placeholder { color: #9CA3AF; }
 
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
   .modal-overlay.active { display: flex; }
-  .receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 8px; padding: 16px; font-family: "Courier New", Courier, monospace; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-height: 85vh; overflow-y: auto; }
+  .receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 8px; padding: 16px; font-family: "Courier New", Courier, monospace; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-height: 85vh; overflow-y: auto; }
   .receipt-pre { white-space: pre-wrap; font-family: "Courier New", Courier, monospace; font-size: 0.85rem; line-height: 1.35; }
   .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
   .btn-modal { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; }
 
-  .kds-Banner { background: var(--card); border: 2px solid var(--coral); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .btn-kds-audio { background: var(--coral); color: #062329; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 900; font-size: 0.85rem; cursor: pointer; }
-  .btn-kds-audio.on { background: #34d399; color: #052e16; }
+  .kds-Banner { background: var(--card); border: 2px solid var(--logo-gold); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+  .btn-kds-audio { background: var(--logo-gold); color: #FFF; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
+  .btn-kds-audio.on { background: #10B981; color: #fff; }
   .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
-  .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); }
-  .kds-card.urgent { border-color: var(--coral); }
-  .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #34d399; color: #052e16; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
+  .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); color: var(--text); }
+  .kds-card.urgent { border-color: var(--logo-gold); }
+  .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -161,13 +159,13 @@
         <text x="110" y="69" text-anchor="middle" fill="#7A4B12" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text>
       </svg>
     </div>
-    <div id="syncIndicator" class="sync-badge">🟡 LIVE...</div>
+    <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
     <div id="waiterDisplay" class="waiter-tag" onclick="changeWaiter()" title="Tocca per cambiare cameriere">👤 --</div>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
     <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
-    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')">Menù</button>
+    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;">Menù</button>
   </div>
 </div>
 
@@ -187,7 +185,7 @@
       <div id="activeTableName" style="font-weight:800; font-size:1.1rem;">Tavolo 1</div>
       <div id="activeTableSub" style="font-size:0.75rem; color:var(--muted);">Sala Interna</div>
     </div>
-    <div id="activeTableTotal" style="font-weight:800; color:var(--gold); font-size:1.1rem;">€ 0,00</div>
+    <div id="activeTableTotal" style="font-weight:800; color:var(--logo-gold); font-size:1.1rem;">€ 0,00</div>
   </div>
 
   <div id="fireBox" class="fire-box" style="display:none;">
@@ -241,13 +239,13 @@
 
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">👤 Cameriere: <span id="currentWaiterBadge" style="color:var(--gold);">--</span></h3>
+    <h3 style="margin-bottom:8px;">👤 Cameriere: <span id="currentWaiterBadge" style="color:var(--logo-gold);">--</span></h3>
     <button class="btn-note" onclick="changeWaiter()">Cambia Nome</button>
   </div>
 
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">📊 Registro Storico di Fine Serata</h3>
-    <div id="dailyStats" style="font-size:0.85rem; color:var(--muted); line-height:1.4;">Caricamento statistiche...</div>
+    <div id="dailyStats" style="font-size:0.85rem; color:var(--muted); line-height:1.4;">Caricamento...</div>
   </div>
 
   <div class="cart-section">
@@ -267,7 +265,10 @@
   </div>
 
   <div class="cart-section">
-    <h3 style="margin-bottom:10px;">📋 Catalogo (68 voci)</h3>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h3>📋 Catalogo (68 voci)</h3>
+      <button class="btn-note" onclick="resetMenuToSumUp()">🔄 Ripristina</button>
+    </div>
     <div id="menuMgrList"></div>
   </div>
 </div>
@@ -370,7 +371,7 @@ const DEFAULT_MENU = [
   { id: 604, cat: "6 Desserts", name: "Zaffermisù - tiramisù alla ricotta di pecora", price: 7.00 }
 ];
 
-const STORAGE_KEY = 'alicetta_pos_v7';
+const STORAGE_KEY = 'alicetta_pos_v8';
 
 let state = {
   currentRoom: 'interna',
@@ -452,7 +453,7 @@ async function initApp() {
 }
 
 function askWaiterName() {
-  const name = prompt("Inserisci il nome del cameriere (es. Christian, Alice, Mario):", "Cameriere");
+  const name = prompt("Inserisci il tuo nome (es. Christian o nome cameriere):", "Cameriere");
   if (name && name.trim()) {
     state.waiterName = name.trim();
     saveLocalOnly();
@@ -473,6 +474,13 @@ function updateWaiterDisplay() {
   if (lbl) lbl.textContent = "👤 " + state.waiterName;
   const badge = document.getElementById('currentWaiterBadge');
   if (badge) badge.textContent = state.waiterName;
+
+  // Mostra il tasto Menù (Impostazioni) SOLO se il nome è Christian (o il titolare)
+  const menuBtn = document.getElementById('navMenu');
+  if (menuBtn) {
+    const isOwner = state.waiterName.toLowerCase().trim() === 'christian';
+    menuBtn.style.display = isOwner ? 'block' : 'none';
+  }
 }
 
 function saveLocalOnly() {
@@ -514,12 +522,12 @@ async function pushToCloud() {
       })
     });
     if (res.ok) {
-      badge.textContent = "🟢 LIVE";
+      badge.textContent = "LIVE";
     } else {
-      badge.textContent = "🔴 Errore";
+      badge.textContent = "Err";
     }
   } catch (e) {
-    badge.textContent = "🟠 Offline";
+    badge.textContent = "Off";
   }
 }
 
@@ -528,11 +536,11 @@ async function pullFromCloud(isInitial) {
   try {
     const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json");
     if (!res.ok) {
-      badge.textContent = "🔴 DB";
+      badge.textContent = "DB";
       return;
     }
     const data = await res.json();
-    badge.textContent = "🟢 LIVE";
+    badge.textContent = "LIVE";
 
     if (!data) {
       if (isInitial) await pushToCloud();
@@ -564,14 +572,14 @@ async function pullFromCloud(isInitial) {
       renderOrderScreen();
     }
   } catch (e) {
-    badge.textContent = "🟠 Locale";
+    badge.textContent = "Loc";
   }
 }
 
 function saveFirebaseUrl() {
   const val = document.getElementById('firebaseUrlInput').value.trim();
   if (!val.startsWith("https://")) {
-    alert("Inserisci URL valido");
+    alert("URL non valido");
     return;
   }
   state.firebaseUrl = val;
@@ -686,7 +694,7 @@ function renderTables() {
             ${busy ? 'Occupato' : 'Libero'}
           </span>
         </div>
-        ${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.72rem; opacity:0.7; margin-top:6px;">Tocca per aprire</div>`}
+        ${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.7; margin-top:6px;">Tocca per aprire</div>`}
         <div class="course-dots">${dotsHtml}</div>
       `;
       container.appendChild(card);
@@ -898,32 +906,6 @@ function splitBillPrompt() {
   alert(`Totale Tavolo: € ${formatPrice(total)}\nNumero Persone: ${people}\nQuota pro-capite: € ${formatPrice(share)}`);
 }
 
-function moveOrMergeTable() {
-  const currentT = state.tables[state.activeTableId];
-  if (!currentT || !currentT.items || currentT.items.length === 0) { alert("Tavolo vuoto."); return; }
-  const targetName = prompt("Inserisci il nome o numero del tavolo di destinazione (es. Tavolo 5 o Esterno 2):");
-  if (!targetName || !targetName.trim()) return;
-
-  const targetKey = Object.keys(state.tables).find(k => state.tables[k].name.toLowerCase() === targetName.trim().toLowerCase());
-  if (!targetKey) {
-    alert("Tavolo di destinazione non trovato.");
-    return;
-  }
-  const targetT = state.tables[targetKey];
-  if (targetT.id === currentT.id) return;
-
-  if (confirm(`Vuoi spostare/unire tutti i piatti da ${currentT.name} a ${targetT.name}?`)) {
-    targetT.items = targetT.items.concat(currentT.items);
-    currentT.items = [];
-    currentT.firedMandate = { 1: false, 2: false, 3: false, 4: false };
-    currentT.doneMandate = { 1: false, 2: false, 3: false, 4: false };
-    currentT.sentOnce = false;
-    saveState(false);
-    closeTableView();
-    alert("Operazione completata!");
-  }
-}
-
 function buildTimeStr() {
   const now = new Date();
   return now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
@@ -1061,7 +1043,6 @@ function freeCurrentTable() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) { closeTableView(); return; }
   if (confirm(`Liberare ${t.name}?`)) {
-    // Registra nel registro storico di fine serata
     const total = getTableTotal(t);
     const copertiCount = t.items.filter(i => i.name === 'Pane e Coperto').reduce((s, c) => s + c.qty, 0);
     if (!state.historyLog) state.historyLog = [];
@@ -1133,16 +1114,16 @@ function renderKds() {
   activeTables.forEach(t => {
     const card = document.createElement('div');
     card.className = `kds-card`;
-    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--gold);">${t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto'}</span></div>`;
+    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--logo-gold);">${t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto'}</span></div>`;
 
     [0, 1, 2, 3, 4].forEach(m => {
       const mItems = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
       if (mItems.length === 0) return;
       const isDone = t.doneMandate && t.doneMandate[m];
       const isFired = (m === 0 || m === 1 || (t.firedMandate && t.firedMandate[m]));
-      const statusBadge = isDone ? `<span style="color:#a7f3d0;">SERVITA</span>` : isFired ? `<span style="color:#34d399;">MARCIARE</span>` : `<span style="color:var(--gold);">ATTESA</span>`;
+      const statusBadge = isDone ? `<span style="color:#10B981;">SERVITA</span>` : isFired ? `<span style="color:#10B981;">MARCIARE</span>` : `<span style="color:var(--logo-gold);">ATTESA</span>`;
 
-      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.15); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}">
+      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}">
         <div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${m === 0 ? 'SUBITO' : m + 'ª MANDATA'}</b> ${statusBadge}</div>
         ${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter || 'Staff'})</span></div>`).join('')}
         ${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}
@@ -1171,7 +1152,7 @@ function renderMenuMgr() {
     const row = document.createElement('div');
     row.className = 'cart-row';
     row.style.borderBottom = '1px solid var(--border)';
-    row.innerHTML = `<div style="flex:1; font-size:0.85rem;">${item.name} — <span style="color:var(--gold);">${formatPrice(item.price)}€</span></div>`;
+    row.innerHTML = `<div style="flex:1; font-size:0.85rem;">${item.name} — <span style="color:var(--logo-gold);">${formatPrice(item.price)}€</span></div>`;
     list.appendChild(row);
   });
 }
