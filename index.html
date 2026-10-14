@@ -7,15 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #18191A;           /* Sfondo grigio scuro effetto carbonio opaco */
-    --bg-deep: #121213;      /* Grigio profondo per barre */
-    --card: #242526;         /* Card grigio scuro */
+    --bg: #18191A;
+    --bg-deep: #121213;
+    --card: #242526;
     --card-hover: #3A3B3C;
     --text: #FFFFFF;
     --muted: #B0B3B8;
-    --accent: #00C8E5;       /* Turchese acceso */
-    --logo-blue: #00B8D4;    /* Azzurro Logo Alicetta */
-    --gold: #F5B700;         /* Oro Alicetta */
+    --accent: #00C8E5;
+    --logo-blue: #00B8D4;
+    --gold: #F5B700;
     --free: #10B981;
     --busy: #F59E0B;
     --border: rgba(255, 255, 255, 0.15);
@@ -23,38 +23,28 @@
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
   body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-select: none; }
   
-  /* Top Navigation */
-  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(24, 25, 26, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(24, 25, 26, 0.98); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
   
-  /* Logo Alicetta Trattoria */
-  .brand-wrap { display: flex; align-items: center; gap: 6px; }
-  .brand-logo { display: flex; align-items: center; background: var(--logo-blue); padding: 5px 10px; border-radius: 10px; border: 1.5px solid #8D5B1C; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
-  .brand-logo svg { height: 32px; width: auto; display: block; }
-  .sync-badge { font-size: 0.68rem; font-weight: 800; padding: 3px 6px; border-radius: 6px; background: rgba(255,255,255,0.1); white-space: nowrap; }
+  .brand-group { display: flex; align-items: center; gap: 6px; }
+  .brand-logo { display: flex; align-items: center; background: var(--logo-blue); padding: 4px 8px; border-radius: 8px; border: 1.5px solid #8D5B1C; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+  .brand-logo svg { height: 28px; width: auto; display: block; }
+  .sync-badge { font-size: 0.65rem; font-weight: 800; padding: 3px 6px; border-radius: 6px; background: rgba(255,255,255,0.1); white-space: nowrap; }
 
-  .top-actions { display: flex; gap: 6px; align-items: center; }
-  .waiter-tag { font-size: 0.75rem; font-weight: 700; color: var(--gold); background: rgba(245, 183, 0, 0.12); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(245, 183, 0, 0.3); }
-  .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 8px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+  .top-actions { display: flex; gap: 5px; align-items: center; }
+  .waiter-tag { font-size: 0.72rem; font-weight: 700; color: var(--gold); background: rgba(245, 183, 0, 0.12); padding: 5px 7px; border-radius: 6px; border: 1px solid rgba(245, 183, 0, 0.3); white-space: nowrap; cursor: pointer; }
+  .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 7px 9px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
   .btn-top.active { background: var(--accent); color: #062329; border-color: #fff; font-weight: 800; }
 
-  /* Room Switcher */
   .room-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 14px; }
   .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 12px; border-radius: 12px; font-size: 0.98rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
   .room-tab.active { border-color: #fff; color: #062329; background: var(--accent); font-weight: 800; }
 
-  /* Tables Grid */
   .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
   .table-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s, background 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.25); }
   .table-card:active { transform: scale(0.95); }
   .table-card.free { border-color: rgba(255, 255, 255, 0.2); }
   
-  /* Tavolo Occupato Azzurro Logo Alicetta */
-  .table-card.busy {
-    background: var(--logo-blue);
-    border-color: #FFFFFF;
-    color: #062329;
-    box-shadow: 0 5px 15px rgba(0, 184, 212, 0.4);
-  }
+  .table-card.busy { background: var(--logo-blue); border-color: #FFFFFF; color: #062329; box-shadow: 0 5px 15px rgba(0, 184, 212, 0.4); }
   .table-name { font-size: 1.05rem; font-weight: 800; }
   .table-card.busy .table-name { color: #062329; }
   .table-status { font-size: 0.75rem; font-weight: 700; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
@@ -68,30 +58,25 @@
   .dot.wait { background: #3A3B3C; color: #ffffff; }
   .dot.done { background: #062329; color: #34d399; }
 
-  /* Order Screen */
   .screen { display: none; padding: 12px 14px; }
   .screen.active { display: block; }
   .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
   .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
-  /* Mandata Selector */
   .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
   .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; }
   .mandata-btn.active { border-color: #fff; background: var(--accent); color: #062329; font-weight: 800; }
 
-  /* Category Tabs */
   .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; }
   .cat-bar::-webkit-scrollbar { display: none; }
   .cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
   .cat-btn.active { background: #fff; color: var(--card); border-color: #fff; font-weight: 800; }
 
-  /* Search input */
   .search-wrap { margin-bottom: 10px; position: relative; }
   .search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; }
   .search-input::placeholder { color: rgba(255,255,255,0.5); }
   .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
 
-  /* Menu Items Grid & Tap Animation */
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
   .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.2); transition: transform 0.12s, background-color 0.15s, border-color 0.15s; }
   
@@ -101,9 +86,7 @@
     100% { transform: scale(1); background-color: var(--card); }
   }
   .menu-item.tap-anim { animation: dishTapPulse 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
-  .tap-badge {
-    position: absolute; top: 6px; right: 6px; background: var(--gold); color: #062329; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  }
+  .tap-badge { position: absolute; top: 6px; right: 6px; background: var(--gold); color: #062329; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
   @keyframes badgeFloatUp {
     0%   { opacity: 1; transform: translateY(4px) scale(0.8); }
     50%  { opacity: 1; transform: translateY(-4px) scale(1.1); }
@@ -113,14 +96,12 @@
   .item-name { font-weight: 700; font-size: 0.84rem; line-height: 1.22; word-break: break-word; }
   .item-price { color: var(--gold); font-weight: 800; font-size: 0.84rem; margin-top: 8px; }
 
-  /* Fire / Via Quick Buttons */
   .fire-box { background: #2A2B2D; border: 2px solid var(--gold); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
   .fire-title { font-size: 0.8rem; font-weight: 700; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; }
   .fire-actions { display: flex; gap: 8px; flex-wrap: wrap; }
   .btn-fire { flex: 1; background: var(--gold); color: #291502; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
   .btn-fire.fired { background: #34d399; color: #052e16; }
 
-  /* Cart / Comanda List */
   .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
   .mandata-group { margin-bottom: 14px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
   .mandata-group:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
@@ -132,18 +113,15 @@
   .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 800; cursor: pointer; }
   .btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--bg-deep); color: #fff; border: 1px solid var(--border); cursor: pointer; font-weight: 700; }
 
-  /* Bottom Bar */
   .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(24, 25, 26, 0.98); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.3); }
   .btn-main { flex: 1; padding: 13px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.92rem; cursor: pointer; text-align: center; }
   .btn-print { background: var(--accent); color: #062329; }
   .btn-bill { background: #fff; color: var(--card); }
   .btn-close-table { background: var(--card); color: #fff; border: 1px solid var(--border); flex: 0.5; }
 
-  /* Form controls in Menu Mgr */
   .form-control { padding: 10px; border-radius: 8px; background: var(--bg-deep); color: #fff; border: 1px solid var(--border); font-weight: 600; width: 100%; }
   .form-control::placeholder { color: rgba(255,255,255,0.5); }
 
-  /* Receipt Modal */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
   .modal-overlay.active { display: flex; }
   .receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 8px; padding: 16px; font-family: "Courier New", Courier, monospace; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-height: 85vh; overflow-y: auto; }
@@ -151,7 +129,6 @@
   .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
   .btn-modal { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; }
 
-  /* KDS View */
   .kds-Banner { background: var(--card); border: 2px solid var(--gold); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
   .btn-kds-audio { background: var(--gold); color: #291502; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
   .btn-kds-audio.on { background: #34d399; color: #052e16; }
@@ -163,9 +140,8 @@
 </head>
 <body>
 
-<!-- TOPBAR CON LOGO ALICETTA TRATTORIA E CAMeriere -->
 <div class="topbar">
-  <div class="brand-wrap">
+  <div class="brand-group">
     <div class="brand-logo" title="Alicetta Trattoria">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
         <g stroke="#7A4B12" stroke-width="2.2" fill="#9E6518" stroke-linejoin="round">
@@ -186,17 +162,16 @@
         <text x="110" y="69" text-anchor="middle" fill="#7A4B12" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text>
       </svg>
     </div>
-    <div id="syncIndicator" class="sync-badge">🟡 Connessione...</div>
+    <div id="syncIndicator" class="sync-badge">🟡 LIVE...</div>
   </div>
   <div class="top-actions">
     <div id="waiterDisplay" class="waiter-tag" onclick="changeWaiter()" title="Tocca per cambiare cameriere">👤 --</div>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
-    <button class="btn-top" id="navKds" onclick="switchMainView('kds')">🖥️ KDS</button>
-    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')">⚙️ Menù</button>
+    <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
+    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')">Menù</button>
   </div>
 </div>
 
-<!-- VISTA 1: MAPPA TAVOLI -->
 <div id="viewTables" class="screen active">
   <div class="room-tabs">
     <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">❄️ Sala Interna (11)</div>
@@ -205,7 +180,6 @@
   <div class="tables-grid" id="tablesContainer"></div>
 </div>
 
-<!-- VISTA 2: COMANDA TAVOLO -->
 <div id="viewOrder" class="screen">
   <div class="order-header">
     <button class="btn-back" onclick="closeTableView()">← Tavoli</button>
@@ -217,7 +191,7 @@
   </div>
 
   <div id="fireBox" class="fire-box" style="display:none;">
-    <div class="fire-title">⚡ Comandi Rapidi Marcia Cucina (KDS + TM-m30III)</div>
+    <div class="fire-title">⚡ Comandi Rapidi Marcia Cucina</div>
     <div class="fire-actions" id="fireButtonsContainer"></div>
   </div>
 
@@ -233,7 +207,7 @@
   <div class="cat-bar" id="catBar"></div>
 
   <div class="search-wrap">
-    <input type="text" id="menuSearch" class="search-input" placeholder="🔍 Cerca piatto o vino in tutto il menù..." oninput="renderMenuGrid()">
+    <input type="text" id="menuSearch" class="search-input" placeholder="🔍 Cerca piatto o vino..." oninput="renderMenuGrid()">
     <button class="search-clear" onclick="clearSearch()">×</button>
   </div>
 
@@ -245,78 +219,58 @@
   </div>
 
   <div class="bottom-bar">
-    <button class="btn-main btn-print" onclick="sendOrderToKitchen()">🖨️ INVIA CUCINA</button>
+    <button class="btn-main btn-print" onclick="sendOrderToKitchen()">🖨️ INVIA</button>
     <button class="btn-main btn-bill" onclick="showPreBill()">💶 PRE-CONTO</button>
     <button class="btn-main btn-close-table" onclick="freeCurrentTable()">Libera</button>
   </div>
 </div>
 
-<!-- VISTA 3: SCHERMO KDS CUCINA -->
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
     <div>
       <div style="font-weight:800; font-size:1.05rem;">🖥️ SCHERMO CUCINA (KDS LIVE)</div>
-      <div style="font-size:0.78rem; color:var(--muted);">Suona in automatico quando arriva una comanda o un "VIA"</div>
     </div>
     <div style="display:flex; gap:6px;">
-      <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO E SCHERMO ACCESO</button>
-      <button class="btn-note" onclick="playKitchenBell()">🔊 Test Suono</button>
+      <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
+      <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
     </div>
   </div>
   <div class="kds-grid" id="kdsContainer"></div>
 </div>
 
-<!-- VISTA 4: GESTIONE MENU, CLOUD & STAMPANTE -->
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">👤 Profilo Cameriere Attivo</h3>
-    <div style="display:flex; gap:6px; align-items:center;">
-      <span id="currentWaiterBadge" style="font-weight:700; color:var(--gold);">Nessuno</span>
-      <button class="btn-note" onclick="changeWaiter()">Cambia Nome Cameriere</button>
-    </div>
+    <h3 style="margin-bottom:8px;">👤 Cameriere: <span id="currentWaiterBadge" style="color:var(--gold);">--</span></h3>
+    <button class="btn-note" onclick="changeWaiter()">Cambia Nome</button>
   </div>
 
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">☁️ Sincronizzazione Cloud Firebase (Belgio)</h3>
+    <h3 style="margin-bottom:8px;">☁️ Firebase URL</h3>
     <div style="display:flex; gap:6px;">
-      <input type="text" id="firebaseUrlInput" class="form-control" placeholder="https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app">
-      <button class="btn-note" style="padding:0 14px;" onclick="saveFirebaseUrl()">Salva URL</button>
+      <input type="text" id="firebaseUrlInput" class="form-control" placeholder="URL Firebase">
+      <button class="btn-note" onclick="saveFirebaseUrl()">Salva</button>
     </div>
   </div>
 
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">🖨️ Impostazioni Epson TM-m30III</h3>
-    <label style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.9rem; margin-bottom:8px;">
+    <h3 style="margin-bottom:8px;">🖨️ Stampante</h3>
+    <label style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.9rem;">
       <input type="checkbox" id="chkRawbt" onchange="toggleRawbtSetting()" style="width:18px; height:18px;">
-      Invia direttamente a RawBT (ESC/POS 80mm)
+      Usa RawBT
     </label>
   </div>
 
   <div class="cart-section">
-    <h3 style="margin-bottom:10px;">➕ Aggiungi Articolo al Menù</h3>
-    <div style="display:grid; gap:8px;">
-      <select id="newItemCat" class="form-control"></select>
-      <input type="text" id="newItemName" class="form-control" placeholder="Nome piatto o vino">
-      <input type="number" step="0.5" id="newItemPrice" class="form-control" placeholder="Prezzo € (es. 14.00)">
-      <button class="btn-main btn-print" onclick="addNewMenuItem()">Salva nel Menù</button>
-    </div>
-  </div>
-
-  <div class="cart-section">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <h3>📋 Catalogo Alicetta (68 voci)</h3>
-      <button class="btn-note" onclick="resetMenuToSumUp()">🔄 Ripristina Default</button>
-    </div>
+    <h3 style="margin-bottom:10px;">📋 Catalogo (68 voci)</h3>
     <div id="menuMgrList"></div>
   </div>
 </div>
 
-<!-- MODALE ANTEPRIMA SCONTRINO 80MM / RAWBT -->
 <div class="modal-overlay" id="receiptModal">
   <div class="receipt-box">
     <div class="receipt-pre" id="receiptText"></div>
     <div class="modal-actions">
-      <button class="btn-modal" style="background:#10b981; color:#fff;" onclick="triggerRawBTFromModal()">🖨️ Stampa RawBT</button>
+      <button class="btn-modal" style="background:#10b981; color:#fff;" onclick="triggerRawBTFromModal()">Stampa</button>
       <button class="btn-modal" style="background:#334155; color:#fff;" onclick="closeReceiptModal()">Chiudi</button>
     </div>
   </div>
@@ -325,7 +279,7 @@
 <script>
 const DEFAULT_FIREBASE_URL = "https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app";
 const CATEGORIES = ["1 Coperto", "2 Bevande", "3 Antipasti", "4 Primi Piatti", "5 Secondi", "6 Desserts"];
-const MANDATE_LABELS = { 0: "SUBITO / BEVANDE", 1: "1ª MANDATA (MARCIA)", 2: "2ª MANDATA", 3: "3ª MANDATA", 4: "4ª MANDATA" };
+const MANDATE_LABELS = { 0: "SUBITO / BEVANDE", 1: "1ª MANDATA", 2: "2ª MANDATA", 3: "3ª MANDATA", 4: "4ª MANDATA" };
 
 const DEFAULT_MENU = [
   { id: 101, cat: "1 Coperto", name: "Pane e Coperto", price: 3.00 },
@@ -410,7 +364,7 @@ const DEFAULT_MENU = [
   { id: 604, cat: "6 Desserts", name: "Zaffermisù - tiramisù alla ricotta di pecora", price: 7.00 }
 ];
 
-const STORAGE_KEY = 'alicetta_pos_v5';
+const STORAGE_KEY = 'alicetta_pos_v6';
 
 let state = {
   currentRoom: 'interna',
@@ -470,7 +424,6 @@ async function initApp() {
     state.tables = buildDefaultTables();
   }
 
-  // Richiedi il nome cameriere se non impostato
   if (!state.waiterName.trim()) {
     askWaiterName();
   } else {
@@ -549,7 +502,7 @@ async function pushToCloud() {
     if (res.ok) {
       badge.textContent = "🟢 LIVE";
     } else {
-      badge.textContent = "🔴 Errore Regole";
+      badge.textContent = "🔴 Errore";
     }
   } catch (e) {
     badge.textContent = "🟠 Offline";
@@ -561,7 +514,7 @@ async function pullFromCloud(isInitial) {
   try {
     const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json");
     if (!res.ok) {
-      badge.textContent = "🔴 DB Bloccato";
+      badge.textContent = "🔴 DB";
       return;
     }
     const data = await res.json();
@@ -593,39 +546,32 @@ async function pullFromCloud(isInitial) {
       renderOrderScreen();
     }
   } catch (e) {
-    badge.textContent = "🟠 Solo Locale";
+    badge.textContent = "🟠 Locale";
   }
 }
 
 function saveFirebaseUrl() {
   const val = document.getElementById('firebaseUrlInput').value.trim();
   if (!val.startsWith("https://")) {
-    alert("Inserisci un URL valido che inizi con https://");
+    alert("Inserisci URL valido");
     return;
   }
   state.firebaseUrl = val;
   saveLocalOnly();
   pullFromCloud(true);
-  alert("URL Firebase salvato e collegato!");
+  alert("Salvato!");
 }
 
 async function enableKdsTabletMode() {
   try {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === 'suspended') {
-      await audioCtx.resume();
-    }
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') await audioCtx.resume();
     state.kdsAudioEnabled = true;
     const btn = document.getElementById('btnKdsAudio');
-    btn.textContent = "✅ AUDIO KDS E SCHERMO SEMPRE ACCESO ATTIVI";
+    btn.textContent = "✅ ATTIVO";
     btn.classList.add('on');
     playKitchenBell();
-
-    if ('wakeLock' in navigator) {
-      await navigator.wakeLock.request('screen');
-    }
+    if ('wakeLock' in navigator) await navigator.wakeLock.request('screen');
   } catch (e) {
     playKitchenBell();
   }
@@ -633,12 +579,8 @@ async function enableKdsTabletMode() {
 
 function playKitchenBell() {
   try {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
     const now = audioCtx.currentTime;
     [1318.5, 1046.5].forEach((freq, idx) => {
       const osc = audioCtx.createOscillator();
@@ -868,7 +810,7 @@ function editItemNote(lineId) {
   const t = state.tables[state.activeTableId];
   const item = t.items.find(i => i.lineId === lineId);
   if (!item) return;
-  const note = prompt(`Nota per ${item.name} (es. Senza aglio, Ben cotto, Dividere):`, item.note || '');
+  const note = prompt(`Nota per ${item.name}:`, item.note || '');
   if (note !== null) {
     item.note = note.trim();
     saveState(false);
@@ -894,9 +836,7 @@ function renderOrderScreen() {
       if (t.items.some(i => i.mandata === mNum)) {
         const btn = document.createElement('button');
         btn.className = `btn-fire ${t.firedMandate[mNum] ? 'fired' : ''}`;
-        btn.textContent = t.firedMandate[mNum]
-          ? `✅ ${mNum}ª MANDATA GIÀ INVIATA (Ristampa)`
-          : `🔥 DAI IL VIA ${mNum}ª MANDATA`;
+        btn.textContent = t.firedMandate[mNum] ? `✅ ${mNum}ª INVIATA` : `🔥 DAI IL VIA ${mNum}ª`;
         btn.onclick = () => fireMandataTicket(mNum);
         fireBtns.appendChild(btn);
       }
@@ -907,7 +847,7 @@ function renderOrderScreen() {
 
   const cart = document.getElementById('cartContainer');
   if (!t.items || t.items.length === 0) {
-    cart.innerHTML = '<div style="color:var(--muted); font-size:0.85rem;">Nessun piatto inserito. Seleziona la mandata e tocca gli articoli.</div>';
+    cart.innerHTML = '<div style="color:var(--muted); font-size:0.85rem;">Nessun articolo inserito.</div>';
     return;
   }
 
@@ -925,11 +865,11 @@ function renderOrderScreen() {
       row.className = 'cart-row';
       row.innerHTML = `
         <div class="cart-info">
-          <b>${item.qty}x</b> ${item.name} <span style="font-size:0.72rem; color:var(--muted);">(${item.waiter || 'Staff'})</span>
-          ${item.note ? `<span class="cart-note">👉 Nota: ${item.note}</span>` : ''}
+          <b>${item.qty}x</b> ${item.name} <span style="font-size:0.7rem; color:var(--muted);">(${item.waiter || 'Staff'})</span>
+          ${item.note ? `<span class="cart-note">👉 ${item.note}</span>` : ''}
         </div>
         <div class="cart-controls">
-          <button class="btn-note" onclick="editItemNote(${item.lineId})">📝 Nota</button>
+          <button class="btn-note" onclick="editItemNote(${item.lineId})">📝</button>
           <button class="btn-qty" onclick="changeItemQty(${item.lineId}, -1)">-</button>
           <button class="btn-qty" onclick="changeItemQty(${item.lineId}, 1)">+</button>
         </div>
@@ -948,7 +888,7 @@ function buildTimeStr() {
 function sendOrderToKitchen() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) {
-    alert("Inserisci almeno un articolo prima di inviare in cucina.");
+    alert("Inserisci almeno un articolo.");
     return;
   }
   t.sentOnce = true;
@@ -962,57 +902,40 @@ function sendOrderToKitchen() {
   let preview = "";
   preview += "==========================================\n";
   preview += `   ALICETTA TRATTORIA - ${t.name.toUpperCase()}\n`;
-  preview += `   Cameriere: ${state.waiterName || 'Staff'} - ${salaName}\n`;
-  preview += `   Ore ${timeStr}\n`;
+  preview += `   Cam: ${state.waiterName || 'Staff'} - ${salaName} (${timeStr})\n`;
   preview += "==========================================\n\n";
 
   const ESC = "\x1B";
   const GS = "\x1D";
-  let escpos = ESC + "@";
-  escpos += ESC + "a" + "\x01";
-  escpos += ESC + "!" + "\x38";
-  escpos += `${t.name.toUpperCase()}\n`;
-  escpos += ESC + "!" + "\x08";
-  escpos += `Cam: ${state.waiterName || 'Staff'} - Ore ${timeStr}\n`;
-  escpos += "------------------------------------------\n";
-  escpos += ESC + "a" + "\x00";
+  let escpos = ESC + "@" + ESC + "a" + "\x01" + ESC + "!" + "\x38";
+  escpos += `${t.name.toUpperCase()}\n` + ESC + "!" + "\x08" + `Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n------------------------------------------\n` + ESC + "a" + "\x00";
 
   const coperti = t.items.filter(i => i.name === 'Pane e Coperto');
   if (coperti.length > 0) {
     const totCoperti = coperti.reduce((s, c) => s + c.qty, 0);
-    preview += `COPERTI AL TAVOLO: ${totCoperti}\n\n`;
-    escpos += ESC + "!" + "\x08" + `COPERTI AL TAVOLO: ${totCoperti}\n` + ESC + "!" + "\x00";
+    preview += `COPERTI: ${totCoperti}\n\n`;
+    escpos += ESC + "!" + "\x08" + `COPERTI: ${totCoperti}\n` + ESC + "!" + "\x00";
   }
 
   [0, 1, 2, 3, 4].forEach(m => {
     const list = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
     if (list.length === 0) return;
-
-    const headerTitle = m === 1 ? ">>> 1a MANDATA (MARCIA SUBITO) <<<" :
-                        m === 2 ? "--- 2a MANDATA (ATTENDI VIA) ---" :
-                        m === 3 ? "--- 3a MANDATA (ATTENDI VIA) ---" :
-                        m === 4 ? "--- 4a MANDATA (ATTENDI VIA) ---" :
-                                  "--- SUBITO / BEVANDE ---";
-
+    const headerTitle = m === 1 ? ">>> 1a MANDATA (MARCIA) <<<" : m === 2 ? "--- 2a MANDATA ---" : m === 3 ? "--- 3a MANDATA ---" : m === 4 ? "--- 4a MANDATA ---" : "--- SUBITO / BEV ---";
     preview += `${headerTitle}\n`;
     escpos += "\n" + ESC + "!" + "\x08" + headerTitle + "\n" + ESC + "!" + "\x00";
-
     list.forEach(it => {
-      const line = `${it.qty}x ${it.name} (${it.waiter || 'Staff'})`;
-      preview += `  ${line}\n`;
+      preview += `  ${it.qty}x ${it.name}\n`;
       escpos += ESC + "!" + "\x18" + `${it.qty}x ${it.name}\n` + ESC + "!" + "\x00";
       if (it.note) {
-        preview += `     * NOTA: ${it.note.toUpperCase()}\n`;
-        escpos += ESC + "!" + "\x08" + `   * NOTA: ${it.note.toUpperCase()}\n` + ESC + "!" + "\x00";
+        preview += `     * ${it.note}\n`;
+        escpos += ESC + "!" + "\x08" + `   * ${it.note}\n` + ESC + "!" + "\x00";
       }
     });
     preview += "\n";
   });
 
   preview += "==========================================\n";
-  escpos += "\n------------------------------------------\n\n\n\n";
-  escpos += GS + "V" + "\x42" + "\x00";
-
+  escpos += "\n------------------------------------------\n\n\n" + GS + "V" + "\x42" + "\x00";
   dispatchPrint(preview, escpos);
 }
 
@@ -1029,100 +952,58 @@ function fireMandataTicket(mandataNum) {
   const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
   const timeStr = buildTimeStr();
 
-  let preview = "";
-  preview += "******************************************\n";
-  preview += `   🔥 DAI IL VIA ALLA ${mandataNum}a MANDATA! 🔥\n`;
-  preview += `      ${t.name.toUpperCase()} (${salaName})\n`;
-  preview += `            Ore ${timeStr}\n`;
-  preview += "******************************************\n\n";
-  preview += `PIATTI DA MARCIARE ORA (${mandataNum}a MANDATA):\n`;
-  preview += "------------------------------------------\n";
-
+  let preview = `******************************************\n   🔥 VIA ${mandataNum}a MANDATA! (${t.name.toUpperCase()})\n   Ore ${timeStr}\n******************************************\n\n`;
   const ESC = "\x1B";
   const GS = "\x1D";
-  let escpos = ESC + "@";
-  escpos += ESC + "a" + "\x01";
-  escpos += ESC + "!" + "\x38";
-  escpos += `VIA ${mandataNum}a MANDATA!\n`;
-  escpos += `${t.name.toUpperCase()}\n`;
-  escpos += ESC + "!" + "\x08";
-  escpos += `${salaName} - Ore ${timeStr}\n`;
-  escpos += "******************************************\n";
-  escpos += ESC + "a" + "\x00";
+  let escpos = ESC + "@" + ESC + "a" + "\x01" + ESC + "!" + "\x38" + `VIA ${mandataNum}a MANDATA!\n${t.name.toUpperCase()}\n` + ESC + "!" + "\x08" + `${salaName} - ${timeStr}\n******************************************\n` + ESC + "a" + "\x00";
 
   list.forEach(it => {
     preview += `  ${it.qty}x ${it.name}\n`;
     escpos += ESC + "!" + "\x38" + `${it.qty}x ${it.name}\n` + ESC + "!" + "\x00";
     if (it.note) {
-      preview += `     * NOTA: ${it.note.toUpperCase()}\n`;
-      escpos += ESC + "!" + "\x08" + `   * NOTA: ${it.note.toUpperCase()}\n` + ESC + "!" + "\x00";
+      preview += `     * ${it.note}\n`;
+      escpos += ESC + "!" + "\x08" + `   * ${it.note}\n` + ESC + "!" + "\x00";
     }
   });
 
   preview += "\n******************************************\n";
-  escpos += "\n******************************************\n\n\n\n";
-  escpos += GS + "V" + "\x42" + "\x00";
-
+  escpos += "\n******************************************\n\n\n" + GS + "V" + "\x42" + "\x00";
   dispatchPrint(preview, escpos);
 }
 
 function showPreBill() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) return;
-
-  const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
   const total = getTableTotal(t);
-
-  let preview = "";
-  preview += "==========================================\n";
-  preview += `     ALICETTA TRATTORIA - PRE-CONTO\n`;
-  preview += `       ${t.name.toUpperCase()} - ${salaName}\n`;
-  preview += "==========================================\n\n";
-
+  let preview = `==========================================\n     PRE-CONTO - ${t.name.toUpperCase()}\n==========================================\n\n`;
   const ESC = "\x1B";
   const GS = "\x1D";
-  let escpos = ESC + "@" + ESC + "a" + "\x01" + ESC + "!" + "\x08";
-  escpos += `ALICETTA TRATTORIA\n`;
-  escpos += `PRE-CONTO ${t.name.toUpperCase()} (${salaName})\n`;
-  escpos += "------------------------------------------\n" + ESC + "a" + "\x00" + ESC + "!" + "\x00";
+  let escpos = ESC + "@" + ESC + "a" + "\x01" + ESC + "!" + "\x08" + `PRE-CONTO ${t.name.toUpperCase()}\n------------------------------------------\n` + ESC + "a" + "\x00" + ESC + "!" + "\x00";
 
   t.items.forEach(it => {
     const sub = formatPrice(it.price * it.qty);
-    const left = `${it.qty}x ${it.name.substring(0, 26)}`;
-    const spaces = Math.max(1, 34 - left.length - sub.length);
-    const line = left + " ".repeat(spaces) + "EUR " + sub;
+    const line = `${it.qty}x ${it.name.substring(0, 20)} EUR ${sub}`;
     preview += line + "\n";
     escpos += line + "\n";
   });
 
-  preview += "\n------------------------------------------\n";
-  preview += `TOTALE DA BATTERE SU SUMUP:   EUR ${formatPrice(total)}\n`;
-  preview += "==========================================\n";
-
-  escpos += "------------------------------------------\n";
-  escpos += ESC + "!" + "\x38" + `TOTALE: EUR ${formatPrice(total)}\n` + ESC + "!" + "\x00";
-  escpos += "\n\n\n" + GS + "V" + "\x42" + "\x00";
-
+  preview += `\n------------------------------------------\nTOTALE DA BATTERE SU SUMUP: EUR ${formatPrice(total)}\n==========================================\n`;
+  escpos += "------------------------------------------\n" + ESC + "!" + "\x38" + `TOTALE: EUR ${formatPrice(total)}\n` + ESC + "!" + "\x00" + "\n\n\n" + GS + "V" + "\x42" + "\x00";
   dispatchPrint(preview, escpos);
 }
 
 function encodeBase64UTF8(str) {
   const bytes = new Uint8Array(str.length);
-  for (let i = 0; i < str.length; i++) {
-    bytes[i] = str.charCodeAt(i) & 0xFF;
-  }
+  for (let i = 0; i < str.length; i++) bytes[i] = str.charCodeAt(i) & 0xFF;
   let binary = '';
-  for (let i = 0; i < bytes.byteLength; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
+  for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
   return btoa(binary);
 }
 
 function dispatchPrint(previewText, escposRaw) {
   state.lastEscPosPayload = escposRaw;
   if (state.useRawBT) {
-    const b64 = encodeBase64UTF8(escposRaw);
-    window.location.href = "rawbt:base64," + b64;
+    window.location.href = "rawbt:base64," + encodeBase64UTF8(escposRaw);
   } else {
     document.getElementById('receiptText').textContent = previewText;
     document.getElementById('receiptModal').classList.add('active');
@@ -1130,9 +1011,7 @@ function dispatchPrint(previewText, escposRaw) {
 }
 
 function triggerRawBTFromModal() {
-  if (!state.lastEscPosPayload) return;
-  const b64 = encodeBase64UTF8(state.lastEscPosPayload);
-  window.location.href = "rawbt:base64," + b64;
+  if (state.lastEscPosPayload) window.location.href = "rawbt:base64," + encodeBase64UTF8(state.lastEscPosPayload);
 }
 
 function closeReceiptModal() {
@@ -1141,11 +1020,8 @@ function closeReceiptModal() {
 
 function freeCurrentTable() {
   const t = state.tables[state.activeTableId];
-  if (!t || !t.items || t.items.length === 0) {
-    closeTableView();
-    return;
-  }
-  if (confirm(`Vuoi azzerare e liberare ${t.name}?`)) {
+  if (!t || !t.items || t.items.length === 0) { closeTableView(); return; }
+  if (confirm(`Liberare ${t.name}?`)) {
     t.items = [];
     t.firedMandate = { 1: false, 2: false, 3: false, 4: false };
     t.doneMandate = { 1: false, 2: false, 3: false, 4: false };
@@ -1169,42 +1045,27 @@ function renderKds() {
   container.innerHTML = '';
   const activeTables = Object.values(state.tables).filter(t => t.items && t.items.some(i => i.name !== 'Pane e Coperto'));
   if (activeTables.length === 0) {
-    container.innerHTML = '<div style="color:var(--muted); font-weight:700;">Nessuna comanda attiva in cucina al momento.</div>';
+    container.innerHTML = '<div style="color:var(--muted); font-weight:700;">Nessuna comanda attiva.</div>';
     return;
   }
   activeTables.forEach(t => {
-    const hasActiveFire = [1,2,3,4].some(m => t.firedMandate[m] && !t.doneMandate[m] && t.items.some(i => i.mandata === m));
     const card = document.createElement('div');
-    card.className = `kds-card ${hasActiveFire ? 'urgent' : ''}`;
-
-    const coperti = t.items.filter(i => i.name === 'Pane e Coperto').reduce((s, c) => s + c.qty, 0);
-    let html = `<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;">
-      <b style="font-size:1.05rem;">${t.name} ${coperti > 0 ? `(${coperti} cop.)` : ''}</b>
-      <span style="font-size:0.78rem; color:var(--gold); font-weight:800;">${t.room === 'interna' ? '❄️ Interna' : '🕶️ Esterna'}</span>
-    </div>`;
+    card.className = `kds-card`;
+    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--gold);">${t.room === 'interna' ? '❄️ Interna' : '🕶️ Esterna'}</span></div>`;
 
     [0, 1, 2, 3, 4].forEach(m => {
       const mItems = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
       if (mItems.length === 0) return;
-
       const isDone = t.doneMandate && t.doneMandate[m];
       const isFired = (m === 0 || m === 1 || (t.firedMandate && t.firedMandate[m]));
+      const statusBadge = isDone ? `<span style="color:#a7f3d0;">SERVITA</span>` : isFired ? `<span style="color:#34d399;">MARCIARE</span>` : `<span style="color:var(--gold);">ATTESA</span>`;
 
-      const statusBadge = isDone
-        ? `<span style="color:#a7f3d0; font-weight:800;">✅ SERVITA</span>`
-        : isFired
-          ? `<span style="color:#34d399; font-weight:800;">🔥 MARCIARE ORA</span>`
-          : `<span style="color:var(--gold); font-weight:700;">⏳ IN ATTESA VIA</span>`;
-
-      html += `<div style="margin-bottom:10px; padding:8px; border-radius:8px; background:rgba(0,0,0,0.18); ${isDone ? 'opacity:0.48;' : ''}">
-        <div style="font-size:0.78rem; display:flex; justify-content:space-between; margin-bottom:4px;">
-          <b>${m === 0 ? 'SUBITO / BEV' : m + 'ª MANDATA'}</b> ${statusBadge}
-        </div>
-        ${mItems.map(i => `<div style="font-size:0.92rem; padding-left:4px; ${isDone ? 'text-decoration:line-through;' : ''}">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.75rem; color:var(--muted);">(${i.waiter \vert{}\vert{} 'Staff'})</span>${i.note ? `<i style="color:var(--gold);">(${i.note})</i>` : ''}</div>`).join('')}
-        ${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? '↩️ Riapri Mandata' : '✅ SEGNA USCITA DALLA CUCINA'}</button>` : ''}
+      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.15); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}">
+        <div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${m === 0 ? 'SUBITO' : m + 'ª MANDATA'}</b> ${statusBadge}</div>
+        ${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter || 'Staff'})</span></div>`).join('')}
+        ${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}
       </div>`;
     });
-
     card.innerHTML = html;
     container.appendChild(card);
   });
@@ -1217,74 +1078,23 @@ function toggleRawbtSetting() {
 
 function renderCategorySelect() {
   const sel = document.getElementById('newItemCat');
-  sel.innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
+  if (sel) sel.innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
 }
 
 function renderMenuMgr() {
   const list = document.getElementById('menuMgrList');
+  if (!list) return;
   list.innerHTML = '';
   state.menu.forEach(item => {
     const row = document.createElement('div');
     row.className = 'cart-row';
     row.style.borderBottom = '1px solid var(--border)';
-    row.innerHTML = `
-      <div style="flex:1;"><b>[${item.cat}]</b> ${item.name} — <span style="color:var(--gold); font-weight:800;">${formatPrice(item.price)} €</span></div>
-      <div class="cart-controls">
-        <button class="btn-note" onclick="editMenuItem(${item.id})">✏️</button>
-        <button class="btn-qty" onclick="deleteMenuItem(${item.id})">🗑️</button>
-      </div>
-    `;
+    row.innerHTML = `<div style="flex:1; font-size:0.85rem;">${item.name} — <span style="color:var(--gold);">${formatPrice(item.price)}€</span></div>`;
     list.appendChild(row);
   });
-}
-
-function editMenuItem(id) {
-  const item = state.menu.find(i => i.id === id);
-  if (!item) return;
-  const newName = prompt("Modifica nome articolo:", item.name);
-  if (newName === null || !newName.trim()) return;
-  const newPriceStr = prompt("Modifica prezzo (€):", item.price.toString());
-  if (newPriceStr === null) return;
-  const newPrice = parseFloat(newPriceStr.replace(',', '.'));
-  if (!isNaN(newPrice)) {
-    item.name = newName.trim();
-    item.price = newPrice;
-    saveState(false);
-    renderMenuMgr();
-  }
-}
-
-function resetMenuToSumUp() {
-  if (confirm("Vuoi ripristinare il menù originale Alicetta (68 articoli)?")) {
-    state.menu = JSON.parse(JSON.stringify(DEFAULT_MENU));
-    saveState(false);
-    renderMenuMgr();
-  }
-}
-
-function addNewMenuItem() {
-  const cat = document.getElementById('newItemCat').value;
-  const name = document.getElementById('newItemName').value.trim();
-  const price = parseFloat(document.getElementById('newItemPrice').value.replace(',', '.'));
-  if (!name || isNaN(price)) {
-    alert("Inserisci nome e prezzo validi.");
-    return;
-  }
-  state.menu.push({ id: Date.now(), cat, name, price });
-  document.getElementById('newItemName').value = '';
-  document.getElementById('newItemPrice').value = '';
-  saveState(false);
-  renderMenuMgr();
-}
-
-function deleteMenuItem(id) {
-  state.menu = state.menu.filter(i => i.id !== id);
-  saveState(false);
-  renderMenuMgr();
 }
 
 initApp();
 </script>
 </body>
 </html>
-
