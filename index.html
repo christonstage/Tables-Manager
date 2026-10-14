@@ -26,23 +26,33 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.86rem; font-weight: 700; text-align: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
 .room-tab.active { border-color: var(--logo-coral); color: #062329; background: var(--logo-cyan); font-weight: 800; }
 .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
-.table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; }
+.table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 12px 8px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 112px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; position: relative; }
 .table-card:active { transform: scale(0.95); }
 .table-card.busy { background: var(--logo-coral); border-color: #062329; color: #FFFFFF; box-shadow: 0 5px 15px rgba(255, 87, 51, 0.35); }
-.table-name { font-size: 1.05rem; font-weight: 800; }
+.table-name { font-size: 1.02rem; font-weight: 800; }
 .table-card.busy .table-name { color: #FFFFFF; }
-.table-status { font-size: 0.75rem; font-weight: 700; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
+.table-status { font-size: 0.72rem; font-weight: 700; margin-top: 4px; padding: 2px 7px; border-radius: 6px; display: inline-block; }
 .status-free { color: #062329; background: rgba(255,255,255,0.6); }
 .status-busy { color: #FFFFFF; background: rgba(0,0,0,0.25); }
-.table-total { font-size: 0.95rem; font-weight: 800; color: #FFFFFF; margin-top: 6px; }
-.course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
-.dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 800; }
+.table-timer { font-size: 0.72rem; font-weight: 800; margin-top: 4px; padding: 2px 6px; border-radius: 5px; background: rgba(0,0,0,0.22); color: #FFF; display: inline-block; font-variant-numeric: tabular-nums; }
+.pickup-badge { font-size: 0.7rem; font-weight: 800; margin-top: 3px; padding: 2px 6px; border-radius: 5px; background: #062329; color: var(--logo-cyan); display: inline-block; }
+.table-total { font-size: 0.92rem; font-weight: 800; color: #FFFFFF; margin-top: 4px; }
+.course-dots { display: flex; justify-content: center; gap: 3px; margin-top: 5px; flex-wrap: wrap; }
+.dot { font-size: 0.62rem; padding: 2px 5px; border-radius: 5px; font-weight: 800; }
 .dot.sent { background: #10B981; color: #ffffff; }
 .dot.wait { background: #062329; color: #ffffff; }
 .dot.done { background: #062329; color: #34d399; }
+
+/* Pallino Rosso Lampeggiante Allerta Ritardo > 20 min */
+.delay-dot { position: absolute; top: 7px; right: 7px; width: 15px; height: 15px; border-radius: 50%; background: #DC2626; border: 2px solid #FFFFFF; box-shadow: 0 0 10px #DC2626; animation: blinkRed 0.65s infinite alternate; z-index: 5; }
+.delay-pill { background: #DC2626; color: #FFF; font-size: 0.66rem; font-weight: 900; padding: 2px 6px; border-radius: 6px; border: 1.5px solid #FFF; animation: blinkRed 0.65s infinite alternate; display: inline-flex; align-items: center; gap: 3px; }
+@keyframes blinkRed { 0% { opacity: 1; transform: scale(1); box-shadow: 0 0 4px #DC2626; } 100% { opacity: 0.25; transform: scale(1.18); box-shadow: 0 0 16px #FF0000; } }
+
 .screen { display: none; padding: 12px 14px; }
 .screen.active { display: block; }
-.order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); }
+.order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); }
+.asporto-bar { display: none; background: var(--card); border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 9px 12px; margin-bottom: 10px; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.asporto-bar.active { display: flex; }
 .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
 .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; }
@@ -81,7 +91,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .btn-print { background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); }
 .btn-bill { background: var(--logo-coral); color: #FFF; }
 .btn-close-table { background: var(--card); color: var(--text); border: 1px solid var(--border); flex: 0.5; }
-.form-control { padding: 10px; border-radius: 8px; background: #F9FAFB; color: var(--text); border: 1px solid var(--border); font-weight: 600; width: 100%; }
+.form-control { padding: 9px; border-radius: 8px; background: #F9FAFB; color: var(--text); border: 1px solid var(--border); font-weight: 600; width: 100%; }
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
 .modal-overlay.active { display: flex; }
 .receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 12px; padding: 16px; max-height: 85vh; overflow-y: auto; }
@@ -92,7 +102,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .btn-kds-audio { background: var(--logo-coral); color: #FFF; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
 .btn-kds-audio.on { background: #10B981; color: #fff; }
 .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
-.kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; color: var(--text); }
+.kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; color: var(--text); position: relative; }
 .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 .order-toast { display: none; position: fixed; top: 52px; left: 10px; right: 10px; background: #111827; color: #FFF; border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 12px; z-index: 90; box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
 .order-toast.active { display: block; animation: slideDown 0.25s ease-out; }
@@ -135,7 +145,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   </div>
 </div>
 
-<!-- NOTIFICA LIVE COMANDA APPENA INVIATA -->
 <div id="orderToast" class="order-toast">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
     <b id="toastTitle" style="color:var(--logo-cyan); font-size:0.9rem;">🔔 NUOVA COMANDA</b>
@@ -157,10 +166,24 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   <div class="order-header">
     <button class="btn-back" onclick="closeTableView()">← Tavoli</button>
     <div style="text-align:center;">
-      <div id="activeTableName" style="font-weight:800; font-size:1.1rem;">Tavolo 1</div>
-      <div id="activeTableSub" style="font-size:0.75rem; color:var(--muted);">Sala Interna</div>
+      <div id="activeTableName" style="font-weight:800; font-size:1.05rem;">Tavolo 1</div>
+      <div id="activeTableSub" style="font-size:0.72rem; color:var(--muted);">Sala Interna</div>
     </div>
-    <div id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.1rem;">€ 0,00</div>
+    <div style="text-align:right;">
+      <div id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.05rem;">€ 0,00</div>
+      <div id="activeOrderTimer" style="font-size:0.68rem; font-weight:800; color:var(--muted);"></div>
+    </div>
+  </div>
+
+  <!-- BARRA ORARIO DI RITIRO E CLIENTE (SOLO ASPORTO) -->
+  <div id="asportoBar" class="asporto-bar">
+    <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:130px;">
+      <span style="font-size:0.78rem; font-weight:800; color:#062329; white-space:nowrap;">🕒 Ritiro:</span>
+      <input type="time" id="pickupTimeInput" class="form-control" style="padding:6px 8px; font-weight:800;" onchange="saveAsportoMeta()">
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; flex:1.3; min-width:140px;">
+      <input type="text" id="customerNameInput" class="form-control" style="padding:6px 8px;" placeholder="👤 Nome cliente..." oninput="saveAsportoMeta()">
+    </div>
   </div>
 
   <div id="fireBox" class="fire-box" style="display:none;">
@@ -221,12 +244,8 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     </div>
   </div>
 
-  <!-- IMPORTAZIONE LAVAGNETTA FOTO OCR -->
   <div class="cart-section">
     <h3 style="margin-bottom:6px;">📸 Lavagnetta del Giorno (Foto OCR)</h3>
-    <p style="font-size:0.78rem; color:var(--muted); margin-bottom:8px;">
-      Scatta una foto alla lavagnetta: l'app legge i piatti e i prezzi in automatico.
-    </p>
     <div style="display:grid; gap:8px;">
       <select id="ocrDefaultCat" class="form-control">
         <option value="AUTO">✨ Rileva Categoria in Automatico</option>
@@ -239,7 +258,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
       <input type="file" id="chalkboardInput" accept="image/*" capture="environment" style="display:none;" onchange="processChalkboardPhoto(event)">
       <button class="btn-main btn-bill" onclick="document.getElementById('chalkboardInput').click()">📷 Scatta Foto o Carica Lavagnetta</button>
       <div id="ocrStatus" style="font-size:0.8rem; font-weight:800; color:var(--logo-coral); display:none;"></div>
-      <textarea id="ocrResultBox" class="form-control" rows="4" placeholder="Qui compariranno i piatti letti dalla foto (uno per riga, es: Chitarrina allo scoglio 16)..." style="font-size:0.82rem;"></textarea>
+      <textarea id="ocrResultBox" class="form-control" rows="3" placeholder="Piatti letti dalla foto (es: Chitarrina allo scoglio 16)..."></textarea>
       <button class="btn-main btn-print" onclick="importOcrLinesToMenu()">✅ Importa Piatti nel Menù</button>
     </div>
   </div>
@@ -277,11 +296,9 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   </div>
 </div>
 
-<!-- MODALE INVIO CERCAPERSONE (SOLO CHRISTIAN) -->
 <div class="modal-overlay" id="pagerModal">
   <div class="receipt-box" style="text-align:center;">
     <h3 style="margin-bottom:8px; color:var(--logo-coral);">🔔 Cercapersone Sala</h3>
-    <p style="font-size:0.78rem; color:#4B5563; margin-bottom:10px;">Fai suonare e vibrare i telefoni dei camerieri:</p>
     <select id="pagerTarget" class="form-control" style="margin-bottom:8px;">
       <option value="TUTTI">📢 TUTTI I CAMERIERI</option>
       <option value="Alice">👤 Solo Alice</option>
@@ -297,7 +314,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   </div>
 </div>
 
-<!-- MODALE ALLARME RICEZIONE CERCAPERSONE -->
 <div class="modal-overlay" id="incomingPageModal">
   <div class="receipt-box pager-alert">
     <div style="font-size:2rem; margin-bottom:6px;">🚨🔔🚨</div>
@@ -307,7 +323,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   </div>
 </div>
 
-<!-- MODALE SCONTRINO -->
 <div class="modal-overlay" id="receiptModal">
   <div class="receipt-box">
     <div class="receipt-pre" id="receiptText"></div>
@@ -323,6 +338,7 @@ const DEFAULT_FIREBASE_URL = "https://alicetta-tables-default-rtdb.europe-west1.
 const CATEGORIES = ["1 Coperto", "2 Bevande", "3 Antipasti", "4 Primi Piatti", "5 Secondi", "6 Desserts"];
 const MANDATE_LABELS = { 0: "SUBITO / BEVANDE", 1: "1ª MANDATA", 2: "2ª MANDATA", 3: "3ª MANDATA", 4: "4ª MANDATA" };
 const MANDATA_TO_CAT = { 0: "1 Coperto", 1: "3 Antipasti", 2: "4 Primi Piatti", 3: "5 Secondi", 4: "6 Desserts" };
+const DELAY_LIMIT_MS = 20 * 60 * 1000; // 20 Minuti
 
 const RAW_MENU = [
   [101,0,"Pane e Coperto",3],
@@ -368,9 +384,9 @@ function unlockAudioOnce() {
 
 function buildDefaultTables() {
   const t = {};
-  for (let i = 1; i <= 11; i++) t['INT_' + i] = { id: 'INT_' + i, name: 'Tavolo ' + i, room: 'interna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
-  for (let i = 1; i <= 5; i++) t['EST_' + i] = { id: 'EST_' + i, name: 'Esterno ' + i, room: 'esterna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
-  for (let i = 1; i <= 5; i++) t['ASP_' + i] = { id: 'ASP_' + i, name: 'Asporto ' + i, room: 'asporto', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
+  for (let i = 1; i <= 11; i++) t['INT_' + i] = { id: 'INT_' + i, name: 'Tavolo ' + i, room: 'interna', items: [], openedAt: 0, pickupTime: '', customerName: '', firedMandate: { 1: false, 2: false, 3: false, 4: false }, firedAt: { 1: 0, 2: 0, 3: 0, 4: 0 }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
+  for (let i = 1; i <= 5; i++) t['EST_' + i] = { id: 'EST_' + i, name: 'Esterno ' + i, room: 'esterna', items: [], openedAt: 0, pickupTime: '', customerName: '', firedMandate: { 1: false, 2: false, 3: false, 4: false }, firedAt: { 1: 0, 2: 0, 3: 0, 4: 0 }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
+  for (let i = 1; i <= 5; i++) t['ASP_' + i] = { id: 'ASP_' + i, name: 'Asporto ' + i, room: 'asporto', items: [], openedAt: 0, pickupTime: '', customerName: '', firedMandate: { 1: false, 2: false, 3: false, 4: false }, firedAt: { 1: 0, 2: 0, 3: 0, 4: 0 }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
   return t;
 }
 
@@ -380,12 +396,80 @@ function normalizeTablesStructure(tablesObj) {
   Object.keys(def).forEach(k => {
     if (!tablesObj[k]) tablesObj[k] = def[k];
     else {
-      if (!Array.isArray(tablesObj[k].items)) tablesObj[k].items = [];
-      if (!tablesObj[k].firedMandate) tablesObj[k].firedMandate = { 1: false, 2: false, 3: false, 4: false };
-      if (!tablesObj[k].doneMandate) tablesObj[k].doneMandate = { 1: false, 2: false, 3: false, 4: false };
+      const tb = tablesObj[k];
+      if (!Array.isArray(tb.items)) tb.items = [];
+      if (!tb.firedMandate) tb.firedMandate = { 1: false, 2: false, 3: false, 4: false };
+      if (!tb.firedAt) tb.firedAt = { 1: 0, 2: 0, 3: 0, 4: 0 };
+      if (!tb.doneMandate) tb.doneMandate = { 1: false, 2: false, 3: false, 4: false };
+      if (typeof tb.pickupTime !== 'string') tb.pickupTime = '';
+      if (typeof tb.customerName !== 'string') tb.customerName = '';
+      if (tb.items.length > 0 && !tb.openedAt) tb.openedAt = Date.now();
+      if (tb.items.length === 0) tb.openedAt = 0;
     }
   });
   return tablesObj;
+}
+
+/* =========================================================
+   TIMER DINAMICO & CONTROLLO RITARDO > 20 MINUTI
+   ========================================================= */
+function formatElapsed(ms) {
+  if (!ms || ms < 0) return "00:00";
+  const totalSec = Math.floor(ms / 1000);
+  const mins = Math.floor(totalSec / 60);
+  const secs = totalSec % 60;
+  return String(mins).padStart(2, '0') + ":" + String(secs).padStart(2, '0');
+}
+
+function isTableDelayed(t) {
+  if (!t || !t.items || t.items.length === 0 || !t.openedAt) return false;
+  const now = Date.now();
+  // Controlla se esiste almeno una mandata (1..4) con piatti non ancora confermata uscita dalla cucina (!doneMandate[m])
+  const kitchenDishes = t.items.filter(i => i.name !== 'Pane e Coperto' && i.mandata > 0);
+  if (kitchenDishes.length === 0) return false;
+
+  for (let m = 1; m <= 4; m++) {
+    const hasCourse = kitchenDishes.some(i => i.mandata === m);
+    if (!hasCourse) continue;
+    const isExited = t.doneMandate && t.doneMandate[m];
+    if (!isExited) {
+      // Se la mandata è stata inviata/marciata usa il suo timestamp, altrimenti usa openedAt (solo per la 1a mandata)
+      const refTime = (t.firedAt && t.firedAt[m]) ? t.firedAt[m] : (m === 1 ? t.openedAt : 0);
+      if (refTime > 0 && (now - refTime) >= DELAY_LIMIT_MS) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function tickLiveTimers() {
+  const now = Date.now();
+  if (document.getElementById('viewTables').classList.contains('active')) {
+    Object.values(state.tables).filter(t => t.room === state.currentRoom && t.items && t.items.length > 0).forEach(t => {
+      const tEl = document.getElementById('timer_' + t.id);
+      if (tEl && t.openedAt) tEl.textContent = "⏱️ " + formatElapsed(now - t.openedAt);
+      const dEl = document.getElementById('delay_' + t.id);
+      if (dEl) dEl.style.display = isTableDelayed(t) ? 'block' : 'none';
+    });
+  } else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) {
+    const t = state.tables[state.activeTableId];
+    const hdrT = document.getElementById('activeOrderTimer');
+    if (hdrT) {
+      if (t && t.items && t.items.length > 0 && t.openedAt) {
+        const delayed = isTableDelayed(t);
+        hdrT.innerHTML = `${delayed ? '🔴 RITARDO ' : '⏱️ '}${formatElapsed(now - t.openedAt)}`;
+        hdrT.style.color = delayed ? '#DC2626' : 'var(--muted)';
+      } else {
+        hdrT.textContent = '';
+      }
+    }
+  } else if (document.getElementById('viewKds').classList.contains('active')) {
+    Object.values(state.tables).filter(t => t.items && t.items.length > 0).forEach(t => {
+      const kEl = document.getElementById('kds_timer_' + t.id);
+      if (kEl && t.openedAt) kEl.textContent = "⏱️ " + formatElapsed(now - t.openedAt);
+    });
+  }
 }
 
 async function initApp() {
@@ -414,6 +498,7 @@ async function initApp() {
   renderTables();
   updateDailyStats();
 
+  setInterval(tickLiveTimers, 1000);
   await pullFromCloud(true);
   setInterval(() => pullFromCloud(false), 1600);
 }
@@ -634,20 +719,17 @@ function getTableTotal(table) {
   return table.items.reduce((sum, it) => sum + (it.price * it.qty), 0);
 }
 
-/* ORDINE NUMERICO PERFETTO (Tavolo 1, 2, 3 ... 10, 11) */
 function renderTables() {
   const container = document.getElementById('tablesContainer');
   container.innerHTML = '';
+  const now = Date.now();
   Object.values(state.tables)
     .filter(t => t.room === state.currentRoom)
-    .sort((a, b) => {
-      const numA = parseInt((a.id || '').split('_')[1], 10) || 0;
-      const numB = parseInt((b.id || '').split('_')[1], 10) || 0;
-      return numA - numB;
-    })
+    .sort((a, b) => (parseInt((a.id || '').split('_')[1], 10) || 0) - (parseInt((b.id || '').split('_')[1], 10) || 0))
     .forEach(t => {
       const busy = t.items && t.items.length > 0;
       const total = getTableTotal(t);
+      const delayed = isTableDelayed(t);
       let dotsHtml = '';
       if (busy) {
         [1, 2, 3, 4].forEach(m => {
@@ -657,10 +739,23 @@ function renderTables() {
           else dotsHtml += `<span class="dot wait">${m}ª...</span>`;
         });
       }
+      const pickupHtml = (t.room === 'asporto' && t.pickupTime) ? `<div class="pickup-badge">🕒 Ritiro ${t.pickupTime}</div>` : '';
+      const custHtml = (t.room === 'asporto' && t.customerName) ? `<div style="font-size:0.72rem; font-weight:800; opacity:0.95;">👤 ${t.customerName}</div>` : '';
+      const timerHtml = (busy && t.openedAt) ? `<div><span class="table-timer" id="timer_${t.id}">⏱️ ${formatElapsed(now - t.openedAt)}</span></div>` : '';
+
       const card = document.createElement('div');
       card.className = `table-card ${busy ? 'busy' : 'free'}`;
       card.onclick = () => openTable(t.id);
-      card.innerHTML = `<div class="table-name">${t.name}</div><div><span class="table-status ${busy ? 'status-busy' : 'status-free'}">${busy ? 'Occupato' : 'Libero'}</span></div>${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dotsHtml}</div>`;
+      card.innerHTML = `
+        <div id="delay_${t.id}" class="delay-dot" style="display:${delayed ? 'block' : 'none'};" title="Ritardo > 20 min!"></div>
+        <div class="table-name">${t.name}</div>
+        ${custHtml}
+        ${pickupHtml}
+        <div><span class="table-status ${busy ? 'status-busy' : 'status-free'}">${busy ? 'Occupato' : 'Libero'}</span></div>
+        ${timerHtml}
+        ${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}
+        <div class="course-dots">${dotsHtml}</div>
+      `;
       container.appendChild(card);
     });
 }
@@ -673,8 +768,27 @@ function openTable(tableId) {
   document.getElementById('activeTableName').textContent = t.name;
   document.getElementById('activeTableSub').textContent = t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto';
   document.getElementById('menuSearch').value = '';
+
+  const aspBar = document.getElementById('asportoBar');
+  if (t.room === 'asporto') {
+    aspBar.classList.add('active');
+    document.getElementById('pickupTimeInput').value = t.pickupTime || '';
+    document.getElementById('customerNameInput').value = t.customerName || '';
+  } else {
+    aspBar.classList.remove('active');
+  }
+
   setMandata((!t.items || t.items.length === 0) ? 0 : 1, true);
   renderOrderScreen();
+  tickLiveTimers();
+}
+
+function saveAsportoMeta() {
+  const t = state.tables[state.activeTableId];
+  if (!t || t.room !== 'asporto') return;
+  t.pickupTime = document.getElementById('pickupTimeInput').value || '';
+  t.customerName = document.getElementById('customerNameInput').value.trim();
+  saveState(false);
 }
 
 function closeTableView() { state.activeTableId = null; switchMainView('tables'); }
@@ -753,7 +867,14 @@ function renderMenuGrid() {
 function addItemToTable(menuItem) {
   const t = state.tables[state.activeTableId];
   if (!t.items) t.items = [];
+  if (t.items.length === 0 || !t.openedAt) {
+    t.openedAt = Date.now();
+  }
   const m = state.currentMandata;
+  if (m > 0 && (!t.firedAt || !t.firedAt[m])) {
+    if (!t.firedAt) t.firedAt = { 1: 0, 2: 0, 3: 0, 4: 0 };
+    if (m === 1) t.firedAt[1] = t.openedAt;
+  }
   const existing = t.items.find(i => i.menuId === menuItem.id && i.mandata === m && !i.note);
   if (existing) existing.qty += 1;
   else t.items.push({ lineId: Date.now() + Math.random(), menuId: menuItem.id, cat: menuItem.cat, name: menuItem.name, price: menuItem.price, qty: 1, mandata: m, waiter: state.waiterName || 'Staff', note: '' });
@@ -767,6 +888,7 @@ function changeItemQty(lineId, delta) {
   if (idx === -1) return;
   t.items[idx].qty += delta;
   if (t.items[idx].qty <= 0) t.items.splice(idx, 1);
+  if (t.items.length === 0) t.openedAt = 0;
   saveState(false);
   renderOrderScreen();
 }
@@ -835,18 +957,32 @@ function buildDateISO() { return new Date().toISOString().slice(0, 10); }
 function sendOrderToKitchen() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) { alert("Inserisci almeno un articolo."); return; }
+  if (!t.openedAt) t.openedAt = Date.now();
+  if (!t.firedAt) t.firedAt = { 1: 0, 2: 0, 3: 0, 4: 0 };
+  if (!t.firedAt[1]) t.firedAt[1] = Date.now();
   t.sentOnce = true; t.firedMandate[1] = true;
 
+  const aspMeta = (t.room === 'asporto' && t.pickupTime) ? ` [Ritiro ${t.pickupTime}]` : '';
   const dishesList = t.items.filter(i => i.name !== 'Pane e Coperto').map(i => `<b>${i.qty}x</b> ${i.name}`).join(', ');
-  state.lastOrderEvent = { id: Date.now(), title: `COMANDA ${t.name.toUpperCase()}`, waiter: state.waiterName || 'Staff', summary: dishesList || 'Solo Coperti' };
+  state.lastOrderEvent = { id: Date.now(), title: `COMANDA ${t.name.toUpperCase()}${aspMeta}`, waiter: state.waiterName || 'Staff', summary: dishesList || 'Solo Coperti' };
   playKitchenBell();
   if (navigator.vibrate) try { navigator.vibrate([250, 100, 250]); } catch(e){}
   showOrderToast(state.lastOrderEvent);
 
   saveState(true); renderOrderScreen();
   const timeStr = buildTimeStr(), ESC = "\x1B", GS = "\x1D";
-  let preview = `==========================================\n   ALICETTA TABLEZ 1.0 - ${t.name.toUpperCase()}\n   Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n==========================================\n\n`;
-  let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x38"+`${t.name.toUpperCase()}\n`+ESC+"!\x08"+`Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n------------------------------------------\n`+ESC+"a\x00";
+  let preview = `==========================================\n   ALICETTA TABLEZ 1.0 - ${t.name.toUpperCase()}\n   Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n`;
+  if (t.room === 'asporto') {
+    if (t.pickupTime) preview += `   >>> ORARIO RITIRO: ${t.pickupTime} <<<\n`;
+    if (t.customerName) preview += `   CLIENTE: ${t.customerName.toUpperCase()}\n`;
+  }
+  preview += `==========================================\n\n`;
+
+  let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x38"+`${t.name.toUpperCase()}\n`+ESC+"!\x08"+`Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n`;
+  if (t.room === 'asporto' && t.pickupTime) escpos += ESC+"!\x38"+`RITIRO: ${t.pickupTime}\n`+ESC+"!\x08";
+  if (t.room === 'asporto' && t.customerName) escpos += `CLIENTE: ${t.customerName.toUpperCase()}\n`;
+  escpos += `------------------------------------------\n`+ESC+"a\x00";
+
   const coperti = t.items.filter(i => i.name === 'Pane e Coperto');
   if (coperti.length > 0) {
     const totC = coperti.reduce((s, c) => s + c.qty, 0);
@@ -872,6 +1008,8 @@ function fireMandataTicket(mandataNum) {
   const t = state.tables[state.activeTableId];
   const list = t.items.filter(i => i.mandata === mandataNum);
   if (list.length === 0) return;
+  if (!t.firedAt) t.firedAt = { 1: 0, 2: 0, 3: 0, 4: 0 };
+  t.firedAt[mandataNum] = Date.now();
   t.firedMandate[mandataNum] = true; t.doneMandate[mandataNum] = false;
 
   state.lastOrderEvent = { id: Date.now(), title: `🔥 VIA ${mandataNum}ª MANDATA - ${t.name.toUpperCase()}`, waiter: state.waiterName || 'Staff', summary: list.map(i => `<b>${i.qty}x</b> ${i.name}`).join(', ') };
@@ -896,7 +1034,7 @@ function showPreBill() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) return;
   const total = getTableTotal(t), ESC = "\x1B", GS = "\x1D";
-  let preview = `==========================================\n   ALICETTA TABLEZ 1.0 - PRE-CONTO\n   ${t.name.toUpperCase()}\n==========================================\n\n`;
+  let preview = `==========================================\n   ALICETTA TABLEZ 1.0 - PRE-CONTO\n   ${t.name.toUpperCase()}${t.pickupTime ? ' (Ritiro ' + t.pickupTime + ')' : ''}\n==========================================\n\n`;
   let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x08"+`ALICETTA TABLEZ 1.0\nPRE-CONTO ${t.name.toUpperCase()}\n------------------------------------------\n`+ESC+"a\x00"+ESC+"!\x00";
   t.items.forEach(it => {
     const line = `${it.qty}x ${it.name.substring(0, 20)} EUR ${formatPrice(it.price * it.qty)}`;
@@ -937,7 +1075,11 @@ function freeCurrentTable() {
       items: JSON.parse(JSON.stringify(t.items)),
       time: buildTimeStr(), date: buildDateISO(), closedEvening: false
     });
-    t.items = []; t.firedMandate = {1:false,2:false,3:false,4:false}; t.doneMandate = {1:false,2:false,3:false,4:false}; t.sentOnce = false;
+    t.items = []; t.openedAt = 0; t.pickupTime = ''; t.customerName = '';
+    t.firedMandate = {1:false,2:false,3:false,4:false};
+    t.firedAt = {1:0,2:0,3:0,4:0};
+    t.doneMandate = {1:false,2:false,3:false,4:false};
+    t.sentOnce = false;
     saveState(false); closeTableView(); updateDailyStats();
   }
 }
@@ -960,8 +1102,7 @@ async function processChalkboardPhoto(ev) {
   if (!file) return;
   const statusEl = document.getElementById('ocrStatus');
   statusEl.style.display = 'block';
-  statusEl.textContent = '⏳ Analisi foto lavagnetta in corso (attendi 5-10 secondi)...';
-
+  statusEl.textContent = '⏳ Analisi foto lavagnetta in corso (5-10s)...';
   try {
     if (!window.Tesseract) {
       await new Promise((res, rej) => {
@@ -972,31 +1113,24 @@ async function processChalkboardPhoto(ev) {
       });
     }
     const result = await window.Tesseract.recognize(file, 'ita');
-    const rawLines = (result.data.text || '').split('\n').map(l => l.trim()).filter(l => l.length > 2);
-    const cleaned = [];
-    rawLines.forEach(line => {
-      const cleanLine = line.replace(/^[-•*·~]+\s*/, '').trim();
-      if (cleanLine.length >= 3) cleaned.push(cleanLine);
-    });
+    const cleaned = (result.data.text || '').split('\n').map(l => l.replace(/^[-•*·~]+\s*/, '').trim()).filter(l => l.length >= 3);
     document.getElementById('ocrResultBox').value = cleaned.join('\n');
-    statusEl.textContent = `✅ Letti ${cleaned.length} righi dalla lavagnetta! Controlla il testo qui sotto e premi Importa:`;
+    statusEl.textContent = `✅ Letti ${cleaned.length} righi! Verifica e premi Importa:`;
   } catch (e) {
-    statusEl.textContent = '⚠️ Impossibile leggere la foto automaticamente. Puoi scrivere o dettare i piatti qui sotto:';
+    statusEl.textContent = '⚠️ Scrivi o incolla i piatti qui sotto:';
   }
   ev.target.value = '';
 }
 
 async function importOcrLinesToMenu() {
   const raw = document.getElementById('ocrResultBox').value.trim();
-  if (!raw) { alert("Scatta prima una foto alla lavagnetta o scrivi almeno un piatto (es. Chitarrina allo scoglio 16)."); return; }
+  if (!raw) { alert("Scatta prima una foto o scrivi almeno un piatto."); return; }
   const fallbackCat = document.getElementById('ocrDefaultCat').value;
   const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 2);
   let added = 0;
-
   lines.forEach(line => {
     const priceMatch = line.match(/(?:€|eur)?\s*(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i);
-    let price = 14.00;
-    let dishName = line;
+    let price = 14.00, dishName = line;
     if (priceMatch) {
       price = parseFloat(priceMatch[1].replace(',', '.'));
       dishName = line.slice(0, priceMatch.index).replace(/[-–—:.]+\s*$/, '').trim();
@@ -1007,15 +1141,11 @@ async function importOcrLinesToMenu() {
       added++;
     }
   });
-
   if (added > 0) {
     document.getElementById('ocrResultBox').value = '';
     document.getElementById('ocrStatus').style.display = 'none';
-    await saveState(false);
-    renderMenuMgr();
-    alert(`✅ Importati ${added} nuovi piatti dalla lavagnetta nel menù di Alicetta!`);
-  } else {
-    alert("Nessun piatto valido trovato.");
+    await saveState(false); renderMenuMgr();
+    alert(`✅ Importati ${added} nuovi piatti nel menù!`);
   }
 }
 
@@ -1031,13 +1161,10 @@ function selectReportPeriod(period) {
 }
 
 function getFilteredHistory() {
-  const log = state.historyLog || [];
-  const todayISO = buildDateISO();
-  const currentMonth = todayISO.slice(0, 7);
-  const currentYear = todayISO.slice(0, 4);
+  const log = state.historyLog || [], todayISO = buildDateISO();
   if (state.reportPeriod === 'daily') return log.filter(e => !e.closedEvening);
-  if (state.reportPeriod === 'monthly') return log.filter(e => (e.date || todayISO).slice(0, 7) === currentMonth);
-  return log.filter(e => (e.date || todayISO).slice(0, 4) === currentYear);
+  if (state.reportPeriod === 'monthly') return log.filter(e => (e.date || todayISO).slice(0, 7) === todayISO.slice(0, 7));
+  return log.filter(e => (e.date || todayISO).slice(0, 4) === todayISO.slice(0, 4));
 }
 
 function computeStatsData() {
@@ -1052,8 +1179,7 @@ function computeStatsData() {
       }
     });
   });
-  const ranking = Object.entries(counts).sort((a,b) => b[1] - a[1]);
-  return { countTables: list.length, rev, cop, ranking, revByDish };
+  return { countTables: list.length, rev, cop, ranking: Object.entries(counts).sort((a,b) => b[1] - a[1]), revByDish };
 }
 
 function updateDailyStats() {
@@ -1061,10 +1187,7 @@ function updateDailyStats() {
   if (!c) return;
   const st = computeStatsData();
   const label = state.reportPeriod === 'daily' ? 'FINE SERATA ATTUALE' : state.reportPeriod === 'monthly' ? 'MENSILE (' + buildDateISO().slice(0,7) + ')' : 'ANNUALE (' + buildDateISO().slice(0,4) + ')';
-  if (st.countTables === 0) {
-    c.innerHTML = `<b>[${label}]</b><br>Nessun tavolo registrato in questo periodo.`;
-    return;
-  }
+  if (st.countTables === 0) { c.innerHTML = `<b>[${label}]</b><br>Nessun tavolo registrato in questo periodo.`; return; }
   const rankHtml = st.ranking.map((d, idx) => `${idx+1}. <b>${d[1]}x</b> ${d[0]} (€ ${formatPrice(st.revByDish[d[0]])})`).join('<br>');
   c.innerHTML = `<div style="font-weight:800; color:var(--logo-coral); margin-bottom:4px;">📌 REPORT ${label}</div>• <b>Tavoli Chiusi:</b> ${st.countTables}<br>• <b>Coperti Totali:</b> ${st.cop}<br>• <b>Incasso Totale:</b> € ${formatPrice(st.rev)}<br><hr style="margin:6px 0; border:none; border-top:1px dashed var(--border);"><b>🏆 Classifica Piatti & Vini Venduti:</b><br>${rankHtml || 'Nessun piatto'}`;
 }
@@ -1072,34 +1195,24 @@ function updateDailyStats() {
 function printStatsReport() {
   const st = computeStatsData();
   const label = state.reportPeriod === 'daily' ? 'REPORT FINE SERATA' : state.reportPeriod === 'monthly' ? 'REPORT MENSILE ' + buildDateISO().slice(0,7) : 'REPORT ANNUALE ' + buildDateISO().slice(0,4);
-  const dateStr = new Date().toLocaleDateString('it-IT') + ' ' + buildTimeStr();
-  const ESC = "\x1B", GS = "\x1D";
-
+  const dateStr = new Date().toLocaleDateString('it-IT') + ' ' + buildTimeStr(), ESC = "\x1B", GS = "\x1D";
   let preview = `==========================================\n      ALICETTA TABLEZ 1.0\n      ${label}\n      Data: ${dateStr}\n==========================================\n\nTAVOLI CHIUSI:  ${st.countTables}\nCOPERTI TOTALI: ${st.cop}\nINCASSO TOTALE: EUR ${formatPrice(st.rev)}\n------------------------------------------\nCLASSIFICA PIATTI VENDUTI:\n`;
   let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x18"+`ALICETTA TABLEZ 1.0\n`+ESC+"!\x08"+`${label}\n${dateStr}\n------------------------------------------\n`+ESC+"a\x00"+`TAVOLI CHIUSI:  ${st.countTables}\nCOPERTI TOTALI: ${st.cop}\n`+ESC+"!\x18"+`INCASSO: EUR ${formatPrice(st.rev)}\n`+ESC+"!\x00------------------------------------------\nCLASSIFICA PIATTI VENDUTI:\n";
-
-  if (st.ranking.length === 0) {
-    preview += "Nessun articolo venduto.\n"; escpos += "Nessun articolo venduto.\n";
-  } else {
-    st.ranking.forEach((d, idx) => {
-      const rowStr = `${idx+1}. ${d[1]}x ${d[0].substring(0,22)} (EUR ${formatPrice(st.revByDish[d[0]])})`;
-      preview += rowStr + "\n"; escpos += rowStr + "\n";
-    });
-  }
-  preview += `==========================================\n`;
-  escpos += "==========================================\n\n\n"+GS+"V\x42\x00";
+  if (st.ranking.length === 0) { preview += "Nessun articolo.\n"; escpos += "Nessun articolo.\n"; }
+  else st.ranking.forEach((d, idx) => { const r = `${idx+1}. ${d[1]}x ${d[0].substring(0,22)} (EUR ${formatPrice(st.revByDish[d[0]])})`; preview += r + "\n"; escpos += r + "\n"; });
+  preview += `==========================================\n`; escpos += "==========================================\n\n\n"+GS+"V\x42\x00";
   dispatchPrint(preview, escpos);
 }
 
 async function resetCurrentEvening() {
-  if (confirm("Vuoi chiudere e azzerare il Report di Fine Serata?\n(I dati resteranno comunque salvati nello storico Mensile e Annuale)")) {
+  if (confirm("Chiudere e azzerare il Report di Fine Serata?\n(I dati resteranno salvati nello storico Mensile e Annuale)")) {
     (state.historyLog || []).forEach(e => { e.closedEvening = true; });
     await saveState(false); updateDailyStats();
   }
 }
 
 async function resetAllHistory() {
-  if (confirm("⚠️ ATTENZIONE: Vuoi azzerare TUTTO il registro storico (Serata, Mensile e Annuale)?")) {
+  if (confirm("⚠️ Azzerare TUTTO il registro storico (Serata, Mensile e Annuale)?")) {
     state.historyLog = []; await saveState(false); updateDailyStats();
   }
 }
@@ -1114,19 +1227,34 @@ function markMandataDone(tableId, mandataNum) {
 function renderKds() {
   const container = document.getElementById('kdsContainer');
   container.innerHTML = '';
+  const now = Date.now();
   const activeTables = Object.values(state.tables).filter(t => t.items && t.items.some(i => i.name !== 'Pane e Coperto'));
   if (activeTables.length === 0) { container.innerHTML = '<div style="color:var(--muted); font-weight:700;">Nessuna comanda attiva.</div>'; return; }
   activeTables.forEach(t => {
+    const delayed = isTableDelayed(t);
     const card = document.createElement('div');
     card.className = 'kds-card';
-    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--logo-coral);">${t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto'}</span></div>`;
+    if (delayed) card.style.borderColor = '#DC2626';
+    const pickupBadge = (t.room === 'asporto' && t.pickupTime) ? `<span class="pickup-badge">🕒 Ritiro ${t.pickupTime}</span> ` : '';
+    const custLbl = (t.room === 'asporto' && t.customerName) ? ` (${t.customerName})` : '';
+    const delayBadge = delayed ? `<span class="delay-pill">🔴 RITARDO +20m</span>` : '';
+
+    let html = `<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px; gap:4px; flex-wrap:wrap;">
+      <b>${t.name}${custLbl}</b>
+      <div style="display:flex; align-items:center; gap:5px;">
+        ${pickupBadge}
+        ${delayBadge}
+        <span id="kds_timer_${t.id}" style="font-size:0.75rem; font-weight:800; background:#111827; color:#fff; padding:2px 6px; border-radius:5px;">⏱️ ${t.openedAt ? formatElapsed(now - t.openedAt) : '00:00'}</span>
+      </div>
+    </div>`;
+
     [0, 1, 2, 3, 4].forEach(m => {
       const mItems = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
       if (mItems.length === 0) return;
       const isDone = t.doneMandate && t.doneMandate[m];
       const isFired = (m === 0 || m === 1 || (t.firedMandate && t.firedMandate[m]));
       const badge = isDone ? `<span style="color:#10B981;">SERVITA</span>` : isFired ? `<span style="color:#10B981;">MARCIARE</span>` : `<span style="color:var(--logo-coral);">ATTESA</span>`;
-      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}"><div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${m === 0 ? 'SUBITO' : m + 'ª MANDATA'}</b> ${badge}</div>${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter || 'Staff'})</span></div>`).join('')}${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}</div>`;
+      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}"><div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${m === 0 ? 'SUBITO' : m + 'ª MANDATA'}</b> ${badge}</div>${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter \vert{}\vert{} 'Staff'})</span>${i.note ? `<i style="color:var(--logo-coral);">(${i.note})</i>` : ''}</div>`).join('')}${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}</div>`;
     });
     card.innerHTML = html; container.appendChild(card);
   });
