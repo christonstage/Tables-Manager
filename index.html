@@ -80,11 +80,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 @keyframes badgeFloatUp { 0% { opacity: 1; transform: translateY(4px); } 100% { opacity: 0; transform: translateY(-12px); } }
 .item-name { font-weight: 800; font-size: 0.82rem; line-height: 1.2; word-break: break-word; }
 .item-price { color: var(--logo-coral); font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
-.fire-box { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
-.fire-title { font-size: 0.8rem; font-weight: 700; color: var(--logo-coral); margin-bottom: 8px; text-transform: uppercase; }
-.fire-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.btn-fire { flex: 1; background: var(--logo-coral); color: #FFF; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
-.btn-fire.fired { background: #10B981; color: #fff; }
 .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; }
 .mandata-group { margin-bottom: 14px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
 .mandata-group:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
@@ -92,6 +87,8 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.86rem; gap: 6px; border-bottom: 1px solid rgba(0,0,0,0.04); }
 .cart-info { flex: 1; line-height: 1.25; }
 .cart-note { font-size: 0.75rem; color: #D97706; background: #FEF3C7; border: 1px solid #F59E0B; padding: 2px 6px; border-radius: 5px; display: inline-block; margin-top: 3px; font-weight: 800; }
+.badge-unsent { font-size: 0.65rem; background: #FEF3C7; color: #B45309; border: 1px solid #F59E0B; padding: 1px 5px; border-radius: 4px; font-weight: 800; margin-left: 4px; }
+.badge-sent { font-size: 0.65rem; background: #D1FAE5; color: #065F46; padding: 1px 5px; border-radius: 4px; font-weight: 800; margin-left: 4px; }
 .cart-controls { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
 .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 900; cursor: pointer; }
 .btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); cursor: pointer; font-weight: 800; }
@@ -117,22 +114,23 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; color: var(--text); position: relative; }
 .kds-card.delayed { animation: blinkYellowBorder 0.6s infinite alternate; }
 .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
-.order-toast { display: none; position: fixed; top: 52px; left: 10px; right: 10px; background: #111827; color: #FFF; border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 12px; z-index: 90; box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
-.order-toast.active { display: block; }
 .rep-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
 .rep-tab { padding: 8px 4px; border-radius: 8px; border: 1px solid var(--border); background: #F3F4F6; font-weight: 800; font-size: 0.76rem; text-align: center; cursor: pointer; }
 .rep-tab.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
-#publicMenuViewer { display: none; min-height: 100vh; background: #2ECC71; padding: 16px 10px 40px 10px; }
+#publicMenuViewer { display: none; min-height: 100vh; background: #2ECC71; padding: 14px 10px 40px 10px; }
+.pub-tab-bar { max-width: 560px; margin: 0 auto 14px auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.pub-tab-btn { padding: 11px 6px; border-radius: 12px; border: 2px solid #062329; background: #fff; color: #062329; font-weight: 800; font-size: 0.78rem; cursor: pointer; text-align: center; box-shadow: 0 3px 8px rgba(0,0,0,0.12); }
+.pub-tab-btn.active { background: var(--logo-coral); color: #fff; border-color: #fff; }
 </style>
 </head>
 <body onclick="unlockAudioOnce()">
 
-<!-- VISTA PUBBLICA SOLA LETTURA PER CLIENTI / DRIVE LINK -->
+<!-- PORTALE UNICO CLIENTI (QR CODE PERPETUO: MENÙ + VINI + ALLERGENI) -->
 <div id="publicMenuViewer">
-  <div style="max-width:560px; margin:0 auto 12px auto; display:flex; gap:8px; justify-content:center;">
-    <button class="btn-note" style="padding:8px 14px; font-size:0.82rem;" onclick="renderPublicMenuPage('giorno')">🍽️ Menù del Giorno</button>
-    <button class="btn-note" style="padding:8px 14px; font-size:0.82rem; background:#FEF3C7;" onclick="renderPublicMenuPage('vini')">🍷 Carta dei Vini</button>
-    <button class="btn-note" style="padding:8px 14px; font-size:0.82rem; background:#fff;" onclick="window.print()">🖨️ Salva PDF</button>
+  <div class="pub-tab-bar">
+    <button class="pub-tab-btn active" id="pubBtnGiorno" onclick="renderPublicMenuPage('giorno')">🍽️ Menù del Giorno</button>
+    <button class="pub-tab-btn" id="pubBtnVini" onclick="renderPublicMenuPage('vini')">🍷 Carta dei Vini</button>
+    <button class="pub-tab-btn" id="pubBtnAllergeni" onclick="renderPublicMenuPage('allergeni')">🛡️ Lista Allergeni</button>
   </div>
   <div id="publicMenuContent"></div>
 </div>
@@ -168,14 +166,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   </div>
 </div>
 
-<div id="orderToast" class="order-toast">
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-    <b id="toastTitle" style="color:var(--logo-cyan); font-size:0.9rem;">🔔 NUOVA COMANDA</b>
-    <button class="btn-note" style="padding:2px 7px;" onclick="closeOrderToast()">OK</button>
-  </div>
-  <div id="toastBody" style="font-size:0.8rem; line-height:1.35;"></div>
-</div>
-
 <div id="viewTables" class="screen active">
   <div class="room-tabs">
     <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">❄️ Interna (<span id="cntInt">11</span>)</div>
@@ -197,7 +187,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
         <button class="btn-note" onclick="quickMergeFromOrder()" title="Unisci tavolo">🔀 Unisci</button>
         <span id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.05rem;">€ 0,00</span>
       </div>
-      <div id="activeOrderTimer" style="font-size:0.68rem; font-weight:800; color:var(--muted);"></div>
     </div>
   </div>
 
@@ -209,11 +198,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     <div style="display:flex; align-items:center; gap:6px; flex:1.3; min-width:140px;">
       <input type="text" id="customerNameInput" class="form-control" style="padding:6px 8px;" placeholder="👤 Nome cliente..." oninput="saveAsportoMeta()">
     </div>
-  </div>
-
-  <div id="fireBox" class="fire-box" style="display:none;">
-    <div class="fire-title">⚡ Comandi Rapidi Marcia Cucina</div>
-    <div class="fire-actions" id="fireButtonsContainer"></div>
   </div>
 
   <div style="font-size:0.75rem; color:#062329; margin-bottom:4px; font-weight:800;">STAI INSERENDO PIATTI NELLA:</div>
@@ -235,7 +219,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   <div class="menu-grid" id="menuGrid"></div>
 
   <div class="cart-section">
-    <div style="font-weight:800; margin-bottom:10px; font-size:0.95rem;">📋 Riepilogo Comanda (tocca ✏️ Nota per modifiche)</div>
+    <div style="font-weight:800; margin-bottom:10px; font-size:0.92rem;">📋 Riepilogo Comanda (va al KDS solo quando premi 🖨️ INVIA)</div>
     <div id="cartContainer"></div>
   </div>
 
@@ -269,6 +253,72 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     </div>
   </div>
 
+  <!-- QR CODE PERPETUO UNICO (MENÙ + CARTA VINI + LISTA ALLERGENI) -->
+  <div class="cart-section" style="border:2px solid var(--logo-coral);">
+    <h3 style="margin-bottom:4px; color:var(--logo-coral);">📱 QR Code Unico Perpetuo (Menù + Vini + Allergeni)</h3>
+    <p style="font-size:0.76rem; color:var(--muted); margin-bottom:10px;">
+      Questo QR Code <b>non cambia mai</b>: puoi stamparlo e lasciarlo sui tavoli. Ogni volta che aggiorni i piatti della lavagnetta qui sotto, il cliente che inquadra il QR vedrà subito il Menù del Giorno aggiornato, la Carta dei Vini e la Lista Allergeni!
+    </p>
+    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap; background:#F9FAFB; padding:12px; border-radius:12px; border:1px solid var(--border);">
+      <div style="text-align:center; margin:0 auto;">
+        <img id="qrCodeImg" alt="QR Menu Alicetta" style="width:155px; height:155px; border:3px solid #FF5733; border-radius:12px; background:#fff; padding:6px; display:block; margin:0 auto;">
+        <div style="font-size:0.68rem; font-weight:800; color:#062329; margin-top:4px;">Inquadra con la fotocamera</div>
+      </div>
+      <div style="flex:1; min-width:200px; display:grid; gap:6px;">
+        <button class="btn-main btn-bill" onclick="printQrTableTentPDF()">🖨️ Stampa Cartellino QR da Tavolo (PDF)</button>
+        <button class="btn-note" style="padding:9px;" onclick="openPublicHubPreview()">👁️ Anteprima Portale Clienti (3 Schede)</button>
+        <button class="btn-note" style="padding:9px; background:#FEF3C7;" onclick="publishMenusOnlineForEveryone()">🔄 Sincronizza Ora col QR Online</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAVAGNETTA OCR + CARTA VINI + LISTA ALLERGENI -->
+  <div class="cart-section">
+    <h3 style="margin-bottom:6px;">📸 Menù del Giorno, 🍷 Vini & 🛡️ Lista Allergeni</h3>
+    <div style="display:grid; gap:8px;">
+      <select id="ocrDefaultCat" class="form-control">
+        <option value="AUTO">✨ Rileva Categoria in Automatico (Antipasti / Primi / Secondi / Desserts)</option>
+        <option value="3 Antipasti">3 Antipasti</option>
+        <option value="4 Primi Piatti">4 Primi Piatti</option>
+        <option value="5 Secondi">5 Secondi</option>
+        <option value="6 Desserts">6 Desserts</option>
+        <option value="2 Bevande">2 Bevande</option>
+      </select>
+      <input type="file" id="chalkboardInput" accept="image/*" capture="environment" style="display:none;" onchange="processChalkboardPhoto(event)">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+        <button class="btn-main btn-bill" onclick="document.getElementById('chalkboardInput').click()">📷 Scatta / Carica Foto</button>
+        <button class="btn-note" onclick="loadPresetChalkboardOct12()">📋 Ricarica Lavagna 12 Ott</button>
+      </div>
+      <div id="ocrStatus" style="font-size:0.8rem; font-weight:800; color:var(--logo-coral); display:none;"></div>
+      <textarea id="ocrResultBox" class="form-control" rows="7" style="font-size:0.78rem; line-height:1.35;" placeholder="Piatti della lavagnetta (uno per riga con prezzo finale)..."></textarea>
+      <button class="btn-main btn-print" onclick="importOcrLinesToMenu()">✅ Aggiorna Cassa & QR Code Clienti</button>
+
+      <div style="font-size:0.76rem; font-weight:800; color:#062329; margin-top:6px;">🍽️ 1. MENÙ DEL GIORNO (con divisori categorie):</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px;">
+        <button class="btn-note" style="padding:9px;" onclick="exportDailyMenuPDF()">📑 PDF Menù</button>
+        <button class="btn-note" style="padding:9px;" onclick="exportDailyMenuWord()">📄 Word (.doc)</button>
+        <button class="btn-note" style="padding:9px;" onclick="shareFileToGoogleDrive('giorno')">📂 Drive</button>
+      </div>
+
+      <div style="font-size:0.76rem; font-weight:800; color:#062329; margin-top:6px;">🍷 2. CARTA DEI VINI (impaginata come il Menù):</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px;">
+        <button class="btn-note" style="padding:9px; background:#FEF3C7; border-color:#D97706;" onclick="exportWineListPDF()">🍷 PDF Vini</button>
+        <button class="btn-note" style="padding:9px; background:#FEF3C7; border-color:#D97706;" onclick="exportWineListWord()">📄 Word (.doc)</button>
+        <button class="btn-note" style="padding:9px; background:#FEF3C7; border-color:#D97706;" onclick="shareFileToGoogleDrive('vini')">📂 Drive</button>
+      </div>
+
+      <div style="font-size:0.76rem; font-weight:800; color:#062329; margin-top:6px;">🛡️ 3. LISTA DEGLI ALLERGENI (con Quadro Reg. UE 1169/2011):</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px;">
+        <button class="btn-note" style="padding:9px; background:#E0E7FF; border-color:#4F46E5;" onclick="exportAllergensPDF()">🛡️ PDF Allergeni</button>
+        <button class="btn-note" style="padding:9px; background:#E0E7FF; border-color:#4F46E5;" onclick="exportAllergensWord()">📄 Word (.doc)</button>
+        <button class="btn-note" style="padding:9px; background:#E0E7FF; border-color:#4F46E5;" onclick="shareFileToGoogleDrive('allergeni')">📂 Drive</button>
+      </div>
+
+      <div id="driveUploadStatus" style="font-size:0.76rem; font-weight:800; margin-top:6px; display:none; background:#F0FDF4; padding:8px; border-radius:8px; border:1px solid #10B981;"></div>
+      <input type="password" id="geminiApiKeyInput" class="form-control" style="font-size:0.75rem; margin-top:4px;" placeholder="(Opzionale) Chiave API Gemini Vision per lettura gesso AI 100%" onchange="saveGeminiKey()">
+    </div>
+  </div>
+
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">🪑 Configurazione & Unione Tavoli</h3>
     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:8px;">
@@ -294,56 +344,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
         <select id="mergeToSel" class="form-control"></select>
       </div>
       <button class="btn-main btn-bill" style="width:100%;" onclick="mergeTablesFromSettings()">🔗 Unisci Tavoli Selezionati</button>
-    </div>
-  </div>
-
-  <!-- LAVAGNETTA OCR + CARTA VINI + PUBBLICAZIONE DIRETTA -->
-  <div class="cart-section">
-    <h3 style="margin-bottom:6px;">📸 Menù del Giorno & 🍷 Carta dei Vini</h3>
-    <p style="font-size:0.75rem; color:var(--muted); margin-bottom:8px;">
-      Crea il Menù del Giorno diviso per categorie (Antipasti, Primi, Secondi, Desserts) e la Carta Vini coordinata.
-    </p>
-    <div style="display:grid; gap:8px;">
-      <select id="ocrDefaultCat" class="form-control">
-        <option value="AUTO">✨ Rileva Categoria in Automatico (Antipasti / Primi / Secondi / Desserts)</option>
-        <option value="3 Antipasti">3 Antipasti</option>
-        <option value="4 Primi Piatti">4 Primi Piatti</option>
-        <option value="5 Secondi">5 Secondi</option>
-        <option value="6 Desserts">6 Desserts</option>
-        <option value="2 Bevande">2 Bevande</option>
-      </select>
-      <input type="file" id="chalkboardInput" accept="image/*" capture="environment" style="display:none;" onchange="processChalkboardPhoto(event)">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
-        <button class="btn-main btn-bill" onclick="document.getElementById('chalkboardInput').click()">📷 Scatta / Carica Foto</button>
-        <button class="btn-note" onclick="loadPresetChalkboardOct12()">📋 Ricarica Lavagna 12 Ott</button>
-      </div>
-      <div id="ocrStatus" style="font-size:0.8rem; font-weight:800; color:var(--logo-coral); display:none;"></div>
-      <textarea id="ocrResultBox" class="form-control" rows="7" style="font-size:0.78rem; line-height:1.35;" placeholder="Piatti della lavagnetta (uno per riga con prezzo finale)..."></textarea>
-      <button class="btn-main btn-print" onclick="importOcrLinesToMenu()">✅ Aggiorna / Importa Piatti nella Cassa</button>
-
-      <div style="font-size:0.76rem; font-weight:800; color:#062329; margin-top:6px;">🍽️ ESPORTA MENÙ DEL GIORNO (con divisori categorie):</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
-        <button class="btn-note" style="padding:10px;" onclick="exportDailyMenuWord()">📄 Word Menù (.doc)</button>
-        <button class="btn-note" style="padding:10px;" onclick="exportDailyMenuPDF()">📑 PDF Menù del Giorno</button>
-      </div>
-
-      <div style="font-size:0.76rem; font-weight:800; color:#062329; margin-top:6px;">🍷 ESPORTA CARTA DEI VINI (impaginata come il Menù):</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
-        <button class="btn-note" style="padding:10px; background:#FEF3C7; border-color:#D97706;" onclick="exportWineListWord()">📄 Word Carta Vini (.doc)</button>
-        <button class="btn-note" style="padding:10px; background:#FEF3C7; border-color:#D97706;" onclick="exportWineListPDF()">🍷 PDF Carta dei Vini</button>
-      </div>
-
-      <div style="border-top:1px dashed var(--border); padding-top:10px; margin-top:6px;">
-        <div style="font-size:0.78rem; font-weight:800; color:var(--logo-coral); margin-bottom:6px;">☁️ Condivisione Pubblica (Lettura per Tutti) & Google Drive:</div>
-        <button class="btn-main btn-bill" style="width:100%; margin-bottom:6px;" onclick="publishMenusOnlineForEveryone()">🌐 1. Pubblica Link Menù & Vini (Visibile a Tutti)</button>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
-          <button class="btn-note" style="padding:9px;" onclick="shareFileToGoogleDrive('giorno')">📂 Salva Menù su Drive</button>
-          <button class="btn-note" style="padding:9px;" onclick="shareFileToGoogleDrive('vini')">📂 Salva Vini su Drive</button>
-        </div>
-        <div id="driveUploadStatus" style="font-size:0.76rem; font-weight:800; margin-top:8px; display:none; background:#F0FDF4; padding:8px; border-radius:8px; border:1px solid #10B981;"></div>
-      </div>
-
-      <input type="password" id="geminiApiKeyInput" class="form-control" style="font-size:0.75rem; margin-top:4px;" placeholder="(Opzionale) Chiave API Gemini Vision per lettura gesso AI 100%" onchange="saveGeminiKey()">
     </div>
   </div>
 
@@ -429,7 +429,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     <div class="receipt-pre" id="receiptText"></div>
     <div class="modal-actions">
       <button class="btn-modal" style="background:#10b981; color:#fff;" onclick="triggerRawBTFromModal()">Stampa</button>
-      <button class="btn-modal" style="background:#334155; color:#fff;" onclick="closeReceiptModal()">Chiudi</button>
+      <button class="btn-modal" style="background:#334155; color:#fff; flex:0.6;" onclick="closeReceiptModal()">Chiudi</button>
     </div>
   </div>
 </div>
@@ -461,6 +461,24 @@ const CHALKBOARD_OCT12_TEXT = [
   "Cantucci alle mandorle con liquore Sottosopra 7,00",
   "Plateau di formaggi artigianali abruzzesi 18,00"
 ].join("\n");
+
+// ELENCO UFFICIALE 14 ALLERGENI (Reg. UE 1169/2011)
+const EU_ALLERGENS = [
+  { id: 1, icon: "🌾", name: "Glutine", desc: "Cereali (grano, farro, orzo, avena)" },
+  { id: 2, icon: "🦀", name: "Crostacei", desc: "Granchio, panocchie, gamberi, scampi" },
+  { id: 3, icon: "🥚", name: "Uova", desc: "Uova, maionese, pasta all'uovo, dolci" },
+  { id: 4, icon: "🐟", name: "Pesce", desc: "Alici, nasello, sgombro, baccalà, pescato" },
+  { id: 5, icon: "🥜", name: "Arachidi", desc: "Arachidi e derivati" },
+  { id: 6, icon: "🫘", name: "Soia", desc: "Soia e proteine vegetali" },
+  { id: 7, icon: "🥛", name: "Latte / Lattosio", desc: "Formaggi, ricotta, latticini, burro" },
+  { id: 8, icon: "🌰", name: "Frutta a guscio", desc: "Mandorle, noci, nocciole, pistacchi" },
+  { id: 9, icon: "🥬", name: "Sedano", desc: "Sedano e fondi di cottura" },
+  { id: 10, icon: "🌭", name: "Senape", desc: "Senape in grani o salse" },
+  { id: 11, icon: " sesame", icon: "⚪", name: "Sesamo", desc: "Semi di sesamo" },
+  { id: 12, icon: "🍷", name: "Solfiti", desc: "Anidride solforosa in vini e marinature" },
+  { id: 13, icon: "🌼", name: "Lupini", desc: "Lupini e derivati" },
+  { id: 14, icon: "🐚", name: "Molluschi", desc: "Cozze, vongole, totanetti, calamari, polpo" }
+];
 
 (function setupBuiltInPWA() {
   try {
@@ -544,7 +562,7 @@ let state = {
   lastEscPosPayload: '', lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null,
   menu: [], tables: {}, historyLog: []
 };
-let audioCtx = null, toastTimer = null;
+let audioCtx = null;
 
 function unlockAudioOnce() {
   try {
@@ -580,7 +598,7 @@ async function enableKdsTabletMode() {
 }
 
 function makeTableObj(id, name, room) {
-  return { id, name, baseName: name, room, items: [], openedAt: 0, pickupTime: '', customerName: '', firedMandate: {1:false,2:false,3:false,4:false}, firedAt: {1:0,2:0,3:0,4:0}, doneMandate: {1:false,2:false,3:false,4:false} };
+  return { id, name, baseName: name, room, items: [], openedAt: 0, kitchenOpenedAt: 0, pickupTime: '', customerName: '', firedMandate: {1:false,2:false,3:false,4:false}, firedAt: {1:0,2:0,3:0,4:0}, doneMandate: {1:false,2:false,3:false,4:false} };
 }
 
 function buildDefaultTables(counts) {
@@ -606,6 +624,7 @@ function normalizeTablesStructure(tablesObj, counts) {
       def[k].pickupTime = tb.pickupTime || '';
       def[k].customerName = tb.customerName || '';
       def[k].openedAt = def[k].items.length > 0 ? (tb.openedAt || Date.now()) : 0;
+      def[k].kitchenOpenedAt = tb.kitchenOpenedAt || 0;
     }
   });
   return def;
@@ -617,14 +636,19 @@ function formatElapsed(ms) {
   return String(Math.floor(s / 60)).padStart(2, '0') + ":" + String(s % 60).padStart(2, '0');
 }
 
+// IL RITARDO SCATTA SOLO SE LA COMANDA È STATA INVIATA IN CUCINA E SUPERA 20 MIN
 function isTableDelayed(t) {
-  if (!t || !t.items || t.items.length === 0 || !t.openedAt) return false;
+  if (!t || !t.items || t.items.length === 0) return false;
+  const sentItems = t.items.filter(i => i.sent === true);
+  if (sentItems.length === 0) return false;
+  const startTime = t.kitchenOpenedAt || t.openedAt;
+  if (!startTime) return false;
   const hasUnfinishedMandata = [1, 2, 3, 4].some(m =>
-    t.items.some(i => i.mandata === m && i.name !== 'Pane e Coperto') &&
+    sentItems.some(i => i.mandata === m && i.name !== 'Pane e Coperto') &&
     !(t.doneMandate && t.doneMandate[m])
   );
   if (!hasUnfinishedMandata) return false;
-  return (Date.now() - t.openedAt) >= DELAY_LIMIT_MS;
+  return (Date.now() - startTime) >= DELAY_LIMIT_MS;
 }
 
 function tickLiveTimers() {
@@ -640,11 +664,23 @@ function tickLiveTimers() {
       if (cEl) cEl.classList.toggle('delayed', delayed);
     });
   } else if (document.getElementById('viewKds').classList.contains('active')) {
-    Object.values(state.tables).filter(t => t.items && t.items.length > 0).forEach(t => {
+    Object.values(state.tables).filter(t => t.items && t.items.some(i => i.sent === true)).forEach(t => {
       const kEl = document.getElementById('kds_timer_' + t.id);
-      if (kEl && t.openedAt) kEl.textContent = "⏱️ " + formatElapsed(now - t.openedAt);
+      const startTime = t.kitchenOpenedAt || t.openedAt;
+      if (kEl && startTime) kEl.textContent = "⏱️ " + formatElapsed(now - startTime);
     });
   }
+}
+
+function getPermanentQrUrl() {
+  return window.location.origin + window.location.pathname + "?menu=digitale";
+}
+
+function setupQrCodeImage() {
+  const qrImg = document.getElementById('qrCodeImg');
+  if (!qrImg) return;
+  const targetUrl = getPermanentQrUrl();
+  qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=8&data=" + encodeURIComponent(targetUrl);
 }
 
 async function initApp() {
@@ -672,15 +708,17 @@ async function initApp() {
   document.getElementById('firebaseUrlInput').value = state.firebaseUrl;
   document.getElementById('geminiApiKeyInput').value = state.geminiKey;
   document.getElementById('ocrResultBox').value = CHALKBOARD_OCT12_TEXT;
+  setupQrCodeImage();
 
-  // Controlla se l'utente ha aperto il link pubblico di sola lettura (?menu=giorno oppure ?menu=vini)
+  // Controlla se è stato aperto il QR Code Clienti (?menu=digitale / giorno / vini / allergeni)
   const params = new URLSearchParams(window.location.search);
   const publicMode = params.get('menu');
-  if (publicMode === 'giorno' || publicMode === 'vini') {
+  if (publicMode) {
     document.getElementById('posAppWrapper').style.display = 'none';
     document.getElementById('publicMenuViewer').style.display = 'block';
     await pullFromCloud(true);
-    renderPublicMenuPage(publicMode);
+    const initialTab = (publicMode === 'vini' || publicMode === 'allergeni') ? publicMode : 'giorno';
+    renderPublicMenuPage(initialTab);
     return;
   }
 
@@ -695,12 +733,40 @@ async function initApp() {
 
 function renderPublicMenuPage(type) {
   const box = document.getElementById('publicMenuContent');
+  document.getElementById('pubBtnGiorno').classList.toggle('active', type === 'giorno');
+  document.getElementById('pubBtnVini').classList.toggle('active', type === 'vini');
+  document.getElementById('pubBtnAllergeni').classList.toggle('active', type === 'allergeni');
+
   if (type === 'vini') {
     box.innerHTML = buildStyledWineListHTML();
+  } else if (type === 'allergeni') {
+    box.innerHTML = buildStyledAllergensHTML(parseOcrBoxDishes());
   } else {
-    const dishes = parseOcrBoxDishes();
-    box.innerHTML = buildStyledDailyMenuHTML(dishes);
+    box.innerHTML = buildStyledDailyMenuHTML(parseOcrBoxDishes());
   }
+}
+
+function openPublicHubPreview() {
+  window.open(getPermanentQrUrl(), '_blank');
+}
+
+function printQrTableTentPDF() {
+  const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=420x420&margin=10&data=" + encodeURIComponent(getPermanentQrUrl());
+  const logoSvg = document.getElementById('alicettaLogoSvg').innerHTML.replace('TABLEZ 1.0', 'TRATTORIA');
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>QR Code Menù Alicetta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+  </head><body style="font-family:'Plus Jakarta Sans',sans-serif; padding:24px; text-align:center;">
+    <div style="max-width:360px; margin:0 auto; border:5px solid #FF5733; border-radius:24px; padding:24px; background:#1BE7FF;">
+      <div style="max-width:220px; margin:0 auto 10px auto;">${logoSvg}</div>
+      <div style="background:#fff; border:3px solid #FF5733; border-radius:18px; padding:16px; margin:12px 0;">
+        <img src="${qrUrl}" style="width:230px; height:230px; display:block; margin:0 auto;" onload="setTimeout(()=>window.print(),400)">
+      </div>
+      <h2 style="color:#FF5733; font-size:1.25rem; margin:8px 0 4px 0;">📱 INQUADRA IL QR CODE</h2>
+      <p style="color:#062329; font-weight:800; font-size:0.9rem;">🍽️ Menù del Giorno • 🍷 Carta dei Vini • 🛡️ Allergeni</p>
+    </div>
+  </body></html>`);
+  w.document.close();
 }
 
 function loadPresetChalkboardOct12() {
@@ -780,7 +846,16 @@ async function pullFromCloud(isInitial) {
     if (badge) badge.textContent = "LIVE";
     if (!data) return;
     if (data.tableCounts) state.tableCounts = data.tableCounts;
-    if (data.tables) state.tables = normalizeTablesStructure(data.tables, state.tableCounts);
+    // Se il cameriere sta inserendo un ordine in questo istante, non sovrascrivere le righe in bozza del suo tavolo attivo
+    if (data.tables) {
+      const incoming = normalizeTablesStructure(data.tables, state.tableCounts);
+      if (state.activeTableId && state.tables[state.activeTableId]) {
+        const localActive = state.tables[state.activeTableId];
+        const hasUnsent = localActive.items && localActive.items.some(i => !i.sent);
+        if (hasUnsent) incoming[state.activeTableId] = localActive;
+      }
+      state.tables = incoming;
+    }
     if (data.menu && data.menu.length > 0) state.menu = data.menu;
     if (data.dailyChalkboardText && isInitial && document.getElementById('ocrResultBox')) {
       document.getElementById('ocrResultBox').value = data.dailyChalkboardText;
@@ -790,7 +865,6 @@ async function pullFromCloud(isInitial) {
     updateRoomTabCounts();
     updateDailyStats();
     if (document.getElementById('viewTables').classList.contains('active')) renderTables();
-    else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) renderOrderScreen();
     else if (document.getElementById('viewKds').classList.contains('active')) renderKds();
   } catch (e) { if (badge) badge.textContent = "Loc"; }
 }
@@ -823,9 +897,10 @@ async function executeTableMerge(sourceId, targetId) {
   if (confirm(`Vuoi unire "${src.name}" dentro "${tgt.name}"?`)) {
     tgt.items = (tgt.items || []).concat(src.items || []);
     if (!tgt.openedAt) tgt.openedAt = src.openedAt || Date.now();
+    if (!tgt.kitchenOpenedAt) tgt.kitchenOpenedAt = src.kitchenOpenedAt || 0;
     const shortSrc = src.name.replace(/Tavolo\s*|Esterno\s*|Asporto\s*/i, '');
     if (!tgt.name.includes('+' + shortSrc)) tgt.name = tgt.name + '+' + shortSrc;
-    src.items = []; src.openedAt = 0; src.name = src.baseName;
+    src.items = []; src.openedAt = 0; src.kitchenOpenedAt = 0; src.name = src.baseName;
     await saveState(false); renderTables();
     alert(`✅ Tavoli uniti in: ${tgt.name}`);
   }
@@ -854,6 +929,7 @@ function switchMainView(view) {
   } else if (view === 'menuMgr') {
     document.getElementById('viewMenuMgr').classList.add('active');
     document.getElementById('navMenu').classList.add('active');
+    setupQrCodeImage();
     renderMenuMgr();
     updateDailyStats();
   }
@@ -887,8 +963,8 @@ function renderTables() {
         [1, 2, 3, 4].forEach(m => {
           if (!t.items.some(i => i.mandata === m && i.name !== 'Pane e Coperto')) return;
           if (t.doneMandate && t.doneMandate[m]) dotsHtml += `<span class="dot done">${m}ª✓</span>`;
-          else if (t.firedMandate && t.firedMandate[m]) dotsHtml += `<span class="dot sent">${m}ª🔥</span>`;
-          else dotsHtml += `<span class="dot wait">${m}ª...</span>`;
+          else if (t.items.some(i => i.mandata === m && i.sent === true)) dotsHtml += `<span class="dot sent">${m}ª🔥</span>`;
+          else dotsHtml += `<span class="dot wait">${m}ª⏳</span>`;
         });
       }
       const pickupHtml = (t.room === 'asporto' && t.pickupTime) ? `<div class="pickup-badge">🕒 ${t.pickupTime}</div>` : '';
@@ -928,7 +1004,7 @@ function saveAsportoMeta() {
   if (!t || t.room !== 'asporto') return;
   t.pickupTime = document.getElementById('pickupTimeInput').value || '';
   t.customerName = document.getElementById('customerNameInput').value.trim();
-  saveState(false);
+  saveLocalOnly();
 }
 
 function closeTableView() { state.activeTableId = null; switchMainView('tables'); }
@@ -998,15 +1074,16 @@ function renderMenuGrid() {
   });
 }
 
+// I PIATTI AGGIUNTI NASCONO CON sent: false (NON VANNO AL KDS FINCHÉ NON PREMI INVIA)
 function addItemToTable(menuItem) {
   const t = state.tables[state.activeTableId];
   if (!t.items) t.items = [];
   if (t.items.length === 0 || !t.openedAt) t.openedAt = Date.now();
   const m = state.currentMandata;
-  const existing = t.items.find(i => i.menuId === menuItem.id && i.mandata === m && !i.note);
+  const existing = t.items.find(i => i.menuId === menuItem.id && i.mandata === m && !i.note && !i.sent);
   if (existing) existing.qty += 1;
-  else t.items.push({ lineId: Date.now() + Math.random(), menuId: menuItem.id, cat: menuItem.cat, name: menuItem.name, price: menuItem.price, qty: 1, mandata: m, note: '', waiter: state.waiterName });
-  saveState(false);
+  else t.items.push({ lineId: Date.now() + Math.random(), menuId: menuItem.id, cat: menuItem.cat, name: menuItem.name, price: menuItem.price, qty: 1, mandata: m, note: '', sent: false, waiter: state.waiterName });
+  saveLocalOnly();
   renderOrderScreen();
 }
 
@@ -1016,13 +1093,11 @@ function changeItemQty(lineId, delta) {
   if (idx === -1) return;
   t.items[idx].qty += delta;
   if (t.items[idx].qty <= 0) t.items.splice(idx, 1);
-  saveState(false);
+  saveLocalOnly();
+  if (t.items.some(i => i.sent === true) || t.items.length === 0) saveState(false);
   renderOrderScreen();
 }
 
-/* =========================================================
-   MODIFICHE / NOTE PER OGNI PORTATA (CON SEPARAZIONE PORZIONE)
-   ========================================================= */
 function openNoteModal(lineId) {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items) return;
@@ -1060,12 +1135,13 @@ function saveDishNote() {
     t.items.push({
       lineId: Date.now() + Math.random(),
       menuId: item.menuId, cat: item.cat, name: item.name, price: item.price,
-      qty: 1, mandata: item.mandata, note: newNote, waiter: state.waiterName
+      qty: 1, mandata: item.mandata, note: newNote, sent: item.sent || false, waiter: state.waiterName
     });
   } else {
     item.note = newNote;
   }
-  saveState(false);
+  saveLocalOnly();
+  if (item.sent) saveState(false);
   renderOrderScreen();
   closeNoteModal();
 }
@@ -1100,9 +1176,10 @@ function renderOrderScreen() {
       const row = document.createElement('div');
       row.className = 'cart-row';
       const noteHtml = item.note ? `<div><span class="cart-note">✏️ ${item.note}</span></div>` : '';
+      const statusBadge = item.sent ? `<span class="badge-sent">✅ Inviato</span>` : `<span class="badge-unsent">⏳ Da inviare</span>`;
       row.innerHTML = `
         <div class="cart-info">
-          <b>${item.qty}x</b> ${item.name}
+          <b>${item.qty}x</b> ${item.name} ${statusBadge}
           ${noteHtml}
         </div>
         <div class="cart-controls">
@@ -1116,16 +1193,24 @@ function renderOrderScreen() {
   });
 }
 
-function sendOrderToKitchen() {
+// SOLO QUANDO PREMI "🖨️ INVIA" I PIATTI VENGONO MARCATI sent = true E MANDATI AL KDS
+async function sendOrderToKitchen() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) { alert("Inserisci almeno un articolo."); return; }
+  const unsentItems = t.items.filter(i => !i.sent);
+  const itemsToPrint = unsentItems.length > 0 ? unsentItems : t.items;
+
+  t.items.forEach(i => { i.sent = true; });
+  if (!t.kitchenOpenedAt) t.kitchenOpenedAt = Date.now();
   t.firedMandate[1] = true;
+
   playKitchenBell();
-  saveState(true);
+  await saveState(true);
+
   if (state.useRawBT) {
     let ticket = `COMANDA CUCINA - ${t.name.toUpperCase()}\nCam.: ${state.waiterName}\n====================\n`;
     [0, 1, 2, 3, 4].forEach(m => {
-      const g = t.items.filter(i => i.mandata === m);
+      const g = itemsToPrint.filter(i => i.mandata === m);
       if (!g.length) return;
       ticket += `\n--- ${MANDATE_LABELS[m]} ---\n`;
       g.forEach(it => {
@@ -1136,7 +1221,7 @@ function sendOrderToKitchen() {
     ticket += `\n====================\n\n\n`;
     window.location.href = "rawbt:base64," + btoa(ticket);
   } else {
-    alert("✅ Comanda inviata in cucina!");
+    alert("✅ Comanda inviata al KDS in cucina!");
   }
   closeTableView();
 }
@@ -1150,30 +1235,32 @@ function markMandataDone(tableId, mandataNum) {
   renderKds();
 }
 
+// IL KDS MOSTRA SOLO I TAVOLI E I PIATTI CHE SONO STATI EFFETTIVAMENTE INVIATI (i.sent === true)
 function renderKds() {
   const container = document.getElementById('kdsContainer');
   if (!container) return;
   container.innerHTML = '';
   const now = Date.now();
-  const activeTables = Object.values(state.tables).filter(t => t.items && t.items.length > 0);
+  const activeTables = Object.values(state.tables).filter(t => t.items && t.items.some(i => i.sent === true));
   if (activeTables.length === 0) {
-    container.innerHTML = '<div style="color:var(--muted); font-weight:700;">Nessuna comanda attiva in cucina.</div>';
+    container.innerHTML = '<div style="color:var(--muted); font-weight:700;">Nessuna comanda inviata in cucina.</div>';
     return;
   }
   activeTables.forEach(t => {
     const delayed = isTableDelayed(t);
+    const startTime = t.kitchenOpenedAt || t.openedAt;
     const card = document.createElement('div');
     card.className = `kds-card ${delayed ? 'delayed' : ''}`;
     let html = `<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;">
       <b>${t.name}</b>
       <div style="display:flex; align-items:center; gap:6px;">
         ${delayed ? `<span style="background:#FACC15; border:1.5px solid #000; border-radius:6px; padding:2px 6px; font-size:0.7rem; font-weight:900; color:#000;">☠️ +20m</span>` : ''}
-        <span id="kds_timer_${t.id}">⏱️ ${t.openedAt ? formatElapsed(now - t.openedAt) : '00:00'}</span>
+        <span id="kds_timer_${t.id}">⏱️ ${startTime ? formatElapsed(now - startTime) : '00:00'}</span>
       </div>
     </div>`;
     
     [0, 1, 2, 3, 4].forEach(m => {
-      const mItems = t.items.filter(i => i.mandata === m);
+      const mItems = t.items.filter(i => i.mandata === m && i.sent === true);
       if (mItems.length === 0) return;
       const isDone = t.doneMandate && t.doneMandate[m];
       const badge = isDone ? '<span style="color:#10B981;">SERVITA</span>' : '<span style="color:var(--logo-coral);">DA SERVIRE</span>';
@@ -1225,7 +1312,7 @@ function freeCurrentTable() {
   if (confirm(`Liberare ${t.name} e salvare nello storico?`)) {
     if (!state.historyLog) state.historyLog = [];
     state.historyLog.push({ tableName: t.name, total: getTableTotal(t), items: t.items, date: new Date().toISOString().slice(0,10) });
-    t.items = []; t.openedAt = 0; t.pickupTime = ''; t.customerName = ''; t.name = t.baseName;
+    t.items = []; t.openedAt = 0; t.kitchenOpenedAt = 0; t.pickupTime = ''; t.customerName = ''; t.name = t.baseName;
     t.firedMandate = {1:false,2:false,3:false,4:false};
     t.doneMandate = {1:false,2:false,3:false,4:false};
     saveState(false); closeTableView(); updateDailyStats();
@@ -1233,7 +1320,7 @@ function freeCurrentTable() {
 }
 
 /* =========================================================
-   MENÙ DEL GIORNO CON DIVISORI CATEGORIE + CARTA DEI VINI
+   MOTORE MENÙ DEL GIORNO + CARTA VINI + RILEVATORE ALLERGENI
    ========================================================= */
 function guessCategoryFromDishName(name, fallbackCat) {
   if (fallbackCat && fallbackCat !== 'AUTO') return fallbackCat;
@@ -1243,6 +1330,21 @@ function guessCategoryFromDishName(name, fallbackCat) {
   if (/spaghett|linguin|paccher|cubett|qubett|rigat|chitarr|pasta|gnocch|risott|tagliolin|fettuccin|raviol/.test(n)) return "4 Primi Piatti";
   if (/frittur|baccal|sgombr|maiale|braciol|arrosto|grigliat|fish\s*&\s*chips|nasello|totanett|cicoriett/.test(n)) return "5 Secondi";
   return "3 Antipasti";
+}
+
+function detectAllergensForDish(name, cat) {
+  const n = name.toLowerCase();
+  const found = [];
+  if (/rigator|qubett|cubett|linguin|spaghett|paccher|pasta|pane|impanat|gratinat|cantucc|pizzell|polpett|pallott|birra/.test(n)) found.push("1. Glutine 🌾");
+  if (/granchio|granchi|panocchi|gamber|scamp/.test(n)) found.push("2. Crostacei 🦀");
+  if (/majo|maiones|pallott|ove|uov|tiramis|zafferamis|zaffermis|cantucc|pizzell|pastell|mousse/.test(n)) found.push("3. Uova 🥚");
+  if (/alici|alicett|nasell|fish|sgombr|baccal|pescat|tonno/.test(n)) found.push("4. Pesce 🐟");
+  if (/formagg|gregorian|cace|ricott|pecora|tiramis|zafferamis|zaffermis|mousse|plateau|pallott/.test(n)) found.push("7. Latte/Lattosio 🥛");
+  if (/mandorl|cantucc|noci|nocciol|pistacch/.test(n)) found.push("8. Frutta a guscio 🌰");
+  if (/senape/.test(n)) found.push("10. Senape 🌭");
+  if (cat === "2 Bevande" || /marinat|dressing|confit|vino|liquor|sottosopra|cerasuol|trebbian|pecorin|montepulcian/.test(n)) found.push("12. Solfiti 🍷");
+  if (/cozz|vongol|totanett|calamar|polp|seppi/.test(n)) found.push("14. Molluschi 🐚");
+  return found;
 }
 
 function mergeMultiLineChalkboardText(rawText) {
@@ -1304,7 +1406,7 @@ async function processChalkboardPhoto(event) {
     } catch (e) {}
   }
 
-  status.textContent = '✅ Caricati i 21 piatti della lavagnetta Alicetta (divisori categorie attivi)!';
+  status.textContent = '✅ Caricati i 21 piatti della lavagnetta Alicetta!';
   document.getElementById('ocrResultBox').value = CHALKBOARD_OCT12_TEXT;
   event.target.value = '';
 }
@@ -1331,7 +1433,7 @@ function parseOcrBoxDishes() {
   return list;
 }
 
-function importOcrLinesToMenu() {
+async function importOcrLinesToMenu() {
   const dishes = parseOcrBoxDishes();
   if (dishes.length === 0) { alert("Scrivi o leggi almeno un piatto nel riquadro."); return; }
   let added = 0, updated = 0;
@@ -1340,8 +1442,9 @@ function importOcrLinesToMenu() {
     if (existing) { existing.price = d.price; existing.cat = d.cat; updated++; }
     else { state.menu.push({ id: Date.now() + Math.floor(Math.random() * 10000), cat: d.cat, name: d.name, price: d.price }); added++; }
   });
-  saveState(false); renderMenuMgr();
-  alert(`✅ Lavagnetta sincronizzata! (${added} nuovi piatti aggiunti, ${updated} aggiornati)`);
+  await saveState(false);
+  renderMenuMgr();
+  alert(`✅ Lavagnetta e QR Code Clienti aggiornati! (${added} nuovi piatti, ${updated} aggiornati)`);
 }
 
 function buildSectionHTML(title, items) {
@@ -1432,9 +1535,71 @@ function buildStyledWineListHTML() {
     </div>`;
 }
 
+// GENERATORE GRAFICO LISTA ALLERGENI CON QUADRO DEDICATO (Reg. UE 1169/2011)
+function buildAllergenSectionRows(title, items) {
+  if (!items || items.length === 0) return '';
+  const rows = items.map(d => {
+    const alList = detectAllergensForDish(d.name, d.cat);
+    const badges = alList.length > 0
+      ? alList.map(a => `<span style="display:inline-block; background:#FEF3C7; color:#92400E; border:1px solid #F59E0B; border-radius:6px; padding:2px 6px; font-size:0.72rem; font-weight:800; margin:2px 3px 0 0;">${a}</span>`).join('')
+      : `<span style="font-size:0.72rem; color:#059669; font-weight:700;">Nessun allergene diretto rilevato</span>`;
+    return `
+      <div style="padding:8px 0; border-bottom:1px dashed rgba(255,87,51,0.32); text-align:left;">
+        <div style="color:#062329; font-weight:800; font-size:0.9rem;">• ${d.name}</div>
+        <div style="margin-top:3px;">${badges}</div>
+      </div>`;
+  }).join('');
+  return `
+    <div style="margin-top:16px; margin-bottom:6px; background:#1BE7FF; color:#062329; padding:6px 12px; border-radius:8px; border-left:5px solid #FF5733; font-weight:900; font-size:0.88rem; letter-spacing:1.5px; text-transform:uppercase;">
+      ${title}
+    </div>
+    <div>${rows}</div>`;
+}
+
+function buildStyledAllergensHTML(dishes) {
+  const logoSvg = document.getElementById('alicettaLogoSvg').innerHTML;
+  const antipasti = dishes.filter(d => d.cat === '3 Antipasti');
+  const primi = dishes.filter(d => d.cat === '4 Primi Piatti');
+  const secondi = dishes.filter(d => d.cat === '5 Secondi');
+  const desserts = dishes.filter(d => d.cat === '6 Desserts');
+
+  const legendGrid = EU_ALLERGENS.map(a => `
+    <div style="background:#F9FAFB; border:1px solid rgba(0,0,0,0.12); border-radius:8px; padding:5px 7px; font-size:0.72rem; text-align:left;">
+      <b style="color:#FF5733;">${a.id}. ${a.icon} ${a.name}</b><br>
+      <span style="color:#4B5563; font-size:0.66rem;">${a.desc}</span>
+    </div>`).join('');
+
+  return `
+    <div style="font-family:'Plus Jakarta Sans',sans-serif; max-width:560px; margin:0 auto; border:4px solid #FF5733; border-radius:18px; background:#fff; padding:22px;">
+      <div style="text-align:center; background:#1BE7FF; padding:16px; border-radius:12px; margin-bottom:12px; border:2px solid #FF5733;">
+        <div style="max-width:210px; margin:0 auto;">${logoSvg.replace('TABLEZ 1.0', 'TRATTORIA')}</div>
+        <h3 style="color:#FF5733; margin-top:8px; letter-spacing:1.5px; font-size:1.12rem;">🛡️ TABELLA & LISTA ALLERGENI 🛡️</h3>
+        <p style="font-size:0.76rem; font-weight:700; color:#062329; margin-top:2px;">Ai sensi del Regolamento UE n. 1169/2011</p>
+      </div>
+
+      <!-- QUADRO DEDICATO 14 ALLERGENI -->
+      <div style="border:2px solid #FF5733; border-radius:12px; padding:10px; background:#FFFBEB; margin-bottom:14px;">
+        <div style="font-weight:900; font-size:0.82rem; color:#062329; margin-bottom:6px; text-align:center; text-transform:uppercase;">
+          📋 Quadro di Riferimento dei 14 Allergeni Alimentari
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
+          ${legendGrid}
+        </div>
+      </div>
+
+      ${buildAllergenSectionRows('🍤 ANTIPASTI', antipasti)}
+      ${buildAllergenSectionRows('🍝 PRIMI PIATTI', primi)}
+      ${buildAllergenSectionRows('🐟 SECONDI & CONTORNI', secondi)}
+      ${buildAllergenSectionRows('🍰 DESSERT & FORMAGGI', desserts)}
+
+      <div style="margin-top:16px; padding:10px; border-radius:10px; background:#F3F4F6; border:1px solid #D1D5DB; font-size:0.72rem; color:#1F2937; line-height:1.35; text-align:left;">
+        <b>ℹ️ Informazioni per i Clienti:</b> Si invitano i gentili clienti a segnalare al personale di sala eventuali allergie o intolleranze alimentari prima dell'ordinazione. Il pesce destinato a essere consumato crudo o praticamente crudo è stato sottoposto a trattamento di bonifica preventiva tramite abbattimento rapido di temperatura (Reg. CE 853/2004). Tutti i Vini e i Liquori in carta contengono <b>Solfiti (12)</b>; le Birre artigianali contengono <b>Glutine (1)</b>.
+      </div>
+    </div>`;
+}
+
 function exportDailyMenuWord() {
   const dishes = parseOcrBoxDishes();
-  if (!dishes.length) { alert("Nessun piatto inserito nel riquadro."); return; }
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>${buildStyledDailyMenuHTML(dishes)}</body></html>`;
   const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Menu_Del_Giorno_Alicetta.doc`; a.click();
@@ -1442,7 +1607,6 @@ function exportDailyMenuWord() {
 
 function exportDailyMenuPDF() {
   const dishes = parseOcrBoxDishes();
-  if (!dishes.length) { alert("Nessun piatto inserito nel riquadro."); return; }
   const w = window.open('', '_blank');
   w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Menù del Giorno Alicetta</title></head><body style="padding:20px;">${buildStyledDailyMenuHTML(dishes)}<scr` + `ipt>setTimeout(()=>window.print(),400);</scr` + `ipt></body></html>`);
   w.document.close();
@@ -1460,27 +1624,44 @@ function exportWineListPDF() {
   w.document.close();
 }
 
-/* =========================================================
-   PUBBLICAZIONE IMMEDIATA IN LETTURA PER TUTTI + SALVA SU DRIVE
-   ========================================================= */
+function exportAllergensWord() {
+  const dishes = parseOcrBoxDishes();
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>${buildStyledAllergensHTML(dishes)}</body></html>`;
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Lista_Allergeni_Alicetta.doc`; a.click();
+}
+
+function exportAllergensPDF() {
+  const dishes = parseOcrBoxDishes();
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Lista Allergeni Alicetta</title></head><body style="padding:20px;">${buildStyledAllergensHTML(dishes)}<scr` + `ipt>setTimeout(()=>window.print(),400);</scr` + `ipt></body></html>`);
+  w.document.close();
+}
+
 async function publishMenusOnlineForEveryone() {
   const statusEl = document.getElementById('driveUploadStatus');
   statusEl.style.display = 'block';
-  statusEl.textContent = '⏳ Sincronizzazione Menù del Giorno e Carta Vini in lettura pubblica...';
+  statusEl.textContent = '⏳ Sincronizzazione QR Code (Menù + Vini + Allergeni) in corso...';
   await saveState(false);
-  const baseUrl = window.location.origin + window.location.pathname;
-  const linkGiorno = `${baseUrl}?menu=giorno`;
-  const linkVini = `${baseUrl}?menu=vini`;
+  const hubUrl = getPermanentQrUrl();
   statusEl.innerHTML = `
-    ✅ <b>PUBBLICATI E VISIBILI A TUTTI (Sola Lettura):</b><br>
-    🍽️ <a href="${linkGiorno}" target="_blank" style="color:#FF5733; text-decoration:underline;">Apri Link Pubblico Menù del Giorno</a><br>
-    🍷 <a href="${linkVini}" target="_blank" style="color:#FF5733; text-decoration:underline;">Apri Link Pubblico Carta dei Vini</a>`;
+    ✅ <b>QR CODE SINCRONIZZATO E VISIBILE A TUTTI!</b><br>
+    🔗 <a href="${hubUrl}" target="_blank" style="color:#FF5733; text-decoration:underline;">Apri Link Unico (Menù + Carta Vini + Lista Allergeni)</a>`;
 }
 
 async function shareFileToGoogleDrive(type) {
-  const isVini = type === 'vini';
-  const fileName = isVini ? 'Carta_Dei_Vini_Alicetta.doc' : 'Menu_Del_Giorno_Alicetta.doc';
-  const bodyHtml = isVini ? buildStyledWineListHTML() : buildStyledDailyMenuHTML(parseOcrBoxDishes());
+  let fileName = 'Menu_Del_Giorno_Alicetta.doc';
+  let bodyHtml = '';
+  if (type === 'vini') {
+    fileName = 'Carta_Dei_Vini_Alicetta.doc';
+    bodyHtml = buildStyledWineListHTML();
+  } else if (type === 'allergeni') {
+    fileName = 'Lista_Allergeni_Alicetta.doc';
+    bodyHtml = buildStyledAllergensHTML(parseOcrBoxDishes());
+  } else {
+    bodyHtml = buildStyledDailyMenuHTML(parseOcrBoxDishes());
+  }
+
   const fullHtml = `<!DOCTYPE html><html lang="it"><head><meta charset="utf-8"><title>${fileName}</title></head><body style="padding:16px;">${bodyHtml}</body></html>`;
   const blob = new Blob(['\ufeff', fullHtml], { type: 'application/msword' });
   const file = new File([blob], fileName, { type: 'application/msword' });
@@ -1488,7 +1669,7 @@ async function shareFileToGoogleDrive(type) {
   if (navigator.canShare && navigator.canShare({ files: [file] })) {
     try {
       await navigator.share({
-        title: isVini ? 'Carta dei Vini Alicetta' : 'Menù del Giorno Alicetta',
+        title: fileName,
         text: 'Seleziona Google Drive (cartella Menù) per salvarlo:',
         files: [file]
       });
@@ -1530,7 +1711,7 @@ function resetCurrentEvening() {
       if (t.items && t.items.length > 0) {
         if (!state.historyLog) state.historyLog = [];
         state.historyLog.push({ tableName: t.name, total: getTableTotal(t), items: t.items, date: new Date().toISOString().slice(0,10) });
-        t.items = []; t.openedAt = 0; t.pickupTime = ''; t.customerName = ''; t.name = t.baseName;
+        t.items = []; t.openedAt = 0; t.kitchenOpenedAt = 0; t.pickupTime = ''; t.customerName = ''; t.name = t.baseName;
         t.firedMandate = {1:false,2:false,3:false,4:false};
         t.doneMandate = {1:false,2:false,3:false,4:false};
       }
