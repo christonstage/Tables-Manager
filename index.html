@@ -7,15 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #18191A;
-    --bg-deep: #121213;
-    --card: #242526;
+    --bg: #18191A;           /* Sfondo grigio carbonio */
+    --bg-deep: #121213;      
+    --card: #242526;         
     --card-hover: #3A3B3C;
     --text: #FFFFFF;
     --muted: #B0B3B8;
-    --accent: #00C8E5;
-    --logo-blue: #00B8D4;
-    --gold: #F5B700;
+    --accent: #00C8E5;       
+    --logo-blue: #00B8D4;    
+    --gold: #F5B700;         
+    --coral: #FF9164;        /* Vibrant Coral per i tasti/tavoli liberi */
+    --dusty-blue: #899BAE;   /* Dusty Blue per i tavoli occupati */
     --free: #10B981;
     --busy: #F59E0B;
     --border: rgba(255, 255, 255, 0.15);
@@ -35,27 +37,31 @@
   .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 7px 9px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
   .btn-top.active { background: var(--accent); color: #062329; border-color: #fff; font-weight: 800; }
 
-  .room-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 14px; }
-  .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 12px; border-radius: 12px; font-size: 0.98rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
-  .room-tab.active { border-color: #fff; color: #062329; background: var(--accent); font-weight: 800; }
+  .room-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 14px; }
+  .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.88rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+  .room-tab.active { border-color: #fff; color: #062329; background: var(--coral); font-weight: 800; }
 
   .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
-  .table-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s, background 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.25); }
+  .table-card { background: var(--coral); border: 2px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.25); color: #222; }
   .table-card:active { transform: scale(0.95); }
-  .table-card.free { border-color: rgba(255, 255, 255, 0.2); }
   
-  .table-card.busy { background: var(--logo-blue); border-color: #FFFFFF; color: #062329; box-shadow: 0 5px 15px rgba(0, 184, 212, 0.4); }
+  /* Tavolo Occupato Dusty Blue */
+  .table-card.busy {
+    background: var(--dusty-blue);
+    border-color: #FFFFFF;
+    color: #062329;
+    box-shadow: 0 5px 15px rgba(137, 155, 174, 0.45);
+  }
   .table-name { font-size: 1.05rem; font-weight: 800; }
   .table-card.busy .table-name { color: #062329; }
   .table-status { font-size: 0.75rem; font-weight: 700; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
-  .status-free { color: #052e16; background: #34d399; }
-  .status-busy { color: #451a03; background: #fbbf24; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
-  .table-total { font-size: 0.95rem; font-weight: 800; color: #fff; margin-top: 6px; }
-  .table-card.busy .table-total { color: #062329; }
+  .status-free { color: #fff; background: rgba(0,0,0,0.3); }
+  .status-busy { color: #062329; background: #fbbf24; }
+  .table-total { font-size: 0.95rem; font-weight: 800; color: #062329; margin-top: 6px; }
   .course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
   .dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 800; }
   .dot.sent { background: #059669; color: #ffffff; }
-  .dot.wait { background: #3A3B3C; color: #ffffff; }
+  .dot.wait { background: #222; color: #ffffff; }
   .dot.done { background: #062329; color: #34d399; }
 
   .screen { display: none; padding: 12px 14px; }
@@ -64,13 +70,13 @@
   .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
   .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
-  .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; }
-  .mandata-btn.active { border-color: #fff; background: var(--accent); color: #062329; font-weight: 800; }
+  .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; }
+  .mandata-btn.active { border-color: #fff; background: var(--coral); color: #062329; font-weight: 800; }
 
   .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; }
   .cat-bar::-webkit-scrollbar { display: none; }
   .cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
-  .cat-btn.active { background: #fff; color: var(--card); border-color: #fff; font-weight: 800; }
+  .cat-btn.active { background: var(--coral); color: #062329; border-color: #fff; font-weight: 800; }
 
   .search-wrap { margin-bottom: 10px; position: relative; }
   .search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; }
@@ -78,28 +84,21 @@
   .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
 
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
-  .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.2); transition: transform 0.12s, background-color 0.15s, border-color 0.15s; }
-  
-  @keyframes dishTapPulse {
-    0%   { transform: scale(1); background-color: var(--card); }
-    35%  { transform: scale(0.91); background-color: var(--logo-blue); border-color: #fff; box-shadow: 0 0 14px rgba(0, 200, 229, 0.85); }
-    100% { transform: scale(1); background-color: var(--card); }
-  }
-  .menu-item.tap-anim { animation: dishTapPulse 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
-  .tap-badge { position: absolute; top: 6px; right: 6px; background: var(--gold); color: #062329; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+  .menu-item { background: var(--coral); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.2); color: #062329; transition: transform 0.12s; }
+  .menu-item:active { transform: scale(0.97); }
+  .tap-badge { position: absolute; top: 6px; right: 6px; background: var(--gold); color: #062329; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; }
   @keyframes badgeFloatUp {
     0%   { opacity: 1; transform: translateY(4px) scale(0.8); }
-    50%  { opacity: 1; transform: translateY(-4px) scale(1.1); }
     100% { opacity: 0; transform: translateY(-12px) scale(1); }
   }
 
-  .item-name { font-weight: 700; font-size: 0.84rem; line-height: 1.22; word-break: break-word; }
-  .item-price { color: var(--gold); font-weight: 800; font-size: 0.84rem; margin-top: 8px; }
+  .item-name { font-weight: 800; font-size: 0.84rem; line-height: 1.22; word-break: break-word; }
+  .item-price { color: #062329; font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
 
-  .fire-box { background: #2A2B2D; border: 2px solid var(--gold); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
-  .fire-title { font-size: 0.8rem; font-weight: 700; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; }
+  .fire-box { background: var(--card); border: 2px solid var(--coral); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
+  .fire-title { font-size: 0.8rem; font-weight: 700; color: var(--coral); margin-bottom: 8px; text-transform: uppercase; }
   .fire-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn-fire { flex: 1; background: var(--gold); color: #291502; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
+  .btn-fire { flex: 1; background: var(--coral); color: #062329; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
   .btn-fire.fired { background: #34d399; color: #052e16; }
 
   .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
@@ -110,13 +109,13 @@
   .cart-info { flex: 1; }
   .cart-note { font-size: 0.76rem; color: var(--gold); font-style: italic; display: block; font-weight: 600; }
   .cart-controls { display: flex; align-items: center; gap: 5px; }
-  .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 800; cursor: pointer; }
+  .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--coral); color: #062329; font-weight: 900; cursor: pointer; }
   .btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--bg-deep); color: #fff; border: 1px solid var(--border); cursor: pointer; font-weight: 700; }
 
   .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(24, 25, 26, 0.98); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.3); }
   .btn-main { flex: 1; padding: 13px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.92rem; cursor: pointer; text-align: center; }
-  .btn-print { background: var(--accent); color: #062329; }
-  .btn-bill { background: #fff; color: var(--card); }
+  .btn-print { background: var(--coral); color: #062329; }
+  .btn-bill { background: var(--dusty-blue); color: #062329; }
   .btn-close-table { background: var(--card); color: #fff; border: 1px solid var(--border); flex: 0.5; }
 
   .form-control { padding: 10px; border-radius: 8px; background: var(--bg-deep); color: #fff; border: 1px solid var(--border); font-weight: 600; width: 100%; }
@@ -129,12 +128,12 @@
   .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
   .btn-modal { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; }
 
-  .kds-Banner { background: var(--card); border: 2px solid var(--gold); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .btn-kds-audio { background: var(--gold); color: #291502; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
+  .kds-Banner { background: var(--card); border: 2px solid var(--coral); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .btn-kds-audio { background: var(--coral); color: #062329; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 900; font-size: 0.85rem; cursor: pointer; }
   .btn-kds-audio.on { background: #34d399; color: #052e16; }
   .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
   .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); }
-  .kds-card.urgent { border-color: var(--gold); background: #2A2B2D; }
+  .kds-card.urgent { border-color: var(--coral); }
   .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #34d399; color: #052e16; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 </style>
 </head>
@@ -174,8 +173,9 @@
 
 <div id="viewTables" class="screen active">
   <div class="room-tabs">
-    <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">❄️ Sala Interna (11)</div>
-    <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🕶️ Sala Esterna (5)</div>
+    <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">❄️ Interna (11)</div>
+    <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🕶️ Esterna (5)</div>
+    <div class="room-tab" id="tabAsporto" onclick="selectRoom('asporto')">🥡 Asporto</div>
   </div>
   <div class="tables-grid" id="tablesContainer"></div>
 </div>
@@ -214,12 +214,13 @@
   <div class="menu-grid" id="menuGrid"></div>
 
   <div class="cart-section">
-    <div style="font-weight:800; margin-bottom:10px; font-size:0.95rem;">📋 Riepilogo Comanda al Tavolo</div>
+    <div style="font-weight:800; margin-bottom:10px; font-size:0.95rem;">📋 Riepilogo Comanda</div>
     <div id="cartContainer"></div>
   </div>
 
   <div class="bottom-bar">
     <button class="btn-main btn-print" onclick="sendOrderToKitchen()">🖨️ INVIA</button>
+    <button class="btn-main btn-bill" onclick="splitBillPrompt()">👥 CONTO DIVISO</button>
     <button class="btn-main btn-bill" onclick="showPreBill()">💶 PRE-CONTO</button>
     <button class="btn-main btn-close-table" onclick="freeCurrentTable()">Libera</button>
   </div>
@@ -242,6 +243,11 @@
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">👤 Cameriere: <span id="currentWaiterBadge" style="color:var(--gold);">--</span></h3>
     <button class="btn-note" onclick="changeWaiter()">Cambia Nome</button>
+  </div>
+
+  <div class="cart-section">
+    <h3 style="margin-bottom:8px;">📊 Registro Storico di Fine Serata</h3>
+    <div id="dailyStats" style="font-size:0.85rem; color:var(--muted); line-height:1.4;">Caricamento statistiche...</div>
   </div>
 
   <div class="cart-section">
@@ -364,7 +370,7 @@ const DEFAULT_MENU = [
   { id: 604, cat: "6 Desserts", name: "Zaffermisù - tiramisù alla ricotta di pecora", price: 7.00 }
 ];
 
-const STORAGE_KEY = 'alicetta_pos_v6';
+const STORAGE_KEY = 'alicetta_pos_v7';
 
 let state = {
   currentRoom: 'interna',
@@ -378,7 +384,8 @@ let state = {
   lastAlertSignal: 0,
   kdsAudioEnabled: false,
   menu: [],
-  tables: {}
+  tables: {},
+  historyLog: []
 };
 
 let audioCtx = null;
@@ -406,6 +413,9 @@ function buildDefaultTables() {
   for (let i = 1; i <= 5; i++) {
     t['EST_' + i] = { id: 'EST_' + i, name: 'Esterno ' + i, room: 'esterna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
   }
+  for (let i = 1; i <= 5; i++) {
+    t['ASP_' + i] = { id: 'ASP_' + i, name: 'Asporto ' + i, room: 'asporto', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
+  }
   return t;
 }
 
@@ -419,6 +429,7 @@ async function initApp() {
     state.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
     state.waiterName = parsed.waiterName || '';
     state.lastAlertSignal = parsed.lastAlertSignal || 0;
+    state.historyLog = parsed.historyLog || [];
   } else {
     state.menu = DEFAULT_MENU;
     state.tables = buildDefaultTables();
@@ -434,6 +445,7 @@ async function initApp() {
   document.getElementById('firebaseUrlInput').value = state.firebaseUrl;
   renderCategorySelect();
   renderTables();
+  updateDailyStats();
 
   await pullFromCloud(true);
   setInterval(() => pullFromCloud(false), 1800);
@@ -470,6 +482,7 @@ function saveLocalOnly() {
     useRawBT: state.useRawBT,
     firebaseUrl: state.firebaseUrl,
     waiterName: state.waiterName,
+    historyLog: state.historyLog,
     lastAlertSignal: state.lastAlertSignal
   }));
 }
@@ -496,7 +509,8 @@ async function pushToCloud() {
         updatedAt: Date.now(),
         lastAlertSignal: state.lastAlertSignal,
         tables: state.tables,
-        menu: state.menu
+        menu: state.menu,
+        historyLog: state.historyLog
       })
     });
     if (res.ok) {
@@ -536,7 +550,11 @@ async function pullFromCloud(isInitial) {
     if (data.menu && data.menu.length > 0) {
       state.menu = data.menu;
     }
+    if (data.historyLog) {
+      state.historyLog = data.historyLog;
+    }
     saveLocalOnly();
+    updateDailyStats();
 
     if (document.getElementById('viewTables').classList.contains('active')) {
       renderTables();
@@ -617,6 +635,7 @@ function switchMainView(view) {
     document.getElementById('viewMenuMgr').classList.add('active');
     document.getElementById('navMenu').classList.add('active');
     renderMenuMgr();
+    updateDailyStats();
   }
 }
 
@@ -624,6 +643,7 @@ function selectRoom(room) {
   state.currentRoom = room;
   document.getElementById('tabInterna').classList.toggle('active', room === 'interna');
   document.getElementById('tabEsterna').classList.toggle('active', room === 'esterna');
+  document.getElementById('tabAsporto').classList.toggle('active', room === 'asporto');
   renderTables();
 }
 
@@ -647,11 +667,11 @@ function renderTables() {
           const hasM = t.items.some(i => i.mandata === m && i.name !== 'Pane e Coperto');
           if (!hasM) return;
           if (t.doneMandate && t.doneMandate[m]) {
-            dotsHtml += `<span class="dot done">${m}ª SERVITA✓</span>`;
+            dotsHtml += `<span class="dot done">${m}ª✓</span>`;
           } else if (t.firedMandate && t.firedMandate[m]) {
-            dotsHtml += `<span class="dot sent">${m}ª VIA🔥</span>`;
+            dotsHtml += `<span class="dot sent">${m}ª🔥</span>`;
           } else {
-            dotsHtml += `<span class="dot wait">${m}ª ATTESA</span>`;
+            dotsHtml += `<span class="dot wait">${m}ª...</span>`;
           }
         });
       }
@@ -666,7 +686,7 @@ function renderTables() {
             ${busy ? 'Occupato' : 'Libero'}
           </span>
         </div>
-        ${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.75rem; color:var(--muted); margin-top:6px;">Tocca per aprire</div>`}
+        ${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.72rem; opacity:0.7; margin-top:6px;">Tocca per aprire</div>`}
         <div class="course-dots">${dotsHtml}</div>
       `;
       container.appendChild(card);
@@ -679,7 +699,7 @@ function openTable(tableId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('viewOrder').classList.add('active');
   document.getElementById('activeTableName').textContent = t.name;
-  document.getElementById('activeTableSub').textContent = t.room === 'interna' ? '❄️ Sala Interna' : '🕶️ Sala Esterna';
+  document.getElementById('activeTableSub').textContent = t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto';
   document.getElementById('menuSearch').value = '';
   
   setMandata((!t.items || t.items.length === 0) ? 0 : 1);
@@ -744,7 +764,12 @@ function renderMenuGrid() {
     const card = document.createElement('div');
     card.className = 'menu-item';
     card.onclick = () => {
-      triggerDishAnimation(card);
+      if (navigator.vibrate) try { navigator.vibrate(20); } catch(e){}
+      const badge = document.createElement('span');
+      badge.className = 'tap-badge';
+      badge.textContent = '+1';
+      card.appendChild(badge);
+      setTimeout(() => { if (badge.parentNode) badge.parentNode.removeChild(badge); }, 450);
       addItemToTable(item);
     };
     card.innerHTML = `
@@ -753,23 +778,6 @@ function renderMenuGrid() {
     `;
     grid.appendChild(card);
   });
-}
-
-function triggerDishAnimation(cardEl) {
-  if (navigator.vibrate) {
-    try { navigator.vibrate(20); } catch (e) {}
-  }
-  cardEl.classList.remove('tap-anim');
-  void cardEl.offsetWidth;
-  cardEl.classList.add('tap-anim');
-
-  const badge = document.createElement('span');
-  badge.className = 'tap-badge';
-  badge.textContent = '+1';
-  cardEl.appendChild(badge);
-  setTimeout(() => {
-    if (badge.parentNode) badge.parentNode.removeChild(badge);
-  }, 450);
 }
 
 function addItemToTable(menuItem) {
@@ -880,6 +888,42 @@ function renderOrderScreen() {
   });
 }
 
+function splitBillPrompt() {
+  const t = state.tables[state.activeTableId];
+  if (!t || !t.items || t.items.length === 0) { alert("Nessun ordine attivo."); return; }
+  const total = getTableTotal(t);
+  const people = prompt("In quante persone volete dividere il conto?", "2");
+  if (!people || isNaN(people) || parseInt(people) <= 0) return;
+  const share = total / parseInt(people);
+  alert(`Totale Tavolo: € ${formatPrice(total)}\nNumero Persone: ${people}\nQuota pro-capite: € ${formatPrice(share)}`);
+}
+
+function moveOrMergeTable() {
+  const currentT = state.tables[state.activeTableId];
+  if (!currentT || !currentT.items || currentT.items.length === 0) { alert("Tavolo vuoto."); return; }
+  const targetName = prompt("Inserisci il nome o numero del tavolo di destinazione (es. Tavolo 5 o Esterno 2):");
+  if (!targetName || !targetName.trim()) return;
+
+  const targetKey = Object.keys(state.tables).find(k => state.tables[k].name.toLowerCase() === targetName.trim().toLowerCase());
+  if (!targetKey) {
+    alert("Tavolo di destinazione non trovato.");
+    return;
+  }
+  const targetT = state.tables[targetKey];
+  if (targetT.id === currentT.id) return;
+
+  if (confirm(`Vuoi spostare/unire tutti i piatti da ${currentT.name} a ${targetT.name}?`)) {
+    targetT.items = targetT.items.concat(currentT.items);
+    currentT.items = [];
+    currentT.firedMandate = { 1: false, 2: false, 3: false, 4: false };
+    currentT.doneMandate = { 1: false, 2: false, 3: false, 4: false };
+    currentT.sentOnce = false;
+    saveState(false);
+    closeTableView();
+    alert("Operazione completata!");
+  }
+}
+
 function buildTimeStr() {
   const now = new Date();
   return now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
@@ -896,13 +940,10 @@ function sendOrderToKitchen() {
   saveState(true);
   renderOrderScreen();
 
-  const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
   const timeStr = buildTimeStr();
-
-  let preview = "";
-  preview += "==========================================\n";
+  let preview = "==========================================\n";
   preview += `   ALICETTA TRATTORIA - ${t.name.toUpperCase()}\n`;
-  preview += `   Cam: ${state.waiterName || 'Staff'} - ${salaName} (${timeStr})\n`;
+  preview += `   Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n`;
   preview += "==========================================\n\n";
 
   const ESC = "\x1B";
@@ -949,13 +990,11 @@ function fireMandataTicket(mandataNum) {
   saveState(true);
   renderOrderScreen();
 
-  const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
   const timeStr = buildTimeStr();
-
   let preview = `******************************************\n   🔥 VIA ${mandataNum}a MANDATA! (${t.name.toUpperCase()})\n   Ore ${timeStr}\n******************************************\n\n`;
   const ESC = "\x1B";
   const GS = "\x1D";
-  let escpos = ESC + "@" + ESC + "a" + "\x01" + ESC + "!" + "\x38" + `VIA ${mandataNum}a MANDATA!\n${t.name.toUpperCase()}\n` + ESC + "!" + "\x08" + `${salaName} - ${timeStr}\n******************************************\n` + ESC + "a" + "\x00";
+  let escpos = ESC + "@" + ESC + "a" + "\x01" + ESC + "!" + "\x38" + `VIA ${mandataNum}a MANDATA!\n${t.name.toUpperCase()}\n` + ESC + "!" + "\x08" + `${timeStr}\n******************************************\n` + ESC + "a" + "\x00";
 
   list.forEach(it => {
     preview += `  ${it.qty}x ${it.name}\n`;
@@ -1022,13 +1061,56 @@ function freeCurrentTable() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) { closeTableView(); return; }
   if (confirm(`Liberare ${t.name}?`)) {
+    // Registra nel registro storico di fine serata
+    const total = getTableTotal(t);
+    const copertiCount = t.items.filter(i => i.name === 'Pane e Coperto').reduce((s, c) => s + c.qty, 0);
+    if (!state.historyLog) state.historyLog = [];
+    state.historyLog.push({
+      tableName: t.name,
+      total: total,
+      coperti: copertiCount,
+      items: JSON.parse(JSON.stringify(t.items)),
+      time: new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })
+    });
+
     t.items = [];
     t.firedMandate = { 1: false, 2: false, 3: false, 4: false };
     t.doneMandate = { 1: false, 2: false, 3: false, 4: false };
     t.sentOnce = false;
     saveState(false);
     closeTableView();
+    updateDailyStats();
   }
+}
+
+function updateDailyStats() {
+  const container = document.getElementById('dailyStats');
+  if (!container) return;
+  const log = state.historyLog || [];
+  if (log.length === 0) {
+    container.innerHTML = "Nessun tavolo chiuso in questa sessione.";
+    return;
+  }
+  let totalRev = 0;
+  let totalCop = 0;
+  const dishCounts = {};
+  log.forEach(entry => {
+    totalRev += entry.total;
+    totalCop += entry.coperti;
+    entry.items.forEach(it => {
+      if (it.name !== 'Pane e Coperto') {
+        dishCounts[it.name] = (dishCounts[it.name] || 0) + it.qty;
+      }
+    });
+  });
+  const sortedDishes = Object.entries(dishCounts).sort((a,b) => b[1] - a[1]).slice(0, 3);
+
+  container.innerHTML = `
+    • <b>Tavoli Chiusi:</b> ${log.length}<br>
+    • <b>Coperti Totali:</b> ${totalCop}<br>
+    • <b>Incasso Totale:</b> € ${formatPrice(totalRev)}<br>
+    • <b>Piatti più venduti:</b> ${sortedDishes.length > 0 ? sortedDishes.map(d => `${d[0]} (${d[1]}x)`).join(', ') : 'Nessuno'}
+  `;
 }
 
 function markMandataDone(tableId, mandataNum) {
@@ -1051,7 +1133,7 @@ function renderKds() {
   activeTables.forEach(t => {
     const card = document.createElement('div');
     card.className = `kds-card`;
-    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--gold);">${t.room === 'interna' ? '❄️ Interna' : '🕶️ Esterna'}</span></div>`;
+    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--gold);">${t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto'}</span></div>`;
 
     [0, 1, 2, 3, 4].forEach(m => {
       const mItems = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
