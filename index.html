@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Alicetta TableZ 1.0</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon.svg">
+<meta name="theme-color" content="#2ECC71">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -18,7 +25,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .brand-logo svg { height: 18px; width: auto; display: block; }
 .sync-badge { font-size: 0.52rem; font-weight: 800; padding: 2px 3px; border-radius: 4px; background: rgba(0,0,0,0.12); color: #111; }
 .top-actions { display: flex; gap: 3px; align-items: center; flex-shrink: 1; min-width: 0; }
-.waiter-tag { font-size: 0.62rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 5px 5px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; cursor: pointer; overflow: hidden; text-overflow: ellipsis; max-width: 82px; }
+.waiter-tag { font-size: 0.62rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 5px 6px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; cursor: pointer; overflow: hidden; text-overflow: ellipsis; max-width: 105px; }
 .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 5px 6px; border-radius: 7px; font-size: 0.66rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
 .btn-top.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
 .btn-pager { background: #111827; color: #FBBF24; border: 1.5px solid #FBBF24; padding: 5px 6px; border-radius: 7px; font-size: 0.7rem; font-weight: 800; cursor: pointer; }
@@ -332,7 +339,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   </div>
 </div>
 
-<!-- VISTA PUBBLICA MENU DEL GIORNO (ACCESSIBILE DA TUTTI SENZA RESTRIZIONI) -->
+<!-- VISTA PUBBLICA MENU DEL GIORNO -->
 <div id="viewPublicMenu" class="screen">
   <div id="publicMenuContent" style="background:#fff; border-radius:16px; padding:20px; max-width:540px; margin:10px auto; box-shadow:0 10px 30px rgba(0,0,0,0.2); text-align:center;"></div>
 </div>
@@ -660,9 +667,6 @@ async function pullFromCloud(isInitial) {
   } catch (e) { badge.textContent = "Loc"; }
 }
 
-/* =========================================================
-   MODIFICA NUMERO TAVOLI E UNIONE TAVOLI
-   ========================================================= */
 async function saveTableCounts() {
   const nInt = Math.max(1, parseInt(document.getElementById('cfgIntCount').value, 10) || 11);
   const nEst = Math.max(1, parseInt(document.getElementById('cfgEstCount').value, 10) || 5);
@@ -1185,9 +1189,6 @@ function freeCurrentTable() {
   }
 }
 
-/* =========================================================
-   LAVAGNETTA OCR ➔ WORD (.DOC), PDF GRAFICO & GOOGLE DRIVE
-   ========================================================= */
 function guessCategoryFromDishName(name, fallbackCat) {
   if (fallbackCat && fallbackCat !== 'AUTO') return fallbackCat;
   const n = name.toLowerCase();
@@ -1297,7 +1298,7 @@ function exportDailyMenuPDF() {
   if (list.length > 0) state.dailyChalkboard = list;
   const w = window.open('', '_blank');
   if (!w) { showPublicDailyMenuPage(); window.print(); return; }
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Menù del Giorno - Alicetta Trattoria</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"></head><body style="padding:20px; background:#fff;">${buildStyledDailyMenuHTML(state.dailyChalkboard)}<script>setTimeout(()=>window.print(),500);<\/script></body></html>`);
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Menù del Giorno - Alicetta Trattoria</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"></head><body style="padding:20px; background:#fff;">${buildStyledDailyMenuHTML(state.dailyChalkboard)}<scr` + `ipt>setTimeout(()=>window.print(),500);</scr` + `ipt></body></html>`);
   w.document.close();
 }
 
@@ -1318,9 +1319,12 @@ async function publishMenuAndDrive() {
 
   if (state.driveWebhook && state.driveWebhook.startsWith('https://')) {
     try {
+      const htmlContent = buildStyledDailyMenuHTML(state.dailyChalkboard);
+      const fileName = `Menu_Alicetta_${buildDateISO()}.html`;
       const res = await fetch(state.driveWebhook, {
         method: 'POST',
-        body: JSON.stringify({ filename: `Menu_Alicetta_${buildDateISO()}.html`, html: buildStyledDailyMenuHTML(state.dailyChalkboard) })
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ fileName, filename: fileName, content: htmlContent, html: htmlContent, mimeType: 'text/html' })
       });
       const j = await res.json();
       if (j && j.url) driveMsg = `<br>📂 <b>Link Google Drive Pubblico:</b> <a href="${j.url}" target="_blank">${j.url}</a>`;
@@ -1342,9 +1346,6 @@ function showPublicDailyMenuPage() {
   `;
 }
 
-/* =========================================================
-   REPORTISTICA SERATA / MENSILE / ANNUALE + STAMPA 80MM
-   ========================================================= */
 function selectReportPeriod(period) {
   state.reportPeriod = period;
   document.getElementById('repTabDaily').classList.toggle('active', period === 'daily');
@@ -1446,7 +1447,7 @@ function renderKds() {
       const isDone = t.doneMandate && t.doneMandate[m];
       const isFired = (m === 0 || m === 1 || (t.firedMandate && t.firedMandate[m]));
       const badge = isDone ? `<span style="color:#10B981;">SERVITA</span>` : isFired ? `<span style="color:#10B981;">MARCIARE</span>` : `<span style="color:var(--logo-coral);">ATTESA</span>`;
-      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}"><div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${m === 0 ? 'SUBITO' : m + 'ª MANDATA'}</b> ${badge}</div>${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter \vert{}\vert{} 'Staff'})</span>${i.note ? `<i style="color:var(--logo-coral);">(${i.note})</i>` : ''}</div>`).join('')}${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}</div>`;
+      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}"><div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${m === 0 ? 'SUBITO' : m + 'ª MANDATA'}</b> ${badge}</div>${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter \vert{}\vert{} 'Staff'})</span>${i.note ? ` <i style="color:var(--logo-coral);">(${i.note})</i>` : ''}</div>`).join('')}${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}</div>`;
     });
     card.innerHTML = html; container.appendChild(card);
   });
