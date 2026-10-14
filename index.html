@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Comande & Tavoli - Trattoria</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card-hover: #334155;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --free: #10b981;
+    --busy: #f59e0b;
+    --fire: #ef4444;
+    --purple: #a855f7;
+    --border: #334155;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--bg); color: var(--text); padding-bottom: 90px; user-select: none; }
+  
+  /* Top Navigation */
+  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(15,23,42,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .brand { font-weight: 800; font-size: 1.1rem; color: var(--accent); letter-spacing: 0.5px; }
+  .top-actions { display: flex; gap: 6px; }
+  .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 7px 11px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
+  .btn-top.active { background: var(--accent); color: #0f172a; border-color: var(--accent); }
+
+  /* Room Switcher */
+  .room-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 14px; }
+  .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 12px; border-radius: 12px; font-size: 1rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; }
+  .room-tab.active { border-color: var(--accent); color: var(--text); background: rgba(56, 189, 248, 0.12); }
+
+  /* Tables Grid */
+  .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
+  .table-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.1s; }
+  .table-card:active { transform: scale(0.96); }
+  .table-card.free { border-color: rgba(16, 185, 129, 0.45); }
+  .table-card.busy { border-color: var(--busy); background: rgba(245, 158, 11, 0.08); }
+  .table-name { font-size: 1.05rem; font-weight: 800; }
+  .table-status { font-size: 0.75rem; font-weight: 700; margin-top: 6px; padding: 3px 6px; border-radius: 6px; display: inline-block; }
+  .status-free { color: var(--free); background: rgba(16, 185, 129, 0.12); }
+  .status-busy { color: var(--busy); background: rgba(245, 158, 11, 0.18); }
+  .table-total { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-top: 6px; }
+  .course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+  .dot { font-size: 0.65rem; padding: 2px 5px; border-radius: 4px; font-weight: 800; }
+  .dot.sent { background: var(--free); color: #052e16; }
+  .dot.wait { background: var(--fire); color: #fff; }
+
+  /* Order Modal / Screen */
+  .screen { display: none; padding: 12px 14px; }
+  .screen.active { display: block; }
+  .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); }
+  .btn-back { background: #334155; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+
+  /* Mandata Selector */
+  .mandata-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; }
+  .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 10px; font-size: 0.78rem; font-weight: 800; text-align: center; cursor: pointer; }
+  .mandata-btn.active { border-color: var(--accent); background: rgba(56, 189, 248, 0.18); color: #fff; }
+
+  /* Category Tabs */
+  .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px; scrollbar-width: none; }
+  .cat-bar::-webkit-scrollbar { display: none; }
+  .cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
+  .cat-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  /* Menu Items Grid */
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 8px; margin-bottom: 18px; }
+  .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 11px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 74px; }
+  .menu-item:active { background: var(--card-hover); transform: scale(0.97); }
+  .item-name { font-weight: 700; font-size: 0.9rem; line-height: 1.2; }
+  .item-price { color: var(--accent); font-weight: 800; font-size: 0.85rem; margin-top: 6px; }
+
+  /* Fire / Via Quick Buttons */
+  .fire-box { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--fire); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
+  .fire-title { font-size: 0.8rem; font-weight: 800; color: #fca5a5; margin-bottom: 8px; text-transform: uppercase; }
+  .fire-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn-fire { flex: 1; background: var(--fire); color: #fff; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
+  .btn-fire.fired { background: var(--free); color: #052e16; }
+
+  /* Cart / Comanda List */
+  .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; }
+  .mandata-group { margin-bottom: 14px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
+  .mandata-group:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+  .mandata-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 800; color: var(--accent); margin-bottom: 6px; text-transform: uppercase; }
+  .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.9rem; }
+  .cart-info { flex: 1; }
+  .cart-note { font-size: 0.78rem; color: #fbbf24; font-style: italic; display: block; }
+  .cart-controls { display: flex; align-items: center; gap: 6px; }
+  .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: #0f172a; color: #fff; font-weight: 800; cursor: pointer; }
+  .btn-note { font-size: 0.72rem; padding: 4px 7px; border-radius: 6px; background: #334155; color: #e2e8f0; border: none; cursor: pointer; }
+
+  /* Bottom Bar */
+  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,23,42,0.98); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; z-index: 60; }
+  .btn-main { flex: 1; padding: 13px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.92rem; cursor: pointer; text-align: center; }
+  .btn-print { background: var(--accent); color: #0f172a; }
+  .btn-bill { background: var(--purple); color: #fff; }
+  .btn-close-table { background: #334155; color: #f8fafc; flex: 0.5; }
+
+  /* Receipt Modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.78); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
+  .modal-overlay.active { display: flex; }
+  .receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 8px; padding: 16px; font-family: "Courier New", Courier, monospace; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-height: 85vh; overflow-y: auto; }
+  .receipt-pre { white-space: pre-wrap; font-family: "Courier New", Courier, monospace; font-size: 0.85rem; line-height: 1.35; }
+  .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
+  .btn-modal { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; }
+
+  /* KDS View */
+  .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+  .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 12px; padding: 12px; }
+  .kds-card.urgent { border-color: var(--fire); }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="brand">🍽️ TRATTORIA POS</div>
+  <div class="top-actions">
+    <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
+    <button class="btn-top" id="navKds" onclick="switchMainView('kds')">🖥️ KDS</button>
+    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')">⚙️ Menù</button>
+  </div>
+</div>
+
+<!-- VISTA 1: MAPPA TAVOLI -->
+<div id="viewTables" class="screen active">
+  <div class="room-tabs">
+    <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">🏠 Sala Interna (11)</div>
+    <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🌿 Sala Esterna (5)</div>
+  </div>
+  <div class="tables-grid" id="tablesContainer"></div>
+</div>
+
+<!-- VISTA 2: COMANDA TAVOLO -->
+<div id="viewOrder" class="screen">
+  <div class="order-header">
+    <button class="btn-back" onclick="closeTableView()">← Tavoli</button>
+    <div style="text-align:center;">
+      <div id="activeTableName" style="font-weight:900; font-size:1.1rem;">Tavolo 1</div>
+      <div id="activeTableSub" style="font-size:0.75rem; color:var(--muted);">Sala Interna</div>
+    </div>
+    <div id="activeTableTotal" style="font-weight:900; color:var(--accent); font-size:1.1rem;">€ 0.00</div>
+  </div>
+
+  <!-- Pulsanti Rapidi "DAI IL VIA" (visibili se ci sono 2ª o 3ª mandata) -->
+  <div id="fireBox" class="fire-box" style="display:none;">
+    <div class="fire-title">⚡ Comandi Rapidi Marcia Cucina (TM-m30III)</div>
+    <div class="fire-actions" id="fireButtonsContainer"></div>
+  </div>
+
+  <!-- Selettore Mandata Corrente -->
+  <div style="font-size:0.75rem; color:var(--muted); margin-bottom:4px; font-weight:700;">STAI INSERENDO PIATTI NELLA:</div>
+  <div class="mandata-bar">
+    <div class="mandata-btn" id="mBtn0" onclick="setMandata(0)">⚡ Subito/Bev</div>
+    <div class="mandata-btn active" id="mBtn1" onclick="setMandata(1)">1ª Mandata</div>
+    <div class="mandata-btn" id="mBtn2" onclick="setMandata(2)">2ª Mandata</div>
+    <div class="mandata-btn" id="mBtn3" onclick="setMandata(3)">3ª Mandata</div>
+  </div>
+
+  <!-- Categorie Menù -->
+  <div class="cat-bar" id="catBar"></div>
+
+  <!-- Piatti della Categoria -->
+  <div class="menu-grid" id="menuGrid"></div>
+
+  <!-- Riepilogo Comanda Divisa per Mandate -->
+  <div class="cart-section">
+    <div style="font-weight:800; margin-bottom:10px; font-size:0.95rem;">📋 Riepilogo Comanda al Tavolo</div>
+    <div id="cartContainer"></div>
+  </div>
+
+  <!-- Barra Azioni Fissa in Basso -->
+  <div class="bottom-bar">
+    <button class="btn-main btn-print" onclick="sendOrderToKitchen()">🖨️ INVIA CUCINA</button>
+    <button class="btn-main btn-bill" onclick="showPreBill()">💶 PRE-CONTO</button>
+    <button class="btn-main btn-close-table" onclick="freeCurrentTable()">Libera</button>
+  </div>
+</div>
+
+<!-- VISTA 3: SCHERMO KDS CUCINA -->
+<div id="viewKds" class="screen">
+  <div style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+    <h3 style="font-size:1.05rem;">🖥️ KDS Cucina in Tempo Reale</h3>
+    <span style="font-size:0.8rem; color:var(--muted);">Pronto per futuro Tablet</span>
+  </div>
+  <div class="kds-grid" id="kdsContainer"></div>
+</div>
+
+<!-- VISTA 4: GESTIONE MENU & STAMPANTE -->
+<div id="viewMenuMgr" class="screen">
+  <div class="cart-section">
+    <h3 style="margin-bottom:8px;">🖨️ Impostazioni Epson TM-m30III</h3>
+    <p style="font-size:0.82rem; color:var(--muted); margin-bottom:10px;">
+      Attiva l'invio diretto a <b>RawBT</b> (consigliato su Android per stampare e tagliare la carta in 1 secondo senza finestre di dialogo) oppure usa l'anteprima a schermo.
+    </p>
+    <label style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.9rem; margin-bottom:8px;">
+      <input type="checkbox" id="chkRawbt" onchange="toggleRawbtSetting()" style="width:18px; height:18px;">
+      Invia direttamente a RawBT (ESC/POS 80mm)
+    </label>
+  </div>
+
+  <div class="cart-section">
+    <h3 style="margin-bottom:10px;">➕ Aggiungi Piatto al Menù</h3>
+    <div style="display:grid; gap:8px;">
+      <select id="newItemCat" style="padding:10px; border-radius:8px; background:#0f172a; color:#fff; border:1px solid var(--border);"></select>
+      <input type="text" id="newItemName" placeholder="Nome piatto (es. Chitarrina allo scoglio)" style="padding:10px; border-radius:8px; background:#0f172a; color:#fff; border:1px solid var(--border);">
+      <input type="number" step="0.5" id="newItemPrice" placeholder="Prezzo € (es. 14.00)" style="padding:10px; border-radius:8px; background:#0f172a; color:#fff; border:1px solid var(--border);">
+      <button class="btn-main btn-print" onclick="addNewMenuItem()">Salva Piatto nel Menù</button>
+    </div>
+  </div>
+
+  <div class="cart-section">
+    <h3 style="margin-bottom:10px;">📋 Piatti Attuali (Tocca 🗑️ per rimuovere)</h3>
+    <div id="menuMgrList"></div>
+  </div>
+</div>
+
+<!-- MODALE ANTEPRIMA SCONTRINO 80MM / RAWBT -->
+<div class="modal-overlay" id="receiptModal">
+  <div class="receipt-box">
+    <div class="receipt-pre" id="receiptText"></div>
+    <div class="modal-actions">
+      <button class="btn-modal" style="background:#10b981; color:#fff;" onclick="triggerRawBTFromModal()">🖨️ Stampa RawBT</button>
+      <button class="btn-modal" style="background:#334155; color:#fff;" onclick="closeReceiptModal()">Chiudi</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CATEGORIES = ["Coperto", "Bevande", "Antipasti", "Primi", "Secondi", "Contorni", "Dolci"];
+const MANDATE_LABELS = {
+  0: "SUBITO / BEVANDE",
+  1: "1ª MANDATA (MARCIA)",
+  2: "2ª MANDATA",
+  3: "3ª MANDATA"
+};
+
+const DEFAULT_MENU = [
+  { id: 1, cat: "Coperto", name: "Coperto", price: 2.00 },
+  { id: 2, cat: "Coperto", name: "Pane Rustico Cestino", price: 2.50 },
+  { id: 3, cat: "Bevande", name: "Acqua Naturale 75cl", price: 2.50 },
+  { id: 4, cat: "Bevande", name: "Acqua Frizzante 75cl", price: 2.50 },
+  { id: 5, cat: "Bevande", name: "Calice Bianco", price: 5.00 },
+  { id: 6, cat: "Bevande", name: "Birra Artigianale", price: 6.00 },
+  { id: 7, cat: "Bevande", name: "Caffè", price: 1.50 },
+  { id: 8, cat: "Antipasti", name: "Pallotte Cace e Ove", price: 8.00 },
+  { id: 9, cat: "Antipasti", name: "Antipasto Caldo/Freddo", price: 16.00 },
+  { id: 10, cat: "Antipasti", name: "Soutè di Cozze", price: 11.00 },
+  { id: 11, cat: "Primi", name: "Chitarra allo Scoglio", price: 15.00 },
+  { id: 12, cat: "Primi", name: "Gnocchi agli Scampi", price: 15.00 },
+  { id: 13, cat: "Primi", name: "Spaghetti alle Vongole", price: 14.00 },
+  { id: 14, cat: "Secondi", name: "Frittura di Paranza", price: 16.00 },
+  { id: 15, cat: "Secondi", name: "Grigliata dell'Adriatico", price: 20.00 },
+  { id: 16, cat: "Secondi", name: "Pescato al Kamado", price: 22.00 },
+  { id: 17, cat: "Contorni", name: "Insalata Mista", price: 4.50 },
+  { id: 18, cat: "Contorni", name: "Patate al Forno", price: 5.00 },
+  { id: 19, cat: "Dolci", name: "Dolce della Casa", price: 5.50 },
+  { id: 20, cat: "Dolci", name: "Sorbetto al Limone", price: 4.50 }
+];
+
+let state = {
+  currentRoom: 'interna',
+  activeTableId: null,
+  currentMandata: 1,
+  currentCategory: 'Coperto',
+  useRawBT: false,
+  lastEscPosPayload: '',
+  menu: [],
+  tables: {}
+};
+
+function initApp() {
+  const saved = localStorage.getItem('trattoria_pos_v1');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    state.menu = parsed.menu || DEFAULT_MENU;
+    state.tables = parsed.tables || buildDefaultTables();
+    state.useRawBT = parsed.useRawBT || false;
+  } else {
+    state.menu = DEFAULT_MENU;
+    state.tables = buildDefaultTables();
+  }
+  document.getElementById('chkRawbt').checked = state.useRawBT;
+  renderCategorySelect();
+  renderTables();
+}
+
+function buildDefaultTables() {
+  const t = {};
+  for (let i = 1; i <= 11; i++) {
+    t['INT_' + i] = { id: 'INT_' + i, name: 'Tavolo ' + i, room: 'interna', items: [], firedMandate: { 1: false, 2: false, 3: false }, sentOnce: false };
+  }
+  for (let i = 1; i <= 5; i++) {
+    t['EST_' + i] = { id: 'EST_' + i, name: 'Esterno ' + i, room: 'esterna', items: [], firedMandate: { 1: false, 2: false, 3: false }, sentOnce: false };
+  }
+  return t;
+}
+
+function saveState() {
+  localStorage.setItem('trattoria_pos_v1', JSON.stringify({
+    menu: state.menu,
+    tables: state.tables,
+    useRawBT: state.useRawBT
+  }));
+}
+
+function switchMainView(view) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.btn-top').forEach(b => b.classList.remove('active'));
+  if (view === 'tables') {
+    document.getElementById('viewTables').classList.add('active');
+    document.getElementById('navTables').classList.add('active');
+    renderTables();
+  } else if (view === 'kds') {
+    document.getElementById('viewKds').classList.add('active');
+    document.getElementById('navKds').classList.add('active');
+    renderKds();
+  } else if (view === 'menuMgr') {
+    document.getElementById('viewMenuMgr').classList.add('active');
+    document.getElementById('navMenu').classList.add('active');
+    renderMenuMgr();
+  }
+}
+
+function selectRoom(room) {
+  state.currentRoom = room;
+  document.getElementById('tabInterna').classList.toggle('active', room === 'interna');
+  document.getElementById('tabEsterna').classList.toggle('active', room === 'esterna');
+  renderTables();
+}
+
+function getTableTotal(table) {
+  return table.items.reduce((sum, it) => sum + (it.price * it.qty), 0);
+}
+
+function renderTables() {
+  const container = document.getElementById('tablesContainer');
+  container.innerHTML = '';
+  Object.values(state.tables)
+    .filter(t => t.room === state.currentRoom)
+    .forEach(t => {
+      const busy = t.items.length > 0;
+      const total = getTableTotal(t);
+      const hasM2 = t.items.some(i => i.mandata === 2);
+      const hasM3 = t.items.some(i => i.mandata === 3);
+
+      let dotsHtml = '';
+      if (busy) {
+        if (t.sentOnce) dotsHtml += `<span class="dot sent">1ª IN CORSO</span>`;
+        if (hasM2) dotsHtml += `<span class="dot ${t.firedMandate[2] ? 'sent' : 'wait'}">2ª ${t.firedMandate[2] ? 'VIA✓' : 'ATTESA'}</span>`;
+        if (hasM3) dotsHtml += `<span class="dot ${t.firedMandate[3] ? 'sent' : 'wait'}">3ª ${t.firedMandate[3] ? 'VIA✓' : 'ATTESA'}</span>`;
+      }
+
+      const card = document.createElement('div');
+      card.className = `table-card ${busy ? 'busy' : 'free'}`;
+      card.onclick = () => openTable(t.id);
+      card.innerHTML = `
+        <div class="table-name">${t.name}</div>
+        <div>
+          <span class="table-status ${busy ? 'status-busy' : 'status-free'}">
+            ${busy ? 'Occupato' : 'Libero'}
+          </span>
+        </div>
+        ${busy ? `<div class="table-total">€ ${total.toFixed(2)}</div>` : `<div style="font-size:0.75rem; color:var(--muted); margin-top:6px;">Tocca per aprire</div>`}
+        <div class="course-dots">${dotsHtml}</div>
+      `;
+      container.appendChild(card);
+    });
+}
+
+function openTable(tableId) {
+  state.activeTableId = tableId;
+  const t = state.tables[tableId];
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('viewOrder').classList.add('active');
+  document.getElementById('activeTableName').textContent = t.name;
+  document.getElementById('activeTableSub').textContent = t.room === 'interna' ? 'Sala Interna' : 'Sala Esterna';
+  
+  setMandata(t.items.length === 0 ? 0 : 1);
+  renderCategories();
+  renderMenuGrid();
+  renderOrderScreen();
+}
+
+function closeTableView() {
+  state.activeTableId = null;
+  switchMainView('tables');
+}
+
+function setMandata(m) {
+  state.currentMandata = m;
+  [0,1,2,3].forEach(idx => {
+    document.getElementById('mBtn' + idx).classList.toggle('active', idx === m);
+  });
+}
+
+function renderCategories() {
+  const bar = document.getElementById('catBar');
+  bar.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const b = document.createElement('button');
+    b.className = `cat-btn ${state.currentCategory === cat ? 'active' : ''}`;
+    b.textContent = cat;
+    b.onclick = () => {
+      state.currentCategory = cat;
+      // Se tocco Coperto o Bevande, imposta in automatico "Subito/Bev", altrimenti se era su 0 passa a 1ª Mandata
+      if (cat === 'Coperto' || cat === 'Bevande') {
+        setMandata(0);
+      } else if (state.currentMandata === 0) {
+        setMandata(1);
+      }
+      renderCategories();
+      renderMenuGrid();
+    };
+    bar.appendChild(b);
+  });
+}
+
+function renderMenuGrid() {
+  const grid = document.getElementById('menuGrid');
+  grid.innerHTML = '';
+  state.menu
+    .filter(item => item.cat === state.currentCategory)
+    .forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'menu-item';
+      card.onclick = () => addItemToTable(item);
+      card.innerHTML = `
+        <div class="item-name">${item.name}</div>
+        <div class="item-price">€ ${item.price.toFixed(2)}</div>
+      `;
+      grid.appendChild(card);
+    });
+}
+
+function addItemToTable(menuItem) {
+  const t = state.tables[state.activeTableId];
+  const m = state.currentMandata;
+  const existing = t.items.find(i => i.menuId === menuItem.id && i.mandata === m && !i.note);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    t.items.push({
+      lineId: Date.now() + Math.random(),
+      menuId: menuItem.id,
+      name: menuItem.name,
+      price: menuItem.price,
+      qty: 1,
+      mandata: m,
+      note: ''
+    });
+  }
+  saveState();
+  renderOrderScreen();
+}
+
+function changeItemQty(lineId, delta) {
+  const t = state.tables[state.activeTableId];
+  const idx = t.items.findIndex(i => i.lineId === lineId);
+  if (idx === -1) return;
+  t.items[idx].qty += delta;
+  if (t.items[idx].qty <= 0) t.items.splice(idx, 1);
+  saveState();
+  renderOrderScreen();
+}
+
+function editItemNote(lineId) {
+  const t = state.tables[state.activeTableId];
+  const item = t.items.find(i => i.lineId === lineId);
+  if (!item) return;
+  const note = prompt(`Nota per ${item.name} (es. Senza aglio, Ben cotto, Dividere):`, item.note || '');
+  if (note !== null) {
+    item.note = note.trim();
+    saveState();
+    renderOrderScreen();
+  }
+}
+
+function renderOrderScreen() {
+  const t = state.tables[state.activeTableId];
+  document.getElementById('activeTableTotal').textContent = '€ ' + getTableTotal(t).toFixed(2);
+
+  // Gestione pulsanti "DAI IL VIA"
+  const fireBox = document.getElementById('fireBox');
+  const fireBtns = document.getElementById('fireButtonsContainer');
+  fireBtns.innerHTML = '';
+  const hasM2 = t.items.some(i => i.mandata === 2);
+  const hasM3 = t.items.some(i => i.mandata === 3);
+
+  if (hasM2 || hasM3) {
+    fireBox.style.display = 'block';
+    if (hasM2) {
+      const b2 = document.createElement('button');
+      b2.className = `btn-fire ${t.firedMandate[2] ? 'fired' : ''}`;
+      b2.textContent = t.firedMandate[2] ? '✅ 2ª MANDATA GIÀ INVIATA (Ristampa)' : '🔥 DAI IL VIA 2ª MANDATA';
+      b2.onclick = () => fireMandataTicket(2);
+      fireBtns.appendChild(b2);
+    }
+    if (hasM3) {
+      const b3 = document.createElement('button');
+      b3.className = `btn-fire ${t.firedMandate[3] ? 'fired' : ''}`;
+      b3.textContent = t.firedMandate[3] ? '✅ 3ª MANDATA GIÀ INVIATA (Ristampa)' : '🔥 DAI IL VIA 3ª MANDATA';
+      b3.onclick = () => fireMandataTicket(3);
+      fireBtns.appendChild(b3);
+    }
+  } else {
+    fireBox.style.display = 'none';
+  }
+
+  // Riepilogo carrello diviso per mandate
+  const cart = document.getElementById('cartContainer');
+  if (t.items.length === 0) {
+    cart.innerHTML = '<div style="color:var(--muted); font-size:0.85rem;">Nessun piatto inserito. Seleziona la mandata e tocca i piatti.</div>';
+    return;
+  }
+
+  cart.innerHTML = '';
+  [0, 1, 2, 3].forEach(m => {
+    const groupItems = t.items.filter(i => i.mandata === m);
+    if (groupItems.length === 0) return;
+
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'mandata-group';
+    groupDiv.innerHTML = `<div class="mandata-header"><span>${MANDATE_LABELS[m]}</span><span>${groupItems.reduce((a,b)=>a+b.qty,0)} pz</span></div>`;
+
+    groupItems.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'cart-row';
+      row.innerHTML = `
+        <div class="cart-info">
+          <b>${item.qty}x</b> ${item.name}
+          ${item.note ? `<span class="cart-note">👉 Nota: ${item.note}</span>` : ''}
+        </div>
+        <div class="cart-controls">
+          <button class="btn-note" onclick="editItemNote(${item.lineId})">📝 Nota</button>
+          <button class="btn-qty" onclick="changeItemQty(${item.lineId}, -1)">-</button>
+          <button class="btn-qty" onclick="changeItemQty(${item.lineId}, 1)">+</button>
+        </div>
+      `;
+      groupDiv.appendChild(row);
+    });
+    cart.appendChild(groupDiv);
+  });
+}
+
+/* =========================================================
+   GENERATORE SCONTRINI 80MM ESC/POS PER EPSON TM-m30III
+   ========================================================= */
+function buildTimeStr() {
+  const now = new Date();
+  return now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+}
+
+function sendOrderToKitchen() {
+  const t = state.tables[state.activeTableId];
+  if (!t || t.items.length === 0) {
+    alert("Inserisci almeno un piatto prima di inviare in cucina.");
+    return;
+  }
+  t.sentOnce = true;
+  t.firedMandate[1] = true;
+  saveState();
+  renderOrderScreen();
+
+  const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
+  const timeStr = buildTimeStr();
+
+  // Testo per anteprima 80mm (42 colonne)
+  let preview = "";
+  preview += "==========================================\n";
+  preview += `      COMANDA CUCINA - ${t.name.toUpperCase()}\n`;
+  preview += `      ${salaName} - Ore ${timeStr}\n`;
+  preview += "==========================================\n\n";
+
+  // Costruzione stringa ESC/POS per TM-m30III
+  const ESC = "\x1B";
+  const GS = "\x1D";
+  let escpos = ESC + "@"; // Init
+  escpos += ESC + "a" + "\x01"; // Center
+  escpos += ESC + "!" + "\x38"; // Double W/H + Bold
+  escpos += `${t.name.toUpperCase()}\n`;
+  escpos += ESC + "!" + "\x08"; // Bold
+  escpos += `${salaName} - Ore ${timeStr}\n`;
+  escpos += "------------------------------------------\n";
+  escpos += ESC + "a" + "\x00"; // Left
+
+  [0, 1, 2, 3].forEach(m => {
+    const list = t.items.filter(i => i.mandata === m && i.cat !== 'Coperto');
+    if (list.length === 0) return;
+
+    const headerTitle = m === 1 ? ">>> 1a MANDATA (MARCIA SUBITO) <<<" :
+                        m === 2 ? "--- 2a MANDATA (ATTENDI VIA) ---" :
+                        m === 3 ? "--- 3a MANDATA (ATTENDI VIA) ---" :
+                                  "--- SUBITO / BEVANDE ---";
+
+    preview += `${headerTitle}\n`;
+    escpos += "\n" + ESC + "!" + "\x08" + headerTitle + "\n" + ESC + "!" + "\x00";
+
+    list.forEach(it => {
+      const line = `${it.qty}x ${it.name}`;
+      preview += `  ${line}\n`;
+      escpos += ESC + "!" + "\x18" + `${it.qty}x ${it.name}\n` + ESC + "!" + "\x00"; // Doppia altezza per leggibilità in cucina
+      if (it.note) {
+        preview += `     * NOTA: ${it.note.toUpperCase()}\n`;
+        escpos += ESC + "!" + "\x08" + `   * NOTA: ${it.note.toUpperCase()}\n` + ESC + "!" + "\x00";
+      }
+    });
+    preview += "\n";
+  });
+
+  preview += "==========================================\n";
+  escpos += "\n------------------------------------------\n\n\n\n";
+  escpos += GS + "V" + "\x42" + "\x00"; // Taglio carta automatico TM-m30III
+
+  dispatchPrint(preview, escpos);
+}
+
+function fireMandataTicket(mandataNum) {
+  const t = state.tables[state.activeTableId];
+  const list = t.items.filter(i => i.mandata === mandataNum);
+  if (list.length === 0) return;
+
+  t.firedMandate[mandataNum] = true;
+  saveState();
+  renderOrderScreen();
+
+  const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
+  const timeStr = buildTimeStr();
+
+  let preview = "";
+  preview += "******************************************\n";
+  preview += `   🔥 DAI IL VIA ALLA ${mandataNum}a MANDATA! 🔥\n`;
+  preview += `      ${t.name.toUpperCase()} (${salaName})\n`;
+  preview += `            Ore ${timeStr}\n`;
+  preview += "******************************************\n\n";
+  preview += `PIATTI DA MARCIARE ORA (${mandataNum}a MANDATA):\n`;
+  preview += "------------------------------------------\n";
+
+  const ESC = "\x1B";
+  const GS = "\x1D";
+  let escpos = ESC + "@";
+  escpos += ESC + "a" + "\x01";
+  escpos += ESC + "!" + "\x38";
+  escpos += `VIA ${mandataNum}a MANDATA!\n`;
+  escpos += `${t.name.toUpperCase()}\n`;
+  escpos += ESC + "!" + "\x08";
+  escpos += `${salaName} - Ore ${timeStr}\n`;
+  escpos += "******************************************\n";
+  escpos += ESC + "a" + "\x00";
+
+  list.forEach(it => {
+    preview += `  ${it.qty}x ${it.name}\n`;
+    escpos += ESC + "!" + "\x38" + `${it.qty}x ${it.name}\n` + ESC + "!" + "\x00";
+    if (it.note) {
+      preview += `     * NOTA: ${it.note.toUpperCase()}\n`;
+      escpos += ESC + "!" + "\x08" + `   * NOTA: ${it.note.toUpperCase()}\n` + ESC + "!" + "\x00";
+    }
+  });
+
+  preview += "\n******************************************\n";
+  escpos += "\n******************************************\n\n\n\n";
+  escpos += GS + "V" + "\x42" + "\x00";
+
+  dispatchPrint(preview, escpos);
+}
+
+function showPreBill() {
+  const t = state.tables[state.activeTableId];
+  if (!t || t.items.length === 0) return;
+
+  const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
+  const total = getTableTotal(t);
+
+  let preview = "";
+  preview += "==========================================\n";
+  preview += `       RIEPILOGO CONTO (NON FISCALE)\n`;
+  preview += `       ${t.name.toUpperCase()} - ${salaName}\n`;
+  preview += "==========================================\n\n";
+
+  const ESC = "\x1B";
+  const GS = "\x1D";
+  let escpos = ESC + "@" + ESC + "a" + "\x01" + ESC + "!" + "\x08";
+  escpos += `PRE-CONTO ${t.name.toUpperCase()} (${salaName})\n`;
+  escpos += "------------------------------------------\n" + ESC + "a" + "\x00" + ESC + "!" + "\x00";
+
+  t.items.forEach(it => {
+    const sub = (it.price * it.qty).toFixed(2);
+    const left = `${it.qty}x ${it.name}`;
+    const spaces = Math.max(1, 34 - left.length - sub.length);
+    const line = left + " ".repeat(spaces) + "EUR " + sub;
+    preview += line + "\n";
+    escpos += line + "\n";
+  });
+
+  preview += "\n------------------------------------------\n";
+  preview += `TOTALE DA BATTERE SU SUMUP:   EUR ${total.toFixed(2)}\n`;
+  preview += "==========================================\n";
+
+  escpos += "------------------------------------------\n";
+  escpos += ESC + "!" + "\x38" + `TOTALE: EUR ${total.toFixed(2)}\n` + ESC + "!" + "\x00";
+  escpos += "\n\n\n" + GS + "V" + "\x42" + "\x00";
+
+  dispatchPrint(preview, escpos);
+}
+
+function encodeBase64UTF8(str) {
+  const bytes = new Uint8Array(str.length);
+  for (let i = 0; i < str.length; i++) {
+    bytes[i] = str.charCodeAt(i) & 0xFF;
+  }
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
+function dispatchPrint(previewText, escposRaw) {
+  state.lastEscPosPayload = escposRaw;
+  if (state.useRawBT) {
+    const b64 = encodeBase64UTF8(escposRaw);
+    window.location.href = "rawbt:base64," + b64;
+  } else {
+    document.getElementById('receiptText').textContent = previewText;
+    document.getElementById('receiptModal').classList.add('active');
+  }
+}
+
+function triggerRawBTFromModal() {
+  if (!state.lastEscPosPayload) return;
+  const b64 = encodeBase64UTF8(state.lastEscPosPayload);
+  window.location.href = "rawbt:base64," + b64;
+}
+
+function closeReceiptModal() {
+  document.getElementById('receiptModal').classList.remove('active');
+}
+
+function freeCurrentTable() {
+  const t = state.tables[state.activeTableId];
+  if (!t || t.items.length === 0) {
+    closeTableView();
+    return;
+  }
+  if (confirm(`Vuoi azzerare e liberare ${t.name}?`)) {
+    t.items = [];
+    t.firedMandate = { 1: false, 2: false, 3: false };
+    t.sentOnce = false;
+    saveState();
+    closeTableView();
+  }
+}
+
+/* =========================================================
+   VISTA KDS CUCINA & GESTIONE MENU
+   ========================================================= */
+function renderKds() {
+  const container = document.getElementById('kdsContainer');
+  container.innerHTML = '';
+  const activeTables = Object.values(state.tables).filter(t => t.items.length > 0);
+  if (activeTables.length === 0) {
+    container.innerHTML = '<div style="color:var(--muted);">Nessuna comanda attiva in cucina al momento.</div>';
+    return;
+  }
+  activeTables.forEach(t => {
+    const card = document.createElement('div');
+    card.className = `kds-card ${t.firedMandate[2] || t.firedMandate[3] ? 'urgent' : ''}`;
+    let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;">
+      <b>${t.name}</b>
+      <span style="font-size:0.78rem; color:var(--accent);">${t.room === 'interna' ? 'Interna' : 'Esterna'}</span>
+    </div>`;
+    [1, 2, 3].forEach(m => {
+      const mItems = t.items.filter(i => i.mandata === m && i.cat !== 'Coperto');
+      if (mItems.length === 0) return;
+      const statusBadge = (m === 1 || t.firedMandate[m])
+        ? `<span style="color:var(--free); font-weight:800;">🔥 MARCIARE ORA</span>`
+        : `<span style="color:var(--busy);">⏳ IN ATTESA</span>`;
+      html += `<div style="margin-bottom:8px;">
+        <div style="font-size:0.78rem; display:flex; justify-content:space-between; margin-bottom:3px;">
+          <b>${m}ª MANDATA</b> ${statusBadge}
+        </div>
+        ${mItems.map(i => `<div style="font-size:0.88rem; padding-left:6px;">• <b>${i.qty}x</b> ${i.name}${i.note ? `<i style="color:#fbbf24;">(${i.note})</i>` : ''}</div>`).join('')}
+      </div>`;
+    });
+    card.innerHTML = html;
+    container.appendChild(card);
+  });
+}
+
+function toggleRawbtSetting() {
+  state.useRawBT = document.getElementById('chkRawbt').checked;
+  saveState();
+}
+
+function renderCategorySelect() {
+  const sel = document.getElementById('newItemCat');
+  sel.innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
+}
+
+function renderMenuMgr() {
+  const list = document.getElementById('menuMgrList');
+  list.innerHTML = '';
+  state.menu.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'cart-row';
+    row.style.borderBottom = '1px solid var(--border)';
+    row.innerHTML = `
+      <div><b>[${item.cat}]</b> ${item.name} — <span style="color:var(--accent);">€ ${item.price.toFixed(2)}</span></div>
+      <button class="btn-qty" onclick="deleteMenuItem(${item.id})">🗑️</button>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function addNewMenuItem() {
+  const cat = document.getElementById('newItemCat').value;
+  const name = document.getElementById('newItemName').value.trim();
+  const price = parseFloat(document.getElementById('newItemPrice').value);
+  if (!name || isNaN(price)) {
+    alert("Inserisci nome e prezzo validi.");
+    return;
+  }
+  state.menu.push({ id: Date.now(), cat, name, price });
+  document.getElementById('newItemName').value = '';
+  document.getElementById('newItemPrice').value = '';
+  saveState();
+  renderMenuMgr();
+}
+
+function deleteMenuItem(id) {
+  state.menu = state.menu.filter(i => i.id !== id);
+  saveState();
+  renderMenuMgr();
+}
+
+initApp();
+</script>
+</body>
+</html>
