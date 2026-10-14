@@ -3,101 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Comande & Tavoli - Trattoria</title>
+<title>Alicetta Trattoria - Comande & Tavoli</title>
 <style>
   :root {
-    --bg: #0f172a;
-    --card: #1e293b;
-    --card-hover: #334155;
-    --text: #f8fafc;
-    --muted: #94a3b8;
-    --accent: #38bdf8;
-    --free: #10b981;
-    --busy: #f59e0b;
-    --fire: #ef4444;
-    --purple: #a855f7;
-    --border: #334155;
+    --bg: #FF5E5B;           /* Vibrant Coral principale */
+    --bg-deep: #D9383A;      /* Coral profondo per barre e controlli */
+    --card: #B8292B;         /* Card corallo scuro ad alto contrasto */
+    --card-hover: #9E1F21;
+    --text: #FFFFFF;
+    --muted: #FFE3E2;
+    --accent: #00C8E5;       /* Turchese Alicetta */
+    --gold: #F5B700;         /* Oro Alicetta */
+    --free: #10B981;
+    --busy: #F59E0B;
+    --fire: #111827;
+    --purple: #7C3AED;
+    --border: rgba(255, 255, 255, 0.28);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-  body { background: var(--bg); color: var(--text); padding-bottom: 90px; user-select: none; }
+  body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-select: none; }
   
   /* Top Navigation */
-  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(15,23,42,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-  .brand { font-weight: 800; font-size: 1.1rem; color: var(--accent); letter-spacing: 0.5px; }
+  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(217, 56, 58, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.18); }
+  
+  /* Logo Alicetta Trattoria */
+  .brand-logo { display: flex; align-items: center; background: #00B8D4; padding: 5px 11px; border-radius: 10px; border: 1.5px solid #8D5B1C; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+  .brand-logo svg { height: 34px; width: auto; display: block; }
+
   .top-actions { display: flex; gap: 6px; }
-  .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 7px 11px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
-  .btn-top.active { background: var(--accent); color: #0f172a; border-color: var(--accent); }
+  .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 8px 11px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; cursor: pointer; }
+  .btn-top.active { background: var(--accent); color: #062329; border-color: #fff; font-weight: 800; }
 
   /* Room Switcher */
   .room-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 14px; }
-  .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 12px; border-radius: 12px; font-size: 1rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; }
-  .room-tab.active { border-color: var(--accent); color: var(--text); background: rgba(56, 189, 248, 0.12); }
+  .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 12px; border-radius: 12px; font-size: 0.98rem; font-weight: 800; text-align: center; cursor: pointer; transition: 0.15s; box-shadow: 0 3px 8px rgba(0,0,0,0.12); }
+  .room-tab.active { border-color: #fff; color: #062329; background: var(--accent); }
 
   /* Tables Grid */
   .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
-  .table-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.1s; }
+  .table-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.1s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
   .table-card:active { transform: scale(0.96); }
-  .table-card.free { border-color: rgba(16, 185, 129, 0.45); }
-  .table-card.busy { border-color: var(--busy); background: rgba(245, 158, 11, 0.08); }
+  .table-card.free { border-color: rgba(255, 255, 255, 0.45); }
+  .table-card.busy { border-color: var(--gold); background: #8F1D1F; }
   .table-name { font-size: 1.05rem; font-weight: 800; }
-  .table-status { font-size: 0.75rem; font-weight: 700; margin-top: 6px; padding: 3px 6px; border-radius: 6px; display: inline-block; }
-  .status-free { color: var(--free); background: rgba(16, 185, 129, 0.12); }
-  .status-busy { color: var(--busy); background: rgba(245, 158, 11, 0.18); }
-  .table-total { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-top: 6px; }
+  .table-status { font-size: 0.75rem; font-weight: 800; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
+  .status-free { color: #052e16; background: #34d399; }
+  .status-busy { color: #451a03; background: #fbbf24; }
+  .table-total { font-size: 0.92rem; font-weight: 800; color: #fff; margin-top: 6px; }
   .course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
   .dot { font-size: 0.65rem; padding: 2px 5px; border-radius: 4px; font-weight: 800; }
-  .dot.sent { background: var(--free); color: #052e16; }
-  .dot.wait { background: var(--fire); color: #fff; }
+  .dot.sent { background: #34d399; color: #052e16; }
+  .dot.wait { background: #00C8E5; color: #062329; }
 
-  /* Order Modal / Screen */
+  /* Order Screen */
   .screen { display: none; padding: 12px 14px; }
   .screen.active { display: block; }
-  .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); }
-  .btn-back { background: #334155; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+  .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
+  .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 800; cursor: pointer; }
 
   /* Mandata Selector */
   .mandata-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; }
-  .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 10px; font-size: 0.78rem; font-weight: 800; text-align: center; cursor: pointer; }
-  .mandata-btn.active { border-color: var(--accent); background: rgba(56, 189, 248, 0.18); color: #fff; }
+  .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 10px; font-size: 0.76rem; font-weight: 800; text-align: center; cursor: pointer; }
+  .mandata-btn.active { border-color: #fff; background: var(--accent); color: #062329; }
 
   /* Category Tabs */
-  .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px; scrollbar-width: none; }
+  .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; }
   .cat-bar::-webkit-scrollbar { display: none; }
-  .cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
-  .cat-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 800; white-space: nowrap; cursor: pointer; }
+  .cat-btn.active { background: #fff; color: var(--card); border-color: #fff; }
+
+  /* Search input */
+  .search-wrap { margin-bottom: 10px; position: relative; }
+  .search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; }
+  .search-input::placeholder { color: rgba(255,255,255,0.7); }
+  .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
 
   /* Menu Items Grid */
-  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 8px; margin-bottom: 18px; }
-  .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 11px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 74px; }
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
+  .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
   .menu-item:active { background: var(--card-hover); transform: scale(0.97); }
-  .item-name { font-weight: 700; font-size: 0.9rem; line-height: 1.2; }
-  .item-price { color: var(--accent); font-weight: 800; font-size: 0.85rem; margin-top: 6px; }
+  .item-name { font-weight: 700; font-size: 0.84rem; line-height: 1.22; word-break: break-word; }
+  .item-price { color: var(--gold); font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
 
   /* Fire / Via Quick Buttons */
-  .fire-box { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--fire); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
-  .fire-title { font-size: 0.8rem; font-weight: 800; color: #fca5a5; margin-bottom: 8px; text-transform: uppercase; }
+  .fire-box { background: #8F1D1F; border: 2px solid var(--gold); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
+  .fire-title { font-size: 0.8rem; font-weight: 800; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; }
   .fire-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn-fire { flex: 1; background: var(--fire); color: #fff; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
-  .btn-fire.fired { background: var(--free); color: #052e16; }
+  .btn-fire { flex: 1; background: var(--gold); color: #291502; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 900; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
+  .btn-fire.fired { background: #34d399; color: #052e16; }
 
   /* Cart / Comanda List */
-  .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; }
+  .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.14); }
   .mandata-group { margin-bottom: 14px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
   .mandata-group:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
-  .mandata-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 800; color: var(--accent); margin-bottom: 6px; text-transform: uppercase; }
-  .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.9rem; }
+  .mandata-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 900; color: var(--gold); margin-bottom: 6px; text-transform: uppercase; }
+  .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.88rem; gap: 6px; }
   .cart-info { flex: 1; }
-  .cart-note { font-size: 0.78rem; color: #fbbf24; font-style: italic; display: block; }
-  .cart-controls { display: flex; align-items: center; gap: 6px; }
-  .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: #0f172a; color: #fff; font-weight: 800; cursor: pointer; }
-  .btn-note { font-size: 0.72rem; padding: 4px 7px; border-radius: 6px; background: #334155; color: #e2e8f0; border: none; cursor: pointer; }
+  .cart-note { font-size: 0.76rem; color: var(--gold); font-style: italic; display: block; font-weight: 600; }
+  .cart-controls { display: flex; align-items: center; gap: 5px; }
+  .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 900; cursor: pointer; }
+  .btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--bg-deep); color: #fff; border: 1px solid var(--border); cursor: pointer; font-weight: 700; }
 
   /* Bottom Bar */
-  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,23,42,0.98); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; z-index: 60; }
-  .btn-main { flex: 1; padding: 13px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.92rem; cursor: pointer; text-align: center; }
-  .btn-print { background: var(--accent); color: #0f172a; }
-  .btn-bill { background: var(--purple); color: #fff; }
-  .btn-close-table { background: #334155; color: #f8fafc; flex: 0.5; }
+  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(217, 56, 58, 0.98); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 8px; z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.2); }
+  .btn-main { flex: 1; padding: 13px; border-radius: 10px; border: none; font-weight: 900; font-size: 0.92rem; cursor: pointer; text-align: center; }
+  .btn-print { background: var(--accent); color: #062329; }
+  .btn-bill { background: #fff; color: var(--card); }
+  .btn-close-table { background: var(--card); color: #fff; border: 1px solid var(--border); flex: 0.5; }
+
+  /* Form controls in Menu Mgr */
+  .form-control { padding: 10px; border-radius: 8px; background: var(--bg-deep); color: #fff; border: 1px solid var(--border); font-weight: 600; }
+  .form-control::placeholder { color: rgba(255,255,255,0.75); }
 
   /* Receipt Modal */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.78); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
@@ -110,14 +126,37 @@
   /* KDS View */
   .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
   .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 12px; padding: 12px; }
-  .kds-card.urgent { border-color: var(--fire); }
+  .kds-card.urgent { border-color: var(--gold); }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
+<!-- TOPBAR CON LOGO ALICETTA TRATTORIA -->
 <div class="topbar">
-  <div class="brand">🍽️ TRATTORIA POS</div>
+  <div class="brand-logo" title="Alicetta Trattoria">
+    <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
+      <!-- Pesce geometrico Alicetta -->
+      <g stroke="#7A4B12" stroke-width="2.2" fill="#9E6518" stroke-linejoin="round">
+        <polygon points="75,16 95,12 90,20"/>
+        <polygon points="95,12 115,12 103,20"/>
+        <polygon points="90,20 103,20 115,12 122,19 102,24"/>
+        <polygon points="75,16 90,20 102,24"/>
+        <polygon points="98,12 105,4 112,12" fill="#8C5814"/>
+        <polygon points="102,24 108,31 115,22" fill="#8C5814"/>
+        <polygon points="115,12 134,17 122,23" fill="none"/>
+        <polygon points="75,16 64,9 68,16 64,23" fill="none"/>
+      </g>
+      <circle cx="125" cy="17" r="1.8" fill="#7A4B12"/>
+      <!-- Lettering ALICETTA -->
+      <text x="110" y="51" text-anchor="middle" fill="#7A4B12" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text>
+      <!-- Linee e punto centrale -->
+      <line x1="28" y1="58" x2="98" y2="58" stroke="#7A4B12" stroke-width="1.6"/>
+      <circle cx="110" cy="58" r="2.2" fill="#7A4B12"/>
+      <line x1="122" y1="58" x2="192" y2="58" stroke="#7A4B12" stroke-width="1.6"/>
+      <!-- Sottotitolo TRATTORIA -->
+      <text x="110" y="69" text-anchor="middle" fill="#7A4B12" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text>
+    </svg>
+  </div>
   <div class="top-actions">
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
     <button class="btn-top" id="navKds" onclick="switchMainView('kds')">🖥️ KDS</button>
@@ -142,17 +181,17 @@
       <div id="activeTableName" style="font-weight:900; font-size:1.1rem;">Tavolo 1</div>
       <div id="activeTableSub" style="font-size:0.75rem; color:var(--muted);">Sala Interna</div>
     </div>
-    <div id="activeTableTotal" style="font-weight:900; color:var(--accent); font-size:1.1rem;">€ 0.00</div>
+    <div id="activeTableTotal" style="font-weight:900; color:var(--gold); font-size:1.1rem;">€ 0,00</div>
   </div>
 
-  <!-- Pulsanti Rapidi "DAI IL VIA" (visibili se ci sono 2ª o 3ª mandata) -->
+  <!-- Pulsanti Rapidi "DAI IL VIA" -->
   <div id="fireBox" class="fire-box" style="display:none;">
     <div class="fire-title">⚡ Comandi Rapidi Marcia Cucina (TM-m30III)</div>
     <div class="fire-actions" id="fireButtonsContainer"></div>
   </div>
 
   <!-- Selettore Mandata Corrente -->
-  <div style="font-size:0.75rem; color:var(--muted); margin-bottom:4px; font-weight:700;">STAI INSERENDO PIATTI NELLA:</div>
+  <div style="font-size:0.75rem; color:var(--muted); margin-bottom:4px; font-weight:800;">STAI INSERENDO PIATTI NELLA:</div>
   <div class="mandata-bar">
     <div class="mandata-btn" id="mBtn0" onclick="setMandata(0)">⚡ Subito/Bev</div>
     <div class="mandata-btn active" id="mBtn1" onclick="setMandata(1)">1ª Mandata</div>
@@ -160,15 +199,21 @@
     <div class="mandata-btn" id="mBtn3" onclick="setMandata(3)">3ª Mandata</div>
   </div>
 
-  <!-- Categorie Menù -->
+  <!-- Categorie Menù SumUp -->
   <div class="cat-bar" id="catBar"></div>
+
+  <!-- Cerca rapido nel menù -->
+  <div class="search-wrap">
+    <input type="text" id="menuSearch" class="search-input" placeholder="🔍 Cerca piatto o vino in tutto il menù..." oninput="renderMenuGrid()">
+    <button class="search-clear" onclick="clearSearch()">×</button>
+  </div>
 
   <!-- Piatti della Categoria -->
   <div class="menu-grid" id="menuGrid"></div>
 
   <!-- Riepilogo Comanda Divisa per Mandate -->
   <div class="cart-section">
-    <div style="font-weight:800; margin-bottom:10px; font-size:0.95rem;">📋 Riepilogo Comanda al Tavolo</div>
+    <div style="font-weight:900; margin-bottom:10px; font-size:0.95rem;">📋 Riepilogo Comanda al Tavolo</div>
     <div id="cartContainer"></div>
   </div>
 
@@ -194,26 +239,29 @@
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">🖨️ Impostazioni Epson TM-m30III</h3>
     <p style="font-size:0.82rem; color:var(--muted); margin-bottom:10px;">
-      Attiva l'invio diretto a <b>RawBT</b> (consigliato su Android per stampare e tagliare la carta in 1 secondo senza finestre di dialogo) oppure usa l'anteprima a schermo.
+      Attiva l'invio diretto a <b>RawBT</b> (per stampare e tagliare la carta in 1 secondo sulla TM-m30III) oppure usa l'anteprima a schermo.
     </p>
-    <label style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.9rem; margin-bottom:8px;">
+    <label style="display:flex; align-items:center; gap:8px; font-weight:800; font-size:0.9rem; margin-bottom:8px;">
       <input type="checkbox" id="chkRawbt" onchange="toggleRawbtSetting()" style="width:18px; height:18px;">
       Invia direttamente a RawBT (ESC/POS 80mm)
     </label>
   </div>
 
   <div class="cart-section">
-    <h3 style="margin-bottom:10px;">➕ Aggiungi Piatto al Menù</h3>
+    <h3 style="margin-bottom:10px;">➕ Aggiungi Articolo al Menù</h3>
     <div style="display:grid; gap:8px;">
-      <select id="newItemCat" style="padding:10px; border-radius:8px; background:#0f172a; color:#fff; border:1px solid var(--border);"></select>
-      <input type="text" id="newItemName" placeholder="Nome piatto (es. Chitarrina allo scoglio)" style="padding:10px; border-radius:8px; background:#0f172a; color:#fff; border:1px solid var(--border);">
-      <input type="number" step="0.5" id="newItemPrice" placeholder="Prezzo € (es. 14.00)" style="padding:10px; border-radius:8px; background:#0f172a; color:#fff; border:1px solid var(--border);">
-      <button class="btn-main btn-print" onclick="addNewMenuItem()">Salva Piatto nel Menù</button>
+      <select id="newItemCat" class="form-control"></select>
+      <input type="text" id="newItemName" class="form-control" placeholder="Nome piatto o vino">
+      <input type="number" step="0.5" id="newItemPrice" class="form-control" placeholder="Prezzo € (es. 14.00)">
+      <button class="btn-main btn-print" onclick="addNewMenuItem()">Salva nel Menù</button>
     </div>
   </div>
 
   <div class="cart-section">
-    <h3 style="margin-bottom:10px;">📋 Piatti Attuali (Tocca 🗑️ per rimuovere)</h3>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h3>📋 Catalogo Alicetta (68 voci)</h3>
+      <button class="btn-note" onclick="resetMenuToSumUp()">🔄 Ripristina Default</button>
+    </div>
     <div id="menuMgrList"></div>
   </div>
 </div>
@@ -230,7 +278,15 @@
 </div>
 
 <script>
-const CATEGORIES = ["Coperto", "Bevande", "Antipasti", "Primi", "Secondi", "Contorni", "Dolci"];
+const CATEGORIES = [
+  "1 Coperto",
+  "2 Bevande",
+  "3 Antipasti",
+  "4 Primi Piatti",
+  "5 Secondi",
+  "6 Desserts"
+];
+
 const MANDATE_LABELS = {
   0: "SUBITO / BEVANDE",
   1: "1ª MANDATA (MARCIA)",
@@ -239,33 +295,106 @@ const MANDATE_LABELS = {
 };
 
 const DEFAULT_MENU = [
-  { id: 1, cat: "Coperto", name: "Coperto", price: 2.00 },
-  { id: 2, cat: "Coperto", name: "Pane Rustico Cestino", price: 2.50 },
-  { id: 3, cat: "Bevande", name: "Acqua Naturale 75cl", price: 2.50 },
-  { id: 4, cat: "Bevande", name: "Acqua Frizzante 75cl", price: 2.50 },
-  { id: 5, cat: "Bevande", name: "Calice Bianco", price: 5.00 },
-  { id: 6, cat: "Bevande", name: "Birra Artigianale", price: 6.00 },
-  { id: 7, cat: "Bevande", name: "Caffè", price: 1.50 },
-  { id: 8, cat: "Antipasti", name: "Pallotte Cace e Ove", price: 8.00 },
-  { id: 9, cat: "Antipasti", name: "Antipasto Caldo/Freddo", price: 16.00 },
-  { id: 10, cat: "Antipasti", name: "Soutè di Cozze", price: 11.00 },
-  { id: 11, cat: "Primi", name: "Chitarra allo Scoglio", price: 15.00 },
-  { id: 12, cat: "Primi", name: "Gnocchi agli Scampi", price: 15.00 },
-  { id: 13, cat: "Primi", name: "Spaghetti alle Vongole", price: 14.00 },
-  { id: 14, cat: "Secondi", name: "Frittura di Paranza", price: 16.00 },
-  { id: 15, cat: "Secondi", name: "Grigliata dell'Adriatico", price: 20.00 },
-  { id: 16, cat: "Secondi", name: "Pescato al Kamado", price: 22.00 },
-  { id: 17, cat: "Contorni", name: "Insalata Mista", price: 4.50 },
-  { id: 18, cat: "Contorni", name: "Patate al Forno", price: 5.00 },
-  { id: 19, cat: "Dolci", name: "Dolce della Casa", price: 5.50 },
-  { id: 20, cat: "Dolci", name: "Sorbetto al Limone", price: 4.50 }
+  // 1 Coperto (rimossi articoli a 0,00 €)
+  { id: 101, cat: "1 Coperto", name: "Pane e Coperto", price: 3.00 },
+
+  // 2 Bevande
+  { id: 201, cat: "2 Bevande", name: "Acqua Frizzante", price: 3.00 },
+  { id: 202, cat: "2 Bevande", name: "Acqua Naturale", price: 3.00 },
+  { id: 203, cat: "2 Bevande", name: "Birra Nabò", price: 6.00 },
+  { id: 204, cat: "2 Bevande", name: "CAPO LE VIGNE CERASUOLO D'ABRUZZO DOC", price: 24.00 },
+  { id: 205, cat: "2 Bevande", name: "Caffè", price: 2.50 },
+  { id: 206, cat: "2 Bevande", name: "Caffè Corretto", price: 3.50 },
+  { id: 207, cat: "2 Bevande", name: "Caffè Deca", price: 2.50 },
+  { id: 208, cat: "2 Bevande", name: "Calice Bianco", price: 4.00 },
+  { id: 209, cat: "2 Bevande", name: "Calice Cerasuolo", price: 4.00 },
+  { id: 210, cat: "2 Bevande", name: "Calice Rosso", price: 4.00 },
+  { id: 211, cat: "2 Bevande", name: "Carasuolo Terre di Poggio", price: 15.00 },
+  { id: 212, cat: "2 Bevande", name: "Cerasuolo Ferzo", price: 18.00 },
+  { id: 213, cat: "2 Bevande", name: "Cerasuolo Superiore Fossimatto Fontefico", price: 35.00 },
+  { id: 214, cat: "2 Bevande", name: "Coca Cola", price: 3.00 },
+  { id: 215, cat: "2 Bevande", name: "Collefrisio Filare Trebbiano", price: 20.00 },
+  { id: 216, cat: "2 Bevande", name: "Collefrisio Trebbiano", price: 20.00 },
+  { id: 217, cat: "2 Bevande", name: "Dire Bere Baciare Fontefico", price: 40.00 },
+  { id: 218, cat: "2 Bevande", name: "Febbre d'Abruzzo Fontefico", price: 40.00 },
+  { id: 219, cat: "2 Bevande", name: "IAVA CERASUOLO D'ABRUZZO DOC", price: 18.00 },
+  { id: 220, cat: "2 Bevande", name: "IAVA CHARDONNAY IGT TERRE D'ABRUZZO", price: 18.00 },
+  { id: 221, cat: "2 Bevande", name: "IAVA PASSERINA IGT TERRE D'ABRUZZO", price: 18.00 },
+  { id: 222, cat: "2 Bevande", name: "ICONIC MAIOLICA IGP TERRE D'ABRUZZO", price: 20.00 },
+  { id: 223, cat: "2 Bevande", name: "KRIYA TREBBIANO D'ABRUZZO DOC", price: 18.00 },
+  { id: 224, cat: "2 Bevande", name: "Liquore Artigianale Abruzzese", price: 3.50 },
+  { id: 225, cat: "2 Bevande", name: "Maleducato 11", price: 30.00 },
+  { id: 226, cat: "2 Bevande", name: "Maleducato Blondie", price: 24.00 },
+  { id: 227, cat: "2 Bevande", name: "Maleducato rosato", price: 24.00 },
+  { id: 228, cat: "2 Bevande", name: "Margento Orange Simigliani", price: 24.00 },
+  { id: 229, cat: "2 Bevande", name: "Metodo Classico Fenaroli", price: 30.00 },
+  { id: 230, cat: "2 Bevande", name: "Montepulciano Terre di Poggio", price: 15.00 },
+  { id: 231, cat: "2 Bevande", name: "Pane al Pane Fontefico", price: 40.00 },
+  { id: 232, cat: "2 Bevande", name: "Passerina Passo Cale", price: 16.00 },
+  { id: 233, cat: "2 Bevande", name: "Passo Cale Montepulciano", price: 18.00 },
+  { id: 234, cat: "2 Bevande", name: "Pecorino Chicchi Bio", price: 18.00 },
+  { id: 235, cat: "2 Bevande", name: "Pecorino Colline Rurabiliandia", price: 15.00 },
+  { id: 236, cat: "2 Bevande", name: "Pecorino Passo Cale", price: 16.00 },
+  { id: 237, cat: "2 Bevande", name: "Pecorino Superiore Canaglia Fontefico", price: 35.00 },
+  { id: 238, cat: "2 Bevande", name: "Pecorino Terre di Poggio", price: 14.00 },
+  { id: 239, cat: "2 Bevande", name: "Pinto 11 Montepulciano", price: 26.00 },
+  { id: 240, cat: "2 Bevande", name: "Rurabilandia Pecorino", price: 15.00 },
+  { id: 241, cat: "2 Bevande", name: "Trabocco Cerasuolo Charmat", price: 18.00 },
+  { id: 242, cat: "2 Bevande", name: "Trabocco Pecorino Charmat", price: 18.00 },
+  { id: 243, cat: "2 Bevande", name: "Trebbiano Collefrisio", price: 22.00 },
+
+  // 3 Antipasti
+  { id: 301, cat: "3 Antipasti", name: "Alicetta Marinata", price: 15.00 },
+  { id: 302, cat: "3 Antipasti", name: "Alicette impanate e fritte con majo al prezzemolo", price: 13.00 },
+  { id: 303, cat: "3 Antipasti", name: "Cetrioli", price: 4.00 },
+  { id: 304, cat: "3 Antipasti", name: "Cozze gratinate con gregoriano, ventricina e majo", price: 13.00 },
+  { id: 305, cat: "3 Antipasti", name: "Crudo di Manzo", price: 16.00 },
+  { id: 306, cat: "3 Antipasti", name: "Insalata Pomodori", price: 6.00 },
+  { id: 307, cat: "3 Antipasti", name: "La Marrocca", price: 6.00 },
+  { id: 308, cat: "3 Antipasti", name: "Menù cena aziendale", price: 33.50 },
+  { id: 309, cat: "3 Antipasti", name: "Pallotte", price: 12.00 },
+  { id: 310, cat: "3 Antipasti", name: "Patatine Fritte", price: 6.00 },
+  { id: 311, cat: "3 Antipasti", name: "Plateau Formaggi Artigianali", price: 18.00 },
+  { id: 312, cat: "3 Antipasti", name: "Polpette di granchio blu su salsa di zucchine", price: 14.00 },
+  { id: 313, cat: "3 Antipasti", name: "Pomodori e Cetrioli", price: 6.00 },
+  { id: 314, cat: "3 Antipasti", name: "Soute Cozze", price: 13.00 },
+  { id: 315, cat: "3 Antipasti", name: "Soutè di Vongole", price: 15.00 },
+  { id: 316, cat: "3 Antipasti", name: "Tagliere Salumi Artigianali", price: 18.00 },
+  { id: 317, cat: "3 Antipasti", name: "Verdure Saltate", price: 6.00 },
+
+  // 4 Primi Piatti
+  { id: 401, cat: "4 Primi Piatti", name: "Cubetti Verrigni Vongole e crema Pachino", price: 14.00 },
+  { id: 402, cat: "4 Primi Piatti", name: "Cubetto Totanetto", price: 14.00 },
+  { id: 403, cat: "4 Primi Piatti", name: "Linguina Cozze", price: 13.00 },
+  { id: 404, cat: "4 Primi Piatti", name: "Linguina ragù Panocchie", price: 16.00 },
+  { id: 405, cat: "4 Primi Piatti", name: "Pacchero Ragù Granchi", price: 16.00 },
+  { id: 406, cat: "4 Primi Piatti", name: "Pasta all' Olio", price: 7.00 },
+  { id: 407, cat: "4 Primi Piatti", name: "Rigatoro Alici", price: 14.00 },
+  { id: 408, cat: "4 Primi Piatti", name: "Spaghetti aglio e peperoncino Vongole", price: 13.00 },
+  { id: 409, cat: "4 Primi Piatti", name: "Sugo Bimbi", price: 9.00 },
+
+  // 5 Secondi
+  { id: 501, cat: "5 Secondi", name: "Baccalà in vasocottura con patate, peperoni", price: 16.00 },
+  { id: 502, cat: "5 Secondi", name: "Braciola di pecora al carbone con m...", price: 18.00 },
+  { id: 503, cat: "5 Secondi", name: "Fish & Chips Adriatico - Baccalà in pastella", price: 20.00 },
+  { id: 504, cat: "5 Secondi", name: "Frittura di totanetti freschi dell'Adriatico", price: 17.00 },
+  { id: 505, cat: "5 Secondi", name: "Maiale Nero Peligno", price: 20.00 },
+  { id: 506, cat: "5 Secondi", name: "Sgombro al carbone con dressing al pomodoro", price: 18.00 },
+
+  // 6 Desserts
+  { id: 601, cat: "6 Desserts", name: "Cantucci Amarene", price: 6.00 },
+  { id: 602, cat: "6 Desserts", name: "Mouse al cioccolato", price: 6.00 },
+  { id: 603, cat: "6 Desserts", name: "Pizzelle", price: 5.00 },
+  { id: 604, cat: "6 Desserts", name: "Zaffermisù - tiramisù alla ricotta di pecora", price: 7.00 }
 ];
+
+const STORAGE_KEY = 'alicetta_pos_v3';
 
 let state = {
   currentRoom: 'interna',
   activeTableId: null,
   currentMandata: 1,
-  currentCategory: 'Coperto',
+  currentCategory: '1 Coperto',
   useRawBT: false,
   lastEscPosPayload: '',
   menu: [],
@@ -273,15 +402,16 @@ let state = {
 };
 
 function initApp() {
-  const saved = localStorage.getItem('trattoria_pos_v1');
+  const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
     const parsed = JSON.parse(saved);
-    state.menu = parsed.menu || DEFAULT_MENU;
+    state.menu = (parsed.menu && parsed.menu.length > 0) ? parsed.menu : DEFAULT_MENU;
     state.tables = parsed.tables || buildDefaultTables();
     state.useRawBT = parsed.useRawBT || false;
   } else {
     state.menu = DEFAULT_MENU;
     state.tables = buildDefaultTables();
+    saveState();
   }
   document.getElementById('chkRawbt').checked = state.useRawBT;
   renderCategorySelect();
@@ -300,11 +430,15 @@ function buildDefaultTables() {
 }
 
 function saveState() {
-  localStorage.setItem('trattoria_pos_v1', JSON.stringify({
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
     menu: state.menu,
     tables: state.tables,
     useRawBT: state.useRawBT
   }));
+}
+
+function formatPrice(num) {
+  return num.toFixed(2).replace('.', ',');
 }
 
 function switchMainView(view) {
@@ -364,7 +498,7 @@ function renderTables() {
             ${busy ? 'Occupato' : 'Libero'}
           </span>
         </div>
-        ${busy ? `<div class="table-total">€ ${total.toFixed(2)}</div>` : `<div style="font-size:0.75rem; color:var(--muted); margin-top:6px;">Tocca per aprire</div>`}
+        ${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.75rem; color:var(--muted); margin-top:6px;">Tocca per aprire</div>`}
         <div class="course-dots">${dotsHtml}</div>
       `;
       container.appendChild(card);
@@ -378,6 +512,7 @@ function openTable(tableId) {
   document.getElementById('viewOrder').classList.add('active');
   document.getElementById('activeTableName').textContent = t.name;
   document.getElementById('activeTableSub').textContent = t.room === 'interna' ? 'Sala Interna' : 'Sala Esterna';
+  document.getElementById('menuSearch').value = '';
   
   setMandata(t.items.length === 0 ? 0 : 1);
   renderCategories();
@@ -397,6 +532,11 @@ function setMandata(m) {
   });
 }
 
+function clearSearch() {
+  document.getElementById('menuSearch').value = '';
+  renderMenuGrid();
+}
+
 function renderCategories() {
   const bar = document.getElementById('catBar');
   bar.innerHTML = '';
@@ -406,8 +546,8 @@ function renderCategories() {
     b.textContent = cat;
     b.onclick = () => {
       state.currentCategory = cat;
-      // Se tocco Coperto o Bevande, imposta in automatico "Subito/Bev", altrimenti se era su 0 passa a 1ª Mandata
-      if (cat === 'Coperto' || cat === 'Bevande') {
+      document.getElementById('menuSearch').value = '';
+      if (cat === '1 Coperto' || cat === '2 Bevande') {
         setMandata(0);
       } else if (state.currentMandata === 0) {
         setMandata(1);
@@ -422,18 +562,25 @@ function renderCategories() {
 function renderMenuGrid() {
   const grid = document.getElementById('menuGrid');
   grid.innerHTML = '';
-  state.menu
-    .filter(item => item.cat === state.currentCategory)
-    .forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'menu-item';
-      card.onclick = () => addItemToTable(item);
-      card.innerHTML = `
-        <div class="item-name">${item.name}</div>
-        <div class="item-price">€ ${item.price.toFixed(2)}</div>
-      `;
-      grid.appendChild(card);
-    });
+  const q = (document.getElementById('menuSearch').value || '').trim().toLowerCase();
+
+  const filtered = state.menu.filter(item => {
+    if (q.length > 0) {
+      return item.name.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q);
+    }
+    return item.cat === state.currentCategory;
+  });
+
+  filtered.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'menu-item';
+    card.onclick = () => addItemToTable(item);
+    card.innerHTML = `
+      <div class="item-name">${item.name}</div>
+      <div class="item-price">${formatPrice(item.price)} €</div>
+    `;
+    grid.appendChild(card);
+  });
 }
 
 function addItemToTable(menuItem) {
@@ -446,6 +593,7 @@ function addItemToTable(menuItem) {
     t.items.push({
       lineId: Date.now() + Math.random(),
       menuId: menuItem.id,
+      cat: menuItem.cat,
       name: menuItem.name,
       price: menuItem.price,
       qty: 1,
@@ -481,7 +629,7 @@ function editItemNote(lineId) {
 
 function renderOrderScreen() {
   const t = state.tables[state.activeTableId];
-  document.getElementById('activeTableTotal').textContent = '€ ' + getTableTotal(t).toFixed(2);
+  document.getElementById('activeTableTotal').textContent = '€ ' + formatPrice(getTableTotal(t));
 
   // Gestione pulsanti "DAI IL VIA"
   const fireBox = document.getElementById('fireBox');
@@ -513,7 +661,7 @@ function renderOrderScreen() {
   // Riepilogo carrello diviso per mandate
   const cart = document.getElementById('cartContainer');
   if (t.items.length === 0) {
-    cart.innerHTML = '<div style="color:var(--muted); font-size:0.85rem;">Nessun piatto inserito. Seleziona la mandata e tocca i piatti.</div>';
+    cart.innerHTML = '<div style="color:var(--muted); font-size:0.85rem;">Nessun piatto inserito. Seleziona la mandata e tocca gli articoli.</div>';
     return;
   }
 
@@ -557,7 +705,7 @@ function buildTimeStr() {
 function sendOrderToKitchen() {
   const t = state.tables[state.activeTableId];
   if (!t || t.items.length === 0) {
-    alert("Inserisci almeno un piatto prima di inviare in cucina.");
+    alert("Inserisci almeno un articolo prima di inviare in cucina.");
     return;
   }
   t.sentOnce = true;
@@ -568,27 +716,32 @@ function sendOrderToKitchen() {
   const salaName = t.room === 'interna' ? 'SALA INTERNA' : 'SALA ESTERNA';
   const timeStr = buildTimeStr();
 
-  // Testo per anteprima 80mm (42 colonne)
   let preview = "";
   preview += "==========================================\n";
-  preview += `      COMANDA CUCINA - ${t.name.toUpperCase()}\n`;
+  preview += `   ALICETTA TRATTORIA - ${t.name.toUpperCase()}\n`;
   preview += `      ${salaName} - Ore ${timeStr}\n`;
   preview += "==========================================\n\n";
 
-  // Costruzione stringa ESC/POS per TM-m30III
   const ESC = "\x1B";
   const GS = "\x1D";
-  let escpos = ESC + "@"; // Init
-  escpos += ESC + "a" + "\x01"; // Center
-  escpos += ESC + "!" + "\x38"; // Double W/H + Bold
+  let escpos = ESC + "@";
+  escpos += ESC + "a" + "\x01";
+  escpos += ESC + "!" + "\x38";
   escpos += `${t.name.toUpperCase()}\n`;
-  escpos += ESC + "!" + "\x08"; // Bold
+  escpos += ESC + "!" + "\x08";
   escpos += `${salaName} - Ore ${timeStr}\n`;
   escpos += "------------------------------------------\n";
-  escpos += ESC + "a" + "\x00"; // Left
+  escpos += ESC + "a" + "\x00";
+
+  const coperti = t.items.filter(i => i.name === 'Pane e Coperto');
+  if (coperti.length > 0) {
+    const totCoperti = coperti.reduce((s, c) => s + c.qty, 0);
+    preview += `COPERTI AL TAVOLO: ${totCoperti}\n\n`;
+    escpos += ESC + "!" + "\x08" + `COPERTI AL TAVOLO: ${totCoperti}\n` + ESC + "!" + "\x00";
+  }
 
   [0, 1, 2, 3].forEach(m => {
-    const list = t.items.filter(i => i.mandata === m && i.cat !== 'Coperto');
+    const list = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
     if (list.length === 0) return;
 
     const headerTitle = m === 1 ? ">>> 1a MANDATA (MARCIA SUBITO) <<<" :
@@ -602,7 +755,7 @@ function sendOrderToKitchen() {
     list.forEach(it => {
       const line = `${it.qty}x ${it.name}`;
       preview += `  ${line}\n`;
-      escpos += ESC + "!" + "\x18" + `${it.qty}x ${it.name}\n` + ESC + "!" + "\x00"; // Doppia altezza per leggibilità in cucina
+      escpos += ESC + "!" + "\x18" + `${it.qty}x ${it.name}\n` + ESC + "!" + "\x00";
       if (it.note) {
         preview += `     * NOTA: ${it.note.toUpperCase()}\n`;
         escpos += ESC + "!" + "\x08" + `   * NOTA: ${it.note.toUpperCase()}\n` + ESC + "!" + "\x00";
@@ -613,7 +766,7 @@ function sendOrderToKitchen() {
 
   preview += "==========================================\n";
   escpos += "\n------------------------------------------\n\n\n\n";
-  escpos += GS + "V" + "\x42" + "\x00"; // Taglio carta automatico TM-m30III
+  escpos += GS + "V" + "\x42" + "\x00";
 
   dispatchPrint(preview, escpos);
 }
@@ -676,19 +829,20 @@ function showPreBill() {
 
   let preview = "";
   preview += "==========================================\n";
-  preview += `       RIEPILOGO CONTO (NON FISCALE)\n`;
+  preview += `     ALICETTA TRATTORIA - PRE-CONTO\n`;
   preview += `       ${t.name.toUpperCase()} - ${salaName}\n`;
   preview += "==========================================\n\n";
 
   const ESC = "\x1B";
   const GS = "\x1D";
   let escpos = ESC + "@" + ESC + "a" + "\x01" + ESC + "!" + "\x08";
+  escpos += `ALICETTA TRATTORIA\n`;
   escpos += `PRE-CONTO ${t.name.toUpperCase()} (${salaName})\n`;
   escpos += "------------------------------------------\n" + ESC + "a" + "\x00" + ESC + "!" + "\x00";
 
   t.items.forEach(it => {
-    const sub = (it.price * it.qty).toFixed(2);
-    const left = `${it.qty}x ${it.name}`;
+    const sub = formatPrice(it.price * it.qty);
+    const left = `${it.qty}x ${it.name.substring(0, 26)}`;
     const spaces = Math.max(1, 34 - left.length - sub.length);
     const line = left + " ".repeat(spaces) + "EUR " + sub;
     preview += line + "\n";
@@ -696,11 +850,11 @@ function showPreBill() {
   });
 
   preview += "\n------------------------------------------\n";
-  preview += `TOTALE DA BATTERE SU SUMUP:   EUR ${total.toFixed(2)}\n`;
+  preview += `TOTALE DA BATTERE SU SUMUP:   EUR ${formatPrice(total)}\n`;
   preview += "==========================================\n";
 
   escpos += "------------------------------------------\n";
-  escpos += ESC + "!" + "\x38" + `TOTALE: EUR ${total.toFixed(2)}\n` + ESC + "!" + "\x00";
+  escpos += ESC + "!" + "\x38" + `TOTALE: EUR ${formatPrice(total)}\n` + ESC + "!" + "\x00";
   escpos += "\n\n\n" + GS + "V" + "\x42" + "\x00";
 
   dispatchPrint(preview, escpos);
@@ -770,19 +924,19 @@ function renderKds() {
     card.className = `kds-card ${t.firedMandate[2] || t.firedMandate[3] ? 'urgent' : ''}`;
     let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;">
       <b>${t.name}</b>
-      <span style="font-size:0.78rem; color:var(--accent);">${t.room === 'interna' ? 'Interna' : 'Esterna'}</span>
+      <span style="font-size:0.78rem; color:var(--gold); font-weight:800;">${t.room === 'interna' ? 'Interna' : 'Esterna'}</span>
     </div>`;
     [1, 2, 3].forEach(m => {
-      const mItems = t.items.filter(i => i.mandata === m && i.cat !== 'Coperto');
+      const mItems = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
       if (mItems.length === 0) return;
       const statusBadge = (m === 1 || t.firedMandate[m])
-        ? `<span style="color:var(--free); font-weight:800;">🔥 MARCIARE ORA</span>`
-        : `<span style="color:var(--busy);">⏳ IN ATTESA</span>`;
+        ? `<span style="color:#34d399; font-weight:900;">🔥 MARCIARE ORA</span>`
+        : `<span style="color:var(--gold); font-weight:800;">⏳ IN ATTESA</span>`;
       html += `<div style="margin-bottom:8px;">
         <div style="font-size:0.78rem; display:flex; justify-content:space-between; margin-bottom:3px;">
           <b>${m}ª MANDATA</b> ${statusBadge}
         </div>
-        ${mItems.map(i => `<div style="font-size:0.88rem; padding-left:6px;">• <b>${i.qty}x</b> ${i.name}${i.note ? `<i style="color:#fbbf24;">(${i.note})</i>` : ''}</div>`).join('')}
+        ${mItems.map(i => `<div style="font-size:0.88rem; padding-left:6px;">• <b>${i.qty}x</b> ${i.name}${i.note ? `<i style="color:var(--gold);">(${i.note})</i>` : ''}</div>`).join('')}
       </div>`;
     });
     card.innerHTML = html;
@@ -808,17 +962,44 @@ function renderMenuMgr() {
     row.className = 'cart-row';
     row.style.borderBottom = '1px solid var(--border)';
     row.innerHTML = `
-      <div><b>[${item.cat}]</b> ${item.name} — <span style="color:var(--accent);">€ ${item.price.toFixed(2)}</span></div>
-      <button class="btn-qty" onclick="deleteMenuItem(${item.id})">🗑️</button>
+      <div style="flex:1;"><b>[${item.cat}]</b> ${item.name} — <span style="color:var(--gold); font-weight:800;">${formatPrice(item.price)} €</span></div>
+      <div class="cart-controls">
+        <button class="btn-note" onclick="editMenuItem(${item.id})">✏️</button>
+        <button class="btn-qty" onclick="deleteMenuItem(${item.id})">🗑️</button>
+      </div>
     `;
     list.appendChild(row);
   });
 }
 
+function editMenuItem(id) {
+  const item = state.menu.find(i => i.id === id);
+  if (!item) return;
+  const newName = prompt("Modifica nome articolo:", item.name);
+  if (newName === null || !newName.trim()) return;
+  const newPriceStr = prompt("Modifica prezzo (€):", item.price.toString());
+  if (newPriceStr === null) return;
+  const newPrice = parseFloat(newPriceStr.replace(',', '.'));
+  if (!isNaN(newPrice)) {
+    item.name = newName.trim();
+    item.price = newPrice;
+    saveState();
+    renderMenuMgr();
+  }
+}
+
+function resetMenuToSumUp() {
+  if (confirm("Vuoi ripristinare il menù originale Alicetta (68 articoli)?")) {
+    state.menu = JSON.parse(JSON.stringify(DEFAULT_MENU));
+    saveState();
+    renderMenuMgr();
+  }
+}
+
 function addNewMenuItem() {
   const cat = document.getElementById('newItemCat').value;
   const name = document.getElementById('newItemName').value.trim();
-  const price = parseFloat(document.getElementById('newItemPrice').value);
+  const price = parseFloat(document.getElementById('newItemPrice').value.replace(',', '.'));
   if (!name || isNaN(price)) {
     alert("Inserisci nome e prezzo validi.");
     return;
