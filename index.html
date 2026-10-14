@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v40</title>
+<title>Alicetta TableZ 1.0 - v41</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -27,7 +27,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .version-badge { font-size: 0.58rem; font-weight: 800; background: #062329; color: #1BE7FF; padding: 2px 5px; border-radius: 5px; white-space: nowrap; }
 .sync-badge { font-size: 0.52rem; font-weight: 800; padding: 2px 3px; border-radius: 4px; background: rgba(0,0,0,0.12); color: #111; }
 .top-actions { display: flex; gap: 3px; align-items: center; flex-shrink: 1; min-width: 0; }
-.waiter-tag { font-size: 0.62rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 5px 5px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; cursor: pointer; overflow: hidden; text-overflow: ellipsis; max-width: 82px; }
+.waiter-tag { font-size: 0.62rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 5px 6px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; cursor: pointer; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
 .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 5px 6px; border-radius: 7px; font-size: 0.66rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
 .btn-top.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
 .btn-pager { background: #111827; color: #FBBF24; border: 1.5px solid #FBBF24; padding: 5px 6px; border-radius: 7px; font-size: 0.7rem; font-weight: 800; cursor: pointer; }
@@ -148,16 +148,34 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
         <text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text>
       </svg>
     </div>
-    <div class="version-badge">v40</div>
+    <div class="version-badge">v41</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
-    <div id="waiterDisplay" class="waiter-tag" onclick="logoutWaiter()">👤 --</div>
+    <div id="waiterDisplay" class="waiter-tag" onclick="openLoginModal()">👤 Scelta...</div>
     <button class="btn-pager" id="btnPager" onclick="openPagerModal()" style="display:none;" title="Cercapersone Camerieri">🔔</button>
     <button class="btn-top" onclick="toggleFullScreen()" title="Tutto Schermo">⛶</button>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
     <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
     <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;">Menù</button>
+  </div>
+</div>
+
+<!-- MODALE DI LOGIN / SELEZIONE OPERATORE -->
+<div class="modal-overlay" id="loginModal">
+  <div class="receipt-box" style="text-align:center;">
+    <h3 style="color:var(--logo-coral); margin-bottom:6px;">👤 Chi sta usando il dispositivo?</h3>
+    <p style="font-size:0.78rem; color:var(--muted); margin-bottom:12px;">Seleziona il tuo profilo o scegli KDS Cucina:</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
+      <button class="btn-main btn-bill" onclick="selectUserRole('Christian', false)">👑 Christian</button>
+      <button class="btn-main btn-print" onclick="selectUserRole('Alice', false)">👩🏻‍🍳 Alice</button>
+      <button class="btn-main btn-print" onclick="selectUserRole('Serena', false)">👱🏻‍♀️ Serena</button>
+      <button class="btn-main" style="background:#111827; color:#1BE7FF; border:2px solid #1BE7FF;" onclick="selectUserRole('KDS Cucina', true)">🖥️ KDS Cucina</button>
+    </div>
+    <div style="display:flex; gap:6px;">
+      <input type="text" id="customWaiterInput" class="form-control" placeholder="Altro nome...">
+      <button class="btn-note" onclick="selectCustomUser()">Entra</button>
+    </div>
   </div>
 </div>
 
@@ -241,7 +259,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div><div style="font-weight:800; font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v40)</div></div>
+    <div><div style="font-weight:800; font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v41)</div></div>
     <div style="display:flex; gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -254,10 +272,10 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   <div class="cart-section">
     <div style="display:flex; justify-content:space-between; align-items:center;">
       <div>
-        <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v40)</h3>
+        <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v41)</h3>
         <div style="font-size:0.8rem; color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
       </div>
-      <button class="btn-note" onclick="logoutWaiter()">Cambia Utente</button>
+      <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
     </div>
   </div>
 
@@ -657,14 +675,6 @@ async function initApp() {
     state.tables = buildDefaultTables(state.tableCounts);
   }
 
-  // CHIEDE IL NOME UTENTE SE NON ANCORA IMPOSTATO SU QUESTO TELEFONO
-  const deviceUserLocked = localStorage.getItem('alicetta_device_user_set');
-  if (!state.waiterName.trim() || !deviceUserLocked) {
-    askWaiterName();
-  } else {
-    updateWaiterDisplay();
-  }
-
   document.getElementById('chkRawbt').checked = state.useRawBT;
   document.getElementById('firebaseUrlInput').value = state.firebaseUrl;
   document.getElementById('ocrResultBox').value = CHALKBOARD_OCT12_TEXT;
@@ -672,25 +682,40 @@ async function initApp() {
   updateRoomTabCounts();
   renderTables();
   updateDailyStats();
-  setInterval(tickLiveTimers, 1000);
 
+  const deviceUserLocked = localStorage.getItem('alicetta_device_user_v41');
+  if (!state.waiterName.trim() || !deviceUserLocked) {
+    openLoginModal();
+  } else {
+    updateWaiterDisplay();
+  }
+
+  setInterval(tickLiveTimers, 1000);
   await pullFromCloud(true);
   setInterval(() => pullFromCloud(false), 1500);
 }
 
-function askWaiterName() {
-  const name = prompt("Benvenuto in Alicetta TableZ 1.0!\nInserisci il tuo nome (es. Christian, Alice, Serena, KDS):", "");
-  state.waiterName = (name && name.trim()) ? name.trim() : "Staff";
-  localStorage.setItem('alicetta_device_user_set', '1');
-  saveLocalOnly();
-  updateWaiterDisplay();
+function openLoginModal() {
+  document.getElementById('loginModal').classList.add('active');
 }
 
-function logoutWaiter() {
-  localStorage.removeItem('alicetta_device_user_set');
-  state.waiterName = '';
+function selectUserRole(name, goKds) {
+  unlockAudioOnce();
+  state.waiterName = name;
+  localStorage.setItem('alicetta_device_user_v41', '1');
   saveLocalOnly();
-  askWaiterName();
+  updateWaiterDisplay();
+  document.getElementById('loginModal').classList.remove('active');
+  if (goKds) {
+    switchMainView('kds');
+    enableKdsTabletMode();
+  }
+}
+
+function selectCustomUser() {
+  const val = document.getElementById('customWaiterInput').value.trim();
+  if (!val) { alert("Scrivi un nome"); return; }
+  selectUserRole(val, false);
 }
 
 function updateWaiterDisplay() {
@@ -756,7 +781,6 @@ async function pullFromCloud(isInitial) {
     badge.textContent = "LIVE";
     if (!data) { if (isInitial) await pushToCloud(); return; }
 
-    // 1. AVVISO ACUSTICO + BANNER SU NUOVA COMANDA INVIATA (Identico a v15)
     if (data.lastOrderEvent && (!state.lastOrderEvent || data.lastOrderEvent.id > state.lastOrderEvent.id)) {
       const wasInitial = isInitial && !state.lastOrderEvent;
       state.lastOrderEvent = data.lastOrderEvent;
@@ -767,7 +791,6 @@ async function pullFromCloud(isInitial) {
       }
     }
 
-    // 2. CERCAPERSONE SALA (Identico a v15)
     if (data.lastPagerEvent && (!state.lastPagerEvent || data.lastPagerEvent.id > state.lastPagerEvent.id)) {
       const wasInitialP = isInitial && !state.lastPagerEvent;
       state.lastPagerEvent = data.lastPagerEvent;
@@ -783,7 +806,6 @@ async function pullFromCloud(isInitial) {
     if (data.lastAlertSignal && data.lastAlertSignal > state.lastAlertSignal) state.lastAlertSignal = data.lastAlertSignal;
     if (data.tableCounts) state.tableCounts = data.tableCounts;
 
-    // 3. AGGIORNAMENTO TAVOLI PRESERVANDO EVENTUALE BOZZA NON ANCORA INVIATA SUL TAVOLO APERTO
     if (data.tables) {
       const remoteTables = normalizeTablesStructure(data.tables, state.tableCounts);
       if (state.activeTableId && document.getElementById('viewOrder').classList.contains('active')) {
@@ -1106,7 +1128,6 @@ function renderMenuGrid() {
   });
 }
 
-// AGGIUNGE IN BOZZA LOCALE (NON INVIA AL KDS FINCHÉ NON PREMI INVIA)
 function addItemToTable(menuItem) {
   const t = state.tables[state.activeTableId];
   if (!t.items) t.items = [];
@@ -1249,7 +1270,6 @@ function splitBillPrompt() {
 function buildTimeStr() { return new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }); }
 function buildDateISO() { return new Date().toISOString().slice(0, 10); }
 
-// INVIA LA COMANDA SU FIREBASE E FA SUONARE TUTTI I KDS CONNESSI
 async function sendOrderToKitchen() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) { alert("Inserisci almeno un articolo."); return; }
@@ -1378,7 +1398,6 @@ function markMandataDone(tableId, mandataNum) {
   saveState(false); renderKds();
 }
 
-// KDS MOSTRA SOLO LE COMANDE EFFETTIVAMENTE INVIATE (sentOnce === true / isItemSent)
 function renderKds() {
   const container = document.getElementById('kdsContainer');
   container.innerHTML = '';
@@ -1416,9 +1435,6 @@ function renderKds() {
   });
 }
 
-/* =========================================================
-   ALLERGENI DINAMICI, PDF MENÙ/VINI E QR CODE PERPETUO
-   ========================================================= */
 function getDishAllergens(name) {
   const n = name.toLowerCase();
   const algs = [];
@@ -1638,9 +1654,6 @@ function generatePerpetualQRCode() {
   alert("✅ QR Code Perpetuo generato (punta a menu.html)!");
 }
 
-/* =========================================================
-   REPORT & STATISTICHE CON CLASSIFICA PIATTI VENDUTI (v15)
-   ========================================================= */
 function selectReportPeriod(period) {
   state.reportPeriod = period;
   document.getElementById('repTabDaily').classList.toggle('active', period === 'daily');
