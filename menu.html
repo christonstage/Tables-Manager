@@ -3,29 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alicetta Trattoria - Menù & Allergeni</title>
+<title>Alicetta Trattoria - Menù, Vini & Allergeni</title>
 <meta name="theme-color" content="#2ECC71">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   body { background: #2ECC71; color: #1F2937; font-family: 'Plus Jakarta Sans', sans-serif; padding: 20px 12px 50px 12px; margin: 0; }
-  .btn-tab { background: #1BE7FF; color: #062329; border: 2px solid #FF5733; padding: 10px 14px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  .card-box { max-width: 560px; margin: 0 auto; background: #fff; border: 3px solid #FF5733; border-radius: 20px; padding: 22px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+  .brand-header { text-align: center; background: #1BE7FF; padding: 16px; border-radius: 14px; margin-bottom: 16px; border: 2px solid #FF5733; }
+  .btn-tab { background: #1BE7FF; color: #062329; border: 2px solid #FF5733; padding: 10px 14px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.1s; }
+  .btn-tab:active { transform: scale(0.95); }
   .btn-tab.active { background: #FF5733; color: #fff; }
 </style>
 </head>
 <body>
-  <div style="max-width:560px; margin:0 auto 16px auto; text-align:center; background:#1BE7FF; padding:18px; border-radius:14px; border:2px solid #FF5733;">
-    <h2 style="color:#FF5733; font-weight:900; font-size:1.5rem; margin-bottom:4px; letter-spacing:2px;">ALICETTA TRATTORIA</h2>
-    <p style="font-size:0.85rem; font-weight:800; color:#062329;">Fossacesia Marina (CH) — Buon Appetito!</p>
-  </div>
-  <div style="max-width:560px; margin:0 auto 16px auto; display:flex; gap:6px; justify-content:center; flex-wrap:wrap;">
+  <div style="max-width:560px; margin:0 auto 14px auto; display:flex; gap:6px; justify-content:center; flex-wrap:wrap;">
     <button class="btn-tab active" id="pTabGiorno" onclick="renderPubTab('giorno')">🍽️ Menù del Giorno</button>
     <button class="btn-tab" id="pTabVini" onclick="renderPubTab('vini')">🍷 Carta Vini</button>
     <button class="btn-tab" id="pTabAll" onclick="renderPubTab('allergeni')">⚠️ Allergeni</button>
-    <button class="btn-tab" style="background:#fff;" onclick="window.print()">🖨️ Stampa</button>
+    <button class="btn-tab" style="background:#fff;" onclick="window.print()">🖨️ Stampa PDF</button>
   </div>
   <div id="pubContent" style="max-width:560px; margin:0 auto;"></div>
 
   <script>
+    const LOGO_SVG = `<svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg" style="max-width:180px; height:auto; display:block; margin:0 auto;"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text></svg>`;
+
     const CHALKBOARD_DATA = [
       "Polpette di granchio blu su salsa di zucca e olio alla salvia 14,00",
       "Alicette impanate e fritte con majo al prezzemolo 13,00",
@@ -50,17 +51,30 @@
       "Plateau di formaggi artigianali abruzzesi 18,00"
     ];
 
+    const WINE_DATA = [
+      "Acqua Frizzante 3,00", "Acqua Naturale 3,00", "Birra Nabò 6,00",
+      "CAPO LE VIGNE CERASUOLO D'ABRUZZO DOC 24,00", "Caffè 2,50", "Caffè Corretto 3,50",
+      "Calice Bianco 4,00", "Calice Cerasuolo 4,00", "Calice Rosso 4,00",
+      "Cerasuolo Ferzo 18,00", "Cerasuolo Superiore Fossimatto Fontefico 35,00",
+      "Collefrisio Filare Trebbiano 20,00", "Dire Bere Baciare Fontefico 40,00",
+      "Febbre d'Abruzzo Fontefico 40,00", "IAVA CERASUOLO D'ABRUZZO DOC 18,00",
+      "IAVA CHARDONNAY IGT TERRE D'ABRUZZO 18,00", "ICONIC MAIOLICA IGP TERRE D'ABRUZZO 20,00",
+      "KRIYA TREBBIANO D'ABRUZZO DOC 18,00", "Maleducato 11 30,00",
+      "Metodo Classico Fenaroli 30,00", "Pecorino Chicchi Bio 18,00",
+      "Pecorino Superiore Canaglia Fontefico 35,00", "Trebbiano Collefrisio 22,00"
+    ];
+
     function guessCat(name) {
       const n = name.toLowerCase();
-      if (/vino|calice|birra|acqua|trebbiano|cerasuolo|pecorino|montepulciano|passerina|amaro|caff/.test(n)) return "2 Bevande";
-      if (/tiramis|zafferamis|zaffermis|dolce|cantucc|pizzell|mousse|torta|gelato|sorbett|plateau\s*di\s*formagg/.test(n)) return "6 Desserts";
-      if (/spaghett|linguin|paccher|cubett|qubett|rigat|chitarr|pasta|gnocch|risott|tagliolin|fettuccin|raviol/.test(n)) return "4 Primi Piatti";
-      if (/frittur|baccal|sgombr|maiale|braciol|arrosto|grigliat|fish\s*&\s*chips|nasello|totanett|cicoriett/.test(n)) return "5 Secondi";
+      if (/vino|calice|birra|acqua|trebbiano|cerasuolo|pecorino|montepulciano|passerina|chardonnay/i.test(n)) return "Bevande e Vini";
+      if (/tiramis|zafferamis|cantucc|pizzell|mousse|cantucci/i.test(n)) return "6 Desserts";
+      if (/spaghett|linguin|paccher|cubett|qubett|rigat|pasta/i.test(n)) return "4 Primi Piatti";
+      if (/frittur|baccal|sgombr|maiale|braciol|fish\s*&\s*chips|nasello|totanett|cicoriett/i.test(n)) return "5 Secondi";
       return "3 Antipasti";
     }
 
-    function parseDishes() {
-      return CHALKBOARD_DATA.map(line => {
+    function parseItems(arr) {
+      return arr.map(line => {
         const pm = line.match(/(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i);
         let price = 14, name = line;
         if (pm) {
@@ -76,11 +90,11 @@
       const algs = [];
       if (/pane|pasta|linguina|rigatoro|pizzell|cantucci|qubetto|pacchero|spaghetti|gnocch|farina|grano/i.test(n)) algs.push('Glutine');
       if (/granchio|panocchie|scampi|gamberi/i.test(n)) algs.push('Crostacei');
-      if (/cozze|vongole|totanett/i.test(n)) algs.push('Molluschi');
+      if (/cozze|vongole|totanett|totanetti/i.test(n)) algs.push('Molluschi');
       if (/alici|alicette|baccalà|nasello|sgombro|pesce/i.test(n)) algs.push('Pesce');
       if (/uova|cace e ove|majo|maionese|tiramisù|zafferamisù/i.test(n)) algs.push('Uova');
       if (/formaggio|ricotta|gregoriano|latte|burro|cacio|pecorino|mozzarella/i.test(n)) algs.push('Latticini');
-      if (/mandorle|nocciole|noci/i.test(n)) algs.push('Frutta a guscio');
+      if (/mandorle|nocciole|noci|pistacchio/i.test(n)) algs.push('Frutta a guscio');
       if (/senape/i.test(n)) algs.push('Senape');
       if (/doc|igt|vino|calice|cerasuolo|trebbiano|pecorino|montepulciano|passerina|chardonnay|bollicine|charmat/i.test(n)) algs.push('Solfiti');
       return algs.length > 0 ? algs : ['Nessun allergene maggiore dichiarato'];
@@ -89,12 +103,12 @@
     function buildSec(title, items) {
       if (!items || items.length === 0) return '';
       const rows = items.map(d => `
-        <div style="display:flex; justify-content:space-between; align-items:baseline; padding:7px 0; border-bottom:1px dashed rgba(255,87,51,0.32); gap:12px;">
-          <b style="color:#062329; font-size:0.92rem; text-align:left;">• ${d.name}</b>
-          <span style="color:#FF5733; font-weight:900; white-space:nowrap;">€ ${d.price.toFixed(2).replace('.', ',')}</span>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; padding:9px 0; border-bottom:1px dashed rgba(255,87,51,0.25); gap:12px;">
+          <b style="color:#062329; font-size:0.95rem; text-align:left;">• ${d.name}</b>
+          <span style="color:#FF5733; font-weight:900; white-space:nowrap; font-size:0.95rem;">€ ${d.price.toFixed(2).replace('.', ',')}</span>
         </div>`).join('');
       return `
-        <div style="margin-top:16px; margin-bottom:6px; background:#1BE7FF; color:#062329; padding:6px 12px; border-radius:8px; border-left:5px solid #FF5733; font-weight:900; font-size:0.88rem; letter-spacing:1.5px; text-transform:uppercase;">
+        <div style="margin-top:18px; margin-bottom:8px; background:#1BE7FF; color:#062329; padding:8px 14px; border-radius:10px; border-left:6px solid #FF5733; font-weight:900; font-size:0.9rem; letter-spacing:1px; text-transform:uppercase;">
           ${title}
         </div>
         <div>${rows}</div>`;
@@ -107,36 +121,49 @@
       if(tab==='allergeni') document.getElementById('pTabAll').classList.add('active');
 
       const box = document.getElementById('pubContent');
-      const dishes = parseDishes();
+      const todayStr = new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
       if (tab === 'allergeni') {
-        const rows = dishes.map(d => `
-          <div style="display:flex; justify-content:space-between; align-items:baseline; padding:7px 0; border-bottom:1px dashed rgba(255,87,51,0.32); gap:12px;">
+        const allItems = parseItems([...CHALKBOARD_DATA, ...WINE_DATA]);
+        const rows = allItems.map(d => `
+          <div style="display:flex; justify-content:space-between; align-items:baseline; padding:8px 0; border-bottom:1px dashed rgba(255,87,51,0.25); gap:12px;">
             <b style="color:#062329; font-size:0.9rem; text-align:left;">• ${d.name}</b>
-            <span style="color:#FF5733; font-weight:900; font-size:0.8rem; white-space:nowrap;">${getAlgs(d.name).join(', ')}</span>
+            <span style="color:#FF5733; font-weight:800; font-size:0.78rem; white-space:nowrap;">${getAlgs(d.name).join(', ')}</span>
           </div>`).join('');
-        box.innerHTML = `<div style="border:4px solid #FF5733; border-radius:18px; background:#fff; padding:22px;"><h3 style="color:#FF5733; text-align:center; margin-bottom:12px;">⚠️ TABELLA ALLERGENI (Reg. UE 1169/2011)</h3>${rows}</div>`;
+
+        box.innerHTML = `
+          <div class="card-box">
+            <div class="brand-header">${LOGO_SVG}<h3 style="color:#FF5733; margin-top:10px; font-size:1.15rem;">⚠️ TABELLA ALLERGENI</h3><p style="font-size:0.75rem; font-weight:700; color:#062329;">Conforme Reg. UE 1169/2011</p></div>
+            ${rows}
+          </div>`;
         return;
       }
 
       if (tab === 'vini') {
-        const drinks = dishes.filter(d => d.cat === '2 Bevande');
-        box.innerHTML = `<div style="border:4px solid #FF5733; border-radius:18px; background:#fff; padding:22px;"><h3 style="color:#FF5733; text-align:center; margin-bottom:12px;">🍷 CARTA DEI VINI</h3>${buildSec('Vini & Bevande', drinks)}</div>`;
+        const wines = parseItems(WINE_DATA);
+        box.innerHTML = `
+          <div class="card-box">
+            <div class="brand-header">${LOGO_SVG}<h3 style="color:#FF5733; margin-top:10px; font-size:1.15rem;">🍷 CARTA DEI VINI & BEVANDE</h3><p style="font-size:0.75rem; font-weight:700; color:#062329;">Cantine Selezionate & Artigianali</p></div>
+            ${buildSec('Vini & Bevande', wines)}
+          </div>`;
         return;
       }
 
-      const antipasti = dishes.filter(d => d.cat === '3 Antipasti');
-      const primi = dishes.filter(d => d.cat === '4 Primi Piatti');
-      const secondi = dishes.filter(d => d.cat === '5 Secondi');
-      const desserts = dishes.filter(d => d.cat === '6 Desserts');
-
+      const dishes = parseItems(CHALKBOARD_DATA);
       box.innerHTML = `
-        <div style="border:4px solid #FF5733; border-radius:18px; background:#fff; padding:22px;">
-          <h3 style="color:#FF5733; text-align:center; margin-bottom:12px;">✨ MENÙ DEL GIORNO ✨</h3>
-          ${buildSec('Antipasti', antipasti)}
-          ${buildSec('Primi Piatti', primi)}
-          ${buildSec('Secondi & Contorni', secondi)}
-          ${buildSec('Desserts', desserts)}
+        <div class="card-box">
+          <div class="brand-header">
+            ${LOGO_SVG}
+            <h3 style="color:#FF5733; margin-top:10px; font-size:1.2rem; letter-spacing:1px;">✨ MENÙ DEL GIORNO ✨</h3>
+            <p style="font-size:0.78rem; font-weight:700; color:#062329; margin-top:2px;">${todayStr}</p>
+          </div>
+          ${buildSec('Antipasti', dishes.filter(d => d.cat === '3 Antipasti'))}
+          ${buildSec('Primi Piatti', dishes.filter(d => d.cat === '4 Primi Piatti'))}
+          ${buildSec('Secondi & Contorni', dishes.filter(d => d.cat === '5 Secondi'))}
+          ${buildSec('Desserts', dishes.filter(d => d.cat === '6 Desserts'))}
+          <div style="margin-top:20px; text-align:center; background:#1BE7FF; padding:10px; border-radius:10px; border:1.5px solid #FF5733; color:#062329; font-weight:800; font-size:0.82rem;">
+            🐟 Pane e Coperto € 3,00 — ENJOY! — 📞 392 3279000
+          </div>
         </div>`;
     }
 
