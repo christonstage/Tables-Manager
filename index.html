@@ -3,154 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta Trattoria - Comande & Tavoli</title>
+<title>Alicetta Trattoria POS</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #2ECC71;           /* Verde prato */
-    --bg-deep: #27AE60;      
-    --card: #FFFFFF;         
-    --card-hover: #F0FDF4;
-    --text: #1F2937;
-    --muted: #4B5563;
-    --logo-cyan: #1BE7FF;    /* Azzurro brillante del logo per tavoli liberi */
-    --logo-coral: #FF5733;   /* Corallo/Arancio del logo per tavoli occupati */
-    --gold: #D97706;         
-    --free: #10B981;
-    --busy: #F59E0B;
-    --border: rgba(0, 0, 0, 0.15);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-  body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-select: none; overflow-x: hidden; }
-  
-  /* Topbar ottimizzata per entrare al 100% sullo schermo senza tagli */
-  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(46, 204, 113, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 100%; }
-  
-  .brand-group { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
-  .brand-logo { display: flex; align-items: center; background: var(--logo-cyan); padding: 3px 5px; border-radius: 7px; border: 1.5px solid var(--logo-coral); box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
-  .brand-logo svg { height: 21px; width: auto; display: block; }
-  .sync-badge { font-size: 0.62rem; font-weight: 800; padding: 2px 4px; border-radius: 50%; background: rgba(255,255,255,0.7); line-height: 1; }
-
-  .top-actions { display: flex; gap: 4px; align-items: center; flex-shrink: 1; min-width: 0; }
-  .waiter-tag { font-size: 0.68rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 6px 7px; border-radius: 7px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 96px; cursor: pointer; }
-  .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 6px 8px; border-radius: 7px; font-size: 0.72rem; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.08); flex-shrink: 0; }
-  .btn-top.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); font-weight: 800; }
-
-  .room-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 14px; }
-  .room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.88rem; font-weight: 700; text-align: center; cursor: pointer; transition: 0.15s; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-  .room-tab.active { border-color: var(--logo-coral); color: #062329; background: var(--logo-cyan); font-weight: 800; }
-
-  .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
-  .table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; transition: transform 0.12s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; }
-  .table-card:active { transform: scale(0.95); }
-  
-  /* Tavolo Occupato con il Corallo del pesce e scritta Alicetta */
-  .table-card.busy {
-    background: var(--logo-coral);
-    border-color: #062329;
-    color: #FFFFFF;
-    box-shadow: 0 5px 15px rgba(255, 87, 51, 0.35);
-  }
-  .table-name { font-size: 1.05rem; font-weight: 800; }
-  .table-card.busy .table-name { color: #FFFFFF; }
-  .table-status { font-size: 0.75rem; font-weight: 700; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
-  .status-free { color: #062329; background: rgba(255,255,255,0.65); }
-  .status-busy { color: #FFFFFF; background: rgba(0,0,0,0.28); }
-  .table-total { font-size: 0.95rem; font-weight: 800; color: #FFFFFF; margin-top: 6px; }
-  .course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
-  .dot { font-size: 0.65rem; padding: 2px 6px; border-radius: 5px; font-weight: 800; }
-  .dot.sent { background: #10B981; color: #ffffff; }
-  .dot.wait { background: #062329; color: #ffffff; }
-  .dot.done { background: #062329; color: #34d399; }
-
-  .screen { display: none; padding: 12px 14px; }
-  .screen.active { display: block; }
-  .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,0.06); gap: 6px; }
-  .btn-back { background: var(--bg-deep); color: #fff; border: 1px solid var(--border); padding: 8px 10px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
-
-  .mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
-  .mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; }
-  .mandata-btn.active { border-color: var(--logo-coral); background: var(--logo-cyan); color: #062329; font-weight: 800; }
-
-  .cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; scroll-behavior: smooth; }
-  .cat-bar::-webkit-scrollbar { display: none; }
-  .cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
-  .cat-btn.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); font-weight: 800; }
-
-  .search-wrap { margin-bottom: 10px; position: relative; }
-  .search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-  .search-input::placeholder { color: #9CA3AF; }
-  .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--muted); font-size: 1.1rem; font-weight: 800; cursor: pointer; }
-
-  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
-  .menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06); color: var(--text); transition: transform 0.12s; }
-  .menu-item:active { transform: scale(0.95); background: var(--logo-cyan); }
-  .tap-badge { position: absolute; top: 6px; right: 6px; background: var(--logo-coral); color: #fff; font-weight: 800; font-size: 0.78rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: badgeFloatUp 0.45s ease-out forwards; }
-  @keyframes badgeFloatUp {
-    0%   { opacity: 1; transform: translateY(4px) scale(0.8); }
-    100% { opacity: 0; transform: translateY(-12px) scale(1); }
-  }
-
-  .item-name { font-weight: 800; font-size: 0.84rem; line-height: 1.22; word-break: break-word; }
-  .item-price { color: var(--logo-coral); font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
-
-  .fire-box { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-  .fire-title { font-size: 0.8rem; font-weight: 700; color: var(--logo-coral); margin-bottom: 8px; text-transform: uppercase; }
-  .fire-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn-fire { flex: 1; background: var(--logo-coral); color: #FFF; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; min-width: 140px; }
-  .btn-fire.fired { background: #10B981; color: #fff; }
-
-  .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-  .mandata-group { margin-bottom: 14px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
-  .mandata-group:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
-  .mandata-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 800; color: var(--logo-coral); margin-bottom: 6px; text-transform: uppercase; }
-  .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.88rem; gap: 6px; }
-  .cart-info { flex: 1; }
-  .cart-note { font-size: 0.76rem; color: var(--logo-coral); font-style: italic; display: block; font-weight: 600; }
-  .cart-controls { display: flex; align-items: center; gap: 5px; }
-  .btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 900; cursor: pointer; }
-  .btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); cursor: pointer; font-weight: 700; }
-
-  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(46, 204, 113, 0.98); border-top: 1px solid var(--border); padding: 10px 10px; display: flex; gap: 6px; z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.08); }
-  .btn-main { flex: 1; padding: 12px 6px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; text-align: center; white-space: nowrap; }
-  .btn-print { background: var(--logo-cyan); color: #062329; border: 1.5px solid var(--logo-coral); }
-  .btn-bill { background: var(--logo-coral); color: #FFF; }
-  .btn-close-table { background: var(--card); color: var(--text); border: 1px solid var(--border); flex: 0.6; }
-
-  .form-control { padding: 10px; border-radius: 8px; background: #F9FAFB; color: var(--text); border: 1px solid var(--border); font-weight: 600; width: 100%; }
-  .form-control::placeholder { color: #9CA3AF; }
-
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
-  .modal-overlay.active { display: flex; }
-  .receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 8px; padding: 16px; font-family: "Courier New", Courier, monospace; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-height: 85vh; overflow-y: auto; }
-  .receipt-pre { white-space: pre-wrap; font-family: "Courier New", Courier, monospace; font-size: 0.85rem; line-height: 1.35; }
-  .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
-  .btn-modal { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; }
-
-  .kds-Banner { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-  .btn-kds-audio { background: var(--logo-coral); color: #FFF; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
-  .btn-kds-audio.on { background: #10B981; color: #fff; }
-  .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
-  .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); color: var(--text); }
-  .kds-card.urgent { border-color: var(--logo-coral); }
-  .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
+:root {
+  --bg: #2ECC71; --bg-deep: #27AE60; --card: #FFFFFF; --text: #1F2937; --muted: #4B5563;
+  --logo-cyan: #1BE7FF; --logo-coral: #FF5733; --border: rgba(0,0,0,0.15);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-select: none; overflow-x: hidden; }
+.topbar { position: sticky; top: 0; z-index: 50; background: rgba(46,204,113,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.brand-group { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.brand-logo { display: flex; align-items: center; background: var(--logo-cyan); padding: 3px 5px; border-radius: 7px; border: 1.5px solid var(--logo-coral); }
+.brand-logo svg { height: 20px; width: auto; display: block; }
+.sync-badge { font-size: 0.6rem; padding: 2px 3px; border-radius: 50%; background: rgba(255,255,255,0.75); line-height: 1; }
+.top-actions { display: flex; gap: 4px; align-items: center; flex-shrink: 1; min-width: 0; }
+.waiter-tag { font-size: 0.68rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 6px 7px; border-radius: 7px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 92px; cursor: pointer; }
+.btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 6px 7px; border-radius: 7px; font-size: 0.72rem; font-weight: 800; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.btn-top.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
+.room-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 14px; }
+.room-tab { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 4px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; text-align: center; cursor: pointer; }
+.room-tab.active { border-color: var(--logo-coral); color: #062329; background: var(--logo-cyan); font-weight: 800; }
+.tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; padding: 4px 14px; }
+.table-card { background: var(--logo-cyan); border: 2px solid var(--logo-coral); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #062329; transition: transform 0.1s; }
+.table-card:active { transform: scale(0.95); }
+.table-card.busy { background: var(--logo-coral); border-color: #062329; color: #FFF; box-shadow: 0 5px 15px rgba(255,87,51,0.35); }
+.table-name { font-size: 1.05rem; font-weight: 800; }
+.table-status { font-size: 0.74rem; font-weight: 700; margin-top: 6px; padding: 3px 8px; border-radius: 6px; display: inline-block; }
+.status-free { color: #062329; background: rgba(255,255,255,0.65); }
+.status-busy { color: #FFF; background: rgba(0,0,0,0.28); }
+.table-total { font-size: 0.95rem; font-weight: 800; color: #FFF; margin-top: 6px; }
+.course-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+.dot { font-size: 0.64rem; padding: 2px 6px; border-radius: 5px; font-weight: 800; }
+.dot.sent { background: #10B981; color: #fff; }
+.dot.wait { background: #062329; color: #fff; }
+.dot.done { background: #062329; color: #34d399; }
+.screen { display: none; padding: 12px 14px; }
+.screen.active { display: block; }
+.order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); gap: 6px; }
+.btn-back { background: var(--bg-deep); color: #fff; border: none; padding: 8px 10px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
+.mandata-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
+.mandata-btn { background: var(--card); border: 2px solid var(--border); color: var(--muted); padding: 10px 2px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; }
+.mandata-btn.active { border-color: var(--logo-coral); background: var(--logo-cyan); color: #062329; font-weight: 800; }
+.cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; scrollbar-width: none; }
+.cat-bar::-webkit-scrollbar { display: none; }
+.cat-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; border-radius: 20px; font-size: 0.84rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
+.cat-btn.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); font-weight: 800; }
+.search-wrap { margin-bottom: 10px; position: relative; }
+.search-input { width: 100%; padding: 10px 34px 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.88rem; font-weight: 600; }
+.search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--muted); font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; margin-bottom: 18px; }
+.menu-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 78px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06); transition: transform 0.12s, background 0.12s; }
+.menu-item.tap-anim { transform: scale(0.93); background: var(--logo-cyan); border-color: var(--logo-coral); }
+.tap-badge { position: absolute; top: 6px; right: 6px; background: var(--logo-coral); color: #fff; font-weight: 800; font-size: 0.76rem; padding: 2px 7px; border-radius: 12px; pointer-events: none; animation: floatUp 0.4s ease-out forwards; }
+@keyframes floatUp { 0% { opacity: 1; transform: translateY(4px); } 100% { opacity: 0; transform: translateY(-12px); } }
+.item-name { font-weight: 800; font-size: 0.83rem; line-height: 1.2; word-break: break-word; }
+.item-price { color: var(--logo-coral); font-weight: 900; font-size: 0.84rem; margin-top: 8px; }
+.fire-box { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
+.fire-title { font-size: 0.78rem; font-weight: 800; color: var(--logo-coral); margin-bottom: 8px; text-transform: uppercase; }
+.fire-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-fire { flex: 1; background: var(--logo-coral); color: #FFF; border: none; padding: 11px 10px; border-radius: 8px; font-weight: 800; font-size: 0.84rem; cursor: pointer; min-width: 135px; }
+.btn-fire.fired { background: #10B981; color: #fff; }
+.cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; }
+.mandata-group { margin-bottom: 14px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
+.mandata-group:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+.mandata-header { display: flex; justify-content: space-between; font-size: 0.84rem; font-weight: 800; color: var(--logo-coral); margin-bottom: 6px; }
+.cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.86rem; gap: 6px; }
+.cart-info { flex: 1; }
+.cart-note { font-size: 0.75rem; color: var(--logo-coral); font-style: italic; display: block; font-weight: 600; }
+.cart-controls { display: flex; align-items: center; gap: 5px; }
+.btn-qty { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-deep); color: #fff; font-weight: 900; cursor: pointer; }
+.btn-note { font-size: 0.72rem; padding: 5px 8px; border-radius: 6px; background: var(--logo-cyan); color: #062329; border: 1px solid var(--logo-coral); cursor: pointer; font-weight: 800; }
+.bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(46,204,113,0.98); border-top: 1px solid var(--border); padding: 10px; display: flex; gap: 6px; z-index: 60; }
+.btn-main { flex: 1; padding: 12px 6px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; text-align: center; }
+.btn-print { background: var(--logo-cyan); color: #062329; border: 1.5px solid var(--logo-coral); }
+.btn-bill { background: var(--logo-coral); color: #FFF; }
+.btn-close-table { background: var(--card); color: var(--text); border: 1px solid var(--border); flex: 0.6; }
+.form-control { padding: 10px; border-radius: 8px; background: #F9FAFB; color: var(--text); border: 1px solid var(--border); font-weight: 600; width: 100%; }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
+.modal-overlay.active { display: flex; }
+.receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 12px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-height: 85vh; overflow-y: auto; }
+.receipt-pre { white-space: pre-wrap; font-family: "Courier New", monospace; font-size: 0.84rem; line-height: 1.35; }
+.modal-actions { display: flex; gap: 8px; margin-top: 14px; }
+.btn-modal { flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; }
+.kds-Banner { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.btn-kds-audio { background: var(--logo-coral); color: #FFF; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 0.84rem; cursor: pointer; }
+.btn-kds-audio.on { background: #10B981; }
+.kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; }
+.btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="brand-group">
-    <div class="brand-logo" title="Alicetta Trattoria">
+    <div class="brand-logo">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
         <g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round">
-          <polygon points="75,16 95,12 90,20"/>
-          <polygon points="95,12 115,12 103,20"/>
-          <polygon points="90,20 103,20 115,12 122,19 102,24"/>
-          <polygon points="75,16 90,20 102,24"/>
-          <polygon points="98,12 105,4 112,12" fill="#FF5733"/>
-          <polygon points="102,24 108,31 115,22" fill="#FF5733"/>
-          <polygon points="115,12 134,17 122,23" fill="none"/>
-          <polygon points="75,16 64,9 68,16 64,23" fill="none"/>
+          <polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/>
+          <polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/>
+          <polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/>
+          <polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/>
         </g>
         <circle cx="125" cy="17" r="1.8" fill="#FF5733"/>
         <text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text>
@@ -160,13 +114,13 @@
         <text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text>
       </svg>
     </div>
-    <div id="syncIndicator" class="sync-badge" title="Stato Sincronizzazione Cloud">🟢</div>
+    <div id="syncIndicator" class="sync-badge">🟢</div>
   </div>
   <div class="top-actions">
-    <div id="waiterDisplay" class="waiter-tag" onclick="logoutWaiter()" title="Tocca per cambiare utente">👤 -- ⏻</div>
+    <div id="waiterDisplay" class="waiter-tag" onclick="openWaiterModal()">👤 Staff ⏻</div>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
     <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
-    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;" title="Impostazioni e Menù">⚙️</button>
+    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;">⚙️</button>
   </div>
 </div>
 
@@ -187,7 +141,7 @@
       <div id="activeTableSub" style="font-size:0.72rem; color:var(--muted);">Sala Interna</div>
     </div>
     <div style="display:flex; align-items:center; gap:6px;">
-      <button class="btn-note" onclick="moveOrMergeTable()" title="Sposta o Unisci tavolo">🔀 Sposta</button>
+      <button class="btn-note" onclick="moveOrMergeTable()">🔀 Sposta</button>
       <div id="activeTableTotal" style="font-weight:800; color:var(--logo-coral); font-size:1.05rem;">€ 0,00</div>
     </div>
   </div>
@@ -197,7 +151,7 @@
     <div class="fire-actions" id="fireButtonsContainer"></div>
   </div>
 
-  <div style="font-size:0.75rem; color:#062329; margin-bottom:4px; font-weight:800;">SELEZIONA MANDATA (CAMBIA CATEGORIA IN AUTOMATICO):</div>
+  <div style="font-size:0.74rem; color:#062329; margin-bottom:4px; font-weight:800;">SELEZIONA MANDATA:</div>
   <div class="mandata-bar">
     <div class="mandata-btn" id="mBtn0" onclick="setMandata(0, true)">⚡ Subito</div>
     <div class="mandata-btn active" id="mBtn1" onclick="setMandata(1, true)">1ª Mand.</div>
@@ -230,9 +184,7 @@
 
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div>
-      <div style="font-weight:800; font-size:1.05rem;">🖥️ SCHERMO CUCINA (KDS LIVE)</div>
-    </div>
+    <div style="font-weight:800; font-size:1rem;">🖥️ SCHERMO CUCINA (KDS LIVE)</div>
     <div style="display:flex; gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -244,23 +196,20 @@
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">👤 Utente attivo: <span id="currentWaiterBadge" style="color:var(--logo-coral);">--</span></h3>
-    <button class="btn-note" onclick="logoutWaiter()">Cambia Utente / Logout</button>
+    <button class="btn-note" onclick="openWaiterModal()">Cambia Utente / Logout</button>
   </div>
-
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">📊 Registro Storico di Fine Serata</h3>
-    <div id="dailyStats" style="font-size:0.85rem; color:var(--muted); line-height:1.4; margin-bottom:8px;">Caricamento...</div>
-    <button class="btn-note" onclick="clearHistoryLog()">🗑️ Azzera Statistiche Serata</button>
+    <div id="dailyStats" style="font-size:0.85rem; color:var(--muted); line-height:1.4; margin-bottom:8px;"></div>
+    <button class="btn-note" onclick="clearHistoryLog()">🗑️ Azzera Statistiche</button>
   </div>
-
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">☁️ Firebase URL</h3>
     <div style="display:flex; gap:6px;">
-      <input type="text" id="firebaseUrlInput" class="form-control" placeholder="URL Firebase">
+      <input type="text" id="firebaseUrlInput" class="form-control">
       <button class="btn-note" onclick="saveFirebaseUrl()">Salva</button>
     </div>
   </div>
-
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">🖨️ Stampante Epson TM-m30III</h3>
     <label style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.9rem;">
@@ -268,17 +217,15 @@
       Invia direttamente a RawBT (ESC/POS 80mm)
     </label>
   </div>
-
   <div class="cart-section">
     <h3 style="margin-bottom:10px;">➕ Aggiungi Articolo al Menù</h3>
     <div style="display:grid; gap:8px;">
       <select id="newItemCat" class="form-control"></select>
       <input type="text" id="newItemName" class="form-control" placeholder="Nome piatto o vino">
-      <input type="number" step="0.5" id="newItemPrice" class="form-control" placeholder="Prezzo € (es. 14.00)">
+      <input type="number" step="0.5" id="newItemPrice" class="form-control" placeholder="Prezzo €">
       <button class="btn-main btn-print" onclick="addNewMenuItem()">Salva nel Menù</button>
     </div>
   </div>
-
   <div class="cart-section">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
       <h3>📋 Catalogo (68 voci)</h3>
@@ -288,6 +235,25 @@
   </div>
 </div>
 
+<!-- MODALE CAMERIERE / LOGOUT -->
+<div class="modal-overlay" id="waiterModal">
+  <div class="receipt-box" style="text-align:center;">
+    <h3 style="margin-bottom:8px; color:#062329;">👤 Chi sta usando il terminale?</h3>
+    <p style="font-size:0.78rem; color:#4B5563; margin-bottom:12px;">Seleziona <b>Christian</b> per mostrare il tasto ⚙️ Impostazioni.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
+      <button class="btn-main btn-print" onclick="setWaiter('Christian')">👑 Christian</button>
+      <button class="btn-main btn-bill" onclick="setWaiter('Alice')">👤 Alice</button>
+      <button class="btn-main btn-bill" onclick="setWaiter('Serena')">👤 Serena</button>
+      <button class="btn-main btn-bill" onclick="setWaiter('Sala')">👤 Sala</button>
+    </div>
+    <div style="display:flex; gap:6px;">
+      <input type="text" id="customWaiterInput" class="form-control" placeholder="Altro nome...">
+      <button class="btn-note" onclick="setCustomWaiter()">Entra</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODALE SCONTRINO -->
 <div class="modal-overlay" id="receiptModal">
   <div class="receipt-box">
     <div class="receipt-pre" id="receiptText"></div>
@@ -302,168 +268,83 @@
 const DEFAULT_FIREBASE_URL = "https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app";
 const CATEGORIES = ["1 Coperto", "2 Bevande", "3 Antipasti", "4 Primi Piatti", "5 Secondi", "6 Desserts"];
 const MANDATE_LABELS = { 0: "SUBITO / BEVANDE", 1: "1ª MANDATA", 2: "2ª MANDATA", 3: "3ª MANDATA", 4: "4ª MANDATA" };
+const MANDATA_TO_CAT = { 0: "1 Coperto", 1: "3 Antipasti", 2: "4 Primi Piatti", 3: "5 Secondi", 4: "6 Desserts" };
 
-// Mappa automatica: Mandata -> Categoria Menù
-const MANDATA_TO_CATEGORY = {
-  0: "1 Coperto",
-  1: "3 Antipasti",
-  2: "4 Primi Piatti",
-  3: "5 Secondi",
-  4: "6 Desserts"
-};
-
-const DEFAULT_MENU = [
-  { id: 101, cat: "1 Coperto", name: "Pane e Coperto", price: 3.00 },
-  { id: 201, cat: "2 Bevande", name: "Acqua Frizzante", price: 3.00 },
-  { id: 202, cat: "2 Bevande", name: "Acqua Naturale", price: 3.00 },
-  { id: 203, cat: "2 Bevande", name: "Birra Nabò", price: 6.00 },
-  { id: 204, cat: "2 Bevande", name: "CAPO LE VIGNE CERASUOLO D'ABRUZZO DOC", price: 24.00 },
-  { id: 205, cat: "2 Bevande", name: "Caffè", price: 2.50 },
-  { id: 206, cat: "2 Bevande", name: "Caffè Corretto", price: 3.50 },
-  { id: 207, cat: "2 Bevande", name: "Caffè Deca", price: 2.50 },
-  { id: 208, cat: "2 Bevande", name: "Calice Bianco", price: 4.00 },
-  { id: 209, cat: "2 Bevande", name: "Calice Cerasuolo", price: 4.00 },
-  { id: 210, cat: "2 Bevande", name: "Calice Rosso", price: 4.00 },
-  { id: 211, cat: "2 Bevande", name: "Carasuolo Terre di Poggio", price: 15.00 },
-  { id: 212, cat: "2 Bevande", name: "Cerasuolo Ferzo", price: 18.00 },
-  { id: 213, cat: "2 Bevande", name: "Cerasuolo Superiore Fossimatto Fontefico", price: 35.00 },
-  { id: 214, cat: "2 Bevande", name: "Coca Cola", price: 3.00 },
-  { id: 215, cat: "2 Bevande", name: "Collefrisio Filare Trebbiano", price: 20.00 },
-  { id: 216, cat: "2 Bevande", name: "Collefrisio Trebbiano", price: 20.00 },
-  { id: 217, cat: "2 Bevande", name: "Dire Bere Baciare Fontefico", price: 40.00 },
-  { id: 218, cat: "2 Bevande", name: "Febbre d'Abruzzo Fontefico", price: 40.00 },
-  { id: 219, cat: "2 Bevande", name: "IAVA CERASUOLO D'ABRUZZO DOC", price: 18.00 },
-  { id: 220, cat: "2 Bevande", name: "IAVA CHARDONNAY IGT TERRE D'ABRUZZO", price: 18.00 },
-  { id: 221, cat: "2 Bevande", name: "IAVA PASSERINA IGT TERRE D'ABRUZZO", price: 18.00 },
-  { id: 222, cat: "2 Bevande", name: "ICONIC MAIOLICA IGP TERRE D'ABRUZZO", price: 20.00 },
-  { id: 223, cat: "2 Bevande", name: "KRIYA TREBBIANO D'ABRUZZO DOC", price: 18.00 },
-  { id: 224, cat: "2 Bevande", name: "Liquore Artigianale Abruzzese", price: 3.50 },
-  { id: 225, cat: "2 Bevande", name: "Maleducato 11", price: 30.00 },
-  { id: 226, cat: "2 Bevande", name: "Maleducato Blondie", price: 24.00 },
-  { id: 227, cat: "2 Bevande", name: "Maleducato rosato", price: 24.00 },
-  { id: 228, cat: "2 Bevande", name: "Margento Orange Simigliani", price: 24.00 },
-  { id: 229, cat: "2 Bevande", name: "Metodo Classico Fenaroli", price: 30.00 },
-  { id: 230, cat: "2 Bevande", name: "Montepulciano Terre di Poggio", price: 15.00 },
-  { id: 231, cat: "2 Bevande", name: "Pane al Pane Fontefico", price: 40.00 },
-  { id: 232, cat: "2 Bevande", name: "Passerina Passo Cale", price: 16.00 },
-  { id: 233, cat: "2 Bevande", name: "Passo Cale Montepulciano", price: 18.00 },
-  { id: 234, cat: "2 Bevande", name: "Pecorino Chicchi Bio", price: 18.00 },
-  { id: 235, cat: "2 Bevande", name: "Pecorino Colline Rurabiliandia", price: 15.00 },
-  { id: 236, cat: "2 Bevande", name: "Pecorino Passo Cale", price: 16.00 },
-  { id: 237, cat: "2 Bevande", name: "Pecorino Superiore Canaglia Fontefico", price: 35.00 },
-  { id: 238, cat: "2 Bevande", name: "Pecorino Terre di Poggio", price: 14.00 },
-  { id: 239, cat: "2 Bevande", name: "Pinto 11 Montepulciano", price: 26.00 },
-  { id: 240, cat: "2 Bevande", name: "Rurabilandia Pecorino", price: 15.00 },
-  { id: 241, cat: "2 Bevande", name: "Trabocco Cerasuolo Charmat", price: 18.00 },
-  { id: 242, cat: "2 Bevande", name: "Trabocco Pecorino Charmat", price: 18.00 },
-  { id: 243, cat: "2 Bevande", name: "Trebbiano Collefrisio", price: 22.00 },
-  { id: 301, cat: "3 Antipasti", name: "Alicetta Marinata", price: 15.00 },
-  { id: 302, cat: "3 Antipasti", name: "Alicette impanate e fritte con majo al prezzemolo", price: 13.00 },
-  { id: 303, cat: "3 Antipasti", name: "Cetrioli", price: 4.00 },
-  { id: 304, cat: "3 Antipasti", name: "Cozze gratinate con gregoriano, ventricina e majo", price: 13.00 },
-  { id: 305, cat: "3 Antipasti", name: "Crudo di Manzo", price: 16.00 },
-  { id: 306, cat: "3 Antipasti", name: "Insalata Pomodori", price: 6.00 },
-  { id: 307, cat: "3 Antipasti", name: "La Marrocca", price: 6.00 },
-  { id: 308, cat: "3 Antipasti", name: "Menù cena aziendale", price: 33.50 },
-  { id: 309, cat: "3 Antipasti", name: "Pallotte", price: 12.00 },
-  { id: 310, cat: "3 Antipasti", name: "Patatine Fritte", price: 6.00 },
-  { id: 311, cat: "3 Antipasti", name: "Plateau Formaggi Artigianali", price: 18.00 },
-  { id: 312, cat: "3 Antipasti", name: "Polpette di granchio blu su salsa di zucchine", price: 14.00 },
-  { id: 313, cat: "3 Antipasti", name: "Pomodori e Cetrioli", price: 6.00 },
-  { id: 314, cat: "3 Antipasti", name: "Soute Cozze", price: 13.00 },
-  { id: 315, cat: "3 Antipasti", name: "Soutè di Vongole", price: 15.00 },
-  { id: 316, cat: "3 Antipasti", name: "Tagliere Salumi Artigianali", price: 18.00 },
-  { id: 317, cat: "3 Antipasti", name: "Verdure Saltate", price: 6.00 },
-  { id: 401, cat: "4 Primi Piatti", name: "Cubetti Verrigni Vongole e crema Pachino", price: 14.00 },
-  { id: 402, cat: "4 Primi Piatti", name: "Cubetto Totanetto", price: 14.00 },
-  { id: 403, cat: "4 Primi Piatti", name: "Linguina Cozze", price: 13.00 },
-  { id: 404, cat: "4 Primi Piatti", name: "Linguina ragù Panocchie", price: 16.00 },
-  { id: 405, cat: "4 Primi Piatti", name: "Pacchero Ragù Granchi", price: 16.00 },
-  { id: 406, cat: "4 Primi Piatti", name: "Pasta all' Olio", price: 7.00 },
-  { id: 407, cat: "4 Primi Piatti", name: "Rigatoro Alici", price: 14.00 },
-  { id: 408, cat: "4 Primi Piatti", name: "Spaghetti aglio e peperoncino Vongole", price: 13.00 },
-  { id: 409, cat: "4 Primi Piatti", name: "Sugo Bimbi", price: 9.00 },
-  { id: 501, cat: "5 Secondi", name: "Baccalà in vasocottura con patate, peperoni", price: 16.00 },
-  { id: 502, cat: "5 Secondi", name: "Braciola di pecora al carbone con m...", price: 18.00 },
-  { id: 503, cat: "5 Secondi", name: "Fish & Chips Adriatico - Baccalà in pastella", price: 20.00 },
-  { id: 504, cat: "5 Secondi", name: "Frittura di totanetti freschi dell'Adriatico", price: 17.00 },
-  { id: 505, cat: "5 Secondi", name: "Maiale Nero Peligno", price: 20.00 },
-  { id: 506, cat: "5 Secondi", name: "Sgombro al carbone con dressing al pomodoro", price: 18.00 },
-  { id: 601, cat: "6 Desserts", name: "Cantucci Amarene", price: 6.00 },
-  { id: 602, cat: "6 Desserts", name: "Mouse al cioccolato", price: 6.00 },
-  { id: 603, cat: "6 Desserts", name: "Pizzelle", price: 5.00 },
-  { id: 604, cat: "6 Desserts", name: "Zaffermisù - tiramisù alla ricotta di pecora", price: 7.00 }
+const RAW_MENU = [
+  [101,0,"Pane e Coperto",3],
+  [201,1,"Acqua Frizzante",3],[202,1,"Acqua Naturale",3],[203,1,"Birra Nabò",6],[204,1,"CAPO LE VIGNE CERASUOLO D'ABRUZZO DOC",24],
+  [205,1,"Caffè",2.5],[206,1,"Caffè Corretto",3.5],[207,1,"Caffè Deca",2.5],[208,1,"Calice Bianco",4],[209,1,"Calice Cerasuolo",4],
+  [210,1,"Calice Rosso",4],[211,1,"Carasuolo Terre di Poggio",15],[212,1,"Cerasuolo Ferzo",18],[213,1,"Cerasuolo Superiore Fossimatto Fontefico",35],
+  [214,1,"Coca Cola",3],[215,1,"Collefrisio Filare Trebbiano",20],[216,1,"Collefrisio Trebbiano",20],[217,1,"Dire Bere Baciare Fontefico",40],
+  [218,1,"Febbre d'Abruzzo Fontefico",40],[219,1,"IAVA CERASUOLO D'ABRUZZO DOC",18],[220,1,"IAVA CHARDONNAY IGT TERRE D'ABRUZZO",18],
+  [221,1,"IAVA PASSERINA IGT TERRE D'ABRUZZO",18],[222,1,"ICONIC MAIOLICA IGP TERRE D'ABRUZZO",20],[223,1,"KRIYA TREBBIANO D'ABRUZZO DOC",18],
+  [224,1,"Liquore Artigianale Abruzzese",3.5],[225,1,"Maleducato 11",30],[226,1,"Maleducato Blondie",24],[227,1,"Maleducato rosato",24],
+  [228,1,"Margento Orange Simigliani",24],[229,1,"Metodo Classico Fenaroli",30],[230,1,"Montepulciano Terre di Poggio",15],[231,1,"Pane al Pane Fontefico",40],
+  [232,1,"Passerina Passo Cale",16],[233,1,"Passo Cale Montepulciano",18],[234,1,"Pecorino Chicchi Bio",18],[235,1,"Pecorino Colline Rurabiliandia",15],
+  [236,1,"Pecorino Passo Cale",16],[237,1,"Pecorino Superiore Canaglia Fontefico",35],[238,1,"Pecorino Terre di Poggio",14],[239,1,"Pinto 11 Montepulciano",26],
+  [240,1,"Rurabilandia Pecorino",15],[241,1,"Trabocco Cerasuolo Charmat",18],[242,1,"Trabocco Pecorino Charmat",18],[243,1,"Trebbiano Collefrisio",22],
+  [301,2,"Alicetta Marinata",15],[302,2,"Alicette impanate e fritte con majo al prezzemolo",13],[303,2,"Cetrioli",4],
+  [304,2,"Cozze gratinate con gregoriano, ventricina e majo",13],[305,2,"Crudo di Manzo",16],[306,2,"Insalata Pomodori",6],[307,2,"La Marrocca",6],
+  [308,2,"Menù cena aziendale",33.5],[309,2,"Pallotte",12],[310,2,"Patatine Fritte",6],[311,2,"Plateau Formaggi Artigianali",18],
+  [312,2,"Polpette di granchio blu su salsa di zucchine",14],[313,2,"Pomodori e Cetrioli",6],[314,2,"Soute Cozze",13],[315,2,"Soutè di Vongole",15],
+  [316,2,"Tagliere Salumi Artigianali",18],[317,2,"Verdure Saltate",6],
+  [401,3,"Cubetti Verrigni Vongole e crema Pachino",14],[402,3,"Cubetto Totanetto",14],[403,3,"Linguina Cozze",13],[404,3,"Linguina ragù Panocchie",16],
+  [405,3,"Pacchero Ragù Granchi",16],[406,3,"Pasta all' Olio",7],[407,3,"Rigatoro Alici",14],[408,3,"Spaghetti aglio e peperoncino Vongole",13],[409,3,"Sugo Bimbi",9],
+  [501,4,"Baccalà in vasocottura con patate, peperoni",16],[502,4,"Braciola di pecora al carbone con m...",18],[503,4,"Fish & Chips Adriatico - Baccalà in pastella",20],
+  [504,4,"Frittura di totanetti freschi dell'Adriatico",17],[505,4,"Maiale Nero Peligno",20],[506,4,"Sgombro al carbone con dressing al pomodoro",18],
+  [601,5,"Cantucci Amarene",6],[602,5,"Mouse al cioccolato",6],[603,5,"Pizzelle",5],[604,5,"Zaffermisù - tiramisù alla ricotta di pecora",7]
 ];
-
-const STORAGE_KEY = 'alicetta_pos_v10';
+const DEFAULT_MENU = RAW_MENU.map(r => ({ id: r[0], cat: CATEGORIES[r[1]], name: r[2], price: r[3] }));
+const STORAGE_KEY = 'alicetta_pos_v11';
 
 let state = {
-  currentRoom: 'interna',
-  activeTableId: null,
-  currentMandata: 1,
-  currentCategory: '1 Coperto',
-  useRawBT: false,
-  firebaseUrl: DEFAULT_FIREBASE_URL,
-  waiterName: '',
-  lastEscPosPayload: '',
-  lastAlertSignal: 0,
-  kdsAudioEnabled: false,
-  menu: [],
-  tables: {},
-  historyLog: []
+  currentRoom: 'interna', activeTableId: null, currentMandata: 1, currentCategory: '1 Coperto',
+  useRawBT: false, firebaseUrl: DEFAULT_FIREBASE_URL, waiterName: '', lastEscPosPayload: '',
+  lastAlertSignal: 0, menu: [], tables: {}, historyLog: []
 };
-
 let audioCtx = null;
+
+function buildDefaultTables() {
+  const t = {};
+  for (let i = 1; i <= 11; i++) t['INT_'+i] = { id:'INT_'+i, name:'Tavolo '+i, room:'interna', items:[], firedMandate:{1:false,2:false,3:false,4:false}, doneMandate:{1:false,2:false,3:false,4:false}, sentOnce:false };
+  for (let i = 1; i <= 5; i++) t['EST_'+i] = { id:'EST_'+i, name:'Esterno '+i, room:'esterna', items:[], firedMandate:{1:false,2:false,3:false,4:false}, doneMandate:{1:false,2:false,3:false,4:false}, sentOnce:false };
+  for (let i = 1; i <= 5; i++) t['ASP_'+i] = { id:'ASP_'+i, name:'Asporto '+i, room:'asporto', items:[], firedMandate:{1:false,2:false,3:false,4:false}, doneMandate:{1:false,2:false,3:false,4:false}, sentOnce:false };
+  return t;
+}
 
 function normalizeTablesStructure(tablesObj) {
   const def = buildDefaultTables();
   if (!tablesObj) return def;
   Object.keys(def).forEach(k => {
-    if (!tablesObj[k]) {
-      tablesObj[k] = def[k];
-    } else {
+    if (!tablesObj[k]) tablesObj[k] = def[k];
+    else {
       if (!Array.isArray(tablesObj[k].items)) tablesObj[k].items = [];
-      if (!tablesObj[k].firedMandate) tablesObj[k].firedMandate = { 1: false, 2: false, 3: false, 4: false };
-      if (!tablesObj[k].doneMandate) tablesObj[k].doneMandate = { 1: false, 2: false, 3: false, 4: false };
+      if (!tablesObj[k].firedMandate) tablesObj[k].firedMandate = {1:false,2:false,3:false,4:false};
+      if (!tablesObj[k].doneMandate) tablesObj[k].doneMandate = {1:false,2:false,3:false,4:false};
     }
   });
   return tablesObj;
 }
 
-function buildDefaultTables() {
-  const t = {};
-  for (let i = 1; i <= 11; i++) {
-    t['INT_' + i] = { id: 'INT_' + i, name: 'Tavolo ' + i, room: 'interna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
-  }
-  for (let i = 1; i <= 5; i++) {
-    t['EST_' + i] = { id: 'EST_' + i, name: 'Esterno ' + i, room: 'esterna', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
-  }
-  for (let i = 1; i <= 5; i++) {
-    t['ASP_' + i] = { id: 'ASP_' + i, name: 'Asporto ' + i, room: 'asporto', items: [], firedMandate: { 1: false, 2: false, 3: false, 4: false }, doneMandate: { 1: false, 2: false, 3: false, 4: false }, sentOnce: false };
-  }
-  return t;
-}
-
-async function initApp() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    const parsed = JSON.parse(saved);
-    state.menu = (parsed.menu && parsed.menu.length > 0) ? parsed.menu : DEFAULT_MENU;
-    state.tables = normalizeTablesStructure(parsed.tables);
-    state.useRawBT = parsed.useRawBT || false;
-    state.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
-    state.waiterName = parsed.waiterName || '';
-    state.lastAlertSignal = parsed.lastAlertSignal || 0;
-    state.historyLog = parsed.historyLog || [];
-  } else {
+function initApp() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const p = JSON.parse(saved);
+      state.menu = (p.menu && p.menu.length > 0) ? p.menu : DEFAULT_MENU;
+      state.tables = normalizeTablesStructure(p.tables);
+      state.useRawBT = p.useRawBT || false;
+      state.firebaseUrl = p.firebaseUrl || DEFAULT_FIREBASE_URL;
+      state.waiterName = p.waiterName || '';
+      state.lastAlertSignal = p.lastAlertSignal || 0;
+      state.historyLog = p.historyLog || [];
+    } else {
+      state.menu = DEFAULT_MENU;
+      state.tables = buildDefaultTables();
+    }
+  } catch (e) {
     state.menu = DEFAULT_MENU;
     state.tables = buildDefaultTables();
-  }
-
-  if (!state.waiterName.trim()) {
-    askWaiterName();
-  } else {
-    updateWaiterDisplay();
   }
 
   document.getElementById('chkRawbt').checked = state.useRawBT;
@@ -471,65 +352,54 @@ async function initApp() {
   renderCategorySelect();
   renderTables();
   updateDailyStats();
+  updateWaiterDisplay();
 
-  await pullFromCloud(true);
+  if (!state.waiterName.trim()) {
+    openWaiterModal();
+  }
+
+  pullFromCloud(true);
   setInterval(() => pullFromCloud(false), 1800);
 }
 
-function askWaiterName() {
-  const name = prompt("Inserisci il tuo nome (es. Christian o nome cameriere):", "Cameriere");
-  if (name && name.trim()) {
-    state.waiterName = name.trim();
-    saveLocalOnly();
-    updateWaiterDisplay();
-  } else {
-    state.waiterName = "Staff";
-    saveLocalOnly();
-    updateWaiterDisplay();
+function openWaiterModal() {
+  document.getElementById('customWaiterInput').value = '';
+  document.getElementById('waiterModal').classList.add('active');
+}
+
+function setWaiter(name) {
+  state.waiterName = name.trim();
+  document.getElementById('waiterModal').classList.remove('active');
+  saveLocalOnly();
+  updateWaiterDisplay();
+  if (document.getElementById('viewMenuMgr').classList.contains('active') && state.waiterName.toLowerCase() !== 'christian') {
+    switchMainView('tables');
   }
 }
 
-function logoutWaiter() {
-  if (confirm(`Vuoi uscire dal profilo "${state.waiterName || 'Staff'}" e cambiare utente?`)) {
-    state.waiterName = '';
-    saveLocalOnly();
-    askWaiterName();
-    if (document.getElementById('viewMenuMgr').classList.contains('active') && state.waiterName.toLowerCase().trim() !== 'christian') {
-      switchMainView('tables');
-    }
-  }
+function setCustomWaiter() {
+  const val = document.getElementById('customWaiterInput').value.trim();
+  if (val) setWaiter(val);
 }
 
 function updateWaiterDisplay() {
-  const lbl = document.getElementById('waiterDisplay');
-  if (lbl) lbl.textContent = "👤 " + (state.waiterName || 'Staff') + " ⏻";
-  const badge = document.getElementById('currentWaiterBadge');
-  if (badge) badge.textContent = state.waiterName || 'Staff';
-
-  // Mostra il tasto ⚙️ (Impostazioni/Menù) SOLO a Christian
-  const menuBtn = document.getElementById('navMenu');
-  if (menuBtn) {
-    const isOwner = state.waiterName.toLowerCase().trim() === 'christian';
-    menuBtn.style.display = isOwner ? 'inline-block' : 'none';
-  }
+  const w = state.waiterName || 'Staff';
+  document.getElementById('waiterDisplay').textContent = "👤 " + w + " ⏻";
+  document.getElementById('currentWaiterBadge').textContent = w;
+  const isOwner = w.toLowerCase().trim() === 'christian';
+  document.getElementById('navMenu').style.display = isOwner ? 'inline-block' : 'none';
 }
 
 function saveLocalOnly() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    menu: state.menu,
-    tables: state.tables,
-    useRawBT: state.useRawBT,
-    firebaseUrl: state.firebaseUrl,
-    waiterName: state.waiterName,
-    historyLog: state.historyLog,
-    lastAlertSignal: state.lastAlertSignal
+    menu: state.menu, tables: state.tables, useRawBT: state.useRawBT,
+    firebaseUrl: state.firebaseUrl, waiterName: state.waiterName,
+    historyLog: state.historyLog, lastAlertSignal: state.lastAlertSignal
   }));
 }
 
 async function saveState(triggerBell = false) {
-  if (triggerBell) {
-    state.lastAlertSignal = Date.now();
-  }
+  if (triggerBell) state.lastAlertSignal = Date.now();
   saveLocalOnly();
   await pushToCloud();
 }
@@ -542,73 +412,39 @@ async function pushToCloud() {
   const badge = document.getElementById('syncIndicator');
   try {
     const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        updatedAt: Date.now(),
-        lastAlertSignal: state.lastAlertSignal,
-        tables: state.tables,
-        menu: state.menu,
-        historyLog: state.historyLog
-      })
+      method: "PUT", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ updatedAt: Date.now(), lastAlertSignal: state.lastAlertSignal, tables: state.tables, menu: state.menu, historyLog: state.historyLog })
     });
     badge.textContent = res.ok ? "🟢" : "🔴";
-  } catch (e) {
-    badge.textContent = "🟠";
-  }
+  } catch (e) { badge.textContent = "🟠"; }
 }
 
 async function pullFromCloud(isInitial) {
   const badge = document.getElementById('syncIndicator');
   try {
     const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json");
-    if (!res.ok) {
-      badge.textContent = "🔴";
-      return;
-    }
+    if (!res.ok) { badge.textContent = "🔴"; return; }
     const data = await res.json();
     badge.textContent = "🟢";
-
-    if (!data) {
-      if (isInitial) await pushToCloud();
-      return;
-    }
-
+    if (!data) { if (isInitial) await pushToCloud(); return; }
     if (data.lastAlertSignal && data.lastAlertSignal > state.lastAlertSignal) {
       state.lastAlertSignal = data.lastAlertSignal;
       playKitchenBell();
     }
-
-    if (data.tables) {
-      state.tables = normalizeTablesStructure(data.tables);
-    }
-    if (data.menu && data.menu.length > 0) {
-      state.menu = data.menu;
-    }
-    if (data.historyLog) {
-      state.historyLog = data.historyLog;
-    }
+    if (data.tables) state.tables = normalizeTablesStructure(data.tables);
+    if (data.menu && data.menu.length > 0) state.menu = data.menu;
+    if (data.historyLog) state.historyLog = data.historyLog;
     saveLocalOnly();
     updateDailyStats();
-
-    if (document.getElementById('viewTables').classList.contains('active')) {
-      renderTables();
-    } else if (document.getElementById('viewKds').classList.contains('active')) {
-      renderKds();
-    } else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) {
-      renderOrderScreen();
-    }
-  } catch (e) {
-    badge.textContent = "🟠";
-  }
+    if (document.getElementById('viewTables').classList.contains('active')) renderTables();
+    else if (document.getElementById('viewKds').classList.contains('active')) renderKds();
+    else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) renderOrderScreen();
+  } catch (e) { badge.textContent = "🟠"; }
 }
 
 function saveFirebaseUrl() {
   const val = document.getElementById('firebaseUrlInput').value.trim();
-  if (!val.startsWith("https://")) {
-    alert("URL non valido");
-    return;
-  }
+  if (!val.startsWith("https://")) { alert("URL non valido"); return; }
   state.firebaseUrl = val;
   saveLocalOnly();
   pullFromCloud(true);
@@ -619,15 +455,12 @@ async function enableKdsTabletMode() {
   try {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') await audioCtx.resume();
-    state.kdsAudioEnabled = true;
     const btn = document.getElementById('btnKdsAudio');
     btn.textContent = "✅ ATTIVO";
     btn.classList.add('on');
     playKitchenBell();
     if ('wakeLock' in navigator) await navigator.wakeLock.request('screen');
-  } catch (e) {
-    playKitchenBell();
-  }
+  } catch (e) { playKitchenBell(); }
 }
 
 function playKitchenBell() {
@@ -636,24 +469,19 @@ function playKitchenBell() {
     if (audioCtx.state === 'suspended') audioCtx.resume();
     const now = audioCtx.currentTime;
     [1318.5, 1046.5].forEach((freq, idx) => {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
+      const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(freq, now + idx * 0.22);
       gain.gain.setValueAtTime(0.001, now + idx * 0.22);
       gain.gain.exponentialRampToValueAtTime(0.9, now + idx * 0.22 + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.22 + 0.55);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start(now + idx * 0.22);
-      osc.stop(now + idx * 0.22 + 0.6);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(now + idx * 0.22); osc.stop(now + idx * 0.22 + 0.6);
     });
   } catch (e) {}
 }
 
-function formatPrice(num) {
-  return num.toFixed(2).replace('.', ',');
-}
+function formatPrice(num) { return Number(num).toFixed(2).replace('.', ','); }
 
 function switchMainView(view) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -690,42 +518,24 @@ function getTableTotal(table) {
 function renderTables() {
   const container = document.getElementById('tablesContainer');
   container.innerHTML = '';
-  Object.values(state.tables)
-    .filter(t => t.room === state.currentRoom)
-    .forEach(t => {
-      const busy = t.items && t.items.length > 0;
-      const total = getTableTotal(t);
-
-      let dotsHtml = '';
-      if (busy) {
-        [1, 2, 3, 4].forEach(m => {
-          const hasM = t.items.some(i => i.mandata === m && i.name !== 'Pane e Coperto');
-          if (!hasM) return;
-          if (t.doneMandate && t.doneMandate[m]) {
-            dotsHtml += `<span class="dot done">${m}ª✓</span>`;
-          } else if (t.firedMandate && t.firedMandate[m]) {
-            dotsHtml += `<span class="dot sent">${m}ª🔥</span>`;
-          } else {
-            dotsHtml += `<span class="dot wait">${m}ª...</span>`;
-          }
-        });
-      }
-
-      const card = document.createElement('div');
-      card.className = `table-card ${busy ? 'busy' : 'free'}`;
-      card.onclick = () => openTable(t.id);
-      card.innerHTML = `
-        <div class="table-name">${t.name}</div>
-        <div>
-          <span class="table-status ${busy ? 'status-busy' : 'status-free'}">
-            ${busy ? 'Occupato' : 'Libero'}
-          </span>
-        </div>
-        ${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}
-        <div class="course-dots">${dotsHtml}</div>
-      `;
-      container.appendChild(card);
-    });
+  Object.values(state.tables).filter(t => t.room === state.currentRoom).forEach(t => {
+    const busy = t.items && t.items.length > 0;
+    const total = getTableTotal(t);
+    let dotsHtml = '';
+    if (busy) {
+      [1, 2, 3, 4].forEach(m => {
+        if (!t.items.some(i => i.mandata === m && i.name !== 'Pane e Coperto')) return;
+        if (t.doneMandate && t.doneMandate[m]) dotsHtml += `<span class="dot done">${m}ª✓</span>`;
+        else if (t.firedMandate && t.firedMandate[m]) dotsHtml += `<span class="dot sent">${m}ª🔥</span>`;
+        else dotsHtml += `<span class="dot wait">${m}ª...</span>`;
+      });
+    }
+    const card = document.createElement('div');
+    card.className = `table-card ${busy ? 'busy' : 'free'}`;
+    card.onclick = () => openTable(t.id);
+    card.innerHTML = `<div class="table-name">${t.name}</div><div><span class="table-status ${busy ? 'status-busy' : 'status-free'}">${busy ? 'Occupato' : 'Libero'}</span></div>${busy ? `<div class="table-total">€ ${formatPrice(total)}</div>` : `<div style="font-size:0.7rem; opacity:0.8; margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dotsHtml}</div>`;
+    container.appendChild(card);
+  });
 }
 
 function openTable(tableId) {
@@ -736,31 +546,26 @@ function openTable(tableId) {
   document.getElementById('activeTableName').textContent = t.name;
   document.getElementById('activeTableSub').textContent = t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto';
   document.getElementById('menuSearch').value = '';
-  
   const isEmpty = !t.items || t.items.length === 0;
   setMandata(isEmpty ? 0 : 1, true);
   renderOrderScreen();
 }
 
-function closeTableView() {
-  state.activeTableId = null;
-  switchMainView('tables');
-}
+function closeTableView() { state.activeTableId = null; switchMainView('tables'); }
 
-function setMandata(m, autoSwitchCategory = false) {
+function setMandata(m, autoSwitchCat = false) {
   state.currentMandata = m;
   [0,1,2,3,4].forEach(idx => {
     const el = document.getElementById('mBtn' + idx);
     if (el) el.classList.toggle('active', idx === m);
   });
-
-  if (autoSwitchCategory) {
+  if (autoSwitchCat) {
     const t = state.tables[state.activeTableId];
     if (m === 0) {
-      const hasCoperto = t && t.items && t.items.some(i => i.name === 'Pane e Coperto');
-      state.currentCategory = hasCoperto ? "2 Bevande" : "1 Coperto";
-    } else if (MANDATA_TO_CATEGORY[m]) {
-      state.currentCategory = MANDATA_TO_CATEGORY[m];
+      const hasCop = t && t.items && t.items.some(i => i.name === 'Pane e Coperto');
+      state.currentCategory = hasCop ? "2 Bevande" : "1 Coperto";
+    } else if (MANDATA_TO_CAT[m]) {
+      state.currentCategory = MANDATA_TO_CAT[m];
     }
     document.getElementById('menuSearch').value = '';
     renderCategories();
@@ -768,72 +573,50 @@ function setMandata(m, autoSwitchCategory = false) {
   }
 }
 
-function clearSearch() {
-  document.getElementById('menuSearch').value = '';
-  renderMenuGrid();
-}
+function clearSearch() { document.getElementById('menuSearch').value = ''; renderMenuGrid(); }
 
 function renderCategories() {
   const bar = document.getElementById('catBar');
   bar.innerHTML = '';
-  let activeBtnEl = null;
-
+  let activeEl = null;
   CATEGORIES.forEach(cat => {
     const b = document.createElement('button');
     const isAct = state.currentCategory === cat;
     b.className = `cat-btn ${isAct ? 'active' : ''}`;
     b.textContent = cat;
-    if (isAct) activeBtnEl = b;
-
+    if (isAct) activeEl = b;
     b.onclick = () => {
       state.currentCategory = cat;
       document.getElementById('menuSearch').value = '';
-      if (cat === '1 Coperto' || cat === '2 Bevande') {
-        setMandata(0, false);
-      } else if (state.currentMandata === 0) {
-        setMandata(1, false);
-      }
+      if (cat === '1 Coperto' || cat === '2 Bevande') setMandata(0, false);
+      else if (state.currentMandata === 0) setMandata(1, false);
       renderCategories();
       renderMenuGrid();
     };
     bar.appendChild(b);
   });
-
-  if (activeBtnEl) {
-    setTimeout(() => {
-      activeBtnEl.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-    }, 30);
-  }
+  if (activeEl) setTimeout(() => activeEl.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }), 30);
 }
 
 function renderMenuGrid() {
   const grid = document.getElementById('menuGrid');
   grid.innerHTML = '';
   const q = (document.getElementById('menuSearch').value || '').trim().toLowerCase();
-
-  const filtered = state.menu.filter(item => {
-    if (q.length > 0) {
-      return item.name.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q);
-    }
-    return item.cat === state.currentCategory;
-  });
-
+  const filtered = state.menu.filter(item => q.length > 0 ? (item.name.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q)) : item.cat === state.currentCategory);
   filtered.forEach(item => {
     const card = document.createElement('div');
     card.className = 'menu-item';
     card.onclick = () => {
       if (navigator.vibrate) try { navigator.vibrate(20); } catch(e){}
+      card.classList.add('tap-anim');
+      setTimeout(() => card.classList.remove('tap-anim'), 160);
       const badge = document.createElement('span');
-      badge.className = 'tap-badge';
-      badge.textContent = '+1';
+      badge.className = 'tap-badge'; badge.textContent = '+1';
       card.appendChild(badge);
-      setTimeout(() => { if (badge.parentNode) badge.parentNode.removeChild(badge); }, 450);
+      setTimeout(() => { if (badge.parentNode) badge.parentNode.removeChild(badge); }, 400);
       addItemToTable(item);
     };
-    card.innerHTML = `
-      <div class="item-name">${item.name}</div>
-      <div class="item-price">${formatPrice(item.price)} €</div>
-    `;
+    card.innerHTML = `<div class="item-name">${item.name}</div><div class="item-price">${formatPrice(item.price)} €</div>`;
     grid.appendChild(card);
   });
 }
@@ -843,21 +626,8 @@ function addItemToTable(menuItem) {
   if (!t.items) t.items = [];
   const m = state.currentMandata;
   const existing = t.items.find(i => i.menuId === menuItem.id && i.mandata === m && !i.note);
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    t.items.push({
-      lineId: Date.now() + Math.random(),
-      menuId: menuItem.id,
-      cat: menuItem.cat,
-      name: menuItem.name,
-      price: menuItem.price,
-      qty: 1,
-      mandata: m,
-      waiter: state.waiterName || 'Staff',
-      note: ''
-    });
-  }
+  if (existing) existing.qty += 1;
+  else t.items.push({ lineId: Date.now() + Math.random(), menuId: menuItem.id, cat: menuItem.cat, name: menuItem.name, price: menuItem.price, qty: 1, mandata: m, waiter: state.waiterName || 'Staff', note: '' });
   saveState(false);
   renderOrderScreen();
 }
@@ -877,26 +647,16 @@ function editItemNote(lineId) {
   const item = t.items.find(i => i.lineId === lineId);
   if (!item) return;
   const note = prompt(`Nota per ${item.name}:`, item.note || '');
-  if (note !== null) {
-    item.note = note.trim();
-    saveState(false);
-    renderOrderScreen();
-  }
+  if (note !== null) { item.note = note.trim(); saveState(false); renderOrderScreen(); }
 }
 
 function renderOrderScreen() {
   const t = state.tables[state.activeTableId];
   if (!t) return;
   document.getElementById('activeTableTotal').textContent = '€ ' + formatPrice(getTableTotal(t));
-
-  const fireBox = document.getElementById('fireBox');
-  const fireBtns = document.getElementById('fireButtonsContainer');
+  const fireBox = document.getElementById('fireBox'), fireBtns = document.getElementById('fireButtonsContainer');
   fireBtns.innerHTML = '';
-  const hasM2 = t.items.some(i => i.mandata === 2);
-  const hasM3 = t.items.some(i => i.mandata === 3);
-  const hasM4 = t.items.some(i => i.mandata === 4);
-
-  if (hasM2 || hasM3 || hasM4) {
+  if ([2,3,4].some(m => t.items.some(i => i.mandata === m))) {
     fireBox.style.display = 'block';
     [2, 3, 4].forEach(mNum => {
       if (t.items.some(i => i.mandata === mNum)) {
@@ -907,39 +667,24 @@ function renderOrderScreen() {
         fireBtns.appendChild(btn);
       }
     });
-  } else {
-    fireBox.style.display = 'none';
-  }
+  } else fireBox.style.display = 'none';
 
   const cart = document.getElementById('cartContainer');
   if (!t.items || t.items.length === 0) {
     cart.innerHTML = '<div style="color:var(--muted); font-size:0.85rem;">Nessun articolo inserito.</div>';
     return;
   }
-
   cart.innerHTML = '';
   [0, 1, 2, 3, 4].forEach(m => {
     const groupItems = t.items.filter(i => i.mandata === m);
     if (groupItems.length === 0) return;
-
     const groupDiv = document.createElement('div');
     groupDiv.className = 'mandata-group';
     groupDiv.innerHTML = `<div class="mandata-header"><span>${MANDATE_LABELS[m]}</span><span>${groupItems.reduce((a,b)=>a+b.qty,0)} pz</span></div>`;
-
     groupItems.forEach(item => {
       const row = document.createElement('div');
       row.className = 'cart-row';
-      row.innerHTML = `
-        <div class="cart-info">
-          <b>${item.qty}x</b> ${item.name} <span style="font-size:0.7rem; color:var(--muted);">(${item.waiter || 'Staff'})</span>
-          ${item.note ? `<span class="cart-note">👉 ${item.note}</span>` : ''}
-        </div>
-        <div class="cart-controls">
-          <button class="btn-note" onclick="editItemNote(${item.lineId})">📝</button>
-          <button class="btn-qty" onclick="changeItemQty(${item.lineId}, -1)">-</button>
-          <button class="btn-qty" onclick="changeItemQty(${item.lineId}, 1)">+</button>
-        </div>
-      `;
+      row.innerHTML = `<div class="cart-info"><b>${item.qty}x</b> ${item.name} <span style="font-size:0.7rem; color:var(--muted);">(${item.waiter || 'Staff'})</span>${item.note ? `<span class="cart-note">👉 ${item.note}</span>` : ''}</div><div class="cart-controls"><button class="btn-note" onclick="editItemNote(${item.lineId})">📝</button><button class="btn-qty" onclick="changeItemQty(${item.lineId}, -1)">-</button><button class="btn-qty" onclick="changeItemQty(${item.lineId}, 1)">+</button></div>`;
       groupDiv.appendChild(row);
     });
     cart.appendChild(groupDiv);
@@ -952,88 +697,58 @@ function splitBillPrompt() {
   const total = getTableTotal(t);
   const people = prompt("In quante persone volete dividere il conto?", "2");
   if (!people || isNaN(people) || parseInt(people) <= 0) return;
-  const share = total / parseInt(people);
-  alert(`Totale Tavolo: € ${formatPrice(total)}\nNumero Persone: ${people}\nQuota pro-capite: € ${formatPrice(share)}`);
+  alert(`Totale Tavolo: € ${formatPrice(total)}\nPersone: ${people}\nQuota a testa: € ${formatPrice(total / parseInt(people))}`);
 }
 
 function moveOrMergeTable() {
   const currentT = state.tables[state.activeTableId];
   if (!currentT || !currentT.items || currentT.items.length === 0) { alert("Tavolo vuoto."); return; }
-  const targetName = prompt("Inserisci il nome del tavolo di destinazione (es. Tavolo 5 o Esterno 2):");
+  const targetName = prompt("Sposta/Unisci su quale tavolo? (es. Tavolo 5 o Esterno 2):");
   if (!targetName || !targetName.trim()) return;
-
   const targetKey = Object.keys(state.tables).find(k => state.tables[k].name.toLowerCase() === targetName.trim().toLowerCase());
-  if (!targetKey) {
-    alert("Tavolo non trovato. Scrivi es. 'Tavolo 3' o 'Esterno 1'.");
-    return;
-  }
+  if (!targetKey) { alert("Tavolo non trovato."); return; }
   const targetT = state.tables[targetKey];
   if (targetT.id === currentT.id) return;
-
-  if (confirm(`Vuoi spostare/unire tutti i piatti da ${currentT.name} a ${targetT.name}?`)) {
+  if (confirm(`Spostare tutti i piatti da ${currentT.name} a ${targetT.name}?`)) {
     targetT.items = (targetT.items || []).concat(currentT.items);
     currentT.items = [];
-    currentT.firedMandate = { 1: false, 2: false, 3: false, 4: false };
-    currentT.doneMandate = { 1: false, 2: false, 3: false, 4: false };
+    currentT.firedMandate = {1:false,2:false,3:false,4:false};
+    currentT.doneMandate = {1:false,2:false,3:false,4:false};
     currentT.sentOnce = false;
     saveState(false);
     openTable(targetT.id);
   }
 }
 
-function buildTimeStr() {
-  const now = new Date();
-  return now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-}
+function buildTimeStr() { return new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }); }
 
 function sendOrderToKitchen() {
   const t = state.tables[state.activeTableId];
-  if (!t || !t.items || t.items.length === 0) {
-    alert("Inserisci almeno un articolo.");
-    return;
-  }
-  t.sentOnce = true;
-  t.firedMandate[1] = true;
-  saveState(true);
-  renderOrderScreen();
-
-  const timeStr = buildTimeStr();
-  let preview = "==========================================\n";
-  preview += `   ALICETTA TRATTORIA - ${t.name.toUpperCase()}\n`;
-  preview += `   Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n`;
-  preview += "==========================================\n\n";
-
-  const ESC = "\x1B";
-  const GS = "\x1D";
-  let escpos = ESC + "@" + ESC + "a" + "\x01" + ESC + "!" + "\x38";
-  escpos += `${t.name.toUpperCase()}\n` + ESC + "!" + "\x08" + `Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n------------------------------------------\n` + ESC + "a" + "\x00";
-
+  if (!t || !t.items || t.items.length === 0) { alert("Inserisci almeno un articolo."); return; }
+  t.sentOnce = true; t.firedMandate[1] = true;
+  saveState(true); renderOrderScreen();
+  const timeStr = buildTimeStr(), ESC = "\x1B", GS = "\x1D";
+  let preview = `==========================================\n   ALICETTA TRATTORIA - ${t.name.toUpperCase()}\n   Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n==========================================\n\n`;
+  let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x38"+`${t.name.toUpperCase()}\n`+ESC+"!\x08"+`Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n------------------------------------------\n`+ESC+"a\x00";
   const coperti = t.items.filter(i => i.name === 'Pane e Coperto');
   if (coperti.length > 0) {
-    const totCoperti = coperti.reduce((s, c) => s + c.qty, 0);
-    preview += `COPERTI: ${totCoperti}\n\n`;
-    escpos += ESC + "!" + "\x08" + `COPERTI: ${totCoperti}\n` + ESC + "!" + "\x00";
+    const totC = coperti.reduce((s, c) => s + c.qty, 0);
+    preview += `COPERTI: ${totC}\n\n`;
+    escpos += ESC+"!\x08"+`COPERTI: ${totC}\n`+ESC+"!\x00";
   }
-
   [0, 1, 2, 3, 4].forEach(m => {
     const list = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
     if (list.length === 0) return;
-    const headerTitle = m === 1 ? ">>> 1a MANDATA (MARCIA) <<<" : m === 2 ? "--- 2a MANDATA ---" : m === 3 ? "--- 3a MANDATA ---" : m === 4 ? "--- 4a MANDATA ---" : "--- SUBITO / BEV ---";
-    preview += `${headerTitle}\n`;
-    escpos += "\n" + ESC + "!" + "\x08" + headerTitle + "\n" + ESC + "!" + "\x00";
+    const h = m === 1 ? ">>> 1a MANDATA (MARCIA) <<<" : m > 1 ? `--- ${m}a MANDATA ---` : "--- SUBITO / BEV ---";
+    preview += `${h}\n`; escpos += "\n"+ESC+"!\x08"+h+"\n"+ESC+"!\x00";
     list.forEach(it => {
-      preview += `  ${it.qty}x ${it.name}\n`;
-      escpos += ESC + "!" + "\x18" + `${it.qty}x ${it.name}\n` + ESC + "!" + "\x00";
-      if (it.note) {
-        preview += `     * ${it.note}\n`;
-        escpos += ESC + "!" + "\x08" + `   * ${it.note}\n` + ESC + "!" + "\x00";
-      }
+      preview += `  ${it.qty}x ${it.name}\n`; escpos += ESC+"!\x18"+`${it.qty}x ${it.name}\n`+ESC+"!\x00";
+      if (it.note) { preview += `     * ${it.note}\n`; escpos += ESC+"!\x08"+`   * ${it.note}\n`+ESC+"!\x00"; }
     });
     preview += "\n";
   });
-
   preview += "==========================================\n";
-  escpos += "\n------------------------------------------\n\n\n" + GS + "V" + "\x42" + "\x00";
+  escpos += "\n------------------------------------------\n\n\n"+GS+"V\x42\x00";
   dispatchPrint(preview, escpos);
 }
 
@@ -1041,78 +756,52 @@ function fireMandataTicket(mandataNum) {
   const t = state.tables[state.activeTableId];
   const list = t.items.filter(i => i.mandata === mandataNum);
   if (list.length === 0) return;
-
-  t.firedMandate[mandataNum] = true;
-  t.doneMandate[mandataNum] = false;
-  saveState(true);
-  renderOrderScreen();
-
-  const timeStr = buildTimeStr();
+  t.firedMandate[mandataNum] = true; t.doneMandate[mandataNum] = false;
+  saveState(true); renderOrderScreen();
+  const timeStr = buildTimeStr(), ESC = "\x1B", GS = "\x1D";
   let preview = `******************************************\n   🔥 VIA ${mandataNum}a MANDATA! (${t.name.toUpperCase()})\n   Ore ${timeStr}\n******************************************\n\n`;
-  const ESC = "\x1B";
-  const GS = "\x1D";
-  let escpos = ESC + "@" + ESC + "a" + "\x01" + ESC + "!" + "\x38" + `VIA ${mandataNum}a MANDATA!\n${t.name.toUpperCase()}\n` + ESC + "!" + "\x08" + `${timeStr}\n******************************************\n` + ESC + "a" + "\x00";
-
+  let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x38"+`VIA ${mandataNum}a MANDATA!\n${t.name.toUpperCase()}\n`+ESC+"!\x08"+`${timeStr}\n******************************************\n`+ESC+"a\x00";
   list.forEach(it => {
-    preview += `  ${it.qty}x ${it.name}\n`;
-    escpos += ESC + "!" + "\x38" + `${it.qty}x ${it.name}\n` + ESC + "!" + "\x00";
-    if (it.note) {
-      preview += `     * ${it.note}\n`;
-      escpos += ESC + "!" + "\x08" + `   * ${it.note}\n` + ESC + "!" + "\x00";
-    }
+    preview += `  ${it.qty}x ${it.name}\n`; escpos += ESC+"!\x38"+`${it.qty}x ${it.name}\n`+ESC+"!\x00";
+    if (it.note) { preview += `     * ${it.note}\n`; escpos += ESC+"!\x08"+`   * ${it.note}\n`+ESC+"!\x00"; }
   });
-
   preview += "\n******************************************\n";
-  escpos += "\n******************************************\n\n\n" + GS + "V" + "\x42" + "\x00";
+  escpos += "\n******************************************\n\n\n"+GS+"V\x42\x00";
   dispatchPrint(preview, escpos);
 }
 
 function showPreBill() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) return;
-  const total = getTableTotal(t);
+  const total = getTableTotal(t), ESC = "\x1B", GS = "\x1D";
   let preview = `==========================================\n     PRE-CONTO - ${t.name.toUpperCase()}\n==========================================\n\n`;
-  const ESC = "\x1B";
-  const GS = "\x1D";
-  let escpos = ESC + "@" + ESC + "a" + "\x01" + ESC + "!" + "\x08" + `PRE-CONTO ${t.name.toUpperCase()}\n------------------------------------------\n` + ESC + "a" + "\x00" + ESC + "!" + "\x00";
-
+  let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x08"+`PRE-CONTO ${t.name.toUpperCase()}\n------------------------------------------\n`+ESC+"a\x00"+ESC+"!\x00";
   t.items.forEach(it => {
-    const sub = formatPrice(it.price * it.qty);
-    const line = `${it.qty}x ${it.name.substring(0, 20)} EUR ${sub}`;
-    preview += line + "\n";
-    escpos += line + "\n";
+    const line = `${it.qty}x ${it.name.substring(0, 20)} EUR ${formatPrice(it.price * it.qty)}`;
+    preview += line + "\n"; escpos += line + "\n";
   });
-
-  preview += `\n------------------------------------------\nTOTALE DA BATTERE SU SUMUP: EUR ${formatPrice(total)}\n==========================================\n`;
-  escpos += "------------------------------------------\n" + ESC + "!" + "\x38" + `TOTALE: EUR ${formatPrice(total)}\n` + ESC + "!" + "\x00" + "\n\n\n" + GS + "V" + "\x42" + "\x00";
+  preview += `\n------------------------------------------\nTOTALE SUMUP: EUR ${formatPrice(total)}\n==========================================\n`;
+  escpos += "------------------------------------------\n"+ESC+"!\x38"+`TOTALE: EUR ${formatPrice(total)}\n`+ESC+"!\x00\n\n\n"+GS+"V\x42\x00";
   dispatchPrint(preview, escpos);
 }
 
 function encodeBase64UTF8(str) {
-  const bytes = new Uint8Array(str.length);
-  for (let i = 0; i < str.length; i++) bytes[i] = str.charCodeAt(i) & 0xFF;
-  let binary = '';
-  for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
-  return btoa(binary);
+  let bin = '';
+  for (let i = 0; i < str.length; i++) bin += String.fromCharCode(str.charCodeAt(i) & 0xFF);
+  return btoa(bin);
 }
 
 function dispatchPrint(previewText, escposRaw) {
   state.lastEscPosPayload = escposRaw;
-  if (state.useRawBT) {
-    window.location.href = "rawbt:base64," + encodeBase64UTF8(escposRaw);
-  } else {
+  if (state.useRawBT) window.location.href = "rawbt:base64," + encodeBase64UTF8(escposRaw);
+  else {
     document.getElementById('receiptText').textContent = previewText;
     document.getElementById('receiptModal').classList.add('active');
   }
 }
 
-function triggerRawBTFromModal() {
-  if (state.lastEscPosPayload) window.location.href = "rawbt:base64," + encodeBase64UTF8(state.lastEscPosPayload);
-}
-
-function closeReceiptModal() {
-  document.getElementById('receiptModal').classList.remove('active');
-}
+function triggerRawBTFromModal() { if (state.lastEscPosPayload) window.location.href = "rawbt:base64," + encodeBase64UTF8(state.lastEscPosPayload); }
+function closeReceiptModal() { document.getElementById('receiptModal').classList.remove('active'); }
 
 function freeCurrentTable() {
   const t = state.tables[state.activeTableId];
@@ -1121,127 +810,68 @@ function freeCurrentTable() {
     const total = getTableTotal(t);
     const copertiCount = t.items.filter(i => i.name === 'Pane e Coperto').reduce((s, c) => s + c.qty, 0);
     if (!state.historyLog) state.historyLog = [];
-    state.historyLog.push({
-      tableName: t.name,
-      total: total,
-      coperti: copertiCount,
-      items: JSON.parse(JSON.stringify(t.items)),
-      time: new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })
-    });
-
-    t.items = [];
-    t.firedMandate = { 1: false, 2: false, 3: false, 4: false };
-    t.doneMandate = { 1: false, 2: false, 3: false, 4: false };
-    t.sentOnce = false;
-    saveState(false);
-    closeTableView();
-    updateDailyStats();
+    state.historyLog.push({ tableName: t.name, total, coperti: copertiCount, items: JSON.parse(JSON.stringify(t.items)), time: buildTimeStr() });
+    t.items = []; t.firedMandate = {1:false,2:false,3:false,4:false}; t.doneMandate = {1:false,2:false,3:false,4:false}; t.sentOnce = false;
+    saveState(false); closeTableView(); updateDailyStats();
   }
 }
 
 function clearHistoryLog() {
-  if (confirm("Vuoi azzerare il registro storico di fine serata?")) {
-    state.historyLog = [];
-    saveState(false);
-    updateDailyStats();
-  }
+  if (confirm("Azzerare le statistiche della serata?")) { state.historyLog = []; saveState(false); updateDailyStats(); }
 }
 
 function updateDailyStats() {
-  const container = document.getElementById('dailyStats');
-  if (!container) return;
+  const c = document.getElementById('dailyStats');
+  if (!c) return;
   const log = state.historyLog || [];
-  if (log.length === 0) {
-    container.innerHTML = "Nessun tavolo chiuso in questa sessione.";
-    return;
-  }
-  let totalRev = 0;
-  let totalCop = 0;
-  const dishCounts = {};
-  log.forEach(entry => {
-    totalRev += entry.total;
-    totalCop += entry.coperti;
-    entry.items.forEach(it => {
-      if (it.name !== 'Pane e Coperto') {
-        dishCounts[it.name] = (dishCounts[it.name] || 0) + it.qty;
-      }
-    });
+  if (log.length === 0) { c.innerHTML = "Nessun tavolo chiuso in questa sessione."; return; }
+  let rev = 0, cop = 0, counts = {};
+  log.forEach(e => {
+    rev += e.total; cop += e.coperti;
+    e.items.forEach(it => { if (it.name !== 'Pane e Coperto') counts[it.name] = (counts[it.name] || 0) + it.qty; });
   });
-  const sortedDishes = Object.entries(dishCounts).sort((a,b) => b[1] - a[1]).slice(0, 3);
-
-  container.innerHTML = `
-    • <b>Tavoli Chiusi:</b> ${log.length}<br>
-    • <b>Coperti Totali:</b> ${totalCop}<br>
-    • <b>Incasso Totale:</b> € ${formatPrice(totalRev)}<br>
-    • <b>Piatti più venduti:</b> ${sortedDishes.length > 0 ? sortedDishes.map(d => `${d[0]} (${d[1]}x)`).join(', ') : 'Nessuno'}
-  `;
+  const top = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 3);
+  c.innerHTML = `• <b>Tavoli Chiusi:</b> ${log.length}<br>• <b>Coperti Totali:</b> ${cop}<br>• <b>Incasso Totale:</b> € ${formatPrice(rev)}<br>• <b>Top Piatti:</b> ${top.length ? top.map(d => `${d[0]} (${d[1]}x)`).join(', ') : 'Nessuno'}`;
 }
 
 function markMandataDone(tableId, mandataNum) {
   const t = state.tables[tableId];
   if (!t) return;
-  if (!t.doneMandate) t.doneMandate = { 1: false, 2: false, 3: false, 4: false };
   t.doneMandate[mandataNum] = !t.doneMandate[mandataNum];
-  saveState(false);
-  renderKds();
+  saveState(false); renderKds();
 }
 
 function renderKds() {
   const container = document.getElementById('kdsContainer');
   container.innerHTML = '';
   const activeTables = Object.values(state.tables).filter(t => t.items && t.items.some(i => i.name !== 'Pane e Coperto'));
-  if (activeTables.length === 0) {
-    container.innerHTML = '<div style="color:#062329; font-weight:800;">Nessuna comanda attiva in cucina.</div>';
-    return;
-  }
+  if (activeTables.length === 0) { container.innerHTML = '<div style="color:#062329; font-weight:800;">Nessuna comanda attiva in cucina.</div>'; return; }
   activeTables.forEach(t => {
     const card = document.createElement('div');
-    card.className = `kds-card`;
+    card.className = 'kds-card';
     let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px;"><b>${t.name}</b><span style="font-size:0.75rem; color:var(--logo-coral); font-weight:800;">${t.room === 'interna' ? '❄️ Interna' : t.room === 'esterna' ? '🕶️ Esterna' : '🥡 Asporto'}</span></div>`;
-
     [0, 1, 2, 3, 4].forEach(m => {
       const mItems = t.items.filter(i => i.mandata === m && i.name !== 'Pane e Coperto');
       if (mItems.length === 0) return;
       const isDone = t.doneMandate && t.doneMandate[m];
       const isFired = (m === 0 || m === 1 || (t.firedMandate && t.firedMandate[m]));
-      const statusBadge = isDone ? `<span style="color:#10B981; font-weight:800;">SERVITA</span>` : isFired ? `<span style="color:#10B981; font-weight:800;">🔥 MARCIARE</span>` : `<span style="color:var(--logo-coral); font-weight:800;">⏳ ATTESA</span>`;
-
-      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}">
-        <div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${m === 0 ? 'SUBITO' : m + 'ª MANDATA'}</b> ${statusBadge}</div>
-        ${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter \vert{}\vert{} 'Staff'})</span>${i.note ? `<i style="color:var(--logo-coral);">(${i.note})</i>` : ''}</div>`).join('')}
-        ${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}
-      </div>`;
+      const badge = isDone ? `<span style="color:#10B981; font-weight:800;">SERVITA</span>` : isFired ? `<span style="color:#10B981; font-weight:800;">🔥 MARCIARE</span>` : `<span style="color:var(--logo-coral); font-weight:800;">⏳ ATTESA</span>`;
+      html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}"><div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${m === 0 ? 'SUBITO' : m + 'ª MANDATA'}</b> ${badge}</div>${mItems.map(i => `<div style="font-size:0.88rem;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter \vert{}\vert{} 'Staff'})</span>${i.note ? `<i style="color:var(--logo-coral);">(${i.note})</i>` : ''}</div>`).join('')}${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}</div>`;
     });
-    card.innerHTML = html;
-    container.appendChild(card);
+    card.innerHTML = html; container.appendChild(card);
   });
 }
 
-function toggleRawbtSetting() {
-  state.useRawBT = document.getElementById('chkRawbt').checked;
-  saveLocalOnly();
-}
-
-function renderCategorySelect() {
-  const sel = document.getElementById('newItemCat');
-  if (sel) sel.innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
-}
+function toggleRawbtSetting() { state.useRawBT = document.getElementById('chkRawbt').checked; saveLocalOnly(); }
+function renderCategorySelect() { document.getElementById('newItemCat').innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join(''); }
 
 function renderMenuMgr() {
   const list = document.getElementById('menuMgrList');
-  if (!list) return;
   list.innerHTML = '';
   state.menu.forEach(item => {
     const row = document.createElement('div');
-    row.className = 'cart-row';
-    row.style.borderBottom = '1px solid var(--border)';
-    row.innerHTML = `
-      <div style="flex:1; font-size:0.84rem;"><b>[${item.cat}]</b> ${item.name} — <span style="color:var(--logo-coral); font-weight:800;">${formatPrice(item.price)}€</span></div>
-      <div class="cart-controls">
-        <button class="btn-note" onclick="editMenuItem(${item.id})">✏️</button>
-        <button class="btn-qty" onclick="deleteMenuItem(${item.id})">🗑️</button>
-      </div>
-    `;
+    row.className = 'cart-row'; row.style.borderBottom = '1px solid var(--border)';
+    row.innerHTML = `<div style="flex:1; font-size:0.84rem;"><b>[${item.cat}]</b> ${item.name} — <span style="color:var(--logo-coral); font-weight:800;">${formatPrice(item.price)}€</span></div><div class="cart-controls"><button class="btn-note" onclick="editMenuItem(${item.id})">✏️</button><button class="btn-qty" onclick="deleteMenuItem(${item.id})">🗑️</button></div>`;
     list.appendChild(row);
   });
 }
@@ -1249,48 +879,28 @@ function renderMenuMgr() {
 function editMenuItem(id) {
   const item = state.menu.find(i => i.id === id);
   if (!item) return;
-  const newName = prompt("Modifica nome articolo:", item.name);
-  if (newName === null || !newName.trim()) return;
-  const newPriceStr = prompt("Modifica prezzo (€):", item.price.toString());
-  if (newPriceStr === null) return;
-  const newPrice = parseFloat(newPriceStr.replace(',', '.'));
-  if (!isNaN(newPrice)) {
-    item.name = newName.trim();
-    item.price = newPrice;
-    saveState(false);
-    renderMenuMgr();
-  }
+  const n = prompt("Modifica nome:", item.name);
+  if (!n || !n.trim()) return;
+  const p = parseFloat((prompt("Modifica prezzo (€):", item.price) || '').replace(',', '.'));
+  if (!isNaN(p)) { item.name = n.trim(); item.price = p; saveState(false); renderMenuMgr(); }
 }
 
 function addNewMenuItem() {
   const cat = document.getElementById('newItemCat').value;
   const name = document.getElementById('newItemName').value.trim();
   const price = parseFloat(document.getElementById('newItemPrice').value.replace(',', '.'));
-  if (!name || isNaN(price)) {
-    alert("Inserisci nome e prezzo validi.");
-    return;
-  }
+  if (!name || isNaN(price)) { alert("Inserisci nome e prezzo validi."); return; }
   state.menu.push({ id: Date.now(), cat, name, price });
-  document.getElementById('newItemName').value = '';
-  document.getElementById('newItemPrice').value = '';
-  saveState(false);
-  renderMenuMgr();
+  document.getElementById('newItemName').value = ''; document.getElementById('newItemPrice').value = '';
+  saveState(false); renderMenuMgr();
 }
 
 function deleteMenuItem(id) {
-  if (confirm("Vuoi rimuovere questo piatto dal menù?")) {
-    state.menu = state.menu.filter(i => i.id !== id);
-    saveState(false);
-    renderMenuMgr();
-  }
+  if (confirm("Rimuovere questo piatto?")) { state.menu = state.menu.filter(i => i.id !== id); saveState(false); renderMenuMgr(); }
 }
 
 function resetMenuToSumUp() {
-  if (confirm("Vuoi ripristinare il menù originale Alicetta (68 articoli)?")) {
-    state.menu = JSON.parse(JSON.stringify(DEFAULT_MENU));
-    saveState(false);
-    renderMenuMgr();
-  }
+  if (confirm("Ripristinare i 68 articoli originali?")) { state.menu = JSON.parse(JSON.stringify(DEFAULT_MENU)); saveState(false); renderMenuMgr(); }
 }
 
 initApp();
