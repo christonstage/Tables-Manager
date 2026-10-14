@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta Trattoria - Comande & Tavoli</title>
+<title>Alicetta TableZ 1.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -85,7 +85,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
 .modal-overlay.active { display: flex; }
 .receipt-box { background: #fff; color: #000; width: 100%; max-width: 340px; border-radius: 12px; padding: 16px; max-height: 85vh; overflow-y: auto; }
-.receipt-pre { white-space: pre-wrap; font-family: "Courier New", monospace; font-size: 0.85rem; line-height: 1.35; }
+.receipt-pre { white-space: pre-wrap; font-family: "Courier New", monospace; font-size: 0.83rem; line-height: 1.35; }
 .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
 .btn-modal { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; }
 .kds-Banner { background: var(--card); border: 2px solid var(--logo-coral); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -94,20 +94,21 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .kds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
 .kds-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 13px; color: var(--text); }
 .btn-kds-done { width: 100%; margin-top: 6px; padding: 8px; border-radius: 8px; border: none; background: #10B981; color: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer; }
-
-/* Banner Notifica Comanda e Cercapersone */
 .order-toast { display: none; position: fixed; top: 52px; left: 10px; right: 10px; background: #111827; color: #FFF; border: 2px solid var(--logo-cyan); border-radius: 12px; padding: 12px; z-index: 90; box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
 .order-toast.active { display: block; animation: slideDown 0.25s ease-out; }
 @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 .pager-alert { background: var(--logo-coral); color: #fff; text-align: center; border: 3px solid #fff; animation: pulseAlert 0.8s infinite alternate; }
 @keyframes pulseAlert { from { transform: scale(0.98); } to { transform: scale(1.02); box-shadow: 0 0 30px #FF5733; } }
+.rep-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
+.rep-tab { padding: 8px 4px; border-radius: 8px; border: 1px solid var(--border); background: #F3F4F6; font-weight: 800; font-size: 0.76rem; text-align: center; cursor: pointer; }
+.rep-tab.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
 </style>
 </head>
 <body onclick="unlockAudioOnce()">
 
 <div class="topbar">
   <div class="brand-group">
-    <div class="brand-logo" title="Alicetta Trattoria">
+    <div class="brand-logo" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
         <g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round">
           <polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/>
@@ -120,7 +121,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
         <line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/>
         <circle cx="110" cy="58" r="2.2" fill="#FF5733"/>
         <line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/>
-        <text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text>
+        <text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text>
       </svg>
     </div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
@@ -200,7 +201,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div><div style="font-weight:800; font-size:1.05rem;">🖥️ SCHERMO CUCINA (KDS LIVE)</div></div>
+    <div><div style="font-weight:800; font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0</div></div>
     <div style="display:flex; gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -211,13 +212,30 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">👤 Cameriere: <span id="currentWaiterBadge" style="color:var(--logo-coral);">--</span></h3>
-    <button class="btn-note" onclick="logoutWaiter()">Logout Cameriere</button>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0</h3>
+        <div style="font-size:0.8rem; color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
+      </div>
+      <button class="btn-note" onclick="logoutWaiter()">Logout</button>
+    </div>
   </div>
+
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">📊 Registro Storico di Fine Serata</h3>
-    <div id="dailyStats" style="font-size:0.85rem; color:var(--muted); line-height:1.4;">Caricamento...</div>
+    <h3 style="margin-bottom:8px;">📊 Report & Statistiche (Serata / Mese / Anno)</h3>
+    <div class="rep-tabs">
+      <div class="rep-tab active" id="repTabDaily" onclick="selectReportPeriod('daily')">🌙 Fine Serata</div>
+      <div class="rep-tab" id="repTabMonthly" onclick="selectReportPeriod('monthly')">📅 Mensile</div>
+      <div class="rep-tab" id="repTabYearly" onclick="selectReportPeriod('yearly')">📆 Annuale</div>
+    </div>
+    <div id="dailyStats" style="font-size:0.84rem; color:var(--text); line-height:1.45; margin-bottom:10px; max-height:220px; overflow-y:auto; padding:8px; background:#F9FAFB; border-radius:8px; border:1px solid var(--border);">Caricamento...</div>
+    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+      <button class="btn-main btn-print" style="flex:1.2;" onclick="printStatsReport()">🖨️ Stampa Report</button>
+      <button class="btn-note" onclick="resetCurrentEvening()">🌙 Chiudi Serata</button>
+      <button class="btn-note" style="background:#FEE2E2; color:#991B1B; border-color:#991B1B;" onclick="resetAllHistory()">🗑️ Reset Totale</button>
+    </div>
   </div>
+
   <div class="cart-section">
     <h3 style="margin-bottom:8px;">☁️ Firebase URL</h3>
     <div style="display:flex; gap:6px;">
@@ -226,10 +244,10 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
     </div>
   </div>
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">🖨️ Stampante</h3>
+    <h3 style="margin-bottom:8px;">🖨️ Stampante Epson TM-m30III</h3>
     <label style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.9rem;">
       <input type="checkbox" id="chkRawbt" onchange="toggleRawbtSetting()" style="width:18px; height:18px;">
-      Usa RawBT
+      Usa RawBT Diretto (ESC/POS 80mm)
     </label>
   </div>
   <div class="cart-section">
@@ -314,8 +332,9 @@ const STORAGE_KEY = 'alicetta_pos_v9';
 
 let state = {
   currentRoom: 'interna', activeTableId: null, currentMandata: 1, currentCategory: '1 Coperto',
-  useRawBT: false, firebaseUrl: DEFAULT_FIREBASE_URL, waiterName: '', lastEscPosPayload: '',
-  lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null, menu: [], tables: {}, historyLog: []
+  reportPeriod: 'daily', useRawBT: false, firebaseUrl: DEFAULT_FIREBASE_URL, waiterName: '',
+  lastEscPosPayload: '', lastAlertSignal: 0, lastOrderEvent: null, lastPagerEvent: null,
+  menu: [], tables: {}, historyLog: []
 };
 let audioCtx = null, toastTimer = null;
 
@@ -379,7 +398,7 @@ async function initApp() {
 }
 
 function askWaiterName() {
-  const name = prompt("Inserisci il tuo nome (es. Christian, Alice, Serena):", "Christian");
+  const name = prompt("Benvenuto in Alicetta TableZ 1.0!\nInserisci il tuo nome (es. Christian, Alice, Serena):", "Christian");
   state.waiterName = (name && name.trim()) ? name.trim() : "Staff";
   saveLocalOnly();
   updateWaiterDisplay();
@@ -444,7 +463,6 @@ async function pullFromCloud(isInitial) {
     badge.textContent = "LIVE";
     if (!data) { if (isInitial) await pushToCloud(); return; }
 
-    // 1. Notifica Comanda Live a tutti i camerieri (Suono + Vibrazione + Popup)
     if (data.lastOrderEvent && (!state.lastOrderEvent || data.lastOrderEvent.id > state.lastOrderEvent.id)) {
       const wasInitial = isInitial && !state.lastOrderEvent;
       state.lastOrderEvent = data.lastOrderEvent;
@@ -455,7 +473,6 @@ async function pullFromCloud(isInitial) {
       }
     }
 
-    // 2. Cercapersone da Christian ai camerieri
     if (data.lastPagerEvent && (!state.lastPagerEvent || data.lastPagerEvent.id > state.lastPagerEvent.id)) {
       const wasInitialP = isInitial && !state.lastPagerEvent;
       state.lastPagerEvent = data.lastPagerEvent;
@@ -468,12 +485,10 @@ async function pullFromCloud(isInitial) {
       }
     }
 
-    if (data.lastAlertSignal && data.lastAlertSignal > state.lastAlertSignal) {
-      state.lastAlertSignal = data.lastAlertSignal;
-    }
+    if (data.lastAlertSignal && data.lastAlertSignal > state.lastAlertSignal) state.lastAlertSignal = data.lastAlertSignal;
     if (data.tables) state.tables = normalizeTablesStructure(data.tables);
     if (data.menu && data.menu.length > 0) state.menu = data.menu;
-    if (data.historyLog) state.historyLog = data.historyLog;
+    if ('historyLog' in data) state.historyLog = data.historyLog || [];
     saveLocalOnly();
     updateDailyStats();
     if (document.getElementById('viewTables').classList.contains('active')) renderTables();
@@ -677,7 +692,6 @@ function renderCategories() {
     };
     bar.appendChild(b);
   });
-  // Scorrimento matematico automatico del tasto categoria attivo al centro della barra
   if (activeBtn) {
     requestAnimationFrame(() => {
       const targetLeft = activeBtn.offsetLeft - (bar.clientWidth / 2) + (activeBtn.clientWidth / 2);
@@ -787,13 +801,13 @@ function splitBillPrompt() {
 }
 
 function buildTimeStr() { return new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }); }
+function buildDateISO() { return new Date().toISOString().slice(0, 10); }
 
 function sendOrderToKitchen() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) { alert("Inserisci almeno un articolo."); return; }
   t.sentOnce = true; t.firedMandate[1] = true;
 
-  // Costruisce l'avviso live per tutti i camerieri
   const dishesList = t.items.filter(i => i.name !== 'Pane e Coperto').map(i => `<b>${i.qty}x</b> ${i.name}`).join(', ');
   state.lastOrderEvent = {
     id: Date.now(),
@@ -807,7 +821,7 @@ function sendOrderToKitchen() {
 
   saveState(true); renderOrderScreen();
   const timeStr = buildTimeStr(), ESC = "\x1B", GS = "\x1D";
-  let preview = `==========================================\n   ALICETTA TRATTORIA - ${t.name.toUpperCase()}\n   Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n==========================================\n\n`;
+  let preview = `==========================================\n   ALICETTA TABLEZ 1.0 - ${t.name.toUpperCase()}\n   Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n==========================================\n\n`;
   let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x38"+`${t.name.toUpperCase()}\n`+ESC+"!\x08"+`Cam: ${state.waiterName || 'Staff'} - ${timeStr}\n------------------------------------------\n`+ESC+"a\x00";
   const coperti = t.items.filter(i => i.name === 'Pane e Coperto');
   if (coperti.length > 0) {
@@ -863,8 +877,8 @@ function showPreBill() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) return;
   const total = getTableTotal(t), ESC = "\x1B", GS = "\x1D";
-  let preview = `==========================================\n     PRE-CONTO - ${t.name.toUpperCase()}\n==========================================\n\n`;
-  let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x08"+`PRE-CONTO ${t.name.toUpperCase()}\n------------------------------------------\n`+ESC+"a\x00"+ESC+"!\x00";
+  let preview = `==========================================\n   ALICETTA TABLEZ 1.0 - PRE-CONTO\n   ${t.name.toUpperCase()}\n==========================================\n\n`;
+  let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x08"+`ALICETTA TABLEZ 1.0\nPRE-CONTO ${t.name.toUpperCase()}\n------------------------------------------\n`+ESC+"a\x00"+ESC+"!\x00";
   t.items.forEach(it => {
     const line = `${it.qty}x ${it.name.substring(0, 20)} EUR ${formatPrice(it.price * it.qty)}`;
     preview += line + "\n"; escpos += line + "\n";
@@ -895,28 +909,129 @@ function closeReceiptModal() { document.getElementById('receiptModal').classList
 function freeCurrentTable() {
   const t = state.tables[state.activeTableId];
   if (!t || !t.items || t.items.length === 0) { closeTableView(); return; }
-  if (confirm(`Liberare ${t.name}?`)) {
+  if (confirm(`Liberare ${t.name} e salvare nel registro incassi?`)) {
     const total = getTableTotal(t);
     const copertiCount = t.items.filter(i => i.name === 'Pane e Coperto').reduce((s, c) => s + c.qty, 0);
     if (!state.historyLog) state.historyLog = [];
-    state.historyLog.push({ tableName: t.name, total, coperti: copertiCount, items: JSON.parse(JSON.stringify(t.items)), time: buildTimeStr() });
+    state.historyLog.push({
+      tableName: t.name, total, coperti: copertiCount,
+      items: JSON.parse(JSON.stringify(t.items)),
+      time: buildTimeStr(), date: buildDateISO(), closedEvening: false
+    });
     t.items = []; t.firedMandate = {1:false,2:false,3:false,4:false}; t.doneMandate = {1:false,2:false,3:false,4:false}; t.sentOnce = false;
     saveState(false); closeTableView(); updateDailyStats();
   }
 }
 
+/* =========================================================
+   REPORTISTICA SERATA / MENSILE / ANNUALE + STAMPA 80MM
+   ========================================================= */
+function selectReportPeriod(period) {
+  state.reportPeriod = period;
+  document.getElementById('repTabDaily').classList.toggle('active', period === 'daily');
+  document.getElementById('repTabMonthly').classList.toggle('active', period === 'monthly');
+  document.getElementById('repTabYearly').classList.toggle('active', period === 'yearly');
+  updateDailyStats();
+}
+
+function getFilteredHistory() {
+  const log = state.historyLog || [];
+  const todayISO = buildDateISO();
+  const currentMonth = todayISO.slice(0, 7);
+  const currentYear = todayISO.slice(0, 4);
+
+  if (state.reportPeriod === 'daily') {
+    return log.filter(e => !e.closedEvening);
+  } else if (state.reportPeriod === 'monthly') {
+    return log.filter(e => (e.date || todayISO).slice(0, 7) === currentMonth);
+  } else {
+    return log.filter(e => (e.date || todayISO).slice(0, 4) === currentYear);
+  }
+}
+
+function computeStatsData() {
+  const list = getFilteredHistory();
+  let rev = 0, cop = 0, counts = {}, revByDish = {};
+  list.forEach(e => {
+    rev += e.total; cop += e.coperti;
+    (e.items || []).forEach(it => {
+      if (it.name !== 'Pane e Coperto') {
+        counts[it.name] = (counts[it.name] || 0) + it.qty;
+        revByDish[it.name] = (revByDish[it.name] || 0) + (it.price * it.qty);
+      }
+    });
+  });
+  const ranking = Object.entries(counts).sort((a,b) => b[1] - a[1]);
+  return { countTables: list.length, rev, cop, ranking, revByDish };
+}
+
 function updateDailyStats() {
   const c = document.getElementById('dailyStats');
   if (!c) return;
-  const log = state.historyLog || [];
-  if (log.length === 0) { c.innerHTML = "Nessun tavolo chiuso in questa sessione."; return; }
-  let rev = 0, cop = 0, counts = {};
-  log.forEach(e => {
-    rev += e.total; cop += e.coperti;
-    e.items.forEach(it => { if (it.name !== 'Pane e Coperto') counts[it.name] = (counts[it.name] || 0) + it.qty; });
-  });
-  const top = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 3);
-  c.innerHTML = `• <b>Tavoli Chiusi:</b> ${log.length}<br>• <b>Coperti Totali:</b> ${cop}<br>• <b>Incasso Totale:</b> € ${formatPrice(rev)}<br>• <b>Piatti più venduti:</b> ${top.length ? top.map(d => `${d[0]} (${d[1]}x)`).join(', ') : 'Nessuno'}`;
+  const st = computeStatsData();
+  const label = state.reportPeriod === 'daily' ? 'FINE SERATA ATTUALE' : state.reportPeriod === 'monthly' ? 'MENSILE (' + buildDateISO().slice(0,7) + ')' : 'ANNUALE (' + buildDateISO().slice(0,4) + ')';
+  if (st.countTables === 0) {
+    c.innerHTML = `<b>[${label}]</b><br>Nessun tavolo registrato in questo periodo.`;
+    return;
+  }
+  const rankHtml = st.ranking.map((d, idx) => `${idx+1}. <b>${d[1]}x</b> ${d[0]} (€ ${formatPrice(st.revByDish[d[0]])})`).join('<br>');
+  c.innerHTML = `
+    <div style="font-weight:800; color:var(--logo-coral); margin-bottom:4px;">📌 REPORT ${label}</div>
+    • <b>Tavoli Chiusi:</b> ${st.countTables}<br>
+    • <b>Coperti Totali:</b> ${st.cop}<br>
+    • <b>Incasso Totale:</b> € ${formatPrice(st.rev)}<br>
+    <hr style="margin:6px 0; border:none; border-top:1px dashed var(--border);">
+    <b>🏆 Classifica Piatti & Vini Venduti:</b><br>
+    ${rankHtml || 'Nessun piatto'}
+  `;
+}
+
+function printStatsReport() {
+  const st = computeStatsData();
+  const label = state.reportPeriod === 'daily' ? 'REPORT FINE SERATA' : state.reportPeriod === 'monthly' ? 'REPORT MENSILE ' + buildDateISO().slice(0,7) : 'REPORT ANNUALE ' + buildDateISO().slice(0,4);
+  const dateStr = new Date().toLocaleDateString('it-IT') + ' ' + buildTimeStr();
+  const ESC = "\x1B", GS = "\x1D";
+
+  let preview = `==========================================\n      ALICETTA TABLEZ 1.0\n      ${label}\n      Data: ${dateStr}\n==========================================\n\n`;
+  preview += `TAVOLI CHIUSI:  ${st.countTables}\n`;
+  preview += `COPERTI TOTALI: ${st.cop}\n`;
+  preview += `INCASSO TOTALE: EUR ${formatPrice(st.rev)}\n`;
+  preview += `------------------------------------------\nCLASSIFICA PIATTI VENDUTI:\n`;
+
+  let escpos = ESC+"@"+ESC+"a\x01"+ESC+"!\x18"+`ALICETTA TABLEZ 1.0\n`+ESC+"!\x08"+`${label}\n${dateStr}\n------------------------------------------\n`+ESC+"a\x00";
+  escpos += `TAVOLI CHIUSI:  ${st.countTables}\nCOPERTI TOTALI: ${st.cop}\n`;
+  escpos += ESC+"!\x18"+`INCASSO: EUR ${formatPrice(st.rev)}\n`+ESC+"!\x00";
+  escpos += "------------------------------------------\nCLASSIFICA PIATTI VENDUTI:\n";
+
+  if (st.ranking.length === 0) {
+    preview += "Nessun articolo venduto.\n";
+    escpos += "Nessun articolo venduto.\n";
+  } else {
+    st.ranking.forEach((d, idx) => {
+      const rowStr = `${idx+1}. ${d[1]}x ${d[0].substring(0,22)} (EUR ${formatPrice(st.revByDish[d[0]])})`;
+      preview += rowStr + "\n";
+      escpos += rowStr + "\n";
+    });
+  }
+  preview += `==========================================\n`;
+  escpos += "==========================================\n\n\n"+GS+"V\x42\x00";
+  dispatchPrint(preview, escpos);
+}
+
+async function resetCurrentEvening() {
+  if (confirm("Vuoi chiudere e azzerare il Report di Fine Serata?\n(I dati resteranno comunque salvati nello storico Mensile e Annuale)")) {
+    (state.historyLog || []).forEach(e => { e.closedEvening = true; });
+    await saveState(false);
+    updateDailyStats();
+  }
+}
+
+async function resetAllHistory() {
+  if (confirm("⚠️ ATTENZIONE: Vuoi azzerare TUTTO il registro storico (Serata, Mensile e Annuale)?")) {
+    state.historyLog = [];
+    await saveState(false);
+    updateDailyStats();
+  }
 }
 
 function markMandataDone(tableId, mandataNum) {
