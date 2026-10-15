@@ -2,21 +2,20 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Alicetta — Menù, Vini & Allergeni</title>
+<meta name="theme-color" content="#2ECC71">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-<script src="firebase-config.js"></script>
 <style>
   body { margin: 0; background: #2ecc71; color: #062329; font-family: 'Plus Jakarta Sans', Arial, sans-serif; padding-bottom: 50px; }
   main { max-width: 600px; margin: auto; padding: 16px; }
-  header, section, .card-box { background: white; border-radius: 16px; padding: 18px; margin-bottom: 14px; border: 3px solid #ff5733; box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+  header, .card-box { background: white; border-radius: 16px; padding: 18px; margin-bottom: 14px; border: 3px solid #ff5733; box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
   h1 { color: #ff5733; font-size: 1.4rem; margin-bottom: 8px; text-align: center; }
   .brand-header { text-align: center; background: #1BE7FF; padding: 16px; border-radius: 12px; margin-bottom: 16px; border: 2px solid #FF5733; }
   select, button { padding: 10px 14px; border-radius: 10px; font-size: 15px; font-weight: 700; border: 2px solid #ff5733; cursor: pointer; }
   article { padding: 10px 0; border-bottom: 1px dashed rgba(255,87,51,0.3); display: flex; gap: 12px; justify-content: space-between; align-items: baseline; }
   small { display: block; margin-top: 3px; color: #555; font-size: 0.78rem; }
   .price { white-space: nowrap; color: #ff5733; font-weight: 900; font-size: 1rem; }
-  a { color: #176a43; text-decoration: underline; font-weight: 700; font-size: 0.8rem; }
   h2 { background: #1be7ff; color: #062329; padding: 10px 14px; border-radius: 10px; font-size: 1rem; border: 1.5px solid #ff5733; text-transform: uppercase; letter-spacing: 1px; margin-top: 16px; margin-bottom: 8px; }
   .nav-bar { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
   .btn-tab { background: #1BE7FF; color: #062329; border: 2px solid #FF5733; }
@@ -36,7 +35,7 @@
     <h1>🐟 Alicetta Trattoria</h1>
     <div style="text-align:center; margin-top:8px;">
       <label for="language" style="font-size:0.85rem; font-weight:800;">Lingua / Language: </label>
-      <select id="language">
+      <select id="language" onchange="render(currentTab)">
         <option value="it">Italiano</option>
         <option value="en">English</option>
         <option value="fr">Français</option>
@@ -45,7 +44,6 @@
       </select>
     </div>
     <p id="notice" style="font-size:0.78rem; color:#4B5563; margin-top:8px; text-align:center;"></p>
-    <p id="status" role="status" style="font-size:0.72rem; color:#10B981; font-weight:bold; text-align:center; margin-top:4px;">Caricamento…</p>
   </header>
 
   <div id="content"></div>
@@ -54,14 +52,95 @@
 <script>
 const LOGO_SVG = `<svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg" style="max-width:180px; height:auto; display:block; margin:0 auto;"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text></svg>`;
 
-const TRANSLATIONS={"101": {"source": "Pane e Coperto", "en": "Bread and cover charge", "fr": "Pain et couvert", "de": "Brot und Gedeck", "es": "Pan y servicio de mesa"}, "301": {"source": "Alici marinate, peperone dolce di Altino e pere croccanti", "en": "Marinated anchovies, sweet Altino pepper and crisp pears", "fr": "Anchois marinés, poivron doux d’Altino et poires croquantes", "de": "Marinierte Sardellen, milde Altino-Paprika und knackige Birnen", "es": "Anchoas marinadas, pimiento dulce de Altino y peras crujientes"}, "302": {"source": "Alicette impanate e fritte con majo al prezzemolo", "en": "Breaded fried anchovies with parsley mayonnaise", "fr": "Petits anchois panés et frits, mayonnaise au persil", "de": "Panierte, frittierte Sardellen mit Petersilienmayonnaise", "es": "Anchoas pequeñas empanadas y fritas con mayonesa de perejil"}, "303": {"source": "Cetrioli", "en": "Cucumbers", "fr": "Concombres", "de": "Gurken", "es": "Pepinos"}, "304": {"source": "Cozze gratinate con formaggio gregoriano, ventricina ed erbe aromatiche", "en": "Mussels au gratin with Gregoriano cheese, ventricina cured meat and aromatic herbs", "fr": "Moules gratinées au fromage Gregoriano, ventricina et herbes aromatiques", "de": "Überbackene Miesmuscheln mit Gregoriano-Käse, Ventricina und Kräutern", "es": "Mejillones gratinados con queso Gregoriano, ventricina y hierbas aromáticas"}, "305": {"source": "Prosciutto crudo di manzo Gregorio Rotolo con champignon crudo e senape in grani", "en": "Gregorio Rotolo cured beef with raw mushrooms and wholegrain mustard", "fr": "Bœuf séché Gregorio Rotolo, champignons crus et moutarde en grains", "de": "Luftgetrocknetes Rindfleisch von Gregorio Rotolo mit rohen Champignons und körnigem Senf", "es": "Jamón curado de vacuno Gregorio Rotolo con champiñones crujientes y mostaza en grano"}, "306": {"source": "Insalata Pomodori", "en": "Tomato salad", "fr": "Salade de tomates", "de": "Tomatensalat", "es": "Ensalada de tomate"}, "308": {"source": "Menù cena aziendale", "en": "Corporate dinner menu", "fr": "Menu dîner d’entreprise", "de": "Menü für Firmenessen", "es": "Menú de cena de empresa"}, "309": {"source": "Pallotte cace e ove", "en": "Pallotte cace e ove — cheese and egg balls", "fr": "Pallotte cace e ove — boulettes de fromage et d’œufs", "de": "Pallotte cace e ove — Käse-Eier-Bällchen", "es": "Pallotte cace e ove — albóndigas de queso y huevo"}, "310": {"source": "Patatine Fritte", "en": "French fries", "fr": "Frites", "de": "Pommes frites", "es": "Patatas fritas"}, "311": {"source": "Plateau di formaggi artigianali abruzzesi", "en": "Selection of artisan cheeses from Abruzzo", "fr": "Plateau de fromages artisanaux des Abruzzes", "de": "Auswahl handwerklicher Käsesorten aus den Abruzzen", "es": "Tabla de quesos artesanales de Abruzzo"}, "312": {"source": "Polpette di granchio blu su salsa di zucca e olio alla salvia", "en": "Blue crab balls with pumpkin sauce and sage oil", "fr": "Boulettes de crabe bleu, sauce à la courge et huile à la sauge", "de": "Blaukrabbenbällchen auf Kürbissauce mit Salbeiöl", "es": "Albóndigas de cangrejo azul con salsa de calabaza y aceite de salvia"}, "313": {"source": "Pomodori e Cetrioli", "en": "Tomatoes and cucumbers", "fr": "Tomates et concombres", "de": "Tomaten und Gurken", "es": "Tomates y pepinos"}, "314": {"source": "Soutè di cozze profumato all'alloro", "en": "Sautéed mussels scented with bay leaf", "fr": "Moules sautées parfumées au laurier", "de": "Sautierte Miesmuscheln mit Lorbeer", "es": "Mejillones salteados al laurel"}, "315": {"source": "Soutè di Vongole", "en": "Sautéed clams", "fr": "Palourdes sautées", "de": "Sautierte Venusmuscheln", "es": "Almejas salteadas"}, "316": {"source": "Tagliere di salumi artigianali abruzzesi", "en": "Selection of artisan cured meats from Abruzzo", "fr": "Planche de charcuteries artisanales des Abruzzes", "de": "Auswahl handwerklicher Wurstwaren aus den Abruzzen", "es": "Tabla de embutidos artesanales de Abruzzo"}, "317": {"source": "Cicorietta saltata", "en": "Sautéed chicory", "fr": "Chicorée sautée", "de": "Sautierter Chicorée", "es": "Achicoria salteada"}, "401": {"source": "Qubetto Verrigni alle vongole e crema di rape", "en": "Verrigni Qubetto pasta with clams and turnip cream", "fr": "Pâtes Qubetto Verrigni aux palourdes et crème de navets", "de": "Verrigni-Qubetto-Pasta mit Venusmuscheln und Rübencreme", "es": "Pasta Qubetto Verrigni con almejas y crema de nabos"}, "402": {"source": "Cubetto Totanetto", "en": "Cubetto pasta with small squid", "fr": "Pâtes Cubetto aux petits calmars", "de": "Cubetto-Pasta mit kleinen Kalmaren", "es": "Pasta Cubetto con calamares pequeños"}, "403": {"source": "Linguina al limone Verrigni con cozze", "en": "Verrigni lemon linguine with mussels", "fr": "Linguine Verrigni au citron et aux moules", "de": "Verrigni-Zitronenlinguine mit Miesmuscheln", "es": "Linguine Verrigni al limón con mejillones"}, "404": {"source": "Linguina ragù Panocchie", "en": "Linguine with mantis shrimp ragù", "fr": "Linguine au ragù de squilles", "de": "Linguine mit Fangschreckenkrebs-Ragù", "es": "Linguine con ragú de galeras"}, "405": {"source": "Pacchero Ragù Granchi", "en": "Paccheri pasta with crab ragù", "fr": "Paccheri au ragù de crabe", "de": "Paccheri mit Krabbenragù", "es": "Paccheri con ragú de cangrejo"}, "406": {"source": "Pasta all' Olio", "en": "Pasta with olive oil", "fr": "Pâtes à l’huile d’olive", "de": "Pasta mit Olivenöl", "es": "Pasta con aceite de oliva"}, "407": {"source": "Rigatoro affumicato Verrigni con alicette fresche, pane croccante alle erbe e olio al finocchietto", "en": "Verrigni smoked Rigatoro pasta with fresh anchovies, crisp herb breadcrumbs and wild fennel oil", "fr": "Rigatoro fumé Verrigni, anchois frais, pain croustillant aux herbes et huile au fenouil sauvage", "de": "Geräucherte Verrigni-Rigatoro-Pasta mit frischen Sardellen, knusprigem Kräuterbrot und Wildfenchelöl", "es": "Rigatoro ahumado Verrigni con anchoas frescas, pan crujiente a las hierbas y aceite de hinojo silvestre"}, "408": {"source": "Spaghetti aglio e peperoncino Vongole", "en": "Spaghetti with clams, garlic and chilli", "fr": "Spaghetti aux palourdes, à l’ail et au piment", "de": "Spaghetti mit Venusmuscheln, Knoblauch und Chili", "es": "Espaguetis con almejas, ajo y guindilla"}, "409": {"source": "Sugo Bimbi", "en": "Children’s sauce — ask staff for details", "fr": "Sauce enfants — demander les détails au personnel", "de": "Kindersauce — Details beim Personal erfragen", "es": "Salsa infantil — consulte los detalles al personal"}, "501": {"source": "Baccalà in vasocottura con patate, peperoni arrosto, olive e timo", "en": "Salt cod cooked in a jar with potatoes, roasted peppers, olives and thyme", "fr": "Morue cuite en bocal, pommes de terre, poivrons rôtis, olives et thym", "de": "Im Glas gegarter Stockfisch mit Kartoffeln, gerösteter Paprika, Oliven und Thymian", "es": "Bacalao cocinado en tarro con patatas, pimientos asados, aceitunas y tomillo"}, "502": {"source": "Braciola di pecora al carbone con cicorietta saltata", "en": "Charcoal-grilled mutton chop with sautéed chicory", "fr": "Côte de mouton grillée au charbon et chicorée sautée", "de": "Schafskotelett vom Holzkohlegrill mit sautiertem Chicorée", "es": "Chuleta de oveja a la brasa con achicoria salteada"}, "503": {"source": "Fish & Chips Adriatico (nasello in pastella di riso, chips di patate di Avezzano, salsa ai cetrioli, capperi e prezzemolo)", "en": "Adriatic fish & chips: hake in rice batter, Avezzano potato chips, cucumber, caper and parsley sauce", "fr": "Fish & chips de l’Adriatique : merlu en pâte de riz, pommes de terre d’Avezzano, sauce concombre, câpres et persil", "de": "Adria-Fish & Chips: Seehecht im Reisteig, Kartoffelchips aus Avezzano, Gurken-Kapern-Petersiliensauce", "es": "Fish & chips del Adriático: merluza en rebozado de arroz, patatas de Avezzano y salsa de pepino, alcaparras y perejil"}, "504": {"source": "Frittura di totanetti spillo freschi", "en": "Fried fresh baby squid", "fr": "Petits calmars frais frits", "de": "Frittierte frische kleine Kalmare", "es": "Calamares pequeños frescos fritos"}, "505": {"source": "Maiale Nero Peligno al carbone con cicorietta saltata", "en": "Charcoal-grilled Nero Peligno pork with sautéed chicory", "fr": "Porc Nero Peligno grillé au charbon et chicorée sautée", "de": "Nero-Peligno-Schwein vom Holzkohlegrill mit sautiertem Chicorée", "es": "Cerdo Nero Peligno a la brasa con achicoria salteada"}, "506": {"source": "Sgombro al carbone con dressing al pomodoro confit, cipolle e capperi", "en": "Charcoal-grilled mackerel with tomato confit, onion and caper dressing", "fr": "Maquereau grillé au charbon, sauce aux tomates confites, oignons et câpres", "de": "Makrele vom Holzkohlegrill mit Confit-Tomaten-, Zwiebel- und Kaperndressing", "es": "Caballa a la brasa con aderezo de tomate confitado, cebolla y alcaparras"}, "601": {"source": "Cantucci alle mandorle con liquore Sottosopra", "en": "Almond cantucci biscuits with Sottosopra liqueur", "fr": "Cantucci aux amandes et liqueur Sottosopra", "de": "Mandel-Cantucci mit Sottosopra-Likör", "es": "Cantucci de almendra con licor Sottosopra"}, "602": {"source": "Mousse al cioccolato", "en": "Chocolate mousse", "fr": "Mousse au chocolat", "de": "Schokoladenmousse", "es": "Mousse de chocolate"}, "603": {"source": "Pizzelle", "en": "Pizzelle — traditional Abruzzo waffles", "fr": "Pizzelle — gaufrettes traditionnelles des Abruzzes", "de": "Pizzelle — traditionelle Waffeln aus den Abruzzen", "es": "Pizzelle — gofres tradicionales de Abruzzo"}, "604": {"source": "Zafferamisù (tiramisù alla ricotta di pecora e zafferano)", "en": "Zafferamisù — tiramisu with sheep’s milk ricotta and saffron", "fr": "Zafferamisù — tiramisu à la ricotta de brebis et au safran", "de": "Zafferamisù — Tiramisu mit Schafsmilch-Ricotta und Safran", "es": "Zafferamisù — tiramisú con ricotta de oveja y azafrán"}, "201": {"source": "Acqua Frizzante", "en": "Sparkling water", "fr": "Eau gazeuse", "de": "Sprudelwasser", "es": "Agua con gas"}, "202": {"source": "Acqua Naturale", "en": "Still water", "fr": "Eau plate", "de": "Stilles Wasser", "es": "Agua sin gas"}, "203": {"source": "Birra Nabò", "en": "Nabò beer", "fr": "Bière Nabò", "de": "Nabò-Bier", "es": "Cerveza Nabò"}, "205": {"source": "Caffè", "en": "Coffee", "fr": "Café", "de": "Kaffee", "es": "Café"}, "206": {"source": "Caffè Corretto", "en": "Coffee with a dash of spirits", "fr": "Café avec alcool", "de": "Kaffee mit einem Schuss Spirituosen", "es": "Café con licor"}, "207": {"source": "Caffè Deca", "en": "Decaffeinated coffee", "fr": "Café décaféiné", "de": "Entkoffeinierter Kaffee", "es": "Café descafeinado"}, "208": {"source": "Calice Bianco", "en": "Glass of white wine", "fr": "Verre de vin blanc", "de": "Glas Weißwein", "es": "Copa de vino blanco"}, "209": {"source": "Calice Cerasuolo", "en": "Glass of Cerasuolo wine", "fr": "Verre de Cerasuolo", "de": "Glas Cerasuolo", "es": "Copa de Cerasuolo"}, "210": {"source": "Calice Rosso", "en": "Glass of red wine", "fr": "Verre de vin rouge", "de": "Glas Rotwein", "es": "Copa de vino tinto"}, "224": {"source": "Liquore Artigianale Abruzzese", "en": "Artisan liqueur from Abruzzo", "fr": "Liqueur artisanale des Abruzzes", "de": "Handwerklicher Likör aus den Abruzzen", "es": "Licor artesanal de Abruzzo"}};
-const NOTICE={it:'Per ingredienti e allergeni chiedere al personale. Le traduzioni sono descrittive e vanno verificate dal ristorante.',en:'Ask staff about ingredients and allergens. Translations are descriptive and must be checked by the restaurant.',fr:'Demandez au personnel les ingrédients et allergènes. Les traductions doivent être vérifiées par le restaurant.',de:'Fragen Sie das Personal nach Zutaten und Allergenen. Übersetzungen müssen vom Restaurant geprüft werden.',es:'Consulte los ingredientes y alérgenos al personal. El restaurante debe revisar las traducciones.'};
-const MISSING={it:'',en:'Original Italian name. Ask staff for details.',fr:'Nom italien original. Demandez les détails au personnel.',de:'Italienischer Originalname. Details beim Personal erfragen.',es:'Nombre italiano original. Consulte los detalles al personal.'};
+const CHALKBOARD_ITEMS = [
+  {cat: "3 Antipasti", name: "Polpette di granchio blu su salsa di zucca e olio alla salvia", price: 14.00},
+  {cat: "3 Antipasti", name: "Alicette impanate e fritte con majo al prezzemolo", price: 13.00},
+  {cat: "3 Antipasti", name: "Cozze gratinate con formaggio gregoriano, ventricina ed erbe aromatiche", price: 13.00},
+  {cat: "3 Antipasti", name: "Alici marinate, peperone dolce di Altino e pere croccanti", price: 15.00},
+  {cat: "3 Antipasti", name: "Soutè di cozze profumato all'alloro", price: 13.00},
+  {cat: "3 Antipasti", name: "Tagliere di salumi artigianali abruzzesi", price: 18.00},
+  {cat: "3 Antipasti", name: "Pallotte cace e ove", price: 12.00},
+  {cat: "3 Antipasti", name: "Prosciutto crudo di manzo Gregorio Rotolo con champignon crudo e senape in grani", price: 16.00},
+  {cat: "4 Primi Piatti", name: "Rigatoro affumicato Verrigni con alicette fresche, pane croccante alle erbe e olio al finocchietto", price: 14.00},
+  {cat: "4 Primi Piatti", name: "Qubetto Verrigni alle vongole e crema di rape", price: 14.00},
+  {cat: "4 Primi Piatti", name: "Linguina al limone Verrigni con cozze", price: 13.00},
+  {cat: "5 Secondi", name: "Fish & Chips Adriatico (nasello in pastella di riso, chips di patate di Avezzano, salsa ai cetrioli, capperi e prezzemolo)", price: 20.00},
+  {cat: "5 Secondi", name: "Sgombro al carbone con dressing al pomodoro confit, cipolle e capperi", price: 18.00},
+  {cat: "5 Secondi", name: "Frittura di totanetti spillo freschi", price: 17.00},
+  {cat: "5 Secondi", name: "Baccalà in vasocottura con patate, peperoni arrosto, olive e timo", price: 16.00},
+  {cat: "5 Secondi", name: "Braciola di pecora al carbone con cicorietta saltata", price: 18.00},
+  {cat: "5 Secondi", name: "Maiale Nero Peligno al carbone con cicorietta saltata", price: 20.00},
+  {cat: "5 Secondi", name: "Cicorietta saltata", price: 6.00},
+  {cat: "6 Desserts", name: "Zafferamisù (tiramisù alla ricotta di pecora e zafferano)", price: 7.00},
+  {cat: "6 Desserts", name: "Cantucci alle mandorle con liquore Sottosopra", price: 7.00},
+  {cat: "6 Desserts", name: "Plateau di formaggi artigianali abruzzesi", price: 18.00}
+];
 
-let menu=[],busy=false;
-const sel=document.getElementById('language');
-try{const saved=localStorage.getItem('alicetta_menu_language');if(saved)sel.value=saved;}catch(e){}
-sel.onchange=()=>{try{localStorage.setItem('alicetta_menu_language',sel.value);}catch(e){}render();}
+const WINE_ITEMS = [
+  {name: "Metodo Classico Fenaroli", price: 30.00},
+  {name: "Trabocco Cerasuolo Charmat", price: 18.00},
+  {name: "Trabocco Pecorino Charmat", price: 18.00},
+  {name: "Collefrisio Filare Trebbiano", price: 20.00},
+  {name: "Collefrisio Trebbiano", price: 20.00},
+  {name: "IAVA CHARDONNAY IGT TERRE D'ABRUZZO", price: 18.00},
+  {name: "IAVA PASSERINA IGT TERRE D'ABRUZZO", price: 18.00},
+  {name: "ICONIC MAIOLICA IGP TERRE D'ABRUZZO", price: 20.00},
+  {name: "KRIYA TREBBIANO D'ABRUZZO DOC", price: 18.00},
+  {name: "Maleducato Blondie", price: 24.00},
+  {name: "Margento Orange Simigliani", price: 24.00},
+  {name: "Pane al Pane Fontefico", price: 40.00},
+  {name: "Passerina Passo Cale", price: 16.00},
+  {name: "Pecorino Chicchi Bio", price: 18.00},
+  {name: "Pecorino Colline Rurabiliandia", price: 15.00},
+  {name: "Pecorino Passo Cale", price: 16.00},
+  {name: "Pecorino Superiore Canaglia Fontefico", price: 35.00},
+  {name: "Pecorino Terre di Poggio", price: 14.00},
+  {name: "Rurabilandia Pecorino", price: 15.00},
+  {name: "Trebbiano Collefrisio", price: 22.00},
+  {name: "CAPO LE VIGNE CERASUOLO D'ABRUZZO DOC", price: 24.00},
+  {name: "Cerasuolo Ferzo", price: 18.00},
+  {name: "Cerasuolo Superiore Fossimatto Fontefico", price: 35.00},
+  {name: "IAVA CERASUOLO D'ABRUZZO DOC", price: 18.00},
+  {name: "Maleducato rosato", price: 24.00},
+  {name: "Dire Bere Baciare Fontefico", price: 40.00},
+  {name: "Febbre d'Abruzzo Fontefico", price: 40.00},
+  {name: "Maleducato 11", price: 30.00},
+  {name: "Montepulciano Terre di Poggio", price: 15.00},
+  {name: "Passo Cale Montepulciano", price: 18.00},
+  {name: "Pinto 11 Montepulciano", price: 26.00},
+  {name: "Calice Bianco", price: 4.00},
+  {name: "Calice Cerasuolo", price: 4.00},
+  {name: "Calice Rosso", price: 4.00},
+  {name: "Acqua Frizzante", price: 3.00},
+  {name: "Acqua Naturale", price: 3.00},
+  {name: "Birra Nabò", price: 6.00},
+  {name: "Caffè", price: 2.50},
+  {name: "Caffè Corretto", price: 3.50},
+  {name: "Caffè Deca", price: 2.50},
+  {name: "Carasuolo Terre di Poggio", price: 15.00},
+  {name: "Coca Cola", price: 3.00},
+  {name: "Liquore Artigianale Abruzzese", price: 3.50}
+];
+
+const TRANSLATIONS = {
+  "Pane e Coperto": {"en": "Bread and cover charge", "fr": "Pain et couvert", "de": "Brot und Gedeck", "es": "Pan y servicio de mesa"},
+  "Polpette di granchio blu su salsa di zucca e olio alla salvia": {"en": "Blue crab balls with pumpkin sauce and sage oil", "fr": "Boulettes de crabe bleu, sauce à la courge et huile à la sauge", "de": "Blaukrabbenbällchen auf Kürbissauce mit Salbeiöl", "es": "Albóndigas de cangrejo azul con salsa de calabaza y aceite de salvia"},
+  "Alicette impanate e fritte con majo al prezzemolo": {"en": "Breaded fried anchovies with parsley mayonnaise", "fr": "Petits anchois panés et frits, mayonnaise au persil", "de": "Panierte, frittierte Sardellen mit Petersilienmayonnaise", "es": "Anchoas pequeñas empanadas y fritas con mayonesa de perejil"},
+  "Cozze gratinate con formaggio gregoriano, ventricina ed erbe aromatiche": {"en": "Mussels au gratin with Gregoriano cheese, ventricina cured meat and aromatic herbs", "fr": "Moules gratinées au fromage Gregoriano, ventricina et herbes aromatiques", "de": "Überbackene Miesmuscheln mit Gregoriano-Käse, Ventricina und Kräutern", "es": "Mejillones gratinados con queso Gregoriano, ventricina y hierbas aromáticas"},
+  "Acqua Frizzante": {"en": "Sparkling water", "fr": "Eau gazeuse", "de": "Sprudelwasser", "es": "Agua con gas"},
+  "Acqua Naturale": {"en": "Still water", "fr": "Eau plate", "de": "Stilles Wasser", "es": "Agua sin gas"},
+  "Caffè": {"en": "Coffee", "fr": "Café", "de": "Kaffee", "es": "Café"}
+};
+
+const NOTICE = {
+  it: 'Per ingredienti e allergeni chiedere al personale. Le traduzioni sono descrittive.',
+  en: 'Ask staff about ingredients and allergens. Translations are descriptive.',
+  fr: 'Demandez au personnel les ingrédients et allergènes. Les traductions sont descriptives.',
+  de: 'Fragen Sie das Personal nach Zutaten und Allergenen. Übersetzungen sind deskriptiv.',
+  es: 'Consulte los ingredientes y alérgenos al personal. Las traducciones son descriptivas.'
+};
+
+let currentTab = 'gorgio';
 
 function classifyWine(name) {
   const n = name.toLowerCase();
@@ -88,56 +167,47 @@ function getAlgs(name) {
   return algs.length > 0 ? algs : ['Nessun allergene maggiore dichiarato'];
 }
 
-function render(activeTab='giorno') {
-  const lang=sel.value;
-  document.documentElement.lang=lang;
-  document.getElementById('notice').textContent=NOTICE[lang] || NOTICE.it;
-  
-  ['btnGiorno','btnVini','btnAllergeni'].forEach(id => document.getElementById(id).classList.remove('active'));
-  if(activeTab==='giorno') document.getElementById('btnGiorno').classList.add('active');
-  if(activeTab==='vini') document.getElementById('btnVini').classList.add('active');
-  if(activeTab==='allergeni') document.getElementById('btnAllergeni').classList.add('active');
+function render(tab) {
+  currentTab = tab;
+  const lang = document.getElementById('language').value;
+  document.documentElement.lang = lang;
+  document.getElementById('notice').textContent = NOTICE[lang] || NOTICE.it;
 
-  const content=document.getElementById('content');
+  ['btnGiorno','btnVini','btnAllergeni'].forEach(id => document.getElementById(id).classList.remove('active'));
+  if(tab==='giorno') document.getElementById('btnGiorno').classList.add('active');
+  if(tab==='vini') document.getElementById('btnVini').classList.add('active');
+  if(tab==='allergeni') document.getElementById('btnAllergeni').classList.add('active');
+
+  const content = document.getElementById('content');
   content.replaceChildren();
 
-  if (activeTab === 'allergeni') {
+  if (tab === 'allergeni') {
     const box = document.createElement('div');
     box.className = 'card-box';
-    const header = document.createElement('div');
-    header.className = 'brand-header';
-    header.innerHTML = LOGO_SVG + '<h3 style="color:#FF5733; margin-top:8px; font-size:1.15rem;">⚠️ TABELLA ALLERGENI</h3><p style="font-size:0.75rem; font-weight:700; color:#062329;">Conforme Reg. UE 1169/2011</p>';
-    box.append(header);
+    box.innerHTML = `<div class="brand-header">${LOGO_SVG}<h3 style="color:#FF5733; margin-top:8px; font-size:1.15rem;">⚠️ TABELLA ALLERGENI</h3><p style="font-size:0.75rem; font-weight:700; color:#062329;">Conforme Reg. UE 1169/2011</p></div>`;
 
-    menu.forEach(item => {
+    const allItems = [...CHALKBOARD_ITEMS, ...WINE_ITEMS];
+    allItems.forEach(item => {
       const article = document.createElement('article'), text = document.createElement('div'), algSpan = document.createElement('div');
-      const t = TRANSLATIONS[String(item.id)];
-      const translated = lang!=='it'&&t?.source===item.name?t[lang]:null;
-      text.innerHTML = `<b>• ${translated || item.name}</b>`;
-      if(translated) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
-      
+      text.innerHTML = `<b>• ${item.name}</b>`;
       algSpan.style.cssText = "color:#FF5733; font-weight:800; font-size:0.8rem; text-align:right; white-space:nowrap;";
       algSpan.textContent = getAlgs(item.name).join(', ');
       article.append(text, algSpan);
       box.append(article);
     });
     content.append(box);
+    document.getElementById('status').textContent = '🟢 Pronto';
     return;
   }
 
-  if (activeTab === 'vini') {
+  if (tab === 'vini') {
     const box = document.createElement('div');
     box.className = 'card-box';
-    const header = document.createElement('div');
-    header.className = 'brand-header';
-    header.innerHTML = LOGO_SVG + '<h3 style="color:#FF5733; margin-top:8px; font-size:1.15rem;">🍷 CARTA DEI VINI 🍷</h3><p style="font-size:0.8rem; font-weight:700; color:#062329; margin-top:2px;">Selezione Cantine Abruzzesi & Artigianali</p>';
-    box.append(header);
+    box.innerHTML = `<div class="brand-header">${LOGO_SVG}<h3 style="color:#FF5733; margin-top:8px; font-size:1.15rem;">🍷 CARTA DEI VINI 🍷</h3><p style="font-size:0.8rem; font-weight:700; color:#062329; margin-top:2px;">Selezione Cantine Abruzzesi & Artigianali</p></div>`;
 
-    const drinks = menu.filter(x => x.cat === '2 Bevande');
     const categories = ['Bollicine & Metodo Classico', 'Vini Bianchi & Orange', 'Cerasuoli & Rosati', 'Vini Rossi & Montepulciano', 'Calici al vetro', 'Acqua, Birra & Caffetteria'];
-    
     categories.forEach(catName => {
-      const itemsInCat = drinks.filter(d => classifyWine(d.name) === catName);
+      const itemsInCat = WINE_ITEMS.filter(d => classifyWine(d.name) === catName);
       if(!itemsInCat.length) return;
       
       const h2 = document.createElement('h2');
@@ -146,85 +216,64 @@ function render(activeTab='giorno') {
 
       itemsInCat.forEach(item => {
         const article = document.createElement('article'), text = document.createElement('div'), price = document.createElement('div');
-        const t = TRANSLATIONS[String(item.id)];
-        const translated = lang!=='it'&&t?.source===item.name?t[lang]:null;
-        text.innerHTML = `<b>• ${translated || item.name}</b>`;
-        if(translated) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
+        const tr = TRANSLATIONS[item.name]?.[lang];
+        text.innerHTML = `<b>• ${tr || item.name}</b>`;
+        if(tr) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
         
         price.className = 'price';
-        price.textContent = new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'}).format(Number(item.price)||0);
+        price.textContent = new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'}).format(item.price);
         article.append(text, price);
         box.append(article);
       });
     });
     content.append(box);
+    document.getElementById('status').textContent = '🟢 Pronto';
     return;
   }
 
   // Menù del giorno
-  const catsMap = ['1 Coperto', '2 Bevande', '3 Antipasti', '4 Primi Piatti', '5 Secondi', '6 Desserts'];
-  const titlesMap = {it:['Coperto','Bevande','Antipasti','Primi piatti','Secondi e contorni','Dessert'], en:['Cover','Drinks','Starters','First courses','Main courses','Desserts']};
-  
   const box = document.createElement('div');
   box.className = 'card-box';
-  const header = document.createElement('div');
-  header.className = 'brand-header';
-  header.innerHTML = LOGO_SVG + '<h3 style="color:#FF5733; margin-top:8px; font-size:1.2rem; letter-spacing:1px;">✨ MENÙ DEL GIORNO ✨</h3><p style="font-size:0.78rem; font-weight:700; color:#062329; margin-top:2px;">' + new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + '</p>';
-  box.append(header);
+  box.innerHTML = `<div class="brand-header">${LOGO_SVG}<h3 style="color:#FF5733; margin-top:8px; font-size:1.2rem; letter-spacing:1px;">✨ MENÙ DEL GIORNO ✨</h3><p style="font-size:0.78rem; font-weight:700; color:#062329; margin-top:2px;">` + new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + `</p></div>`;
 
-  CATS[lang].forEach((title, index) => {
-    const catCode = catsMap[index];
-    const rows = menu.filter(x => x.cat === catCode && x.cat !== '2 Bevande');
+  const catsMap = ['3 Antipasti', '4 Primi Piatti', '5 Secondi', '6 Desserts'];
+  const titlesMap = {
+    it: ['Antipasti', 'Primi Piatti', 'Secondi & Contorni', 'Desserts'],
+    en: ['Starters', 'First courses', 'Main courses & Sides', 'Desserts'],
+    fr: ['Entrées', 'Premiers plats', 'Plats principaux & Accompagnements', 'Desserts'],
+    de: ['Vorspeisen', 'Erste Gänge', 'Hauptgerichte & Beilagen', 'Desserts'],
+    es: ['Entrantes', 'Primeros platos', 'Platos principales & Guarniciones', 'Postres']
+  };
+
+  catsMap.forEach((catCode, index) => {
+    const rows = CHALKBOARD_ITEMS.filter(x => x.cat === catCode);
     if(!rows.length) return;
 
     const h2 = document.createElement('h2');
-    h2.textContent = title;
+    h2.textContent = (titlesMap[lang] || titlesMap.it)[index];
     box.append(h2);
 
     rows.forEach(item => {
       const article = document.createElement('article'), text = document.createElement('div'), price = document.createElement('div');
-      const t = TRANSLATIONS[String(item.id)];
-      const translated = lang!=='it'&&t?.source===item.name?t[lang]:null;
-      text.innerHTML = `<b>• ${translated || item.name}</b>`;
-      if(translated) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
+      const tr = TRANSLATIONS[item.name]?.[lang];
+      text.innerHTML = `<b>• ${tr || item.name}</b>`;
+      if(tr) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
       
       price.className = 'price';
-      price.textContent = new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'}).format(Number(item.price)||0);
+      price.textContent = new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'}).format(item.price);
       article.append(text, price);
       box.append(article);
     });
   });
+
+  const footerNotice = document.createElement('div');
+  footerNotice.style.cssText = "margin-top:18px; text-align:center; background:#1BE7FF; padding:10px; border-radius:10px; border:1.5px solid #FF5733; color:#062329; font-weight:800; font-size:0.84rem;";
+  footerNotice.textContent = "🐟 Pane e Coperto € 3,00 — ENJOY! — 📞 392 3279000";
+  box.append(footerNotice);
+
   content.append(box);
+  document.getElementById('status').textContent = '🟢 Pronto';
 }
 
-function switchTab(t) { render(t); }
-
-async function load(){
-  if(busy)return;busy=true;
-  try{
-    const url=(window.ALICETTA_FIREBASE?.databaseURL||'https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app').replace(/\/$/,'')+'/pos_state/menu.json';
-    const response=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(12000)});
-    if(!response.ok)throw new Error('HTTP '+response.status);
-    const data=await response.json();
-    if(Array.isArray(data) && data.length > 0) { menu = data; }
-    render();
-    document.getElementById('status').textContent='🟢 Sincronizzato - '+new Date().toLocaleTimeString(sel.value);
-  }catch(e){
-    // Fallback con il menu di default se firebase non risponde
-    if(!menu.length) {
-      menu = [
-        {id:101, cat:'1 Coperto', name:'Pane e Coperto', price:3},
-        {id:301, cat:'3 Antipasti', name:'Alici marinate, peperone dolce di Altino e pere croccanti', price:15},
-        {id:302, cat:'3 Antipasti', name:'Alicette impanate e fritte con majo al prezzemolo', price:13},
-        {id:401, cat:'4 Primi Piatti', name:'Qubetto Verrigni alle vongole e crema di rape', price:14},
-        {id:501, cat:'5 Secondi', name:'Baccalà in vasocottura con patate, peperoni arrosto, olive e timo', price:16},
-        {id:601, cat:'6 Desserts', name:'Zafferamisù (tiramisù alla ricotta di pecora e zafferano)', price:7}
-      ];
-    }
-    render();
-    document.getElementById('status').textContent='⚠️ Modalità offline';
-  }
-  finally{busy=false;}
-}
-render();load();setInterval(load,15000);
+switchTab('giorno');
 </script></body></html>
