@@ -1996,6 +1996,133 @@ if (window.ALICETTA_FIREBASE?.apiKey && window.firebase) {
     else syncBadge('ACCEDI');
   });
 }
+/* ===== ZERO-CLICK: foto lavagnetta → Gemini → cassa + traduzioni + allergeni ===== */
+const GEMINI_MODEL = 'gemini-flash-latest';
+const GEMINI_KEY_LS = 'alicetta_gemini_key';
+const CATS_OK = ['3 Antipasti','4 Primi Piatti','5 Secondi','6 Desserts'];
+let pendingChalkImage = null;
+
+function getGeminiKey() { return localStorage.getItem(GEMINI_KEY_LS) || ''; }
+
+function setupZeroClickUI() {
+  const anchor = document.getElementById('ocrStatus');
+  if (!anchor || document.getElementById('geminiKeyInput')) return;
+  const box = document.createElement('div');
+  box.style.cssText = 'display:flex; gap:6px;';
+  box.innerHTML = '<input type="password" id="geminiKeyInput" class="form-control" placeholder="Chiave API Gemini (solo su questo dispositivo)"><button class="btn-note" id="geminiKeySave">Salva</button>';
+  anchor.parentNode.insertBefore(box, anchor);
+  document.getElementById('geminiKeyInput').value = getGeminiKey();
+  document.getElementById('geminiKeySave').onclick = () => {
+    localStorage.setItem(GEMINI_KEY_LS, document.getElementById('geminiKeyInput').value.trim());
+    alert('✅ Chiave salvata su questo dispositivo');
+  };
+}
+
+function fileToJpegBase64(file, maxSide = 1600) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL('image/jpeg', 0.85).split(',')[1]);
+    };
+    img.onerror = () => reject(new Error('Immagine non leggibile'));
+    img.src = url;
+  });
+}
+
+async function processChalkboardPhoto(ev) {
+  const file = ev.target.files && ev.target.files[0];
+  if (!file) return;
+  const st = document.getElementById('ocrStatus');
+  st.style.display = 'block';
+  try {
+    pendingChalkImage = await fileToJpegBase64(file);
+    st.textContent = '📷 Foto pronta: premi "Aggiorna / Importa Piatti nella Cassa"';
+  } catch (e) { st.textContent = '❌ ' + e.message; }
+  ev.target.value = '';
+}
+
+async function askGeminiForMenu(imageB64, text) {
+  const key = getGeminiKey();
+  if (!key) throw new Error('Inserisci prima la chiave API Gemini');
+  const prompt = 'Sei il sistema di cassa di una trattoria abruzzese. Leggi i piatti del giorno (dalla foto della lavagnetta e/o dal testo). ' +
+    'Rispondi SOLO con un array JSON. Per ogni piatto: {"name":"nome in italiano come scritto","price":numero,' +
+    '"cat":"3 Antipasti"|"4 Primi Piatti"|"5 Secondi"|"6 Desserts","en":"...","fr":"...","de":"...","es":"...","allergens":[...]}. ' +
+    'Traduci il nome con linguaggio gastronomico professionale, mantenendo nomi propri e prodotti tipici. ' +
+    'Allergeni: deducili dagli ingredienti e usa solo questi termini: Glutine, Crostacei, Uova, Pesce, Arachidi, Soia, Latticini, Frutta a guscio, Sedano, Senape, Sesamo, Solfiti, Lupini, Molluschi. ' +
+    'Se manca il prezzo metti 0.';
+  const parts = [{ text: prompt }];
+  if (text) parts.push({ text: 'Piatti:\n' + text });
+  if (imageB64) parts.push({ inline_data: { mime_type: 'image/jpeg', data: imageB64 } });
+  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + GEMINI_MODEL + ':generateContent', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
+    body: JSON.stringify({ contents: [{ parts }], generationConfig: { responseMimeType: 'application/json', temperature: 0.2 } })
+  });
+  if (!res.ok) throw new Error('Gemini ha risposto ' + res.status);
+  const data = await res.json();
+  const raw = data.candidates[0].content.parts.map(p => p.text || '').join('');
+  const arr = JSON.parse(raw.replace(/```json|```/g, '').trim());
+  return Array.isArray(arr) ? arr : [];
+}
+
+async function importOcrLinesToMenu() {
+  const st = document.getElementById('ocrStatus');
+  st.style.display = 'block';
+  const text = (document.getElementById('ocrResultBox').value || '').trim();
+  if (!pendingChalkImage && !text) { alert('Scatta una foto o incolla i piatti.'); return; }
+  let dishes;
+  try {
+    st.textContent = '⏳ Gemini sta leggendo i piatti...';
+    dishes = await askGeminiForMenu(pendingChalkImage, pendingChalkImage ? '' : text);
+  } catch (e) { st.textContent = '❌ ' + e.message; return; }
+
+  let added = 0, updated = 0, noPrice = 0;
+  const daily = [];
+  dishes.forEach(d => {
+    const name = String(d.name || '').trim();
+    if (!name) return;
+    const item = {
+      cat: CATS_OK.includes(d.cat) ? d.cat : '3 Antipasti',
+      name, price: Number(d.price) || 0,
+      tr: { en: d.en || name, fr: d.fr || name, de: d.de || name, es: d.es || name },
+      allergens: Array.isArray(d.allergens) ? d.allergens : []
+    };
+    if (!item.price) noPrice++;
+    const ex = state.menu.find(m => m.name.toLowerCase() === name.toLowerCase());
+    if (ex) { Object.assign(ex, item); updated++; }
+    else { state.menu.push({ id: Date.now() + Math.floor(Math.random() * 10000), ...item }); added++; }
+    daily.push(item);
+  });
+
+  await saveState(false);
+  try {
+    await fetch(getCleanFirebaseUrl() + '/daily_menu.json', {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ updatedAt: Date.now(), dishes: daily })
+    });
+  } catch (e) {}
+  pendingChalkImage = null;
+  renderMenuMgr();
+  st.textContent = '✅ ' + added + ' nuovi, ' + updated + ' aggiornati, tradotti in 4 lingue' +
+    (noPrice ? ' ⚠️ ' + noPrice + ' senza prezzo: controllali nel catalogo' : '');
+}
+
+function buildDynamicAllergenList() {
+  return state.menu.map(m => ({
+    name: m.name,
+    allergens: Array.isArray(m.allergens)
+      ? (m.allergens.length ? m.allergens : ['Nessun allergene maggiore dichiarato'])
+      : getDishAllergens(m.name)
+  }));
+}
+
+setupZeroClickUI();
 
 initApp();
 </script>
