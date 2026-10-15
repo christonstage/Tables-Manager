@@ -35,7 +35,7 @@
     <h1>🐟 Alicetta Trattoria</h1>
     <div style="text-align:center; margin-top:8px;">
       <label for="language" style="font-size:0.85rem; font-weight:800;">Lingua / Language: </label>
-      <select id="language" onchange="render()">
+      <select id="language" onchange="render(currentTab)">
         <option value="it">Italiano</option>
         <option value="en">English</option>
         <option value="fr">Français</option>
@@ -50,9 +50,143 @@
 </main>
 
 <script>
-const FB = "https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app";
-
 const LOGO_SVG = `<svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg" style="max-width:180px; height:auto; display:block; margin:0 auto;"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text></svg>`;
+
+const CHALKBOARD_ITEMS = [
+  {cat: "3 Antipasti", name: "Polpette di granchio blu su salsa di zucca e olio alla salvia", price: 14.00},
+  {cat: "3 Antipasti", name: "Alicette impanate e fritte con majo al prezzemolo", price: 13.00},
+  {cat: "3 Antipasti", name: "Cozze gratinate con formaggio gregoriano, ventricina ed erbe aromatiche", price: 13.00},
+  {cat: "3 Antipasti", name: "Alici marinate, peperone dolce di Altino e pere croccanti", price: 15.00},
+  {cat: "3 Antipasti", name: "Soutè di cozze profumato all'alloro", price: 13.00},
+  {cat: "3 Antipasti", name: "Tagliere di salumi artigianali abruzzesi", price: 18.00},
+  {cat: "3 Antipasti", name: "Pallotte cace e ove", price: 12.00},
+  {cat: "3 Antipasti", name: "Prosciutto crudo di manzo Gregorio Rotolo con champignon crudo e senape in grani", price: 16.00},
+  {cat: "4 Primi Piatti", name: "Rigatoro affumicato Verrigni con alicette fresche, pane croccante alle erbe e olio al finocchietto", price: 14.00},
+  {cat: "4 Primi Piatti", name: "Qubetto Verrigni alle vongole e crema di rape", price: 14.00},
+  {cat: "4 Primi Piatti", name: "Linguina al limone Verrigni con cozze", price: 13.00},
+  {cat: "5 Secondi", name: "Fish & Chips Adriatico (nasello in pastella di riso, chips di patate di Avezzano, salsa ai cetrioli, capperi e prezzemolo)", price: 20.00},
+  {cat: "5 Secondi", name: "Sgombro al carbone con dressing al pomodoro confit, cipolle e capperi", price: 18.00},
+  {cat: "5 Secondi", name: "Frittura di totanetti spillo freschi", price: 17.00},
+  {cat: "5 Secondi", name: "Baccalà in vasocottura con patate, peperoni arrosto, olive e timo", price: 16.00},
+  {cat: "5 Secondi", name: "Braciola di pecora al carbone con cicorietta saltata", price: 18.00},
+  {cat: "5 Secondi", name: "Maiale Nero Peligno al carbone con cicorietta saltata", price: 20.00},
+  {cat: "5 Secondi", name: "Cicorietta saltata", price: 6.00},
+  {cat: "6 Desserts", name: "Zafferamisù (tiramisù alla ricotta di pecora e zafferano)", price: 7.00},
+  {cat: "6 Desserts", name: "Cantucci alle mandorle con liquore Sottosopra", price: 7.00},
+  {cat: "6 Desserts", name: "Plateau di formaggi artigianali abruzzesi", price: 18.00}
+];
+
+const WINE_ITEMS = [
+  {name: "Metodo Classico Fenaroli", price: 30.00},
+  {name: "Trabocco Cerasuolo Charmat", price: 18.00},
+  {name: "Trabocco Pecorino Charmat", price: 18.00},
+  {name: "Collefrisio Filare Trebbiano", price: 20.00},
+  {name: "Collefrisio Trebbiano", price: 20.00},
+  {name: "IAVA CHARDONNAY IGT TERRE D'ABRUZZO", price: 18.00},
+  {name: "IAVA PASSERINA IGT TERRE D'ABRUZZO", price: 18.00},
+  {name: "ICONIC MAIOLICA IGP TERRE D'ABRUZZO", price: 20.00},
+  {name: "KRIYA TREBBIANO D'ABRUZZO DOC", price: 18.00},
+  {name: "Maleducato Blondie", price: 24.00},
+  {name: "Margento Orange Simigliani", price: 24.00},
+  {name: "Pane al Pane Fontefico", price: 40.00},
+  {name: "Passerina Passo Cale", price: 16.00},
+  {name: "Pecorino Chicchi Bio", price: 18.00},
+  {name: "Pecorino Colline Rurabiliandia", price: 15.00},
+  {name: "Pecorino Passo Cale", price: 16.00},
+  {name: "Pecorino Superiore Canaglia Fontefico", price: 35.00},
+  {name: "Pecorino Terre di Poggio", price: 14.00},
+  {name: "Rurabilandia Pecorino", price: 15.00},
+  {name: "Trebbiano Collefrisio", price: 22.00},
+  {name: "CAPO LE VIGNE CERASUOLO D'ABRUZZO DOC", price: 24.00},
+  {name: "Cerasuolo Ferzo", price: 18.00},
+  {name: "Cerasuolo Superiore Fossimatto Fontefico", price: 35.00},
+  {name: "IAVA CERASUOLO D'ABRUZZO DOC", price: 18.00},
+  {name: "Maleducato rosato", price: 24.00},
+  {name: "Dire Bere Baciare Fontefico", price: 40.00},
+  {name: "Febbre d'Abruzzo Fontefico", price: 40.00},
+  {name: "Maleducato 11", price: 30.00},
+  {name: "Montepulciano Terre di Poggio", price: 15.00},
+  {name: "Passo Cale Montepulciano", price: 18.00},
+  {name: "Pinto 11 Montepulciano", price: 26.00},
+  {name: "Calice Bianco", price: 4.00},
+  {name: "Calice Cerasuolo", price: 4.00},
+  {name: "Calice Rosso", price: 4.00},
+  {name: "Acqua Frizzante", price: 3.00},
+  {name: "Acqua Naturale", price: 3.00},
+  {name: "Birra Nabò", price: 6.00},
+  {name: "Caffè", price: 2.50},
+  {name: "Caffè Corretto", price: 3.50},
+  {name: "Caffè Deca", price: 2.50},
+  {name: "Carasuolo Terre di Poggio", price: 15.00},
+  {name: "Coca Cola", price: 3.00},
+  {name: "Liquore Artigianale Abruzzese", price: 3.50}
+];
+
+const TRANSLATIONS = {
+  "Polpette di granchio blu su salsa di zucca e olio alla salvia": {
+    "en": "Blue crab balls with pumpkin sauce and sage oil", "fr": "Boulettes de crabe bleu, sauce à la courge et huile à la sauge", "de": "Blaukrabbenbällchen auf Kürbissauce mit Salbeiöl", "es": "Albóndigas de cangrejo azul con salsa de calabaza y aceite de salvia"
+  },
+  "Alicette impanate e fritte con majo al prezzemolo": {
+    "en": "Breaded fried anchovies with parsley mayonnaise", "fr": "Petits anchois panés et frits, mayonnaise au persil", "de": "Panierte, frittierte Sardellen mit Petersilienmayonnaise", "es": "Anchoas pequeñas empanadas y fritas con mayonesa de perejil"
+  },
+  "Cozze gratinate con formaggio gregoriano, ventricina ed erbe aromatiche": {
+    "en": "Mussels au gratin with Gregoriano cheese, ventricina and aromatic herbs", "fr": "Moules gratinées au fromage Gregoriano, ventricina et herbes", "de": "Überbackene Miesmuscheln mit Gregoriano-Käse und Kräutern", "es": "Mejillones gratinados con queso Gregoriano, ventricina y hierbas"
+  },
+  "Alici marinate, peperone dolce di Altino e pere croccanti": {
+    "en": "Marinated anchovies, sweet Altino pepper and crisp pears", "fr": "Anchois marinés, poivron doux d’Altino et poires croquantes", "de": "Marinierte Sardellen, milde Altino-Paprika und knackige Birnen", "es": "Anchoas marinadas, pimiento dulce de Altino y peras crujientes"
+  },
+  "Soutè di cozze profumato all'alloro": {
+    "en": "Sautéed mussels scented with bay leaf", "fr": "Moules sautées parfumées au laurier", "de": "Sautierte Miesmuscheln mit Lorbeer", "es": "Mejillones salteados al laurel"
+  },
+  "Tagliere di salumi artigianali abruzzesi": {
+    "en": "Selection of artisan cured meats from Abruzzo", "fr": "Planche de charcuteries artisanales des Abruzzes", "de": "Auswahl handwerklicher Wurstwaren aus den Abruzzen", "es": "Tabla de embutidos artesanales de Abruzzo"
+  },
+  "Pallotte cace e ove": {
+    "en": "Pallotte cace e ove (cheese and egg balls)", "fr": "Boulettes de fromage et d’œufs traditionnelles", "de": "Käse-Eier-Bällchen nach Abruzzen-Art", "es": "Albóndigas tradicionales de queso y huevo"
+  },
+  "Prosciutto crudo di manzo Gregorio Rotolo con champignon crudo e senape in grani": {
+    "en": "Gregorio Rotolo cured beef with raw mushrooms and mustard", "fr": "Bœuf séché Gregorio Rotolo, champignons crus et moutarde", "de": "Luftgetrocknetes Rindfleisch von Gregorio Rotolo mit Senf", "es": "Jamón curado de vacuno Gregorio Rotolo con champiñones y mostaza"
+  },
+  "Rigatoro affumicato Verrigni con alicette fresche, pane croccante alle erbe e olio al finocchietto": {
+    "en": "Smoked Verrigni Rigatoro with fresh anchovies, herb breadcrumbs and fennel oil", "fr": "Rigatoro fumé Verrigni, anchois frais et pain aux herbes", "de": "Geräucherte Verrigni-Pasta mit frischen Sardellen und Kräuterbrot", "es": "Rigatoro ahumado Verrigni con anchoas frescas y pan crujiente"
+  },
+  "Qubetto Verrigni alle vongole e crema di rape": {
+    "en": "Verrigni Qubetto pasta with clams and turnip cream", "fr": "Pâtes Qubetto Verrigni aux palourdes et crème de navets", "de": "Verrigni-Pasta mit Venusmuscheln und Rübencreme", "es": "Pasta Verrigni con almejas y crema de nabos"
+  },
+  "Linguina al limone Verrigni con cozze": {
+    "en": "Verrigni lemon linguine with mussels", "fr": "Linguine Verrigni au citron et aux moules", "de": "Zitronenlinguine mit Miesmuscheln", "es": "Linguine al limón con mejillones"
+  },
+  "Fish & Chips Adriatico (nasello in pastella di riso, chips di patate di Avezzano, salsa ai cetrioli, capperi e prezzemolo)": {
+    "en": "Adriatic fish & chips (hake in rice batter, potato chips, cucumber sauce)", "fr": "Fish & chips de l’Adriatique (merlu en pâte de riz, chips, sauce concombre)", "de": "Adria-Fish & Chips (Seehecht im Reisteig, Chips, Gurkensauce)", "es": "Fish & chips del Adriático (merluza en rebozado, patatas, salsa de pepino)"
+  },
+  "Sgombro al carbone con dressing al pomodoro confit, cipolle e capperi": {
+    "en": "Charcoal-grilled mackerel with tomato confit and caper dressing", "fr": "Maquereau grillé au charbon, tomates confites et câpres", "de": "Makrele vom Holzkohlegrill mit Confit-Tomaten und Kaperndressing", "es": "Caballa a la brasa con aderezo de tomate confitado y alcaparras"
+  },
+  "Frittura di totanetti spillo freschi": {
+    "en": "Fried fresh baby squid", "fr": "Petits calmars frais frits", "de": "Frittierte frische kleine Kalmare", "es": "Calamares pequeños frescos fritos"
+  },
+  "Baccalà in vasocottura con patate, peperoni arrosto, olive e timo": {
+    "en": "Salt cod in jar with potatoes, roasted peppers, olives and thyme", "fr": "Morue en bocal, pommes de terre, poivrons rôtis, olives et thym", "de": "Im Glas gegarter Stockfisch mit Kartoffeln, Paprika und Oliven", "es": "Bacalao en tarro con patatas, pimientos asados, aceitunas y tomillo"
+  },
+  "Braciola di pecora al carbone con cicorietta saltata": {
+    "en": "Charcoal-grilled mutton chop with sautéed chicory", "fr": "Côte de mouton grillée et chicorée sautée", "de": "Schafskotelett vom Holzkohlegrill mit Chicorée", "es": "Chuleta de oveja a la brasa con achicoria salteada"
+  },
+  "Maiale Nero Peligno al carbone con cicorietta saltata": {
+    "en": "Charcoal-grilled Nero Peligno pork with sautéed chicory", "fr": "Porc Nero Peligno grillé et chicorée sautée", "de": "Nero-Peligno-Schwein vom Holzkohlegrill mit Chicorée", "es": "Cerdo Nero Peligno a la brasa con achicoria salteada"
+  },
+  "Cicorietta saltata": {
+    "en": "Sautéed chicory", "fr": "Chicorée sautée", "de": "Sautierter Chicorée", "es": "Achicoria salteada"
+  },
+  "Zafferamisù (tiramisù alla ricotta di pecora e zafferano)": {
+    "en": "Zafferamisù (sheep ricotta and saffron tiramisu)", "fr": "Zafferamisù (tiramisu à la ricotta de brebis et safran)", "de": "Zafferamisù (Tiramisu mit Schafsmilch-Ricotta und Safran)", "es": "Zafferamisù (tiramisú con ricotta de oveja y azafrán)"
+  },
+  "Cantucci alle mandorle con liquore Sottosopra": {
+    "en": "Almond cantucci biscuits with Sottosopra liqueur", "fr": "Cantucci aux amandes et liqueur Sottosopra", "de": "Mandel-Cantucci mit Likör", "es": "Cantucci de almendra con licor"
+  },
+  "Plateau di formaggi artigianali abruzzesi": {
+    "en": "Selection of artisan cheeses from Abruzzo", "fr": "Plateau de fromages artisanaux des Abruzzes", "de": "Auswahl handwerklicher Käsesorten aus den Abruzzen", "es": "Tabla de quesos artesanales de Abruzzo"
+  }
+};
 
 const NOTICE = {
   it: 'Per ingredienti e allergeni chiedere al personale. Le traduzioni sono descrittive.',
@@ -70,46 +204,7 @@ const TITLES = {
   es: ['Entrantes', 'Primeros Platos', 'Platos Principales & Guarniciones', 'Postres']
 };
 
-/* nomi allergeni: [en, fr, de, es] */
-const ALG = {
-  'Glutine': ['Gluten','Gluten','Gluten','Gluten'],
-  'Crostacei': ['Crustaceans','Crustacés','Krebstiere','Crustáceos'],
-  'Molluschi': ['Molluscs','Mollusques','Weichtiere','Moluscos'],
-  'Pesce': ['Fish','Poisson','Fisch','Pescado'],
-  'Uova': ['Eggs','Œufs','Eier','Huevos'],
-  'Latticini': ['Milk','Lait','Milch','Leche'],
-  'Frutta a guscio': ['Tree nuts','Fruits à coque','Schalenfrüchte','Frutos de cáscara'],
-  'Senape': ['Mustard','Moutarde','Senf','Mostaza'],
-  'Solfiti': ['Sulphites','Sulfites','Sulfite','Sulfitos'],
-  'Arachidi': ['Peanuts','Arachides','Erdnüsse','Cacahuetes'],
-  'Soia': ['Soy','Soja','Soja','Soja'],
-  'Sedano': ['Celery','Céleri','Sellerie','Apio'],
-  'Sesamo': ['Sesame','Sésame','Sesam','Sésamo'],
-  'Lupini': ['Lupin','Lupin','Lupinen','Altramuces'],
-  'Nessun allergene maggiore dichiarato': ['No major allergens declared','Aucun allergène majeur déclaré','Keine Hauptallergene deklariert','Ningún alérgeno principal declarado']
-};
-const LANG_IDX = { en: 0, fr: 1, de: 2, es: 3 };
-function algName(a, lang) { const t = ALG[a]; return (lang === 'it' || !t) ? a : t[LANG_IDX[lang]]; }
-
 let currentTab = 'giorno';
-let DATA = { menu: [], daily: [] };
-let lastSig = '';
-
-async function loadData() {
-  try {
-    const t = Date.now();
-    const [m, d] = await Promise.all([
-      fetch(FB + '/pos_state/menu.json?t=' + t).then(r => r.json()),
-      fetch(FB + '/daily_menu.json?t=' + t).then(r => r.json())
-    ]);
-    DATA = { menu: Object.values(m || {}), daily: Object.values((d && d.dishes) || {}) };
-    try { localStorage.setItem('alicetta_menu_cache', JSON.stringify(DATA)); } catch (e) {}
-  } catch (e) {
-    try { DATA = JSON.parse(localStorage.getItem('alicetta_menu_cache')) || DATA; } catch (_) {}
-  }
-  const sig = JSON.stringify(DATA);
-  if (sig !== lastSig) { lastSig = sig; render(); }
-}
 
 function classifyWine(name) {
   const n = name.toLowerCase();
@@ -136,100 +231,115 @@ function getAlgs(name) {
   return algs.length > 0 ? algs : ['Nessun allergene maggiore dichiarato'];
 }
 
-function algsOf(item) {
-  return (Array.isArray(item.allergens) && item.allergens.length) ? item.allergens : getAlgs(item.name);
-}
-
-function switchTab(tab) { currentTab = tab; render(); }
-
-function makeRow(item, lang, rightText, rightStyle) {
-  const a = document.createElement('article'), t = document.createElement('div'), r = document.createElement('div');
-  const tr = lang !== 'it' && item.tr && item.tr[lang];
-  const b = document.createElement('b');
-  b.textContent = '• ' + (tr || item.name);
-  t.append(b);
-  if (tr) { const s = document.createElement('small'); s.textContent = item.name; t.append(s); }
-  if (rightStyle) r.style.cssText = rightStyle; else r.className = 'price';
-  r.textContent = rightText;
-  a.append(t, r);
-  return a;
-}
-
-function headerHTML(title, sub) {
-  return `<div class="brand-header">${LOGO_SVG}<h3 style="color:#FF5733; margin-top:8px; font-size:1.15rem; letter-spacing:1px;">${title}</h3><p style="font-size:0.78rem; font-weight:700; color:#062329; margin-top:2px;">${sub}</p></div>`;
+function switchTab(tab) {
+  currentTab = tab;
+  render();
 }
 
 function render() {
   const lang = document.getElementById('language').value;
   document.documentElement.lang = lang;
   document.getElementById('notice').textContent = NOTICE[lang] || NOTICE.it;
-  const tabIds = { giorno: 'btnGiorno', vini: 'btnVini', allergeni: 'btnAllergeni' };
-  Object.keys(tabIds).forEach(k => document.getElementById(tabIds[k]).classList.toggle('active', currentTab === k));
+
+  ['btnGiorno','btnVini','btnAllergeni'].forEach(id => document.getElementById(id).classList.remove('active'));
+  if(currentTab==='giorno') document.getElementById('btnGiorno').classList.add('active');
+  if(currentTab==='vini') document.getElementById('btnVini').classList.add('active');
+  if(currentTab==='allergeni') document.getElementById('btnAllergeni').classList.add('active');
 
   const content = document.getElementById('content');
   content.replaceChildren();
 
-  const DISH_CATS = ['3 Antipasti', '4 Primi Piatti', '5 Secondi', '6 Desserts'];
-  const wines = DATA.menu.filter(m => m && m.cat === '2 Bevande');
-  const dishes = DATA.daily.length ? DATA.daily : DATA.menu.filter(m => m && DISH_CATS.includes(m.cat));
-  const fmt = new Intl.NumberFormat(lang, { style: 'currency', currency: 'EUR' });
-
-  const box = document.createElement('div');
-  box.className = 'card-box';
-
-  if (!dishes.length && !wines.length) {
-    box.textContent = '⏳ …';
-    content.append(box);
-    return;
-  }
-
+  // Tab Allergeni
   if (currentTab === 'allergeni') {
-    box.innerHTML = headerHTML('⚠️ TABELLA ALLERGENI', 'Conforme Reg. UE 1169/2011');
-    [...dishes, ...wines].forEach(item => {
-      const txt = algsOf(item).map(a => algName(a, lang)).join(', ');
-      box.append(makeRow(item, lang, txt, 'color:#FF5733; font-weight:800; font-size:0.8rem; text-align:right; max-width:45%;'));
+    const box = document.createElement('div');
+    box.className = 'card-box';
+    box.innerHTML = `<div class="brand-header">${LOGO_SVG}<h3 style="color:#FF5733; margin-top:8px; font-size:1.15rem;">⚠️ TABELLA ALLERGENI</h3><p style="font-size:0.75rem; font-weight:700; color:#062329;">Conforme Reg. UE 1169/2011</p></div>`;
+
+    const allItems = [...CHALKBOARD_ITEMS, ...WINE_ITEMS];
+    allItems.forEach(item => {
+      const article = document.createElement('article'), text = document.createElement('div'), algSpan = document.createElement('div');
+      const tr = TRANSLATIONS[item.name]?.[lang];
+      text.innerHTML = `<b>• ${tr || item.name}</b>`;
+      if(tr) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
+
+      algSpan.style.cssText = "color:#FF5733; font-weight:800; font-size:0.8rem; text-align:right; white-space:nowrap;";
+      algSpan.textContent = getAlgs(item.name).join(', ');
+      article.append(text, algSpan);
+      box.append(article);
     });
     content.append(box);
     return;
   }
 
+  // Tab Carta Vini
   if (currentTab === 'vini') {
-    box.innerHTML = headerHTML('🍷 CARTA DEI VINI 🍷', 'Selezione Cantine Abruzzesi & Artigianali');
-    ['Bollicine & Metodo Classico', 'Vini Bianchi & Orange', 'Cerasuoli & Rosati', 'Vini Rossi & Montepulciano', 'Calici al vetro', 'Acqua, Birra & Caffetteria'].forEach(catName => {
-      const rows = wines.filter(w => classifyWine(w.name) === catName);
-      if (!rows.length) return;
+    const box = document.createElement('div');
+    box.className = 'card-box';
+    box.innerHTML = `<div class="brand-header">${LOGO_SVG}<h3 style="color:#FF5733; margin-top:8px; font-size:1.15rem;">🍷 CARTA DEI VINI 🍷</h3><p style="font-size:0.8rem; font-weight:700; color:#062329; margin-top:2px;">Selezione Cantine Abruzzesi & Artigianali</p></div>`;
+
+    const categories = ['Bollicine & Metodo Classico', 'Vini Bianchi & Orange', 'Cerasuoli & Rosati', 'Vini Rossi & Montepulciano', 'Calici al vetro', 'Acqua, Birra & Caffetteria'];
+    categories.forEach(catName => {
+      const itemsInCat = WINE_ITEMS.filter(d => classifyWine(d.name) === catName);
+      if(!itemsInCat.length) return;
+      
       const h2 = document.createElement('h2');
       h2.textContent = catName;
       box.append(h2);
-      rows.forEach(w => box.append(makeRow(w, lang, fmt.format(Number(w.price) || 0))));
+
+      itemsInCat.forEach(item => {
+        const article = document.createElement('article'), text = document.createElement('div'), price = document.createElement('div');
+        const tr = TRANSLATIONS[item.name]?.[lang];
+        text.innerHTML = `<b>• ${tr || item.name}</b>`;
+        if(tr) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
+        
+        price.className = 'price';
+        price.textContent = new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'}).format(item.price);
+        article.append(text, price);
+        box.append(article);
+      });
     });
     content.append(box);
     return;
   }
 
-  const today = new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-  box.innerHTML = headerHTML('✨ MENÙ DEL GIORNO ✨', today);
+  // Tab Menù del Giorno
+  const box = document.createElement('div');
+  box.className = 'card-box';
+  box.innerHTML = `<div class="brand-header">${LOGO_SVG}<h3 style="color:#FF5733; margin-top:8px; font-size:1.2rem; letter-spacing:1px;">✨ MENÙ DEL GIORNO ✨</h3><p style="font-size:0.78rem; font-weight:700; color:#062329; margin-top:2px;">` + new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + `</p></div>`;
+
+  const catsMap = ['3 Antipasti', '4 Primi Piatti', '5 Secondi', '6 Desserts'];
   const titles = TITLES[lang] || TITLES.it;
-  DISH_CATS.forEach((cat, i) => {
-    const rows = dishes.filter(d => d.cat === cat);
-    if (!rows.length) return;
+
+  catsMap.forEach((catCode, index) => {
+    const rows = CHALKBOARD_ITEMS.filter(x => x.cat === catCode);
+    if(!rows.length) return;
+
     const h2 = document.createElement('h2');
-    h2.textContent = titles[i];
+    h2.textContent = titles[index];
     box.append(h2);
-    rows.forEach(d => box.append(makeRow(d, lang, fmt.format(Number(d.price) || 0))));
+
+    rows.forEach(item => {
+      const article = document.createElement('article'), text = document.createElement('div'), price = document.createElement('div');
+      const tr = TRANSLATIONS[item.name]?.[lang];
+      text.innerHTML = `<b>• ${tr || item.name}</b>`;
+      if(tr) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
+      
+      price.className = 'price';
+      price.textContent = new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'}).format(item.price);
+      article.append(text, price);
+      box.append(article);
+    });
   });
 
-  const footer = document.createElement('div');
-  footer.style.cssText = 'margin-top:18px; text-align:center; background:#1BE7FF; padding:10px; border-radius:10px; border:1.5px solid #FF5733; color:#062329; font-weight:800; font-size:0.84rem;';
-  footer.textContent = '🐟 Pane e Coperto € 3,00 — ENJOY! — 📞 392 3279000';
-  box.append(footer);
+  const footerNotice = document.createElement('div');
+  footerNotice.style.cssText = "margin-top:18px; text-align:center; background:#1BE7FF; padding:10px; border-radius:10px; border:1.5px solid #FF5733; color:#062329; font-weight:800; font-size:0.84rem;";
+  footerNotice.textContent = "🐟 Pane e Coperto € 3,00 — ENJOY! — 📞 392 3279000";
+  box.append(footerNotice);
+
   content.append(box);
 }
 
-try { DATA = JSON.parse(localStorage.getItem('alicetta_menu_cache')) || DATA; } catch (e) {}
 render();
-loadData();
-setInterval(loadData, 60000);
 </script>
 </body>
 </html>
