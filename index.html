@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v42</title>
+<title>Alicetta TableZ 1.0 - v42 Gold</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,7 +25,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .brand-logo { display: flex; align-items: center; background: var(--logo-cyan); padding: 2px 4px; border-radius: 7px; border: 1.5px solid var(--logo-coral); }
 .brand-logo svg { height: 17px; width: auto; display: block; }
 .version-badge { font-size: 0.58rem; font-weight: 800; background: #062329; color: #1BE7FF; padding: 2px 5px; border-radius: 5px; white-space: nowrap; }
-.sync-badge { font-size: 0.52rem; font-weight: 800; padding: 2px 4px; border-radius: 4px; background: rgba(0,0,0,0.12); color: #111; cursor: pointer; }
+.sync-badge { font-size: 0.52rem; font-weight: 800; padding: 2px 3px; border-radius: 4px; background: rgba(0,0,0,0.12); color: #111; }
 .top-actions { display: flex; gap: 3px; align-items: center; flex-shrink: 1; min-width: 0; }
 .waiter-tag { font-size: 0.62rem; font-weight: 800; color: #fff; background: var(--logo-coral); padding: 5px 6px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); white-space: nowrap; cursor: pointer; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
 .btn-top { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 5px 6px; border-radius: 7px; font-size: 0.66rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
@@ -127,9 +127,6 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 .rep-tab { padding: 8px 4px; border-radius: 8px; border: 1px solid var(--border); background: #F3F4F6; font-weight: 800; font-size: 0.76rem; text-align: center; cursor: pointer; }
 .rep-tab.active { background: var(--logo-cyan); color: #062329; border-color: var(--logo-coral); }
 </style>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="firebase-config.js" onerror="console.info('Modalità Firebase standard attiva')"></script>
 </head>
 <body onclick="unlockAudioOnce()">
 
@@ -151,11 +148,11 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
         <text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text>
       </svg>
     </div>
-    <div class="version-badge">v42</div>
-    <div id="syncIndicator" class="sync-badge" title="Tocca per esportare un backup">LIVE</div>
+    <div class="version-badge">v42 Gold</div>
+    <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
-    <div id="waiterDisplay" class="waiter-tag" onclick="openLoginModal()">👤 Scelta...</div>
+    <div id="waiterDisplay" class="waiter-tag" onclick="openLoginModal()">👤 --</div>
     <button class="btn-pager" id="btnPager" onclick="openPagerModal()" style="display:none;" title="Cercapersone Camerieri">🔔</button>
     <button class="btn-top" onclick="toggleFullScreen()" title="Tutto Schermo">⛶</button>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
@@ -262,7 +259,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
 
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div><div style="font-weight:800; font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v42)</div></div>
+    <div><div style="font-weight:800; font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v42 Gold)</div></div>
     <div style="display:flex; gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -275,7 +272,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
   <div class="cart-section">
     <div style="display:flex; justify-content:space-between; align-items:center;">
       <div>
-        <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v42)</h3>
+        <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v42 Gold)</h3>
         <div style="font-size:0.8rem; color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
       </div>
       <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -328,7 +325,8 @@ body { background: var(--bg); color: var(--text); padding-bottom: 95px; user-sel
       </div>
       <div id="ocrStatus" style="font-size:0.8rem; font-weight:800; color:var(--logo-coral); display:none;"></div>
       <textarea id="ocrResultBox" class="form-control" rows="6" style="font-size:0.78rem; line-height:1.35;" placeholder="Piatti della lavagnetta..."></textarea>
-      <button class="btn-main btn-print" onclick="importOcrLinesToMenu()">✅ Aggiorna / Importa Piatti nella Cassa</button>
+      
+      <button class="btn-main" style="background:#8B5CF6; color:#FFF; width:100%; border:none; padding:12px; border-radius:8px; font-weight:900;" onclick="elaboraLavagnettaZeroClick()">✨ Lavagnetta Zero-Click (Sostituisci Menù con AI)</button>
 
       <div style="font-size:0.76rem; font-weight:800; color:#062329; margin-top:6px;">🍽️ ESPORTA DOCUMENTI & ALLERGENI:</div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
@@ -695,7 +693,7 @@ async function initApp() {
 
   setInterval(tickLiveTimers, 1000);
   await pullFromCloud(true);
-  setInterval(() => pullFromCloud(false), 1800);
+  setInterval(() => pullFromCloud(false), 1500);
 }
 
 function openLoginModal() {
@@ -704,19 +702,14 @@ function openLoginModal() {
 
 function selectUserRole(name, goKds) {
   unlockAudioOnce();
-  state.waiterName = String(name).trim();
-  try {
-    localStorage.setItem('alicetta_device_user_v41', '1');
-    localStorage.setItem('alicetta_operator_v42', JSON.stringify({ name: state.waiterName, kds: !!goKds }));
-  } catch (e) {}
+  state.waiterName = name;
+  localStorage.setItem('alicetta_device_user_v41', '1');
   saveLocalOnly();
   updateWaiterDisplay();
   document.getElementById('loginModal').classList.remove('active');
   if (goKds) {
     switchMainView('kds');
     enableKdsTabletMode();
-  } else if (state.waiterName.toLowerCase() !== 'christian' && document.getElementById('viewMenuMgr').classList.contains('active')) {
-    switchMainView('tables');
   }
 }
 
@@ -727,15 +720,11 @@ function selectCustomUser() {
 }
 
 function updateWaiterDisplay() {
-  try {
-    const op = JSON.parse(localStorage.getItem('alicetta_operator_v42') || 'null');
-    if (op?.name) state.waiterName = op.name;
-  } catch (e) {}
   const lbl = document.getElementById('waiterDisplay');
   if (lbl) lbl.textContent = "👤 " + (state.waiterName || 'Staff');
   const badge = document.getElementById('currentWaiterBadge');
   if (badge) badge.textContent = state.waiterName || 'Staff';
-  const isOwner = (state.waiterName || '').toLowerCase().trim() === 'christian';
+  const isOwner = state.waiterName.toLowerCase().trim() === 'christian';
   document.getElementById('navMenu').style.display = isOwner ? 'block' : 'none';
   document.getElementById('btnPager').style.display = isOwner ? 'block' : 'none';
 }
@@ -751,14 +740,12 @@ function updateRoomTabCounts() {
 }
 
 function saveLocalOnly() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      menu: state.menu, tables: state.tables, tableCounts: state.tableCounts,
-      useRawBT: state.useRawBT, firebaseUrl: state.firebaseUrl, waiterName: state.waiterName,
-      historyLog: state.historyLog, lastAlertSignal: state.lastAlertSignal,
-      lastOrderEvent: state.lastOrderEvent, lastPagerEvent: state.lastPagerEvent
-    }));
-  } catch (e) { console.error(e); }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    menu: state.menu, tables: state.tables, tableCounts: state.tableCounts,
+    useRawBT: state.useRawBT, firebaseUrl: state.firebaseUrl, waiterName: state.waiterName,
+    historyLog: state.historyLog, lastAlertSignal: state.lastAlertSignal,
+    lastOrderEvent: state.lastOrderEvent, lastPagerEvent: state.lastPagerEvent
+  }));
 }
 
 async function saveState(triggerBell = false) {
@@ -769,6 +756,79 @@ async function saveState(triggerBell = false) {
 
 function getCleanFirebaseUrl() {
   return (state.firebaseUrl || DEFAULT_FIREBASE_URL).trim().replace(/\/$/, "");
+}
+
+async function pushToCloud() {
+  const badge = document.getElementById('syncIndicator');
+  try {
+    const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json", {
+      method: "PUT", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        updatedAt: Date.now(), lastAlertSignal: state.lastAlertSignal,
+        lastOrderEvent: state.lastOrderEvent, lastPagerEvent: state.lastPagerEvent,
+        tableCounts: state.tableCounts, tables: state.tables, menu: state.menu, historyLog: state.historyLog
+      })
+    });
+    badge.textContent = res.ok ? "LIVE" : "Err";
+  } catch (e) { badge.textContent = "Off"; }
+}
+
+async function pullFromCloud(isInitial) {
+  const badge = document.getElementById('syncIndicator');
+  try {
+    const res = await fetch(getCleanFirebaseUrl() + "/pos_state.json?t=" + Date.now(), { cache: "no-store" });
+    if (!res.ok) { badge.textContent = "DB"; return; }
+    const data = await res.json();
+    badge.textContent = "LIVE";
+    if (!data) { if (isInitial) await pushToCloud(); return; }
+
+    if (data.lastOrderEvent && (!state.lastOrderEvent || data.lastOrderEvent.id > state.lastOrderEvent.id)) {
+      const wasInitial = isInitial && !state.lastOrderEvent;
+      state.lastOrderEvent = data.lastOrderEvent;
+      if (!wasInitial) {
+        playKitchenBell();
+        if (navigator.vibrate) try { navigator.vibrate([250, 100, 250]); } catch(e){}
+        showOrderToast(data.lastOrderEvent);
+      }
+    }
+
+    if (data.lastPagerEvent && (!state.lastPagerEvent || data.lastPagerEvent.id > state.lastPagerEvent.id)) {
+      const wasInitialP = isInitial && !state.lastPagerEvent;
+      state.lastPagerEvent = data.lastPagerEvent;
+      if (!wasInitialP) {
+        const myName = (state.waiterName || '').toLowerCase().trim();
+        const target = (data.lastPagerEvent.target || 'TUTTI').toLowerCase().trim();
+        if (target === 'tutti' || target === myName) {
+          triggerIncomingPagerAlert(data.lastPagerEvent);
+        }
+      }
+    }
+
+    if (data.lastAlertSignal && data.lastAlertSignal > state.lastAlertSignal) state.lastAlertSignal = data.lastAlertSignal;
+    if (data.tableCounts) state.tableCounts = data.tableCounts;
+
+    if (data.tables) {
+      const remoteTables = normalizeTablesStructure(data.tables, state.tableCounts);
+      if (state.activeTableId && document.getElementById('viewOrder').classList.contains('active')) {
+        const localActive = state.tables[state.activeTableId];
+        const unsentLocal = (localActive && localActive.items) ? localActive.items.filter(i => !isItemSent(localActive, i)) : [];
+        if (unsentLocal.length > 0 && remoteTables[state.activeTableId]) {
+          const remoteSent = remoteTables[state.activeTableId].items.filter(i => isItemSent(remoteTables[state.activeTableId], i));
+          remoteTables[state.activeTableId].items = remoteSent.concat(unsentLocal);
+        }
+      }
+      state.tables = remoteTables;
+    }
+
+    if (data.menu && data.menu.length > 0) state.menu = data.menu;
+    if ('historyLog' in data) state.historyLog = data.historyLog || [];
+    saveLocalOnly();
+    updateRoomTabCounts();
+    updateDailyStats();
+    if (document.getElementById('viewTables').classList.contains('active')) renderTables();
+    else if (document.getElementById('viewKds').classList.contains('active')) renderKds();
+    else if (document.getElementById('viewOrder').classList.contains('active') && state.activeTableId) renderOrderScreen();
+  } catch (e) { badge.textContent = "Loc"; }
 }
 
 function showOrderToast(ev) {
@@ -821,19 +881,9 @@ function playPagerSiren() {
 }
 
 function saveFirebaseUrl() {
-  try {
-    const url = new URL(document.getElementById('firebaseUrlInput').value.trim());
-    if (url.protocol !== 'https:' || !/\.(firebasedatabase\.app|firebaseio\.com)$/.test(url.hostname)) {
-      throw new Error('Inserisci un URL radice Firebase valido (https://...firebasedatabase.app).');
-    }
-    state.firebaseUrl = url.origin;
-    syncReady = false;
-    syncBase = null;
-    localStorage.removeItem(syncStore);
-    saveLocalOnly();
-    pullFromCloud(true);
-    alert("URL Firebase salvato!");
-  } catch (e) { alert(e.message); }
+  const val = document.getElementById('firebaseUrlInput').value.trim();
+  if (!val.startsWith("https://")) { alert("URL non valido"); return; }
+  state.firebaseUrl = val; saveLocalOnly(); pullFromCloud(true); alert("Salvato!");
 }
 
 async function enableKdsTabletMode() {
@@ -1332,7 +1382,6 @@ function freeCurrentTable() {
     const copertiCount = t.items.filter(i => i.name === 'Pane e Coperto').reduce((s, c) => s + c.qty, 0);
     if (!state.historyLog) state.historyLog = [];
     state.historyLog.push({
-      id: Date.now() + Math.random(),
       tableName: t.name, total, coperti: copertiCount,
       items: JSON.parse(JSON.stringify(t.items)),
       time: buildTimeStr(), date: buildDateISO(), closedEvening: false
@@ -1378,7 +1427,7 @@ function renderKds() {
       const badge = isDone ? `<span style="color:#10B981;">SERVITA</span>` : isFired ? `<span style="color:#10B981;">MARCIARE</span>` : `<span style="color:var(--logo-coral);">ATTESA</span>`;
       html += `<div style="margin-bottom:8px; padding:6px; background:rgba(0,0,0,0.05); border-radius:6px; ${isDone ? 'opacity:0.4;' : ''}">
         <div style="font-size:0.75rem; display:flex; justify-content:space-between;"><b>${MANDATE_LABELS[m]}</b> ${badge}</div>
-        ${mItems.map(i => `<div style="font-size:0.88rem; margin-top:2px;">• <b>${i.qty}x</b> ${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter || 'Staff'})</span>${i.note ? `<div style="color:#DC2626; font-weight:800; font-size:0.78rem; margin-left:12px;">⚠️ ${i.note}</div>` : ''}</div>`).join('')}
+        ${mItems.map(i => `<div style="font-size:0.88rem; margin-top:2px;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem; color:var(--muted);">(${i.waiter \vert{}\vert{} 'Staff'})</span>${i.note ? `<div style="color:#DC2626; font-weight:800; font-size:0.78rem; margin-left:12px;">⚠️ ${i.note}</div>` : ''}</div>`).join('')}
         ${(m > 0 && isFired) ? `<button class="btn-kds-done" onclick="markMandataDone('${t.id}', ${m})">${isDone ? 'Riapri' : '✅ FATTO'}</button>` : ''}
       </div>`;
     });
@@ -1491,17 +1540,70 @@ async function processChalkboardPhoto(ev) {
   ev.target.value = '';
 }
 
-async function importOcrLinesToMenu() {
-  const dishes = parseOcrBoxDishes();
-  if (dishes.length === 0) { alert("Scrivi o leggi almeno un piatto."); return; }
-  let added = 0, updated = 0;
-  dishes.forEach(d => {
-    const existing = state.menu.find(m => m.name.toLowerCase() === d.name.toLowerCase());
-    if (existing) { existing.price = d.price; existing.cat = d.cat; updated++; }
-    else { state.menu.push({ id: Date.now() + Math.floor(Math.random() * 10000), cat: d.cat, name: d.name, price: d.price }); added++; }
-  });
-  await saveState(false); renderMenuMgr();
-  alert(`✅ Sincronizzato! (${added} nuovi, ${updated} aggiornati)`);
+async function elaboraLavagnettaZeroClick() {
+  const testoGrezzo = document.getElementById('ocrResultBox').value.trim();
+  if (!testoGrezzo) {
+    alert("Scatta la foto o scrivi i piatti della lavagnetta prima di procedere.");
+    return;
+  }
+
+  // Sostituisci con la tua chiave API gratuita generata su Google AI Studio
+  const apiKey = "INSERISCI_QUI_LA_TUA_API_KEY_GEMINI";
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+  const promptStr = `Sei un sistema gestionale per ristoranti. Leggi il testo seguente estratto da una lavagnetta e restituisci ESCLUSIVAMENTE un array JSON (senza markdown, senza spiegazioni).
+  Ogni oggetto dell'array deve contenere:
+  - "name": il nome del piatto corretto in italiano.
+  - "price": il prezzo in formato numerico (es. 15.00).
+  - "cat": classificalo tassativamente in una di queste 4 categorie: "3 Antipasti", "4 Primi Piatti", "5 Secondi", "6 Desserts".
+  
+  Testo lavagnetta:\n${testoGrezzo}`;
+
+  const statusEl = document.getElementById('ocrStatus');
+  statusEl.style.display = 'block';
+  statusEl.textContent = '⏳ L\'AI sta elaborando i piatti e aggiornando il menù...';
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: promptStr }] }] })
+    });
+    
+    const data = await response.json();
+    const rispostaTesto = data.candidates[0].content.parts[0].text;
+    
+    // Estrae in modo sicuro il JSON dalla risposta dell'AI
+    const jsonMatch = rispostaTesto.match(/\[.*\]/s);
+    if (jsonMatch) {
+      const piattiElaborati = JSON.parse(jsonMatch[0]);
+      
+      // IL PASSAGGIO CHIAVE: Filtra il menù attuale mantenendo SOLO Coperto e Bevande/Vini. Cancella tutto il resto.
+      state.menu = state.menu.filter(m => m.cat === '1 Coperto' || m.cat === '2 Bevande');
+      
+      // Aggiunge i nuovi piatti appena letti dalla lavagnetta
+      let aggiunti = 0;
+      piattiElaborati.forEach(piatto => {
+        state.menu.push({
+          id: Date.now() + Math.floor(Math.random() * 10000) + aggiunti,
+          cat: piatto.cat,
+          name: piatto.name,
+          price: piatto.price
+        });
+        aggiunti++;
+      });
+
+      // Salva e sincronizza su Firebase per aggiornare anche i KDS e il QR dei clienti
+      await saveState(true);
+      renderMenuMgr();
+      statusEl.textContent = `✅ Perfetto! Vecchio menù azzerato e ${aggiunti} nuovi piatti inseriti e online.`;
+    } else {
+      throw new Error("Formato JSON non riconosciuto dall'AI");
+    }
+  } catch (error) {
+    statusEl.textContent = '❌ Errore durante l\'elaborazione AI. Controlla la connessione o la API Key.';
+    console.error(error);
+  }
 }
 
 function buildSectionHTML(title, items) {
@@ -1593,8 +1695,10 @@ function exportWineListPDF() {
 function generatePerpetualQRCode() {
   const container = document.getElementById('qrcodeContainer');
   container.innerHTML = '';
+  const baseUrl = window.location.origin + window.location.pathname.replace('index.html', '');
+  const targetUrl = `${baseUrl}menu.html`;
   new QRCode(container, {
-    text: new URL('menu.html', location.href).href,
+    text: targetUrl,
     width: 150,
     height: 150,
     colorDark: "#062329",
@@ -1604,6 +1708,9 @@ function generatePerpetualQRCode() {
   alert("✅ QR Code Perpetuo generato (punta a menu.html)!");
 }
 
+/* =========================================================
+   REPORT & STATISTICHE CON CLASSIFICA PIATTI VENDUTI (v15)
+   ========================================================= */
 function selectReportPeriod(period) {
   state.reportPeriod = period;
   document.getElementById('repTabDaily').classList.toggle('active', period === 'daily');
@@ -1680,7 +1787,6 @@ async function resetCurrentEvening() {
       if (t.items && t.items.length > 0) {
         const copertiCount = t.items.filter(i => i.name === 'Pane e Coperto').reduce((s, c) => s + c.qty, 0);
         state.historyLog.push({
-          id: Date.now() + Math.random(),
           tableName: t.name, total: getTableTotal(t), coperti: copertiCount,
           items: JSON.parse(JSON.stringify(t.items)),
           time: buildTimeStr(), date: buildDateISO(), closedEvening: true
@@ -1731,398 +1837,6 @@ function deleteMenuItem(id) {
     saveState(false); renderMenuMgr();
   }
 }
-
-// ============================================================================
-// MOTORE DI SINCRONIZZAZIONE CLOUD (ETag + Merge Automatico Array/Tavoli)
-// ============================================================================
-const syncCopy = x => x === undefined ? undefined : JSON.parse(JSON.stringify(x));
-const syncEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-const syncFields = ['tables', 'menu', 'tableCounts', 'historyLog', 'lastAlertSignal', 'lastOrderEvent', 'lastPagerEvent'];
-let syncBase = null, syncBusy = false, syncApplying = false, syncReady = false;
-const syncStore = 'alicetta_sync_baseline_v42';
-
-function syncSnapshot() {
-  return Object.fromEntries(syncFields.map(k => [k, syncCopy(state[k])]));
-}
-
-function syncBadge(label, detail = '') {
-  const el = document.getElementById('syncIndicator');
-  if (el) { el.textContent = label; el.title = detail || 'Tocca per esportare un backup'; }
-}
-
-function syncMerge(base, local, remote, path = '') {
-  if (syncEqual(local, base)) return syncCopy(remote);
-  if (syncEqual(remote, base) || syncEqual(local, remote)) return syncCopy(local);
-  if (path === 'lastAlertSignal') return Math.max(local || 0, remote || 0);
-  if (path === 'lastOrderEvent' || path === 'lastPagerEvent') {
-    return syncCopy((local?.id || 0) > (remote?.id || 0) ? local : remote);
-  }
-
-  // 1. Fusione intelligente degli Array (Piatti nei tavoli, Storico, Menù)
-  if (Array.isArray(local) && Array.isArray(remote)) {
-    const baseArr = Array.isArray(base) ? base : [];
-
-    // Piatti di un tavolo (merge per lineId preservando bozze e invii)
-    if (path.endsWith('.items')) {
-      const removedIds = new Set(
-        baseArr.filter(b => !local.some(l => l.lineId === b.lineId) || !remote.some(r => r.lineId === b.lineId))
-               .map(b => b.lineId)
-      );
-      const map = new Map();
-      [...remote, ...local].forEach(item => {
-        if (!item || removedIds.has(item.lineId)) return;
-        const prev = map.get(item.lineId);
-        if (!prev) {
-          map.set(item.lineId, syncCopy(item));
-        } else {
-          map.set(item.lineId, {
-            ...prev,
-            ...item,
-            sent: Boolean(prev.sent || item.sent)
-          });
-        }
-      });
-      return Array.from(map.values());
-    }
-
-    // Storico incassi e Catalogo Menù
-    if (path === 'historyLog' || path === 'menu') {
-      const combined = [...remote];
-      local.forEach(lItem => {
-        const exists = combined.some(rItem =>
-          (lItem.id && rItem.id && lItem.id === rItem.id) || syncEqual(rItem, lItem)
-        );
-        if (!exists) combined.push(syncCopy(lItem));
-      });
-      return combined;
-    }
-
-    return syncCopy(local);
-  }
-
-  // 2. Fusione ricorsiva degli Oggetti
-  if ([base, local, remote].every(x => x && typeof x === 'object' && !Array.isArray(x))) {
-    const out = {};
-    for (const k of new Set([...Object.keys(base), ...Object.keys(local), ...Object.keys(remote)])) {
-      const v = syncMerge(base[k], local[k], remote[k], path ? path + '.' + k : k);
-      if (v !== undefined) out[k] = v;
-    }
-    return out;
-  }
-
-  // 3. Risoluzione automatica valori primitivi (senza bloccare la sala)
-  if (typeof local === 'boolean' && typeof remote === 'boolean') {
-    return Boolean(local || remote);
-  }
-  return syncCopy(local !== undefined ? local : remote);
-}
-
-function syncError(e) {
-  console.warn(e);
-  syncBadge(navigator.onLine ? 'SYNC...' : 'OFFLINE', e.message || String(e));
-}
-
-function syncApply(data, initial = false) {
-  syncApplying = true;
-  try {
-    const previousOrder = state.lastOrderEvent?.id || 0;
-    const previousPager = state.lastPagerEvent?.id || 0;
-
-    // Preserva eventuali piatti "Bozza" sul tavolo attualmente aperto
-    let activeUnsent = [];
-    if (state.activeTableId && state.tables[state.activeTableId]?.items) {
-      const curT = state.tables[state.activeTableId];
-      activeUnsent = curT.items.filter(i => !isItemSent(curT, i));
-    }
-
-    for (const k of syncFields) {
-      if (k in data) state[k] = syncCopy(data[k]);
-    }
-    state.menu = (Array.isArray(state.menu) && state.menu.length > 0) ? state.menu : DEFAULT_MENU;
-    state.historyLog = Array.isArray(state.historyLog) ? state.historyLog : [];
-    state.tables = normalizeTablesStructure(state.tables, state.tableCounts);
-
-    if (state.activeTableId && activeUnsent.length > 0 && state.tables[state.activeTableId]) {
-      const targetItems = state.tables[state.activeTableId].items || [];
-      activeUnsent.forEach(draft => {
-        if (!targetItems.some(i => i.lineId === draft.lineId)) {
-          targetItems.push(draft);
-        }
-      });
-      state.tables[state.activeTableId].items = targetItems;
-    }
-
-    if (!initial && state.lastOrderEvent && state.lastOrderEvent.id > previousOrder) {
-      playKitchenBell();
-      if (navigator.vibrate) try { navigator.vibrate([250, 100, 250]); } catch(e){}
-      showOrderToast(state.lastOrderEvent);
-    }
-    if (!initial && state.lastPagerEvent && state.lastPagerEvent.id > previousPager) {
-      const target = (state.lastPagerEvent.target || 'tutti').toLowerCase().trim();
-      const myName = (state.waiterName || '').toLowerCase().trim();
-      if (target === 'tutti' || target === myName) triggerIncomingPagerAlert(state.lastPagerEvent);
-    }
-
-    saveLocalOnly();
-    updateRoomTabCounts();
-    updateDailyStats();
-    if (document.getElementById('viewTables').classList.contains('active')) renderTables();
-    if (document.getElementById('viewKds').classList.contains('active')) renderKds();
-    if (document.getElementById('viewOrder').classList.contains('active')) renderOrderScreen();
-    if (document.getElementById('viewMenuMgr').classList.contains('active')) renderMenuMgr();
-  } finally {
-    syncApplying = false;
-  }
-}
-
-async function syncEndpoint() {
-  const config = window.ALICETTA_FIREBASE;
-  let token = '';
-  if (config?.apiKey && window.firebase?.auth) {
-    if (!firebase.auth().currentUser) throw new Error('Accedi con email e password Firebase.');
-    token = await firebase.auth().currentUser.getIdToken();
-  }
-  return getCleanFirebaseUrl() + '/pos_state.json' + (token ? '?auth=' + encodeURIComponent(token) : '');
-}
-
-async function syncFetch(url, options = {}) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10000);
-  try {
-    const res = await fetch(url, { cache: 'no-store', ...options, signal: controller.signal });
-    if (!res.ok && res.status !== 412) throw new Error('Firebase HTTP ' + res.status);
-    return res;
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
-async function pullFromCloud(initial = false, forceWrite = false) {
-  if (syncBusy) return;
-  syncBusy = true;
-  try {
-    const url = await syncEndpoint();
-    if (!syncReady) {
-      try {
-        const saved = JSON.parse(localStorage.getItem(syncStore) || 'null');
-        if (saved?.url === getCleanFirebaseUrl()) syncBase = saved.data;
-      } catch (e) {}
-    }
-
-    for (let attempt = 0; attempt < 5; attempt++) {
-      const res = await syncFetch(url, { headers: { 'X-Firebase-ETag': 'true' } });
-      const etag = res.headers.get('ETag');
-      const raw = await res.json();
-      const local = syncSnapshot();
-      const remote = raw ? Object.fromEntries(syncFields.map(k => [
-        k, raw[k] ?? (k === 'menu' ? DEFAULT_MENU : k === 'historyLog' ? [] : k === 'tables' ? {} : local[k])
-      ])) : null;
-
-      let next;
-      if (!syncBase) {
-        next = remote ? syncMerge(local, local, remote) : local;
-      } else {
-        next = syncMerge(syncBase, local, remote || {});
-      }
-
-      const needsPut = !remote || (forceWrite && !syncEqual(next, remote));
-      if (needsPut) {
-        syncBadge('INVIO');
-        const putHeaders = { 'Content-Type': 'application/json' };
-        if (etag) putHeaders['if-match'] = etag;
-        const write = await syncFetch(url, {
-          method: 'PUT',
-          headers: putHeaders,
-          body: JSON.stringify({ ...next, updatedAt: Date.now() })
-        });
-        if (write.status === 412) continue;
-      }
-
-      const current = syncSnapshot();
-      const displayed = syncMerge(local, current, next);
-      syncBase = syncCopy(next);
-      localStorage.setItem(syncStore, JSON.stringify({ url: getCleanFirebaseUrl(), data: syncBase }));
-      syncReady = true;
-      syncApply(displayed, initial);
-      syncBadge('LIVE');
-      return;
-    }
-  } catch (e) {
-    syncError(e);
-  } finally {
-    syncBusy = false;
-  }
-}
-
-async function pushToCloud() {
-  await pullFromCloud(false, true);
-}
-
-document.getElementById('syncIndicator').onclick = function() {
-  const blob = new Blob([JSON.stringify({ local: syncSnapshot(), baseline: syncBase }, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'alicetta-backup.json';
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-};
-
-window.addEventListener('online', () => pullFromCloud(false, true));
-window.addEventListener('focus', () => pullFromCloud(false, false));
-document.getElementById('customWaiterInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') selectCustomUser();
-});
-
-if (window.ALICETTA_FIREBASE?.apiKey && window.firebase) {
-  firebase.initializeApp(window.ALICETTA_FIREBASE);
-  const box = document.createElement('div');
-  box.innerHTML = '<hr style="margin:14px 0"><p style="font-size:0.8rem;font-weight:800;margin-bottom:6px;">🔐 Accesso Cloud Staff</p><input id="cloudEmail" class="form-control" style="margin-bottom:6px;" type="email" placeholder="Email" autocomplete="username"><input id="cloudPassword" class="form-control" style="margin-bottom:8px;" type="password" placeholder="Password" autocomplete="current-password"><button id="cloudLogin" class="btn-main btn-print" style="width:100%;">Accedi al cloud</button><p id="cloudStatus" style="font-size:0.75rem;margin-top:6px;"></p>';
-  document.querySelector('#loginModal .receipt-box').appendChild(box);
-  document.getElementById('cloudLogin').onclick = async () => {
-    try {
-      await firebase.auth().signInWithEmailAndPassword(
-        document.getElementById('cloudEmail').value.trim(),
-        document.getElementById('cloudPassword').value
-      );
-      document.getElementById('cloudPassword').value = '';
-      document.getElementById('cloudStatus').textContent = '✅ Accesso riuscito. Seleziona il profilo operatore.';
-      await pullFromCloud(true, false);
-    } catch (e) {
-      document.getElementById('cloudStatus').textContent = e.message;
-    }
-  };
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) pullFromCloud(true, false);
-    else syncBadge('ACCEDI');
-  });
-}
-/* ===== ZERO-CLICK: foto lavagnetta → Gemini → cassa + traduzioni + allergeni ===== */
-const GEMINI_MODEL = 'gemini-flash-latest';
-const GEMINI_KEY_LS = 'alicetta_gemini_key';
-const CATS_OK = ['3 Antipasti','4 Primi Piatti','5 Secondi','6 Desserts'];
-let pendingChalkImage = null;
-
-function getGeminiKey() { return localStorage.getItem(GEMINI_KEY_LS) || ''; }
-
-function setupZeroClickUI() {
-  const anchor = document.getElementById('ocrStatus');
-  if (!anchor || document.getElementById('geminiKeyInput')) return;
-  const box = document.createElement('div');
-  box.style.cssText = 'display:flex; gap:6px;';
-  box.innerHTML = '<input type="password" id="geminiKeyInput" class="form-control" placeholder="Chiave API Gemini (solo su questo dispositivo)"><button class="btn-note" id="geminiKeySave">Salva</button>';
-  anchor.parentNode.insertBefore(box, anchor);
-  document.getElementById('geminiKeyInput').value = getGeminiKey();
-  document.getElementById('geminiKeySave').onclick = () => {
-    localStorage.setItem(GEMINI_KEY_LS, document.getElementById('geminiKeyInput').value.trim());
-    alert('✅ Chiave salvata su questo dispositivo');
-  };
-}
-
-function fileToJpegBase64(file, maxSide = 1600) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      const k = Math.min(1, maxSide / Math.max(img.width, img.height));
-      const c = document.createElement('canvas');
-      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
-      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-      URL.revokeObjectURL(url);
-      resolve(c.toDataURL('image/jpeg', 0.85).split(',')[1]);
-    };
-    img.onerror = () => reject(new Error('Immagine non leggibile'));
-    img.src = url;
-  });
-}
-
-async function processChalkboardPhoto(ev) {
-  const file = ev.target.files && ev.target.files[0];
-  if (!file) return;
-  const st = document.getElementById('ocrStatus');
-  st.style.display = 'block';
-  try {
-    pendingChalkImage = await fileToJpegBase64(file);
-    st.textContent = '📷 Foto pronta: premi "Aggiorna / Importa Piatti nella Cassa"';
-  } catch (e) { st.textContent = '❌ ' + e.message; }
-  ev.target.value = '';
-}
-
-async function askGeminiForMenu(imageB64, text) {
-  const key = getGeminiKey();
-  if (!key) throw new Error('Inserisci prima la chiave API Gemini');
-  const prompt = 'Sei il sistema di cassa di una trattoria abruzzese. Leggi i piatti del giorno (dalla foto della lavagnetta e/o dal testo). ' +
-    'Rispondi SOLO con un array JSON. Per ogni piatto: {"name":"nome in italiano come scritto","price":numero,' +
-    '"cat":"3 Antipasti"|"4 Primi Piatti"|"5 Secondi"|"6 Desserts","en":"...","fr":"...","de":"...","es":"...","allergens":[...]}. ' +
-    'Traduci il nome con linguaggio gastronomico professionale, mantenendo nomi propri e prodotti tipici. ' +
-    'Allergeni: deducili dagli ingredienti e usa solo questi termini: Glutine, Crostacei, Uova, Pesce, Arachidi, Soia, Latticini, Frutta a guscio, Sedano, Senape, Sesamo, Solfiti, Lupini, Molluschi. ' +
-    'Se manca il prezzo metti 0.';
-  const parts = [{ text: prompt }];
-  if (text) parts.push({ text: 'Piatti:\n' + text });
-  if (imageB64) parts.push({ inline_data: { mime_type: 'image/jpeg', data: imageB64 } });
-  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + GEMINI_MODEL + ':generateContent', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-    body: JSON.stringify({ contents: [{ parts }], generationConfig: { responseMimeType: 'application/json', temperature: 0.2 } })
-  });
-  if (!res.ok) throw new Error('Gemini ha risposto ' + res.status);
-  const data = await res.json();
-  const raw = data.candidates[0].content.parts.map(p => p.text || '').join('');
-  const arr = JSON.parse(raw.replace(/```json|```/g, '').trim());
-  return Array.isArray(arr) ? arr : [];
-}
-
-async function importOcrLinesToMenu() {
-  const st = document.getElementById('ocrStatus');
-  st.style.display = 'block';
-  const text = (document.getElementById('ocrResultBox').value || '').trim();
-  if (!pendingChalkImage && !text) { alert('Scatta una foto o incolla i piatti.'); return; }
-  let dishes;
-  try {
-    st.textContent = '⏳ Gemini sta leggendo i piatti...';
-    dishes = await askGeminiForMenu(pendingChalkImage, pendingChalkImage ? '' : text);
-  } catch (e) { st.textContent = '❌ ' + e.message; return; }
-
-  let added = 0, updated = 0, noPrice = 0;
-  const daily = [];
-  dishes.forEach(d => {
-    const name = String(d.name || '').trim();
-    if (!name) return;
-    const item = {
-      cat: CATS_OK.includes(d.cat) ? d.cat : '3 Antipasti',
-      name, price: Number(d.price) || 0,
-      tr: { en: d.en || name, fr: d.fr || name, de: d.de || name, es: d.es || name },
-      allergens: Array.isArray(d.allergens) ? d.allergens : []
-    };
-    if (!item.price) noPrice++;
-    const ex = state.menu.find(m => m.name.toLowerCase() === name.toLowerCase());
-    if (ex) { Object.assign(ex, item); updated++; }
-    else { state.menu.push({ id: Date.now() + Math.floor(Math.random() * 10000), ...item }); added++; }
-    daily.push(item);
-  });
-
-  await saveState(false);
-  try {
-    await fetch(getCleanFirebaseUrl() + '/daily_menu.json', {
-      method: 'PUT', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ updatedAt: Date.now(), dishes: daily })
-    });
-  } catch (e) {}
-  pendingChalkImage = null;
-  renderMenuMgr();
-  st.textContent = '✅ ' + added + ' nuovi, ' + updated + ' aggiornati, tradotti in 4 lingue' +
-    (noPrice ? ' ⚠️ ' + noPrice + ' senza prezzo: controllali nel catalogo' : '');
-}
-
-function buildDynamicAllergenList() {
-  return state.menu.map(m => ({
-    name: m.name,
-    allergens: Array.isArray(m.allergens)
-      ? (m.allergens.length ? m.allergens : ['Nessun allergene maggiore dichiarato'])
-      : getDishAllergens(m.name)
-  }));
-}
-
-setupZeroClickUI();
 
 initApp();
 </script>
