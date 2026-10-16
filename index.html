@@ -515,50 +515,13 @@ const MANDATE_LABELS = { 0: "SUBITO / BEVANDE", 1: "1ª MANDATA", 2: "2ª MANDAT
 const MANDATA_TO_CAT = { 0: "1 Coperto", 1: "3 Antipasti", 2: "4 Primi Piatti", 3: "5 Secondi", 4: "6 Desserts" };
 const DELAY_LIMIT_MS = 20 * 60 * 1000;
 
-const RAW_MENU = [
-  [101,0,"Pane e Coperto",3],
-  [201,1,"Acqua Frizzante",3],[202,1,"Acqua Naturale",3],[203,1,"Birra Nabò",6],[204,1,"CAPO LE VIGNE CERASUOLO D'ABRUZZO DOC",24],
-  [205,1,"Caffè",2.5],[206,1,"Caffè Corretto",3.5],[207,1,"Caffè Deca",2.5],[208,1,"Calice Bianco",4],[209,1,"Calice Cerasuolo",4],
-  [210,1,"Calice Rosso",4],[211,1,"Carasuolo Terre di Poggio",15],[212,1,"Cerasuolo Ferzo",18],[213,1,"Cerasuolo Superiore Fossimatto Fontefico",35],
-  [214,1,"Coca Cola",3],[215,1,"Collefrisio Filare Trebbiano",20],[216,1,"Collefrisio Trebbiano",20],[217,1,"Dire Bere Baciare Fontefico",40],
-  [218,1,"Febbre d'Abruzzo Fontefico",40],[219,1,"IAVA CERASUOLO D'ABRUZZO DOC",18],[220,1,"IAVA CHARDONNAY IGT TERRE D'ABRUZZO",18],
-  [221,1,"IAVA PASSERINA IGT TERRE D'ABRUZZO",18],[222,1,"ICONIC MAIOLICA IGP TERRE D'ABRUZZO",20],[223,1,"KRIYA TREBBIANO D'ABRUZZO DOC",18],
-  [224,1,"Liquore Artigianale Abruzzese",3.5],[225,1,"Maleducato 11",30],[226,1,"Maleducato Blondie",24],[227,1,"Maleducato rosato",24],
-  [228,1,"Margento Orange Simigliani",24],[229,1,"Metodo Classico Fenaroli",30],[230,1,"Montepulciano Terre di Poggio",15],[231,1,"Pane al Pane Fontefico",40],
-  [232,1,"Passerina Passo Cale",16],[233,1,"Passo Cale Montepulciano",18],[234,1,"Pecorino Chicchi Bio",18],[235,1,"Pecorino Colline Rurabiliandia",15],
-  [236,1,"Pecorino Passo Cale",16],[237,1,"Pecorino Superiore Canaglia Fontefico",35],[238,1,"Pecorino Terre di Poggio",14],[239,1,"Pinto 11 Montepulciano",26],
-  [240,1,"Rurabilandia Pecorino",15],[241,1,"Trabocco Cerasuolo Charmat",18],[242,1,"Trabocco Pecorino Charmat",18],[243,1,"Trebbiano Collefrisio",22],
-  [301,2,"Alici marinate, peperone dolce di Altino e pere croccanti",15],
-  [302,2,"Alicette impanate e fritte con majo al prezzemolo",13],
-  [303,2,"Cetrioli",4],
-  [304,2,"Cozze gratinate con formaggio gregoriano, ventricina ed erbe aromatiche",13],
-  [305,2,"Prosciutto crudo di manzo Gregorio Rotolo con champignon crudo e senape in grani",16],
-  [306,2,"Insalata Pomodori",6],[307,2,"La Marrocca",6],[308,2,"Menù cena aziendale",33.5],
-  [309,2,"Pallotte cace e ove",12],[310,2,"Patatine Fritte",6],
-  [311,5,"Plateau di formaggi artigianali abruzzesi",18],
-  [312,2,"Polpette di granchio blu su salsa di zucca e olio alla salvia",14],
-  [313,2,"Pomodori e Cetrioli",6],
-  [314,2,"Soutè di cozze profumato all'alloro",13],
-  [315,2,"Soutè di Vongole",15],
-  [316,2,"Tagliere di salumi artigianali abruzzesi",18],
-  [317,4,"Cicorietta saltata",6],
-  [401,3,"Qubetto Verrigni alle vongole e crema di rape",14],
-  [402,3,"Cubetto Totanetto",14],
-  [403,3,"Linguina al limone Verrigni con cozze",13],
-  [404,3,"Linguina ragù Panocchie",16],[405,3,"Pacchero Ragù Granchi",16],[406,3,"Pasta all' Olio",7],
-  [407,3,"Rigatoro affumicato Verrigni con alicette fresche, pane croccante alle erbe e olio al finocchietto",14],
-  [408,3,"Spaghetti aglio e peperoncino Vongole",13],[409,3,"Sugo Bimbi",9],
-  [501,4,"Baccalà in vasocottura con patate, peperoni arrosto, olive e timo",16],
-  [502,4,"Braciola di pecora al carbone con cicorietta saltata",18],
-  [503,4,"Fish & Chips Adriatico (nasello in pastella di riso, chips di patate di Avezzano, salsa ai cetrioli, capperi e prezzemolo)",20],
-  [504,4,"Frittura di totanetti spillo freschi",17],
-  [505,4,"Maiale Nero Peligno al carbone con cicorietta saltata",20],
-  [506,4,"Sgombro al carbone con dressing al pomodoro confit, cipolle e capperi",18],
-  [601,5,"Cantucci alle mandorle con liquore Sottosopra",7],
-  [602,5,"Mousse al cioccolato",6],[603,5,"Pizzelle",5],
-  [604,5,"Zafferamisù (tiramisù alla ricotta di pecora e zafferano)",7]
+// Fallback di base se il database è completamente vuoto
+const DEFAULT_MENU = [
+  { id: 101, cat: "1 Coperto", name: "Pane e Coperto", price: 3.00 },
+  { id: 201, cat: "2 Bevande", name: "Acqua Naturale", price: 3.00 },
+  { id: 202, cat: "2 Bevande", name: "Acqua Frizzante", price: 3.00 },
+  { id: 205, cat: "2 Bevande", name: "Caffè", price: 2.50 }
 ];
-const DEFAULT_MENU = RAW_MENU.map(r => ({ id: r[0], cat: CATEGORIES[r[1]], name: r[2], price: r[3] }));
 const STORAGE_KEY = 'alicetta_pos_v9';
 
 let state = {
