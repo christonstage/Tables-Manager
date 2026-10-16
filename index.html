@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v63 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v64 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -149,7 +149,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v63 Slim AI</div>
+    <div class="version-badge">v64 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -250,7 +250,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v63 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v64 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -264,7 +264,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v63 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v64 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -338,13 +338,17 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     </div>
   </div>
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">☁️ Firebase URL & 🖨️ Stampante</h3>
+    <h3 style="margin-bottom:8px;">☁️ Firebase & 🔐 Accesso protetto</h3>
     <div style="display:flex;gap:6px;margin-bottom:10px;">
       <input type="text" id="firebaseUrlInput" class="form-control" placeholder="URL Firebase">
       <button class="btn-note" onclick="saveFirebaseUrl()">Salva</button>
     </div>
     <div style="display:grid;gap:6px;margin-bottom:10px;"><div id="fbStatus" style="font-size:0.8rem;font-weight:800;">🔓 Accesso protetto: NON attivo su questo dispositivo</div><input type="text" id="fbApiKey" class="form-control" placeholder="🔐 Firebase Web API Key"><input type="text" id="fbEmail" class="form-control" placeholder="Email account staff Firebase"><input type="password" id="fbPass" class="form-control" placeholder="Password account staff"><div style="display:flex;gap:6px;"><button class="btn-note" style="flex:1;" onclick="saveFbAuth()">🔐 Attiva accesso protetto</button><button class="btn-note" onclick="clearFbAuth()">Disattiva</button></div><button class="btn-note" onclick="setStaffPin()">🔑 Imposta PIN dipendente</button></div>
+    </div>
+  <div class="cart-section"><h3 style="margin-bottom:8px;">💳 Pagamenti SumUp</h3>
     <div style="display:grid;gap:6px;margin-bottom:10px;"><input type="password" id="sumupKey" class="form-control" placeholder="💳 SumUp Affiliate Key"><input type="text" id="sumupApp" class="form-control" placeholder="SumUp App ID (es. com.alicetta.tablez)"><button class="btn-note" onclick="saveSumup()">Salva SumUp</button></div>
+    </div>
+  <div class="cart-section"><h3 style="margin-bottom:8px;">🔔 Notifiche & 🖨️ Stampante</h3>
     <div style="display:flex;gap:6px;margin-bottom:10px;"><input type="text" id="ntfyInput" class="form-control" placeholder="🔔 Codice notifiche push (es. alicetta-x7k29)"><button class="btn-note" onclick="saveNtfy()">Salva</button></div>
     <label style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:0.9rem;">
       <input type="checkbox" id="chkRawbt" onchange="toggleRawbtSetting()" style="width:18px;height:18px;">
@@ -893,18 +897,19 @@ async function setStaffPin(){
   if(!v)delete state.pins[n];else if(/^\d{4,6}$/.test(v))state.pins[n]=await sha(v+n);else return alert('PIN non valido');
   await saveState(false,{pins:true});alert('✅ PIN aggiornato.');
 }
-const _fetch=window.fetch.bind(window);let loginP=null;
+const _fetch=window.fetch.bind(window);let loginP=null,loginBlockUntil=0,loginErr='';
 async function getFbToken(){
   const c=JSON.parse(localStorage.getItem('alicetta_fbauth')||'null');if(!c)return null;
   if(c.idToken&&Date.now()<c.exp-60000)return c.idToken;
-  if(!loginP)loginP=(async()=>{const r=await _fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+encodeURIComponent(c.apiKey),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:c.email,password:c.password,returnSecureToken:true})});const d=await r.json();if(!r.ok)throw new Error((d.error&&d.error.message)||'Login fallito');c.idToken=d.idToken;c.exp=Date.now()+Number(d.expiresIn||3600)*1000;localStorage.setItem('alicetta_fbauth',JSON.stringify(c));return c.idToken;})().finally(()=>{loginP=null;});
+  if(Date.now()<loginBlockUntil)throw new Error(loginErr||'Accesso sospeso, riprova più tardi');
+  if(!loginP)loginP=(async()=>{const r=await _fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+encodeURIComponent(c.apiKey),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:c.email,password:c.password,returnSecureToken:true})});const d=await r.json();if(!r.ok){loginErr=(d.error&&d.error.message)||'Login fallito';loginBlockUntil=Date.now()+(/TOO_MANY/.test(loginErr)?15*60000:/INVALID|NOT_FOUND|DISABLED/.test(loginErr)?10*60000:60000);const fs=document.getElementById('fbStatus');if(fs)fs.textContent='⚠️ Accesso non riuscito: '+loginErr;throw new Error(loginErr);}loginBlockUntil=0;c.idToken=d.idToken;c.exp=Date.now()+Number(d.expiresIn||3600)*1000;localStorage.setItem('alicetta_fbauth',JSON.stringify(c));return c.idToken;})().finally(()=>{loginP=null;});
   return loginP;
 }
 window.fetch=async(u,o)=>{if(typeof u==='string'&&localStorage.getItem('alicetta_fbauth')&&u.startsWith(getCleanFirebaseUrl())){const t=await getFbToken();if(t)u+=(u.includes('?')?'&':'?')+'auth='+encodeURIComponent(t);}return _fetch(u,o);};
 async function saveFbAuth(){
   const c={apiKey:document.getElementById('fbApiKey').value.trim(),email:document.getElementById('fbEmail').value.trim(),password:document.getElementById('fbPass').value};
   if(!c.apiKey||!c.email||!c.password)return alert('Compila API Key, email e password.');
-  localStorage.setItem('alicetta_fbauth',JSON.stringify(c));
+  localStorage.setItem('alicetta_fbauth',JSON.stringify(c));loginBlockUntil=0;
   try{await getFbToken();document.getElementById('fbStatus').textContent='🔐 Accesso protetto: ATTIVO su questo dispositivo';alert('✅ Accesso protetto attivo su questo dispositivo.');}catch(e){localStorage.removeItem('alicetta_fbauth');alert('❌ Accesso non riuscito: '+e.message);}
 }
 function clearFbAuth(){localStorage.removeItem('alicetta_fbauth');document.getElementById('fbStatus').textContent='🔓 Accesso protetto: NON attivo su questo dispositivo';alert('Accesso protetto disattivato su questo dispositivo.');}
@@ -927,7 +932,7 @@ async function connectDevice(){
   const apiKey=(prompt('Firebase Web API Key (AIza...):')||'').trim();if(!apiKey)return;
   const email=(prompt('Email staff:','staff@alicetta.it')||'').trim();if(!email)return;
   const password=prompt('Password staff:');if(!password)return;
-  localStorage.setItem('alicetta_fbauth',JSON.stringify({apiKey,email,password}));
+  localStorage.setItem('alicetta_fbauth',JSON.stringify({apiKey,email,password}));loginBlockUntil=0;
   try{await getFbToken();alert('✅ Dispositivo collegato. Ricarico la pagina...');location.reload();}
   catch(e){localStorage.removeItem('alicetta_fbauth');alert('❌ Collegamento non riuscito: '+e.message);}
 }
