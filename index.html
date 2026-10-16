@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v51 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v52 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -117,6 +117,21 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 .rep-tab{padding:8px 4px;border-radius:8px;border:1px solid var(--border);background:#F3F4F6;font-weight:800;font-size:0.76rem;text-align:center;cursor:pointer}
 .rep-tab.active{background:var(--logo-cyan);color:#062329;border-color:var(--logo-coral)}
 .top-actions{overflow-x:auto;scrollbar-width:none}.btn-top{flex-shrink:0}
+
+.topbar{flex-wrap:wrap;gap:6px;padding:8px 8px}
+.top-actions{display:contents}
+.brand-group{order:1}
+.waiter-tag{order:2;flex:1 1 auto;max-width:none;text-align:center;font-size:.85rem;padding:10px 8px;min-width:0}
+.btn-pager{order:3;font-size:1.1rem;padding:8px 14px}
+.topbar::after{content:"";order:4;flex:1 0 100%;height:0}
+.btn-top{order:5;flex:1 1 0;min-height:44px;font-size:.9rem;padding:8px 4px;text-align:center}
+.btn-top[title="Tutto Schermo"]{flex:0 0 48px}
+.order-toast{top:128px}
+.btn-main{padding:15px 6px;font-size:.92rem}
+.tables-grid{grid-template-columns:repeat(auto-fill,minmax(125px,1fr))}
+.menu-grid{grid-template-columns:repeat(auto-fill,minmax(125px,1fr))}
+.mandata-btn{padding:13px 2px;font-size:.8rem}
+.cat-btn{padding:11px 16px;font-size:.92rem}
 </style>
 </head>
 <body onclick="unlockAudioOnce()">
@@ -125,7 +140,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v51 Slim AI</div>
+    <div class="version-badge">v52 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -223,7 +238,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v51 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v52 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -235,7 +250,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v51 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v52 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -315,7 +330,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
       <input type="text" id="firebaseUrlInput" class="form-control" placeholder="URL Firebase">
       <button class="btn-note" onclick="saveFirebaseUrl()">Salva</button>
     </div>
-    <div style="display:grid;gap:6px;margin-bottom:10px;"><input type="text" id="fbApiKey" class="form-control" placeholder="🔐 Firebase Web API Key"><input type="text" id="fbEmail" class="form-control" placeholder="Email account staff Firebase"><input type="password" id="fbPass" class="form-control" placeholder="Password account staff"><div style="display:flex;gap:6px;"><button class="btn-note" style="flex:1;" onclick="saveFbAuth()">🔐 Attiva accesso protetto</button><button class="btn-note" onclick="clearFbAuth()">Disattiva</button></div><button class="btn-note" onclick="setStaffPin()">🔑 Imposta PIN dipendente</button></div>
+    <div style="display:grid;gap:6px;margin-bottom:10px;"><div id="fbStatus" style="font-size:0.8rem;font-weight:800;">🔓 Accesso protetto: NON attivo su questo dispositivo</div><input type="text" id="fbApiKey" class="form-control" placeholder="🔐 Firebase Web API Key"><input type="text" id="fbEmail" class="form-control" placeholder="Email account staff Firebase"><input type="password" id="fbPass" class="form-control" placeholder="Password account staff"><div style="display:flex;gap:6px;"><button class="btn-note" style="flex:1;" onclick="saveFbAuth()">🔐 Attiva accesso protetto</button><button class="btn-note" onclick="clearFbAuth()">Disattiva</button></div><button class="btn-note" onclick="setStaffPin()">🔑 Imposta PIN dipendente</button></div>
     <div style="display:grid;gap:6px;margin-bottom:10px;"><input type="password" id="sumupKey" class="form-control" placeholder="💳 SumUp Affiliate Key"><input type="text" id="sumupApp" class="form-control" placeholder="SumUp App ID (es. com.alicetta.tablez)"><button class="btn-note" onclick="saveSumup()">Salva SumUp</button></div>
     <div style="display:flex;gap:6px;margin-bottom:10px;"><input type="text" id="ntfyInput" class="form-control" placeholder="🔔 Codice notifiche push (es. alicetta-x7k29)"><button class="btn-note" onclick="saveNtfy()">Salva</button></div>
     <label style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:0.9rem;">
@@ -429,7 +444,7 @@ async function initApp(){
   document.getElementById('chkRawbt').checked=state.useRawBT;
   document.getElementById('firebaseUrlInput').value=state.firebaseUrl;
   document.getElementById('ocrResultBox').value=CHALKBOARD_OCT12_TEXT;
-  document.getElementById('geminiKeyInput').value=localStorage.getItem('alicetta_gemini_key')||'';document.getElementById('ntfyInput').value=localStorage.getItem('alicetta_ntfy')||'';document.getElementById('sumupKey').value=localStorage.getItem('alicetta_sumup_key')||'';try{const fa=JSON.parse(localStorage.getItem('alicetta_fbauth')||'null');if(fa){document.getElementById('fbApiKey').value=fa.apiKey||'';document.getElementById('fbEmail').value=fa.email||'';document.getElementById('fbPass').value=fa.password||'';}}catch(e){}document.getElementById('sumupApp').value=localStorage.getItem('alicetta_sumup_app')||'';
+  document.getElementById('geminiKeyInput').value=localStorage.getItem('alicetta_gemini_key')||'';document.getElementById('ntfyInput').value=localStorage.getItem('alicetta_ntfy')||'';document.getElementById('sumupKey').value=localStorage.getItem('alicetta_sumup_key')||'';try{const fa=JSON.parse(localStorage.getItem('alicetta_fbauth')||'null');if(fa){document.getElementById('fbStatus').textContent='🔐 Accesso protetto: ATTIVO su questo dispositivo';document.getElementById('fbApiKey').value=fa.apiKey||'';document.getElementById('fbEmail').value=fa.email||'';document.getElementById('fbPass').value=fa.password||'';}}catch(e){}document.getElementById('sumupApp').value=localStorage.getItem('alicetta_sumup_app')||'';
   if(state.menu.filter(m=>m.cat!=='1 Coperto'&&m.cat!=='2 Bevande').length===0)syncChalkboardToStateMenu(parseOcrBoxDishes());
   updateRoomTabCounts();renderTables();updateDailyStats();
   if(!state.waiterName.trim()||!localStorage.getItem('alicetta_device_user_v41'))openLoginModal();else updateWaiterDisplay();
@@ -446,7 +461,7 @@ async function selectUserRole(name,goKds){
   if(goKds){switchMainView('kds');enableKdsTabletMode();}
 }
 function selectCustomUser(){const v=document.getElementById('customWaiterInput').value.trim();if(!v)return alert("Scrivi un nome");selectUserRole(v,false);}
-function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('btnPager').style.display='block';}
+function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('btnPager').style.display='block';document.getElementById('navKds').style.display=/^(christian|kds cucina)$/i.test((state.waiterName||'').trim())?'block':'none';}
 function updateRoomTabCounts(){document.getElementById('cntInt').textContent=state.tableCounts.interna;document.getElementById('cntEst').textContent=state.tableCounts.esterna;document.getElementById('cntAsp').textContent=state.tableCounts.asporto;document.getElementById('cfgIntCount').value=state.tableCounts.interna;document.getElementById('cfgEstCount').value=state.tableCounts.esterna;document.getElementById('cfgAspCount').value=state.tableCounts.asporto;populateMergeSelectors();}
 function saveLocalOnly(){localStorage.setItem(STORAGE_KEY,JSON.stringify({menu:state.menu,tables:state.tables,tableCounts:state.tableCounts,useRawBT:state.useRawBT,firebaseUrl:state.firebaseUrl,waiterName:state.waiterName,historyLog:state.historyLog,lastAlertSignal:state.lastAlertSignal,lastOrderEvent:state.lastOrderEvent,lastPagerEvent:state.lastPagerEvent,timeLog:state.timeLog||{},pins:state.pins||{}}));}
 async function saveState(bell,parts){if(bell)state.lastAlertSignal=Date.now();saveLocalOnly();await pushToCloud(parts);if(!state.lastPushOk)addPending(parts);}
@@ -522,7 +537,7 @@ function populateMergeSelectors(){const f=document.getElementById('mergeFromSel'
 async function executeTableMerge(sId,tId){if(!sId||!tId||sId===tId)return alert("Seleziona due tavoli diversi.");const s=state.tables[sId],t=state.tables[tId];if(!s||!t)return;if(confirm(`Vuoi unire "${s.name}" dentro "${t.name}"?`)){t.items=(t.items||[]).concat(s.items||[]);t.sentOnce=Boolean(t.sentOnce||s.sentOnce||t.items.some(i=>i.sent));if(!t.openedAt)t.openedAt=s.openedAt||Date.now();const sh=s.name.replace(/Tavolo\s*|Esterno\s*|Asporto\s*/i,'');if(!t.name.includes('+'+sh))t.name+='+'+sh;s.items=[];s.openedAt=0;s.sentOnce=false;s.name=s.baseName;await saveState(false,{tables:[sId,tId]});renderTables();alert(`✅ Uniti in: ${t.name}`);}}
 function mergeTablesFromSettings(){executeTableMerge(document.getElementById('mergeFromSel').value,document.getElementById('mergeToSel').value);}
 function quickMergeFromOrder(){const s=state.tables[state.activeTableId],tn=prompt(`Con quale tavolo vuoi unire ${s.name}? (es: Tavolo 2):`);if(!tn)return;const f=Object.values(state.tables).find(t=>t.name.toLowerCase()===tn.trim().toLowerCase());if(!f)return alert("Tavolo non trovato.");executeTableMerge(s.id,f.id).then(()=>openTable(f.id));}
-function switchMainView(v){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.btn-top').forEach(b=>b.classList.remove('active'));if(v==='tables'){document.getElementById('viewTables').classList.add('active');document.getElementById('navTables').classList.add('active');renderTables();}else if(v==='kds'){document.getElementById('viewKds').classList.add('active');document.getElementById('navKds').classList.add('active');renderKds();}else if(v==='time'){document.getElementById('viewTime').classList.add('active');document.getElementById('navTime').classList.add('active');renderTime();}else if(v==='menuMgr'){document.getElementById('viewMenuMgr').classList.add('active');document.getElementById('navMenu').classList.add('active');renderMenuMgr();updateDailyStats();}}
+function switchMainView(v){if(v==='kds'&&!/^(christian|kds cucina)$/i.test((state.waiterName||'').trim()))return;document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.btn-top').forEach(b=>b.classList.remove('active'));if(v==='tables'){document.getElementById('viewTables').classList.add('active');document.getElementById('navTables').classList.add('active');renderTables();}else if(v==='kds'){document.getElementById('viewKds').classList.add('active');document.getElementById('navKds').classList.add('active');renderKds();}else if(v==='time'){document.getElementById('viewTime').classList.add('active');document.getElementById('navTime').classList.add('active');renderTime();}else if(v==='menuMgr'){document.getElementById('viewMenuMgr').classList.add('active');document.getElementById('navMenu').classList.add('active');renderMenuMgr();updateDailyStats();}}
 function selectRoom(r){state.currentRoom=r;document.getElementById('tabInterna').classList.toggle('active',r==='interna');document.getElementById('tabEsterna').classList.toggle('active',r==='esterna');document.getElementById('tabAsporto').classList.toggle('active',r==='asporto');renderTables();}
 function getTableTotal(t){return(!t||!t.items)?0:t.items.reduce((s,i)=>s+(i.price*i.qty),0);}
 function renderTables(){
@@ -869,9 +884,9 @@ async function saveFbAuth(){
   const c={apiKey:document.getElementById('fbApiKey').value.trim(),email:document.getElementById('fbEmail').value.trim(),password:document.getElementById('fbPass').value};
   if(!c.apiKey||!c.email||!c.password)return alert('Compila API Key, email e password.');
   localStorage.setItem('alicetta_fbauth',JSON.stringify(c));
-  try{await getFbToken();alert('✅ Accesso protetto attivo su questo dispositivo.');}catch(e){localStorage.removeItem('alicetta_fbauth');alert('❌ Accesso non riuscito: '+e.message);}
+  try{await getFbToken();document.getElementById('fbStatus').textContent='🔐 Accesso protetto: ATTIVO su questo dispositivo';alert('✅ Accesso protetto attivo su questo dispositivo.');}catch(e){localStorage.removeItem('alicetta_fbauth');alert('❌ Accesso non riuscito: '+e.message);}
 }
-function clearFbAuth(){localStorage.removeItem('alicetta_fbauth');alert('Accesso protetto disattivato su questo dispositivo.');}
+function clearFbAuth(){localStorage.removeItem('alicetta_fbauth');document.getElementById('fbStatus').textContent='🔓 Accesso protetto: NON attivo su questo dispositivo';alert('Accesso protetto disattivato su questo dispositivo.');}
 function exportMonthlyCSV(){
   const ym=(prompt('Mese da esportare (AAAA-MM):',buildDateISO().slice(0,7))||'').trim();if(!/^\d{4}-\d{2}$/.test(ym))return;
   const f=n=>Number(n).toFixed(2).replace('.',','),days={},dish={};
