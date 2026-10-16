@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v48 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v49 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -125,7 +125,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v48 Slim AI</div>
+    <div class="version-badge">v49 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -148,6 +148,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
       <button class="btn-main btn-print" onclick="selectUserRole('Serena',false)">👱🏻‍♀️ Serena</button>
       <button class="btn-main" style="background:#111827;color:#1BE7FF;border:2px solid #1BE7FF;" onclick="selectUserRole('KDS Cucina',true)">🖥️ KDS Cucina</button>
     </div>
+    <button class="btn-note" style="width:100%;margin-bottom:8px;" onclick="connectDevice()">🔐 Collega questo dispositivo (nuovo tablet/telefono)</button>
     <div style="display:flex;gap:6px;">
       <input type="text" id="customWaiterInput" class="form-control" placeholder="Altro nome...">
       <button class="btn-note" onclick="selectCustomUser()">Entra</button>
@@ -222,7 +223,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v48 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v49 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -234,7 +235,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v48 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v49 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -438,7 +439,7 @@ function saveGeminiKey(){const k=document.getElementById('geminiKeyInput').value
 function openLoginModal(){document.getElementById('loginModal').classList.add('active');}
 async function selectUserRole(name,goKds){
   const k=name.toLowerCase().trim(),pins=state.pins||{};
-  if(!state.pinsReady)return alert('Sincronizzazione in corso, riprova tra un attimo.');
+  if(!state.pinsReady)return alert('Sincronizzazione non riuscita. Se è un dispositivo nuovo, tocca "Collega questo dispositivo".');
   if(pins[k]){const v=prompt('PIN di '+name+':');if(!v||(await sha(v+k))!==pins[k])return alert('❌ PIN errato');}
   else if(k==='christian'){const v=prompt('Primo accesso: scegli un PIN di 4-6 cifre per Christian:');if(!/^\d{4,6}$/.test(v||''))return alert('PIN non valido');state.pins=state.pins||{};state.pins[k]=await sha(v+k);await saveState(false,{pins:true});}
   unlockAudioOnce();state.waiterName=name;localStorage.setItem('alicetta_device_user_v41','1');saveLocalOnly();updateWaiterDisplay();document.getElementById('loginModal').classList.remove('active');
@@ -876,6 +877,16 @@ function exportMonthlyCSV(){
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+L.join('\n')],{type:'text/csv'}));a.download='report_'+ym+'.csv';a.click();
 }
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+
+async function connectDevice(){
+  const apiKey=(prompt('Firebase Web API Key (AIza...):')||'').trim();if(!apiKey)return;
+  const email=(prompt('Email staff:','staff@alicetta.it')||'').trim();if(!email)return;
+  const password=prompt('Password staff:');if(!password)return;
+  localStorage.setItem('alicetta_fbauth',JSON.stringify({apiKey,email,password}));
+  try{await getFbToken();alert('✅ Dispositivo collegato. Ricarico la pagina...');location.reload();}
+  catch(e){localStorage.removeItem('alicetta_fbauth');alert('❌ Collegamento non riuscito: '+e.message);}
+}
 
 initApp();
 </script>
