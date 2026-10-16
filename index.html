@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v45 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v46 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -124,7 +124,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v45 Slim AI</div>
+    <div class="version-badge">v46 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -201,6 +201,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="mandata-btn" id="mBtn4" onclick="setMandata(4,true)">4ª Mand.</div>
   </div>
   <div class="cat-bar" id="catBar"></div>
+  <button id="btnVoice" class="btn-main btn-print" style="width:100%;margin-bottom:10px;" onclick="startVoiceOrder()">🎤 Detta comanda</button>
   <div class="search-wrap">
     <input type="text" id="menuSearch" class="search-input" placeholder="🔍 Cerca piatto o vino..." oninput="renderMenuGrid()">
     <button class="search-clear" onclick="clearSearch()">×</button>
@@ -220,7 +221,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v45 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v46 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -231,7 +232,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v45 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v46 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -363,7 +364,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <h3 style="margin-bottom:8px;color:var(--logo-coral);">🔔 Cercapersone Sala</h3>
     <select id="pagerTarget" class="form-control" style="margin-bottom:8px;">
       <option value="TUTTI">📢 TUTTI I CAMERIERI</option>
-      <option value="Alice">👤 Solo Alice</option>
+      <option value="Christian">👑 Solo Christian</option><option value="KDS Cucina">🖥️ Solo KDS Cucina</option><option value="Alice">👤 Solo Alice</option>
       <option value="Serena">👤 Solo Serena</option>
       <option value="Sala">👤 Solo Sala</option>
     </select>
@@ -378,7 +379,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div class="modal-overlay" id="incomingPageModal">
   <div class="receipt-box pager-alert">
     <div style="font-size:2rem;margin-bottom:6px;">🚨🔔🚨</div>
-    <h2>CHIAMATA DA CHRISTIAN</h2>
+    <h2 id="incomingPageFrom">CHIAMATA</h2>
     <div id="incomingPageText" style="font-size:1.05rem;font-weight:800;margin:12px 0;background:rgba(0,0,0,0.25);padding:10px;border-radius:8px;"></div>
     <button class="btn-main" style="background:#fff;color:#000;width:100%;" onclick="ackIncomingPage()">✅ RICEVUTO, ARRIVO!</button>
   </div>
@@ -431,7 +432,7 @@ function saveGeminiKey(){const k=document.getElementById('geminiKeyInput').value
 function openLoginModal(){document.getElementById('loginModal').classList.add('active');}
 function selectUserRole(name,goKds){unlockAudioOnce();state.waiterName=name;localStorage.setItem('alicetta_device_user_v41','1');saveLocalOnly();updateWaiterDisplay();document.getElementById('loginModal').classList.remove('active');if(goKds){switchMainView('kds');enableKdsTabletMode();}}
 function selectCustomUser(){const v=document.getElementById('customWaiterInput').value.trim();if(!v)return alert("Scrivi un nome");selectUserRole(v,false);}
-function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('btnPager').style.display=own?'block':'none';}
+function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('btnPager').style.display='block';}
 function updateRoomTabCounts(){document.getElementById('cntInt').textContent=state.tableCounts.interna;document.getElementById('cntEst').textContent=state.tableCounts.esterna;document.getElementById('cntAsp').textContent=state.tableCounts.asporto;document.getElementById('cfgIntCount').value=state.tableCounts.interna;document.getElementById('cfgEstCount').value=state.tableCounts.esterna;document.getElementById('cfgAspCount').value=state.tableCounts.asporto;populateMergeSelectors();}
 function saveLocalOnly(){localStorage.setItem(STORAGE_KEY,JSON.stringify({menu:state.menu,tables:state.tables,tableCounts:state.tableCounts,useRawBT:state.useRawBT,firebaseUrl:state.firebaseUrl,waiterName:state.waiterName,historyLog:state.historyLog,lastAlertSignal:state.lastAlertSignal,lastOrderEvent:state.lastOrderEvent,lastPagerEvent:state.lastPagerEvent}));}
 async function saveState(bell,parts){if(bell)state.lastAlertSignal=Date.now();saveLocalOnly();await pushToCloud(parts);}
@@ -441,7 +442,7 @@ async function pushToCloud(o){
   const send=(u,m,body)=>fetch(u,{method:m,headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
   state.pushing=(state.pushing||0)+1;
   try{
-    let ok=true;const meta={updatedAt:Date.now(),lastAlertSignal:state.lastAlertSignal,lastOrderEvent:state.lastOrderEvent,lastPagerEvent:state.lastPagerEvent};
+    let ok=true;const meta={updatedAt:Date.now(),...(localStorage.getItem('alicetta_ntfy')?{ntfy:localStorage.getItem('alicetta_ntfy')}:{}),lastAlertSignal:state.lastAlertSignal,lastOrderEvent:state.lastOrderEvent,lastPagerEvent:state.lastPagerEvent};
     if(!o||o.full)ok=(await send(base+'.json','PUT',{...meta,tableCounts:state.tableCounts,tables:state.tables,menu:state.menu,historyLog:state.historyLog})).ok;
     else{
       if(o.tables&&o.tables.length){const tb={};o.tables.forEach(id=>{if(state.tables[id])tb[id]=state.tables[id];});ok=(await send(base+'/tables.json','PATCH',tb)).ok&&ok;}
@@ -461,7 +462,7 @@ async function pullFromCloud(initial){
     const data=await res.json();b.textContent="LIVE";
     if(state.pushing>0)return;
     if(!data){if(initial)await pushToCloud();return;}
-    state.remoteStamp=data.updatedAt||0;
+    state.remoteStamp=data.updatedAt||0;if(data.ntfy){localStorage.setItem('alicetta_ntfy',data.ntfy);const ni=document.getElementById('ntfyInput');if(ni&&!ni.value)ni.value=data.ntfy;}
     if(data.lastOrderEvent&&(!state.lastOrderEvent||data.lastOrderEvent.id>state.lastOrderEvent.id)){const wi=initial&&!state.lastOrderEvent;state.lastOrderEvent=data.lastOrderEvent;if(!wi){playKitchenBell();if(navigator.vibrate)try{navigator.vibrate([250,100,250]);}catch(e){}showOrderToast(data.lastOrderEvent);}}
     if(data.lastPagerEvent&&(!state.lastPagerEvent||data.lastPagerEvent.id>state.lastPagerEvent.id)){const wp=initial&&!state.lastPagerEvent;state.lastPagerEvent=data.lastPagerEvent;if(!wp){const mn=(state.waiterName||'').toLowerCase().trim(),tg=(data.lastPagerEvent.target||'TUTTI').toLowerCase().trim();if(tg==='tutti'||tg===mn)triggerIncomingPagerAlert(data.lastPagerEvent);}}
     if(data.lastAlertSignal&&data.lastAlertSignal>state.lastAlertSignal)state.lastAlertSignal=data.lastAlertSignal;
@@ -486,12 +487,12 @@ async function pullFromCloud(initial){
 }
 function showOrderToast(ev){document.getElementById('toastTitle').textContent=`🔔 ${ev.title} (${ev.waiter})`;document.getElementById('toastBody').innerHTML=ev.summary;const t=document.getElementById('orderToast');t.classList.add('active');if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('active'),8000);}
 function closeOrderToast(){document.getElementById('orderToast').classList.remove('active');}
-function saveNtfy(){localStorage.setItem('alicetta_ntfy',document.getElementById('ntfyInput').value.trim().toLowerCase().replace(/[^a-z0-9_-]/g,''));alert("✅ Codice notifiche salvato!");}
-async function sendPush(target,msg){const c=(localStorage.getItem('alicetta_ntfy')||'').trim();if(!c)return;try{await fetch('https://ntfy.sh',{method:'POST',body:JSON.stringify({topic:c+'-'+String(target).toLowerCase(),title:'🔔 Chiamata da Christian',message:msg,priority:5,tags:['bell','rotating_light']})});}catch(e){console.error(e);}}
+function saveNtfy(){localStorage.setItem('alicetta_ntfy',document.getElementById('ntfyInput').value.trim().toLowerCase().replace(/[^a-z0-9_-]/g,''));saveState(false,{});alert("✅ Codice notifiche salvato!");}
+async function sendPush(target,msg,from){const c=(localStorage.getItem('alicetta_ntfy')||'').trim();if(!c)return;try{await fetch('https://ntfy.sh',{method:'POST',body:JSON.stringify({topic:c+'-'+String(target).toLowerCase().replace(/[^a-z0-9]/g,''),title:'🔔 Chiamata da '+(from||'Sala'),message:msg,priority:5,tags:['bell','rotating_light']})});}catch(e){console.error(e);}}
 function openPagerModal(){document.getElementById('pagerModal').classList.add('active');}
 function closePagerModal(){document.getElementById('pagerModal').classList.remove('active');}
-async function sendPagerCall(msg){const target=document.getElementById('pagerTarget').value;state.lastPagerEvent={id:Date.now(),target,msg,time:buildTimeStr()};closePagerModal();await saveState(false,{});sendPush(target,msg);alert(`Chiamata inviata a: ${target}`);}
-function triggerIncomingPagerAlert(ev){playPagerSiren();if(navigator.vibrate)try{navigator.vibrate([500,150,500,150,700]);}catch(e){}document.getElementById('incomingPageText').textContent=`${ev.msg} (Per: ${ev.target})`;document.getElementById('incomingPageModal').classList.add('active');}
+async function sendPagerCall(msg){const target=document.getElementById('pagerTarget').value;state.lastPagerEvent={id:Date.now(),target,msg,from:state.waiterName||'Sala',time:buildTimeStr()};closePagerModal();await saveState(false,{});sendPush(target,msg,state.waiterName);alert(`Chiamata inviata a: ${target}`);}
+function triggerIncomingPagerAlert(ev){playPagerSiren();if(navigator.vibrate)try{navigator.vibrate([500,150,500,150,700]);}catch(e){}document.getElementById('incomingPageFrom').textContent='CHIAMATA DA '+String(ev.from||'SALA').toUpperCase();document.getElementById('incomingPageText').textContent=ev.msg;document.getElementById('incomingPageModal').classList.add('active');}
 function ackIncomingPage(){document.getElementById('incomingPageModal').classList.remove('active');if(navigator.vibrate)try{navigator.vibrate(0);}catch(e){}}
 function playPagerSiren(){try{unlockAudioOnce();const now=audioCtx.currentTime;[1567.98,1174.66,1567.98,1174.66,1567.98].forEach((f,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='square';o.frequency.setValueAtTime(f,now+i*0.18);g.gain.setValueAtTime(0.01,now+i*0.18);g.gain.exponentialRampToValueAtTime(0.8,now+i*0.18+0.02);g.gain.exponentialRampToValueAtTime(0.01,now+i*0.18+0.16);o.connect(g);g.connect(audioCtx.destination);o.start(now+i*0.18);o.stop(now+i*0.18+0.17);});}catch(e){}}
 function playKitchenBell(){try{unlockAudioOnce();const now=audioCtx.currentTime;[1318.5,1046.5].forEach((f,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='triangle';o.frequency.setValueAtTime(f,now+i*0.22);g.gain.setValueAtTime(0.001,now+i*0.22);g.gain.exponentialRampToValueAtTime(0.9,now+i*0.22+0.02);g.gain.exponentialRampToValueAtTime(0.001,now+i*0.22+0.55);o.connect(g);g.connect(audioCtx.destination);o.start(now+i*0.22);o.stop(now+i*0.22+0.6);});}catch(e){}}
@@ -711,6 +712,37 @@ async function runSousChef(){
   if(!getGeminiKey())return;
   const ai=document.createElement('div');ai.style.cssText='white-space:pre-wrap;margin-top:8px;padding:8px;background:#F5F3FF;border-radius:8px;';ai.textContent='⏳ Il Sous-Chef AI sta preparando i consigli...';box.appendChild(ai);
   try{ai.textContent=await callGemini([{text:`Sei il sous-chef di una trattoria di pesce abruzzese. Oggi è ${g}. Dati storici medi per serata: ${JSON.stringify({coperti:s.cop,categorie:s.cat,piatti:s.dish.slice(0,15)})}. Scrivi un breve piano di mise en place (max 8 righe, in italiano): quante porzioni preparare per i piatti più richiesti (media +15% di margine) e cosa evitare di sovrapreparare. Se i dati sono pochi, dillo.`}]);}catch(e){ai.textContent='AI non disponibile: '+e.message;}
+}
+
+
+let voiceRec=null;
+function startVoiceOrder(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition,btn=document.getElementById('btnVoice');
+  if(voiceRec){voiceRec.stop();return;}
+  if(!SR)return alert("Il riconoscimento vocale non è supportato da questo browser: usa Chrome.");
+  if(!getGeminiKey()){const k=prompt("Incolla la Gemini API Key (resta salvata solo su questo dispositivo):");if(!k||!k.trim())return;localStorage.setItem('alicetta_gemini_key',k.trim());}
+  let txt='';const r=voiceRec=new SR();r.lang='it-IT';r.interimResults=false;
+  btn.textContent='🔴 Ascolto... parla ora (tocca per finire)';
+  r.onresult=e=>{txt=Array.from(e.results).map(x=>x[0].transcript).join(' ');};
+  r.onerror=e=>{txt='';alert('Microfono: '+(e.error==='not-allowed'?'permesso negato':e.error));};
+  r.onend=()=>{voiceRec=null;btn.textContent='🎤 Detta comanda';if(txt.trim())parseVoiceOrder(txt.trim());};
+  r.start();
+}
+async function parseVoiceOrder(txt){
+  const t=state.tables[state.activeTableId],btn=document.getElementById('btnVoice');if(!t)return;
+  btn.textContent='⏳ Elaboro la comanda...';
+  try{
+    const menu=state.menu.map(m=>m.id+'|'+m.name).join('\n');
+    const out=await callGemini([{text:`Sei l'assistente di sala di una trattoria. Menù (id|nome):\n${menu}\n\nComanda dettata a voce dal cameriere: "${txt}"\n\nRestituisci SOLO un array JSON di oggetti {"id":id del piatto del menù più simile,"qty":numero,"mandata":0-4,"note":stringa}. Regole: i coperti sono il piatto "Pane e Coperto" con mandata 0; bevande e vini mandata 0; "subito" = 0; "per cominciare" = 1; "dopo/poi" = mandata successiva alla precedente; se non specificato usa quella tipica della categoria (antipasti 1, primi 2, secondi 3, dessert 4). Richieste come "diviso in 2", "senza aglio", "ben cotto" vanno in note (altrimenti stringa vuota). Quantità in lettere convertite in numero.`}],true);
+    const a=JSON.parse(out.slice(out.indexOf('['),out.lastIndexOf(']')+1));
+    const L=a.map(x=>({mi:state.menu.find(m=>m.id===Number(x.id)),qty:Math.max(1,parseInt(x.qty,10)||1),m:[0,1,2,3,4].includes(Number(x.mandata))?Number(x.mandata):1,note:String(x.note||'').trim()})).filter(l=>l.mi);
+    if(!L.length)return alert('Non ho capito nessun piatto. Ho sentito: "'+txt+'"');
+    if(!confirm('Ho capito:\n'+L.map(l=>`${l.qty}x ${l.mi.name}${l.note?' ('+l.note+')':''} — ${MANDATE_LABELS[l.m]}`).join('\n')+'\n\nAggiungo alla comanda?'))return;
+    if(!t.items)t.items=[];if(!t.items.length||!t.openedAt)t.openedAt=Date.now();
+    L.forEach(l=>{const ex=t.items.find(i=>i.menuId===l.mi.id&&i.mandata===l.m&&!i.note&&!isItemSent(t,i));if(ex&&!l.note)ex.qty+=l.qty;else t.items.push({lineId:Date.now()+Math.random(),menuId:l.mi.id,cat:l.mi.cat,name:l.mi.name,price:l.mi.price,qty:l.qty,mandata:l.m,waiter:state.waiterName||'Staff',note:l.note,sent:false});});
+    saveLocalOnly();renderOrderScreen();
+  }catch(e){alert('Comanda vocale non riuscita: '+e.message);}
+  finally{btn.textContent='🎤 Detta comanda';}
 }
 
 initApp();
