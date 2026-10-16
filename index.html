@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v60 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v61 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -149,7 +149,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v60 Slim AI</div>
+    <div class="version-badge">v61 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -250,7 +250,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v60 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v61 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -264,7 +264,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v60 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v61 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -583,7 +583,7 @@ function renderMenuGrid(){
   state.menu.filter(i=>q.length>0?(i.name.toLowerCase().includes(q)||i.cat.toLowerCase().includes(q)):i.cat===state.currentCategory).forEach(item=>{
     const c=document.createElement('div');c.className='menu-item';
     c.onclick=()=>{if(Date.now()-(window._lpFired||0)<900)return;if(navigator.vibrate)try{navigator.vibrate(20);}catch(e){}const b=document.createElement('span');b.className='tap-badge';b.textContent='+1';c.appendChild(b);setTimeout(()=>b.remove(),450);if(item.soldOut||stockLeft(item)===0)return alert('⛔ '+item.name+' è ESAURITO');addItemToTable(item);};
-    c.style.opacity=item.soldOut?0.45:1;c.innerHTML=`${item.soldOut?'<div style="font-size:0.65rem;font-weight:900;color:#B91C1C;">⛔ ESAURITO</div>':''}<div class="item-name">${item.name}</div><div class="item-price">${formatPrice(item.price)} €</div>${(()=>{const l=stockLeft(item);return l!==null&&l>0?`<div style="font-size:0.68rem;font-weight:800;color:#065F46;">${l} rimasti</div>`:'';})()}`;let lp;c.addEventListener('touchstart',()=>{lp=setTimeout(()=>{window._lpFired=Date.now();toggleSoldOut(item.id);},700);},{passive:true});['touchend','touchmove','touchcancel'].forEach(ev=>c.addEventListener(ev,()=>clearTimeout(lp)));g.appendChild(c);
+    c.style.opacity=item.soldOut?0.45:1;c.innerHTML=`${item.soldOut?'<div style="font-size:0.65rem;font-weight:900;color:#B91C1C;">⛔ ESAURITO</div>':''}<div class="item-name">${item.name}</div><div class="item-price">${formatPrice(item.price)} €</div>${(()=>{const l=stockLeft(item);return l!==null&&l>0?`<div style="font-size:0.68rem;font-weight:800;color:#065F46;">${l} rimasti</div>`:'';})()}`;let lp;c.addEventListener('touchstart',()=>{lp=setTimeout(()=>{window._lpFired=Date.now();itemActions(item.id);},700);},{passive:true});['touchend','touchmove','touchcancel'].forEach(ev=>c.addEventListener(ev,()=>clearTimeout(lp)));g.appendChild(c);
   });
 }
 function addItemToTable(mi){const t=state.tables[state.activeTableId];if(!t.items)t.items=[];if(!t.items.length||!t.openedAt)t.openedAt=Date.now();const m=state.currentMandata,ex=t.items.find(i=>i.menuId===mi.id&&i.mandata===m&&!i.note&&!isItemSent(t,i));if(ex)ex.qty+=1;else t.items.push({lineId:Date.now()+Math.random(),menuId:mi.id,cat:mi.cat,name:mi.name,price:mi.price,qty:1,mandata:m,waiter:state.waiterName||'Staff',note:'',sent:false});saveLocalOnly();renderOrderScreen();}
@@ -1010,6 +1010,28 @@ async function selectKiosk(){
   const v=prompt('PIN di Christian per attivare il terminale timbrature:');if(!v||(await sha(v+'christian'))!==p)return alert('❌ PIN errato');
   state._kioskOk=true;await selectUserRole('Timbrature',false);state._kioskOk=false;switchMainView('time');
 }
+
+
+function itemActions(id){
+  const m=state.menu.find(x=>x.id===id);if(!m)return;
+  if(!/^christian$/i.test((state.waiterName||'').trim()))return toggleSoldOut(id);
+  let ov=document.getElementById('itemActModal');if(!ov){ov=document.createElement('div');ov.id='itemActModal';ov.className='modal-overlay';document.body.appendChild(ov);}
+  ov.innerHTML=`<div class="receipt-box"><h3 style="color:var(--logo-coral);margin-bottom:10px;">✏️ ${escH(m.name)}</h3>
+  <button class="btn-main ${m.soldOut?'btn-print':'btn-bill'}" style="width:100%;margin-bottom:12px;" onclick="closeItemAct();toggleSoldOut(${id})">${m.soldOut?'✅ Rimetti disponibile':'⛔ Segna esaurito'}</button>
+  <div style="font-size:0.8rem;font-weight:800;margin-bottom:4px;">Categoria</div>
+  <select id="iaCat" class="form-control" style="margin-bottom:10px;">${CATEGORIES.map(c=>`<option value="${c}"${c===m.cat?' selected':''}>${c}</option>`).join('')}</select>
+  <div style="font-size:0.8rem;font-weight:800;margin-bottom:4px;">Prezzo (€)</div>
+  <input id="iaPrice" class="form-control" type="number" inputmode="decimal" step="0.5" min="0" value="${m.price}" style="margin-bottom:6px;">
+  <div style="font-size:0.72rem;color:var(--muted);">Il nuovo prezzo vale per i prossimi ordini; quelli già inseriti restano invariati.</div>
+  <div class="modal-actions"><button class="btn-modal" style="background:#10b981;color:#fff;" onclick="saveItemAct(${id})">💾 Salva</button><button class="btn-modal" style="background:#334155;color:#fff;" onclick="closeItemAct()">Chiudi</button></div></div>`;
+  ov.classList.add('active');
+}
+function closeItemAct(){const o=document.getElementById('itemActModal');if(o)o.classList.remove('active');}
+function saveItemAct(id){const m=state.menu.find(x=>x.id===id);if(!m)return;
+  const c=document.getElementById('iaCat').value,p=parseFloat(String(document.getElementById('iaPrice').value).replace(',','.'));
+  if(isNaN(p)||p<0)return alert('Prezzo non valido');
+  m.cat=c;m.price=p;saveState(false,{menu:true});closeItemAct();renderMenuGrid();
+  if(document.getElementById('viewMenuMgr').classList.contains('active'))renderMenuMgr();}
 
 initApp();
 </script>
