@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v54 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v55 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -140,7 +140,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v54 Slim AI</div>
+    <div class="version-badge">v55 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -239,7 +239,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v54 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v55 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -253,7 +253,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v54 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v55 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -813,7 +813,7 @@ async function addTime(emp,type,ts){
   renderTime();
 }
 function punchFor(emp,type){if((state.waiterName||'').toLowerCase().trim()!=='christian')return alert('Le timbrature le registra solo Christian.');addTime(emp,type,Date.now());}
-function addStaffName(){const n=(prompt('Nome del nuovo dipendente:')||'').trim();if(!n)return;const l=JSON.parse(localStorage.getItem('alicetta_staff_extra')||'[]');if(!l.includes(n))l.push(n);localStorage.setItem('alicetta_staff_extra',JSON.stringify(l));renderTime();}
+function addStaffName(){const n=(prompt('Nome del nuovo dipendente:')||'').trim();if(!n)return;const l=JSON.parse(localStorage.getItem('alicetta_staff_extra')||'[]');if(!l.includes(n))l.push(n);localStorage.setItem('alicetta_staff_hidden',JSON.stringify(JSON.parse(localStorage.getItem('alicetta_staff_hidden')||'[]').filter(x=>x!==n)));localStorage.setItem('alicetta_staff_extra',JSON.stringify(l));renderTime();}
 async function delTime(id){if(!confirm('Eliminare questa timbratura?'))return;const bk=state.timeLog[id];delete state.timeLog[id];await saveState(false,{time:[id]});if(!state.lastPushOk)alert('📴 Offline: eliminazione in coda.');renderTime();}
 function addTimeManual(){
   const e=(prompt('Nome dipendente:')||'').trim();if(!e)return;
@@ -832,11 +832,11 @@ function renderTime(){
   const me=(state.waiterName||'').trim(),own=me.toLowerCase()==='christian',sh=buildShifts(),now=Date.now(),td=buildDateISO(),last={};
   sh.forEach(s=>{if(!last[s.emp]||s.in>last[s.emp].in)last[s.emp]=s;});
   const mine=last[me],st=mine&&mine.open?mine.state:'off';
-  const roster=[...new Set(['Christian','Alice','Serena',...JSON.parse(localStorage.getItem('alicetta_staff_extra')||'[]'),...Object.keys(last)])].filter(n=>n&&!/^kds/i.test(n)).sort();
+  const roster=[...new Set(['Christian','Alice','Serena',...JSON.parse(localStorage.getItem('alicetta_staff_extra')||'[]'),...Object.keys(last)])].filter(n=>n&&!/^kds/i.test(n)&&!JSON.parse(localStorage.getItem('alicetta_staff_hidden')||'[]').includes(n)).sort();
   let h='';
   if(own){
     h+=`<div class="cart-section"><h3>🕒 Timbratura dipendenti</h3><div style="font-size:0.78rem;color:var(--muted);margin:4px 0 8px;">Solo tu puoi registrare entrata, pausa e uscita.</div>`+roster.map(n=>{const s=last[n],ss=s&&s.open?s.state:'off';
-      return `<div style="padding:8px 0;border-bottom:1px dashed var(--border);"><div style="font-weight:800;margin-bottom:6px;">${n} — ${ss==='off'?'⚪ fuori servizio':ss==='work'?'🟢 in servizio dalle '+hmin(s.in)+' · '+fmtH(s.work):'🟠 in pausa'}</div><div style="display:flex;gap:6px;">`+
+      return `<div style="padding:8px 0;border-bottom:1px dashed var(--border);"><div style="font-weight:800;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:6px;"><span>${n} — ${ss==='off'?'⚪ fuori servizio':ss==='work'?'🟢 in servizio dalle '+hmin(s.in)+' · '+fmtH(s.work):'🟠 in pausa'}</span><button class="btn-qty" style="width:auto;padding:0 10px;" title="Rimuovi dipendente" onclick="removeStaff('${n}')">🗑️</button></div><div style="display:flex;gap:6px;">`+
       (ss==='off'?`<button class="btn-main btn-bill" onclick="punchFor('${n}','in')">▶️ ENTRATA</button>`:ss==='work'?`<button class="btn-main btn-print" onclick="punchFor('${n}','bstart')">☕ PAUSA</button><button class="btn-main btn-bill" onclick="punchFor('${n}','out')">🏁 USCITA</button>`:`<button class="btn-main btn-print" onclick="punchFor('${n}','bend')">▶️ FINE PAUSA</button><button class="btn-main btn-bill" onclick="punchFor('${n}','out')">🏁 USCITA</button>`)+`</div></div>`;}).join('')+`<button class="btn-note" style="margin-top:10px;" onclick="addStaffName()">➕ Nuovo dipendente</button></div>`;
   }else{
     h+=`<div class="cart-section"><h3>🕒 Le tue presenze — ${me||'?'}</h3><div style="margin:6px 0;font-weight:800;">${st==='off'?'⚪ Non in servizio':st==='work'?'🟢 In servizio dalle '+hmin(mine.in)+' · '+fmtH(mine.work):'🟠 In pausa'}</div><div style="font-size:0.78rem;color:var(--muted);">Le timbrature le registra Christian in sede.</div></div>`;
@@ -965,6 +965,14 @@ async function editSeats(){const cur=Object.values(state.tables).filter(t=>t.roo
   const v=prompt('Posti per tavolo, es. 1:4,2:2,E1:6 (se manca vale 4):',cur);if(v===null)return;state.seats={};
   v.split(',').forEach(p=>{const [k,n]=p.split(':').map(x=>(x||'').trim().toUpperCase());if(!k||!n)return;const id=k.startsWith('E')?'EST_'+k.slice(1):'INT_'+k;if(state.tables[id])state.seats[id]=parseInt(n,10)||4;});
   await saveState(false,{seats:true});alert('✅ Posti salvati');}
+
+
+function removeStaff(n){
+  const s=buildShifts().filter(x=>x.emp===n&&x.open);if(s.length)return alert(n+' risulta in servizio: registra prima l\'USCITA.');
+  if(!confirm('Rimuovere '+n+' dall\'elenco? Le ore già registrate restano nei report.'))return;
+  const hd=JSON.parse(localStorage.getItem('alicetta_staff_hidden')||'[]');if(!hd.includes(n))hd.push(n);localStorage.setItem('alicetta_staff_hidden',JSON.stringify(hd));
+  localStorage.setItem('alicetta_staff_extra',JSON.stringify(JSON.parse(localStorage.getItem('alicetta_staff_extra')||'[]').filter(x=>x!==n)));renderTime();
+}
 
 initApp();
 </script>
