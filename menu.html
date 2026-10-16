@@ -364,6 +364,12 @@ async function loadLiveMenu(){
   }catch(e){console.error(e);}
 }
 loadLiveMenu();setInterval(loadLiveMenu,60000);
+const REVIEW_URL='https://g.page/r/CU8mTr5r3HReEBM/review';
+(function(){const hd=document.querySelector('header');if(!hd)return;const a=document.createElement('a');
+a.href=REVIEW_URL.startsWith('http')?REVIEW_URL:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('Alicetta Trattoria');
+a.target='_blank';a.rel='noopener';a.style.cssText='display:block;margin:10px auto 0;max-width:320px;text-align:center;background:#FF5733;color:#fff;font-weight:800;padding:12px 14px;border-radius:10px;text-decoration:none;';hd.append(a);
+const RL={it:'⭐ Lascia una recensione su Google',en:'⭐ Leave us a Google review',fr:'⭐ Laissez-nous un avis Google',de:'⭐ Bewerten Sie uns auf Google',es:'⭐ Déjanos una reseña en Google'};
+const upd=()=>{a.textContent=RL[document.getElementById('language').value]||RL.it;};upd();document.getElementById('language').addEventListener('change',upd);})();
 </script>
 </body>
 </html>
