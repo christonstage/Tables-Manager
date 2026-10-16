@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v57 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v58 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -149,7 +149,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v57 Slim AI</div>
+    <div class="version-badge">v58 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -249,7 +249,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v57 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v58 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -263,7 +263,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v57 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v58 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -986,16 +986,16 @@ function removeStaff(n){
 
 
 function renderResBoard(id){const el=document.getElementById(id);if(!el)return;const td=buildDateISO(),now=Date.now();
-  const L=Object.values(state.res||{}).filter(r=>r.date===td&&r.status!=='cancellata');
-  const late=L.filter(r=>r.status==='attesa'&&now>resTs(r)).sort((a,b)=>resTs(a)-resTs(b));
-  const arr=L.filter(r=>r.status==='arrivato').sort((a,b)=>(b.arrivedAt||0)-(a.arrivedAt||0)).slice(0,8);
-  if(!late.length&&!arr.length){el.innerHTML='';return;}
+  const L=Object.values(state.res||{}).filter(r=>r.date===td&&r.status!=='cancellata').sort((a,b)=>resTs(a)-resTs(b));
+  if(!L.length){el.innerHTML='';return;}
   const tb=r=>(r.tables||[]).map(tname).join(' + ')||'—',nt=r=>r.note?' · 📝 '+escH(r.note):'';
-  el.innerHTML='<div class="cart-section" style="margin-bottom:10px;"><div style="font-weight:800;margin-bottom:6px;">📅 Prenotazioni di oggi</div>'+
-    late.map(r=>`<div style="padding:4px 0;font-size:0.86rem;color:#B91C1C;font-weight:800;">⏰ IN RITARDO +${Math.floor((now-resTs(r))/60000)}' · ${escH(r.time)} · ${escH(r.name)} · ${r.covers}p · 🪑 ${tb(r)}${nt(r)}</div>`).join('')+
-    arr.map(r=>`<div style="padding:4px 0;font-size:0.86rem;color:#065F46;font-weight:700;">✅ Arrivati${r.arrivedAt?' alle '+hmin(r.arrivedAt):''} · ${escH(r.name)} · ${r.covers}p · 🪑 ${tb(r)}${nt(r)}</div>`).join('')+'</div>';}
-
-
+  const cov=L.reduce((s,r)=>s+(Number(r.covers)||0),0),arrN=L.filter(r=>r.status==='arrivato').length;
+  el.innerHTML=`<div class="cart-section" style="margin-bottom:10px;"><div style="font-weight:800;margin-bottom:6px;">📅 Prenotazioni di oggi: ${L.length} · ${cov} coperti · ${arrN} arrivati</div>`+L.map(r=>{
+    const d=Math.round((resTs(r)-now)/60000),base=`${escH(r.time)} · ${escH(r.name)} · ${r.covers}p · 🪑 ${tb(r)}${nt(r)}`;
+    if(r.status==='arrivato')return `<div style="padding:4px 0;font-size:0.86rem;color:#065F46;font-weight:700;">✅ ${base} · arrivati${r.arrivedAt?' alle '+hmin(r.arrivedAt):''}</div>`;
+    if(d<0)return `<div style="padding:4px 0;font-size:0.86rem;color:#B91C1C;font-weight:900;">⏰ IN RITARDO +${-d}' · ${base}</div>`;
+    if(d<=30)return `<div style="padding:4px 0;font-size:0.86rem;color:#C2410C;font-weight:800;">🔜 tra ${d} min · ${base}</div>`;
+    return `<div style="padding:4px 0;font-size:0.86rem;color:#1F2937;">🕒 ${base}</div>`;}).join('')+'</div>';}
 const BOMB_SVG='<svg class="kds-bomb" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="28" cy="38" r="20" fill="#111"/><circle cx="20" cy="30" r="5" fill="#666"/><rect x="33" y="15" width="11" height="9" rx="2" fill="#333" transform="rotate(35 38 19)"/><path d="M42 15 Q47 4 56 8" stroke="#A16207" stroke-width="3" fill="none" stroke-linecap="round"/><g class="spark" style="transform-origin:56px 8px"><circle cx="56" cy="8" r="6" fill="#F97316"/><circle cx="56" cy="8" r="3" fill="#FDE047"/><path d="M56 0v3M56 13v3M48 8h3M61 8h3M50 2l2 2M62 2l-2 2M50 14l2-2M62 14l-2-2" stroke="#FACC15" stroke-width="2" stroke-linecap="round"/></g></svg>';
 
 initApp();
