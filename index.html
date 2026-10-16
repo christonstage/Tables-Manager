@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v62 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v63 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -149,7 +149,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v62 Slim AI</div>
+    <div class="version-badge">v63 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -250,7 +250,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v62 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v63 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -264,7 +264,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v62 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v63 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -867,7 +867,7 @@ function renderTime(){
     const ev=Object.entries(state.timeLog||{}).map(([id,e])=>({id,...e})).sort((a,b)=>b.ts-a.ts).slice(0,12).map(e=>`<div style="display:flex;justify-content:space-between;align-items:center;font-size:0.78rem;padding:3px 0;"><span>${new Date(e.ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})} · <b>${e.emp}</b> · ${TT[e.type]}</span><button class="btn-qty" onclick="delTime('${e.id}')">✕</button></div>`).join('');
     h+=`<div class="cart-section"><h3 style="margin-bottom:8px;">📊 Report ore lavorate</h3><div class="rep-tabs">${[['daily','🌙 Oggi'],['monthly','📅 Mese'],['yearly','📆 Anno']].map(([k,l])=>`<div class="rep-tab ${per===k?'active':''}" onclick="setTimePeriod('${k}')">${l}</div>`).join('')}</div>
     <table style="width:100%;font-size:0.82rem;border-collapse:collapse;"><tr style="text-align:left;"><th>Dipendente</th><th>Turni</th><th>Ore</th><th>Pausa</th></tr>${Object.entries(agg).map(([e,a])=>`<tr style="border-top:1px dashed var(--border);"><td><b>${e}</b></td><td>${a.n}</td><td>${fmtH(a.w)}</td><td>${fmtH(a.b)}</td></tr>`).join('')||'<tr><td colspan="4">Nessun dato</td></tr>'}<tr style="border-top:2px solid var(--border);font-weight:800;"><td>Totale</td><td></td><td>${fmtH(tot)}</td><td></td></tr></table>
-    <div style="display:flex;gap:6px;margin:10px 0;"><button class="btn-note" onclick="exportTimeCSV()">⬇️ Esporta CSV</button><button class="btn-note" onclick="addTimeManual()">➕ Correzione manuale</button></div>
+    <div style="display:flex;gap:6px;margin:10px 0;"><button class="btn-note" onclick="exportTimeCSV()">⬇️ Esporta CSV</button><button class="btn-note" onclick="addTimeManual()">➕ Correzione manuale</button><button class="btn-note" onclick="importOct2026()">📥 Importa 1–15 ott</button></div>
     <div style="font-size:0.75rem;font-weight:800;margin-bottom:4px;">Ultime timbrature:</div>${ev||'<div style="font-size:0.78rem;">Nessuna</div>'}</div>`;
   }
   el.innerHTML=h;
@@ -1031,6 +1031,26 @@ function saveItemAct(id){const m=state.menu.find(x=>x.id===id);if(!m)return;
   if(isNaN(p)||p<0)return alert('Prezzo non valido');
   m.cat=c;m.price=p;saveState(false,{menu:true});closeItemAct();renderMenuGrid();
   if(document.getElementById('viewMenuMgr').classList.contains('active'))renderMenuMgr();}
+
+
+async function importOct2026(){
+  if(!/^christian$/i.test((state.waiterName||'').trim()))return;
+  if(!confirm('Importare le timbrature dal 1 al 15 ottobre 2026 di Serena, Giovanni e Deloyer? Puoi ripetere l\'importazione senza creare doppioni.'))return;
+  const D={
+    Serena:[[1,'18:30','22:02',0],[2,'18:29','23:52',0],[3,'10:01','23:58',152],[4,'11:00','22:46',0],[6,'18:02','23:27',0],[8,'18:29','22:34',0],[9,'18:32','22:39',0],[10,'11:01','22:11',265],[11,'11:04','22:07',169],[14,'18:00','22:21',0],[15,'18:30','21:43',0]],
+    Giovanni:[[1,'18:28','22:02',0],[2,'18:29','23:46',0],[3,'09:57','23:27',146],[4,'10:09','23:00',0],[6,'16:01','23:04',0],[8,'18:31','22:38',0],[9,'18:32','22:44',0],[10,'11:00','22:09',276],[11,'11:04','18:40',0],[14,'18:00','22:13',0],[15,'17:58','21:53',0]],
+    Deloyer:[[3,'10:00','20:30',0],[4,'10:00','21:15',0],[6,'16:00','23:00',0],[8,'18:30','23:00',0],[10,'11:00','17:45',0],[11,'11:00','18:15',0],[14,'18:04','22:22',0],[15,'18:00','21:51',0]]
+  };
+  const ts=(d,hm)=>{const [a,b]=hm.split(':').map(Number);return new Date(2026,9,d,a,b).getTime();};
+  state.timeLog=state.timeLog||{};const ids=[];
+  Object.entries(D).forEach(([emp,rows])=>rows.forEach(([d,a,b,br])=>{
+    const k='imp_'+emp+'_'+d,add=(t,x)=>{const id=k+'_'+t;state.timeLog[id]={emp,type:t,ts:x};ids.push(id);};
+    add('in',ts(d,a));if(br){const bs=ts(d,'15:00');add('bstart',bs);add('bend',bs+br*60000);}add('out',ts(d,b));}));
+  const c=state.staffCfg=state.staffCfg||{};c.extra=[...new Set([...(c.extra||[]),...Object.keys(D)])];c.hidden=(c.hidden||[]).filter(x=>!D[x]);
+  await saveState(false,{time:ids,staff:true});
+  alert(state.lastPushOk?'✅ Importate '+ids.length+' timbrature (Serena 68h16, Giovanni 70h25, Deloyer 55h24).':'📴 Offline: le timbrature partiranno appena torna la connessione.');
+  renderTime();
+}
 
 initApp();
 </script>
