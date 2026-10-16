@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v53 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v54 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -140,7 +140,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v53 Slim AI</div>
+    <div class="version-badge">v54 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -149,6 +149,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <button class="btn-top" onclick="toggleFullScreen()" title="Tutto Schermo">⛶</button>
     <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
     <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
+    <button class="btn-top" id="navRes" onclick="switchMainView('res')" style="display:none;">📅</button>
     <button class="btn-top" id="navTime" onclick="switchMainView('time')">🕒</button>
     <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;">Menù</button>
   </div>
@@ -238,19 +239,21 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v53 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v54 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
     </div>
   </div>
+  <div style="margin-bottom:10px;"><button class="btn-note" style="padding:10px 14px;" onclick="toggleStock()">📦 Scorte del giorno</button></div><div id="stockPanel" class="cart-section" style="display:none;"></div>
   <div class="kds-grid" id="kdsContainer"></div>
 </div>
+<div id="viewRes" class="screen"><div id="resContent"></div></div>
 <div id="viewTime" class="screen"><div id="timeContent"></div></div>
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v53 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v54 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -439,7 +442,7 @@ function isTableDelayed(t){if(!t||!t.items||!t.items.length||!t.openedAt||!t.sen
 function tickLiveTimers(){const now=Date.now();state.tk=(state.tk||0)+1;if(state.tk%20===0){checkPace();if(document.getElementById('viewTables').classList.contains('active'))renderTables();else if(document.getElementById('viewKds').classList.contains('active'))renderKds();else if(document.getElementById('viewTime').classList.contains('active'))renderTime();}if(document.getElementById('viewTables').classList.contains('active')){Object.values(state.tables).filter(t=>t.room===state.currentRoom&&t.items&&t.items.length>0).forEach(t=>{const el=document.getElementById('timer_'+t.id);if(el&&t.openedAt)el.textContent="⏱️ "+formatElapsed(now-t.openedAt);});}else if(document.getElementById('viewKds').classList.contains('active')){Object.values(state.tables).filter(t=>t.sentOnce&&t.items&&t.items.some(i=>isItemSent(t,i))).forEach(t=>{const el=document.getElementById('kds_timer_'+t.id);if(el&&t.openedAt)el.textContent="⏱️ "+formatElapsed(now-t.openedAt);});}}
 async function initApp(){
   const saved=localStorage.getItem(STORAGE_KEY);
-  if(saved){try{const p=JSON.parse(saved);state.tableCounts=p.tableCounts||{interna:11,esterna:5,asporto:5};state.menu=(p.menu&&p.menu.length>0)?p.menu:[...DEFAULT_MENU];state.tables=normalizeTablesStructure(p.tables,state.tableCounts);state.useRawBT=p.useRawBT||false;state.firebaseUrl=p.firebaseUrl||DEFAULT_FIREBASE_URL;state.waiterName=p.waiterName||'';state.lastAlertSignal=p.lastAlertSignal||0;state.lastOrderEvent=p.lastOrderEvent||null;state.lastPagerEvent=p.lastPagerEvent||null;state.historyLog=p.historyLog||[];state.timeLog=p.timeLog||{};state.pins=p.pins||{};state.pinsReady=Object.keys(state.pins).length>0;}catch(e){state.menu=[...DEFAULT_MENU];state.tables=buildDefaultTables(state.tableCounts);}}
+  if(saved){try{const p=JSON.parse(saved);state.tableCounts=p.tableCounts||{interna:11,esterna:5,asporto:5};state.menu=(p.menu&&p.menu.length>0)?p.menu:[...DEFAULT_MENU];state.tables=normalizeTablesStructure(p.tables,state.tableCounts);state.useRawBT=p.useRawBT||false;state.firebaseUrl=p.firebaseUrl||DEFAULT_FIREBASE_URL;state.waiterName=p.waiterName||'';state.lastAlertSignal=p.lastAlertSignal||0;state.lastOrderEvent=p.lastOrderEvent||null;state.lastPagerEvent=p.lastPagerEvent||null;state.historyLog=p.historyLog||[];state.timeLog=p.timeLog||{};state.pins=p.pins||{};state.stock=p.stock||{};state.seats=p.seats||{};state.res=p.res||{};state.pinsReady=Object.keys(state.pins).length>0;}catch(e){state.menu=[...DEFAULT_MENU];state.tables=buildDefaultTables(state.tableCounts);}}
   else{state.menu=[...DEFAULT_MENU];state.tables=buildDefaultTables(state.tableCounts);}
   document.getElementById('chkRawbt').checked=state.useRawBT;
   document.getElementById('firebaseUrlInput').value=state.firebaseUrl;
@@ -461,9 +464,9 @@ async function selectUserRole(name,goKds){
   if(goKds){switchMainView('kds');enableKdsTabletMode();}
 }
 function selectCustomUser(){const v=document.getElementById('customWaiterInput').value.trim();if(!v)return alert("Scrivi un nome");selectUserRole(v,false);}
-function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('btnPager').style.display='block';document.getElementById('navTime').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('navKds').style.display=/^(christian|kds cucina)$/i.test((state.waiterName||'').trim())?'block':'none';}
+function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('btnPager').style.display='block';document.getElementById('navRes').style.display=/^christian$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navTime').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('navKds').style.display=/^(christian|kds cucina)$/i.test((state.waiterName||'').trim())?'block':'none';}
 function updateRoomTabCounts(){document.getElementById('cntInt').textContent=state.tableCounts.interna;document.getElementById('cntEst').textContent=state.tableCounts.esterna;document.getElementById('cntAsp').textContent=state.tableCounts.asporto;document.getElementById('cfgIntCount').value=state.tableCounts.interna;document.getElementById('cfgEstCount').value=state.tableCounts.esterna;document.getElementById('cfgAspCount').value=state.tableCounts.asporto;populateMergeSelectors();}
-function saveLocalOnly(){localStorage.setItem(STORAGE_KEY,JSON.stringify({menu:state.menu,tables:state.tables,tableCounts:state.tableCounts,useRawBT:state.useRawBT,firebaseUrl:state.firebaseUrl,waiterName:state.waiterName,historyLog:state.historyLog,lastAlertSignal:state.lastAlertSignal,lastOrderEvent:state.lastOrderEvent,lastPagerEvent:state.lastPagerEvent,timeLog:state.timeLog||{},pins:state.pins||{}}));}
+function saveLocalOnly(){localStorage.setItem(STORAGE_KEY,JSON.stringify({menu:state.menu,tables:state.tables,tableCounts:state.tableCounts,useRawBT:state.useRawBT,firebaseUrl:state.firebaseUrl,waiterName:state.waiterName,historyLog:state.historyLog,lastAlertSignal:state.lastAlertSignal,lastOrderEvent:state.lastOrderEvent,lastPagerEvent:state.lastPagerEvent,timeLog:state.timeLog||{},pins:state.pins||{},stock:state.stock||{},seats:state.seats||{},res:state.res||{}}));}
 async function saveState(bell,parts){if(bell)state.lastAlertSignal=Date.now();saveLocalOnly();await pushToCloud(parts);if(!state.lastPushOk)addPending(parts);}
 function getCleanFirebaseUrl(){return(state.firebaseUrl||DEFAULT_FIREBASE_URL).trim().replace(/\/$/,"");}
 async function pushToCloud(o){
@@ -476,7 +479,8 @@ async function pushToCloud(o){
     else{
       if(o.tables&&o.tables.length){const tb={};o.tables.forEach(id=>{if(state.tables[id])tb[id]=state.tables[id];});ok=(await send(base+'/tables.json','PATCH',tb)).ok&&ok;}
       if(o.time&&o.time.length){const tm={};o.time.forEach(id=>{tm[id]=state.timeLog[id]===undefined?null:state.timeLog[id];});ok=(await send(base+'/timeLog.json','PATCH',tm)).ok&&ok;}
-      const root={...meta};if(o.menu)root.menu=state.menu;if(o.pins)root.pins=state.pins||{};if(o.history)root.historyLog=state.historyLog;
+      if(o.res&&o.res.length){const rm={};o.res.forEach(id=>{rm[id]=(state.res||{})[id]===undefined?null:state.res[id];});ok=(await send(base+'/res.json','PATCH',rm)).ok&&ok;}
+      const root={...meta};if(o.menu)root.menu=state.menu;if(o.pins)root.pins=state.pins||{};if(o.stock)root.stock=state.stock||{};if(o.seats)root.seats=state.seats||{};if(o.history)root.historyLog=state.historyLog;
       ok=(await send(base+'.json','PATCH',root)).ok&&ok;
     }
     state.lastPushOk=ok;b.textContent=ok?"LIVE":"Err";
@@ -508,8 +512,8 @@ async function pullFromCloud(initial){
       Object.keys((state.pending||{}).tables||{}).forEach(id=>{if(state.tables[id])rt[id]=state.tables[id];});state.tables=rt;
     }
     const pd=state.pending||{};if(data.menu&&data.menu.length>0&&!pd.menu)state.menu=data.menu;
-    if(!pd.history)state.historyLog=data.historyLog||[];{const tl=data.timeLog||{};Object.keys(pd.time||{}).forEach(id=>{if(state.timeLog&&state.timeLog[id]!==undefined)tl[id]=state.timeLog[id];else delete tl[id];});state.timeLog=tl;}if(!pd.pins)state.pins=data.pins||{};
-    saveLocalOnly();updateRoomTabCounts();updateDailyStats();if(document.getElementById('viewTime').classList.contains('active'))renderTime();
+    if(!pd.history)state.historyLog=data.historyLog||[];{const tl=data.timeLog||{};Object.keys(pd.time||{}).forEach(id=>{if(state.timeLog&&state.timeLog[id]!==undefined)tl[id]=state.timeLog[id];else delete tl[id];});state.timeLog=tl;}{const rs=data.res||{};Object.keys(pd.res||{}).forEach(id=>{if(state.res&&state.res[id]!==undefined)rs[id]=state.res[id];else delete rs[id];});state.res=rs;}if(!pd.pins)state.pins=data.pins||{};if(!pd.stock)state.stock=data.stock||{};if(!pd.seats)state.seats=data.seats||{};
+    saveLocalOnly();updateRoomTabCounts();updateDailyStats();if(document.getElementById('viewTime').classList.contains('active'))renderTime();if(document.getElementById('viewRes').classList.contains('active'))renderResList();
     if(document.getElementById('viewTables').classList.contains('active'))renderTables();
     else if(document.getElementById('viewKds').classList.contains('active'))renderKds();
     else if(document.getElementById('viewOrder').classList.contains('active')&&state.activeTableId)renderOrderScreen();
@@ -537,7 +541,7 @@ function populateMergeSelectors(){const f=document.getElementById('mergeFromSel'
 async function executeTableMerge(sId,tId){if(!sId||!tId||sId===tId)return alert("Seleziona due tavoli diversi.");const s=state.tables[sId],t=state.tables[tId];if(!s||!t)return;if(confirm(`Vuoi unire "${s.name}" dentro "${t.name}"?`)){t.items=(t.items||[]).concat(s.items||[]);t.sentOnce=Boolean(t.sentOnce||s.sentOnce||t.items.some(i=>i.sent));if(!t.openedAt)t.openedAt=s.openedAt||Date.now();const sh=s.name.replace(/Tavolo\s*|Esterno\s*|Asporto\s*/i,'');if(!t.name.includes('+'+sh))t.name+='+'+sh;s.items=[];s.openedAt=0;s.sentOnce=false;s.name=s.baseName;await saveState(false,{tables:[sId,tId]});renderTables();alert(`✅ Uniti in: ${t.name}`);}}
 function mergeTablesFromSettings(){executeTableMerge(document.getElementById('mergeFromSel').value,document.getElementById('mergeToSel').value);}
 function quickMergeFromOrder(){const s=state.tables[state.activeTableId],tn=prompt(`Con quale tavolo vuoi unire ${s.name}? (es: Tavolo 2):`);if(!tn)return;const f=Object.values(state.tables).find(t=>t.name.toLowerCase()===tn.trim().toLowerCase());if(!f)return alert("Tavolo non trovato.");executeTableMerge(s.id,f.id).then(()=>openTable(f.id));}
-function switchMainView(v){if(v==='time'&&/^kds cucina$/i.test((state.waiterName||'').trim()))return;if(v==='kds'&&!/^(christian|kds cucina)$/i.test((state.waiterName||'').trim()))return;document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.btn-top').forEach(b=>b.classList.remove('active'));if(v==='tables'){document.getElementById('viewTables').classList.add('active');document.getElementById('navTables').classList.add('active');renderTables();}else if(v==='kds'){document.getElementById('viewKds').classList.add('active');document.getElementById('navKds').classList.add('active');renderKds();}else if(v==='time'){document.getElementById('viewTime').classList.add('active');document.getElementById('navTime').classList.add('active');renderTime();}else if(v==='menuMgr'){document.getElementById('viewMenuMgr').classList.add('active');document.getElementById('navMenu').classList.add('active');renderMenuMgr();updateDailyStats();}}
+function switchMainView(v){if(v==='time'&&/^kds cucina$/i.test((state.waiterName||'').trim()))return;if(v==='kds'&&!/^(christian|kds cucina)$/i.test((state.waiterName||'').trim()))return;document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.btn-top').forEach(b=>b.classList.remove('active'));if(v==='tables'){document.getElementById('viewTables').classList.add('active');document.getElementById('navTables').classList.add('active');renderTables();}else if(v==='kds'){document.getElementById('viewKds').classList.add('active');document.getElementById('navKds').classList.add('active');renderKds();}else if(v==='res'){if(!/^christian$/i.test((state.waiterName||'').trim()))return switchMainView('tables');document.getElementById('viewRes').classList.add('active');document.getElementById('navRes').classList.add('active');renderRes();}else if(v==='time'){document.getElementById('viewTime').classList.add('active');document.getElementById('navTime').classList.add('active');renderTime();}else if(v==='menuMgr'){document.getElementById('viewMenuMgr').classList.add('active');document.getElementById('navMenu').classList.add('active');renderMenuMgr();updateDailyStats();}}
 function selectRoom(r){state.currentRoom=r;document.getElementById('tabInterna').classList.toggle('active',r==='interna');document.getElementById('tabEsterna').classList.toggle('active',r==='esterna');document.getElementById('tabAsporto').classList.toggle('active',r==='asporto');renderTables();}
 function getTableTotal(t){return(!t||!t.items)?0:t.items.reduce((s,i)=>s+(i.price*i.qty),0);}
 function renderTables(){
@@ -548,7 +552,7 @@ function renderTables(){
     const pk=(t.room==='asporto'&&t.pickupTime)?`<div class="pickup-badge">🕒 ${t.pickupTime}</div>`:'';
     const tm=(busy&&t.openedAt)?`<div><span class="table-timer" id="timer_${t.id}">⏱️ ${formatElapsed(now-t.openedAt)}</span></div>`:'';
     const card=document.createElement('div');card.className=`table-card ${busy?'busy':'free'} ${del?'delayed':''}`;card.onclick=()=>openTable(t.id);
-    card.innerHTML=`<div class="delay-skull" style="display:${del?'flex':'none'};">${SKULL_SVG}</div><div class="table-name">${t.name}</div>${pk}<div><span class="table-status ${busy?'status-busy':'status-free'}">${busy?'Occupato':'Libero'}</span></div>${tm}${busy?`<div class="table-total">€ ${formatPrice(tot)}</div>`:`<div style="font-size:0.7rem;opacity:0.8;margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dots}</div>${paceBadge(t)}`;
+    card.innerHTML=`<div class="delay-skull" style="display:${del?'flex':'none'};">${SKULL_SVG}</div><div class="table-name">${t.name}</div>${pk}<div><span class="table-status ${busy?'status-busy':'status-free'}">${busy?'Occupato':'Libero'}</span></div>${tm}${busy?`<div class="table-total">€ ${formatPrice(tot)}</div>`:`<div style="font-size:0.7rem;opacity:0.8;margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dots}</div>${paceBadge(t)}${resBadge(t)}`;
     c.appendChild(card);
   });
 }
@@ -567,8 +571,8 @@ function renderMenuGrid(){
   const g=document.getElementById('menuGrid');g.innerHTML='';const q=(document.getElementById('menuSearch').value||'').trim().toLowerCase();
   state.menu.filter(i=>q.length>0?(i.name.toLowerCase().includes(q)||i.cat.toLowerCase().includes(q)):i.cat===state.currentCategory).forEach(item=>{
     const c=document.createElement('div');c.className='menu-item';
-    c.onclick=()=>{if(Date.now()-(window._lpFired||0)<900)return;if(navigator.vibrate)try{navigator.vibrate(20);}catch(e){}const b=document.createElement('span');b.className='tap-badge';b.textContent='+1';c.appendChild(b);setTimeout(()=>b.remove(),450);if(item.soldOut)return alert('⛔ '+item.name+' è ESAURITO');addItemToTable(item);};
-    c.style.opacity=item.soldOut?0.45:1;c.innerHTML=`${item.soldOut?'<div style="font-size:0.65rem;font-weight:900;color:#B91C1C;">⛔ ESAURITO</div>':''}<div class="item-name">${item.name}</div><div class="item-price">${formatPrice(item.price)} €</div>`;let lp;c.addEventListener('touchstart',()=>{lp=setTimeout(()=>{window._lpFired=Date.now();toggleSoldOut(item.id);},700);},{passive:true});['touchend','touchmove','touchcancel'].forEach(ev=>c.addEventListener(ev,()=>clearTimeout(lp)));g.appendChild(c);
+    c.onclick=()=>{if(Date.now()-(window._lpFired||0)<900)return;if(navigator.vibrate)try{navigator.vibrate(20);}catch(e){}const b=document.createElement('span');b.className='tap-badge';b.textContent='+1';c.appendChild(b);setTimeout(()=>b.remove(),450);if(item.soldOut||stockLeft(item)===0)return alert('⛔ '+item.name+' è ESAURITO');addItemToTable(item);};
+    c.style.opacity=item.soldOut?0.45:1;c.innerHTML=`${item.soldOut?'<div style="font-size:0.65rem;font-weight:900;color:#B91C1C;">⛔ ESAURITO</div>':''}<div class="item-name">${item.name}</div><div class="item-price">${formatPrice(item.price)} €</div>${(()=>{const l=stockLeft(item);return l!==null&&l>0?`<div style="font-size:0.68rem;font-weight:800;color:#065F46;">${l} rimasti</div>`:'';})()}`;let lp;c.addEventListener('touchstart',()=>{lp=setTimeout(()=>{window._lpFired=Date.now();toggleSoldOut(item.id);},700);},{passive:true});['touchend','touchmove','touchcancel'].forEach(ev=>c.addEventListener(ev,()=>clearTimeout(lp)));g.appendChild(c);
   });
 }
 function addItemToTable(mi){const t=state.tables[state.activeTableId];if(!t.items)t.items=[];if(!t.items.length||!t.openedAt)t.openedAt=Date.now();const m=state.currentMandata,ex=t.items.find(i=>i.menuId===mi.id&&i.mandata===m&&!i.note&&!isItemSent(t,i));if(ex)ex.qty+=1;else t.items.push({lineId:Date.now()+Math.random(),menuId:mi.id,cat:mi.cat,name:mi.name,price:mi.price,qty:1,mandata:m,waiter:state.waiterName||'Staff',note:'',sent:false});saveLocalOnly();renderOrderScreen();}
@@ -618,13 +622,13 @@ function closeReceiptModal(){document.getElementById('receiptModal').classList.r
 function freeCurrentTable(){
   const t=state.tables[state.activeTableId];if(!t||!t.items||!t.items.length)return closeTableView();
   if(confirm(`Liberare ${t.name} e salvare nel registro incassi?`)){
-    state.historyLog.push({tableName:t.name,total:getTableTotal(t),coperti:t.items.filter(i=>i.name==='Pane e Coperto').reduce((s,c)=>s+c.qty,0),items:JSON.parse(JSON.stringify(t.items)),time:buildTimeStr(),date:buildDateISO(),closedEvening:false,opened:t.openedAt||0,fired:t.firedAt||{},done:t.doneAt||{}});
+    state.historyLog.push({tableName:t.name,total:getTableTotal(t),coperti:t.items.filter(i=>i.name==='Pane e Coperto').reduce((s,c)=>s+c.qty,0),items:JSON.parse(JSON.stringify(t.items)),time:buildTimeStr(),date:buildDateISO(),closedEvening:false,ts:Date.now(),opened:t.openedAt||0,fired:t.firedAt||{},done:t.doneAt||{}});
     t.items=[];t.openedAt=0;t.pickupTime='';t.customerName='';t.name=t.baseName;t.firedMandate={1:false,2:false,3:false,4:false};t.doneMandate={1:false,2:false,3:false,4:false};t.doneAt={};t.firedAt={};t.sentOnce=false;
     saveState(false,{tables:[t.id],history:true});closeTableView();updateDailyStats();
   }
 }
 function markMandataDone(id,m){const t=state.tables[id];if(!t)return;t.doneMandate[m]=!t.doneMandate[m];(t.doneAt=t.doneAt||{})[m]=t.doneMandate[m]?Date.now():0;saveState(false,{tables:[id]});renderKds();}
-function renderKds(){
+function renderKds(){syncStockSoldOut();if(document.getElementById('stockPanel').style.display!=='none')renderStock();
   const c=document.getElementById('kdsContainer');c.innerHTML='';const now=Date.now(),act=Object.values(state.tables).filter(t=>t.sentOnce&&t.items&&t.items.some(i=>isItemSent(t,i)));
   if(!act.length){c.innerHTML='<div style="color:var(--muted);font-weight:700;">Nessuna comanda inviata in cucina.</div>';return;}
   act.forEach(t=>{
@@ -725,7 +729,7 @@ function getFilteredHistory(){const log=state.historyLog||[],td=buildDateISO();i
 function computeStatsData(){const l=getFilteredHistory();let rev=0,cop=0,cnt={},rbd={};l.forEach(e=>{rev+=(Number(e.total)||0);cop+=(Number(e.coperti)||0);(e.items||[]).forEach(it=>{if(it.name!=='Pane e Coperto'){cnt[it.name]=(cnt[it.name]||0)+(Number(it.qty)||0);rbd[it.name]=(rbd[it.name]||0)+((Number(it.price)||0)*(Number(it.qty)||0));}});});return{countTables:l.length,rev,cop,ranking:Object.entries(cnt).sort((a,b)=>b[1]-a[1]),revByDish:rbd};}
 function updateDailyStats(){const c=document.getElementById('dailyStats');if(!c)return;const st=computeStatsData(),lb=state.reportPeriod==='daily'?'FINE SERATA':state.reportPeriod==='monthly'?'MENSILE':'ANNUALE';if(!st.countTables){c.innerHTML=`<b>[${lb}]</b><br>Nessun tavolo registrato.`;return;}c.innerHTML=`<div style="font-weight:800;color:var(--logo-coral);margin-bottom:4px;">📌 REPORT ${lb}</div>• <b>Tavoli Chiusi:</b> ${st.countTables} | <b>Coperti:</b> ${st.cop} | <b>Incasso:</b> € ${formatPrice(st.rev)}<hr style="margin:6px 0;border:none;border-top:1px dashed var(--border);"><b>🏆 Classifica Vendite:</b><br>${st.ranking.map((d,i)=>`${i+1}. <b>${d[1]}x</b> ${d[0]} (€${formatPrice(st.revByDish[d[0]])})`).join('<br>')}`;}
 function printStatsReport(){const st=computeStatsData(),ESC="\x1B",GS="\x1D";let pv=`REPORT ALICETTA\nTavoli: ${st.countTables} - Coperti: ${st.cop}\nINCASSO: EUR ${formatPrice(st.rev)}\n------------------\n`;st.ranking.forEach((d,i)=>{pv+=`${i+1}. ${d[1]}x ${d[0].substring(0,22)} (EUR ${formatPrice(st.revByDish[d[0]])})\n`;});dispatchPrint(pv,ESC+"@"+pv+"\n\n\n"+GS+"V\x42\x00");}
-async function resetCurrentEvening(){if(confirm("Chiudere la serata e liberare i tavoli?")){Object.values(state.tables).forEach(t=>{if(t.items&&t.items.length){state.historyLog.push({tableName:t.name,total:getTableTotal(t),coperti:t.items.filter(i=>i.name==='Pane e Coperto').reduce((s,c)=>s+c.qty,0),items:JSON.parse(JSON.stringify(t.items)),time:buildTimeStr(),date:buildDateISO(),closedEvening:true,opened:t.openedAt||0,fired:t.firedAt||{},done:t.doneAt||{}});t.items=[];t.openedAt=0;t.pickupTime='';t.customerName='';t.name=t.baseName;t.firedMandate={1:false,2:false,3:false,4:false};t.doneMandate={1:false,2:false,3:false,4:false};t.doneAt={};t.firedAt={};t.sentOnce=false;}});(state.historyLog||[]).forEach(e=>{e.closedEvening=true;});await saveState(false);renderTables();updateDailyStats();}}
+async function resetCurrentEvening(){if(confirm("Chiudere la serata e liberare i tavoli?")){Object.values(state.tables).forEach(t=>{if(t.items&&t.items.length){state.historyLog.push({tableName:t.name,total:getTableTotal(t),coperti:t.items.filter(i=>i.name==='Pane e Coperto').reduce((s,c)=>s+c.qty,0),items:JSON.parse(JSON.stringify(t.items)),time:buildTimeStr(),date:buildDateISO(),closedEvening:true,ts:Date.now(),opened:t.openedAt||0,fired:t.firedAt||{},done:t.doneAt||{}});t.items=[];t.openedAt=0;t.pickupTime='';t.customerName='';t.name=t.baseName;t.firedMandate={1:false,2:false,3:false,4:false};t.doneMandate={1:false,2:false,3:false,4:false};t.doneAt={};t.firedAt={};t.sentOnce=false;}});(state.historyLog||[]).forEach(e=>{e.closedEvening=true;});await saveState(false);renderTables();updateDailyStats();}}
 async function resetAllHistory(){if(confirm("⚠️ Azzerare TUTTO lo storico?")){state.historyLog=[];await saveState(false,{history:true});updateDailyStats();}}
 function toggleRawbtSetting(){state.useRawBT=document.getElementById('chkRawbt').checked;saveLocalOnly();}
 function renderMenuMgr(){const l=document.getElementById('menuMgrList');if(!l)return;document.getElementById('menuCountLbl').textContent=state.menu.length;l.innerHTML='';state.menu.forEach(it=>{const r=document.createElement('div');r.className='cart-row';r.innerHTML=`<div style="flex:1;font-size:0.82rem;"><b>[${it.cat}]</b> ${it.name} — <span style="color:var(--logo-coral);font-weight:800;">${formatPrice(it.price)}€</span></div><div class="cart-controls"><button class="btn-note" onclick="toggleSoldOut(${it.id})">${it.soldOut?'✅':'⛔'}</button><button class="btn-note" onclick="editMenuItem(${it.id})">✏️</button><button class="btn-qty" onclick="deleteMenuItem(${it.id})">🗑️</button></div>`;l.appendChild(r);});}
@@ -855,13 +859,13 @@ function renderTime(){
 
 function loadPending(){try{state.pending=JSON.parse(localStorage.getItem('alicetta_pending')||'{}')||{};}catch(e){state.pending={};}state.pending.tables=state.pending.tables||{};state.pending.time=state.pending.time||{};}
 function savePending(){localStorage.setItem('alicetta_pending',JSON.stringify(state.pending));}
-function addPending(o){const p=state.pending||(state.pending={tables:{},time:{}});if(!o||o.full)p.full=true;else{(o.tables||[]).forEach(id=>p.tables[id]=1);(o.time||[]).forEach(id=>p.time[id]=1);if(o.menu)p.menu=true;if(o.history)p.history=true;if(o.pins)p.pins=true;}p.meta=true;savePending();}
-function pendingCount(){const p=state.pending||{};return Object.keys(p.tables||{}).length+Object.keys(p.time||{}).length+(p.menu?1:0)+(p.history?1:0)+(p.pins?1:0)+(p.full?1:0)+(p.meta?1:0);}
+function addPending(o){const p=state.pending||(state.pending={tables:{},time:{}});if(!o||o.full)p.full=true;else{(o.tables||[]).forEach(id=>p.tables[id]=1);(o.time||[]).forEach(id=>p.time[id]=1);(o.res||[]).forEach(id=>(p.res=p.res||{})[id]=1);if(o.stock)p.stock=true;if(o.seats)p.seats=true;if(o.menu)p.menu=true;if(o.history)p.history=true;if(o.pins)p.pins=true;}p.meta=true;savePending();}
+function pendingCount(){const p=state.pending||{};return Object.keys(p.tables||{}).length+Object.keys(p.time||{}).length+Object.keys(p.res||{}).length+(p.stock?1:0)+(p.seats?1:0)+(p.menu?1:0)+(p.history?1:0)+(p.pins?1:0)+(p.full?1:0)+(p.meta?1:0);}
 async function flushPending(){
   const p=state.pending;if(!p||state.pushing>0||!pendingCount())return;
-  const tk=Object.keys(p.time||{}),parts=p.full?undefined:{tables:Object.keys(p.tables),time:tk,menu:!!p.menu,history:!!p.history,pins:!!p.pins};
+  const tk=Object.keys(p.time||{}),parts=p.full?undefined:{tables:Object.keys(p.tables),time:tk,menu:!!p.menu,history:!!p.history,pins:!!p.pins,stock:!!p.stock,seats:!!p.seats,res:Object.keys(p.res||{})};
   await pushToCloud(parts);let ok=state.lastPushOk;
-  if(ok&&p.full&&tk.length){await pushToCloud({time:tk});ok=state.lastPushOk;}
+  if(ok&&p.full&&(tk.length||Object.keys(p.res||{}).length)){await pushToCloud({time:tk,res:Object.keys(p.res||{})});ok=state.lastPushOk;}
   if(ok){state.pending={tables:{},time:{}};savePending();}else document.getElementById('syncIndicator').textContent='Off · '+pendingCount();
 }
 function toggleSoldOut(id){const m=state.menu.find(x=>x.id===id);if(!m)return;if(!confirm((m.soldOut?'Rimettere DISPONIBILE':'Segnare ESAURITO')+': '+m.name+'?'))return;m.soldOut=!m.soldOut;saveState(false,{menu:true});renderMenuGrid();if(document.getElementById('viewMenuMgr').classList.contains('active'))renderMenuMgr();}
@@ -910,6 +914,57 @@ async function connectDevice(){
   try{await getFbToken();alert('✅ Dispositivo collegato. Ricarico la pagina...');location.reload();}
   catch(e){localStorage.removeItem('alicetta_fbauth');alert('❌ Collegamento non riuscito: '+e.message);}
 }
+
+
+const escH=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+/* ---------- SCORTE ---------- */
+function soldSince(id,since){let q=0;Object.values(state.tables).forEach(t=>(t.items||[]).forEach(i=>{if(i.menuId===id&&isItemSent(t,i))q+=Number(i.qty)||0;}));(state.historyLog||[]).forEach(e=>{if((e.ts||0)>=since)(e.items||[]).forEach(i=>{if(i.menuId===id)q+=Number(i.qty)||0;});});return q;}
+function stockLeft(m){const s=(state.stock||{})[m.id];return s?Math.max(0,s.start-soldSince(m.id,s.setAt)):null;}
+function syncStockSoldOut(){let ch=false;(state.menu||[]).forEach(m=>{const l=stockLeft(m);if(l===null)return;const so=l<=0;if(!!m.soldOut!==so){m.soldOut=so;ch=true;}});if(ch)saveState(false,{menu:true});}
+function setStock(id,n){state.stock=state.stock||{};const m=state.menu.find(x=>x.id===id);if(n===null){delete state.stock[id];if(m)m.soldOut=false;}else state.stock[id]={start:Math.max(0,n),setAt:Date.now()};saveState(false,{stock:true,menu:n===null});renderStock();syncStockSoldOut();}
+function adjStock(id,d){const s=(state.stock||{})[id];if(!s)return setStock(id,Math.max(0,d));s.start=Math.max(0,s.start+d);saveState(false,{stock:true});renderStock();syncStockSoldOut();}
+function askStock(id){const v=prompt('Porzioni disponibili ora (lascia vuoto = senza limite):');if(v===null)return;setStock(id,v.trim()===''?null:(parseInt(v,10)||0));}
+function toggleStock(){const p=document.getElementById('stockPanel');p.style.display=p.style.display==='none'?'block':'none';if(p.style.display==='block')renderStock();}
+function renderStock(){const p=document.getElementById('stockPanel');if(!p)return;const items=(state.menu||[]).filter(m=>['3 Antipasti','4 Primi Piatti','5 Secondi','6 Desserts'].includes(m.cat));
+  p.innerHTML='<h3 style="margin-bottom:6px;">📦 Scorte del giorno</h3><div style="font-size:0.75rem;color:var(--muted);margin-bottom:6px;">Tocca il numero per impostare le porzioni. A zero il piatto diventa esaurito in cassa e sul menù QR.</div>'+items.map(m=>{const l=stockLeft(m),s=(state.stock||{})[m.id];return `<div class="cart-row"><div class="cart-info"><b>${escH(m.name)}</b></div><div class="cart-controls"><button class="btn-qty" onclick="adjStock(${m.id},-1)">-</button><button class="btn-note" style="min-width:70px;${l===0?'background:#FEE2E2;color:#991B1B;':''}" onclick="askStock(${m.id})">${l===null?'∞':l+' / '+s.start}</button><button class="btn-qty" onclick="adjStock(${m.id},1)">+</button></div></div>`;}).join('');}
+/* ---------- PRENOTAZIONI ---------- */
+const RES_WINDOW=120*60000;
+const tname=id=>(state.tables[id]&&state.tables[id].baseName)||id;
+function seatsOf(id){return Number((state.seats||{})[id])||4;}
+function resTs(r){return new Date(r.date+'T'+(r.time||'20:00')).getTime();}
+function busyTables(r){const b=new Set();Object.entries(state.res||{}).forEach(([id,x])=>{if(id===r.id||x.status==='cancellata'||x.date!==r.date)return;if(Math.abs(resTs(x)-resTs(r))<RES_WINDOW)(x.tables||[]).forEach(t=>b.add(t));});
+  if(r.date===buildDateISO()&&Math.abs(resTs(r)-Date.now())<RES_WINDOW)Object.values(state.tables).forEach(t=>{if(t.items&&t.items.length)b.add(t.id);});return b;}
+function suggestTables(r){const busy=busyTables(r),c=Number(r.covers)||2,best=[];
+  ['interna','esterna'].forEach(room=>{const ts=Object.values(state.tables).filter(t=>t.room===room).sort((a,b)=>parseInt(a.id.split('_')[1])-parseInt(b.id.split('_')[1]));
+    for(let i=0;i<ts.length;i++){let sum=0;const grp=[];for(let j=i;j<Math.min(i+3,ts.length);j++){if(busy.has(ts[j].id))break;grp.push(ts[j].id);sum+=seatsOf(ts[j].id);if(sum>=c){best.push({ids:[...grp],seats:sum});break;}}}});
+  best.sort((a,b)=>a.ids.length-b.ids.length||(a.seats-b.seats));return best[0]||null;}
+function resBadge(t){const td=buildDateISO(),now=Date.now();const r=Object.values(state.res||{}).filter(x=>x.date===td&&x.status==='attesa'&&(x.tables||[]).includes(t.id)&&resTs(x)-now<3*3600000&&resTs(x)-now>-3600000).sort((a,b)=>resTs(a)-resTs(b))[0];return r?`<div style="margin-top:6px;font-size:0.72rem;font-weight:800;background:#062329;color:#FACC15;border-radius:6px;padding:3px 6px;">📅 ${escH(r.time)} · ${r.covers}p</div>`:'';}
+function renderRes(){const el=document.getElementById('resContent');if(!el)return;
+  if(!document.getElementById('resForm')){
+    el.innerHTML=`<div class="cart-section" id="resForm"><h3 style="margin-bottom:8px;">📅 Nuova prenotazione</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"><input id="rName" class="form-control" placeholder="Nome"><input id="rPhone" class="form-control" type="tel" placeholder="Telefono"><input id="rDate" class="form-control" type="date"><input id="rTime" class="form-control" type="time" value="20:30"><input id="rCov" class="form-control" type="number" min="1" placeholder="Coperti"><input id="rNote" class="form-control" placeholder="Note (allergie, seggiolone...)"></div><button class="btn-main btn-bill" style="width:100%;margin-top:8px;" onclick="saveRes()">💾 Salva e suggerisci tavolo</button><div style="display:flex;gap:6px;margin-top:10px;align-items:center;"><span style="font-weight:800;font-size:0.85rem;">Giorno:</span><input id="rView" class="form-control" type="date" onchange="renderResList()"><button class="btn-note" onclick="editSeats()">🪑 Posti</button></div></div><div id="resList"></div>`;
+    document.getElementById('rDate').value=buildDateISO();document.getElementById('rView').value=buildDateISO();}
+  renderResList();}
+function renderResList(){const el=document.getElementById('resList');if(!el)return;const d=document.getElementById('rView').value||buildDateISO();
+  const list=Object.entries(state.res||{}).map(([id,r])=>({...r,id})).filter(r=>r.date===d).sort((a,b)=>(a.time||'').localeCompare(b.time||'')),act=list.filter(r=>r.status!=='cancellata');
+  el.innerHTML=`<div class="cart-section"><h3 style="margin-bottom:6px;">Prenotazioni: ${act.length} · ${act.reduce((s,r)=>s+(Number(r.covers)||0),0)} coperti</h3>`+(list.map(r=>{const tb=(r.tables||[]).map(tname).join(' + ');return `<div style="padding:8px 0;border-bottom:1px dashed var(--border);${r.status==='cancellata'?'opacity:0.4;':''}"><b>${escH(r.time)} · ${escH(r.name)} · ${r.covers} pers.</b> ${r.status==='arrivato'?'✅':''}<div style="font-size:0.8rem;color:var(--muted);">${r.phone?'📞 '+escH(r.phone)+' · ':''}${r.note?escH(r.note)+' · ':''}${tb?'🪑 '+tb+((r.tables||[]).length>1?' (da unire)':''):'<span style="color:#B91C1C;">nessun tavolo</span>'}</div><div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;"><button class="btn-note" onclick="assignRes('${r.id}')">🪑 Assegna</button><button class="btn-note" onclick="arriveRes('${r.id}')">✅ Arrivati</button><button class="btn-note" onclick="cancelRes('${r.id}')">${r.status==='cancellata'?'↩️ Ripristina':'✕ Cancella'}</button></div></div>`;}).join('')||'<div style="color:var(--muted);font-size:0.85rem;">Nessuna prenotazione.</div>')+'</div>';}
+async function saveRes(){const g=id=>document.getElementById(id).value.trim();
+  const id='r'+Date.now(),r={id,name:g('rName'),phone:g('rPhone'),date:g('rDate')||buildDateISO(),time:g('rTime')||'20:30',covers:parseInt(g('rCov'),10)||0,note:g('rNote'),status:'attesa',tables:[]};
+  if(!r.name||!r.covers)return alert('Inserisci nome e coperti.');
+  const s=suggestTables(r);
+  if(s){if(confirm(`Tavolo suggerito: ${s.ids.map(tname).join(' + ')} (${s.seats} posti)${s.ids.length>1?'\nDa unire all\'arrivo.':''}\nAssegno?`))r.tables=s.ids;}else alert('Nessun tavolo libero adatto in quella fascia: la salvo senza tavolo.');
+  delete r.id;state.res=state.res||{};state.res[id]=r;await saveState(false,{res:[id]});
+  ['rName','rPhone','rCov','rNote'].forEach(x=>document.getElementById(x).value='');document.getElementById('rView').value=r.date;renderResList();}
+async function assignRes(id){const r={...state.res[id],id},s=suggestTables(r);let ids=null;
+  if(s&&confirm(`Suggerito: ${s.ids.map(tname).join(' + ')} (${s.seats} posti).\nOK = assegna, Annulla = scegli a mano`))ids=s.ids;
+  else{const v=prompt('Tavoli (es: 3 oppure 4+5; esterni: E2):',(r.tables||[]).map(x=>x.startsWith('EST_')?'E'+x.slice(4):x.slice(4)).join('+'));if(v===null)return;ids=v.split('+').map(x=>x.trim().toUpperCase()).filter(Boolean).map(x=>x.startsWith('E')?'EST_'+x.slice(1):'INT_'+x).filter(x=>state.tables[x]);}
+  state.res[id].tables=ids;await saveState(false,{res:[id]});renderResList();}
+async function arriveRes(id){const r=state.res[id];if(!r)return;r.status='arrivato';await saveState(false,{res:[id]});const ids=r.tables||[];
+  for(let i=1;i<ids.length;i++)await executeTableMerge(ids[i],ids[0]);if(ids[0])openTable(ids[0]);else renderResList();}
+async function cancelRes(id){const r=state.res[id];if(!r)return;r.status=r.status==='cancellata'?'attesa':'cancellata';await saveState(false,{res:[id]});renderResList();}
+async function editSeats(){const cur=Object.values(state.tables).filter(t=>t.room!=='asporto').sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true})).map(t=>(t.room==='esterna'?'E':'')+t.id.split('_')[1]+':'+seatsOf(t.id)).join(',');
+  const v=prompt('Posti per tavolo, es. 1:4,2:2,E1:6 (se manca vale 4):',cur);if(v===null)return;state.seats={};
+  v.split(',').forEach(p=>{const [k,n]=p.split(':').map(x=>(x||'').trim().toUpperCase());if(!k||!n)return;const id=k.startsWith('E')?'EST_'+k.slice(1):'INT_'+k;if(state.tables[id])state.seats[id]=parseInt(n,10)||4;});
+  await saveState(false,{seats:true});alert('✅ Posti salvati');}
 
 initApp();
 </script>
