@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v68 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v69 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -148,6 +148,15 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 .marcia-badge{margin-top:6px;background:#F97316;color:#fff;font-weight:900;font-size:.8rem;border-radius:8px;padding:6px;border:2px solid #fff;animation:marciaPulse 1s infinite}
 @keyframes marciaPulse{50%{background:#C2410C;transform:scale(1.05)}}
 .table-card.marcia{box-shadow:0 0 0 4px #F97316,0 0 22px rgba(249,115,22,.8)}
+
+.dot.done{background:#16A34A!important;color:#fff!important}
+.table-card.conto{box-shadow:0 0 0 5px #22C55E,0 0 26px rgba(34,197,94,.9)}
+.conto-badge{margin-top:6px;background:#16A34A;color:#fff;font-weight:900;font-size:.82rem;border-radius:8px;padding:6px;border:2px solid #fff;animation:contoPulse 1.2s infinite}
+@keyframes contoPulse{50%{background:#15803D;transform:scale(1.05)}}
+.conto-banner{background:#16A34A;color:#fff;font-weight:900;text-align:center;border-radius:10px;padding:12px;margin-bottom:12px;font-size:1rem;animation:contoPulse 1.2s infinite}
+.mandata-group.served{background:#DCFCE7;border-radius:10px;padding:8px}
+.st-chip{font-size:.7rem;font-weight:900;padding:3px 8px;border-radius:6px;margin-left:6px;vertical-align:middle}
+.st-done{background:#16A34A;color:#fff}.st-fire{background:#F97316;color:#fff}.st-wait{background:#E5E7EB;color:#374151}.st-draft{background:#FEE2E2;color:#991B1B}
 </style>
 </head>
 <body onclick="unlockAudioOnce()">
@@ -156,7 +165,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v68 Slim AI</div>
+    <div class="version-badge">v69 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -258,7 +267,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v68 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v69 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -272,7 +281,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v68 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v69 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -592,8 +601,8 @@ function renderTables(){renderResBoard('resBoardTables');
     if(busy)[1,2,3,4].forEach(m=>{if(!t.items.some(i=>i.mandata===m&&i.name!=='Pane e Coperto'))return;dots+=t.doneMandate&&t.doneMandate[m]?`<span class="dot done">${m}ª✓</span>`:t.firedMandate&&t.firedMandate[m]?`<span class="dot sent">${m}ª🔥</span>`:`<span class="dot wait">${m}ª...</span>`;});
     const pk=(t.room==='asporto'&&t.pickupTime)?`<div class="pickup-badge">🕒 ${t.pickupTime}</div>`:'';
     const tm=(busy&&t.openedAt)?`<div><span class="table-timer" id="timer_${t.id}">⏱️ ${formatElapsed(now-t.openedAt)}</span></div>`:'';
-    const card=document.createElement('div');card.className=`table-card ${busy?'busy':'free'} ${del?'delayed':''} ${marciaBadge(t)?'marcia':''}`;card.onclick=()=>openTable(t.id);
-    card.innerHTML=`<div class="delay-skull" style="display:${del?'flex':'none'};">${SKULL_SVG}</div><div class="table-name">${t.name}</div>${pk}<div><span class="table-status ${busy?'status-busy':'status-free'}">${busy?'Occupato':'Libero'}</span></div>${tm}${busy?`<div class="table-total">€ ${formatPrice(tot)}</div>`:`<div style="font-size:0.7rem;opacity:0.8;margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dots}</div>${marciaBadge(t)}${paceBadge(t)}${resBadge(t)}`;
+    const card=document.createElement('div');card.className=`table-card ${busy?'busy':'free'} ${del?'delayed':''} ${marciaBadge(t)?'marcia':''} ${allServed(t)?'conto':''}`;card.onclick=()=>openTable(t.id);
+    card.innerHTML=`<div class="delay-skull" style="display:${del?'flex':'none'};">${SKULL_SVG}</div><div class="table-name">${t.name}</div>${pk}<div><span class="table-status ${busy?'status-busy':'status-free'}">${busy?'Occupato':'Libero'}</span></div>${tm}${busy?`<div class="table-total">€ ${formatPrice(tot)}</div>`:`<div style="font-size:0.7rem;opacity:0.8;margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dots}</div>${contoBadge(t)}${marciaBadge(t)}${paceBadge(t)}${resBadge(t)}`;
     c.appendChild(card);
   });
 }
@@ -628,7 +637,7 @@ function renderOrderScreen(){
   const fb=document.getElementById('fireBox'),fc=document.getElementById('fireButtonsContainer');fc.innerHTML='';
   if([2,3,4].some(m=>t.items.some(i=>i.mandata===m))){fb.style.display='block';[2,3,4].forEach(m=>{if(t.items.some(i=>i.mandata===m)){const b=document.createElement('button');b.className=`btn-fire ${t.firedMandate[m]?'fired':''}`;b.textContent=t.firedMandate[m]?`✅ ${m}ª INVIATA`:`🔥 DAI IL VIA ${m}ª`;b.onclick=()=>fireMandataTicket(m);fc.appendChild(b);}});}else fb.style.display='none';
   const cart=document.getElementById('cartContainer');if(!t.items||!t.items.length){cart.innerHTML='<div style="color:var(--muted);font-size:0.85rem;">Nessun articolo inserito.</div>';return;}
-  cart.innerHTML='';[0,1,2,3,4].forEach(m=>{const gi=t.items.filter(i=>i.mandata===m);if(!gi.length)return;const gd=document.createElement('div');gd.className='mandata-group';gd.innerHTML=`<div class="mandata-header"><span>${MANDATE_LABELS[m]}</span><span>${gi.reduce((a,b)=>a+b.qty,0)} pz</span></div>`;gi.forEach(it=>{const r=document.createElement('div');r.className='cart-row';const sb=isItemSent(t,it)?`<span style="font-size:0.65rem;background:#D1FAE5;color:#065F46;padding:1px 5px;border-radius:4px;margin-left:4px;font-weight:800;">Inviato</span>`:`<span style="font-size:0.65rem;background:#FEE2E2;color:#991B1B;padding:1px 5px;border-radius:4px;margin-left:4px;font-weight:800;">Bozza</span>`;r.innerHTML=`<div class="cart-info"><b>${it.qty}x</b> ${it.name} ${sb} <span style="font-size:0.7rem;color:var(--muted);">(${it.waiter||'Staff'})</span>${it.note?`<div><span class="cart-note">✏️ ${it.note}</span></div>`:''}</div><div class="cart-controls"><button class="btn-note" onclick="openNoteModal(${it.lineId})">✏️ Nota</button><button class="btn-qty" onclick="changeItemQty(${it.lineId},-1)">-</button><button class="btn-qty" onclick="changeItemQty(${it.lineId},1)">+</button></div>`;gd.appendChild(r);});cart.appendChild(gd);});
+  cart.innerHTML=allServed(t)?'<div class="conto-banner">💶 TUTTO SERVITO — è il momento del conto</div>':'';[0,1,2,3,4].forEach(m=>{const gi=t.items.filter(i=>i.mandata===m);if(!gi.length)return;const gd=document.createElement('div');gd.className='mandata-group';const ms=mandataStatus(t,m);if(ms==="done")gd.classList.add("served");gd.innerHTML=`<div class="mandata-header"><span>${MANDATE_LABELS[m]} ${m>0?statusChip(ms):""}</span><span>${gi.reduce((a,b)=>a+b.qty,0)} pz</span></div>`;gi.forEach(it=>{const r=document.createElement('div');r.className='cart-row';const sb=isItemSent(t,it)?`<span style="font-size:0.65rem;background:#D1FAE5;color:#065F46;padding:1px 5px;border-radius:4px;margin-left:4px;font-weight:800;">Inviato</span>`:`<span style="font-size:0.65rem;background:#FEE2E2;color:#991B1B;padding:1px 5px;border-radius:4px;margin-left:4px;font-weight:800;">Bozza</span>`;r.innerHTML=`<div class="cart-info"><b>${it.qty}x</b> ${it.name} ${sb} <span style="font-size:0.7rem;color:var(--muted);">(${it.waiter||'Staff'})</span>${it.note?`<div><span class="cart-note">✏️ ${it.note}</span></div>`:''}</div><div class="cart-controls"><button class="btn-note" onclick="openNoteModal(${it.lineId})">✏️ Nota</button><button class="btn-qty" onclick="changeItemQty(${it.lineId},-1)">-</button><button class="btn-qty" onclick="changeItemQty(${it.lineId},1)">+</button></div>`;gd.appendChild(r);});cart.appendChild(gd);});
 }
 function splitBillPrompt(){const t=state.tables[state.activeTableId];if(!t||!t.items||!t.items.length)return alert("Nessun ordine attivo.");const tot=getTableTotal(t),p=prompt("In quante persone dividere il conto?","2");if(p&&!isNaN(p)&&parseInt(p)>0)alert(`Totale: € ${formatPrice(tot)}\nPersone: ${p}\nQuota a testa: € ${formatPrice(tot/parseInt(p))}`);}
 function buildTimeStr(){return new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});}
@@ -668,7 +677,10 @@ function freeCurrentTable(){
     saveState(false,{tables:[t.id],history:true});closeTableView();updateDailyStats();
   }
 }
-function markMandataDone(id,m){const t=state.tables[id];if(!t)return;t.doneMandate[m]=!t.doneMandate[m];(t.doneAt=t.doneAt||{})[m]=t.doneMandate[m]?Date.now():0;saveState(false,{tables:[id]});renderKds();}
+function markMandataDone(id,m){const t=state.tables[id];if(!t)return;t.doneMandate[m]=!t.doneMandate[m];(t.doneAt=t.doneAt||{})[m]=t.doneMandate[m]?Date.now():0;
+  if(t.doneMandate[m]){const all=allServed(t),its=t.items.filter(i=>i.mandata===m).map(i=>`<b>${i.qty}x</b> ${i.name}`).join(', ');
+    state.lastOrderEvent={id:Date.now(),title:all?`💶 ${t.name.toUpperCase()}: TUTTO SERVITO · CONTO`:`✅ ${m}ª PRONTA · ${t.name.toUpperCase()}`,waiter:'Cucina',summary:all?'Tutte le mandate sono uscite: si può portare il conto.':its};}
+  saveState(false,{tables:[id]});renderKds();}
 function renderKds(){syncStockSoldOut();renderResBoard('resBoardKds');if(document.getElementById('stockPanel').style.display!=='none')renderStock();
   const c=document.getElementById('kdsContainer');c.innerHTML='';const now=Date.now(),act=Object.values(state.tables).filter(t=>t.sentOnce&&t.items&&t.items.some(i=>isItemSent(t,i)));
   if(!act.length){c.innerHTML='<div style="color:var(--muted);font-weight:700;">Nessuna comanda inviata in cucina.</div>';return;}
@@ -1096,6 +1108,15 @@ function showQrModal(){
   ov.classList.add('active');
   try{new QRCode(document.getElementById('qrBig'),{text:state.qrUrl,width:260,height:260,colorDark:'#062329',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});}catch(e){document.getElementById('qrBig').textContent='QR non disponibile offline';}
 }
+
+
+function mandataStatus(t,m){const it=(t.items||[]).filter(i=>i.mandata===m&&i.name!=='Pane e Coperto');if(!it.length)return'none';
+  if(it.some(i=>!isItemSent(t,i)))return'draft';if(m===0)return'sent';if(t.doneMandate&&t.doneMandate[m])return'done';
+  if(m===1||(t.firedMandate&&t.firedMandate[m]))return'fire';return'wait';}
+function statusChip(s){return s==='done'?'<span class="st-chip st-done">✅ SERVITA</span>':s==='fire'?'<span class="st-chip st-fire">🔥 IN CUCINA</span>':s==='wait'?'<span class="st-chip st-wait">⏳ DA CHIAMARE</span>':s==='draft'?'<span class="st-chip st-draft">📝 DA INVIARE</span>':'';}
+function allServed(t){if(!t||!t.items||!t.items.length||!t.sentOnce)return false;if(t.items.some(i=>!isItemSent(t,i)))return false;
+  const ms=[1,2,3,4].filter(m=>t.items.some(i=>i.mandata===m&&i.name!=='Pane e Coperto'));return ms.length>0&&ms.every(m=>t.doneMandate&&t.doneMandate[m]);}
+function contoBadge(t){return allServed(t)?'<div class="conto-badge">💶 TUTTO SERVITO · CONTO</div>':'';}
 
 initApp();
 </script>
