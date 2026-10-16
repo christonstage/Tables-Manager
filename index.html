@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v56 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v57 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -132,6 +132,15 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 .menu-grid{grid-template-columns:repeat(auto-fill,minmax(125px,1fr))}
 .mandata-btn{padding:13px 2px;font-size:.8rem}
 .cat-btn{padding:11px 16px;font-size:.92rem}
+
+.kds-card.delayed{animation:kdsBounce .9s ease-in-out infinite;border:4px solid #DC2626!important;box-shadow:0 0 18px rgba(220,38,38,.75)}
+@keyframes kdsBounce{0%,100%{transform:translateY(0)}30%{transform:translateY(-12px)}50%{transform:translateY(0)}65%{transform:translateY(-5px)}80%{transform:translateY(0)}}
+.kds-bomb{position:absolute;top:-22px;right:-12px;width:62px;height:62px;z-index:5;pointer-events:none;animation:bombShake .35s ease-in-out infinite}
+@keyframes bombShake{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.kds-bomb .spark{animation:spark .22s ease-in-out infinite alternate}
+@keyframes spark{from{transform:scale(.6);opacity:.55}to{transform:scale(1.3);opacity:1}}
+.kds-late{background:#DC2626;color:#fff;font-weight:900;text-align:center;border-radius:8px;padding:7px;margin-bottom:8px;letter-spacing:1px;animation:latePulse 1s infinite}
+@keyframes latePulse{50%{background:#7F1D1D}}
 </style>
 </head>
 <body onclick="unlockAudioOnce()">
@@ -140,7 +149,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v56 Slim AI</div>
+    <div class="version-badge">v57 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -240,7 +249,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v56 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v57 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -254,7 +263,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v56 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v57 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -636,7 +645,7 @@ function renderKds(){syncStockSoldOut();renderResBoard('resBoardKds');if(documen
     const card=document.createElement('div');card.className=`kds-card ${isTableDelayed(t)?'delayed':''}`;
     let h=`<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:8px;"><b>${t.name}</b><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:0.75rem;color:var(--logo-coral);">${t.room==='interna'?'❄️ Interna':t.room==='esterna'?'🕶️ Esterna':'🥡 Asporto'}</span><span id="kds_timer_${t.id}">⏱️ ${t.openedAt?formatElapsed(now-t.openedAt):'00:00'}</span></div></div>`;
     [0,1,2,3,4].forEach(m=>{const mi=t.items.filter(i=>i.mandata===m&&isItemSent(t,i));if(!mi.length)return;const dn=t.doneMandate&&t.doneMandate[m],fr=(m===0||m===1||(t.firedMandate&&t.firedMandate[m])),bg=dn?`<span style="color:#10B981;">SERVITA</span>`:fr?`<span style="color:#10B981;">MARCIARE</span>`:`<span style="color:var(--logo-coral);">ATTESA</span>`;h+=`<div style="margin-bottom:8px;padding:6px;background:rgba(0,0,0,0.05);border-radius:6px;${dn?'opacity:0.4;':''}"><div style="font-size:0.75rem;display:flex;justify-content:space-between;"><b>${MANDATE_LABELS[m]}</b> ${bg}</div>${mi.map(i=>`<div style="font-size:0.88rem;margin-top:2px;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem;color:var(--muted);">(${i.waiter||'Staff'})</span>${i.note?`<div style="color:#DC2626;font-weight:800;font-size:0.78rem;margin-left:12px;">⚠️ ${i.note}</div>`:''}</div>`).join('')}${(m>0&&fr)?`<button class="btn-kds-done" onclick="markMandataDone('${t.id}',${m})">${dn?'Riapri':'✅ FATTO'}</button>`:''}</div>`;});
-    card.innerHTML=paceBadge(t)+h;c.appendChild(card);
+    card.innerHTML=(isTableDelayed(t)?BOMB_SVG+`<div class="kds-late">💣 IN RITARDO · ${Math.floor((Date.now()-t.openedAt)/60000)} min</div>`:'')+paceBadge(t)+h;c.appendChild(card);
   });
 }
 const LANGS=['it','en','fr','de','es'];
@@ -985,6 +994,9 @@ function renderResBoard(id){const el=document.getElementById(id);if(!el)return;c
   el.innerHTML='<div class="cart-section" style="margin-bottom:10px;"><div style="font-weight:800;margin-bottom:6px;">📅 Prenotazioni di oggi</div>'+
     late.map(r=>`<div style="padding:4px 0;font-size:0.86rem;color:#B91C1C;font-weight:800;">⏰ IN RITARDO +${Math.floor((now-resTs(r))/60000)}' · ${escH(r.time)} · ${escH(r.name)} · ${r.covers}p · 🪑 ${tb(r)}${nt(r)}</div>`).join('')+
     arr.map(r=>`<div style="padding:4px 0;font-size:0.86rem;color:#065F46;font-weight:700;">✅ Arrivati${r.arrivedAt?' alle '+hmin(r.arrivedAt):''} · ${escH(r.name)} · ${r.covers}p · 🪑 ${tb(r)}${nt(r)}</div>`).join('')+'</div>';}
+
+
+const BOMB_SVG='<svg class="kds-bomb" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="28" cy="38" r="20" fill="#111"/><circle cx="20" cy="30" r="5" fill="#666"/><rect x="33" y="15" width="11" height="9" rx="2" fill="#333" transform="rotate(35 38 19)"/><path d="M42 15 Q47 4 56 8" stroke="#A16207" stroke-width="3" fill="none" stroke-linecap="round"/><g class="spark" style="transform-origin:56px 8px"><circle cx="56" cy="8" r="6" fill="#F97316"/><circle cx="56" cy="8" r="3" fill="#FDE047"/><path d="M56 0v3M56 13v3M48 8h3M61 8h3M50 2l2 2M62 2l-2 2M50 14l2-2M62 14l-2-2" stroke="#FACC15" stroke-width="2" stroke-linecap="round"/></g></svg>';
 
 initApp();
 </script>
