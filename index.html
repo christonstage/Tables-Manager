@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v58 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v59 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -149,7 +149,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v58 Slim AI</div>
+    <div class="version-badge">v59 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -173,6 +173,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
       <button class="btn-main btn-print" onclick="selectUserRole('Serena',false)">👱🏻‍♀️ Serena</button>
       <button class="btn-main" style="background:#111827;color:#1BE7FF;border:2px solid #1BE7FF;" onclick="selectUserRole('KDS Cucina',true)">🖥️ KDS Cucina</button>
     </div>
+    <button class="btn-main" style="width:100%;margin-bottom:8px;background:#062329;color:#FACC15;" onclick="selectKiosk()">🕒 Terminale Timbrature</button>
     <button class="btn-note" style="width:100%;margin-bottom:8px;" onclick="connectDevice()">🔐 Collega questo dispositivo (nuovo tablet/telefono)</button>
     <div style="display:flex;gap:6px;">
       <input type="text" id="customWaiterInput" class="form-control" placeholder="Altro nome...">
@@ -249,7 +250,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v58 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v59 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -263,7 +264,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v58 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v59 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -452,7 +453,7 @@ function isTableDelayed(t){if(!t||!t.items||!t.items.length||!t.openedAt||!t.sen
 function tickLiveTimers(){const now=Date.now();state.tk=(state.tk||0)+1;if(state.tk%20===0){checkPace();if(document.getElementById('viewTables').classList.contains('active'))renderTables();else if(document.getElementById('viewKds').classList.contains('active'))renderKds();else if(document.getElementById('viewTime').classList.contains('active'))renderTime();}if(document.getElementById('viewTables').classList.contains('active')){Object.values(state.tables).filter(t=>t.room===state.currentRoom&&t.items&&t.items.length>0).forEach(t=>{const el=document.getElementById('timer_'+t.id);if(el&&t.openedAt)el.textContent="⏱️ "+formatElapsed(now-t.openedAt);});}else if(document.getElementById('viewKds').classList.contains('active')){Object.values(state.tables).filter(t=>t.sentOnce&&t.items&&t.items.some(i=>isItemSent(t,i))).forEach(t=>{const el=document.getElementById('kds_timer_'+t.id);if(el&&t.openedAt)el.textContent="⏱️ "+formatElapsed(now-t.openedAt);});}}
 async function initApp(){
   const saved=localStorage.getItem(STORAGE_KEY);
-  if(saved){try{const p=JSON.parse(saved);state.tableCounts=p.tableCounts||{interna:11,esterna:5,asporto:5};state.menu=(p.menu&&p.menu.length>0)?p.menu:[...DEFAULT_MENU];state.tables=normalizeTablesStructure(p.tables,state.tableCounts);state.useRawBT=p.useRawBT||false;state.firebaseUrl=p.firebaseUrl||DEFAULT_FIREBASE_URL;state.waiterName=p.waiterName||'';state.lastAlertSignal=p.lastAlertSignal||0;state.lastOrderEvent=p.lastOrderEvent||null;state.lastPagerEvent=p.lastPagerEvent||null;state.historyLog=p.historyLog||[];state.timeLog=p.timeLog||{};state.pins=p.pins||{};state.stock=p.stock||{};state.seats=p.seats||{};state.res=p.res||{};state.pinsReady=Object.keys(state.pins).length>0;}catch(e){state.menu=[...DEFAULT_MENU];state.tables=buildDefaultTables(state.tableCounts);}}
+  if(saved){try{const p=JSON.parse(saved);state.tableCounts=p.tableCounts||{interna:11,esterna:5,asporto:5};state.menu=(p.menu&&p.menu.length>0)?p.menu:[...DEFAULT_MENU];state.tables=normalizeTablesStructure(p.tables,state.tableCounts);state.useRawBT=p.useRawBT||false;state.firebaseUrl=p.firebaseUrl||DEFAULT_FIREBASE_URL;state.waiterName=p.waiterName||'';state.lastAlertSignal=p.lastAlertSignal||0;state.lastOrderEvent=p.lastOrderEvent||null;state.lastPagerEvent=p.lastPagerEvent||null;state.historyLog=p.historyLog||[];state.timeLog=p.timeLog||{};state.pins=p.pins||{};state.stock=p.stock||{};state.seats=p.seats||{};state.staffCfg=p.staffCfg||{};state.res=p.res||{};state.pinsReady=Object.keys(state.pins).length>0;}catch(e){state.menu=[...DEFAULT_MENU];state.tables=buildDefaultTables(state.tableCounts);}}
   else{state.menu=[...DEFAULT_MENU];state.tables=buildDefaultTables(state.tableCounts);}
   document.getElementById('chkRawbt').checked=state.useRawBT;
   document.getElementById('firebaseUrlInput').value=state.firebaseUrl;
@@ -460,13 +461,13 @@ async function initApp(){
   document.getElementById('geminiKeyInput').value=localStorage.getItem('alicetta_gemini_key')||'';document.getElementById('ntfyInput').value=localStorage.getItem('alicetta_ntfy')||'';document.getElementById('sumupKey').value=localStorage.getItem('alicetta_sumup_key')||'';try{const fa=JSON.parse(localStorage.getItem('alicetta_fbauth')||'null');if(fa){document.getElementById('fbStatus').textContent='🔐 Accesso protetto: ATTIVO su questo dispositivo';document.getElementById('fbApiKey').value=fa.apiKey||'';document.getElementById('fbEmail').value=fa.email||'';document.getElementById('fbPass').value=fa.password||'';}}catch(e){}document.getElementById('sumupApp').value=localStorage.getItem('alicetta_sumup_app')||'';
   if(state.menu.filter(m=>m.cat!=='1 Coperto'&&m.cat!=='2 Bevande').length===0)syncChalkboardToStateMenu(parseOcrBoxDishes());
   updateRoomTabCounts();renderTables();updateDailyStats();
-  if(!state.waiterName.trim()||!localStorage.getItem('alicetta_device_user_v41'))openLoginModal();else updateWaiterDisplay();
+  if(!state.waiterName.trim()||!localStorage.getItem('alicetta_device_user_v41'))openLoginModal();else{updateWaiterDisplay();if(/^timbrature$/i.test(state.waiterName.trim()))switchMainView('time');}
   setInterval(tickLiveTimers,1000);loadPending();window.addEventListener('online',()=>flushPending());await flushPending();await pullFromCloud(true);handleSumupReturn();(function loop(){flushPending().then(()=>pullFromCloud(false)).finally(()=>setTimeout(loop,1500));})();
 }
 function saveGeminiKey(){const k=document.getElementById('geminiKeyInput').value.trim();localStorage.setItem('alicetta_gemini_key',k);alert("✅ Gemini API Key salvata sul dispositivo!");}
 function openLoginModal(){document.getElementById('loginModal').classList.add('active');}
 async function selectUserRole(name,goKds){
-  const k=name.toLowerCase().trim(),pins=state.pins||{};
+  const k=name.toLowerCase().trim(),pins=state.pins||{};if(k==='timbrature'&&!state._kioskOk)return alert('Per il terminale timbrature usa il pulsante dedicato.');
   if(!state.pinsReady)return alert('Sincronizzazione non riuscita. Se è un dispositivo nuovo, tocca "Collega questo dispositivo".');
   if(pins[k]){const v=prompt('PIN di '+name+':');if(!v||(await sha(v+k))!==pins[k])return alert('❌ PIN errato');}
   else if(k==='christian'){const v=prompt('Primo accesso: scegli un PIN di 4-6 cifre per Christian:');if(!/^\d{4,6}$/.test(v||''))return alert('PIN non valido');state.pins=state.pins||{};state.pins[k]=await sha(v+k);await saveState(false,{pins:true});}
@@ -474,9 +475,9 @@ async function selectUserRole(name,goKds){
   if(goKds){switchMainView('kds');enableKdsTabletMode();}
 }
 function selectCustomUser(){const v=document.getElementById('customWaiterInput').value.trim();if(!v)return alert("Scrivi un nome");selectUserRole(v,false);}
-function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('btnPager').style.display='block';document.getElementById('navRes').style.display=/^christian$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navTime').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('navKds').style.display=/^(christian|kds cucina)$/i.test((state.waiterName||'').trim())?'block':'none';}
+function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('btnPager').style.display='block';document.getElementById('navRes').style.display=/^christian$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navTime').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('navKds').style.display=/^(christian|kds cucina)$/i.test((state.waiterName||'').trim())?'block':'none';if(/^timbrature$/i.test((state.waiterName||'').trim())){['navTables','navKds','navRes','navMenu','btnPager'].forEach(i=>document.getElementById(i).style.display='none');document.getElementById('navTime').style.display='block';}else document.getElementById('navTables').style.display='block';}
 function updateRoomTabCounts(){document.getElementById('cntInt').textContent=state.tableCounts.interna;document.getElementById('cntEst').textContent=state.tableCounts.esterna;document.getElementById('cntAsp').textContent=state.tableCounts.asporto;document.getElementById('cfgIntCount').value=state.tableCounts.interna;document.getElementById('cfgEstCount').value=state.tableCounts.esterna;document.getElementById('cfgAspCount').value=state.tableCounts.asporto;populateMergeSelectors();}
-function saveLocalOnly(){localStorage.setItem(STORAGE_KEY,JSON.stringify({menu:state.menu,tables:state.tables,tableCounts:state.tableCounts,useRawBT:state.useRawBT,firebaseUrl:state.firebaseUrl,waiterName:state.waiterName,historyLog:state.historyLog,lastAlertSignal:state.lastAlertSignal,lastOrderEvent:state.lastOrderEvent,lastPagerEvent:state.lastPagerEvent,timeLog:state.timeLog||{},pins:state.pins||{},stock:state.stock||{},seats:state.seats||{},res:state.res||{}}));}
+function saveLocalOnly(){localStorage.setItem(STORAGE_KEY,JSON.stringify({menu:state.menu,tables:state.tables,tableCounts:state.tableCounts,useRawBT:state.useRawBT,firebaseUrl:state.firebaseUrl,waiterName:state.waiterName,historyLog:state.historyLog,lastAlertSignal:state.lastAlertSignal,lastOrderEvent:state.lastOrderEvent,lastPagerEvent:state.lastPagerEvent,timeLog:state.timeLog||{},pins:state.pins||{},stock:state.stock||{},seats:state.seats||{},staffCfg:state.staffCfg||{},res:state.res||{}}));}
 async function saveState(bell,parts){if(bell)state.lastAlertSignal=Date.now();saveLocalOnly();await pushToCloud(parts);if(!state.lastPushOk)addPending(parts);}
 function getCleanFirebaseUrl(){return(state.firebaseUrl||DEFAULT_FIREBASE_URL).trim().replace(/\/$/,"");}
 async function pushToCloud(o){
@@ -490,7 +491,7 @@ async function pushToCloud(o){
       if(o.tables&&o.tables.length){const tb={};o.tables.forEach(id=>{if(state.tables[id])tb[id]=state.tables[id];});ok=(await send(base+'/tables.json','PATCH',tb)).ok&&ok;}
       if(o.time&&o.time.length){const tm={};o.time.forEach(id=>{tm[id]=state.timeLog[id]===undefined?null:state.timeLog[id];});ok=(await send(base+'/timeLog.json','PATCH',tm)).ok&&ok;}
       if(o.res&&o.res.length){const rm={};o.res.forEach(id=>{rm[id]=(state.res||{})[id]===undefined?null:state.res[id];});ok=(await send(base+'/res.json','PATCH',rm)).ok&&ok;}
-      const root={...meta};if(o.menu)root.menu=state.menu;if(o.pins)root.pins=state.pins||{};if(o.stock)root.stock=state.stock||{};if(o.seats)root.seats=state.seats||{};if(o.history)root.historyLog=state.historyLog;
+      const root={...meta};if(o.menu)root.menu=state.menu;if(o.pins)root.pins=state.pins||{};if(o.stock)root.stock=state.stock||{};if(o.seats)root.seats=state.seats||{};if(o.staff)root.staff=state.staffCfg||{};if(o.history)root.historyLog=state.historyLog;
       ok=(await send(base+'.json','PATCH',root)).ok&&ok;
     }
     state.lastPushOk=ok;b.textContent=ok?"LIVE":"Err";
@@ -522,7 +523,7 @@ async function pullFromCloud(initial){
       Object.keys((state.pending||{}).tables||{}).forEach(id=>{if(state.tables[id])rt[id]=state.tables[id];});state.tables=rt;
     }
     const pd=state.pending||{};if(data.menu&&data.menu.length>0&&!pd.menu)state.menu=data.menu;
-    if(!pd.history)state.historyLog=data.historyLog||[];{const tl=data.timeLog||{};Object.keys(pd.time||{}).forEach(id=>{if(state.timeLog&&state.timeLog[id]!==undefined)tl[id]=state.timeLog[id];else delete tl[id];});state.timeLog=tl;}{const rs=data.res||{};Object.keys(pd.res||{}).forEach(id=>{if(state.res&&state.res[id]!==undefined)rs[id]=state.res[id];else delete rs[id];});state.res=rs;}if(!pd.pins)state.pins=data.pins||{};if(!pd.stock)state.stock=data.stock||{};if(!pd.seats)state.seats=data.seats||{};
+    if(!pd.history)state.historyLog=data.historyLog||[];{const tl=data.timeLog||{};Object.keys(pd.time||{}).forEach(id=>{if(state.timeLog&&state.timeLog[id]!==undefined)tl[id]=state.timeLog[id];else delete tl[id];});state.timeLog=tl;}{const rs=data.res||{};Object.keys(pd.res||{}).forEach(id=>{if(state.res&&state.res[id]!==undefined)rs[id]=state.res[id];else delete rs[id];});state.res=rs;}if(!pd.pins)state.pins=data.pins||{};if(!pd.stock)state.stock=data.stock||{};if(!pd.seats)state.seats=data.seats||{};if(!pd.staff)state.staffCfg=data.staff||{};
     saveLocalOnly();updateRoomTabCounts();updateDailyStats();if(document.getElementById('viewTime').classList.contains('active'))renderTime();if(document.getElementById('viewRes').classList.contains('active'))renderResList();
     if(document.getElementById('viewTables').classList.contains('active'))renderTables();
     else if(document.getElementById('viewKds').classList.contains('active'))renderKds();
@@ -551,7 +552,7 @@ function populateMergeSelectors(){const f=document.getElementById('mergeFromSel'
 async function executeTableMerge(sId,tId){if(!sId||!tId||sId===tId)return alert("Seleziona due tavoli diversi.");const s=state.tables[sId],t=state.tables[tId];if(!s||!t)return;if(confirm(`Vuoi unire "${s.name}" dentro "${t.name}"?`)){t.items=(t.items||[]).concat(s.items||[]);t.sentOnce=Boolean(t.sentOnce||s.sentOnce||t.items.some(i=>i.sent));if(!t.openedAt)t.openedAt=s.openedAt||Date.now();const sh=s.name.replace(/Tavolo\s*|Esterno\s*|Asporto\s*/i,'');if(!t.name.includes('+'+sh))t.name+='+'+sh;s.items=[];s.openedAt=0;s.sentOnce=false;s.name=s.baseName;await saveState(false,{tables:[sId,tId]});renderTables();alert(`✅ Uniti in: ${t.name}`);}}
 function mergeTablesFromSettings(){executeTableMerge(document.getElementById('mergeFromSel').value,document.getElementById('mergeToSel').value);}
 function quickMergeFromOrder(){const s=state.tables[state.activeTableId],tn=prompt(`Con quale tavolo vuoi unire ${s.name}? (es: Tavolo 2):`);if(!tn)return;const f=Object.values(state.tables).find(t=>t.name.toLowerCase()===tn.trim().toLowerCase());if(!f)return alert("Tavolo non trovato.");executeTableMerge(s.id,f.id).then(()=>openTable(f.id));}
-function switchMainView(v){if(v==='time'&&/^kds cucina$/i.test((state.waiterName||'').trim()))return;if(v==='kds'&&!/^(christian|kds cucina)$/i.test((state.waiterName||'').trim()))return;document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.btn-top').forEach(b=>b.classList.remove('active'));if(v==='tables'){document.getElementById('viewTables').classList.add('active');document.getElementById('navTables').classList.add('active');renderTables();}else if(v==='kds'){document.getElementById('viewKds').classList.add('active');document.getElementById('navKds').classList.add('active');renderKds();}else if(v==='res'){if(!/^christian$/i.test((state.waiterName||'').trim()))return switchMainView('tables');document.getElementById('viewRes').classList.add('active');document.getElementById('navRes').classList.add('active');renderRes();}else if(v==='time'){document.getElementById('viewTime').classList.add('active');document.getElementById('navTime').classList.add('active');renderTime();}else if(v==='menuMgr'){document.getElementById('viewMenuMgr').classList.add('active');document.getElementById('navMenu').classList.add('active');renderMenuMgr();updateDailyStats();}}
+function switchMainView(v){if(/^timbrature$/i.test((state.waiterName||'').trim()))v='time';if(v==='time'&&/^kds cucina$/i.test((state.waiterName||'').trim()))return;if(v==='kds'&&!/^(christian|kds cucina)$/i.test((state.waiterName||'').trim()))return;document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.btn-top').forEach(b=>b.classList.remove('active'));if(v==='tables'){document.getElementById('viewTables').classList.add('active');document.getElementById('navTables').classList.add('active');renderTables();}else if(v==='kds'){document.getElementById('viewKds').classList.add('active');document.getElementById('navKds').classList.add('active');renderKds();}else if(v==='res'){if(!/^christian$/i.test((state.waiterName||'').trim()))return switchMainView('tables');document.getElementById('viewRes').classList.add('active');document.getElementById('navRes').classList.add('active');renderRes();}else if(v==='time'){document.getElementById('viewTime').classList.add('active');document.getElementById('navTime').classList.add('active');renderTime();}else if(v==='menuMgr'){document.getElementById('viewMenuMgr').classList.add('active');document.getElementById('navMenu').classList.add('active');renderMenuMgr();updateDailyStats();}}
 function selectRoom(r){state.currentRoom=r;document.getElementById('tabInterna').classList.toggle('active',r==='interna');document.getElementById('tabEsterna').classList.toggle('active',r==='esterna');document.getElementById('tabAsporto').classList.toggle('active',r==='asporto');renderTables();}
 function getTableTotal(t){return(!t||!t.items)?0:t.items.reduce((s,i)=>s+(i.price*i.qty),0);}
 function renderTables(){renderResBoard('resBoardTables');
@@ -822,8 +823,15 @@ async function addTime(emp,type,ts){
   if(!state.lastPushOk)alert("📴 Offline: timbratura salvata sul telefono, partirà appena torna la connessione.");
   renderTime();
 }
-function punchFor(emp,type){if((state.waiterName||'').toLowerCase().trim()!=='christian')return alert('Le timbrature le registra solo Christian.');addTime(emp,type,Date.now());}
-function addStaffName(){const n=(prompt('Nome del nuovo dipendente:')||'').trim();if(!n)return;const l=JSON.parse(localStorage.getItem('alicetta_staff_extra')||'[]');if(!l.includes(n))l.push(n);localStorage.setItem('alicetta_staff_hidden',JSON.stringify(JSON.parse(localStorage.getItem('alicetta_staff_hidden')||'[]').filter(x=>x!==n)));localStorage.setItem('alicetta_staff_extra',JSON.stringify(l));renderTime();}
+async function punchFor(emp,type){const me=(state.waiterName||'').toLowerCase().trim();
+  if(me!=='christian'&&me!=='timbrature')return alert('Le timbrature si registrano solo dal terminale dedicato o da Christian.');
+  if(me==='timbrature'){const k=emp.toLowerCase().trim(),pin=(state.pins||{})[k];
+    if(pin){const v=prompt('PIN di '+emp+':');if(!v||(await sha(v+k))!==pin)return alert('❌ PIN errato');}
+    else if(!confirm(TT[type]+' per '+emp+'?'))return;}
+  await addTime(emp,type,Date.now());
+  if(me==='timbrature'&&state.lastPushOk)alert('✅ '+TT[type]+' registrata: '+emp+' alle '+buildTimeStr());
+}
+function addStaffName(){const n=(prompt('Nome del nuovo dipendente:')||'').trim();if(!n)return;const c=state.staffCfg=state.staffCfg||{};c.extra=[...new Set([...(c.extra||[]),n])];c.hidden=(c.hidden||[]).filter(x=>x!==n);saveState(false,{staff:true});renderTime();}
 async function delTime(id){if(!confirm('Eliminare questa timbratura?'))return;const bk=state.timeLog[id];delete state.timeLog[id];await saveState(false,{time:[id]});if(!state.lastPushOk)alert('📴 Offline: eliminazione in coda.');renderTime();}
 function addTimeManual(){
   const e=(prompt('Nome dipendente:')||'').trim();if(!e)return;
@@ -839,20 +847,20 @@ function exportTimeCSV(){
 }
 function renderTime(){
   const el=document.getElementById('timeContent');if(!el)return;
-  const me=(state.waiterName||'').trim(),own=me.toLowerCase()==='christian',sh=buildShifts(),now=Date.now(),td=buildDateISO(),last={};
+  const me=(state.waiterName||'').trim(),own=me.toLowerCase()==='christian',kiosk=/^timbrature$/i.test(me),sh=buildShifts(),now=Date.now(),td=buildDateISO(),last={};
   sh.forEach(s=>{if(!last[s.emp]||s.in>last[s.emp].in)last[s.emp]=s;});
   const mine=last[me],st=mine&&mine.open?mine.state:'off';
-  const roster=[...new Set(['Christian','Alice','Serena',...JSON.parse(localStorage.getItem('alicetta_staff_extra')||'[]'),...Object.keys(last)])].filter(n=>n&&!/^kds/i.test(n)&&!JSON.parse(localStorage.getItem('alicetta_staff_hidden')||'[]').includes(n)).sort();
+  const roster=[...new Set(['Christian','Alice','Serena',...((state.staffCfg||{}).extra||[]),...Object.keys(last)])].filter(n=>n&&!/^(kds|timbrature)/i.test(n)&&!((state.staffCfg||{}).hidden||[]).includes(n)).sort();
   let h='';
-  if(own){
-    h+=`<div class="cart-section"><h3>🕒 Timbratura dipendenti</h3><div style="font-size:0.78rem;color:var(--muted);margin:4px 0 8px;">Solo tu puoi registrare entrata, pausa e uscita.</div>`+roster.map(n=>{const s=last[n],ss=s&&s.open?s.state:'off';
-      return `<div style="padding:8px 0;border-bottom:1px dashed var(--border);"><div style="font-weight:800;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:6px;"><span>${n} — ${ss==='off'?'⚪ fuori servizio':ss==='work'?'🟢 in servizio dalle '+hmin(s.in)+' · '+fmtH(s.work):'🟠 in pausa'}</span><button class="btn-qty" style="width:auto;padding:0 10px;" title="Rimuovi dipendente" onclick="removeStaff('${n}')">🗑️</button></div><div style="display:flex;gap:6px;">`+
-      (ss==='off'?`<button class="btn-main btn-bill" onclick="punchFor('${n}','in')">▶️ ENTRATA</button>`:ss==='work'?`<button class="btn-main btn-print" onclick="punchFor('${n}','bstart')">☕ PAUSA</button><button class="btn-main btn-bill" onclick="punchFor('${n}','out')">🏁 USCITA</button>`:`<button class="btn-main btn-print" onclick="punchFor('${n}','bend')">▶️ FINE PAUSA</button><button class="btn-main btn-bill" onclick="punchFor('${n}','out')">🏁 USCITA</button>`)+`</div></div>`;}).join('')+`<button class="btn-note" style="margin-top:10px;" onclick="addStaffName()">➕ Nuovo dipendente</button></div>`;
+  if(own||kiosk){
+    h+=`<div class="cart-section"><h3>🕒 Timbratura dipendenti</h3><div style="font-size:0.78rem;color:var(--muted);margin:4px 0 8px;">${kiosk?'Tocca il pulsante accanto al tuo nome.':'Solo tu puoi registrare entrata, pausa e uscita.'}</div>`+roster.map(n=>{const s=last[n],ss=s&&s.open?s.state:'off';
+      return `<div style="padding:8px 0;border-bottom:1px dashed var(--border);"><div style="font-weight:800;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:6px;"><span>${n} — ${ss==='off'?'⚪ fuori servizio':ss==='work'?'🟢 in servizio dalle '+hmin(s.in)+' · '+fmtH(s.work):'🟠 in pausa'}</span>${kiosk?'':`<button class="btn-qty" style="width:auto;padding:0 10px;" title="Rimuovi dipendente" onclick="removeStaff('${n}')">🗑️</button>`}</div><div style="display:flex;gap:6px;">`+
+      (ss==='off'?`<button class="btn-main btn-bill" onclick="punchFor('${n}','in')">▶️ ENTRATA</button>`:ss==='work'?`<button class="btn-main btn-print" onclick="punchFor('${n}','bstart')">☕ PAUSA</button><button class="btn-main btn-bill" onclick="punchFor('${n}','out')">🏁 USCITA</button>`:`<button class="btn-main btn-print" onclick="punchFor('${n}','bend')">▶️ FINE PAUSA</button><button class="btn-main btn-bill" onclick="punchFor('${n}','out')">🏁 USCITA</button>`)+`</div></div>`;}).join('')+(kiosk?'':`<button class="btn-note" style="margin-top:10px;" onclick="addStaffName()">➕ Nuovo dipendente</button>`)+'</div>';
   }else{
     h+=`<div class="cart-section"><h3>🕒 Le tue presenze — ${me||'?'}</h3><div style="margin:6px 0;font-weight:800;">${st==='off'?'⚪ Non in servizio':st==='work'?'🟢 In servizio dalle '+hmin(mine.in)+' · '+fmtH(mine.work):'🟠 In pausa'}</div><div style="font-size:0.78rem;color:var(--muted);">Le timbrature le registra Christian in sede.</div></div>`;
   }
   const rows=Object.values(last).filter(s=>s.open||dkey(s.in)===td).sort((a,b)=>a.emp.localeCompare(b.emp)).map(s=>`<div style="padding:5px 0;border-bottom:1px dashed var(--border);font-size:0.85rem;"><b>${s.emp}</b>: ${s.open?(s.state==='work'?'🟢 in servizio dalle '+hmin(s.in):'🟠 in pausa'):'⚪ uscito alle '+hmin(s.out)} · ${fmtH(s.work)}${s.open&&now-s.in>14*3600000?' ⚠️ turno aperto da troppo':''}</div>`).join('');
-  if(own)h+=`<div class="cart-section"><h3 style="margin-bottom:6px;">👥 Presenze di oggi</h3>${rows||'<div style="color:var(--muted);font-size:0.85rem;">Nessuna timbratura oggi.</div>'}</div>`;
+  if(own||kiosk)h+=`<div class="cart-section"><h3 style="margin-bottom:6px;">👥 Presenze di oggi</h3>${rows||'<div style="color:var(--muted);font-size:0.85rem;">Nessuna timbratura oggi.</div>'}</div>`;
   if(own){
     const per=state.timePeriod||'daily',agg={};
     periodShifts().forEach(s=>{const a=agg[s.emp]=agg[s.emp]||{n:0,w:0,b:0};a.n++;a.w+=s.work;a.b+=s.brk;});
@@ -869,11 +877,11 @@ function renderTime(){
 
 function loadPending(){try{state.pending=JSON.parse(localStorage.getItem('alicetta_pending')||'{}')||{};}catch(e){state.pending={};}state.pending.tables=state.pending.tables||{};state.pending.time=state.pending.time||{};}
 function savePending(){localStorage.setItem('alicetta_pending',JSON.stringify(state.pending));}
-function addPending(o){const p=state.pending||(state.pending={tables:{},time:{}});if(!o||o.full)p.full=true;else{(o.tables||[]).forEach(id=>p.tables[id]=1);(o.time||[]).forEach(id=>p.time[id]=1);(o.res||[]).forEach(id=>(p.res=p.res||{})[id]=1);if(o.stock)p.stock=true;if(o.seats)p.seats=true;if(o.menu)p.menu=true;if(o.history)p.history=true;if(o.pins)p.pins=true;}p.meta=true;savePending();}
-function pendingCount(){const p=state.pending||{};return Object.keys(p.tables||{}).length+Object.keys(p.time||{}).length+Object.keys(p.res||{}).length+(p.stock?1:0)+(p.seats?1:0)+(p.menu?1:0)+(p.history?1:0)+(p.pins?1:0)+(p.full?1:0)+(p.meta?1:0);}
+function addPending(o){const p=state.pending||(state.pending={tables:{},time:{}});if(!o||o.full)p.full=true;else{(o.tables||[]).forEach(id=>p.tables[id]=1);(o.time||[]).forEach(id=>p.time[id]=1);(o.res||[]).forEach(id=>(p.res=p.res||{})[id]=1);if(o.stock)p.stock=true;if(o.seats)p.seats=true;if(o.staff)p.staff=true;if(o.menu)p.menu=true;if(o.history)p.history=true;if(o.pins)p.pins=true;}p.meta=true;savePending();}
+function pendingCount(){const p=state.pending||{};return Object.keys(p.tables||{}).length+Object.keys(p.time||{}).length+Object.keys(p.res||{}).length+(p.stock?1:0)+(p.seats?1:0)+(p.staff?1:0)+(p.menu?1:0)+(p.history?1:0)+(p.pins?1:0)+(p.full?1:0)+(p.meta?1:0);}
 async function flushPending(){
   const p=state.pending;if(!p||state.pushing>0||!pendingCount())return;
-  const tk=Object.keys(p.time||{}),parts=p.full?undefined:{tables:Object.keys(p.tables),time:tk,menu:!!p.menu,history:!!p.history,pins:!!p.pins,stock:!!p.stock,seats:!!p.seats,res:Object.keys(p.res||{})};
+  const tk=Object.keys(p.time||{}),parts=p.full?undefined:{tables:Object.keys(p.tables),time:tk,menu:!!p.menu,history:!!p.history,pins:!!p.pins,stock:!!p.stock,seats:!!p.seats,staff:!!p.staff,res:Object.keys(p.res||{})};
   await pushToCloud(parts);let ok=state.lastPushOk;
   if(ok&&p.full&&(tk.length||Object.keys(p.res||{}).length)){await pushToCloud({time:tk,res:Object.keys(p.res||{})});ok=state.lastPushOk;}
   if(ok){state.pending={tables:{},time:{}};savePending();}else document.getElementById('syncIndicator').textContent='Off · '+pendingCount();
@@ -978,13 +986,10 @@ async function editSeats(){const cur=Object.values(state.tables).filter(t=>t.roo
 
 
 function removeStaff(n){
-  const s=buildShifts().filter(x=>x.emp===n&&x.open);if(s.length)return alert(n+' risulta in servizio: registra prima l\'USCITA.');
+  if(buildShifts().some(x=>x.emp===n&&x.open))return alert(n+' risulta in servizio: registra prima l\'USCITA.');
   if(!confirm('Rimuovere '+n+' dall\'elenco? Le ore già registrate restano nei report.'))return;
-  const hd=JSON.parse(localStorage.getItem('alicetta_staff_hidden')||'[]');if(!hd.includes(n))hd.push(n);localStorage.setItem('alicetta_staff_hidden',JSON.stringify(hd));
-  localStorage.setItem('alicetta_staff_extra',JSON.stringify(JSON.parse(localStorage.getItem('alicetta_staff_extra')||'[]').filter(x=>x!==n)));renderTime();
+  const c=state.staffCfg=state.staffCfg||{};c.hidden=[...new Set([...(c.hidden||[]),n])];c.extra=(c.extra||[]).filter(x=>x!==n);saveState(false,{staff:true});renderTime();
 }
-
-
 function renderResBoard(id){const el=document.getElementById(id);if(!el)return;const td=buildDateISO(),now=Date.now();
   const L=Object.values(state.res||{}).filter(r=>r.date===td&&r.status!=='cancellata').sort((a,b)=>resTs(a)-resTs(b));
   if(!L.length){el.innerHTML='';return;}
@@ -997,6 +1002,14 @@ function renderResBoard(id){const el=document.getElementById(id);if(!el)return;c
     if(d<=30)return `<div style="padding:4px 0;font-size:0.86rem;color:#C2410C;font-weight:800;">🔜 tra ${d} min · ${base}</div>`;
     return `<div style="padding:4px 0;font-size:0.86rem;color:#1F2937;">🕒 ${base}</div>`;}).join('')+'</div>';}
 const BOMB_SVG='<svg class="kds-bomb" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="28" cy="38" r="20" fill="#111"/><circle cx="20" cy="30" r="5" fill="#666"/><rect x="33" y="15" width="11" height="9" rx="2" fill="#333" transform="rotate(35 38 19)"/><path d="M42 15 Q47 4 56 8" stroke="#A16207" stroke-width="3" fill="none" stroke-linecap="round"/><g class="spark" style="transform-origin:56px 8px"><circle cx="56" cy="8" r="6" fill="#F97316"/><circle cx="56" cy="8" r="3" fill="#FDE047"/><path d="M56 0v3M56 13v3M48 8h3M61 8h3M50 2l2 2M62 2l-2 2M50 14l2-2M62 14l-2-2" stroke="#FACC15" stroke-width="2" stroke-linecap="round"/></g></svg>';
+
+
+async function selectKiosk(){
+  if(!state.pinsReady)return alert('Sincronizzazione in corso, riprova tra un attimo.');
+  const p=(state.pins||{}).christian;if(!p)return alert('Prima crea il PIN di Christian.');
+  const v=prompt('PIN di Christian per attivare il terminale timbrature:');if(!v||(await sha(v+'christian'))!==p)return alert('❌ PIN errato');
+  state._kioskOk=true;await selectUserRole('Timbrature',false);state._kioskOk=false;switchMainView('time');
+}
 
 initApp();
 </script>
