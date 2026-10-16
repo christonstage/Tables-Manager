@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.0 - v55 Slim AI</title>
+<title>Alicetta TableZ 1.0 - v56 Slim AI</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -140,7 +140,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.0</text></svg>
     </div>
-    <div class="version-badge">v55 Slim AI</div>
+    <div class="version-badge">v56 Slim AI</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -184,6 +184,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🕶️ Esterna (<span id="cntEst">5</span>)</div>
     <div class="room-tab" id="tabAsporto" onclick="selectRoom('asporto')">🥡 Asporto (<span id="cntAsp">5</span>)</div>
   </div>
+  <div id="resBoardTables" style="padding:0 14px;"></div>
   <div class="tables-grid" id="tablesContainer"></div>
 </div>
 <div id="viewOrder" class="screen">
@@ -239,13 +240,13 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v55 Slim AI)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.0 (v56 Slim AI)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
     </div>
   </div>
-  <div style="margin-bottom:10px;"><button class="btn-note" style="padding:10px 14px;" onclick="toggleStock()">📦 Scorte del giorno</button></div><div id="stockPanel" class="cart-section" style="display:none;"></div>
+  <div id="resBoardKds"></div><div style="margin-bottom:10px;"><button class="btn-note" style="padding:10px 14px;" onclick="toggleStock()">📦 Scorte del giorno</button></div><div id="stockPanel" class="cart-section" style="display:none;"></div>
   <div class="kds-grid" id="kdsContainer"></div>
 </div>
 <div id="viewRes" class="screen"><div id="resContent"></div></div>
@@ -253,7 +254,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v55 Slim AI)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.0 (v56 Slim AI)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -544,7 +545,7 @@ function quickMergeFromOrder(){const s=state.tables[state.activeTableId],tn=prom
 function switchMainView(v){if(v==='time'&&/^kds cucina$/i.test((state.waiterName||'').trim()))return;if(v==='kds'&&!/^(christian|kds cucina)$/i.test((state.waiterName||'').trim()))return;document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.btn-top').forEach(b=>b.classList.remove('active'));if(v==='tables'){document.getElementById('viewTables').classList.add('active');document.getElementById('navTables').classList.add('active');renderTables();}else if(v==='kds'){document.getElementById('viewKds').classList.add('active');document.getElementById('navKds').classList.add('active');renderKds();}else if(v==='res'){if(!/^christian$/i.test((state.waiterName||'').trim()))return switchMainView('tables');document.getElementById('viewRes').classList.add('active');document.getElementById('navRes').classList.add('active');renderRes();}else if(v==='time'){document.getElementById('viewTime').classList.add('active');document.getElementById('navTime').classList.add('active');renderTime();}else if(v==='menuMgr'){document.getElementById('viewMenuMgr').classList.add('active');document.getElementById('navMenu').classList.add('active');renderMenuMgr();updateDailyStats();}}
 function selectRoom(r){state.currentRoom=r;document.getElementById('tabInterna').classList.toggle('active',r==='interna');document.getElementById('tabEsterna').classList.toggle('active',r==='esterna');document.getElementById('tabAsporto').classList.toggle('active',r==='asporto');renderTables();}
 function getTableTotal(t){return(!t||!t.items)?0:t.items.reduce((s,i)=>s+(i.price*i.qty),0);}
-function renderTables(){
+function renderTables(){renderResBoard('resBoardTables');
   const c=document.getElementById('tablesContainer');c.innerHTML='';const now=Date.now();
   Object.values(state.tables).filter(t=>t.room===state.currentRoom).sort((a,b)=>(parseInt((a.id||'').split('_')[1],10)||0)-(parseInt((b.id||'').split('_')[1],10)||0)).forEach(t=>{
     const busy=t.items&&t.items.length>0,tot=getTableTotal(t),del=isTableDelayed(t);let dots='';
@@ -628,7 +629,7 @@ function freeCurrentTable(){
   }
 }
 function markMandataDone(id,m){const t=state.tables[id];if(!t)return;t.doneMandate[m]=!t.doneMandate[m];(t.doneAt=t.doneAt||{})[m]=t.doneMandate[m]?Date.now():0;saveState(false,{tables:[id]});renderKds();}
-function renderKds(){syncStockSoldOut();if(document.getElementById('stockPanel').style.display!=='none')renderStock();
+function renderKds(){syncStockSoldOut();renderResBoard('resBoardKds');if(document.getElementById('stockPanel').style.display!=='none')renderStock();
   const c=document.getElementById('kdsContainer');c.innerHTML='';const now=Date.now(),act=Object.values(state.tables).filter(t=>t.sentOnce&&t.items&&t.items.some(i=>isItemSent(t,i)));
   if(!act.length){c.innerHTML='<div style="color:var(--muted);font-weight:700;">Nessuna comanda inviata in cucina.</div>';return;}
   act.forEach(t=>{
@@ -958,7 +959,7 @@ async function assignRes(id){const r={...state.res[id],id},s=suggestTables(r);le
   if(s&&confirm(`Suggerito: ${s.ids.map(tname).join(' + ')} (${s.seats} posti).\nOK = assegna, Annulla = scegli a mano`))ids=s.ids;
   else{const v=prompt('Tavoli (es: 3 oppure 4+5; esterni: E2):',(r.tables||[]).map(x=>x.startsWith('EST_')?'E'+x.slice(4):x.slice(4)).join('+'));if(v===null)return;ids=v.split('+').map(x=>x.trim().toUpperCase()).filter(Boolean).map(x=>x.startsWith('E')?'EST_'+x.slice(1):'INT_'+x).filter(x=>state.tables[x]);}
   state.res[id].tables=ids;await saveState(false,{res:[id]});renderResList();}
-async function arriveRes(id){const r=state.res[id];if(!r)return;r.status='arrivato';await saveState(false,{res:[id]});const ids=r.tables||[];
+async function arriveRes(id){const r=state.res[id];if(!r)return;r.status='arrivato';r.arrivedAt=Date.now();await saveState(false,{res:[id]});const ids=r.tables||[];
   for(let i=1;i<ids.length;i++)await executeTableMerge(ids[i],ids[0]);if(ids[0])openTable(ids[0]);else renderResList();}
 async function cancelRes(id){const r=state.res[id];if(!r)return;r.status=r.status==='cancellata'?'attesa':'cancellata';await saveState(false,{res:[id]});renderResList();}
 async function editSeats(){const cur=Object.values(state.tables).filter(t=>t.room!=='asporto').sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true})).map(t=>(t.room==='esterna'?'E':'')+t.id.split('_')[1]+':'+seatsOf(t.id)).join(',');
@@ -973,6 +974,17 @@ function removeStaff(n){
   const hd=JSON.parse(localStorage.getItem('alicetta_staff_hidden')||'[]');if(!hd.includes(n))hd.push(n);localStorage.setItem('alicetta_staff_hidden',JSON.stringify(hd));
   localStorage.setItem('alicetta_staff_extra',JSON.stringify(JSON.parse(localStorage.getItem('alicetta_staff_extra')||'[]').filter(x=>x!==n)));renderTime();
 }
+
+
+function renderResBoard(id){const el=document.getElementById(id);if(!el)return;const td=buildDateISO(),now=Date.now();
+  const L=Object.values(state.res||{}).filter(r=>r.date===td&&r.status!=='cancellata');
+  const late=L.filter(r=>r.status==='attesa'&&now>resTs(r)).sort((a,b)=>resTs(a)-resTs(b));
+  const arr=L.filter(r=>r.status==='arrivato').sort((a,b)=>(b.arrivedAt||0)-(a.arrivedAt||0)).slice(0,8);
+  if(!late.length&&!arr.length){el.innerHTML='';return;}
+  const tb=r=>(r.tables||[]).map(tname).join(' + ')||'—',nt=r=>r.note?' · 📝 '+escH(r.note):'';
+  el.innerHTML='<div class="cart-section" style="margin-bottom:10px;"><div style="font-weight:800;margin-bottom:6px;">📅 Prenotazioni di oggi</div>'+
+    late.map(r=>`<div style="padding:4px 0;font-size:0.86rem;color:#B91C1C;font-weight:800;">⏰ IN RITARDO +${Math.floor((now-resTs(r))/60000)}' · ${escH(r.time)} · ${escH(r.name)} · ${r.covers}p · 🪑 ${tb(r)}${nt(r)}</div>`).join('')+
+    arr.map(r=>`<div style="padding:4px 0;font-size:0.86rem;color:#065F46;font-weight:700;">✅ Arrivati${r.arrivedAt?' alle '+hmin(r.arrivedAt):''} · ${escH(r.name)} · ${r.covers}p · 🪑 ${tb(r)}${nt(r)}</div>`).join('')+'</div>';}
 
 initApp();
 </script>
