@@ -340,6 +340,30 @@ function render() {
 }
 
 render();
+/* ===== MENÙ LIVE DA FIREBASE (incolla DOPO la riga render(); e PRIMA di </script>) ===== */
+const FB_MENU_URL='https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app/pos_state/menu.json';
+const ALG_I={glutine:['Glutine','Gluten','Gluten','Gluten','Gluten'],crostacei:['Crostacei','Crustaceans','Crustacés','Krebstiere','Crustáceos'],uova:['Uova','Eggs','Œufs','Eier','Huevos'],pesce:['Pesce','Fish','Poisson','Fisch','Pescado'],arachidi:['Arachidi','Peanuts','Arachides','Erdnüsse','Cacahuetes'],soia:['Soia','Soy','Soja','Soja','Soja'],latte:['Latte e derivati','Milk','Lait','Milch','Leche'],guscio:['Frutta a guscio','Tree nuts','Fruits à coque','Schalenfrüchte','Frutos de cáscara'],sedano:['Sedano','Celery','Céleri','Sellerie','Apio'],senape:['Senape','Mustard','Moutarde','Senf','Mostaza'],sesamo:['Sesamo','Sesame','Sésame','Sesam','Sésamo'],solfiti:['Solfiti','Sulphites','Sulfites','Sulfite','Sulfitos'],lupini:['Lupini','Lupin','Lupin','Lupinen','Altramuces'],molluschi:['Molluschi','Molluscs','Mollusques','Weichtiere','Moluscos']};
+const ALG_NONE={it:'Nessun allergene maggiore dichiarato',en:'No major allergens declared',fr:'Aucun allergène majeur déclaré',de:'Keine Hauptallergene angegeben',es:'Sin alérgenos principales declarados'};
+const LIVE_ALG={};
+const _oldGetAlgs=getAlgs;
+getAlgs=function(name){
+  const c=LIVE_ALG[name];if(!c)return _oldGetAlgs(name);
+  const L=document.getElementById('language').value,li=['it','en','fr','de','es'].indexOf(L);
+  const a=c.filter(x=>ALG_I[x]).map(x=>ALG_I[x][li]);return a.length?a:[ALG_NONE[L]];
+};
+async function loadLiveMenu(){
+  try{
+    const r=await fetch(FB_MENU_URL+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;
+    const raw=await r.json(),m=(Array.isArray(raw)?raw:Object.values(raw||{})).filter(x=>x&&x.name&&!x.soldOut);
+    const food=m.filter(x=>['3 Antipasti','4 Primi Piatti','5 Secondi','6 Desserts'].includes(x.cat)),drinks=m.filter(x=>x.cat==='2 Bevande');
+    if(!food.length&&!drinks.length)return;
+    CHALKBOARD_ITEMS.length=0;food.forEach(x=>CHALKBOARD_ITEMS.push({cat:x.cat,name:x.name,price:Number(x.price)||0}));
+    WINE_ITEMS.length=0;drinks.forEach(x=>WINE_ITEMS.push({name:x.name,price:Number(x.price)||0}));
+    m.forEach(x=>{if(x.tr&&Object.keys(x.tr).length)TRANSLATIONS[x.name]=x.tr;if(Array.isArray(x.allergens)&&x.allergens.length)LIVE_ALG[x.name]=x.allergens;});
+    render();
+  }catch(e){console.error(e);}
+}
+loadLiveMenu();setInterval(loadLiveMenu,60000);
 </script>
 </body>
 </html>
