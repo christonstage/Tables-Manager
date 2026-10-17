@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.9.2 - v1.9.2 Gold</title>
+<title>Alicetta TableZ 1.9.4 - v1.9.4 Gold</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -133,6 +133,18 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 .mandata-btn{padding:13px 2px;font-size:.8rem}
 .cat-btn{padding:11px 16px;font-size:.92rem}
 
+.table-card.delayed{animation:kdsBounce .9s ease-in-out infinite!important;border:4px solid #DC2626!important;box-shadow:0 0 18px rgba(220,38,38,.75)!important}
+.table-card .kds-bomb{top:-20px;right:-10px;width:54px;height:54px}
+.kds-item{display:flex;gap:8px;align-items:flex-start;cursor:pointer;padding:8px;border-radius:8px;margin-top:5px;background:#fff;border:1px solid var(--border);font-size:.92rem;user-select:none}
+.kds-item:active{transform:scale(.98)}
+.kds-item.ready{background:#DCFCE7;border-color:#86EFAC}
+.kds-item.ready>div{text-decoration:line-through;opacity:.55}
+.kds-check{font-size:1.15rem;line-height:1.1}
+.screen-title{font-size:1.15rem;font-weight:900;color:#062329;margin:2px 2px 10px}
+.open-badge{display:none;width:fit-content;margin:4px auto 0;font-size:.68rem;font-weight:900;background:#DC2626;color:#fff;border-radius:10px;padding:2px 8px;line-height:1.3}
+.volo-btn{display:block;width:100%;margin:-4px 0 12px;padding:11px;border-radius:10px;border:2px dashed #F97316;background:#FFF7ED;color:#C2410C;font-weight:900;font-size:.85rem;cursor:pointer;font-family:inherit}
+.volo-btn.on{background:#F97316;color:#fff;border-style:solid}
+.volo-tag{display:inline-block;font-size:.65rem;background:#F97316;color:#fff;padding:1px 6px;border-radius:5px;margin-left:4px;font-weight:900;text-decoration:none}
 .kds-card.delayed{animation:kdsBounce .9s ease-in-out infinite;border:4px solid #DC2626!important;box-shadow:0 0 18px rgba(220,38,38,.75)}
 @keyframes kdsBounce{0%,100%{transform:translateY(0)}30%{transform:translateY(-12px)}50%{transform:translateY(0)}65%{transform:translateY(-5px)}80%{transform:translateY(0)}}
 .kds-bomb{position:absolute;top:-22px;right:-12px;width:62px;height:62px;z-index:5;pointer-events:none;animation:bombShake .35s ease-in-out infinite}
@@ -165,7 +177,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.9">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.9</text></svg>
     </div>
-    <div class="version-badge">v1.9.2 Gold</div>
+    <div class="version-badge">v1.9.4 Gold</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -177,7 +189,8 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <button class="btn-top" id="navQr" onclick="showQrModal()" style="display:none;">🔲</button>
     <button class="btn-top" id="navRes" onclick="switchMainView('res')" style="display:none;">📅</button>
     <button class="btn-top" id="navTime" onclick="switchMainView('time')">🕒</button>
-    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;">Menù</button>
+    <button class="btn-top" id="navDishes" onclick="switchMainView('dishes')" style="display:none;">Menù</button>
+    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;" title="Impostazioni">⚙️</button>
   </div>
 </div>
 <div class="modal-overlay" id="loginModal">
@@ -207,9 +220,9 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewTables" class="screen active">
   <div class="room-tabs">
-    <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">❄️ Interna (<span id="cntInt">11</span>)</div>
-    <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🕶️ Esterna (<span id="cntEst">5</span>)</div>
-    <div class="room-tab" id="tabAsporto" onclick="selectRoom('asporto')">🥡 Asporto (<span id="cntAsp">5</span>)</div>
+    <div class="room-tab active" id="tabInterna" onclick="selectRoom('interna')">❄️ Interna (<span id="cntInt">11</span>)<span class="open-badge" id="openInt"></span></div>
+    <div class="room-tab" id="tabEsterna" onclick="selectRoom('esterna')">🕶️ Esterna (<span id="cntEst">5</span>)<span class="open-badge" id="openEst"></span></div>
+    <div class="room-tab" id="tabAsporto" onclick="selectRoom('asporto')">🥡 Asporto (<span id="cntAsp">5</span>)<span class="open-badge" id="openAsp"></span></div>
   </div>
   <div id="resBoardTables" style="padding:0 14px;"></div>
   <div class="tables-grid" id="tablesContainer"></div>
@@ -247,6 +260,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="mandata-btn" id="mBtn3" onclick="setMandata(3,true)">3ª Mand.</div>
     <div class="mandata-btn" id="mBtn4" onclick="setMandata(4,true)">4ª Mand.</div>
   </div>
+  <button id="voloBtn" class="volo-btn" onclick="toggleAlVolo()" style="display:none;"></button>
   <div class="cat-bar" id="catBar"></div>
   <div class="search-wrap">
     <input type="text" id="menuSearch" class="search-input" placeholder="🔍 Cerca piatto o vino..." oninput="renderMenuGrid()">
@@ -267,7 +281,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.2 Gold)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.4 Gold)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -277,11 +291,13 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
   <div class="kds-grid" id="kdsContainer"></div>
 </div>
 <div id="viewRes" class="screen"><div id="resContent"></div></div>
+<div id="viewDishes" class="screen"><div id="dishesContent"></div></div>
 <div id="viewTime" class="screen"><div id="timeContent"></div></div>
 <div id="viewMenuMgr" class="screen">
+  <div class="screen-title">⚙️ Impostazioni</div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.2 Gold)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.4 Gold)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -479,7 +495,7 @@ function lateInfo(t){if(!t||!t.items||!t.items.length||!t.sentOnce)return null;l
     const el=Date.now()-at;if(el>=DELAY_LIMIT_MS&&(!w||el>w.el))w={m,el};});
   return w;}
 function isTableDelayed(t){return !!lateInfo(t);}
-function tickLiveTimers(){const now=Date.now();state.tk=(state.tk||0)+1;if(state.tk%20===0){checkPace();if(pendingFires.length)playKitchenBell();if(document.getElementById('viewTables').classList.contains('active'))renderTables();else if(document.getElementById('viewKds').classList.contains('active'))renderKds();else if(document.getElementById('viewTime').classList.contains('active'))renderTime();}if(document.getElementById('viewTables').classList.contains('active')){Object.values(state.tables).filter(t=>t.room===state.currentRoom&&t.items&&t.items.length>0).forEach(t=>{const el=document.getElementById('timer_'+t.id);if(el&&t.openedAt)el.textContent="⏱️ "+formatElapsed(now-t.openedAt);});}else if(document.getElementById('viewKds').classList.contains('active')){Object.values(state.tables).filter(t=>t.sentOnce&&t.items&&t.items.some(i=>isItemSent(t,i))).forEach(t=>{const el=document.getElementById('kds_timer_'+t.id);if(el&&t.openedAt)el.textContent="⏱️ "+formatElapsed(now-t.openedAt);});}}
+function tickLiveTimers(){const now=Date.now();state.tk=(state.tk||0)+1;if(state.tk%20===0){checkPace();checkLateAlarms();autoArriveRes();if(pendingFires.length)playKitchenBell();if(document.getElementById('viewTables').classList.contains('active'))renderTables();else if(document.getElementById('viewKds').classList.contains('active'))renderKds();else if(document.getElementById('viewTime').classList.contains('active'))renderTime();}if(document.getElementById('viewTables').classList.contains('active')){Object.values(state.tables).filter(t=>t.room===state.currentRoom&&t.items&&t.items.length>0).forEach(t=>{const el=document.getElementById('timer_'+t.id);if(el&&t.openedAt)el.textContent="⏱️ "+formatElapsed(now-t.openedAt);});}else if(document.getElementById('viewKds').classList.contains('active')){Object.values(state.tables).filter(t=>t.sentOnce&&t.items&&t.items.some(i=>isItemSent(t,i))).forEach(t=>{const el=document.getElementById('kds_timer_'+t.id);if(el&&t.openedAt)el.textContent="⏱️ "+formatElapsed(now-t.openedAt);});}}
 async function initApp(){
   const saved=localStorage.getItem(STORAGE_KEY);
   if(saved){try{const p=JSON.parse(saved);state.tableCounts=p.tableCounts||{interna:11,esterna:5,asporto:5};state.menu=(p.menu&&p.menu.length>0)?p.menu:[...DEFAULT_MENU];state.tables=normalizeTablesStructure(p.tables,state.tableCounts);state.useRawBT=p.useRawBT||false;state.firebaseUrl=p.firebaseUrl||DEFAULT_FIREBASE_URL;state.waiterName=p.waiterName||'';state.lastAlertSignal=p.lastAlertSignal||0;state.lastOrderEvent=p.lastOrderEvent||null;state.lastPagerEvent=p.lastPagerEvent||null;state.historyLog=p.historyLog||[];state.timeLog=p.timeLog||{};state.pins=p.pins||{};state.qrUrl=p.qrUrl||'';state.stock=p.stock||{};state.seats=p.seats||{};state.staffCfg=p.staffCfg||{};state.res=p.res||{};state.pinsReady=Object.keys(state.pins).length>0;}catch(e){state.menu=[...DEFAULT_MENU];state.tables=buildDefaultTables(state.tableCounts);}}
@@ -504,8 +520,8 @@ async function selectUserRole(name,goKds){
   if(goKds){switchMainView('kds');enableKdsTabletMode();}
 }
 function selectCustomUser(){const v=document.getElementById('customWaiterInput').value.trim();if(!v)return alert("Scrivi un nome");selectUserRole(v,false);}
-function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('btnPager').style.display='block';document.getElementById('navRes').style.display=/^christian$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navTime').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('navKds').style.display=/^(christian|kds cucina)$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navQr').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';if(/^timbrature$/i.test((state.waiterName||'').trim())){['navTables','navKds','navRes','navMenu','btnPager'].forEach(i=>document.getElementById(i).style.display='none');document.getElementById('navTime').style.display='block';}else document.getElementById('navTables').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';}
-function updateRoomTabCounts(){document.getElementById('cntInt').textContent=state.tableCounts.interna;document.getElementById('cntEst').textContent=state.tableCounts.esterna;document.getElementById('cntAsp').textContent=state.tableCounts.asporto;document.getElementById('cfgIntCount').value=state.tableCounts.interna;document.getElementById('cfgEstCount').value=state.tableCounts.esterna;document.getElementById('cfgAspCount').value=state.tableCounts.asporto;populateMergeSelectors();}
+function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('navDishes').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('btnPager').style.display='block';document.getElementById('navRes').style.display=/^christian$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navTime').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('navKds').style.display=/^(christian|kds cucina)$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navQr').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';if(/^timbrature$/i.test((state.waiterName||'').trim())){['navTables','navKds','navRes','navMenu','btnPager'].forEach(i=>document.getElementById(i).style.display='none');document.getElementById('navTime').style.display='block';}else document.getElementById('navTables').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';}
+function updateRoomTabCounts(){document.getElementById('cntInt').textContent=state.tableCounts.interna;document.getElementById('cntEst').textContent=state.tableCounts.esterna;document.getElementById('cntAsp').textContent=state.tableCounts.asporto;updateOpenBadges();document.getElementById('cfgIntCount').value=state.tableCounts.interna;document.getElementById('cfgEstCount').value=state.tableCounts.esterna;document.getElementById('cfgAspCount').value=state.tableCounts.asporto;populateMergeSelectors();}
 function saveLocalOnly(){localStorage.setItem(STORAGE_KEY,JSON.stringify({menu:state.menu,tables:state.tables,tableCounts:state.tableCounts,useRawBT:state.useRawBT,firebaseUrl:state.firebaseUrl,waiterName:state.waiterName,historyLog:state.historyLog,lastAlertSignal:state.lastAlertSignal,lastOrderEvent:state.lastOrderEvent,lastPagerEvent:state.lastPagerEvent,timeLog:state.timeLog||{},pins:state.pins||{},qrUrl:state.qrUrl||'',stock:state.stock||{},seats:state.seats||{},staffCfg:state.staffCfg||{},res:state.res||{}}));}
 async function saveState(bell,parts){if(bell)state.lastAlertSignal=Date.now();saveLocalOnly();await pushToCloud(parts);if(!state.lastPushOk)addPending(parts);}
 function getCleanFirebaseUrl(){return(state.firebaseUrl||DEFAULT_FIREBASE_URL).trim().replace(/\/$/,"");}
@@ -592,10 +608,10 @@ function populateMergeSelectors(){const f=document.getElementById('mergeFromSel'
 async function executeTableMerge(sId,tId){if(!sId||!tId||sId===tId)return alert("Seleziona due tavoli diversi.");const s=state.tables[sId],t=state.tables[tId];if(!s||!t)return;if(confirm(`Vuoi unire "${s.name}" dentro "${t.name}"?`)){t.items=(t.items||[]).concat(s.items||[]);t.sentOnce=Boolean(t.sentOnce||s.sentOnce||t.items.some(i=>i.sent));if(!t.openedAt)t.openedAt=s.openedAt||Date.now();const sh=s.name.replace(/Tavolo\s*|Esterno\s*|Asporto\s*/i,'');if(!t.name.includes('+'+sh))t.name+='+'+sh;s.items=[];s.openedAt=0;s.sentOnce=false;s.name=s.baseName;await saveState(false,{tables:[sId,tId]});renderTables();alert(`✅ Uniti in: ${t.name}`);}}
 function mergeTablesFromSettings(){executeTableMerge(document.getElementById('mergeFromSel').value,document.getElementById('mergeToSel').value);}
 function quickMergeFromOrder(){const s=state.tables[state.activeTableId],tn=prompt(`Con quale tavolo vuoi unire ${s.name}? (es: Tavolo 2):`);if(!tn)return;const f=Object.values(state.tables).find(t=>t.name.toLowerCase()===tn.trim().toLowerCase());if(!f)return alert("Tavolo non trovato.");executeTableMerge(s.id,f.id).then(()=>openTable(f.id));}
-function switchMainView(v){if(/^timbrature$/i.test((state.waiterName||'').trim()))v='time';if(/^kds cucina$/i.test((state.waiterName||'').trim()))v='kds';if(v==='time'&&/^kds cucina$/i.test((state.waiterName||'').trim()))return;if(v==='kds'&&!/^(christian|kds cucina)$/i.test((state.waiterName||'').trim()))return;document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.btn-top').forEach(b=>b.classList.remove('active'));if(v==='tables'){document.getElementById('viewTables').classList.add('active');document.getElementById('navTables').classList.add('active');renderTables();}else if(v==='kds'){document.getElementById('viewKds').classList.add('active');document.getElementById('navKds').classList.add('active');renderKds();}else if(v==='res'){if(!/^christian$/i.test((state.waiterName||'').trim()))return switchMainView('tables');document.getElementById('viewRes').classList.add('active');document.getElementById('navRes').classList.add('active');renderRes();}else if(v==='time'){document.getElementById('viewTime').classList.add('active');document.getElementById('navTime').classList.add('active');renderTime();}else if(v==='menuMgr'){document.getElementById('viewMenuMgr').classList.add('active');document.getElementById('navMenu').classList.add('active');renderMenuMgr();updateDailyStats();}}
+function switchMainView(v){if(/^timbrature$/i.test((state.waiterName||'').trim()))v='time';if(/^kds cucina$/i.test((state.waiterName||'').trim()))v='kds';if(v==='time'&&/^kds cucina$/i.test((state.waiterName||'').trim()))return;if(v==='kds'&&!/^(christian|kds cucina)$/i.test((state.waiterName||'').trim()))return;document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.btn-top').forEach(b=>b.classList.remove('active'));if(v==='tables'){document.getElementById('viewTables').classList.add('active');document.getElementById('navTables').classList.add('active');renderTables();}else if(v==='kds'){document.getElementById('viewKds').classList.add('active');document.getElementById('navKds').classList.add('active');renderKds();}else if(v==='res'){if(!/^christian$/i.test((state.waiterName||'').trim()))return switchMainView('tables');document.getElementById('viewRes').classList.add('active');document.getElementById('navRes').classList.add('active');renderRes();}else if(v==='time'){document.getElementById('viewTime').classList.add('active');document.getElementById('navTime').classList.add('active');renderTime();}else if(v==='dishes'){document.getElementById('viewDishes').classList.add('active');document.getElementById('navDishes').classList.add('active');renderDishes();}else if(v==='menuMgr'){document.getElementById('viewMenuMgr').classList.add('active');document.getElementById('navMenu').classList.add('active');renderMenuMgr();updateDailyStats();}}
 function selectRoom(r){state.currentRoom=r;document.getElementById('tabInterna').classList.toggle('active',r==='interna');document.getElementById('tabEsterna').classList.toggle('active',r==='esterna');document.getElementById('tabAsporto').classList.toggle('active',r==='asporto');renderTables();}
 function getTableTotal(t){return(!t||!t.items)?0:t.items.reduce((s,i)=>s+(i.price*i.qty),0);}
-function renderTables(){renderResBoard('resBoardTables');
+function renderTables(){renderResBoard('resBoardTables');updateOpenBadges();
   const c=document.getElementById('tablesContainer');c.innerHTML='';const now=Date.now();
   Object.values(state.tables).filter(t=>t.room===state.currentRoom).sort((a,b)=>(parseInt((a.id||'').split('_')[1],10)||0)-(parseInt((b.id||'').split('_')[1],10)||0)).forEach(t=>{
     const busy=t.items&&t.items.length>0,tot=getTableTotal(t),del=isTableDelayed(t);let dots='';
@@ -603,7 +619,7 @@ function renderTables(){renderResBoard('resBoardTables');
     const pk=(t.room==='asporto'&&t.pickupTime)?`<div class="pickup-badge">🕒 ${t.pickupTime}</div>`:'';
     const tm=(busy&&t.openedAt)?`<div><span class="table-timer" id="timer_${t.id}">⏱️ ${formatElapsed(now-t.openedAt)}</span></div>`:'';
     const card=document.createElement('div');card.className=`table-card ${busy?'busy':'free'} ${del?'delayed':''} ${marciaBadge(t)?'marcia':''} ${allServed(t)?'conto':''}`;card.onclick=()=>openTable(t.id);
-    card.innerHTML=`<div class="delay-skull" style="display:${del?'flex':'none'};">${SKULL_SVG}</div><div class="table-name">${t.name}</div>${pk}<div><span class="table-status ${busy?'status-busy':'status-free'}">${busy?'Occupato':'Libero'}</span></div>${tm}${busy?`<div class="table-total">€ ${formatPrice(tot)}</div>`:`<div style="font-size:0.7rem;opacity:0.8;margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dots}</div>${contoBadge(t)}${marciaBadge(t)}${paceBadge(t)}${resBadge(t)}`;
+    card.innerHTML=`${del?BOMB_SVG:''}<div class="table-name">${t.name}</div>${pk}<div><span class="table-status ${busy?'status-busy':'status-free'}">${busy?'Occupato':'Libero'}</span></div>${tm}${kitchenChip(t)}${busy?`<div class="table-total">€ ${formatPrice(tot)}</div>`:`<div style="font-size:0.7rem;opacity:0.8;margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dots}</div>${contoBadge(t)}${marciaBadge(t)}${paceBadge(t)}${resBadge(t)}`;
     c.appendChild(card);
   });
 }
@@ -615,7 +631,7 @@ function openTable(id){
 }
 function saveAsportoMeta(){const t=state.tables[state.activeTableId];if(!t||t.room!=='asporto')return;t.pickupTime=document.getElementById('pickupTimeInput').value||'';t.customerName=document.getElementById('customerNameInput').value.trim();state.metaDirty=true;saveLocalOnly();clearTimeout(state.metaTimer);const id=t.id;state.metaTimer=setTimeout(async()=>{await saveState(false,{tables:[id]});state.metaDirty=false;},800);}
 function closeTableView(){state.activeTableId=null;switchMainView('tables');}
-function setMandata(m,autoCat=false){state.currentMandata=m;[0,1,2,3,4].forEach(i=>{const el=document.getElementById('mBtn'+i);if(el)el.classList.toggle('active',i===m);});if(autoCat){const t=state.tables[state.activeTableId];state.currentCategory=m===0?((t&&t.items&&t.items.some(i=>i.name==='Pane e Coperto'))?"2 Bevande":"1 Coperto"):(MANDATA_TO_CAT[m]||state.currentCategory);document.getElementById('menuSearch').value='';renderCategories();renderMenuGrid();}}
+function setMandata(m,autoCat=false){state.alVolo=false;state.currentMandata=m;if(typeof renderVoloBtn==='function')renderVoloBtn();[0,1,2,3,4].forEach(i=>{const el=document.getElementById('mBtn'+i);if(el)el.classList.toggle('active',i===m);});if(autoCat){const t=state.tables[state.activeTableId];state.currentCategory=m===0?((t&&t.items&&t.items.some(i=>i.name==='Pane e Coperto'))?"2 Bevande":"1 Coperto"):(MANDATA_TO_CAT[m]||state.currentCategory);document.getElementById('menuSearch').value='';renderCategories();renderMenuGrid();}}
 function clearSearch(){document.getElementById('menuSearch').value='';renderMenuGrid();}
 function renderCategories(){const bar=document.getElementById('catBar');bar.innerHTML='';let act=null;CATEGORIES.forEach(cat=>{const b=document.createElement('button'),ia=state.currentCategory===cat;b.className=`cat-btn ${ia?'active':''}`;b.textContent=cat;if(ia)act=b;b.onclick=()=>{state.currentCategory=cat;document.getElementById('menuSearch').value='';if(cat==='1 Coperto'||cat==='2 Bevande')setMandata(0,false);else if(state.currentMandata===0)setMandata(1,false);renderCategories();renderMenuGrid();};bar.appendChild(b);});if(act)requestAnimationFrame(()=>bar.scrollTo({left:Math.max(0,act.offsetLeft-(bar.clientWidth/2)+(act.clientWidth/2)),behavior:'smooth'}));}
 function renderMenuGrid(){
@@ -626,7 +642,7 @@ function renderMenuGrid(){
     c.style.opacity=item.soldOut?0.45:1;c.innerHTML=`${item.soldOut?'<div style="font-size:0.65rem;font-weight:900;color:#B91C1C;">⛔ ESAURITO</div>':''}<div class="item-name">${item.name}</div><div class="item-price">${formatPrice(item.price)} €</div>${(()=>{const l=stockLeft(item);return l!==null&&l>0?`<div style="font-size:0.68rem;font-weight:800;color:#065F46;">${l} rimasti</div>`:'';})()}`;let lp;c.addEventListener('touchstart',()=>{lp=setTimeout(()=>{window._lpFired=Date.now();itemActions(item.id);},700);},{passive:true});['touchend','touchmove','touchcancel'].forEach(ev=>c.addEventListener(ev,()=>clearTimeout(lp)));g.appendChild(c);
   });
 }
-function addItemToTable(mi){const t=state.tables[state.activeTableId];if(!t.items)t.items=[];if(!t.items.length||!t.openedAt)t.openedAt=Date.now();const m=state.currentMandata,ex=t.items.find(i=>i.menuId===mi.id&&i.mandata===m&&!i.note&&!isItemSent(t,i));if(ex)ex.qty+=1;else t.items.push({lineId:Date.now()+Math.random(),menuId:mi.id,cat:mi.cat,name:mi.name,price:mi.price,qty:1,mandata:m,waiter:state.waiterName||'Staff',note:'',sent:false});saveLocalOnly();renderOrderScreen();}
+function addItemToTable(mi){const t=state.tables[state.activeTableId];if(!t.items)t.items=[];if(!t.items.length||!t.openedAt)t.openedAt=Date.now();const vt=state.alVolo?voloTarget(t):null,av=vt!==null,m=av?vt:state.currentMandata,ex=t.items.find(i=>i.menuId===mi.id&&i.mandata===m&&!!i.alVolo===av&&!i.note&&!isItemSent(t,i));if(ex)ex.qty+=1;else t.items.push({lineId:Date.now()+Math.random(),menuId:mi.id,cat:mi.cat,name:mi.name,price:mi.price,qty:1,mandata:m,waiter:state.waiterName||'Staff',note:'',sent:false,...(av?{alVolo:true}:{})});saveLocalOnly();renderOrderScreen();}
 function changeItemQty(lid,d){{const t0=state.tables[state.activeTableId],i0=t0&&(t0.items||[]).find(i=>i.lineId===lid);if(i0&&d<0&&(isItemSent(t0,i0)||i0.qty+d<=0)&&!confirm(i0.qty+d<=0?'Eliminare '+i0.name+' dalla comanda?':'Togliere 1 '+i0.name+' già inviato in cucina?'))return;}const t=state.tables[state.activeTableId],idx=t.items.findIndex(i=>i.lineId===lid);if(idx===-1)return;const ws=isItemSent(t,t.items[idx]);t.items[idx].qty+=d;if(t.items[idx].qty<=0)t.items.splice(idx,1);if(ws)saveState(false,{tables:[state.activeTableId]});else saveLocalOnly();renderOrderScreen();}
 function openNoteModal(lid){const t=state.tables[state.activeTableId],it=t&&t.items&&t.items.find(i=>i.lineId===lid);if(!it)return;state.editingLineId=lid;document.getElementById('noteDishTitle').textContent=`${it.qty}x ${it.name}`;document.getElementById('noteInputBox').value=it.note||'';document.getElementById('splitPortionWrap').style.display=it.qty>1?'flex':'none';document.getElementById('chkSplitPortion').checked=true;document.getElementById('noteModal').classList.add('active');}
 function appendNoteChip(txt){const b=document.getElementById('noteInputBox'),c=b.value.trim();b.value=c?(c+', '+txt):txt;}
@@ -634,25 +650,25 @@ function saveDishNote(){const t=state.tables[state.activeTableId],it=t&&t.items&
 function clearDishNote(){if(!confirm('Cancellare la nota?'))return;document.getElementById('noteInputBox').value='';saveDishNote();}
 function closeNoteModal(){document.getElementById('noteModal').classList.remove('active');state.editingLineId=null;}
 function renderOrderScreen(){
-  const t=state.tables[state.activeTableId];if(!t)return;document.getElementById('activeTableTotal').textContent='€ '+formatPrice(getTableTotal(t));
+  const t=state.tables[state.activeTableId];if(!t)return;document.getElementById('activeTableTotal').textContent='€ '+formatPrice(getTableTotal(t));renderVoloBtn(t);
   const fb=document.getElementById('fireBox'),fc=document.getElementById('fireButtonsContainer');fc.innerHTML='';
   if([2,3,4].some(m=>t.items.some(i=>i.mandata===m))){fb.style.display='block';[2,3,4].forEach(m=>{if(t.items.some(i=>i.mandata===m)){const b=document.createElement('button');b.className=`btn-fire ${t.firedMandate[m]?'fired':''}`;b.textContent=t.firedMandate[m]?`✅ ${m}ª INVIATA`:`🔥 DAI IL VIA ${m}ª`;b.onclick=()=>fireMandataTicket(m);fc.appendChild(b);}});}else fb.style.display='none';
   const cart=document.getElementById('cartContainer');if(!t.items||!t.items.length){cart.innerHTML='<div style="color:var(--muted);font-size:0.85rem;">Nessun articolo inserito.</div>';return;}
-  cart.innerHTML=allServed(t)?'<div class="conto-banner">💶 TUTTO SERVITO — è il momento del conto</div>':'';[0,1,2,3,4].forEach(m=>{const gi=t.items.filter(i=>i.mandata===m);if(!gi.length)return;const gd=document.createElement('div');gd.className='mandata-group';const ms=mandataStatus(t,m);if(ms==="done")gd.classList.add("served");gd.innerHTML=`<div class="mandata-header"><span>${MANDATE_LABELS[m]} ${m>0?statusChip(ms):""}</span><span>${gi.reduce((a,b)=>a+b.qty,0)} pz</span></div>`;gi.forEach(it=>{const r=document.createElement('div');r.className='cart-row';const sb=isItemSent(t,it)?`<span style="font-size:0.65rem;background:#D1FAE5;color:#065F46;padding:1px 5px;border-radius:4px;margin-left:4px;font-weight:800;">Inviato</span>`:`<span style="font-size:0.65rem;background:#FEE2E2;color:#991B1B;padding:1px 5px;border-radius:4px;margin-left:4px;font-weight:800;">Bozza</span>`;r.innerHTML=`<div class="cart-info"><b>${it.qty}x</b> ${it.name} ${sb} <span style="font-size:0.7rem;color:var(--muted);">(${it.waiter||'Staff'})</span>${it.note?`<div><span class="cart-note">✏️ ${it.note}</span></div>`:''}</div><div class="cart-controls"><button class="btn-note" onclick="openNoteModal(${it.lineId})">✏️ Nota</button><button class="btn-qty" onclick="changeItemQty(${it.lineId},-1)">-</button><button class="btn-qty" onclick="changeItemQty(${it.lineId},1)">+</button></div>`;gd.appendChild(r);});cart.appendChild(gd);});
+  cart.innerHTML=allServed(t)?'<div class="conto-banner">💶 TUTTO SERVITO — è il momento del conto</div>':'';[0,1,2,3,4].forEach(m=>{const gi=t.items.filter(i=>i.mandata===m);if(!gi.length)return;const gd=document.createElement('div');gd.className='mandata-group';const ms=mandataStatus(t,m);if(ms==="done")gd.classList.add("served");gd.innerHTML=`<div class="mandata-header"><span>${MANDATE_LABELS[m]} ${m>0?statusChip(ms):""}</span><span>${gi.reduce((a,b)=>a+b.qty,0)} pz</span></div>`;gi.forEach(it=>{const r=document.createElement('div');r.className='cart-row';const sb=isItemSent(t,it)?`<span style="font-size:0.65rem;background:#D1FAE5;color:#065F46;padding:1px 5px;border-radius:4px;margin-left:4px;font-weight:800;">Inviato</span>`:`<span style="font-size:0.65rem;background:#FEE2E2;color:#991B1B;padding:1px 5px;border-radius:4px;margin-left:4px;font-weight:800;">Bozza</span>`;r.innerHTML=`<div class="cart-info"><b>${it.qty}x</b> ${it.name}${it.alVolo?'<span class="volo-tag">⚡ AL VOLO</span>':''} ${sb} <span style="font-size:0.7rem;color:var(--muted);">(${it.waiter||'Staff'})</span>${it.note?`<div><span class="cart-note">✏️ ${it.note}</span></div>`:''}</div><div class="cart-controls"><button class="btn-note" onclick="openNoteModal(${it.lineId})">✏️ Nota</button><button class="btn-qty" onclick="changeItemQty(${it.lineId},-1)">-</button><button class="btn-qty" onclick="changeItemQty(${it.lineId},1)">+</button></div>`;gd.appendChild(r);});cart.appendChild(gd);});
 }
 function splitBillPrompt(){const t=state.tables[state.activeTableId];if(!t||!t.items||!t.items.length)return alert("Nessun ordine attivo.");const tot=getTableTotal(t),p=prompt("In quante persone dividere il conto?","2");if(p&&!isNaN(p)&&parseInt(p)>0)alert(`Totale: € ${formatPrice(tot)}\nPersone: ${p}\nQuota a testa: € ${formatPrice(tot/parseInt(p))}`);}
 function buildTimeStr(){return new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});}
 function buildDateISO(){const d=new Date(),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 async function sendOrderToKitchen(){
   const t=state.tables[state.activeTableId];if(!t||!t.items||!t.items.length)return alert("Inserisci almeno un articolo.");
-  t.items.forEach(i=>{i.sent=true;});t.sentOnce=true;t.firedMandate[1]=true;(t.firedAt=t.firedAt||{})[1]=t.firedAt[1]||Date.now();if(!t.openedAt)t.openedAt=Date.now();
+  const vl=t.items.filter(i=>i.alVolo&&!isItemSent(t,i));t.items.forEach(i=>{i.sent=true;});t.sentOnce=true;[...new Set(vl.map(i=>i.mandata))].forEach(m=>{t.firedMandate[m]=true;(t.firedAt=t.firedAt||{})[m]=Date.now();t.doneMandate[m]=false;});state.alVolo=false;if(!t.openedAt)t.openedAt=Date.now();autoArriveRes(t.id);t.firedMandate[1]=true;(t.firedAt=t.firedAt||{})[1]=t.firedAt[1]||Date.now();if(!t.openedAt)t.openedAt=Date.now();
   const dl=t.items.filter(i=>i.name!=='Pane e Coperto').map(i=>`<b>${i.qty}x</b> ${i.name}`).join(', ');
-  state.lastOrderEvent={id:Date.now(),title:`COMANDA ${t.name.toUpperCase()}`,waiter:state.waiterName||'Staff',summary:dl||'Solo Coperti'};
+  state.lastOrderEvent={id:Date.now(),title:`COMANDA ${t.name.toUpperCase()}`,waiter:state.waiterName||'Staff',summary:dl||'Solo Coperti'};if(vl.length)state.lastOrderEvent={id:Date.now(),title:`⚡ AL VOLO · ${t.name.toUpperCase()}`,waiter:state.waiterName||'Staff',summary:vl.map(i=>`<b>${i.qty}x</b> ${i.name} (con la ${i.mandata}ª)`).join(', ')};
   playKitchenBell();if(navigator.vibrate)try{navigator.vibrate([250,100,250]);}catch(e){}showOrderToast(state.lastOrderEvent,true);
   await saveState(true,{tables:[t.id]});renderOrderScreen();
   const ts=buildTimeStr(),ESC="\x1B",GS="\x1D";let pv=`==========================================\n   ALICETTA TABLEZ 1.9 - ${t.name.toUpperCase()}\n   Cam: ${state.waiterName||'Staff'} - ${ts}\n==========================================\n\n`,ep=ESC+"@"+ESC+"a\x01"+ESC+"!\x38"+`${t.name.toUpperCase()}\n`+ESC+"!\x08"+`Cam: ${state.waiterName||'Staff'} - ${ts}\n------------------------------------------\n`+ESC+"a\x00";
   const cop=t.items.filter(i=>i.name==='Pane e Coperto');if(cop.length){const tc=cop.reduce((s,c)=>s+c.qty,0);pv+=`COPERTI: ${tc}\n\n`;ep+=ESC+"!\x08"+`COPERTI: ${tc}\n`+ESC+"!\x00";}
-  [0,1,2,3,4].forEach(m=>{const l=t.items.filter(i=>i.mandata===m&&i.name!=='Pane e Coperto');if(!l.length)return;const h=m===1?">>> 1a MANDATA (MARCIA) <<<":m>1?`--- ${m}a MANDATA ---`:"--- SUBITO / BEV ---";pv+=`${h}\n`;ep+="\n"+ESC+"!\x08"+h+"\n"+ESC+"!\x00";l.forEach(it=>{pv+=`  ${it.qty}x ${it.name}\n`;ep+=ESC+"!\x18"+`${it.qty}x ${it.name}\n`+ESC+"!\x00";if(it.note){pv+=`     * ${it.note}\n`;ep+=ESC+"!\x08"+`   * ${it.note}\n`+ESC+"!\x00";}});pv+="\n";});
+  [0,1,2,3,4].forEach(m=>{const l=t.items.filter(i=>i.mandata===m&&i.name!=='Pane e Coperto');if(!l.length)return;const h=m===1?">>> 1a MANDATA (MARCIA) <<<":m>1?`--- ${m}a MANDATA ---`:"--- SUBITO / BEV ---";pv+=`${h}\n`;ep+="\n"+ESC+"!\x08"+h+"\n"+ESC+"!\x00";l.forEach(it=>{const vv=it.alVolo?'[AL VOLO] ':'';pv+=`  ${it.qty}x ${vv}${it.name}\n`;ep+=ESC+"!\x18"+`${it.qty}x ${vv}${it.name}\n`+ESC+"!\x00";if(it.note){pv+=`     * ${it.note}\n`;ep+=ESC+"!\x08"+`   * ${it.note}\n`+ESC+"!\x00";}});pv+="\n";});
   dispatchPrint(pv+"==========================================\n",ep+"\n------------------------------------------\n\n\n"+GS+"V\x42\x00");
 }
 async function fireMandataTicket(m){{const t0=state.tables[state.activeTableId];if(!confirm('Dare il via alla '+m+'ª mandata'+(t0?' del '+t0.name:'')+' in cucina?'))return;}
@@ -678,7 +694,7 @@ function freeCurrentTable(){
     saveState(false,{tables:[t.id],history:true});closeTableView();updateDailyStats();
   }
 }
-function markMandataDone(id,m){{const t0=state.tables[id];if(t0&&!confirm((t0.doneMandate&&t0.doneMandate[m]?'Riaprire':'Segnare FATTA')+' la '+m+'ª mandata del '+t0.name+'?'))return;}const t=state.tables[id];if(!t)return;t.doneMandate[m]=!t.doneMandate[m];(t.doneAt=t.doneAt||{})[m]=t.doneMandate[m]?Date.now():0;
+function markMandataDone(id,m){{const t0=state.tables[id];if(t0&&!confirm((t0.doneMandate&&t0.doneMandate[m]?'Riaprire':'Segnare FATTA')+' la '+m+'ª mandata del '+t0.name+'?'))return;}const t=state.tables[id];if(!t)return;t.doneMandate[m]=!t.doneMandate[m];(t.doneAt=t.doneAt||{})[m]=t.doneMandate[m]?Date.now():0;if(t.doneMandate[m])t.items.forEach(i=>{if(i.mandata===m&&isItemSent(t,i)&&!i.ready){i.ready=true;i.readyAt=Date.now();}});
   if(t.doneMandate[m]){const all=allServed(t),its=t.items.filter(i=>i.mandata===m).map(i=>`<b>${i.qty}x</b> ${i.name}`).join(', ');
     state.lastOrderEvent={id:Date.now(),title:all?`💶 ${t.name.toUpperCase()}: TUTTO SERVITO · CONTO`:`✅ ${m}ª PRONTA · ${t.name.toUpperCase()}`,waiter:'Cucina',summary:all?'Tutte le mandate sono uscite: si può portare il conto.':its};}
   saveState(false,{tables:[id]});renderKds();}
@@ -688,8 +704,8 @@ function renderKds(){syncStockSoldOut();renderResBoard('resBoardKds');if(documen
   act.forEach(t=>{
     const card=document.createElement('div');card.className=`kds-card ${isTableDelayed(t)?'delayed':''}`;
     let h=`<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:8px;"><b>${t.name}</b><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:0.75rem;color:var(--logo-coral);">${t.room==='interna'?'❄️ Interna':t.room==='esterna'?'🕶️ Esterna':'🥡 Asporto'}</span><span id="kds_timer_${t.id}">⏱️ ${t.openedAt?formatElapsed(now-t.openedAt):'00:00'}</span></div></div>`;
-    [0,1,2,3,4].forEach(m=>{const mi=t.items.filter(i=>i.mandata===m&&isItemSent(t,i));if(!mi.length)return;const dn=t.doneMandate&&t.doneMandate[m],fr=(m===0||m===1||(t.firedMandate&&t.firedMandate[m])),bg=dn?`<span style="color:#10B981;">SERVITA</span>`:fr?`<span style="color:#10B981;">MARCIARE</span>`:`<span style="color:var(--logo-coral);">ATTESA</span>`;h+=`<div style="margin-bottom:8px;padding:6px;background:rgba(0,0,0,0.05);border-radius:6px;${dn?'opacity:0.4;':''}"><div style="font-size:0.75rem;display:flex;justify-content:space-between;"><b>${MANDATE_LABELS[m]}</b> ${bg}</div>${mi.map(i=>`<div style="font-size:0.88rem;margin-top:2px;">• <b>${i.qty}x</b>${i.name} <span style="font-size:0.7rem;color:var(--muted);">(${i.waiter||'Staff'})</span>${i.note?`<div style="color:#DC2626;font-weight:800;font-size:0.78rem;margin-left:12px;">⚠️ ${i.note}</div>`:''}</div>`).join('')}${(m>0&&fr)?`<button class="btn-kds-done" onclick="markMandataDone('${t.id}',${m})">${dn?'Riapri':'✅ FATTO'}</button>`:''}</div>`;});
-    card.innerHTML=(isTableDelayed(t)?BOMB_SVG+`<div class="kds-late">💣 ${lateInfo(t).m}ª MANDATA IN RITARDO · ${Math.floor(lateInfo(t).el/60000)} min</div>`:'')+paceBadge(t)+h;c.appendChild(card);
+    [0,1,2,3,4].forEach(m=>{const mi=t.items.filter(i=>i.mandata===m&&isItemSent(t,i));if(!mi.length)return;const dn=t.doneMandate&&t.doneMandate[m],fr=(m===0||m===1||(t.firedMandate&&t.firedMandate[m])),bg=dn?`<span style="color:#10B981;">SERVITA</span>`:fr?`<span style="color:#10B981;">MARCIARE</span>`:`<span style="color:var(--logo-coral);">ATTESA</span>`;h+=`<div style="margin-bottom:8px;padding:6px;background:rgba(0,0,0,0.05);border-radius:6px;${dn?'opacity:0.4;':''}"><div style="font-size:0.75rem;display:flex;justify-content:space-between;"><b>${MANDATE_LABELS[m]}</b> ${bg}</div>${mi.map(i=>kdsItemRow(t,i,dn)).join('')}${(m>0&&fr)?`<button class="btn-kds-done" onclick="markMandataDone('${t.id}',${m})">${dn?'Riapri':'✅ FATTO'}</button>`:''}</div>`;});
+    card.innerHTML=(isTableDelayed(t)?BOMB_SVG+`<div class="kds-late">💣 ${lateInfo(t).m}ª MANDATA IN RITARDO · ${Math.floor(lateInfo(t).el/60000)} min <button class="btn-note" style="margin-left:6px;padding:3px 9px;" onclick="ackLate('${t.id}',${lateInfo(t).m})">🔕</button></div>`:'')+paceBadge(t)+h;c.appendChild(card);
   });
 }
 const LANGS=['it','en','fr','de','es'];
@@ -1051,16 +1067,16 @@ function removeStaff(n){
   const c=state.staffCfg=state.staffCfg||{};c.hidden=[...new Set([...(c.hidden||[]),n])];c.extra=(c.extra||[]).filter(x=>x!==n);saveState(false,{staff:true});renderTime();
 }
 function renderResBoard(id){const el=document.getElementById(id);if(!el)return;const td=buildDateISO(),now=Date.now();
-  const L=Object.values(state.res||{}).filter(r=>r.date===td&&r.status!=='cancellata').sort((a,b)=>resTs(a)-resTs(b));
+  const L=Object.entries(state.res||{}).map(([id,r])=>({...r,id})).filter(r=>r.date===td&&r.status!=='cancellata').sort((a,b)=>resTs(a)-resTs(b));
   if(!L.length){el.innerHTML='';return;}
   const tb=r=>(r.tables||[]).map(tname).join(' + ')||'—',nt=r=>r.note?' · 📝 '+escH(r.note):'';
   const cov=L.reduce((s,r)=>s+(Number(r.covers)||0),0),arrN=L.filter(r=>r.status==='arrivato').length;
   el.innerHTML=`<div class="cart-section" style="margin-bottom:10px;"><div style="font-weight:800;margin-bottom:6px;">📅 Prenotazioni di oggi: ${L.length} · ${cov} coperti · ${arrN} arrivati</div>`+L.map(r=>{
     const d=Math.round((resTs(r)-now)/60000),base=`${escH(r.time)} · ${escH(r.name)} · ${r.covers}p · 🪑 ${tb(r)}${nt(r)}`;
     if(r.status==='arrivato')return `<div style="padding:4px 0;font-size:0.86rem;color:#065F46;font-weight:700;">✅ ${base} · arrivati${r.arrivedAt?' alle '+hmin(r.arrivedAt):''}</div>`;
-    if(d<0)return `<div style="padding:4px 0;font-size:0.86rem;color:#B91C1C;font-weight:900;">⏰ IN RITARDO +${-d}' · ${base}</div>`;
-    if(d<=30)return `<div style="padding:4px 0;font-size:0.86rem;color:#C2410C;font-weight:800;">🔜 tra ${d} min · ${base}</div>`;
-    return `<div style="padding:4px 0;font-size:0.86rem;color:#1F2937;">🕒 ${base}</div>`;}).join('')+'</div>';}
+    if(d<0)return `<div style="padding:4px 0;font-size:0.86rem;color:#B91C1C;font-weight:900;">⏰ IN RITARDO +${-d}' · ${base} <button class="btn-note" style="padding:5px 10px;margin-left:6px;font-size:.78rem;" onclick="arriveRes('${r.id}')">✅ Arrivati</button></div>`;
+    if(d<=30)return `<div style="padding:4px 0;font-size:0.86rem;color:#C2410C;font-weight:800;">🔜 tra ${d} min · ${base} <button class="btn-note" style="padding:5px 10px;margin-left:6px;font-size:.78rem;" onclick="arriveRes('${r.id}')">✅ Arrivati</button></div>`;
+    return `<div style="padding:4px 0;font-size:0.86rem;color:#1F2937;">🕒 ${base} <button class="btn-note" style="padding:5px 10px;margin-left:6px;font-size:.78rem;" onclick="arriveRes('${r.id}')">✅ Arrivati</button></div>`;}).join('')+'</div>';}
 const BOMB_SVG='<svg class="kds-bomb" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="28" cy="38" r="20" fill="#111"/><circle cx="20" cy="30" r="5" fill="#666"/><rect x="33" y="15" width="11" height="9" rx="2" fill="#333" transform="rotate(35 38 19)"/><path d="M42 15 Q47 4 56 8" stroke="#A16207" stroke-width="3" fill="none" stroke-linecap="round"/><g class="spark" style="transform-origin:56px 8px"><circle cx="56" cy="8" r="6" fill="#F97316"/><circle cx="56" cy="8" r="3" fill="#FDE047"/><path d="M56 0v3M56 13v3M48 8h3M61 8h3M50 2l2 2M62 2l-2 2M50 14l2-2M62 14l-2-2" stroke="#FACC15" stroke-width="2" stroke-linecap="round"/></g></svg>';
 
 
@@ -1166,7 +1182,97 @@ async function tmRestore(id){const s=tmLoad().find(x=>x.id===id);if(!s)return;
   updateRoomTabCounts();renderMenuMgr();
   alert(state.lastPushOk?'✅ Ripristino completato su tutti i dispositivi.':'📴 Ripristino salvato sul telefono: partirà appena torna la connessione.');}
 
-initApp();
 </script>
+<script>
+/* ===== v1.9.3 · Menù piatti, prenotazioni, KDS per portata, allarmi ===== */
+const LATE_REPEAT_MS=2*60*1000;
+/* ---------- Suoni più forti ---------- */
+let sndOut=null;
+function sndDest(){unlockAudioOnce();if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();if(!sndOut){const c=audioCtx.createDynamicsCompressor();c.threshold.value=-12;c.knee.value=0;c.ratio.value=20;c.attack.value=0.002;c.release.value=0.15;const g=audioCtx.createGain();g.gain.value=2.2;g.connect(c);c.connect(audioCtx.destination);sndOut=g;}return sndOut;}
+function tone(f,t0,dur,type,vol,f2){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type||'square';o.frequency.setValueAtTime(f,t0);if(f2)o.frequency.linearRampToValueAtTime(f2,t0+dur);g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(vol||1,t0+0.012);g.gain.setValueAtTime(vol||1,Math.max(t0+0.013,t0+dur-0.04));g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);o.connect(g);g.connect(sndDest());o.start(t0);o.stop(t0+dur+0.03);}
+playKitchenBell=function(){try{const d=sndDest(),n=audioCtx.currentTime+0.02;[0,0.9].forEach(r=>{[[1568,0],[1175,0.28],[1568,0.56]].forEach(([f,o])=>{tone(f,n+r+o,0.26,'square',0.9);tone(f*2,n+r+o,0.26,'triangle',0.5);});});}catch(e){}};
+playPagerSiren=function(){try{sndDest();const n=audioCtx.currentTime+0.02;for(let i=0;i<12;i++)tone(i%2?1175:1760,n+i*0.17,0.16,'square',1);}catch(e){}};
+function playPoliceSiren(sec){try{sndDest();const n=audioCtx.currentTime+0.02,dur=sec||4;[['sawtooth',1],['square',0.6]].forEach(([ty,v],k)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=ty;o.frequency.setValueAtTime(650,n);for(let t=0;t<dur;t+=0.9){o.frequency.linearRampToValueAtTime(1500,n+t+0.45);o.frequency.linearRampToValueAtTime(650,n+t+0.9);}g.gain.setValueAtTime(0.0001,n);g.gain.exponentialRampToValueAtTime(v,n+0.05);g.gain.setValueAtTime(v,n+dur-0.1);g.gain.exponentialRampToValueAtTime(0.0001,n+dur);if(k)o.detune.value=12;o.connect(g);g.connect(sndDest());o.start(n);o.stop(n+dur+0.05);});}catch(e){}}
+
+/* ---------- Ritardo 20 minuti: bomba, bounce, sirena ---------- */
+function kitchenInfo(t){if(!t||!t.items||!t.items.length||!t.sentOnce)return null;let w=null;[1,2,3,4].forEach(m=>{if(!t.items.some(i=>i.mandata===m&&i.name!=='Pane e Coperto'&&isItemSent(t,i)))return;if(t.doneMandate&&t.doneMandate[m])return;if(m>1&&!(t.firedMandate&&t.firedMandate[m]))return;const at=(t.firedAt&&t.firedAt[m])||(m===1?t.openedAt:0);if(!at)return;const el=Date.now()-at;if(!w||el>w.el)w={m,el};});return w;}
+function kitchenChip(t){const k=kitchenInfo(t);if(!k)return '';const mn=Math.floor(k.el/60000),c=mn>=20?'#DC2626':mn>=15?'#D97706':'#062329';return `<div style="margin-top:4px;"><span style="font-size:.74rem;font-weight:900;padding:2px 7px;border-radius:6px;background:${c};color:#fff;">🍳 ${k.m}ª in cucina da ${mn}'</span></div>`;}
+function lateKey(t,m){return t.id+'_'+m+'_'+((t.firedAt&&t.firedAt[m])||t.openedAt||0);}
+function checkLateAlarms(){
+  const wn=(state.waiterName||'').trim();if(!wn||/^timbrature$/i.test(wn))return;
+  state.lateSeen=state.lateSeen||{};const now=Date.now();let hit=null;
+  Object.values(state.tables).forEach(t=>{const li=lateInfo(t);if(!li)return;const k=lateKey(t,li.m),s=state.lateSeen[k];if(s==='ack')return;if(!s||now-s>=LATE_REPEAT_MS){state.lateSeen[k]=now;if(!hit||li.el>hit.li.el)hit={t,li};}});
+  if(!hit)return;playPoliceSiren(4);if(navigator.vibrate)try{navigator.vibrate([700,200,700,200,700]);}catch(e){}
+  const el=document.getElementById('orderToast');if(toastTimer)clearTimeout(toastTimer);el.classList.add('sticky');
+  document.getElementById('toastTitle').textContent=`🚨 ${hit.t.name.toUpperCase()} · ${hit.li.m}ª MANDATA IN RITARDO`;
+  document.getElementById('toastBody').innerHTML=`<div style="font-size:.95rem;margin-bottom:8px;">💣 In cucina da ${Math.floor(hit.li.el/60000)} minuti. La sirena si ripete ogni 2 minuti finché la mandata non è fatta.</div><button class="btn-note" style="font-size:1rem;padding:8px 16px;" onclick="ackLate('${hit.t.id}',${hit.li.m})">🔕 Silenzia su questo dispositivo</button>`;
+  el.classList.add('active');
+}
+function ackLate(tid,m){const t=state.tables[tid];if(t)(state.lateSeen=state.lateSeen||{})[lateKey(t,m)]='ack';const el=document.getElementById('orderToast');el.classList.remove('active','sticky');}
+
+/* ---------- KDS: ok per ogni singola portata ---------- */
+function kdsItemRow(t,i,dn){const rd=!!i.ready;return `<div class="kds-item${rd?' ready':''}" onclick="toggleItemReady('${t.id}',${i.lineId})"><span class="kds-check">${rd?'✅':'⬜'}</span><div style="flex:1;"><b>${i.qty}x</b> ${i.name}${i.alVolo?'<span class="volo-tag">⚡ AL VOLO</span>':''} <span style="font-size:0.7rem;color:var(--muted);">(${i.waiter||'Staff'})</span>${i.note?`<div style="color:#DC2626;font-weight:800;font-size:0.78rem;">⚠️ ${i.note}</div>`:''}</div></div>`;}
+async function toggleItemReady(tid,lid){
+  const t=state.tables[tid];if(!t)return;const it=(t.items||[]).find(i=>i.lineId===lid);if(!it)return;
+  it.ready=!it.ready;it.readyAt=it.ready?Date.now():0;const m=it.mandata;
+  const ms=t.items.filter(i=>i.mandata===m&&isItemSent(t,i)),fr=(m===0||m===1||(t.firedMandate&&t.firedMandate[m]));
+  if(it.ready){
+    if(m>0&&fr&&ms.every(i=>i.ready)&&!(t.doneMandate&&t.doneMandate[m])){t.doneMandate[m]=true;(t.doneAt=t.doneAt||{})[m]=Date.now();const all=allServed(t);state.lastOrderEvent={id:Date.now(),title:all?`💶 ${t.name.toUpperCase()}: TUTTO SERVITO · CONTO`:`✅ ${m}ª PRONTA · ${t.name.toUpperCase()}`,waiter:'Cucina',summary:all?'Tutte le mandate sono uscite: si può portare il conto.':ms.map(i=>`<b>${i.qty}x</b> ${i.name}`).join(', ')};}
+    else state.lastOrderEvent={id:Date.now(),title:`🍽️ PRONTO AL PASS · ${t.name.toUpperCase()}`,waiter:'Cucina',summary:`<b>${it.qty}x</b> ${it.name}`};
+  }else if(m>0&&t.doneMandate&&t.doneMandate[m]){t.doneMandate[m]=false;(t.doneAt=t.doneAt||{})[m]=0;}
+  renderKds();await saveState(false,{tables:[tid]});
+}
+
+/* ---------- Prenotazioni: arrivo automatico ---------- */
+function autoArriveRes(onlyTid){
+  const td=buildDateISO(),now=Date.now(),changed=[];
+  Object.entries(state.res||{}).forEach(([id,r])=>{if(r.date!==td||r.status!=='attesa')return;const rt=resTs(r);if(Math.abs(rt-now)>4*3600000)return;
+    const tb=(r.tables||[]).filter(x=>!onlyTid||x===onlyTid).map(x=>state.tables[x]).find(t=>t&&t.items&&t.items.length&&(t.openedAt||now)>=rt-45*60000);
+    if(tb){r.status='arrivato';r.arrivedAt=now;changed.push(id);}});
+  if(changed.length){saveState(false,{res:changed});if(document.getElementById('viewTables').classList.contains('active'))renderResBoard('resBoardTables');if(document.getElementById('viewKds').classList.contains('active'))renderResBoard('resBoardKds');}
+}
+
+/* ---------- Menù dei piatti ---------- */
+state.dishCat='';
+function refreshDishes(){const v=document.getElementById('viewDishes');if(v&&v.classList.contains('active'))renderDishList();}
+function renderDishes(){
+  const el=document.getElementById('dishesContent');if(!el)return;const own=/^christian$/i.test((state.waiterName||'').trim());
+  el.innerHTML=`<div class="cart-section"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;"><h3 style="color:var(--logo-coral);">🍽️ Menù del giorno</h3>${own?'<button class="btn-main btn-bill" style="flex:0 0 auto;padding:10px 14px;" onclick="openAddDish()">➕ Aggiungi piatto</button>':''}</div><div id="dishSum" style="font-size:.78rem;font-weight:700;color:var(--muted);margin-bottom:8px;"></div><div class="search-wrap"><input id="dishQ" class="search-input" placeholder="🔍 Cerca piatto o vino..." oninput="renderDishList()"></div><div class="cat-bar" id="dishCats"></div></div><div id="dishList"></div>`;
+  renderDishList();
+}
+function renderDishList(){
+  const L=document.getElementById('dishList');if(!L)return;const own=/^christian$/i.test((state.waiterName||'').trim()),q=((document.getElementById('dishQ')||{}).value||'').trim().toLowerCase();
+  const cnt={};state.menu.forEach(m=>cnt[m.cat]=(cnt[m.cat]||0)+1);
+  document.getElementById('dishCats').innerHTML=['',...CATEGORIES].filter(c=>!c||cnt[c]).map(c=>`<button class="cat-btn${state.dishCat===c?' active':''}" onclick="state.dishCat='${c}';renderDishList();">${c||'Tutti'} ${c?cnt[c]:state.menu.length}</button>`).join('');
+  const so=state.menu.filter(m=>m.soldOut).length;
+  document.getElementById('dishSum').textContent=`${state.menu.length} voci · ${so} esaurit${so===1?'o':'i'} · ${own?'tocca un piatto per modificarlo, segnarlo esaurito o toglierlo':'tocca un piatto per segnarlo esaurito o disponibile'}`;
+  const items=state.menu.filter(m=>(!state.dishCat||m.cat===state.dishCat)&&(!q||m.name.toLowerCase().includes(q)));
+  L.innerHTML=CATEGORIES.map(c=>{const g=items.filter(m=>m.cat===c);if(!g.length)return '';return `<div class="cart-section"><div class="mandata-header"><span>${c}</span><span>${g.length}</span></div>${g.map(m=>{const l=stockLeft(m);return `<div class="cart-row" style="cursor:pointer;" onclick="itemActions(${m.id})"><div class="cart-info"><span style="font-weight:800;${m.soldOut?'text-decoration:line-through;opacity:.5;':''}">${escH(m.name)}</span>${m.soldOut?' <span class="st-chip st-draft">ESAURITO</span>':''}${l!==null&&!m.soldOut?` <span class="st-chip st-done">${l} rimasti</span>`:''}</div><div style="font-weight:900;color:var(--logo-coral);white-space:nowrap;">${formatPrice(m.price)} €</div></div>`;}).join('')}</div>`;}).join('')||'<div class="cart-section" style="color:var(--muted);">Nessun piatto trovato.</div>';
+}
+function openAddDish(){
+  let ov=document.getElementById('addDishModal');if(!ov){ov=document.createElement('div');ov.id='addDishModal';ov.className='modal-overlay';document.body.appendChild(ov);}
+  const dc=CATEGORIES.includes(state.dishCat)&&state.dishCat!=='1 Coperto'?state.dishCat:'3 Antipasti';
+  ov.innerHTML=`<div class="receipt-box"><h3 style="color:var(--logo-coral);margin-bottom:10px;">➕ Nuovo piatto al volo</h3><div style="font-size:0.8rem;font-weight:800;margin-bottom:4px;">Nome</div><textarea id="adName" class="form-control" rows="2" style="margin-bottom:10px;font-family:inherit;" placeholder="Es. Frittura di paranza"></textarea><div style="font-size:0.8rem;font-weight:800;margin-bottom:4px;">Categoria</div><select id="adCat" class="form-control" style="margin-bottom:10px;">${CATEGORIES.map(c=>`<option value="${c}"${c===dc?' selected':''}>${c}</option>`).join('')}</select><div style="font-size:0.8rem;font-weight:800;margin-bottom:4px;">Prezzo (€)</div><input id="adPrice" class="form-control" type="number" inputmode="decimal" step="0.5" min="0" style="margin-bottom:6px;"><div style="font-size:0.72rem;color:var(--muted);">Compare subito in cassa e sul menù QR. Traduzioni e allergeni li prepara Gemini in pochi secondi. Una nuova foto della lavagnetta sostituisce i piatti, quindi se il piatto resta va scritto anche lì.</div><div class="modal-actions"><button class="btn-modal" style="background:#10b981;color:#fff;" onclick="saveAddDish()">💾 Aggiungi</button><button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('addDishModal').classList.remove('active')">Chiudi</button></div></div>`;
+  ov.classList.add('active');setTimeout(()=>{const n=document.getElementById('adName');if(n)n.focus();},50);
+}
+function saveAddDish(){
+  const n=String(document.getElementById('adName').value||'').replace(/\s+/g,' ').trim(),c=document.getElementById('adCat').value,p=parseFloat(String(document.getElementById('adPrice').value).replace(',','.'));
+  if(n.length<2)return alert('Scrivi il nome del piatto');if(isNaN(p)||p<0)return alert('Prezzo non valido');
+  if(state.menu.some(m=>normDish(m.name)===normDish(n))&&!confirm('C\'è già un piatto con questo nome. Aggiungerlo lo stesso?'))return;
+  const m={id:Math.max(1000,...state.menu.map(x=>Number(x.id)||0))+1,cat:c,name:n,price:p};state.menu.push(m);
+  saveState(false,{menu:true});document.getElementById('addDishModal').classList.remove('active');state.dishCat=c;renderDishList();retranslateDish(m);
+}
+/* aggiorna la lista piatti quando cambia il menù */
+{const _rmg=renderMenuGrid;renderMenuGrid=function(){const g=document.getElementById('menuGrid');if(g)_rmg();refreshDishes();};const _ss=saveState;saveState=function(b,p){const r=_ss(b,p);if(!p||p.menu||p.stock)refreshDishes();return r;};}
+</script>
+
+<script>
+/* ===== v1.9.4 · Tavoli aperti per sala, portata extra al volo ===== */
+function updateOpenBadges(){[['interna','openInt'],['esterna','openEst'],['asporto','openAsp']].forEach(([r,id])=>{const el=document.getElementById(id);if(!el)return;const n=Object.values(state.tables).filter(t=>t.room===r&&t.items&&t.items.length).length;el.textContent=n?`🔴 ${n} ${n===1?'aperto':'aperti'}`:'';el.style.display=n?'block':'none';});}
+function voloTarget(t){if(!t||!t.sentOnce)return null;let m=null;[1,2,3,4].forEach(x=>{if(t.firedMandate&&t.firedMandate[x]&&t.items.some(i=>i.mandata===x))m=x;});return m||1;}
+function renderVoloBtn(t){t=t||state.tables[state.activeTableId];const b=document.getElementById('voloBtn');if(!b)return;const m=voloTarget(t);if(m===null){state.alVolo=false;b.style.display='none';return;}b.style.display='block';b.classList.toggle('on',!!state.alVolo);b.textContent=state.alVolo?`⚡ AL VOLO ATTIVO · i piatti vanno con la ${m}ª e partono subito con INVIA · tocca per uscire`:`➕ Portata extra AL VOLO (con la ${m}ª mandata)`;}
+function toggleAlVolo(){const t=state.tables[state.activeTableId];if(voloTarget(t)===null)return alert('Prima invia la comanda: “al volo” serve per aggiungere un piatto a una mandata già partita.');state.alVolo=!state.alVolo;if(state.alVolo)[0,1,2,3,4].forEach(i=>{const el=document.getElementById('mBtn'+i);if(el)el.classList.remove('active');});else setMandata(state.currentMandata,false);renderVoloBtn(t);}
+</script>
+<script>initApp();</script>
 </body>
 </html>
