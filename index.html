@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.9.10 - v1.9.10 Gold</title>
+<title>Alicetta TableZ 1.9.11 - v1.9.11 Gold</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -179,7 +179,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.9">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.9</text></svg>
     </div>
-    <div class="version-badge">v1.9.10 Gold</div>
+    <div class="version-badge">v1.9.11 Gold</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -283,7 +283,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.10 Gold)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.11 Gold)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -302,7 +302,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.10 Gold)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.11 Gold)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -500,7 +500,7 @@ function lateInfo(t){if(!t||!t.items||!t.items.length||!t.sentOnce)return null;l
     const el=Date.now()-at;if(el>=DELAY_LIMIT_MS&&(!w||el>w.el))w={m,el};});
   return w;}
 function isTableDelayed(t){return !!lateInfo(t);}
-function tickLiveTimers(){const now=Date.now();state.tk=(state.tk||0)+1;if(state.tk%20===0){checkPace();checkLateAlarms();autoArriveRes();if(document.getElementById('viewKds').classList.contains('active'))renderKds();if(pendingFires.length)playKitchenBell();if(document.getElementById('viewTables').classList.contains('active'))renderTables();else if(document.getElementById('viewKds').classList.contains('active'))renderKds();else if(document.getElementById('viewTime').classList.contains('active'))renderTime();}if(document.getElementById('viewTables').classList.contains('active')){Object.values(state.tables).filter(t=>t.room===state.currentRoom&&t.items&&t.items.length>0).forEach(t=>{const el=document.getElementById('timer_'+t.id);if(el&&t.openedAt)el.textContent="⏱️ "+formatElapsed(now-t.openedAt);});}else if(document.getElementById('viewKds').classList.contains('active')){Object.values(state.tables).filter(t=>t.sentOnce&&t.items&&t.items.some(i=>isItemSent(t,i))).forEach(t=>{const el=document.getElementById('kds_timer_'+t.id);if(el&&t.openedAt)el.textContent="⏱️ "+formatElapsed(now-t.openedAt);});}}
+function tickLiveTimers(){const now=Date.now();state.tk=(state.tk||0)+1;if(state.tk%20===0){checkPace();checkLateAlarms();checkM4Reminders();autoArriveRes();if(document.getElementById('viewKds').classList.contains('active'))renderKds();if(pendingFires.length)playKitchenBell();if(document.getElementById('viewTables').classList.contains('active'))renderTables();else if(document.getElementById('viewKds').classList.contains('active'))renderKds();else if(document.getElementById('viewTime').classList.contains('active'))renderTime();}if(document.getElementById('viewTables').classList.contains('active')){Object.values(state.tables).filter(t=>t.room===state.currentRoom&&t.items&&t.items.length>0).forEach(t=>{const el=document.getElementById('timer_'+t.id);if(el&&t.openedAt)el.textContent="⏱️ "+formatElapsed(now-t.openedAt);});}else if(document.getElementById('viewKds').classList.contains('active')){Object.values(state.tables).filter(t=>t.sentOnce&&t.items&&t.items.some(i=>isItemSent(t,i))).forEach(t=>{const el=document.getElementById('kds_timer_'+t.id);if(el&&t.openedAt)el.textContent="⏱️ "+formatElapsed(now-t.openedAt);});}}
 async function initApp(){
   const saved=localStorage.getItem(STORAGE_KEY);
   if(saved){try{const p=JSON.parse(saved);state.tableCounts=p.tableCounts||{interna:11,esterna:5,asporto:5};state.menu=(p.menu&&p.menu.length>0)?p.menu:[...DEFAULT_MENU];state.tables=normalizeTablesStructure(p.tables,state.tableCounts);state.useRawBT=p.useRawBT||false;state.firebaseUrl=p.firebaseUrl||DEFAULT_FIREBASE_URL;state.waiterName=p.waiterName||'';state.lastAlertSignal=p.lastAlertSignal||0;state.lastOrderEvent=p.lastOrderEvent||null;state.lastPagerEvent=p.lastPagerEvent||null;state.historyLog=p.historyLog||[];state.timeLog=p.timeLog||{};state.pins=p.pins||{};state.qrUrl=p.qrUrl||'';state.stock=p.stock||{};state.seats=p.seats||{};state.staffCfg=p.staffCfg||{};state.res=p.res||{};state.pinsReady=Object.keys(state.pins).length>0;}catch(e){state.menu=[...DEFAULT_MENU];state.tables=buildDefaultTables(state.tableCounts);}}
@@ -624,7 +624,7 @@ function renderTables(){renderResBoard('resBoardTables');updateOpenBadges();
     const pk=(t.room==='asporto'&&t.pickupTime)?`<div class="pickup-badge">🕒 ${t.pickupTime}</div>`:'';
     const tm=(busy&&t.openedAt)?`<div><span class="table-timer" id="timer_${t.id}">⏱️ ${formatElapsed(now-t.openedAt)}</span></div>`:'';
     const card=document.createElement('div');card.className=`table-card ${busy?'busy':'free'} ${del?'delayed':''} ${marciaBadge(t)?'marcia':''} ${allServed(t)?'conto':''}`;card.onclick=()=>openTable(t.id);
-    card.innerHTML=`${del?BOMB_SVG:''}<div class="table-name">${t.name}</div>${pk}<div><span class="table-status ${busy?'status-busy':'status-free'}">${busy?'Occupato':'Libero'}</span></div>${tm}${kitchenChip(t)}${busy?`<div class="table-total">€ ${formatPrice(tot)}</div>`:`<div style="font-size:0.7rem;opacity:0.8;margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dots}</div>${contoBadge(t)}${marciaBadge(t)}${paceBadge(t)}${resBadge(t)}`;
+    card.innerHTML=`${del?BOMB_SVG:''}<div class="table-name">${t.name}</div>${pk}<div><span class="table-status ${busy?'status-busy':'status-free'}">${busy?'Occupato':'Libero'}</span></div>${tm}${kitchenChip(t)}${m4Chip(t)}${busy?`<div class="table-total">€ ${formatPrice(tot)}</div>`:`<div style="font-size:0.7rem;opacity:0.8;margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dots}</div>${contoBadge(t)}${marciaBadge(t)}${paceBadge(t)}${resBadge(t)}`;
     c.appendChild(card);
   });
 }
@@ -659,16 +659,16 @@ function renderOrderScreen(){
   const fb=document.getElementById('fireBox'),fc=document.getElementById('fireButtonsContainer');fc.innerHTML='';
   if([2,3,4].some(m=>t.items.some(i=>i.mandata===m))){fb.style.display='block';[2,3,4].forEach(m=>{if(t.items.some(i=>i.mandata===m)){const b=document.createElement('button');b.className=`btn-fire ${t.firedMandate[m]?'fired':''}`;b.textContent=t.firedMandate[m]?`✅ ${m}ª INVIATA`:`🔥 DAI IL VIA ${m}ª`;b.onclick=()=>fireMandataTicket(m);fc.appendChild(b);}});}else fb.style.display='none';
   const cart=document.getElementById('cartContainer');if(!t.items||!t.items.length){cart.innerHTML='<div style="color:var(--muted);font-size:0.85rem;">Nessun articolo inserito.</div>';return;}
-  cart.innerHTML=servedBanner(t);[0,1,2,3,4].forEach(m=>{const gi=t.items.filter(i=>i.mandata===m);if(!gi.length)return;const gd=document.createElement('div');gd.className='mandata-group';const ms=mandataStatus(t,m);if(ms==="done")gd.classList.add("served");gd.innerHTML=`<div class="mandata-header"><span>${MANDATE_LABELS[m]} ${m>0?statusChip(ms):""}</span><span>${gi.reduce((a,b)=>a+b.qty,0)} pz</span></div>`;gi.forEach(it=>{const r=document.createElement('div');r.className='cart-row';const sb=isItemSent(t,it)?`<span style="font-size:0.65rem;background:#D1FAE5;color:#065F46;padding:1px 5px;border-radius:4px;margin-left:4px;font-weight:800;">Inviato</span>`:`<span style="font-size:0.65rem;background:#FEE2E2;color:#991B1B;padding:1px 5px;border-radius:4px;margin-left:4px;font-weight:800;">Bozza</span>`;r.innerHTML=`<div class="cart-info"><b>${it.qty}x</b> ${it.name}${it.alVolo?'<span class="volo-tag">⚡ AL VOLO</span>':''} ${sb} <span style="font-size:0.7rem;color:var(--muted);">(${it.waiter||'Staff'})</span>${it.note?`<div><span class="cart-note">✏️ ${it.note}</span></div>`:''}</div><div class="cart-controls"><button class="btn-note" onclick="openNoteModal(${it.lineId})">✏️ Nota</button><button class="btn-qty" onclick="changeItemQty(${it.lineId},-1)">-</button><button class="btn-qty" onclick="changeItemQty(${it.lineId},1)">+</button></div>`;gd.appendChild(r);});cart.appendChild(gd);});
+  cart.innerHTML=servedBanner(t);[0,1,2,3,4].forEach(m=>{const gi=t.items.filter(i=>i.mandata===m);if(!gi.length)return;const gd=document.createElement('div');gd.className='mandata-group';const ms=mandataStatus(t,m);if(ms==="done")gd.classList.add("served");gd.innerHTML=`<div class="mandata-header"><span>${MANDATE_LABELS[m]} ${m>0?statusChip(ms):""}${m===4?m4Btn(t):''}</span><span>${gi.reduce((a,b)=>a+b.qty,0)} pz</span></div>`;gi.forEach(it=>{const r=document.createElement('div');r.className='cart-row';const sb=isItemSent(t,it)?`<span style="font-size:0.65rem;background:#D1FAE5;color:#065F46;padding:1px 5px;border-radius:4px;margin-left:4px;font-weight:800;">Inviato</span>`:`<span style="font-size:0.65rem;background:#FEE2E2;color:#991B1B;padding:1px 5px;border-radius:4px;margin-left:4px;font-weight:800;">Bozza</span>`;r.innerHTML=`<div class="cart-info"><b>${it.qty}x</b> ${it.name}${it.alVolo?'<span class="volo-tag">⚡ AL VOLO</span>':''} ${sb} <span style="font-size:0.7rem;color:var(--muted);">(${it.waiter||'Staff'})</span>${it.note?`<div><span class="cart-note">✏️ ${it.note}</span></div>`:''}</div><div class="cart-controls"><button class="btn-note" onclick="openNoteModal(${it.lineId})">✏️ Nota</button><button class="btn-qty" onclick="changeItemQty(${it.lineId},-1)">-</button><button class="btn-qty" onclick="changeItemQty(${it.lineId},1)">+</button></div>`;gd.appendChild(r);});cart.appendChild(gd);});
 }
 function splitBillPrompt(){const t=state.tables[state.activeTableId];if(!t||!t.items||!t.items.length)return alert("Nessun ordine attivo.");const tot=getTableTotal(t),p=prompt("In quante persone dividere il conto?","2");if(p&&!isNaN(p)&&parseInt(p)>0)alert(`Totale: € ${formatPrice(tot)}\nPersone: ${p}\nQuota a testa: € ${formatPrice(tot/parseInt(p))}`);}
 function buildTimeStr(){return new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});}
 function buildDateISO(){const d=new Date(),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 async function sendOrderToKitchen(){
   const t=state.tables[state.activeTableId];if(!t||!t.items||!t.items.length)return alert("Inserisci almeno un articolo.");
-  const vl=t.items.filter(i=>i.alVolo&&!isItemSent(t,i));t.items.forEach(i=>{i.sent=true;});t.sentOnce=true;[...new Set(vl.map(i=>i.mandata))].forEach(m=>{t.firedMandate[m]=true;(t.firedAt=t.firedAt||{})[m]=Date.now();t.doneMandate[m]=false;});state.alVolo=false;if(!t.openedAt)t.openedAt=Date.now();autoArriveRes(t.id);t.firedMandate[1]=true;(t.firedAt=t.firedAt||{})[1]=t.firedAt[1]||Date.now();if(!t.openedAt)t.openedAt=Date.now();
+  const vl=t.items.filter(i=>i.alVolo&&!isItemSent(t,i)),nw=t.items.filter(i=>!isItemSent(t,i)&&i.name!=='Pane e Coperto');t.items.forEach(i=>{i.sent=true;});t.sentOnce=true;[...new Set(vl.map(i=>i.mandata))].forEach(m=>{t.firedMandate[m]=true;(t.firedAt=t.firedAt||{})[m]=Date.now();t.doneMandate[m]=false;});state.alVolo=false;if(!t.openedAt)t.openedAt=Date.now();autoArriveRes(t.id);t.firedMandate[1]=true;(t.firedAt=t.firedAt||{})[1]=t.firedAt[1]||Date.now();if(!t.openedAt)t.openedAt=Date.now();
   const dl=t.items.filter(i=>i.name!=='Pane e Coperto').map(i=>`<b>${i.qty}x</b> ${i.name}`).join(', ');
-  state.lastOrderEvent={id:Date.now(),title:`COMANDA ${t.name.toUpperCase()}`,waiter:state.waiterName||'Staff',summary:dl||'Solo Coperti'};if(vl.length)state.lastOrderEvent={id:Date.now(),title:`⚡ AL VOLO · ${t.name.toUpperCase()}`,waiter:state.waiterName||'Staff',summary:vl.map(i=>`<b>${i.qty}x</b> ${i.name} (con la ${i.mandata}ª)`).join(', ')};
+  state.lastOrderEvent={id:Date.now(),title:`COMANDA ${t.name.toUpperCase()}`,waiter:state.waiterName||'Staff',summary:dl||'Solo Coperti'};if(vl.length)state.lastOrderEvent={id:Date.now(),title:`⚡ AL VOLO · ${t.name.toUpperCase()}`,waiter:state.waiterName||'Staff',summary:vl.map(i=>`<b>${i.qty}x</b> ${i.name} (con la ${i.mandata}ª)`).join(', ')};if(nw.length&&nw.every(i=>i.mandata===4))state.lastOrderEvent.sala=true;
   playKitchenBell();if(navigator.vibrate)try{navigator.vibrate([250,100,250]);}catch(e){}showOrderToast(state.lastOrderEvent,true);
   await saveState(true,{tables:[t.id]});renderOrderScreen();
   const ts=buildTimeStr(),ESC="\x1B",GS="\x1D";let pv=`==========================================\n   ALICETTA TABLEZ 1.9 - ${t.name.toUpperCase()}\n   Cam: ${state.waiterName||'Staff'} - ${ts}\n==========================================\n\n`,ep=ESC+"@"+ESC+"a\x01"+ESC+"!\x38"+`${t.name.toUpperCase()}\n`+ESC+"!\x08"+`Cam: ${state.waiterName||'Staff'} - ${ts}\n------------------------------------------\n`+ESC+"a\x00";
@@ -679,9 +679,10 @@ async function sendOrderToKitchen(){
 async function fireMandataTicket(m){{const t0=state.tables[state.activeTableId];if(!confirm('Dare il via alla '+m+'ª mandata'+(t0?' del '+t0.name:'')+' in cucina?'))return;}
   const t=state.tables[state.activeTableId],l=t.items.filter(i=>i.mandata===m);if(!l.length)return;
   l.forEach(i=>{i.sent=true;});t.sentOnce=true;t.firedMandate[m]=true;(t.firedAt=t.firedAt||{})[m]=Date.now();t.doneMandate[m]=false;
-  state.lastOrderEvent={id:Date.now(),title:`🔥 VIA ${m}ª MANDATA - ${t.name.toUpperCase()}`,waiter:state.waiterName||'Staff',summary:l.map(i=>`<b>${i.qty}x</b> ${i.name}`).join(', ')};
+  state.lastOrderEvent={id:Date.now(),sala:m===4,title:m===4?`🍰 VIA 4ª MANDATA - ${t.name.toUpperCase()} · DOLCI, CAFFÈ E AMARI DA SERVIRE`:`🔥 VIA ${m}ª MANDATA - ${t.name.toUpperCase()}`,waiter:state.waiterName||'Staff',summary:l.map(i=>`<b>${i.qty}x</b> ${i.name}`).join(', ')};
   playKitchenBell();if(navigator.vibrate)try{navigator.vibrate([250,100,250]);}catch(e){}showOrderToast(state.lastOrderEvent,true);
   await saveState(true,{tables:[t.id]});renderOrderScreen();
+  if(m===4)return;
   const ts=buildTimeStr(),ESC="\x1B",GS="\x1D";let pv=`******************************************\n   🔥 VIA ${m}a MANDATA! (${t.name.toUpperCase()})\n   Ore ${ts}\n******************************************\n\n`,ep=ESC+"@"+ESC+"a\x01"+ESC+"!\x38"+`VIA ${m}a MANDATA!\n${t.name.toUpperCase()}\n`+ESC+"!\x08"+`${ts}\n******************************************\n`+ESC+"a\x00";
   l.forEach(it=>{pv+=`  ${it.qty}x ${it.name}\n`;ep+=ESC+"!\x38"+`${it.qty}x ${it.name}\n`+ESC+"!\x00";if(it.note){pv+=`     * ${it.note}\n`;ep+=ESC+"!\x08"+`   * ${it.note}\n`+ESC+"!\x00";}});
   dispatchPrint(pv+"\n******************************************\n",ep+"\n******************************************\n\n\n"+GS+"V\x42\x00");
@@ -702,15 +703,15 @@ function freeCurrentTable(pay){
 }
 function markMandataDone(id,m){{const t0=state.tables[id];if(t0&&!confirm((t0.doneMandate&&t0.doneMandate[m]?'Riaprire':'Segnare FATTA')+' la '+m+'ª mandata del '+t0.name+'?'))return;}const t=state.tables[id];if(!t)return;t.doneMandate[m]=!t.doneMandate[m];(t.doneAt=t.doneAt||{})[m]=t.doneMandate[m]?Date.now():0;if(t.doneMandate[m])t.items.forEach(i=>{if(i.mandata===m&&isItemSent(t,i)&&!i.ready){i.ready=true;i.readyAt=Date.now();}});
   if(t.doneMandate[m]){const all=allServed(t),its=t.items.filter(i=>i.mandata===m).map(i=>`<b>${i.qty}x</b> ${i.name}`).join(', ');
-    state.lastOrderEvent={id:Date.now(),sala:all,title:all?`🍰 ${t.name.toUpperCase()}: TUTTO SERVITO · PROPONI DOLCI, CAFFÈ E AMARI`:`✅ ${m}ª PRONTA · ${t.name.toUpperCase()}`,waiter:'Cucina',summary:all?'Tutto l’ordinato è uscito: proponi dolci, caffè e amari ☕🍰🥃':its};}
+    state.lastOrderEvent={id:Date.now(),sala:all||m===4,title:all?(needDolci(t)?`🍰 ${t.name.toUpperCase()}: TUTTO SERVITO · PROPONI DOLCI, CAFFÈ E AMARI`:`💶 ${t.name.toUpperCase()}: TUTTO SERVITO · CONTO`):`✅ ${m}ª PRONTA · ${t.name.toUpperCase()}`,waiter:'Cucina',summary:all?(needDolci(t)?'Tutto l’ordinato è uscito: proponi dolci, caffè e amari ☕🍰🥃':'Tutto servito: si può portare il conto.'):its};}
   saveState(false,{tables:[id]});renderKds();}
 function renderKds(){syncStockSoldOut();if(document.getElementById('stockPanel').style.display!=='none')renderStock();
-  const c=document.getElementById('kdsContainer');c.innerHTML='';const now=Date.now(),act=Object.values(state.tables).filter(t=>t.sentOnce&&t.items&&t.items.some(i=>isItemSent(t,i)));
+  const c=document.getElementById('kdsContainer');c.innerHTML='';const now=Date.now(),act=Object.values(state.tables).filter(t=>t.sentOnce&&t.items&&t.items.some(i=>isItemSent(t,i)&&i.mandata!==4));
   if(!act.length){c.innerHTML='<div style="color:var(--muted);font-weight:700;">Nessuna comanda inviata in cucina.</div>';return;}
   act.sort(kdsCmp);act.forEach(t=>{
     const card=document.createElement('div');card.className=`kds-card ${isTableDelayed(t)?'delayed':''}`;
     let h=`<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:8px;"><b>${t.name}</b><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:0.75rem;color:var(--logo-coral);">${t.room==='interna'?'❄️ Interna':t.room==='esterna'?'🕶️ Esterna':'🥡 Asporto'}</span><span id="kds_timer_${t.id}">⏱️ ${t.openedAt?formatElapsed(now-t.openedAt):'00:00'}</span></div></div>`+kitchenChip(t);
-    [0,1,2,3,4].forEach(m=>{const mi=t.items.filter(i=>i.mandata===m&&isItemSent(t,i));if(!mi.length)return;const dn=t.doneMandate&&t.doneMandate[m],fr=(m===0||m===1||(t.firedMandate&&t.firedMandate[m])),bg=dn?`<span style="color:#10B981;">SERVITA</span>`:fr?`<span style="color:#10B981;">MARCIARE</span>`:`<span style="color:var(--logo-coral);">ATTESA</span>`;h+=`<div style="margin-bottom:8px;padding:6px;background:rgba(0,0,0,0.05);border-radius:6px;${dn?'opacity:0.4;':''}"><div style="font-size:0.75rem;display:flex;justify-content:space-between;"><b>${MANDATE_LABELS[m]}</b> ${bg}</div>${mi.map(i=>kdsItemRow(t,i,dn)).join('')}${(m>0&&fr)?`<button class="btn-kds-done" onclick="markMandataDone('${t.id}',${m})">${dn?'Riapri':'✅ FATTO'}</button>`:''}</div>`;});
+    [0,1,2,3].forEach(m=>{const mi=t.items.filter(i=>i.mandata===m&&isItemSent(t,i));if(!mi.length)return;const dn=t.doneMandate&&t.doneMandate[m],fr=(m===0||m===1||(t.firedMandate&&t.firedMandate[m])),bg=dn?`<span style="color:#10B981;">SERVITA</span>`:fr?`<span style="color:#10B981;">MARCIARE</span>`:`<span style="color:var(--logo-coral);">ATTESA</span>`;h+=`<div style="margin-bottom:8px;padding:6px;background:rgba(0,0,0,0.05);border-radius:6px;${dn?'opacity:0.4;':''}"><div style="font-size:0.75rem;display:flex;justify-content:space-between;"><b>${MANDATE_LABELS[m]}</b> ${bg}</div>${mi.map(i=>kdsItemRow(t,i,dn)).join('')}${(m>0&&fr)?`<button class="btn-kds-done" onclick="markMandataDone('${t.id}',${m})">${dn?'Riapri':'✅ FATTO'}</button>`:''}</div>`;});
     card.innerHTML=(isTableDelayed(t)?BOMB_SVG+`<div class="kds-late">💣 ${lateInfo(t).m}ª MANDATA IN RITARDO · ${Math.floor(lateInfo(t).el/60000)} min <button class="btn-note" style="margin-left:6px;padding:3px 9px;" onclick="ackLate('${t.id}',${lateInfo(t).m})">🔕</button></div>`:'')+paceBadge(t)+h;c.appendChild(card);
   });
 }
@@ -1223,7 +1224,7 @@ async function toggleItemReady(tid,lid){
   it.ready=!it.ready;it.readyAt=it.ready?Date.now():0;const m=it.mandata;
   const ms=t.items.filter(i=>i.mandata===m&&isItemSent(t,i)),fr=(m===0||m===1||(t.firedMandate&&t.firedMandate[m]));
   if(it.ready){
-    if(m>0&&fr&&ms.every(i=>i.ready)&&!(t.doneMandate&&t.doneMandate[m])){t.doneMandate[m]=true;(t.doneAt=t.doneAt||{})[m]=Date.now();const all=allServed(t);state.lastOrderEvent={id:Date.now(),sala:all,title:all?`🍰 ${t.name.toUpperCase()}: TUTTO SERVITO · PROPONI DOLCI, CAFFÈ E AMARI`:`✅ ${m}ª PRONTA · ${t.name.toUpperCase()}`,waiter:'Cucina',summary:all?'Tutto l’ordinato è uscito: proponi dolci, caffè e amari ☕🍰🥃':ms.map(i=>`<b>${i.qty}x</b> ${i.name}`).join(', ')};}
+    if(m>0&&fr&&ms.every(i=>i.ready)&&!(t.doneMandate&&t.doneMandate[m])){t.doneMandate[m]=true;(t.doneAt=t.doneAt||{})[m]=Date.now();const all=allServed(t);state.lastOrderEvent={id:Date.now(),sala:all||m===4,title:all?(needDolci(t)?`🍰 ${t.name.toUpperCase()}: TUTTO SERVITO · PROPONI DOLCI, CAFFÈ E AMARI`:`💶 ${t.name.toUpperCase()}: TUTTO SERVITO · CONTO`):`✅ ${m}ª PRONTA · ${t.name.toUpperCase()}`,waiter:'Cucina',summary:all?(needDolci(t)?'Tutto l’ordinato è uscito: proponi dolci, caffè e amari ☕🍰🥃':'Tutto servito: si può portare il conto.'):ms.map(i=>`<b>${i.qty}x</b> ${i.name}`).join(', ')};}
     else state.lastOrderEvent={id:Date.now(),title:`🍽️ PRONTO AL PASS · ${t.name.toUpperCase()}`,waiter:'Cucina',summary:`<b>${it.qty}x</b> ${it.name}`};
   }else if(m>0&&t.doneMandate&&t.doneMandate[m]){t.doneMandate[m]=false;(t.doneAt=t.doneAt||{})[m]=0;}
   renderKds();await saveState(false,{tables:[tid]});
@@ -1458,6 +1459,30 @@ function needDolci(t){if(!allServed(t)||t.dolciOk)return false;const sa=servedAt
 function contoBadge(t){if(!allServed(t))return '';return needDolci(t)?'<div class="conto-badge dolci-badge">🍰☕ PROPONI DOLCI, CAFFÈ E AMARI</div>':'<div class="conto-badge">💶 TUTTO SERVITO · CONTO</div>';}
 function servedBanner(t){if(!allServed(t))return '';return needDolci(t)?`<div class="conto-banner dolci-banner">🍰☕🥃 Tutto servito: proponi dolci, caffè e amari<button class="btn-note" style="display:block;margin:8px auto 0;font-size:.9rem;" onclick="dolciDone('${t.id}')">✅ Proposto</button></div>`:'<div class="conto-banner">💶 TUTTO SERVITO — è il momento del conto</div>';}
 function dolciDone(id){const t=state.tables[id];if(!t)return;t.dolciOk=true;saveState(false,{tables:[id]});renderOrderScreen();}
+</script>
+<script>
+/* ===== v1.9.11 · 4ª mandata (dolci, caffè, amari) solo per i camerieri ===== */
+const M4_REMIND_MIN=8,M4_REP=4*60*1000;
+function lateInfo(t){if(!t||!t.items||!t.items.length||!t.sentOnce)return null;let w=null;[1,2,3].forEach(m=>{if(!t.items.some(i=>i.mandata===m&&i.name!=='Pane e Coperto'&&isItemSent(t,i)))return;if(t.doneMandate&&t.doneMandate[m])return;if(m>1&&!(t.firedMandate&&t.firedMandate[m]))return;const at=(t.firedAt&&t.firedAt[m])||(m===1?t.openedAt:0);if(!at)return;const el=Date.now()-at;if(el>=DELAY_LIMIT_MS&&(!w||el>w.el))w={m,el};});return w;}
+function lateList(t){const out=[];if(!t||!t.items||!t.items.length||!t.sentOnce)return out;[1,2,3].forEach(m=>{if(!t.items.some(i=>i.mandata===m&&i.name!=='Pane e Coperto'&&isItemSent(t,i)))return;if(t.doneMandate&&t.doneMandate[m])return;if(m>1&&!(t.firedMandate&&t.firedMandate[m]))return;const at=(t.firedAt&&t.firedAt[m])||(m===1?t.openedAt:0);if(!at)return;const el=Date.now()-at;if(el>=DELAY_LIMIT_MS)out.push({m,el});});return out;}
+function kitchenInfo(t){if(!t||!t.items||!t.items.length||!t.sentOnce)return null;let w=null;[1,2,3].forEach(m=>{if(!t.items.some(i=>i.mandata===m&&i.name!=='Pane e Coperto'&&isItemSent(t,i)))return;if(t.doneMandate&&t.doneMandate[m])return;if(m>1&&!(t.firedMandate&&t.firedMandate[m]))return;const at=(t.firedAt&&t.firedAt[m])||(m===1?t.openedAt:0);if(!at)return;const el=Date.now()-at;if(!w||el>w.el)w={m,el};});return w;}
+function kdsUrg(t){const k=kitchenInfo(t);if(k)return[0,-k.el];const wait=[1,2,3].some(m=>(t.items||[]).some(i=>i.mandata===m&&i.name!=='Pane e Coperto'&&isItemSent(t,i))&&!(t.doneMandate&&t.doneMandate[m]));return[wait?1:2,t.openedAt||0];}
+function needDolci(t){if(!allServed(t)||t.dolciOk)return false;return !(t.items||[]).some(i=>i.cat==='6 Desserts'||DOLCI_RE.test(i.name));}
+function m4Info(t){if(!t||!t.firedMandate||!t.firedMandate[4]||(t.doneMandate&&t.doneMandate[4])||!(t.items||[]).some(i=>i.mandata===4))return null;const at=(t.firedAt&&t.firedAt[4])||0;return at?{el:Date.now()-at}:null;}
+function m4Chip(t){const k=m4Info(t);if(!k)return '';const mn=Math.floor(k.el/60000);return `<div style="margin-top:4px;"><span style="font-size:.74rem;font-weight:900;padding:2px 7px;border-radius:6px;background:${mn>=M4_REMIND_MIN?'#B45309':'#7C3AED'};color:#fff;">🍰 4ª da servire da ${mn}'</span></div>`;}
+function m4Btn(t){if(!(t.items||[]).some(i=>i.mandata===4))return '';if(m4Info(t))return `<button class="btn-note" style="margin-left:6px;padding:3px 9px;font-size:.75rem;" onclick="serveM4('${t.id}')">✅ Servita</button>`;return '';}
+function voloTarget(t){if(!t||!t.sentOnce)return null;let m=null;[1,2,3].forEach(x=>{if(t.firedMandate&&t.firedMandate[x]&&t.items.some(i=>i.mandata===x))m=x;});return m||1;}
+function serveM4(id){const t=state.tables[id];if(!t)return;markMandataDone(id,4);if(state.activeTableId===id&&document.getElementById('viewOrder').classList.contains('active'))renderOrderScreen();if(document.getElementById('viewTables').classList.contains('active'))renderTables();const el=document.getElementById('orderToast');if(el&&el.dataset.m4===id){el.classList.remove('active','sticky');el.dataset.m4='';}}
+function checkM4Reminders(){
+  const wn=(state.waiterName||'').trim();if(!wn||/^(kds cucina|timbrature)$/i.test(wn))return;
+  state.m4Seen=state.m4Seen||{};const now=Date.now();let hit=null;
+  Object.values(state.tables).forEach(t=>{const k=m4Info(t);if(!k||k.el<M4_REMIND_MIN*60000)return;const key=t.id+'_'+((t.firedAt&&t.firedAt[4])||0),s=state.m4Seen[key];if(!s||now-s>=M4_REP){state.m4Seen[key]=now;if(!hit||k.el>hit.k.el)hit={t,k};}});
+  if(!hit)return;playKitchenBell();if(navigator.vibrate)try{navigator.vibrate([400,150,400]);}catch(e){}
+  const el=document.getElementById('orderToast');if(toastTimer)clearTimeout(toastTimer);el.classList.add('sticky');el.dataset.m4=hit.t.id;
+  document.getElementById('toastTitle').textContent=`🍰 ${hit.t.name.toUpperCase()} · 4ª DA SERVIRE`;
+  document.getElementById('toastBody').innerHTML=`<div style="font-size:.95rem;margin-bottom:8px;">Dolci, caffè e amari chiamati da ${Math.floor(hit.k.el/60000)} minuti. Te lo ricordo ogni 4 minuti finché non la segni servita.</div><button class="btn-note" style="font-size:1rem;padding:8px 16px;" onclick="serveM4('${hit.t.id}')">✅ Servita</button>`;
+  el.classList.add('active');
+}
 </script>
 <script>initApp();</script>
 </body>
