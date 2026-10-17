@@ -41,6 +41,9 @@
         <option value="fr">Français</option>
         <option value="de">Deutsch</option>
         <option value="es">Español</option>
+        <option value="pl">Polski</option>
+        <option value="zh">中文</option>
+        <option value="ru">Русский</option>
       </select>
     </div>
     <p id="notice" style="font-size:0.78rem; color:#4B5563; margin-top:8px; text-align:center;"></p>
@@ -193,7 +196,10 @@ const NOTICE = {
   en: 'Ask staff about ingredients and allergens. Translations are descriptive.',
   fr: 'Demandez au personnel les ingrédients et allergènes. Les traductions sont descriptives.',
   de: 'Fragen Sie das Personal nach Zutaten und Allergenen. Übersetzungen sind deskriptiv.',
-  es: 'Consulte los ingredientes y alérgenos al personal. Las traducciones son descriptivas.'
+  es: 'Consulte los ingredientes y alérgenos al personal. Las traducciones son descriptivas.',
+  pl: 'O składniki i alergeny prosimy pytać obsługę. Tłumaczenia mają charakter opisowy.',
+  zh: '如需了解配料和过敏原，请咨询服务人员。翻译仅供参考。',
+  ru: 'Об ингредиентах и аллергенах уточняйте у персонала. Переводы носят описательный характер.'
 };
 
 const TITLES = {
@@ -201,7 +207,10 @@ const TITLES = {
   en: ['Starters', 'First Courses', 'Main Courses & Sides', 'Desserts'],
   fr: ['Entrées', 'Premiers Plats', 'Plats Principaux & Accompagnements', 'Desserts'],
   de: ['Vorspeisen', 'Erste Gänge', 'Hauptgerichte & Beilagen', 'Desserts'],
-  es: ['Entrantes', 'Primeros Platos', 'Platos Principales & Guarniciones', 'Postres']
+  es: ['Entrantes', 'Primeros Platos', 'Platos Principales & Guarniciones', 'Postres'],
+  pl: ['Przystawki', 'Pierwsze dania', 'Dania główne i dodatki', 'Desery'],
+  zh: ['开胃菜', '第一道菜', '主菜与配菜', '甜点'],
+  ru: ['Закуски', 'Первые блюда', 'Основные блюда и гарниры', 'Десерты']
 };
 
 let currentTab = 'giorno';
@@ -342,13 +351,13 @@ function render() {
 render();
 
 const FB_MENU_URL='https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app/pos_state/menu.json';
-const ALG_I={glutine:['Glutine','Gluten','Gluten','Gluten','Gluten'],crostacei:['Crostacei','Crustaceans','Crustacés','Krebstiere','Crustáceos'],uova:['Uova','Eggs','Œufs','Eier','Huevos'],pesce:['Pesce','Fish','Poisson','Fisch','Pescado'],arachidi:['Arachidi','Peanuts','Arachides','Erdnüsse','Cacahuetes'],soia:['Soia','Soy','Soja','Soja','Soja'],latte:['Latte e derivati','Milk','Lait','Milch','Leche'],guscio:['Frutta a guscio','Tree nuts','Fruits à coque','Schalenfrüchte','Frutos de cáscara'],sedano:['Sedano','Celery','Céleri','Sellerie','Apio'],senape:['Senape','Mustard','Moutarde','Senf','Mostaza'],sesamo:['Sesamo','Sesame','Sésame','Sesam','Sésamo'],solfiti:['Solfiti','Sulphites','Sulfites','Sulfite','Sulfitos'],lupini:['Lupini','Lupin','Lupin','Lupinen','Altramuces'],molluschi:['Molluschi','Molluscs','Mollusques','Weichtiere','Moluscos']};
-const ALG_NONE={it:'Nessun allergene maggiore dichiarato',en:'No major allergens declared',fr:'Aucun allergène majeur déclaré',de:'Keine Hauptallergene angegeben',es:'Sin alérgenos principales declarados'};
+const ALG_I={glutine:['Glutine','Gluten','Gluten','Gluten','Gluten','Gluten','麸质','Глютен'],crostacei:['Crostacei','Crustaceans','Crustacés','Krebstiere','Crustáceos','Skorupiaki','甲壳类','Ракообразные'],uova:['Uova','Eggs','Œufs','Eier','Huevos','Jaja','蛋类','Яйца'],pesce:['Pesce','Fish','Poisson','Fisch','Pescado','Ryby','鱼类','Рыба'],arachidi:['Arachidi','Peanuts','Arachides','Erdnüsse','Cacahuetes','Orzeszki ziemne','花生','Арахис'],soia:['Soia','Soy','Soja','Soja','Soja','Soja','大豆','Соя'],latte:['Latte e derivati','Milk','Lait','Milch','Leche','Mleko','乳制品','Молоко'],guscio:['Frutta a guscio','Tree nuts','Fruits à coque','Schalenfrüchte','Frutos de cáscara','Orzechy','坚果','Орехи'],sedano:['Sedano','Celery','Céleri','Sellerie','Apio','Seler','芹菜','Сельдерей'],senape:['Senape','Mustard','Moutarde','Senf','Mostaza','Gorczyca','芥末','Горчица'],sesamo:['Sesamo','Sesame','Sésame','Sesam','Sésamo','Sezam','芝麻','Кунжут'],solfiti:['Solfiti','Sulphites','Sulfites','Sulfite','Sulfitos','Siarczyny','亚硫酸盐','Сульфиты'],lupini:['Lupini','Lupin','Lupin','Lupinen','Altramuces','Łubin','羽扇豆','Люпин'],molluschi:['Molluschi','Molluscs','Mollusques','Weichtiere','Moluscos','Mięczaki','软体动物','Моллюски']};
+const ALG_NONE={it:'Nessun allergene maggiore dichiarato',en:'No major allergens declared',fr:'Aucun allergène majeur déclaré',de:'Keine Hauptallergene angegeben',es:'Sin alérgenos principales declarados',pl:'Brak głównych alergenów',zh:'未声明主要过敏原',ru:'Основные аллергены не заявлены'};
 const LIVE_ALG={};
 const _oldGetAlgs=getAlgs;
 getAlgs=function(name){
   const c=LIVE_ALG[name];if(!c)return _oldGetAlgs(name);
-  const L=document.getElementById('language').value,li=['it','en','fr','de','es'].indexOf(L);
+  const L=document.getElementById('language').value,li=['it','en','fr','de','es','pl','zh','ru'].indexOf(L);
   const a=c.filter(x=>ALG_I[x]).map(x=>ALG_I[x][li]);return a.length?a:[ALG_NONE[L]];
 };
 async function loadLiveMenu(){
@@ -368,7 +377,7 @@ const REVIEW_URL='https://g.page/r/CU8mTr5r3HReEBM/review';
 (function(){const hd=document.querySelector('header');if(!hd)return;const a=document.createElement('a');
 a.href=REVIEW_URL.startsWith('http')?REVIEW_URL:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('Alicetta Trattoria');
 a.target='_blank';a.rel='noopener';a.style.cssText='display:block;margin:10px auto 0;max-width:320px;text-align:center;background:#FF5733;color:#fff;font-weight:800;padding:12px 14px;border-radius:10px;text-decoration:none;';hd.append(a);
-const RL={it:'⭐ Lascia una recensione su Google',en:'⭐ Leave us a Google review',fr:'⭐ Laissez-nous un avis Google',de:'⭐ Bewerten Sie uns auf Google',es:'⭐ Déjanos una reseña en Google'};
+const RL={it:'⭐ Lascia una recensione su Google',en:'⭐ Leave us a Google review',fr:'⭐ Laissez-nous un avis Google',de:'⭐ Bewerten Sie uns auf Google',es:'⭐ Déjanos una reseña en Google',pl:'⭐ Zostaw nam opinię w Google',zh:'⭐ 在 Google 上给我们评价',ru:'⭐ Оставьте отзыв в Google'};
 const upd=()=>{a.textContent=RL[document.getElementById('language').value]||RL.it;};upd();document.getElementById('language').addEventListener('change',upd);})();
 </script>
 </body>
