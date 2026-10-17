@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.9 - v1.9 Gold</title>
+<title>Alicetta TableZ 1.9.1 - v1.9.1 Gold</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -165,7 +165,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.9">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.9</text></svg>
     </div>
-    <div class="version-badge">v1.9 Gold</div>
+    <div class="version-badge">v1.9.1 Gold</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -267,7 +267,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9 Gold)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.1 Gold)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -281,7 +281,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div id="viewMenuMgr" class="screen">
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9 Gold)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.1 Gold)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -720,14 +720,24 @@ function openAllergenModal(){
 function closeAllergenModal(){document.getElementById('allergenModal').classList.remove('active');}
 function loadPresetChalkboardOct12(){document.getElementById('ocrResultBox').value=CHALKBOARD_OCT12_TEXT;const st=document.getElementById('ocrStatus');st.style.display='block';st.textContent='✅ Caricati i 21 piatti della lavagnetta!';}
 function guessCategoryFromDishName(name,fb){if(fb&&fb!=='AUTO')return fb;const n=name.toLowerCase();if(/vino|calice|birra|acqua|trebbiano|cerasuolo|pecorino|montepulciano|passerina|amaro|caff/.test(n))return"2 Bevande";if(/tiramis|zafferamis|zaffermis|dolce|cantucc|pizzell|mousse|mouse|torta|gelato|sorbett|plateau\s*di\s*formagg/.test(n))return"6 Desserts";if(/spaghett|linguin|paccher|cubett|qubett|rigat|chitarr|pasta|gnocch|risott|tagliolin|fettuccin|raviol/.test(n))return"4 Primi Piatti";if(/frittur|baccal|sgombr|maiale|braciol|arrosto|grigliat|fish\s*&\s*chips|nasello|totanett|cicoriett/.test(n))return"5 Secondi";return"3 Antipasti";}
-function mergeMultiLineChalkboardText(raw){const m=[];let b='';for(let l of(raw||'').split('\n')){let cl=l.replace(/^[•·\-*◦]+\s*/,'').trim();if(!cl||/^(men[uù]\s*alicetta|enjoy|per\s*prenotazioni|392\s*327)/i.test(cl))continue;b=b?(b+' '+cl):cl;if(/(\d{1,2}[.,]\d{2}|\b\d{1,2})\s*(?:€|eur)?$/i.test(cl)){m.push(b);b='';}}if(b)m.push(b);return m;}
-function parseOcrBoxDishes(){const box=document.getElementById('ocrResultBox'),raw=(box&&box.value.trim())?box.value.trim():CHALKBOARD_OCT12_TEXT,fb=document.getElementById('ocrDefaultCat')?document.getElementById('ocrDefaultCat').value:'AUTO',list=[];mergeMultiLineChalkboardText(raw).forEach(cl=>{if(cl.length<3)return;const pm=cl.match(/(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i);let p=14,n=cl;if(pm){p=parseFloat(pm[1].replace(',','.'))||14;n=cl.slice(0,pm.index).replace(/[-–—:.€]+\s*$/,'').trim();}if(n.length>=2)list.push({cat:guessCategoryFromDishName(n,fb),name:n,price:p});});return list;}
+const FINITO_SRC='\\[?\\(?\\s*\\b(?:finit[oaie]|esaurit[oaie]|terminat[oaie]|sold\\s*out)\\b\\s*\\)?\\]?';
+const isFinito=t=>new RegExp(FINITO_SRC,'i').test(t||'');
+const stripFinito=t=>String(t||'').replace(new RegExp(FINITO_SRC,'gi'),' ').replace(/\s{2,}/g,' ').replace(/[\s\-–—:(]+$/,'').trim();
+const normDish=x=>String(x||'').toLowerCase().replace(/[^a-z0-9àèéìòù]/g,'');
+function mergeMultiLineChalkboardText(raw){const m=[];let b='';for(let l of(raw||'').split('\n')){let cl=l.replace(/^[•·\-*◦]+\s*/,'').trim();if(!cl||/^(men[uù]\s*alicetta|enjoy|per\s*prenotazioni|392\s*327)/i.test(cl))continue;const fin=isFinito(cl),core=stripFinito(cl);if(fin&&!core){if(b)b+=' [FINITO]';else if(m.length)m[m.length-1]+=' [FINITO]';continue;}b=b?(b+' '+core):core;if(fin)b+=' [FINITO]';if(/(\d{1,2}[.,]\d{2}|\b\d{1,2})\s*(?:€|eur)?$/i.test(core)){m.push(b);b='';}}if(b)m.push(b);return m;}
+function chalkboardFinitoNames(raw){return mergeMultiLineChalkboardText(raw).filter(x=>/\[FINITO\]/.test(x)).map(x=>stripFinito(x.replace(/\[FINITO\]/g,'')).replace(/(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i,'').replace(/[-–—:.€\s]+$/,'').trim()).filter(n=>n.length>=3);}
+function parseOcrBoxDishes(){const box=document.getElementById('ocrResultBox'),raw=(box&&box.value.trim())?box.value.trim():CHALKBOARD_OCT12_TEXT,fb=document.getElementById('ocrDefaultCat')?document.getElementById('ocrDefaultCat').value:'AUTO',list=[];mergeMultiLineChalkboardText(raw).forEach(cl=>{if(cl.length<3||/\[FINITO\]/.test(cl))return;const pm=cl.match(/(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i);let p=14,n=cl;if(pm){p=parseFloat(pm[1].replace(',','.'))||14;n=cl.slice(0,pm.index).replace(/[-–—:.€]+\s*$/,'').trim();}if(n.length>=2)list.push({cat:guessCategoryFromDishName(n,fb),name:n,price:p});});return list;}
 function syncChalkboardToStateMenu(dishesList){
-  const drinksOnly=state.menu.filter(m=>m.cat==='1 Coperto'||m.cat==='2 Bevande');
+  const old=state.menu||[],drinksOnly=old.filter(m=>m.cat==='1 Coperto'||m.cat==='2 Bevande');
   const baseSet=drinksOnly.length>=5?drinksOnly:[...DEFAULT_MENU];
+  const byName={};old.forEach(m=>{if(m.cat!=='1 Coperto'&&m.cat!=='2 Bevande')byName[normDish(m.name)]=m;});
+  const used=new Set(baseSet.map(m=>m.id));let next=Math.max(1000,...old.map(m=>Number(m.id)||0))+1;
   state.menu=[...baseSet];
-  dishesList.forEach((p,idx)=>{state.menu.push({id:300+idx,cat:p.cat,name:p.name,price:Number(p.price)||14,allergens:p.allergens,tr:p.tr});});
+  dishesList.forEach(p=>{const o=byName[normDish(p.name)],id=(o&&!used.has(o.id))?o.id:next++;used.add(id);state.menu.push({id,cat:p.cat,name:p.name,price:Number(p.price)||14,allergens:p.allergens,tr:p.tr});});
+  cleanStock();
 }
+function serviceDayStart(){const d=new Date();if(d.getHours()<5)d.setDate(d.getDate()-1);d.setHours(5,0,0,0);return d.getTime();}
+function cleanStock(){const st=state.stock||{},ids=new Set((state.menu||[]).map(m=>String(m.id))),day=serviceDayStart();let ch=false;Object.keys(st).forEach(k=>{const e=st[k];if(!ids.has(String(k))){delete st[k];ch=true;}else if(!e||(e.setAt||0)<day){delete st[k];ch=true;const m=state.menu.find(x=>String(x.id)===String(k));if(m)m.soldOut=false;}});state.stock=st;return ch;}
 const getGeminiKey=()=>(document.getElementById('geminiKeyInput').value||localStorage.getItem('alicetta_gemini_key')||'').trim();
 const GEMINI_MODELS=['gemini-3.8-flash','gemini-flash-latest','gemini-3.5-flash','gemini-3.1-flash-lite'];
 async function callGemini(parts,json){
@@ -755,7 +765,7 @@ async function processChalkboardPhoto(ev){
   const st=document.getElementById('ocrStatus');st.style.display='block';
   if(!getGeminiKey()){st.textContent='⚠️ Per leggere la foto serve la Gemini API Key. Oppure scrivi i piatti a mano e premi il bottone viola.';ev.target.value='';return;}
   st.textContent='⏳ Lettura foto lavagnetta con Gemini...';
-  try{const b64=await shrinkImage(f);const txt=await callGemini([{text:"Trascrivi fedelmente i piatti con i relativi prezzi da questa lavagnetta, uno per riga (es: Soutè di cozze 13,00). Ignora titoli e numeri di telefono."},{inline_data:{mime_type:'image/jpeg',data:b64}}]);document.getElementById('ocrResultBox').value=txt;await elaboraLavagnettaZeroClick();}
+  try{const b64=await shrinkImage(f);const txt=await callGemini([{text:"Trascrivi fedelmente i piatti con i relativi prezzi da questa lavagnetta, uno per riga (es: Soutè di cozze 13,00). Se accanto a un piatto è scritto finito, esaurito o terminato, oppure il piatto è barrato o cancellato con una riga, scrivi [FINITO] alla fine di quella riga. Ignora titoli e numeri di telefono."},{inline_data:{mime_type:'image/jpeg',data:b64}}]);document.getElementById('ocrResultBox').value=txt;await elaboraLavagnettaZeroClick();}
   catch(e){console.error(e);st.textContent='❌ Lettura foto non riuscita: '+e.message;}
   ev.target.value='';
 }
@@ -765,13 +775,15 @@ async function elaboraLavagnettaZeroClick(){if(!confirm('Sostituire i piatti del
   const k=getGeminiKey();if(k)localStorage.setItem('alicetta_gemini_key',k);
   let dishes=null,note='';
   if(k){st.textContent="⏳ L'AI sta elaborando i piatti...";
-    try{const t=await callGemini([{text:`Sei un sistema gestionale per ristoranti. Dal testo di una lavagnetta restituisci SOLO un array JSON di oggetti {"name":string,"price":number,"cat":una tra "3 Antipasti","4 Primi Piatti","5 Secondi","6 Desserts","allergens":[codici tra ${ALG_CODES}, dedotti da ingredienti e preparazioni tipiche; array vuoto se nessuno],"tr":{"en":nome tradotto,"fr":nome tradotto,"de":nome tradotto,"es":nome tradotto}}. Traduci i nomi in modo naturale per un menù di ristorante.\nTesto:\n${raw}`}],true);
+    try{const t=await callGemini([{text:`Sei un sistema gestionale per ristoranti. Dal testo di una lavagnetta restituisci SOLO un array JSON di oggetti, escludendo del tutto i piatti segnati [FINITO] o con scritto finito, esaurito, terminato o barrato: {"name":string,"price":number,"cat":una tra "3 Antipasti","4 Primi Piatti","5 Secondi","6 Desserts","allergens":[codici tra ${ALG_CODES}, dedotti da ingredienti e preparazioni tipiche; array vuoto se nessuno],"tr":{"en":nome tradotto,"fr":nome tradotto,"de":nome tradotto,"es":nome tradotto}}. Traduci i nomi in modo naturale per un menù di ristorante.\nTesto:\n${raw}`}],true);
       const a=JSON.parse(t.slice(t.indexOf('['),t.lastIndexOf(']')+1));
       dishes=a.filter(x=>x&&x.name).map(x=>({name:String(x.name).trim(),price:Number(String(x.price).replace(',','.'))||14,cat:CATEGORIES.slice(2).includes(x.cat)?x.cat:guessCategoryFromDishName(String(x.name),'AUTO'),allergens:cleanAlg(x.allergens),tr:cleanTr(x.tr)}));}
     catch(e){console.error(e);note=` (AI non disponibile: ${e.message} — uso la lettura locale)`;}}
   if(!dishes||!dishes.length)dishes=parseOcrBoxDishes();
-  syncChalkboardToStateMenu(dishes);await saveState(true,{menu:true});renderMenuMgr();
-  st.textContent=`✅ Menù aggiornato: ${dishes.length} piatti online.${note}`;
+  const fin=chalkboardFinitoNames(raw).map(normDish),gone=[];
+  dishes=dishes.filter(d=>{const n=normDish(stripFinito(d.name));const f=isFinito(d.name)||fin.some(x=>x&&(n===x||(x.length>=10&&(n.startsWith(x.slice(0,14))||x.startsWith(n.slice(0,14))))));if(f)gone.push(stripFinito(d.name));return !f;});
+  syncChalkboardToStateMenu(dishes);await saveState(true,{menu:true,stock:true});renderMenuMgr();
+  st.textContent=`✅ Menù aggiornato: ${dishes.length} piatti online.${(()=>{const g=[...new Set(chalkboardFinitoNames(raw).concat(gone))];return g.length?' Tolti perché finiti: '+g.join(', ')+'.':'';})()}${note}`;
 }
 function buildSectionHTML(title,items){if(!items||!items.length)return'';return`<div style="margin-top:16px;margin-bottom:6px;background:#1BE7FF;color:#062329;padding:6px 12px;border-radius:8px;border-left:5px solid #FF5733;font-weight:900;font-size:0.88rem;letter-spacing:1.5px;text-transform:uppercase;">${title}</div><div>${items.map(d=>`<div style="display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px dashed rgba(255,87,51,0.32);gap:12px;"><b style="color:#062329;font-size:0.92rem;text-align:left;">• ${d.name}</b><span style="color:#FF5733;font-weight:900;white-space:nowrap;">€ ${formatPrice(d.price)}</span></div>`).join('')}</div>`;}
 function exportDailyMenuPDF(){const d=state.menu.filter(m=>m.cat!=='1 Coperto'&&m.cat!=='2 Bevande');if(!d.length)return alert("Nessun piatto inserito.");const ts=new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),lg=document.getElementById('alicettaLogoSvg').innerHTML.replace('TABLEZ 1.9','TRATTORIA'),sec=buildSectionHTML('🍤 ANTIPASTI',d.filter(x=>x.cat==='3 Antipasti'))+buildSectionHTML('🍝 PRIMI PIATTI',d.filter(x=>x.cat==='4 Primi Piatti'))+buildSectionHTML('🐟 SECONDI & CONTORNI',d.filter(x=>x.cat==='5 Secondi'))+buildSectionHTML('🍰 DESSERT & FORMAGGI',d.filter(x=>x.cat==='6 Desserts'));const w=window.open('','_blank');w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Menù del Giorno</title></head><body style="padding:20px;"><div style="font-family:sans-serif;max-width:560px;margin:0 auto;border:4px solid #FF5733;border-radius:18px;background:#fff;padding:22px;"><div style="text-align:center;background:#1BE7FF;padding:16px;border-radius:12px;margin-bottom:12px;border:2px solid #FF5733;"><div style="max-width:210px;margin:0 auto;">${lg}</div><h3 style="color:#FF5733;margin-top:8px;">✨ MENÙ DEL GIORNO ✨</h3><p style="font-size:0.8rem;font-weight:700;color:#062329;">${ts}</p></div>${sec}<div style="margin-top:18px;text-align:center;background:#1BE7FF;padding:10px;border-radius:10px;border:1.5px solid #FF5733;color:#062329;font-weight:800;font-size:0.84rem;">🐟 Pane e Coperto € 3,00 — ENJOY! — 📞 392 3279000</div></div><scr`+`ipt>setTimeout(()=>window.print(),400);</scr`+`ipt></body></html>`);w.document.close();}
@@ -788,7 +800,7 @@ async function resetAllHistory(){if(confirm("⚠️ Azzerare TUTTO lo storico?")
 function toggleRawbtSetting(){state.useRawBT=document.getElementById('chkRawbt').checked;saveLocalOnly();}
 function renderMenuMgr(){renderTmList();const l=document.getElementById('menuMgrList');if(!l)return;document.getElementById('menuCountLbl').textContent=state.menu.length;l.innerHTML='';state.menu.forEach(it=>{const r=document.createElement('div');r.className='cart-row';r.innerHTML=`<div style="flex:1;font-size:0.82rem;"><b>[${it.cat}]</b> ${it.name} — <span style="color:var(--logo-coral);font-weight:800;">${formatPrice(it.price)}€</span></div><div class="cart-controls"><button class="btn-note" onclick="toggleSoldOut(${it.id})">${it.soldOut?'✅':'⛔'}</button><button class="btn-note" onclick="editMenuItem(${it.id})">✏️</button><button class="btn-qty" onclick="deleteMenuItem(${it.id})">🗑️</button></div>`;l.appendChild(r);});}
 function editMenuItem(id){const it=state.menu.find(i=>i.id===id);if(!it)return;const n=prompt("Modifica nome:",it.name);if(!n||!n.trim())return;const p=parseFloat((prompt("Modifica prezzo (€):",it.price)||'').replace(',','.'));if(!isNaN(p)){it.name=n.trim();it.price=p;saveState(false,{menu:true});renderMenuMgr();}}
-function deleteMenuItem(id){if(confirm("Eliminare questo piatto?")){state.menu=state.menu.filter(i=>i.id!==id);saveState(false,{menu:true});renderMenuMgr();}}
+function deleteMenuItem(id){const m=state.menu.find(i=>i.id===id);if(!m)return;if(!confirm(`Togliere “${m.name}” dal menù?\nSparisce dalla cassa e dal menù QR su tutti i dispositivi.`))return;state.menu=state.menu.filter(i=>i.id!==id);if(state.stock)delete state.stock[id];saveState(false,{menu:true,stock:true});if(document.getElementById('viewMenuMgr').classList.contains('active'))renderMenuMgr();if(document.getElementById('viewOrder').classList.contains('active'))renderMenuGrid();}
 
 const PACE_MIN=8;
 function getPaceAlerts(t){const o=[];if(!t||!t.items||!t.sentOnce)return o;[1,2,3].forEach(m=>{const n=m+1,at=t.doneAt&&t.doneAt[m];if(t.doneMandate&&t.doneMandate[m]&&at&&t.items.some(i=>i.mandata===n)&&!(t.firedMandate&&t.firedMandate[n])&&Date.now()-at>=PACE_MIN*60000)o.push({m:n,at,min:Math.floor((Date.now()-at)/60000)});});return o;}
@@ -929,7 +941,7 @@ async function flushPending(){
   if(ok&&p.full&&(tk.length||Object.keys(p.res||{}).length)){await pushToCloud({time:tk,res:Object.keys(p.res||{})});ok=state.lastPushOk;}
   if(ok){state.pending={tables:{},time:{}};savePending();}else document.getElementById('syncIndicator').textContent='Off · '+pendingCount();
 }
-function toggleSoldOut(id){const m=state.menu.find(x=>x.id===id);if(!m)return;if(!confirm((m.soldOut?'Rimettere DISPONIBILE':'Segnare ESAURITO')+': '+m.name+'?'))return;m.soldOut=!m.soldOut;saveState(false,{menu:true});renderMenuGrid();if(document.getElementById('viewMenuMgr').classList.contains('active'))renderMenuMgr();}
+function toggleSoldOut(id){const m=state.menu.find(x=>x.id===id);if(!m)return;if(!confirm((m.soldOut?'Rimettere DISPONIBILE':'Segnare ESAURITO')+': '+m.name+'?'))return;m.soldOut=!m.soldOut;const hs=!!(state.stock&&state.stock[id]!==undefined);if(hs)delete state.stock[id];saveState(false,{menu:true,stock:hs});if(hs&&document.getElementById('stockPanel')&&document.getElementById('stockPanel').style.display!=='none')renderStock();renderMenuGrid();if(document.getElementById('viewMenuMgr').classList.contains('active'))renderMenuMgr();}
 async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
 async function setStaffPin(){
   const n=(prompt('Nome dipendente (come appare nel login):')||'').trim().toLowerCase();if(!n)return;
@@ -982,7 +994,7 @@ const escH=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'
 /* ---------- SCORTE ---------- */
 function soldSince(id,since){let q=0;Object.values(state.tables).forEach(t=>(t.items||[]).forEach(i=>{if(i.menuId===id&&isItemSent(t,i))q+=Number(i.qty)||0;}));(state.historyLog||[]).forEach(e=>{if((e.ts||0)>=since)(e.items||[]).forEach(i=>{if(i.menuId===id)q+=Number(i.qty)||0;});});return q;}
 function stockLeft(m){const s=(state.stock||{})[m.id];return s?Math.max(0,s.start-soldSince(m.id,s.setAt)):null;}
-function syncStockSoldOut(){let ch=false;(state.menu||[]).forEach(m=>{const l=stockLeft(m);if(l===null)return;const so=l<=0;if(!!m.soldOut!==so){m.soldOut=so;ch=true;}});if(ch)saveState(false,{menu:true});}
+function syncStockSoldOut(){let ch=false;if(cleanStock())saveState(false,{stock:true,menu:true});(state.menu||[]).forEach(m=>{const l=stockLeft(m);if(l===null)return;const so=l<=0;if(!!m.soldOut!==so){m.soldOut=so;ch=true;}});if(ch)saveState(false,{menu:true});}
 function setStock(id,n){state.stock=state.stock||{};const m=state.menu.find(x=>x.id===id);if(n===null){delete state.stock[id];if(m)m.soldOut=false;}else state.stock[id]={start:Math.max(0,n),setAt:Date.now()};saveState(false,{stock:true,menu:n===null});renderStock();syncStockSoldOut();}
 function adjStock(id,d){const s=(state.stock||{})[id];if(!s)return setStock(id,Math.max(0,d));s.start=Math.max(0,s.start+d);saveState(false,{stock:true});renderStock();syncStockSoldOut();}
 function askStock(id){const v=prompt('Porzioni disponibili ora (lascia vuoto = senza limite):');if(v===null)return;setStock(id,v.trim()===''?null:(parseInt(v,10)||0));}
@@ -1062,6 +1074,7 @@ function itemActions(id){
   let ov=document.getElementById('itemActModal');if(!ov){ov=document.createElement('div');ov.id='itemActModal';ov.className='modal-overlay';document.body.appendChild(ov);}
   ov.innerHTML=`<div class="receipt-box"><h3 style="color:var(--logo-coral);margin-bottom:10px;">✏️ ${escH(m.name)}</h3>
   <button class="btn-main ${m.soldOut?'btn-print':'btn-bill'}" style="width:100%;margin-bottom:12px;" onclick="closeItemAct();toggleSoldOut(${id})">${m.soldOut?'✅ Rimetti disponibile':'⛔ Segna esaurito'}</button>
+  <button class="btn-main btn-close-table" style="width:100%;margin-bottom:12px;color:#B91C1C;" onclick="closeItemAct();deleteMenuItem(${id})">🗑️ Togli dal menù (cassa e QR)</button>
   <div style="font-size:0.8rem;font-weight:800;margin-bottom:4px;">Categoria</div>
   <select id="iaCat" class="form-control" style="margin-bottom:10px;">${CATEGORIES.map(c=>`<option value="${c}"${c===m.cat?' selected':''}>${c}</option>`).join('')}</select>
   <div style="font-size:0.8rem;font-weight:800;margin-bottom:4px;">Prezzo (€)</div>
