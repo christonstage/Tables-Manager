@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.9.8 - v1.9.8 Gold</title>
+<title>Alicetta TableZ 1.9.9 - v1.9.9 Gold</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -177,7 +177,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.9">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.9</text></svg>
     </div>
-    <div class="version-badge">v1.9.8 Gold</div>
+    <div class="version-badge">v1.9.9 Gold</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -281,7 +281,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.8 Gold)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.9 Gold)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -300,7 +300,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.8 Gold)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.9 Gold)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -1286,7 +1286,7 @@ async function fbGet(p){const r=await fetch(fbBase()+p+'.json?t='+Date.now(),{ca
 async function fbSend(p,m,b){const r=await fetch(fbBase()+p+'.json',{method:m,headers:{'Content-Type':'application/json'},body:b===undefined?null:JSON.stringify(b)});if(!r.ok)throw new Error('HTTP '+r.status);}
 function fidDigits(p){let d=String(p||'').replace(/\D/g,'');if(d.startsWith('0039'))d=d.slice(4);else if(d.length>10&&d.startsWith('39'))d=d.slice(2);return d;}
 const fidPubKey=async d=>(await sha('alicetta-fid-'+d)).slice(0,24);
-const grazieUrl=rid=>location.origin+location.pathname.replace('index.html','')+'grazie.html?r='+rid;
+const grazieUrl=rid=>location.origin+location.pathname.replace('index.html','')+'menu.html?r='+rid;
 function newRid(){const a=new Uint8Array(8);crypto.getRandomValues(a);return Array.from(a).map(x=>x.toString(36).padStart(2,'0')).join('').slice(0,12);}
 
 /* ---------- Ricevuta pubblica ---------- */
@@ -1350,7 +1350,7 @@ async function processFidelity(force){
 setInterval(()=>{if(document.visibilityState==='visible'){flushReceipts();processFidelity(false);}},20000);setTimeout(()=>{flushReceipts();processFidelity(false);},5000);window.addEventListener('online',flushReceipts);
 
 /* ---------- Rubrica clienti Fidelity ---------- */
-const clubUrl=()=>location.origin+location.pathname.replace('index.html','')+'grazie.html?club=1';
+const clubUrl=()=>location.origin+location.pathname.replace('index.html','')+'menu.html?club=1';
 function fidErr(e){const m=String(e&&e.message||e);if(!navigator.onLine)return '⚠️ Il dispositivo è offline: riprova appena torna internet.';if(/40[13]/.test(m))return '🔒 Firebase rifiuta l’accesso alla Fidelity ('+m+'). Vanno aggiunte le regole “ricevute” e “fidelity” in Firebase'+(localStorage.getItem('alicetta_fbauth')?'':' e attivato 🔐 Accesso protetto su questo dispositivo')+'.';return '⚠️ Errore Firebase: '+m;}
 function showClubQr(){
   let ov=document.getElementById('clubQrModal');if(!ov){ov=document.createElement('div');ov.id='clubQrModal';ov.className='modal-overlay';ov.onclick=e=>{if(e.target===ov)ov.classList.remove('active');};document.body.appendChild(ov);}
