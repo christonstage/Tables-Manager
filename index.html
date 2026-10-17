@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.9.17 - v1.9.17 Gold</title>
+<title>Alicetta TableZ 1.9.18 - v1.9.18 Gold</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -179,7 +179,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.9">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.9</text></svg>
     </div>
-    <div class="version-badge">v1.9.17 Gold</div>
+    <div class="version-badge">v1.9.18 Gold</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -283,7 +283,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.17 Gold)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.18 Gold)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -303,7 +303,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.17 Gold)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.18 Gold)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -817,7 +817,7 @@ function exportWineListPDF(){const lg=document.getElementById('alicettaLogoSvg')
 function generatePerpetualQRCode(){if(state.qrUrl&&!confirm('Rigenerare il QR condiviso con i camerieri?'))return;const c=document.getElementById('qrcodeContainer');c.innerHTML='';const u=window.location.origin+window.location.pathname.replace('index.html','')+'menu.html';new QRCode(c,{text:u,width:150,height:150,colorDark:"#062329",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H});state.qrUrl=u;saveState(false,{});alert("✅ QR Code generato e condiviso con i camerieri!");}
 function selectReportPeriod(p){state.reportPeriod=p;document.getElementById('repTabDaily').classList.toggle('active',p==='daily');document.getElementById('repTabMonthly').classList.toggle('active',p==='monthly');document.getElementById('repTabYearly').classList.toggle('active',p==='yearly');updateDailyStats();}
 function getFilteredHistory(){const log=state.historyLog||[],td=buildDateISO();if(state.reportPeriod==='daily')return log.filter(e=>!e.closedEvening);if(state.reportPeriod==='monthly')return log.filter(e=>(e.date||td).slice(0,7)===td.slice(0,7));return log.filter(e=>(e.date||td).slice(0,4)===td.slice(0,4));}
-function computeStatsData(){const l=getFilteredHistory();let rev=0,cop=0,cnt={},rbd={};l.forEach(e=>{rev+=(Number(e.total)||0);cop+=(Number(e.coperti)||0);(e.items||[]).forEach(it=>{if(it.name!=='Pane e Coperto'){cnt[it.name]=(cnt[it.name]||0)+(Number(it.qty)||0);rbd[it.name]=(rbd[it.name]||0)+((Number(it.price)||0)*(Number(it.qty)||0));}});});return{countTables:l.length,rev,cop,ranking:Object.entries(cnt).sort((a,b)=>b[1]-a[1]),revByDish:rbd};}
+function computeStatsData(){const l=getFilteredHistory();let rev=0,cop=0,cnt={},rbd={};l.forEach(e=>{rev+=(Number(e.total)||0);cop+=(Number(e.coperti)||0);(e.items||[]).forEach(it=>{if(it.cat!=='1 Coperto'&&!/coperto|\bacqua\b/i.test(it.name||'')){cnt[it.name]=(cnt[it.name]||0)+(Number(it.qty)||0);rbd[it.name]=(rbd[it.name]||0)+((Number(it.price)||0)*(Number(it.qty)||0));}});});return{countTables:l.length,rev,cop,ranking:Object.entries(cnt).sort((a,b)=>b[1]-a[1]),revByDish:rbd};}
 function updateDailyStats(){const c=document.getElementById('dailyStats');if(!c)return;const st=computeStatsData(),lb=state.reportPeriod==='daily'?'FINE SERATA':state.reportPeriod==='monthly'?'MENSILE':'ANNUALE';if(!st.countTables){c.innerHTML=`<b>[${lb}]</b><br>Nessun tavolo registrato.`;return;}c.innerHTML=`<div style="font-weight:800;color:var(--logo-coral);margin-bottom:4px;">📌 REPORT ${lb}</div>• <b>Tavoli Chiusi:</b> ${st.countTables} | <b>Coperti:</b> ${st.cop} | <b>Incasso:</b> € ${formatPrice(st.rev)}<hr style="margin:6px 0;border:none;border-top:1px dashed var(--border);"><b>🏆 Classifica Vendite:</b><br>${st.ranking.map((d,i)=>`${i+1}. <b>${d[1]}x</b> ${d[0]} (€${formatPrice(st.revByDish[d[0]])})`).join('<br>')}`;}
 function printStatsReport(){const st=computeStatsData(),ESC="\x1B",GS="\x1D";let pv=`REPORT ALICETTA\nTavoli: ${st.countTables} - Coperti: ${st.cop}\nINCASSO: EUR ${formatPrice(st.rev)}\n------------------\n`;st.ranking.forEach((d,i)=>{pv+=`${i+1}. ${d[1]}x ${d[0].substring(0,22)} (EUR ${formatPrice(st.revByDish[d[0]])})\n`;});dispatchPrint(pv,ESC+"@"+pv+"\n\n\n"+GS+"V\x42\x00");}
 async function resetCurrentEvening(){if(confirm("Chiudere la serata e liberare i tavoli?")){Object.values(state.tables).forEach(t=>{if(t.items&&t.items.length){state.historyLog.push({tableName:t.name,total:getTableTotal(t),coperti:t.items.filter(i=>i.cat==='1 Coperto'||/coperto/i.test(i.name||'')).reduce((s,c)=>s+(Number(c.qty)||0),0)+(Number(t.copOff)||0),copOff:Number(t.copOff)||0,copOffVal:Number(t.copOffVal)||0,copOffLog:t.copOffLog||[],items:JSON.parse(JSON.stringify(t.items)),time:buildTimeStr(),date:buildDateISO(),closedEvening:true,ts:Date.now(),opened:t.openedAt||0,fired:t.firedAt||{},done:t.doneAt||{}});t.dolciOk=false;t.copOff=0;t.copOffVal=0;t.copOffLog=[];t.items=[];t.openedAt=0;t.pickupTime='';t.customerName='';t.name=t.baseName;t.firedMandate={1:false,2:false,3:false,4:false};t.doneMandate={1:false,2:false,3:false,4:false};t.doneAt={};t.firedAt={};t.sentOnce=false;}});(state.historyLog||[]).forEach(e=>{e.closedEvening=true;});await saveState(false);renderTables();updateDailyStats();}}
