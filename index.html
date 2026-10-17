@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.9.4 - v1.9.4 Gold</title>
+<title>Alicetta TableZ 1.9.5 - v1.9.5 Gold</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -177,7 +177,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.9">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.9</text></svg>
     </div>
-    <div class="version-badge">v1.9.4 Gold</div>
+    <div class="version-badge">v1.9.5 Gold</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -281,7 +281,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.4 Gold)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.5 Gold)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -297,7 +297,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
   <div class="screen-title">⚙️ Impostazioni</div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.4 Gold)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.5 Gold)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -424,7 +424,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 <div class="modal-overlay" id="allergenModal">
   <div class="receipt-box" style="max-width:440px;">
     <h3 style="margin-bottom:6px;color:var(--logo-coral);">⚠️ Tabella Allergeni Dinamica</h3>
-    <select id="allergenLang" class="form-control" style="margin-bottom:6px;" onchange="openAllergenModal()"><option value="it">🇮🇹 Italiano</option><option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option><option value="de">🇩🇪 Deutsch</option><option value="es">🇪🇸 Español</option></select><div style="font-size:0.72rem;color:#991B1B;font-weight:800;margin-bottom:6px;">⚠️ Indicazioni generate in automatico: verifica sempre con la cucina.</div>
+    <select id="allergenLang" class="form-control" style="margin-bottom:6px;" onchange="openAllergenModal()"><option value="it">🇮🇹 Italiano</option><option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option><option value="de">🇩🇪 Deutsch</option><option value="es">🇪🇸 Español</option><option value="pl">🇵🇱 Polski</option><option value="zh">🇨🇳 中文</option><option value="ru">🇷🇺 Русский</option></select><div style="font-size:0.72rem;color:#991B1B;font-weight:800;margin-bottom:6px;">⚠️ Indicazioni generate in automatico: verifica sempre con la cucina.</div>
   <div id="allergenTableContent" style="max-height:55vh;overflow-y:auto;font-size:0.8rem;line-height:1.4;"></div>
     <div class="modal-actions">
       <button class="btn-modal" style="background:#10b981;color:#fff;" onclick="window.print()">🖨️ Stampa</button>
@@ -708,12 +708,12 @@ function renderKds(){syncStockSoldOut();renderResBoard('resBoardKds');if(documen
     card.innerHTML=(isTableDelayed(t)?BOMB_SVG+`<div class="kds-late">💣 ${lateInfo(t).m}ª MANDATA IN RITARDO · ${Math.floor(lateInfo(t).el/60000)} min <button class="btn-note" style="margin-left:6px;padding:3px 9px;" onclick="ackLate('${t.id}',${lateInfo(t).m})">🔕</button></div>`:'')+paceBadge(t)+h;c.appendChild(card);
   });
 }
-const LANGS=['it','en','fr','de','es'];
-const ALG={glutine:['Glutine','Gluten','Gluten','Gluten','Gluten'],crostacei:['Crostacei','Crustaceans','Crustacés','Krebstiere','Crustáceos'],uova:['Uova','Eggs','Œufs','Eier','Huevos'],pesce:['Pesce','Fish','Poisson','Fisch','Pescado'],arachidi:['Arachidi','Peanuts','Arachides','Erdnüsse','Cacahuetes'],soia:['Soia','Soy','Soja','Soja','Soja'],latte:['Latte e derivati','Milk','Lait','Milch','Leche'],guscio:['Frutta a guscio','Tree nuts','Fruits à coque','Schalenfrüchte','Frutos de cáscara'],sedano:['Sedano','Celery','Céleri','Sellerie','Apio'],senape:['Senape','Mustard','Moutarde','Senf','Mostaza'],sesamo:['Sesamo','Sesame','Sésame','Sesam','Sésamo'],solfiti:['Solfiti','Sulphites','Sulfites','Sulfite','Sulfitos'],lupini:['Lupini','Lupin','Lupin','Lupinen','Altramuces'],molluschi:['Molluschi','Molluscs','Mollusques','Weichtiere','Moluscos']};
+const LANGS=['it','en','fr','de','es','pl','zh','ru'];
+const ALG={glutine:['Glutine','Gluten','Gluten','Gluten','Gluten','Gluten','麸质','Глютен'],crostacei:['Crostacei','Crustaceans','Crustacés','Krebstiere','Crustáceos','Skorupiaki','甲壳类','Ракообразные'],uova:['Uova','Eggs','Œufs','Eier','Huevos','Jaja','蛋类','Яйца'],pesce:['Pesce','Fish','Poisson','Fisch','Pescado','Ryby','鱼类','Рыба'],arachidi:['Arachidi','Peanuts','Arachides','Erdnüsse','Cacahuetes','Orzeszki ziemne','花生','Арахис'],soia:['Soia','Soy','Soja','Soja','Soja','Soja','大豆','Соя'],latte:['Latte e derivati','Milk','Lait','Milch','Leche','Mleko','乳制品','Молоко'],guscio:['Frutta a guscio','Tree nuts','Fruits à coque','Schalenfrüchte','Frutos de cáscara','Orzechy','坚果','Орехи'],sedano:['Sedano','Celery','Céleri','Sellerie','Apio','Seler','芹菜','Сельдерей'],senape:['Senape','Mustard','Moutarde','Senf','Mostaza','Gorczyca','芥末','Горчица'],sesamo:['Sesamo','Sesame','Sésame','Sesam','Sésamo','Sezam','芝麻','Кунжут'],solfiti:['Solfiti','Sulphites','Sulfites','Sulfite','Sulfitos','Siarczyny','亚硫酸盐','Сульфиты'],lupini:['Lupini','Lupin','Lupin','Lupinen','Altramuces','Łubin','羽扇豆','Люпин'],molluschi:['Molluschi','Molluscs','Mollusques','Weichtiere','Moluscos','Mięczaki','软体动物','Моллюски']};
 const ALG_CODES=Object.keys(ALG).join(', ');
-const ALG_LBL={it:['Allergeni','Nessun allergene maggiore dichiarato'],en:['Allergens','No major allergens declared'],fr:['Allergènes','Aucun allergène majeur déclaré'],de:['Allergene','Keine Hauptallergene angegeben'],es:['Alérgenos','Sin alérgenos principales declarados']};
+const ALG_LBL={it:['Allergeni','Nessun allergene maggiore dichiarato'],en:['Allergens','No major allergens declared'],fr:['Allergènes','Aucun allergène majeur déclaré'],de:['Allergene','Keine Hauptallergene angegeben'],es:['Alérgenos','Sin alérgenos principales declarados'],pl:['Alergeny','Brak głównych alergenów'],zh:['过敏原','未声明主要过敏原'],ru:['Аллергены','Основные аллергены не заявлены']};
 const cleanAlg=a=>{const r=(Array.isArray(a)?a:[]).map(c=>String(c).toLowerCase().trim()).filter(c=>ALG[c]);return r.length?r:['nessuno'];};
-const cleanTr=t=>{const o={};['en','fr','de','es'].forEach(l=>{if(t&&typeof t[l]==='string'&&t[l].trim())o[l]=t[l].trim();});return o;};
+const cleanTr=t=>{const o={};['en','fr','de','es','pl','zh','ru'].forEach(l=>{if(t&&typeof t[l]==='string'&&t[l].trim())o[l]=t[l].trim();});return o;};
 function getDishAllergens(name,cat){
   const n=name.toLowerCase(),a=[],t=(re,c)=>{if(re.test(n))a.push(c);};
   if(cat==='2 Bevande'){t(/birra/,'glutine');t(/calice|cerasuolo|trebbiano|pecorino|montepulciano|passerina|chardonnay|maiolica|doc|igt|igp|rosato|orange|metodo|charmat|maleducato|pinto|fontefico|dire bere|febbre|pane al pane|margento|blondie/,'solfiti');return a.length?a:['nessuno'];}
@@ -791,7 +791,7 @@ async function elaboraLavagnettaZeroClick(){if(!confirm('Sostituire i piatti del
   const k=getGeminiKey();if(k)localStorage.setItem('alicetta_gemini_key',k);
   let dishes=null,note='';
   if(k){st.textContent="⏳ L'AI sta elaborando i piatti...";
-    try{const t=await callGemini([{text:`Sei un sistema gestionale per ristoranti. Dal testo di una lavagnetta restituisci SOLO un array JSON di oggetti, escludendo del tutto i piatti segnati [FINITO] o con scritto finito, esaurito, terminato o barrato: {"name":string,"price":number,"cat":una tra "3 Antipasti","4 Primi Piatti","5 Secondi","6 Desserts","allergens":[codici tra ${ALG_CODES}, dedotti da ingredienti e preparazioni tipiche; array vuoto se nessuno],"tr":{"en":nome tradotto,"fr":nome tradotto,"de":nome tradotto,"es":nome tradotto}}. Traduci i nomi in modo naturale per un menù di ristorante.\nTesto:\n${raw}`}],true);
+    try{const t=await callGemini([{text:`Sei un sistema gestionale per ristoranti. Dal testo di una lavagnetta restituisci SOLO un array JSON di oggetti, escludendo del tutto i piatti segnati [FINITO] o con scritto finito, esaurito, terminato o barrato: {"name":string,"price":number,"cat":una tra "3 Antipasti","4 Primi Piatti","5 Secondi","6 Desserts","allergens":[codici tra ${ALG_CODES}, dedotti da ingredienti e preparazioni tipiche; array vuoto se nessuno],"tr":{"en":nome tradotto,"fr":nome tradotto,"de":nome tradotto,"es":nome tradotto,"pl":nome tradotto in polacco,"zh":nome tradotto in cinese semplificato,"ru":nome tradotto in russo}}. Traduci i nomi in modo naturale per un menù di ristorante.\nTesto:\n${raw}`}],true);
       const a=JSON.parse(t.slice(t.indexOf('['),t.lastIndexOf(']')+1));
       dishes=a.filter(x=>x&&x.name).map(x=>({name:String(x.name).trim(),price:Number(String(x.price).replace(',','.'))||14,cat:CATEGORIES.slice(2).includes(x.cat)?x.cat:guessCategoryFromDishName(String(x.name),'AUTO'),allergens:cleanAlg(x.allergens),tr:cleanTr(x.tr)}));}
     catch(e){console.error(e);note=` (AI non disponibile: ${e.message} — uso la lettura locale)`;}}
@@ -819,7 +819,7 @@ function renderMenuMgr(){renderTmList();const l=document.getElementById('menuMgr
 function editMenuItem(id){const it=state.menu.find(i=>i.id===id);if(!it)return;const n=prompt("Modifica nome:",it.name);if(!n||!n.trim())return;const p=parseFloat((prompt("Modifica prezzo (€):",it.price)||'').replace(',','.'));if(!isNaN(p)){const nn=n.replace(/\s+/g,' ').trim(),ren=nn!==it.name;if(ren)rememberNameFix(it.name,nn);it.name=nn;it.price=p;saveState(false,{menu:true});renderMenuMgr();if(ren)retranslateDish(it);}}
 function nameFixes(){try{return JSON.parse(localStorage.getItem('alicetta_name_fix')||'{}')||{};}catch(e){return {};}}
 function rememberNameFix(oldN,newN){const f=nameFixes(),k=normDish(oldN);if(!k||k===normDish(newN))return;Object.keys(f).forEach(x=>{if(f[x]===oldN)f[x]=newN;});f[k]=newN;delete f[normDish(newN)];localStorage.setItem('alicetta_name_fix',JSON.stringify(f));}
-async function retranslateDish(m){if(!getGeminiKey()||!navigator.onLine)return;try{const t=await callGemini([{text:`Per il menù di un ristorante, dal nome di questo piatto restituisci SOLO un oggetto JSON {"tr":{"en":nome tradotto,"fr":nome tradotto,"de":nome tradotto,"es":nome tradotto},"allergens":[codici tra ${ALG_CODES}, dedotti da ingredienti e preparazioni tipiche; array vuoto se nessuno]}. Traduci in modo naturale.\nPiatto: ${m.name}`}],true);const o=JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1)),tr=cleanTr(o.tr);const cur=state.menu.find(x=>x.id===m.id);if(!cur||cur.name!==m.name)return;if(Object.keys(tr).length)cur.tr=tr;if(Array.isArray(o.allergens))cur.allergens=cleanAlg(o.allergens);saveState(false,{menu:true});}catch(e){console.warn('Traduzione non aggiornata',e);}}
+async function retranslateDish(m){if(!getGeminiKey()||!navigator.onLine)return;try{const t=await callGemini([{text:`Per il menù di un ristorante, dal nome di questo piatto restituisci SOLO un oggetto JSON {"tr":{"en":nome tradotto,"fr":nome tradotto,"de":nome tradotto,"es":nome tradotto,"pl":nome tradotto in polacco,"zh":nome tradotto in cinese semplificato,"ru":nome tradotto in russo},"allergens":[codici tra ${ALG_CODES}, dedotti da ingredienti e preparazioni tipiche; array vuoto se nessuno]}. Traduci in modo naturale.\nPiatto: ${m.name}`}],true);const o=JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1)),tr=cleanTr(o.tr);const cur=state.menu.find(x=>x.id===m.id);if(!cur||cur.name!==m.name)return;if(Object.keys(tr).length)cur.tr=tr;if(Array.isArray(o.allergens))cur.allergens=cleanAlg(o.allergens);saveState(false,{menu:true});}catch(e){console.warn('Traduzione non aggiornata',e);}}
 function deleteMenuItem(id){const m=state.menu.find(i=>i.id===id);if(!m)return;if(!confirm(`Togliere “${m.name}” dal menù?\nSparisce dalla cassa e dal menù QR su tutti i dispositivi.`))return;state.menu=state.menu.filter(i=>i.id!==id);if(state.stock)delete state.stock[id];saveState(false,{menu:true,stock:true});if(document.getElementById('viewMenuMgr').classList.contains('active'))renderMenuMgr();if(document.getElementById('viewOrder').classList.contains('active'))renderMenuGrid();}
 
 const PACE_MIN=8;
@@ -867,7 +867,7 @@ async function enrichMenuAI(){if(!confirm('Rigenerare allergeni e traduzioni con
   try{
     for(let i=0;i<items.length;i+=20){
       st.textContent=`⏳ Allergeni e traduzioni: ${Math.min(i+20,items.length)}/${items.length}...`;
-      const out=await callGemini([{text:`Menù di una trattoria di pesce abruzzese. Per ogni voce restituisci SOLO un array JSON di oggetti {"id":id,"allergens":[codici tra ${ALG_CODES}],"tr":{"en":nome,"fr":nome,"de":nome,"es":nome}}. Gli allergeni vanno dedotti da ingredienti e preparazioni tipiche. Per vini, birre e marchi lascia il nome invariato. Voci (id|categoria|nome):\n${items.slice(i,i+20).map(m=>m.id+'|'+m.cat+'|'+m.name).join('\n')}`}],true);
+      const out=await callGemini([{text:`Menù di una trattoria di pesce abruzzese. Per ogni voce restituisci SOLO un array JSON di oggetti {"id":id,"allergens":[codici tra ${ALG_CODES}],"tr":{"en":nome,"fr":nome,"de":nome,"es":nome,"pl":nome in polacco,"zh":nome in cinese semplificato,"ru":nome in russo}}. Gli allergeni vanno dedotti da ingredienti e preparazioni tipiche. Per vini, birre e marchi lascia il nome invariato. Voci (id|categoria|nome):\n${items.slice(i,i+20).map(m=>m.id+'|'+m.cat+'|'+m.name).join('\n')}`}],true);
       JSON.parse(out.slice(out.indexOf('['),out.lastIndexOf(']')+1)).forEach(x=>{const m=state.menu.find(k=>k.id===Number(x.id));if(m){m.allergens=cleanAlg(x.allergens);m.tr=cleanTr(x.tr);}});
     }
     await saveState(false,{menu:true});renderMenuMgr();st.textContent=`✅ Allergeni e traduzioni aggiornati su ${items.length} voci.`;
@@ -1199,7 +1199,7 @@ function kitchenInfo(t){if(!t||!t.items||!t.items.length||!t.sentOnce)return nul
 function kitchenChip(t){const k=kitchenInfo(t);if(!k)return '';const mn=Math.floor(k.el/60000),c=mn>=20?'#DC2626':mn>=15?'#D97706':'#062329';return `<div style="margin-top:4px;"><span style="font-size:.74rem;font-weight:900;padding:2px 7px;border-radius:6px;background:${c};color:#fff;">🍳 ${k.m}ª in cucina da ${mn}'</span></div>`;}
 function lateKey(t,m){return t.id+'_'+m+'_'+((t.firedAt&&t.firedAt[m])||t.openedAt||0);}
 function checkLateAlarms(){
-  const wn=(state.waiterName||'').trim();if(!wn||/^timbrature$/i.test(wn))return;
+  if(!/^kds cucina$/i.test((state.waiterName||'').trim()))return;
   state.lateSeen=state.lateSeen||{};const now=Date.now();let hit=null;
   Object.values(state.tables).forEach(t=>{const li=lateInfo(t);if(!li)return;const k=lateKey(t,li.m),s=state.lateSeen[k];if(s==='ack')return;if(!s||now-s>=LATE_REPEAT_MS){state.lateSeen[k]=now;if(!hit||li.el>hit.li.el)hit={t,li};}});
   if(!hit)return;playPoliceSiren(4);if(navigator.vibrate)try{navigator.vibrate([700,200,700,200,700]);}catch(e){}
