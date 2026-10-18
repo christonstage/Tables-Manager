@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.0.12</title>
+<title>Alicetta TableZ 2.0 - v2.0.13</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -220,6 +220,13 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 .amaro-badge{margin-top:6px;background:#7C2D12;color:#fff;font-weight:900;font-size:.72rem;border-radius:8px;padding:4px 6px;animation:marciaPulse 1.4s infinite}
 .inv-badge{margin-top:6px;background:#4F46E5;color:#fff;font-weight:900;font-size:.72rem;border-radius:8px;padding:3px 6px}
 .topbar .btn-top{flex:1 1 0!important;min-width:0!important;padding:8px 2px!important;font-size:.82rem!important}
+
+.topbar .btn-top{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1;min-height:52px!important;padding:6px 1px!important;border:2px solid rgba(6,35,41,.12)!important;background:var(--nc,#fff)!important;color:#062329!important}
+.topbar .btn-top{text-align:center}
+.topbar .btn-top .nv-i{display:block;font-size:1.3rem;line-height:1.1}
+.topbar .btn-top .nv-t{display:block;margin-top:2px;font-size:.52rem;font-weight:900;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.topbar .btn-top.active{background:var(--na,#062329)!important;color:#fff!important;border-color:#062329!important;transform:translateY(1px)}
+#navFull{--nc:#E2E8F0;--na:#475569}#navTables{--nc:#A5F3FC;--na:#0891B2}#navKds{--nc:#FED7AA;--na:#EA580C}#navQr{--nc:#DDD6FE;--na:#7C3AED}#navRes{--nc:#BBF7D0;--na:#16A34A}#navTime{--nc:#FEF08A;--na:#CA8A04}#navDishes{--nc:#99F6E4;--na:#0D9488}#navSales{--nc:#D9F99D;--na:#4D7C0F}#navMenu{--nc:#E5E7EB;--na:#374151}
 </style>
 </head>
 <body onclick="unlockAudioOnce()">
@@ -228,21 +235,21 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.0.12</div>
+    <div class="version-badge">v2.0.13</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
     <div id="waiterDisplay" class="waiter-tag" onclick="openLoginModal()">👤 --</div>
     <button class="btn-pager" id="btnPager" onclick="openPagerModal()" style="display:none;" title="Cercapersone">🔔</button>
-    <button class="btn-top" onclick="toggleFullScreen()" title="Tutto Schermo">⛶</button>
-    <button class="btn-top active" id="navTables" onclick="switchMainView('tables')">Tavoli</button>
-    <button class="btn-top" id="navKds" onclick="switchMainView('kds')">KDS</button>
-    <button class="btn-top" id="navQr" onclick="showQrModal()" style="display:none;">🔲</button>
-    <button class="btn-top" id="navRes" onclick="switchMainView('res')" style="display:none;">📅</button>
-    <button class="btn-top" id="navTime" onclick="switchMainView('time')">🕒</button>
-    <button class="btn-top" id="navDishes" onclick="switchMainView('dishes')" style="display:none;">Menù</button>
-    <button class="btn-top" id="navSales" onclick="switchMainView('sales')" style="display:none;" title="Vendite">💶</button>
-    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;" title="Impostazioni">⚙️</button>
+    <button class="btn-top" id="navFull" onclick="toggleFullScreen()" title="Tutto Schermo"><span class="nv-i">⛶</span><span class="nv-t">Pieno</span></button>
+    <button class="btn-top active" id="navTables" onclick="switchMainView('tables')"><span class="nv-i">🍽️</span><span class="nv-t">Tavoli</span></button>
+    <button class="btn-top" id="navKds" onclick="switchMainView('kds')"><span class="nv-i">👨‍🍳</span><span class="nv-t">KDS</span></button>
+    <button class="btn-top" id="navQr" onclick="showQrModal()" style="display:none;"><span class="nv-i">📲</span><span class="nv-t">QR</span></button>
+    <button class="btn-top" id="navRes" onclick="switchMainView('res')" style="display:none;"><span class="nv-i">📅</span><span class="nv-t">Pren.</span></button>
+    <button class="btn-top" id="navTime" onclick="switchMainView('time')"><span class="nv-i">⏱️</span><span class="nv-t">Ore</span></button>
+    <button class="btn-top" id="navDishes" onclick="switchMainView('dishes')" style="display:none;"><span class="nv-i">📖</span><span class="nv-t">Menù</span></button>
+    <button class="btn-top" id="navSales" onclick="switchMainView('sales')" style="display:none;" title="Vendite"><span class="nv-i">💶</span><span class="nv-t">Vendite</span></button>
+    <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;" title="Impostazioni"><span class="nv-i">⚙️</span><span class="nv-t">Opzioni</span></button>
   </div>
 </div>
 <div id="ntfyNag" class="ntfy-nag" style="display:none;"></div>
@@ -337,7 +344,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.12)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.13)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -365,7 +372,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.12)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.13)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -1781,7 +1788,7 @@ async function invFromPhoto(ev){const f=ev.target.files&&ev.target.files[0];if(!
   st.textContent='⏳ Leggo il biglietto da visita…';
   try{const b64=await shrinkImage(f,1400);const txt=await callGemini([{text:'Da questo biglietto da visita (o carta intestata) estrai i dati per una fattura elettronica italiana. Rispondi SOLO con un oggetto JSON con queste chiavi stringa: rs (ragione sociale o nome azienda), piva (solo 11 cifre, senza IT), cf, addr (via e numero), cap, city, prov (sigla 2 lettere), sdi (codice destinatario 7 caratteri), pec, email. Se un dato non c’è metti stringa vuota. Non inventare dati.'},{inline_data:{mime_type:'image/jpeg',data:b64}}],true);
     const o=JSON.parse(txt.slice(txt.indexOf('{'),txt.lastIndexOf('}')+1));let n=0;INV_F.forEach(([k])=>{const v=String(o[k]||'').trim(),el=document.getElementById('inv_'+k);if(v&&el){el.value=v;n++;}});
-    st.textContent=n?`✅ Letti ${n} campi: controllali prima di salvare.`:'⚠️ Non ho trovato dati utili: scrivili a mano.';const w=invWarnings(invRead());document.getElementById('invWarn').textContent=w.length?'⚠️ '+w.join(' · '):'';}
+    st.textContent=n?`✅ Letti ${n} campi: controllali prima di salvare.`:'⚠️ Non ho trovato dati utili: scrivili a mano.';const w=invWarnings(invRead()),iw=document.getElementById('invWarn');if(iw)iw.textContent=w.length?'⚠️ '+w.join(' · '):'';}
   catch(e){st.textContent='❌ Lettura non riuscita: '+e.message;}ev.target.value='';}
 function saveInvoice(){const t=state.tables[state.activeTableId];if(!t)return;const d=invRead();if(!d.rs)return alert('Scrivi almeno la ragione sociale.');const w=invWarnings(d);
   if(w.length&&!confirm('⚠️ Controlla: '+w.join(', ')+'.\nSalvare lo stesso?'))return;
@@ -1837,6 +1844,7 @@ function openInvoiceHist(ts){
   ${cos?`<input class="form-control" placeholder="🔍 Cliente già usato: nome o P.IVA" oninput="invSearch(this.value)" style="margin-bottom:4px;"><div id="invCos" style="margin-bottom:8px;"></div>`:''}
   ${INV_F.map(([k,l,ph])=>`<label style="display:block;font-size:.75rem;font-weight:800;margin-top:6px;">${l}</label><input id="inv_${k}" class="form-control" placeholder="${ph}" value="${escH(d[k]||'')}" ${k==='piva'||k==='cap'?'inputmode="numeric"':''}${k==='pec'||k==='email'?' type="email"':''}>`).join('')}
   <label style="display:block;font-size:.75rem;font-weight:800;margin-top:6px;">Note</label><input id="inv_note" class="form-control" value="${escH(d.note||'')}">
+  <div id="invWarn" style="font-size:.75rem;font-weight:800;color:#B45309;margin-top:6px;"></div>
   <div class="modal-actions"><button class="btn-modal" style="background:#10b981;color:#fff;" onclick="saveInvoiceHist()">💾 Salva</button>${e.invoice?`<button class="btn-modal" style="background:#FEE2E2;color:#991B1B;" onclick="removeInvoiceHist()">Togli</button>`:''}<button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('invModal').classList.remove('active')">Chiudi</button></div></div>`;
   ov.classList.add('active');if(cos)invSearch('');
 }
@@ -1848,7 +1856,7 @@ function saveInvoiceHist(){const e=(state.historyLog||[]).find(x=>x.ts===invHist
 function removeInvoiceHist(){const e=(state.historyLog||[]).find(x=>x.ts===invHistTs);if(!e||!confirm('Togliere la richiesta di fattura da questo conto?'))return;e.invoice=null;saveState(false,{history:true});document.getElementById('invModal').classList.remove('active');renderConti();}
 </script>
 <script>
-/* ===== v2.0.12 · Storico prenotazioni con grafico ===== */
+/* ===== v2.0.11 · Storico prenotazioni con grafico ===== */
 state.rhMode='giorni';
 function resStats(){const today=svcToday(),by={};Object.values(state.res||{}).forEach(r=>{if(!r||!r.date)return;const d=by[r.date]=by[r.date]||{n:0,cop:0,arr:0,canc:0,ns:0,att:0};const c=Number(r.covers)||0;
   if(r.status==='cancellata'){d.canc++;return;}d.n++;d.cop+=c;if(r.status==='arrivato')d.arr++;else if(r.date<today)d.ns++;else d.att++;});return by;}
