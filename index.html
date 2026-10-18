@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.9.18 - v1.9.18 Gold</title>
+<title>Alicetta TableZ 1.9.19 - v1.9.19 Gold</title>
 <meta name="theme-color" content="#2ECC71">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -179,7 +179,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.9">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.9</text></svg>
     </div>
-    <div class="version-badge">v1.9.18 Gold</div>
+    <div class="version-badge">v1.9.19 Gold</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -283,7 +283,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.18 Gold)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.19 Gold)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -303,7 +303,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.18 Gold)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.19 Gold)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -1490,14 +1490,14 @@ function checkM4Reminders(){
 const SVC_CUT=17;
 function svcOf(e){const ts=Number(e.opened)||Number(e.ts)||0;let h=ts?new Date(ts).getHours():parseInt(String(e.time||'20').slice(0,2),10);return h<SVC_CUT&&h>=5?'pranzo':'cena';}
 function resCovers(e){const id=Object.keys(state.tables).find(k=>state.tables[k].baseName===e.tableName||String(e.tableName||'').split('+')[0]===state.tables[k].baseName);if(!id)return 0;const end=Number(e.ts)||0,start=(Number(e.opened)||end)-3*3600000;
-  const r=Object.values(state.res||{}).find(r=>r.date===e.date&&r.status==='arrivato'&&(r.tables||[]).includes(id)&&resTs(r)>=start-3600000&&resTs(r)<=end);return r?Number(r.covers)||0:0;}
+  const r=Object.values(state.res||{}).find(r=>r.date===svcDate(e)&&r.status==='arrivato'&&(r.tables||[]).includes(id)&&resTs(r)>=start-3600000&&resTs(r)<=end);return r?Number(r.covers)||0:0;}
 function isCop(i){return i&&(i.cat==='1 Coperto'||/coperto/i.test(i.name||''));}
 function copOf(e){const off=Number(e.copOff)||0;if(e.copManual!=null)return{n:Number(e.copManual)||0,src:'man',off};const n=(e.items||[]).filter(isCop).reduce((s,i)=>s+(Number(i.qty)||0),0)+off;if(n>0)return{n,src:'cop',off};const r=resCovers(e);if(r>0)return{n:r,src:'pren',off:0};return{n:0,src:'none',off:0};}
 function sumBlock(L){let cash=0,card=0,nd=0,tot=0,cop=0,totCop=0,noCop=0,off=0,offVal=0;L.forEach(e=>{const p=payOf(e),t=Number(e.total)||0,c=copOf(e);off+=c.off||0;offVal+=Number(e.copOffVal)||0;tot+=t;if(p.m==='nd')nd+=t;else{cash+=p.cash;card+=p.card;}if(c.n>0){cop+=c.n;totCop+=t;}else noCop++;});return{cash,card,nd,tot,cop,totCop,noCop,off,offVal,n:L.length};}
 function svcCard(lbl,s,bg){return `<div style="background:${bg};border-radius:12px;padding:10px 12px;margin-top:8px;"><div style="display:flex;justify-content:space-between;font-weight:900;"><span>${lbl}</span><span style="color:var(--logo-coral);">€ ${formatPrice(s.tot)}</span></div><div style="font-size:.8rem;font-weight:700;margin-top:4px;">💵 € ${formatPrice(s.cash)} · 💳 € ${formatPrice(s.card)}${s.nd?` · ❔ € ${formatPrice(s.nd)}`:''}</div><div style="font-size:.75rem;color:var(--muted);font-weight:700;">${s.n} ${s.n===1?'conto':'conti'} · ${s.cop} coperti${s.cop?` · a coperto € ${formatPrice(s.totCop/s.cop)}`:''}${s.noCop?` · ⚠️ ${s.noCop} senza coperti`:''}</div>${s.off?`<div style="font-size:.75rem;font-weight:800;color:#92400E;">🎁 ${s.off} ${s.off===1?'coperto offerto':'coperti offerti'} (€ ${formatPrice(s.offVal)}), contati come presenza</div>`:''}</div>`;}
 function renderConti(){
   const T=document.getElementById('payTotals'),Lb=document.getElementById('contiList');if(!T||!Lb)return;
-  const[a,b]=contiRange(),L=(state.historyLog||[]).filter(e=>e&&e.date>=a&&e.date<=b).sort((x,y)=>(y.ts||0)-(x.ts||0));
+  const[a,b]=contiRange(),L=(state.historyLog||[]).filter(e=>e&&svcDate(e)>=a&&svcDate(e)<=b).sort((x,y)=>(y.ts||0)-(x.ts||0));
   const all=sumBlock(L),P=sumBlock(L.filter(e=>svcOf(e)==='pranzo')),C=sumBlock(L.filter(e=>svcOf(e)==='cena'));
   const per=[['oggi','Oggi'],['ieri','Ieri'],['7g','7 giorni'],['mese','Mese'],['giorno','📅 Giorno']];
   T.innerHTML=`<h3 style="margin-bottom:8px;">💶 Incassi per forma di pagamento</h3><div class="cat-bar" style="margin-bottom:6px;">${per.map(([k,l])=>`<button class="cat-btn${state.contiPer===k?' active':''}" onclick="state.contiPer='${k}';renderConti();">${l}</button>`).join('')}</div>${state.contiPer==='giorno'?`<input type="date" class="form-control" style="margin-bottom:8px;" value="${state.contiDay||buildDateISO()}" onchange="state.contiDay=this.value;renderConti();">`:''}<div style="font-size:.75rem;font-weight:800;color:var(--muted);margin-bottom:8px;">${a===b?new Date(a+'T12:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'}):'dal '+a.split('-').reverse().join('/')+' al '+b.split('-').reverse().join('/')}</div>
@@ -1505,7 +1505,7 @@ function renderConti(){
   ${P.n?svcCard('☀️ Pranzo',P,'#FEF9C3'):''}${C.n?svcCard('🌙 Cena',C,'#E0E7FF'):''}
   <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);font-weight:900;"><span>Totale · ${all.n} ${all.n===1?'conto':'conti'} · ${all.cop} coperti</span><span style="color:var(--logo-coral);">€ ${formatPrice(all.tot)}</span></div>${all.n?`<div style="font-size:.75rem;color:var(--muted);font-weight:700;">Scontrino medio € ${formatPrice(all.tot/all.n)}${all.cop?' · a coperto € '+formatPrice(all.totCop/all.cop):''}</div>`:''}${all.off?`<div style="font-size:.75rem;font-weight:800;color:#92400E;margin-top:4px;">🎁 Coperti offerti: ${all.off} (€ ${formatPrice(all.offVal)} non incassati), già inclusi nei coperti</div>`:''}${all.noCop?`<div style="font-size:.75rem;font-weight:800;color:#B45309;margin-top:4px;">⚠️ ${all.noCop} ${all.noCop===1?'conto senza':'conti senza'} coperti: aprilo qui sotto e premi “✏️ Coperti” per correggerlo. Non entra nella media a coperto.</div>`:''}${all.nd?`<div style="font-size:.75rem;font-weight:800;color:#6B7280;margin-top:4px;">❔ Pagamento non indicato: € ${formatPrice(all.nd)}</div>`:''}`;
   const LF=state.contiPay?L.filter(e=>state.contiPay==='contanti'?payOf(e).cash>0:payOf(e).card>0):L;
-  const groups=[];LF.forEach(e=>{const k=e.date+'|'+svcOf(e);let g=groups.find(x=>x.k===k);if(!g){g={k,d:e.date,s:svcOf(e),L:[]};groups.push(g);}g.L.push(e);});
+  const groups=[];LF.forEach(e=>{const k=svcDate(e)+'|'+svcOf(e);let g=groups.find(x=>x.k===k);if(!g){g={k,d:svcDate(e),s:svcOf(e),L:[]};groups.push(g);}g.L.push(e);});
   Lb.innerHTML=`<h3 style="margin-bottom:8px;">🧾 Conti dei tavoli</h3>`+(state.contiPay?`<div style="display:flex;justify-content:space-between;align-items:center;background:${state.contiPay==='contanti'?'#DCFCE7':'#DBEAFE'};border-radius:10px;padding:8px 10px;margin-bottom:6px;font-weight:900;font-size:.85rem;"><span>${state.contiPay==='contanti'?'💵 Pagati in contanti':'💳 Pagati con carta'}: ${LF.length} conti · € ${formatPrice(LF.reduce((s,e)=>s+(state.contiPay==='contanti'?payOf(e).cash:payOf(e).card),0))}</span><button class="btn-note" onclick="payFilter('')">✕ Tutti</button></div>`:'')+(groups.map(g=>{const sb=sumBlock(g.L);return `<div style="display:flex;justify-content:space-between;align-items:center;background:${g.s==='pranzo'?'#FEF9C3':'#E0E7FF'};border-radius:8px;padding:6px 10px;margin:10px 0 4px;font-weight:900;font-size:.85rem;"><span>${g.s==='pranzo'?'☀️ Pranzo':'🌙 Cena'}${a!==b?' · '+new Date(g.d+'T12:00').toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'numeric'}):''}</span><span>${sb.n} conti · ${sb.cop} cop. · € ${formatPrice(sb.tot)}</span></div>`+g.L.map(e=>{const c=copOf(e);return `<details style="border-bottom:1px dashed var(--border);padding:6px 0;"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:8px;align-items:center;"><div><b>${escH(e.tableName||'')}</b> <span style="font-size:.75rem;color:var(--muted);">${escH(e.time||'')} · ${c.n?c.n+' cop.'+(c.off?` (🎁 ${c.off} offert${c.off===1?'o':'i'})`:'')+(c.src==='pren'?' (da prenotazione)':c.src==='man'?' ✏️':''):'<span style="color:#B45309;font-weight:800;">⚠️ senza coperti</span>'}</span><div style="margin-top:3px;">${payChip(e)}</div></div><div style="font-weight:900;color:var(--logo-coral);white-space:nowrap;">€ ${formatPrice(e.total||0)}</div></summary><div style="padding:6px 4px 4px;font-size:.84rem;">${(e.items||[]).map(i=>`<div style="display:flex;justify-content:space-between;gap:8px;padding:2px 0;"><span>${i.qty}× ${escH(i.name)}${i.note?` <i style="color:#B45309;">(${escH(i.note)})</i>`:''}</span><span style="white-space:nowrap;">€ ${formatPrice((Number(i.price)||0)*(Number(i.qty)||0))}</span></div>`).join('')}${e.pay&&e.pay.given?`<div style="font-size:.75rem;color:var(--muted);margin-top:4px;">Dati € ${formatPrice(e.pay.given)} · resto € ${formatPrice(e.pay.given-(e.total||0))}</div>`:''}${(e.copOffLog||[]).map(l=>`<div style="font-size:.75rem;color:#92400E;font-weight:700;margin-top:3px;">🎁 ${l.n} ${l.n===1?'coperto offerto':'coperti offerti'} da ${escH(l.by||'Staff')} alle ${new Date(l.ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}</div>`).join('')}<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;"><button class="btn-note" onclick="editPay(${e.ts})">✏️ Cambia pagamento</button><button class="btn-note" onclick="editCop(${e.ts})">✏️ Coperti</button>${e.rid&&typeof showReceiptQr==='function'?`<button class="btn-note" onclick="showReceiptQr('${e.rid}')">🧾 QR Grazie</button>`:''}</div></div></details>`;}).join('');}).join('')||'<div style="color:var(--muted);font-size:.85rem;">Nessun conto chiuso in questo periodo.</div>');
 }
 function payFilter(m){state.contiPay=(m&&state.contiPay!==m)?m:'';renderConti();const el=document.getElementById('contiList');if(el&&state.contiPay)el.scrollIntoView({behavior:'smooth',block:'start'});}
@@ -1519,12 +1519,12 @@ function ccClosures(){const c=state.staffCfg=state.staffCfg||{};return c.closure
 function renderCashClose(){
   const el=document.getElementById('cashClose');if(!el)return;const ae=document.activeElement;if(ae&&el.contains(ae)&&ae.tagName==='INPUT')return;const dr={rtCash:ccNum('ccRtCash'),rtEl:ccNum('ccRtEl'),pos:ccNum('ccPos'),suCash:ccNum('ccSuCash'),k:el.dataset.k};const[a,b]=contiRange();
   const reg=Object.entries(ccClosures()).map(([k,v])=>({k,...v})).sort((x,y)=>String(y.k).localeCompare(String(x.k))).slice(0,20);
-  const regHtml=`<div style="margin-top:12px;"><div style="font-weight:900;font-size:.9rem;margin-bottom:4px;">📒 Registro chiusure</div>${reg.map(r=>{const[d,s]=r.k.split('|');return `<div style="display:flex;justify-content:space-between;gap:8px;font-size:.8rem;padding:5px 0;border-bottom:1px dashed var(--border);"><span>${new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'numeric'})} · ${s==='pranzo'?'☀️ Pranzo':'🌙 Cena'}<br><span style="color:var(--muted);">${escH(r.by||'')} · ${r.at?new Date(r.at).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}):''}</span></span><span style="font-weight:900;text-align:right;color:${r.ok?'#166534':'#B91C1C'};">${r.ok?'✅ Quadrata':'⚠️ Da sistemare'}${r.ok?'':`<br><span style="font-size:.72rem;">${ccDiffTxt(r.diff)}</span>`}</span></div>`;}).join('')||'<div style="font-size:.8rem;color:var(--muted);">Nessuna chiusura registrata.</div>'}</div>`;
-  if(a!==b){el.innerHTML=`<h3 style="margin-bottom:6px;">🧾 Chiusura cassa</h3><div style="font-size:.8rem;color:var(--muted);">Per fare la chiusura scegli Oggi, Ieri o un giorno preciso.</div>`+regHtml;return;}
-  if(!state.ccSvc)state.ccSvc=new Date().getHours()<SVC_CUT?'pranzo':'cena';
-  const L=(state.historyLog||[]).filter(e=>e&&e.date===a&&svcOf(e)===state.ccSvc),S=sumBlock(L),k=ccKey(a,state.ccSvc),sv=ccClosures()[k]||{};el.dataset.k=k;const pv=f=>dr.k===k&&dr[f]!=null?dr[f]:(sv[f]??'');
-  el.innerHTML=`<h3 style="margin-bottom:6px;">🧾 Chiusura cassa</h3><div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">Inserisci i totali del registratore telematico e del POS: l’app li confronta con i conti chiusi e ti segnala gli scontrini dimenticati.</div>
-  <div class="cat-bar" style="margin-bottom:8px;"><button class="cat-btn${state.ccSvc==='pranzo'?' active':''}" onclick="state.ccSvc='pranzo';renderCashClose();">☀️ Pranzo</button><button class="cat-btn${state.ccSvc==='cena'?' active':''}" onclick="state.ccSvc='cena';renderCashClose();">🌙 Cena</button></div>
+  const regHtml=`<div style="margin-top:12px;"><div style="font-weight:900;font-size:.9rem;margin-bottom:4px;">📒 Registro chiusure</div>${reg.map(r=>{const[d,s]=r.k.split('|');return `<div onclick="ccOpen('${r.k}')" style="cursor:pointer;display:flex;justify-content:space-between;gap:8px;font-size:.8rem;padding:6px 0;border-bottom:1px dashed var(--border);"><span>${new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'numeric'})} · ${s==='pranzo'?'☀️ Pranzo':s==='cena'?'🌙 Cena':'📅 Giornata'} <span style="color:var(--logo-coral);font-weight:900;">›</span><br><span style="color:var(--muted);">${escH(r.by||'')} · ${r.at?new Date(r.at).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}):''}</span></span><span style="font-weight:900;text-align:right;color:${r.ok?'#166534':'#B91C1C'};">${r.ok?'✅ Quadrata':'⚠️ Da sistemare'}${r.ok?'':`<br><span style="font-size:.72rem;">${ccDiffTxt(r.diff)}</span>`}<br><button class="btn-note" style="padding:2px 8px;font-size:.7rem;margin-top:3px;" onclick="event.stopPropagation();ccDelete('${r.k}')">🗑️</button></span></div>`;}).join('')||'<div style="font-size:.8rem;color:var(--muted);">Nessuna chiusura registrata.</div>'}</div>`;
+  if(a!==b){el.innerHTML=`<h3 style="margin-bottom:6px;">🧾 Chiusura cassa</h3><div style="font-size:.8rem;color:var(--muted);">Per fare una chiusura scegli in alto Oggi, Ieri o un giorno preciso, oppure tocca una riga del registro qui sotto per riaprirla.</div>`+regHtml;return;}
+  if(!state.ccSvc)state.ccSvc='giorno';
+  const L=(state.historyLog||[]).filter(e=>e&&svcDate(e)===a&&(state.ccSvc==='giorno'||svcOf(e)===state.ccSvc)),S=sumBlock(L),k=ccKey(a,state.ccSvc),sv=ccClosures()[k]||{};el.dataset.k=k;const pv=f=>dr.k===k&&dr[f]!=null?dr[f]:(sv[f]??'');
+  el.innerHTML=`<h3 style="margin-bottom:6px;">🧾 Chiusura cassa</h3><div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">Inserisci i totali del registratore telematico e del POS: l’app li confronta con i conti chiusi e ti segnala gli scontrini dimenticati. Se i totali che leggi sono di tutta la giornata (chiusura Z, report POS del giorno), scegli “Giornata intera”.</div>
+  <div class="cat-bar" style="margin-bottom:8px;"><button class="cat-btn${state.ccSvc==='giorno'?' active':''}" onclick="state.ccSvc='giorno';renderCashClose();">📅 Giornata intera</button><button class="cat-btn${state.ccSvc==='pranzo'?' active':''}" onclick="state.ccSvc='pranzo';renderCashClose();">☀️ Pranzo</button><button class="cat-btn${state.ccSvc==='cena'?' active':''}" onclick="state.ccSvc='cena';renderCashClose();">🌙 Cena</button></div>
   <div style="font-size:.8rem;font-weight:800;margin-bottom:8px;">Nell’app: 💵 € ${formatPrice(S.cash)} · 💳 € ${formatPrice(S.card)} · ${S.n} conti${S.nd?` · <span style="color:#B91C1C;">❔ € ${formatPrice(S.nd)} senza forma di pagamento: sistemali prima</span>`:''}</div>
   <label style="font-size:.78rem;font-weight:800;">Registratore telematico · contanti (€)</label><input id="ccRtCash" class="form-control" type="number" inputmode="decimal" step="0.01" style="margin:4px 0 8px;" value="${pv('rtCash')}">
   <label style="font-size:.78rem;font-weight:800;">Registratore telematico · elettronico (€)</label><input id="ccRtEl" class="form-control" type="number" inputmode="decimal" step="0.01" style="margin:4px 0 8px;" value="${pv('rtEl')}">
@@ -1544,7 +1544,7 @@ function ccResultHtml(sv,L){const S=sumBlock(L);let h=ccLine('Contanti',S.cash,s
   if(sv.suCash!=null){const su=L.filter(e=>e.pay&&e.pay.via==='SumUp').reduce((x,e)=>x+payOf(e).cash,0),d=Math.round((sv.suCash-su)*100)/100;h+=Math.abs(d)<0.01?`<div style="font-size:.82rem;font-weight:800;color:#166534;padding:4px 0;">✅ Contanti su SumUp: quadrano (€ ${formatPrice(sv.suCash)})</div>`:`<div style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:10px;padding:8px 10px;margin:6px 0;font-size:.82rem;"><b style="color:#92400E;">⚠️ Contanti su SumUp diversi dall’app di € ${formatPrice(Math.abs(d))}</b><br>Su SumUp € ${formatPrice(sv.suCash)}, nell’app € ${formatPrice(su)} segnati “Contanti · SumUp”: controlla quali conti hai registrato su SumUp.</div>`;}
   return h;}
 function saveCashClose(){
-  const[a]=contiRange(),s=state.ccSvc,L=(state.historyLog||[]).filter(e=>e&&e.date===a&&svcOf(e)===s),S=sumBlock(L);
+  const[a]=contiRange(),s=state.ccSvc,L=(state.historyLog||[]).filter(e=>e&&svcDate(e)===a&&(s==='giorno'||svcOf(e)===s)),S=sumBlock(L);
   const rtCash=ccNum('ccRtCash'),rtEl=ccNum('ccRtEl'),pos=ccNum('ccPos'),suCash=ccNum('ccSuCash');if(rtCash==null&&rtEl==null&&pos==null&&suCash==null)return alert('Inserisci almeno un totale.');const suApp=L.filter(e=>e.pay&&e.pay.via==='SumUp').reduce((x,e)=>x+payOf(e).cash,0);
   const diff={cash:rtCash==null?0:Math.round((rtCash-S.cash)*100)/100,el:rtEl==null?0:Math.round((rtEl-S.card)*100)/100,pos:pos==null?null:Math.round((pos-S.card)*100)/100,su:suCash==null?null:Math.round((suCash-suApp)*100)/100};
   const ok=Math.abs(diff.cash)<0.01&&Math.abs(diff.el)<0.01&&(diff.pos==null||Math.abs(diff.pos)<0.01)&&(diff.su==null||Math.abs(diff.su)<0.01)&&!S.nd;
@@ -1552,6 +1552,19 @@ function saveCashClose(){
   saveState(false,{staff:true});if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();renderCashClose();if(!ok&&navigator.vibrate)try{navigator.vibrate([200,100,200]);}catch(e){}
 }
 {const _rc=renderConti;renderConti=function(){_rc();renderCashClose();};}
+</script>
+<script>
+/* ===== v1.9.19 · Giornata di servizio (dopo mezzanotte resta il giorno prima), chiusura giornata intera ===== */
+const isoD=d=>{const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());};
+function svcBase(ts){const d=ts?new Date(ts):new Date();if(d.getHours()<5)d.setDate(d.getDate()-1);d.setHours(12,0,0,0);return d;}
+function svcToday(){return isoD(svcBase());}
+function svcDate(e){const ts=Number(e&&e.ts)||0;return ts?isoD(svcBase(ts)):(e&&e.date)||'';}
+function contiRange(){const n=svcBase(),P=state.contiPer;
+  if(P==='oggi'){const t=isoD(n);return[t,t];}if(P==='ieri'){const y=new Date(n);y.setDate(n.getDate()-1);return[isoD(y),isoD(y)];}
+  if(P==='7g'){const a=new Date(n);a.setDate(n.getDate()-6);return[isoD(a),isoD(n)];}if(P==='mese')return[isoD(new Date(n.getFullYear(),n.getMonth(),1)),isoD(n)];
+  const d=state.contiDay||isoD(n);return[d,d];}
+function ccOpen(k){const[d,s]=k.split('|');state.contiPer='giorno';state.contiDay=d;state.ccSvc=s;renderConti();setTimeout(()=>{const el=document.getElementById('cashClose');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},50);}
+function ccDelete(k){if(!/^christian$/i.test((state.waiterName||'').trim()))return alert('Solo Christian può cancellare una chiusura.');if(!confirm('Cancellare questa chiusura dal registro?'))return;delete ccClosures()[k];saveState(false,{staff:true});renderConti();}
 </script>
 <script>initApp();</script>
 </body>
