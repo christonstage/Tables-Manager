@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.0.2</title>
+<title>Alicetta TableZ 2.0 - v2.0.3</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -195,6 +195,23 @@ body{background-color:var(--bg);background-image:radial-gradient(130% 55% at 50%
 .receipt-box{box-shadow:0 24px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.9)}
 .order-toast{box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .version-badge{box-shadow:0 2px 0 rgba(0,0,0,.35)}
+
+body.kds-mode .topbar{flex-wrap:nowrap;padding:4px 8px;gap:6px}
+body.kds-mode .topbar::after{display:none}
+body.kds-mode #navKds{display:none!important}
+body.kds-mode .waiter-tag{padding:6px 8px;font-size:.8rem}
+body.kds-mode .btn-pager{padding:6px 10px;font-size:.95rem}
+body.kds-mode .kds-Banner{padding:4px 8px;margin-bottom:6px;gap:6px}
+body.kds-mode .kds-Banner>div:first-child{font-size:.78rem!important}
+body.kds-mode .kds-Banner button{padding:5px 10px!important;font-size:.75rem!important}
+body.kds-mode #viewKds{padding-top:6px}
+body.kds-mode .kds-grid{grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:8px}
+body.kds-mode .kds-card{padding:8px;border-radius:10px}
+body.kds-mode .kds-item{padding:5px 6px;margin-top:3px;font-size:.84rem}
+body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
+.kds-card.kds-complete{border:4px solid #16A34A!important;background:#DCFCE7!important;box-shadow:0 0 0 3px rgba(22,163,74,.25)}
+.kds-card.kds-complete>*:not(.kds-done-banner){opacity:.55}
+.kds-done-banner{background:#16A34A;color:#fff;font-weight:900;text-align:center;border-radius:8px;padding:8px 6px;margin-bottom:8px;font-size:1.05rem;letter-spacing:.5px}
 </style>
 </head>
 <body onclick="unlockAudioOnce()">
@@ -203,7 +220,7 @@ body{background-color:var(--bg);background-image:radial-gradient(130% 55% at 50%
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.0.2</div>
+    <div class="version-badge">v2.0.3</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -309,13 +326,14 @@ body{background-color:var(--bg);background-image:radial-gradient(130% 55% at 50%
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.2)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.3)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
+      <button class="btn-note" onclick="toggleStock()">📦 Scorte</button>
     </div>
   </div>
-  <div id="resBoardKds" style="display:none"></div><div style="margin-bottom:10px;"><button class="btn-note" style="padding:10px 14px;" onclick="toggleStock()">📦 Scorte del giorno</button></div><div id="stockPanel" class="cart-section" style="display:none;"></div>
+  <div id="resBoardKds" style="display:none"></div><div id="stockPanel" class="cart-section" style="display:none;"></div>
   <div class="kds-grid" id="kdsContainer"></div>
 </div>
 <div id="viewRes" class="screen"><div id="resContent"></div></div>
@@ -329,7 +347,7 @@ body{background-color:var(--bg);background-image:radial-gradient(130% 55% at 50%
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.2)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.3)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -552,7 +570,7 @@ async function selectUserRole(name,goKds){
   if(goKds){switchMainView('kds');enableKdsTabletMode();}
 }
 function selectCustomUser(){const v=document.getElementById('customWaiterInput').value.trim();if(!v)return alert("Scrivi un nome");selectUserRole(v,false);}
-function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('navDishes').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('btnPager').style.display='block';document.getElementById('navRes').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('navTime').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('navKds').style.display=/^(christian|kds cucina)$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navQr').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';if(/^timbrature$/i.test((state.waiterName||'').trim())){['navTables','navKds','navRes','navMenu','btnPager'].forEach(i=>document.getElementById(i).style.display='none');document.getElementById('navTime').style.display='block';}else document.getElementById('navTables').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';if(typeof checkNtfyNag==='function')checkNtfyNag();}
+function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('navDishes').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('btnPager').style.display='block';document.getElementById('navRes').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';document.body.classList.toggle('kds-mode',/^kds cucina$/i.test((state.waiterName||'').trim()));document.getElementById('navTime').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('navKds').style.display=/^(christian|kds cucina)$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navQr').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';if(/^timbrature$/i.test((state.waiterName||'').trim())){['navTables','navKds','navRes','navMenu','btnPager'].forEach(i=>document.getElementById(i).style.display='none');document.getElementById('navTime').style.display='block';}else document.getElementById('navTables').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';if(typeof checkNtfyNag==='function')checkNtfyNag();}
 function updateRoomTabCounts(){document.getElementById('cntInt').textContent=state.tableCounts.interna;document.getElementById('cntEst').textContent=state.tableCounts.esterna;document.getElementById('cntAsp').textContent=state.tableCounts.asporto;updateOpenBadges();document.getElementById('cfgIntCount').value=state.tableCounts.interna;document.getElementById('cfgEstCount').value=state.tableCounts.esterna;document.getElementById('cfgAspCount').value=state.tableCounts.asporto;populateMergeSelectors();}
 function saveLocalOnly(){localStorage.setItem(STORAGE_KEY,JSON.stringify({menu:state.menu,tables:state.tables,tableCounts:state.tableCounts,useRawBT:state.useRawBT,firebaseUrl:state.firebaseUrl,waiterName:state.waiterName,historyLog:state.historyLog,lastAlertSignal:state.lastAlertSignal,lastOrderEvent:state.lastOrderEvent,lastPagerEvent:state.lastPagerEvent,timeLog:state.timeLog||{},pins:state.pins||{},qrUrl:state.qrUrl||'',stock:state.stock||{},seats:state.seats||{},staffCfg:state.staffCfg||{},res:state.res||{}}));}
 async function saveState(bell,parts){if(bell)state.lastAlertSignal=Date.now();saveLocalOnly();await pushToCloud(parts);if(!state.lastPushOk)addPending(parts);}
@@ -736,10 +754,10 @@ function renderKds(){syncStockSoldOut();if(document.getElementById('stockPanel')
   const c=document.getElementById('kdsContainer');c.innerHTML='';const now=Date.now(),act=Object.values(state.tables).filter(t=>t.sentOnce&&t.items&&t.items.some(i=>isItemSent(t,i)&&i.mandata!==4));
   if(!act.length){c.innerHTML='<div style="color:var(--muted);font-weight:700;">Nessuna comanda inviata in cucina.</div>';return;}
   act.sort(kdsCmp);act.forEach(t=>{
-    const card=document.createElement('div');card.className=`kds-card ${isTableDelayed(t)?'delayed':''}`;
+    const card=document.createElement('div');card.className=`kds-card ${isTableDelayed(t)?'delayed':''}${kdsDone(t)?' kds-complete':''}`;
     let h=`<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:8px;"><b>${t.name}</b><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:0.75rem;color:var(--logo-coral);">${t.room==='interna'?'❄️ Interna':t.room==='esterna'?'🕶️ Esterna':'🥡 Asporto'}</span><span id="kds_timer_${t.id}">⏱️ ${t.openedAt?formatElapsed(now-t.openedAt):'00:00'}</span></div></div>`+kitchenChip(t);
     [0,1,2,3].forEach(m=>{const mi=t.items.filter(i=>i.mandata===m&&isItemSent(t,i));if(!mi.length)return;const dn=t.doneMandate&&t.doneMandate[m],fr=(m===0||m===1||(t.firedMandate&&t.firedMandate[m])),bg=dn?`<span style="color:#10B981;">SERVITA</span>`:fr?`<span style="color:#10B981;">MARCIARE</span>`:`<span style="color:var(--logo-coral);">ATTESA</span>`;h+=`<div style="margin-bottom:8px;padding:6px;background:rgba(0,0,0,0.05);border-radius:6px;${dn?'opacity:0.4;':''}"><div style="font-size:0.75rem;display:flex;justify-content:space-between;"><b>${MANDATE_LABELS[m]}</b> ${bg}</div>${mi.map(i=>kdsItemRow(t,i,dn)).join('')}${(m>0&&fr)?`<button class="btn-kds-done" onclick="markMandataDone('${t.id}',${m})">${dn?'Riapri':'✅ FATTO'}</button>`:''}</div>`;});
-    card.innerHTML=(isTableDelayed(t)?BOMB_SVG+`<div class="kds-late">💣 ${lateInfo(t).m}ª MANDATA IN RITARDO · ${Math.floor(lateInfo(t).el/60000)} min</div>`:'')+paceBadge(t)+h;c.appendChild(card);
+    card.innerHTML=(kdsDone(t)?'<div class="kds-done-banner">✅ TUTTO SERVITO</div>':'')+(isTableDelayed(t)?BOMB_SVG+`<div class="kds-late">💣 ${lateInfo(t).m}ª MANDATA IN RITARDO · ${Math.floor(lateInfo(t).el/60000)} min</div>`:'')+paceBadge(t)+h;c.appendChild(card);
   });
 }
 const LANGS=['it','en','fr','de','es','pl','zh','ru'];
@@ -1223,7 +1241,7 @@ async function tmRestore(id){const s=tmLoad().find(x=>x.id===id);if(!s)return;
 const LATE_REPEAT_MS=2*60*1000;
 /* ---------- Suoni più forti ---------- */
 let sndOut=null;
-function sndDest(){unlockAudioOnce();if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();if(!sndOut){const c=audioCtx.createDynamicsCompressor();c.threshold.value=-12;c.knee.value=0;c.ratio.value=20;c.attack.value=0.002;c.release.value=0.15;const g=audioCtx.createGain();g.gain.value=2.2;g.connect(c);c.connect(audioCtx.destination);sndOut=g;}return sndOut;}
+function sndDest(){unlockAudioOnce();if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();if(!sndOut){const c=audioCtx.createDynamicsCompressor();c.threshold.value=-12;c.knee.value=0;c.ratio.value=20;c.attack.value=0.002;c.release.value=0.15;const g=audioCtx.createGain();g.gain.value=2.2;g.connect(c);c.connect(audioCtx.destination);g._c=c;sndOut=g;window._sndPost=null;}if(!window._sndPost){try{const pg=audioCtx.createGain();sndOut._c.disconnect();sndOut._c.connect(pg);pg.connect(audioCtx.destination);window._sndPost=pg;}catch(e){}}if(window._sndPost)window._sndPost.gain.value=sndVol();return sndOut;}
 function tone(f,t0,dur,type,vol,f2){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type||'square';o.frequency.setValueAtTime(f,t0);if(f2)o.frequency.linearRampToValueAtTime(f2,t0+dur);g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(vol||1,t0+0.012);g.gain.setValueAtTime(vol||1,Math.max(t0+0.013,t0+dur-0.04));g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);o.connect(g);g.connect(sndDest());o.start(t0);o.stop(t0+dur+0.03);}
 playKitchenBell=function(){try{const d=sndDest(),n=audioCtx.currentTime+0.02;[0,0.9].forEach(r=>{[[1568,0],[1175,0.28],[1568,0.56]].forEach(([f,o])=>{tone(f,n+r+o,0.26,'square',0.9);tone(f*2,n+r+o,0.26,'triangle',0.5);});});}catch(e){}};
 playPagerSiren=function(){try{sndDest();const n=audioCtx.currentTime+0.02;for(let i=0;i<12;i++)tone(i%2?1175:1760,n+i*0.17,0.16,'square',1);}catch(e){}};
@@ -1639,6 +1657,14 @@ function ntfyDone(){localStorage.setItem('alicetta_ntfy_ok',(state.waiterName||'
 <script>
 /* KDS: gli allarmi non si possono silenziare, solo chiudere il riquadro */
 function ackLate(){const el=document.getElementById('orderToast');if(el)el.classList.remove('active','sticky');}
+</script>
+<script>
+/* ===== KDS compatto, comande ordinate con le servite in fondo, volumi per dispositivo ===== */
+function isKdsDev(){return /^kds cucina$/i.test((state.waiterName||'').trim());}
+function kdsDone(t){const ms=[1,2,3].filter(m=>(t.items||[]).some(i=>i.mandata===m&&i.name!=='Pane e Coperto'&&isItemSent(t,i)));return ms.length>0&&ms.every(m=>t.doneMandate&&t.doneMandate[m]);}
+function kdsUrg(t){if(kdsDone(t))return[3,-(Math.max(0,...Object.values(t.doneAt||{}).map(Number).filter(Boolean)))];const k=kitchenInfo(t);if(k)return[0,-k.el];const wait=[1,2,3].some(m=>(t.items||[]).some(i=>i.mandata===m&&i.name!=='Pane e Coperto'&&isItemSent(t,i))&&!(t.doneMandate&&t.doneMandate[m]));return[wait?1:2,t.openedAt||0];}
+function sndVol(){return window._sndLoud||isKdsDev()?1:0.5;}
+{const _pp=playPagerSiren;playPagerSiren=function(){window._sndLoud=true;try{_pp();}finally{setTimeout(()=>{window._sndLoud=false;},2500);}};}
 </script>
 <script>initApp();</script>
 </body>
