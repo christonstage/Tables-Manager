@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.0.13</title>
+<title>Alicetta TableZ 2.0 - v2.0.15</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -235,7 +235,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.0.13</div>
+    <div class="version-badge">v2.0.15</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -344,7 +344,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.13)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.15)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -372,7 +372,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.13)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.15)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -1761,7 +1761,7 @@ function checkPaidReminders(){const wn=(state.waiterName||'').trim();if(!wn||/^(
 </script>
 <script>
 /* ===== v2.0.9 · Fattura: dati aziendali sul tavolo e registro fatture da emettere ===== */
-const INV_F=[['rs','Ragione sociale *','Rossi Srl'],['piva','Partita IVA','12345678901'],['cf','Codice fiscale (se diverso)',''],['addr','Indirizzo','Via Roma 1'],['cap','CAP','66100'],['city','Città','Chieti'],['prov','Provincia','CH'],['sdi','Codice destinatario SDI','ABC1234'],['pec','PEC','rossisrl@pec.it'],['email','Email','']];
+const INV_F=[['rs','Ragione sociale *',''],['piva','Partita IVA',''],['cf','Codice fiscale (se diverso)',''],['addr','Indirizzo',''],['cap','CAP',''],['city','Città',''],['prov','Provincia',''],['sdi','Codice destinatario SDI',''],['pec','PEC',''],['email','Email','']];
 function invCos(){const c=state.staffCfg=state.staffCfg||{};return c.invoiceCos=c.invoiceCos||{};}
 function invText(d){return [d.rs,d.piva?'P.IVA '+d.piva:'',d.cf?'C.F. '+d.cf:'',[d.addr,[d.cap,d.city].filter(Boolean).join(' '),d.prov?'('+d.prov+')':''].filter(Boolean).join(', '),d.sdi?'SDI '+d.sdi:'',d.pec?'PEC '+d.pec:'',d.email?'Email '+d.email:'',d.note||''].filter(Boolean).join('\n');}
 function openInvoice(){
@@ -1770,25 +1770,25 @@ function openInvoice(){
   const cos=Object.values(invCos()).sort((a,b)=>(b.used||0)-(a.used||0)).slice(0,30);
   ov.innerHTML=`<div class="receipt-box"><h3 style="color:var(--logo-coral);margin-bottom:6px;">🧾 Fattura · ${escH(t.name)}</h3>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;"><label class="btn-main btn-bill" style="display:block;text-align:center;cursor:pointer;font-size:.9rem;">📷 Scatta foto<br><span style="font-size:.72rem;">biglietto da visita</span><input type="file" accept="image/*" capture="environment" style="display:none;" onchange="invFromPhoto(event)"></label><label class="btn-main btn-print" style="display:block;text-align:center;cursor:pointer;font-size:.9rem;">🖼️ Carica biglietto<br><span style="font-size:.72rem;">dalla galleria</span><input type="file" accept="image/*" style="display:none;" onchange="invFromPhoto(event)"></label></div>
-  <div id="invSt" style="font-size:.78rem;font-weight:800;color:#4B5563;margin-bottom:6px;"></div>
+  <div id="invSt" style="font-size:.78rem;font-weight:800;color:#4B5563;margin-bottom:6px;"></div><div id="invMiss"></div>
   ${cos.length?`<input class="form-control" placeholder="🔍 Cliente già usato: nome o P.IVA" oninput="invSearch(this.value)" style="margin-bottom:4px;"><div id="invCos" style="margin-bottom:8px;"></div>`:''}
-  ${INV_F.map(([k,l,ph])=>`<label style="display:block;font-size:.75rem;font-weight:800;margin-top:6px;">${l}</label><input id="inv_${k}" class="form-control" placeholder="${ph}" value="${escH(d[k]||'')}" ${k==='piva'||k==='cap'?'inputmode="numeric"':''}${k==='pec'||k==='email'?' type="email"':''}>`).join('')}
+  ${INV_F.map(([k,l,ph])=>`<label style="display:block;font-size:.75rem;font-weight:800;margin-top:6px;">${l}</label><input id="inv_${k}" class="form-control" oninput="invCheck()" placeholder="${ph}" value="${escH(d[k]||'')}" ${k==='piva'||k==='cap'?'inputmode="numeric"':''}${k==='pec'||k==='email'?' type="email"':''}>`).join('')}
   <label style="display:block;font-size:.75rem;font-weight:800;margin-top:6px;">Note</label><input id="inv_note" class="form-control" placeholder="Es. intestare solo i coperti" value="${escH(d.note||'')}">
   <div id="invWarn" style="font-size:.75rem;font-weight:800;color:#B45309;margin-top:6px;"></div>
   <div class="modal-actions"><button class="btn-modal" style="background:#10b981;color:#fff;" onclick="saveInvoice()">💾 Salva</button>${t.invoice?`<button class="btn-modal" style="background:#FEE2E2;color:#991B1B;" onclick="removeInvoice()">Togli</button>`:''}<button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('invModal').classList.remove('active')">Chiudi</button></div></div>`;
-  ov.classList.add('active');if(cos.length)invSearch('');
+  ov.classList.add('active');if(cos.length)invSearch('');invCheck();
 }
 function invSearch(q){const el=document.getElementById('invCos');if(!el)return;q=String(q||'').toLowerCase().trim();const L=Object.entries(invCos()).filter(([k,c])=>!q||String(c.rs||'').toLowerCase().includes(q)||String(c.piva||'').includes(q)).sort((a,b)=>(b[1].used||0)-(a[1].used||0)).slice(0,5);
   el.innerHTML=L.map(([k,c])=>`<button class="btn-note" style="width:100%;text-align:left;margin-bottom:4px;" onclick="invPick('${escH(k)}')">🏢 ${escH(c.rs||'')} ${c.piva?'· '+escH(c.piva):''}</button>`).join('');}
 function invPick(k){const c=invCos()[k];if(!c)return;INV_F.forEach(([f])=>{const el=document.getElementById('inv_'+f);if(el)el.value=c[f]||'';});}
 function invRead(){const d={};INV_F.concat([['note']]).forEach(([k])=>{d[k]=String((document.getElementById('inv_'+k)||{}).value||'').trim();});d.piva=d.piva.replace(/^IT/i,'').replace(/\s/g,'');d.cf=d.cf.toUpperCase().replace(/\s/g,'');d.sdi=d.sdi.toUpperCase().replace(/\s/g,'');d.prov=d.prov.toUpperCase();return d;}
-function invWarnings(d){const w=[];if(d.piva&&!/^\d{11}$/.test(d.piva))w.push('la Partita IVA italiana ha 11 cifre');if(d.sdi&&!/^[A-Z0-9]{7}$/.test(d.sdi))w.push('il codice SDI ha 7 caratteri');if(!d.sdi&&!d.pec)w.push('manca codice SDI o PEC (se non li ha si usa 0000000)');if(!d.piva&&!d.cf)w.push('serve almeno Partita IVA o Codice fiscale');return w;}
+function invWarnings(d){const w=[];if(d.piva&&!/^\d{11}$/.test(d.piva))w.push('la Partita IVA italiana ha 11 cifre');if(d.sdi&&!/^[A-Z0-9]{7}$/.test(d.sdi))w.push('il codice SDI ha 7 caratteri');if(d.cap&&!/^\d{5}$/.test(d.cap))w.push('il CAP ha 5 cifre');if(d.prov&&!/^[A-Z]{2}$/.test(d.prov))w.push('la provincia è una sigla di 2 lettere');return w;}
 async function invFromPhoto(ev){const f=ev.target.files&&ev.target.files[0];if(!f)return;const st=document.getElementById('invSt');
   if(!getGeminiKey()){st.textContent='⚠️ Per leggere la foto serve la Gemini API Key: scrivi i dati a mano.';ev.target.value='';return;}
   st.textContent='⏳ Leggo il biglietto da visita…';
-  try{const b64=await shrinkImage(f,1400);const txt=await callGemini([{text:'Da questo biglietto da visita (o carta intestata) estrai i dati per una fattura elettronica italiana. Rispondi SOLO con un oggetto JSON con queste chiavi stringa: rs (ragione sociale o nome azienda), piva (solo 11 cifre, senza IT), cf, addr (via e numero), cap, city, prov (sigla 2 lettere), sdi (codice destinatario 7 caratteri), pec, email. Se un dato non c’è metti stringa vuota. Non inventare dati.'},{inline_data:{mime_type:'image/jpeg',data:b64}}],true);
+  try{const b64=await shrinkImage(f,1400);const txt=await callGemini([{text:'Da questo biglietto da visita (o carta intestata) estrai i dati per una fattura elettronica italiana. Rispondi SOLO con un oggetto JSON con queste chiavi stringa: rs (ragione sociale o nome azienda), piva (solo 11 cifre, senza IT), cf, addr (via e numero), cap, city, prov (sigla 2 lettere), sdi (codice destinatario 7 caratteri), pec, email. Se un dato non è scritto nell’immagine metti stringa vuota: in particolare NON inventare indirizzo, CAP, città o provincia se non sono scritti. Non riportare l’IBAN.'},{inline_data:{mime_type:'image/jpeg',data:b64}}],true);
     const o=JSON.parse(txt.slice(txt.indexOf('{'),txt.lastIndexOf('}')+1));let n=0;INV_F.forEach(([k])=>{const v=String(o[k]||'').trim(),el=document.getElementById('inv_'+k);if(v&&el){el.value=v;n++;}});
-    st.textContent=n?`✅ Letti ${n} campi: controllali prima di salvare.`:'⚠️ Non ho trovato dati utili: scrivili a mano.';const w=invWarnings(invRead()),iw=document.getElementById('invWarn');if(iw)iw.textContent=w.length?'⚠️ '+w.join(' · '):'';}
+    st.textContent=n?`✅ Letti ${n} campi: controllali prima di salvare.`:'⚠️ Non ho trovato dati utili: scrivili a mano.';const w=invWarnings(invRead()),iw=document.getElementById('invWarn');if(iw)iw.textContent=w.length?'⚠️ '+w.join(' · '):'';invCheck();}
   catch(e){st.textContent='❌ Lettura non riuscita: '+e.message;}ev.target.value='';}
 function saveInvoice(){const t=state.tables[state.activeTableId];if(!t)return;const d=invRead();if(!d.rs)return alert('Scrivi almeno la ragione sociale.');const w=invWarnings(d);
   if(w.length&&!confirm('⚠️ Controlla: '+w.join(', ')+'.\nSalvare lo stesso?'))return;
@@ -1796,11 +1796,11 @@ function saveInvoice(){const t=state.tables[state.activeTableId];if(!t)return;co
   saveState(false,{tables:[t.id],staff:true});document.getElementById('invModal').classList.remove('active');renderOrderScreen();}
 function removeInvoice(){const t=state.tables[state.activeTableId];if(!t||!confirm('Togliere la richiesta di fattura da '+t.name+'?'))return;t.invoice=null;saveState(false,{tables:[t.id]});document.getElementById('invModal').classList.remove('active');renderOrderScreen();}
 {const _ros2=renderOrderScreen;renderOrderScreen=function(){_ros2();const t=state.tables[state.activeTableId],cart=document.getElementById('cartContainer');if(!t||!cart||!t.items||!t.items.length)return;
-  cart.insertAdjacentHTML('afterbegin',t.invoice?`<div style="background:#EEF2FF;border:2px solid #6366F1;border-radius:12px;padding:8px 10px;margin-bottom:10px;font-size:.82rem;"><b>🧾 Fattura richiesta</b> · ${escH(t.invoice.rs)}${t.invoice.piva?' · P.IVA '+escH(t.invoice.piva):''}<button class="btn-note" style="margin-left:6px;padding:3px 9px;" onclick="openInvoice()">✏️</button></div>`:`<button class="btn-note" style="width:100%;margin-bottom:10px;padding:9px;" onclick="openInvoice()">🧾 Il cliente vuole la fattura</button>`);};}
+  cart.insertAdjacentHTML('afterbegin',t.invoice?`<div style="background:#EEF2FF;border:2px solid #6366F1;border-radius:12px;padding:8px 10px;margin-bottom:10px;font-size:.82rem;"><b>🧾 Fattura richiesta</b> · ${escH(t.invoice.rs)}${t.invoice.piva?' · P.IVA '+escH(t.invoice.piva):''}${invMissing(t.invoice).length?'<div style="color:#92400E;font-weight:800;margin-top:3px;">📝 Da chiedere: '+invMissing(t.invoice).map(escH).join(', ')+'</div>':''}<button class="btn-note" style="margin-left:6px;padding:3px 9px;" onclick="openInvoice()">✏️</button></div>`:`<button class="btn-note" style="width:100%;margin-bottom:10px;padding:9px;" onclick="openInvoice()">🧾 Il cliente vuole la fattura</button>`);};}
 function invoiceList(){return (state.historyLog||[]).filter(e=>e&&e.invoice);}
 function renderInvList(){const el=document.getElementById('invList');if(!el)return;const L=invoiceList(),todo=L.filter(e=>!e.invoice.done).sort((a,b)=>(a.ts||0)-(b.ts||0)),done=L.filter(e=>e.invoice.done).sort((a,b)=>(b.invoice.doneAt||0)-(a.invoice.doneAt||0)).slice(0,10);
   if(!L.length){el.style.display='none';return;}el.style.display='';
-  const row=(e,dn)=>`<div style="border-bottom:1px dashed var(--border);padding:8px 0;${dn?'opacity:.6;':''}"><div style="display:flex;justify-content:space-between;gap:8px;"><div><b>${escH(e.invoice.rs||'')}</b><div style="font-size:.74rem;color:var(--muted);">${escH((svcDate(e)||'').split('-').reverse().join('/'))} · ${escH(e.tableName||'')} · ${escH(e.time||'')}</div></div><div style="font-weight:900;color:var(--logo-coral);white-space:nowrap;">€ ${formatPrice(e.total||0)}</div></div><div style="margin-top:3px;">${payChip(e)}</div><pre style="white-space:pre-wrap;font-family:inherit;font-size:.76rem;margin:6px 0;color:#1F2937;">${escH(invText(e.invoice))}</pre><div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="btn-note" onclick="invCopy(${e.ts})">📋 Copia dati e piatti</button>${dn?`<span style="font-size:.75rem;font-weight:800;color:#166534;">✅ Emessa il ${new Date(e.invoice.doneAt).toLocaleDateString('it-IT')}</span>`:`<button class="btn-note" style="color:#166534;" onclick="invDone(${e.ts})">✅ Emessa</button>`}</div></div>`;
+  const row=(e,dn)=>`<div style="border-bottom:1px dashed var(--border);padding:8px 0;${dn?'opacity:.6;':''}"><div style="display:flex;justify-content:space-between;gap:8px;"><div><b>${escH(e.invoice.rs||'')}</b><div style="font-size:.74rem;color:var(--muted);">${escH((svcDate(e)||'').split('-').reverse().join('/'))} · ${escH(e.tableName||'')} · ${escH(e.time||'')}</div></div><div style="font-weight:900;color:var(--logo-coral);white-space:nowrap;">€ ${formatPrice(e.total||0)}</div></div><div style="margin-top:3px;">${payChip(e)}</div><pre style="white-space:pre-wrap;font-family:inherit;font-size:.76rem;margin:6px 0;color:#1F2937;">${escH(invText(e.invoice))}</pre>${dn?'':(invMissing(e.invoice).length?invMissBox(invMissing(e.invoice)):'')}<div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="btn-note" onclick="invCopy(${e.ts})">📋 Copia dati e piatti</button>${dn?`<span style="font-size:.75rem;font-weight:800;color:#166534;">✅ Emessa il ${new Date(e.invoice.doneAt).toLocaleDateString('it-IT')}</span>`:`<button class="btn-note" style="color:#166534;" onclick="invDone(${e.ts})">✅ Emessa</button>`}</div></div>`;
   el.innerHTML=`<h3 style="margin-bottom:6px;">🧾 Fatture da emettere ${todo.length?`<span style="background:#DC2626;color:#fff;border-radius:10px;padding:1px 8px;font-size:.8rem;">${todo.length}</span>`:''}</h3>${todo.length?todo.map(e=>row(e,false)).join(''):'<div style="font-size:.85rem;color:#166534;font-weight:800;">🎉 Nessuna fattura in sospeso</div>'}${done.length?`<details style="margin-top:8px;"><summary style="font-size:.8rem;font-weight:800;cursor:pointer;">Ultime emesse (${done.length})</summary>${done.map(e=>row(e,true)).join('')}</details>`:''}`;}
 function invCopy(ts){const e=(state.historyLog||[]).find(x=>x.ts===ts);if(!e)return;const txt=invText(e.invoice)+'\n\nConto '+e.tableName+' del '+(svcDate(e)||'').split('-').reverse().join('/')+' ore '+(e.time||'')+'\n'+(e.items||[]).map(i=>`${i.qty} x ${i.name}  € ${formatPrice((Number(i.price)||0)*(Number(i.qty)||0))}`).join('\n')+'\nTOTALE € '+formatPrice(e.total||0);
   (navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>alert('📋 Dati copiati: incollali nel programma delle fatture.'),()=>prompt('Copia questi dati:',txt));}
@@ -1840,13 +1840,13 @@ function openInvoiceHist(ts){
   const cos=Object.values(invCos()).length;
   ov.innerHTML=`<div class="receipt-box"><h3 style="color:var(--logo-coral);margin-bottom:2px;">🧾 Fattura · ${escH(e.tableName||'')}</h3><div style="font-size:.78rem;font-weight:700;color:#4B5563;margin-bottom:8px;">Conto chiuso alle ${escH(e.time||'')} · € ${formatPrice(e.total||0)}</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;"><label class="btn-main btn-bill" style="display:block;text-align:center;cursor:pointer;font-size:.9rem;">📷 Scatta foto<br><span style="font-size:.72rem;">biglietto da visita</span><input type="file" accept="image/*" capture="environment" style="display:none;" onchange="invFromPhoto(event)"></label><label class="btn-main btn-print" style="display:block;text-align:center;cursor:pointer;font-size:.9rem;">🖼️ Carica biglietto<br><span style="font-size:.72rem;">dalla galleria</span><input type="file" accept="image/*" style="display:none;" onchange="invFromPhoto(event)"></label></div>
-  <div id="invSt" style="font-size:.78rem;font-weight:800;color:#4B5563;margin-bottom:6px;"></div>
+  <div id="invSt" style="font-size:.78rem;font-weight:800;color:#4B5563;margin-bottom:6px;"></div><div id="invMiss"></div>
   ${cos?`<input class="form-control" placeholder="🔍 Cliente già usato: nome o P.IVA" oninput="invSearch(this.value)" style="margin-bottom:4px;"><div id="invCos" style="margin-bottom:8px;"></div>`:''}
-  ${INV_F.map(([k,l,ph])=>`<label style="display:block;font-size:.75rem;font-weight:800;margin-top:6px;">${l}</label><input id="inv_${k}" class="form-control" placeholder="${ph}" value="${escH(d[k]||'')}" ${k==='piva'||k==='cap'?'inputmode="numeric"':''}${k==='pec'||k==='email'?' type="email"':''}>`).join('')}
+  ${INV_F.map(([k,l,ph])=>`<label style="display:block;font-size:.75rem;font-weight:800;margin-top:6px;">${l}</label><input id="inv_${k}" class="form-control" oninput="invCheck()" placeholder="${ph}" value="${escH(d[k]||'')}" ${k==='piva'||k==='cap'?'inputmode="numeric"':''}${k==='pec'||k==='email'?' type="email"':''}>`).join('')}
   <label style="display:block;font-size:.75rem;font-weight:800;margin-top:6px;">Note</label><input id="inv_note" class="form-control" value="${escH(d.note||'')}">
   <div id="invWarn" style="font-size:.75rem;font-weight:800;color:#B45309;margin-top:6px;"></div>
   <div class="modal-actions"><button class="btn-modal" style="background:#10b981;color:#fff;" onclick="saveInvoiceHist()">💾 Salva</button>${e.invoice?`<button class="btn-modal" style="background:#FEE2E2;color:#991B1B;" onclick="removeInvoiceHist()">Togli</button>`:''}<button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('invModal').classList.remove('active')">Chiudi</button></div></div>`;
-  ov.classList.add('active');if(cos)invSearch('');
+  ov.classList.add('active');if(cos)invSearch('');invCheck();
 }
 function saveInvoiceHist(){const e=(state.historyLog||[]).find(x=>x.ts===invHistTs);if(!e)return;const d=invRead();if(!d.rs)return alert('Scrivi almeno la ragione sociale.');const w=invWarnings(d);
   if(w.length&&!confirm('⚠️ Controlla: '+w.join(', ')+'.\nSalvare lo stesso?'))return;
@@ -1877,6 +1877,13 @@ function renderResHist(){const el=document.getElementById('resHist');if(!el)retu
   <div style="font-weight:900;font-size:.85rem;margin-top:10px;">🗂️ Giorni passati</div>${past.map(row).join('')||'<div style="font-size:.85rem;color:var(--muted);">Nessuna prenotazione registrata.</div>'}`;}
 {const _rr=renderRes;renderRes=function(){_rr();const el=document.getElementById('resContent');if(el&&!document.getElementById('resHist'))el.insertAdjacentHTML('beforeend','<div class="cart-section" id="resHist"></div>');renderResHist();};}
 {const _rrl=renderResList;renderResList=function(){_rrl();renderResHist();};}
+</script>
+<script>
+/* ===== v2.0.15 · Nota dei dati fattura mancanti da chiedere al cliente ===== */
+function invMissing(d){d=d||{};const m=[];if(!d.rs)m.push('Ragione sociale');if(!d.piva&&!d.cf)m.push('Partita IVA o Codice fiscale');if(!d.addr)m.push('Indirizzo');if(!d.cap)m.push('CAP');if(!d.city)m.push('Città');if(!d.prov)m.push('Provincia');if(!d.sdi&&!d.pec)m.push('Codice SDI o PEC');return m;}
+function invMissBox(m){return m.length?`<div style="background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;padding:8px 10px;font-size:.8rem;font-weight:800;color:#78350F;margin:6px 0;">📝 Da chiedere al cliente: ${m.map(escH).join(', ')}</div>`:`<div style="background:#DCFCE7;border:1px solid #86EFAC;border-radius:10px;padding:6px 10px;font-size:.8rem;font-weight:800;color:#166534;margin:6px 0;">✅ Dati completi per la fattura elettronica</div>`;}
+function invCheck(){const el=document.getElementById('invMiss');if(el)el.innerHTML=invMissBox(invMissing(invRead()));}
+{const _ip=invPick;invPick=function(k){_ip(k);invCheck();};}
 </script>
 <script>initApp();</script>
 </body>
