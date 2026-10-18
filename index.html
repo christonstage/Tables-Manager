@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.0.11</title>
+<title>Alicetta TableZ 2.0 - v2.0.12</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -228,7 +228,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.0.11</div>
+    <div class="version-badge">v2.0.12</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -337,7 +337,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.11)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.12)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -365,7 +365,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.11)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.12)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -1762,7 +1762,7 @@ function openInvoice(){
   let ov=document.getElementById('invModal');if(!ov){ov=document.createElement('div');ov.id='invModal';ov.className='modal-overlay';document.body.appendChild(ov);}
   const cos=Object.values(invCos()).sort((a,b)=>(b.used||0)-(a.used||0)).slice(0,30);
   ov.innerHTML=`<div class="receipt-box"><h3 style="color:var(--logo-coral);margin-bottom:6px;">🧾 Fattura · ${escH(t.name)}</h3>
-  <label class="btn-main btn-bill" style="display:block;text-align:center;cursor:pointer;margin-bottom:8px;">📷 Foto del biglietto da visita<input type="file" accept="image/*" capture="environment" style="display:none;" onchange="invFromPhoto(event)"></label>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;"><label class="btn-main btn-bill" style="display:block;text-align:center;cursor:pointer;font-size:.9rem;">📷 Scatta foto<br><span style="font-size:.72rem;">biglietto da visita</span><input type="file" accept="image/*" capture="environment" style="display:none;" onchange="invFromPhoto(event)"></label><label class="btn-main btn-print" style="display:block;text-align:center;cursor:pointer;font-size:.9rem;">🖼️ Carica biglietto<br><span style="font-size:.72rem;">dalla galleria</span><input type="file" accept="image/*" style="display:none;" onchange="invFromPhoto(event)"></label></div>
   <div id="invSt" style="font-size:.78rem;font-weight:800;color:#4B5563;margin-bottom:6px;"></div>
   ${cos.length?`<input class="form-control" placeholder="🔍 Cliente già usato: nome o P.IVA" oninput="invSearch(this.value)" style="margin-bottom:4px;"><div id="invCos" style="margin-bottom:8px;"></div>`:''}
   ${INV_F.map(([k,l,ph])=>`<label style="display:block;font-size:.75rem;font-weight:800;margin-top:6px;">${l}</label><input id="inv_${k}" class="form-control" placeholder="${ph}" value="${escH(d[k]||'')}" ${k==='piva'||k==='cap'?'inputmode="numeric"':''}${k==='pec'||k==='email'?' type="email"':''}>`).join('')}
@@ -1825,14 +1825,14 @@ function renderSalesCharts(){const el=document.getElementById('salesCharts');if(
 {const _rc3=renderConti;renderConti=function(){_rc3();renderSalesCharts();};}
 </script>
 <script>
-/* ===== v2.0.11 · Dati fattura anche sui conti già chiusi (💶 Vendite) ===== */
+/* ===== v2.0.10 · Dati fattura anche sui conti già chiusi (💶 Vendite) ===== */
 let invHistTs=null;
 function openInvoiceHist(ts){
   const e=(state.historyLog||[]).find(x=>x.ts===ts);if(!e)return;invHistTs=ts;const d=e.invoice||{};
   let ov=document.getElementById('invModal');if(!ov){ov=document.createElement('div');ov.id='invModal';ov.className='modal-overlay';document.body.appendChild(ov);}
   const cos=Object.values(invCos()).length;
   ov.innerHTML=`<div class="receipt-box"><h3 style="color:var(--logo-coral);margin-bottom:2px;">🧾 Fattura · ${escH(e.tableName||'')}</h3><div style="font-size:.78rem;font-weight:700;color:#4B5563;margin-bottom:8px;">Conto chiuso alle ${escH(e.time||'')} · € ${formatPrice(e.total||0)}</div>
-  <label class="btn-main btn-bill" style="display:block;text-align:center;cursor:pointer;margin-bottom:8px;">📷 Foto del biglietto da visita<input type="file" accept="image/*" capture="environment" style="display:none;" onchange="invFromPhoto(event)"></label>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;"><label class="btn-main btn-bill" style="display:block;text-align:center;cursor:pointer;font-size:.9rem;">📷 Scatta foto<br><span style="font-size:.72rem;">biglietto da visita</span><input type="file" accept="image/*" capture="environment" style="display:none;" onchange="invFromPhoto(event)"></label><label class="btn-main btn-print" style="display:block;text-align:center;cursor:pointer;font-size:.9rem;">🖼️ Carica biglietto<br><span style="font-size:.72rem;">dalla galleria</span><input type="file" accept="image/*" style="display:none;" onchange="invFromPhoto(event)"></label></div>
   <div id="invSt" style="font-size:.78rem;font-weight:800;color:#4B5563;margin-bottom:6px;"></div>
   ${cos?`<input class="form-control" placeholder="🔍 Cliente già usato: nome o P.IVA" oninput="invSearch(this.value)" style="margin-bottom:4px;"><div id="invCos" style="margin-bottom:8px;"></div>`:''}
   ${INV_F.map(([k,l,ph])=>`<label style="display:block;font-size:.75rem;font-weight:800;margin-top:6px;">${l}</label><input id="inv_${k}" class="form-control" placeholder="${ph}" value="${escH(d[k]||'')}" ${k==='piva'||k==='cap'?'inputmode="numeric"':''}${k==='pec'||k==='email'?' type="email"':''}>`).join('')}
@@ -1848,7 +1848,7 @@ function saveInvoiceHist(){const e=(state.historyLog||[]).find(x=>x.ts===invHist
 function removeInvoiceHist(){const e=(state.historyLog||[]).find(x=>x.ts===invHistTs);if(!e||!confirm('Togliere la richiesta di fattura da questo conto?'))return;e.invoice=null;saveState(false,{history:true});document.getElementById('invModal').classList.remove('active');renderConti();}
 </script>
 <script>
-/* ===== v2.0.11 · Storico prenotazioni con grafico ===== */
+/* ===== v2.0.12 · Storico prenotazioni con grafico ===== */
 state.rhMode='giorni';
 function resStats(){const today=svcToday(),by={};Object.values(state.res||{}).forEach(r=>{if(!r||!r.date)return;const d=by[r.date]=by[r.date]||{n:0,cop:0,arr:0,canc:0,ns:0,att:0};const c=Number(r.covers)||0;
   if(r.status==='cancellata'){d.canc++;return;}d.n++;d.cop+=c;if(r.status==='arrivato')d.arr++;else if(r.date<today)d.ns++;else d.att++;});return by;}
