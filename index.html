@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.0.8</title>
+<title>Alicetta TableZ 2.0 - v2.0.9</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -218,6 +218,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 .late-tab{border-color:#DC2626}
 .late-tab.active{background:#DC2626!important;color:#fff!important;border-color:#7F1D1D!important}
 .amaro-badge{margin-top:6px;background:#7C2D12;color:#fff;font-weight:900;font-size:.72rem;border-radius:8px;padding:4px 6px;animation:marciaPulse 1.4s infinite}
+.inv-badge{margin-top:6px;background:#4F46E5;color:#fff;font-weight:900;font-size:.72rem;border-radius:8px;padding:3px 6px}
 </style>
 </head>
 <body onclick="unlockAudioOnce()">
@@ -226,7 +227,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.0.8</div>
+    <div class="version-badge">v2.0.9</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -335,7 +336,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.8)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.9)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -350,7 +351,9 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 <div id="viewDishes" class="screen"><div id="dishesContent"></div></div>
 <div id="viewSales" class="screen">
   <div class="screen-title">💶 Vendite</div>
+  <div class="cart-section" id="invList" style="display:none;"></div>
   <div class="cart-section" id="payTotals"></div>
+  <div class="cart-section" id="salesCharts"></div>
   <div class="cart-section" id="contiList"></div>
   <div class="cart-section" id="cashClose"></div>
 </div>
@@ -361,7 +364,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.8)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.9)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -548,7 +551,7 @@ function toggleFullScreen(){if(!document.fullscreenElement)document.documentElem
 function makeTableObj(id,name,room){return{id,name,baseName:name,room,items:[],openedAt:0,pickupTime:'',customerName:'',dolciOk:false,amaroOk:false,copOff:0,copOffVal:0,copOffLog:[],firedMandate:{1:false,2:false,3:false,4:false},doneMandate:{1:false,2:false,3:false,4:false},sentOnce:false};}
 function buildDefaultTables(c){c=c||state.tableCounts;const t={};for(let i=1;i<=(c.interna||11);i++)t['INT_'+i]=makeTableObj('INT_'+i,'Tavolo '+i,'interna');for(let i=1;i<=(c.esterna||5);i++)t['EST_'+i]=makeTableObj('EST_'+i,'Esterno '+i,'esterna');for(let i=1;i<=(c.asporto||5);i++)t['ASP_'+i]=makeTableObj('ASP_'+i,'Asporto '+i,'asporto');return t;}
 function isItemSent(t,item){return item?(typeof item.sent==='boolean'?item.sent:Boolean(t&&t.sentOnce)):false;}
-function normalizeTablesStructure(tablesObj,counts){const def=buildDefaultTables(counts);if(!tablesObj)return def;Object.keys(def).forEach(k=>{if(tablesObj[k]){const tb=tablesObj[k],ls=Boolean(tb.sentOnce);def[k].items=Array.isArray(tb.items)?tb.items.map(it=>({...it,sent:typeof it.sent==='boolean'?it.sent:ls})):[];def[k].name=tb.name||def[k].baseName;def[k].sentOnce=Boolean(tb.sentOnce||def[k].items.some(i=>i.sent));def[k].firedMandate=tb.firedMandate||{1:false,2:false,3:false,4:false};def[k].doneMandate=tb.doneMandate||{1:false,2:false,3:false,4:false};def[k].doneAt=tb.doneAt||{};def[k].firedAt=tb.firedAt||{};def[k].pickupTime=tb.pickupTime||'';def[k].customerName=tb.customerName||'';def[k].dolciOk=!!tb.dolciOk;def[k].preAt=tb.preAt||0;def[k].amaroOk=!!tb.amaroOk;def[k].amaroAt=tb.amaroAt||0;def[k].amaroBy=tb.amaroBy||'';def[k].amaroSkip=!!tb.amaroSkip;def[k].copOff=Number(tb.copOff)||0;def[k].copOffVal=Number(tb.copOffVal)||0;def[k].copOffLog=Array.isArray(tb.copOffLog)?tb.copOffLog:[];def[k].openedAt=def[k].items.length>0?(tb.openedAt||Date.now()):0;}});return def;}
+function normalizeTablesStructure(tablesObj,counts){const def=buildDefaultTables(counts);if(!tablesObj)return def;Object.keys(def).forEach(k=>{if(tablesObj[k]){const tb=tablesObj[k],ls=Boolean(tb.sentOnce);def[k].items=Array.isArray(tb.items)?tb.items.map(it=>({...it,sent:typeof it.sent==='boolean'?it.sent:ls})):[];def[k].name=tb.name||def[k].baseName;def[k].sentOnce=Boolean(tb.sentOnce||def[k].items.some(i=>i.sent));def[k].firedMandate=tb.firedMandate||{1:false,2:false,3:false,4:false};def[k].doneMandate=tb.doneMandate||{1:false,2:false,3:false,4:false};def[k].doneAt=tb.doneAt||{};def[k].firedAt=tb.firedAt||{};def[k].pickupTime=tb.pickupTime||'';def[k].customerName=tb.customerName||'';def[k].dolciOk=!!tb.dolciOk;def[k].preAt=tb.preAt||0;def[k].invoice=tb.invoice||null;def[k].amaroOk=!!tb.amaroOk;def[k].amaroAt=tb.amaroAt||0;def[k].amaroBy=tb.amaroBy||'';def[k].amaroSkip=!!tb.amaroSkip;def[k].copOff=Number(tb.copOff)||0;def[k].copOffVal=Number(tb.copOffVal)||0;def[k].copOffLog=Array.isArray(tb.copOffLog)?tb.copOffLog:[];def[k].openedAt=def[k].items.length>0?(tb.openedAt||Date.now()):0;}});return def;}
 function formatElapsed(ms){if(!ms||ms<0)return"00:00";const s=Math.floor(ms/1000);return String(Math.floor(s/60)).padStart(2,'0')+":"+String(s%60).padStart(2,'0');}
 function lateInfo(t){if(!t||!t.items||!t.items.length||!t.sentOnce)return null;let w=null;
   [1,2,3,4].forEach(m=>{
@@ -683,7 +686,7 @@ function renderTables(){renderResBoard('resBoardTables');updateOpenBadges();upda
     const pk=(t.room==='asporto'&&t.pickupTime)?`<div class="pickup-badge">🕒 ${t.pickupTime}</div>`:'';
     const tm=(busy&&t.openedAt)?`<div><span class="table-timer" id="timer_${t.id}">⏱️ ${formatElapsed(now-t.openedAt)}</span></div>`:'';
     const card=document.createElement('div');card.className=`table-card ${busy?'busy':'free'} ${del?'delayed':''} ${marciaBadge(t)?'marcia':''} ${allServed(t)?'conto':''}`;card.onclick=()=>openTable(t.id);
-    card.innerHTML=`${del?BOMB_SVG:''}<div class="table-name">${t.name}</div>${pk}<div><span class="table-status ${busy?'status-busy':'status-free'}">${busy?'Occupato':'Libero'}</span></div>${tm}${kitchenChip(t)}${m4Chip(t)}${busy?`<div class="table-total">€ ${formatPrice(tot)}</div>`:`<div style="font-size:0.7rem;opacity:0.8;margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dots}</div>${contoBadge(t)}${amaroBadge(t)}${marciaBadge(t)}${paceBadge(t)}${resBadge(t)}`;
+    card.innerHTML=`${del?BOMB_SVG:''}<div class="table-name">${t.name}</div>${pk}<div><span class="table-status ${busy?'status-busy':'status-free'}">${busy?'Occupato':'Libero'}</span></div>${tm}${kitchenChip(t)}${m4Chip(t)}${busy?`<div class="table-total">€ ${formatPrice(tot)}</div>`:`<div style="font-size:0.7rem;opacity:0.8;margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dots}</div>${contoBadge(t)}${amaroBadge(t)}${t.invoice?'<div class="inv-badge">🧾 Fattura</div>':''}${marciaBadge(t)}${paceBadge(t)}${resBadge(t)}`;
     c.appendChild(card);
   });
 }
@@ -755,8 +758,8 @@ function freeCurrentTable(pay){
   const t=state.tables[state.activeTableId];if(!t||!t.items||!t.items.length)return closeTableView();
   if(!pay)return openPayModal(t);
   {
-    const rid=makeReceipt(t);state.historyLog.push({rid,tableName:t.name,total:getTableTotal(t),pay:pay,coperti:t.items.filter(i=>i.cat==='1 Coperto'||/coperto/i.test(i.name||'')).reduce((s,c)=>s+(Number(c.qty)||0),0)+(Number(t.copOff)||0),copOff:Number(t.copOff)||0,copOffVal:Number(t.copOffVal)||0,copOffLog:t.copOffLog||[],amaro:t.amaroOk&&!t.amaroSkip?{at:t.amaroAt,by:t.amaroBy}:null,items:JSON.parse(JSON.stringify(t.items)),time:buildTimeStr(),date:buildDateISO(),closedEvening:false,ts:Date.now(),opened:t.openedAt||0,fired:t.firedAt||{},done:t.doneAt||{}});
-    t.preAt=0;t.dolciOk=false;t.amaroOk=false;t.amaroAt=0;t.amaroBy='';t.amaroSkip=false;t.copOff=0;t.copOffVal=0;t.copOffLog=[];t.items=[];t.openedAt=0;t.pickupTime='';t.customerName='';t.name=t.baseName;t.firedMandate={1:false,2:false,3:false,4:false};t.doneMandate={1:false,2:false,3:false,4:false};t.doneAt={};t.firedAt={};t.sentOnce=false;
+    const rid=makeReceipt(t);state.historyLog.push({rid,tableName:t.name,total:getTableTotal(t),pay:pay,coperti:t.items.filter(i=>i.cat==='1 Coperto'||/coperto/i.test(i.name||'')).reduce((s,c)=>s+(Number(c.qty)||0),0)+(Number(t.copOff)||0),copOff:Number(t.copOff)||0,copOffVal:Number(t.copOffVal)||0,copOffLog:t.copOffLog||[],amaro:t.amaroOk&&!t.amaroSkip?{at:t.amaroAt,by:t.amaroBy}:null,invoice:t.invoice?{...t.invoice,done:false}:null,items:JSON.parse(JSON.stringify(t.items)),time:buildTimeStr(),date:buildDateISO(),closedEvening:false,ts:Date.now(),opened:t.openedAt||0,fired:t.firedAt||{},done:t.doneAt||{}});
+    t.invoice=null;t.preAt=0;t.dolciOk=false;t.amaroOk=false;t.amaroAt=0;t.amaroBy='';t.amaroSkip=false;t.copOff=0;t.copOffVal=0;t.copOffLog=[];t.items=[];t.openedAt=0;t.pickupTime='';t.customerName='';t.name=t.baseName;t.firedMandate={1:false,2:false,3:false,4:false};t.doneMandate={1:false,2:false,3:false,4:false};t.doneAt={};t.firedAt={};t.sentOnce=false;
     saveState(false,{tables:[t.id],history:true});closeTableView();updateDailyStats();showReceiptQr(rid);
   }
 }
@@ -878,7 +881,7 @@ function getFilteredHistory(){const log=state.historyLog||[],td=buildDateISO();i
 function computeStatsData(){const l=getFilteredHistory();let rev=0,cop=0,cnt={},rbd={};l.forEach(e=>{rev+=(Number(e.total)||0);cop+=(Number(e.coperti)||0);(e.items||[]).forEach(it=>{if(it.cat!=='1 Coperto'&&!/coperto|\bacqua\b/i.test(it.name||'')){cnt[it.name]=(cnt[it.name]||0)+(Number(it.qty)||0);rbd[it.name]=(rbd[it.name]||0)+((Number(it.price)||0)*(Number(it.qty)||0));}});});return{countTables:l.length,rev,cop,ranking:Object.entries(cnt).sort((a,b)=>b[1]-a[1]),revByDish:rbd};}
 function updateDailyStats(){const c=document.getElementById('dailyStats');if(!c)return;const st=computeStatsData(),lb=state.reportPeriod==='daily'?'FINE SERATA':state.reportPeriod==='monthly'?'MENSILE':'ANNUALE';if(!st.countTables){c.innerHTML=`<b>[${lb}]</b><br>Nessun tavolo registrato.`;return;}c.innerHTML=`<div style="font-weight:800;color:var(--logo-coral);margin-bottom:4px;">📌 REPORT ${lb}</div>• <b>Tavoli Chiusi:</b> ${st.countTables} | <b>Coperti:</b> ${st.cop} | <b>Incasso:</b> € ${formatPrice(st.rev)}<hr style="margin:6px 0;border:none;border-top:1px dashed var(--border);"><b>🏆 Classifica Vendite:</b><br>${st.ranking.map((d,i)=>`${i+1}. <b>${d[1]}x</b> ${d[0]} (€${formatPrice(st.revByDish[d[0]])})`).join('<br>')}`;}
 function printStatsReport(){const st=computeStatsData(),ESC="\x1B",GS="\x1D";let pv=`REPORT ALICETTA\nTavoli: ${st.countTables} - Coperti: ${st.cop}\nINCASSO: EUR ${formatPrice(st.rev)}\n------------------\n`;st.ranking.forEach((d,i)=>{pv+=`${i+1}. ${d[1]}x ${d[0].substring(0,22)} (EUR ${formatPrice(st.revByDish[d[0]])})\n`;});dispatchPrint(pv,ESC+"@"+pv+"\n\n\n"+GS+"V\x42\x00");}
-async function resetCurrentEvening(){if(confirm("Chiudere la serata e liberare i tavoli?")){Object.values(state.tables).forEach(t=>{if(t.items&&t.items.length){state.historyLog.push({tableName:t.name,total:getTableTotal(t),coperti:t.items.filter(i=>i.cat==='1 Coperto'||/coperto/i.test(i.name||'')).reduce((s,c)=>s+(Number(c.qty)||0),0)+(Number(t.copOff)||0),copOff:Number(t.copOff)||0,copOffVal:Number(t.copOffVal)||0,copOffLog:t.copOffLog||[],items:JSON.parse(JSON.stringify(t.items)),time:buildTimeStr(),date:buildDateISO(),closedEvening:true,ts:Date.now(),opened:t.openedAt||0,fired:t.firedAt||{},done:t.doneAt||{}});t.preAt=0;t.dolciOk=false;t.amaroOk=false;t.amaroAt=0;t.amaroBy='';t.amaroSkip=false;t.copOff=0;t.copOffVal=0;t.copOffLog=[];t.items=[];t.openedAt=0;t.pickupTime='';t.customerName='';t.name=t.baseName;t.firedMandate={1:false,2:false,3:false,4:false};t.doneMandate={1:false,2:false,3:false,4:false};t.doneAt={};t.firedAt={};t.sentOnce=false;}});(state.historyLog||[]).forEach(e=>{e.closedEvening=true;});await saveState(false);renderTables();updateDailyStats();}}
+async function resetCurrentEvening(){if(confirm("Chiudere la serata e liberare i tavoli?")){Object.values(state.tables).forEach(t=>{if(t.items&&t.items.length){state.historyLog.push({tableName:t.name,total:getTableTotal(t),coperti:t.items.filter(i=>i.cat==='1 Coperto'||/coperto/i.test(i.name||'')).reduce((s,c)=>s+(Number(c.qty)||0),0)+(Number(t.copOff)||0),copOff:Number(t.copOff)||0,copOffVal:Number(t.copOffVal)||0,copOffLog:t.copOffLog||[],items:JSON.parse(JSON.stringify(t.items)),time:buildTimeStr(),date:buildDateISO(),closedEvening:true,ts:Date.now(),opened:t.openedAt||0,fired:t.firedAt||{},done:t.doneAt||{}});t.invoice=null;t.preAt=0;t.dolciOk=false;t.amaroOk=false;t.amaroAt=0;t.amaroBy='';t.amaroSkip=false;t.copOff=0;t.copOffVal=0;t.copOffLog=[];t.items=[];t.openedAt=0;t.pickupTime='';t.customerName='';t.name=t.baseName;t.firedMandate={1:false,2:false,3:false,4:false};t.doneMandate={1:false,2:false,3:false,4:false};t.doneAt={};t.firedAt={};t.sentOnce=false;}});(state.historyLog||[]).forEach(e=>{e.closedEvening=true;});await saveState(false);renderTables();updateDailyStats();}}
 async function resetAllHistory(){if(confirm("⚠️ Azzerare TUTTO lo storico?")){state.historyLog=[];await saveState(false,{history:true});updateDailyStats();}}
 function toggleRawbtSetting(){state.useRawBT=document.getElementById('chkRawbt').checked;saveLocalOnly();}
 function renderMenuMgr(){renderTmList();const l=document.getElementById('menuMgrList');if(!l)return;document.getElementById('menuCountLbl').textContent=state.menu.length;l.innerHTML='';state.menu.forEach(it=>{const r=document.createElement('div');r.className='cart-row';r.innerHTML=`<div style="flex:1;font-size:0.82rem;"><b>[${it.cat}]</b> ${it.name} — <span style="color:var(--logo-coral);font-weight:800;">${formatPrice(it.price)}€</span></div><div class="cart-controls"><button class="btn-note" onclick="toggleSoldOut(${it.id})">${it.soldOut?'✅':'⛔'}</button><button class="btn-note" onclick="editMenuItem(${it.id})">✏️</button><button class="btn-qty" onclick="deleteMenuItem(${it.id})">🗑️</button></div>`;l.appendChild(r);});}
@@ -1698,7 +1701,7 @@ function amaroInfo(t){if(!t||!t.items||!t.items.length||t.amaroOk)return null;co
 function amaroBadge(t){const a=amaroInfo(t);return a?`<div class="amaro-badge">🥃 OFFRI L’AMARO · € ${formatPrice(a.pc)} a coperto</div>`:'';}
 function amaroDone(id,skip){const t=state.tables[id];if(!t)return;t.amaroOk=true;t.amaroAt=Date.now();t.amaroBy=state.waiterName||'Staff';t.amaroSkip=!!skip;saveState(false,{tables:[id]});renderOrderScreen();}
 function isOwner(){return /^christian$/i.test((state.waiterName||'').trim());}
-function resetTableObj(t){t.preAt=0;t.dolciOk=false;t.amaroOk=false;t.amaroAt=0;t.amaroBy='';t.amaroSkip=false;t.copOff=0;t.copOffVal=0;t.copOffLog=[];t.items=[];t.openedAt=0;t.pickupTime='';t.customerName='';t.name=t.baseName;t.firedMandate={1:false,2:false,3:false,4:false};t.doneMandate={1:false,2:false,3:false,4:false};t.doneAt={};t.firedAt={};t.sentOnce=false;if('clientId' in t){t.clientId='';t.clientName='';t.clientInfo='';t.clientAt=0;}}
+function resetTableObj(t){t.invoice=null;t.preAt=0;t.dolciOk=false;t.amaroOk=false;t.amaroAt=0;t.amaroBy='';t.amaroSkip=false;t.copOff=0;t.copOffVal=0;t.copOffLog=[];t.items=[];t.openedAt=0;t.pickupTime='';t.customerName='';t.name=t.baseName;t.firedMandate={1:false,2:false,3:false,4:false};t.doneMandate={1:false,2:false,3:false,4:false};t.doneAt={};t.firedAt={};t.sentOnce=false;if('clientId' in t){t.clientId='';t.clientName='';t.clientInfo='';t.clientAt=0;}}
 function wipeTable(id){
   if(!isOwner())return alert('Solo Christian può eliminare un tavolo.');const t=state.tables[id];if(!t||!t.items||!t.items.length)return;
   const n=t.items.reduce((s,i)=>s+(Number(i.qty)||0),0),tot=getTableTotal(t);
@@ -1747,6 +1750,78 @@ function checkPaidReminders(){const wn=(state.waiterName||'').trim();if(!wn||/^(
   document.getElementById('toastTitle').textContent=`💶 ${hit.t.name.toUpperCase()} · HA GIÀ PAGATO?`;
   document.getElementById('toastBody').innerHTML=`<div style="font-size:.92rem;margin-bottom:8px;">Pre-conto fatto ${Math.floor(hit.el/60000)} minuti fa e tavolo ancora aperto (€ ${formatPrice(getTableTotal(hit.t))}). Se ha pagato, chiudilo col pagamento giusto.</div><button class="btn-note" style="font-size:1rem;padding:8px 16px;" onclick="document.getElementById('orderToast').classList.remove('active','sticky');openTable('${hit.t.id}')">Apri ${escH(hit.t.name)}</button>`;
   el.classList.add('active');}
+</script>
+<script>
+/* ===== v2.0.9 · Fattura: dati aziendali sul tavolo e registro fatture da emettere ===== */
+const INV_F=[['rs','Ragione sociale *','Rossi Srl'],['piva','Partita IVA','12345678901'],['cf','Codice fiscale (se diverso)',''],['addr','Indirizzo','Via Roma 1'],['cap','CAP','66100'],['city','Città','Chieti'],['prov','Provincia','CH'],['sdi','Codice destinatario SDI','ABC1234'],['pec','PEC','rossisrl@pec.it'],['email','Email','']];
+function invCos(){const c=state.staffCfg=state.staffCfg||{};return c.invoiceCos=c.invoiceCos||{};}
+function invText(d){return [d.rs,d.piva?'P.IVA '+d.piva:'',d.cf?'C.F. '+d.cf:'',[d.addr,[d.cap,d.city].filter(Boolean).join(' '),d.prov?'('+d.prov+')':''].filter(Boolean).join(', '),d.sdi?'SDI '+d.sdi:'',d.pec?'PEC '+d.pec:'',d.email?'Email '+d.email:'',d.note||''].filter(Boolean).join('\n');}
+function openInvoice(){
+  const t=state.tables[state.activeTableId];if(!t)return;const d=t.invoice||{};
+  let ov=document.getElementById('invModal');if(!ov){ov=document.createElement('div');ov.id='invModal';ov.className='modal-overlay';document.body.appendChild(ov);}
+  const cos=Object.values(invCos()).sort((a,b)=>(b.used||0)-(a.used||0)).slice(0,30);
+  ov.innerHTML=`<div class="receipt-box"><h3 style="color:var(--logo-coral);margin-bottom:6px;">🧾 Fattura · ${escH(t.name)}</h3>
+  <label class="btn-main btn-bill" style="display:block;text-align:center;cursor:pointer;margin-bottom:8px;">📷 Foto del biglietto da visita<input type="file" accept="image/*" capture="environment" style="display:none;" onchange="invFromPhoto(event)"></label>
+  <div id="invSt" style="font-size:.78rem;font-weight:800;color:#4B5563;margin-bottom:6px;"></div>
+  ${cos.length?`<input class="form-control" placeholder="🔍 Cliente già usato: nome o P.IVA" oninput="invSearch(this.value)" style="margin-bottom:4px;"><div id="invCos" style="margin-bottom:8px;"></div>`:''}
+  ${INV_F.map(([k,l,ph])=>`<label style="display:block;font-size:.75rem;font-weight:800;margin-top:6px;">${l}</label><input id="inv_${k}" class="form-control" placeholder="${ph}" value="${escH(d[k]||'')}" ${k==='piva'||k==='cap'?'inputmode="numeric"':''}${k==='pec'||k==='email'?' type="email"':''}>`).join('')}
+  <label style="display:block;font-size:.75rem;font-weight:800;margin-top:6px;">Note</label><input id="inv_note" class="form-control" placeholder="Es. intestare solo i coperti" value="${escH(d.note||'')}">
+  <div id="invWarn" style="font-size:.75rem;font-weight:800;color:#B45309;margin-top:6px;"></div>
+  <div class="modal-actions"><button class="btn-modal" style="background:#10b981;color:#fff;" onclick="saveInvoice()">💾 Salva</button>${t.invoice?`<button class="btn-modal" style="background:#FEE2E2;color:#991B1B;" onclick="removeInvoice()">Togli</button>`:''}<button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('invModal').classList.remove('active')">Chiudi</button></div></div>`;
+  ov.classList.add('active');if(cos.length)invSearch('');
+}
+function invSearch(q){const el=document.getElementById('invCos');if(!el)return;q=String(q||'').toLowerCase().trim();const L=Object.entries(invCos()).filter(([k,c])=>!q||String(c.rs||'').toLowerCase().includes(q)||String(c.piva||'').includes(q)).sort((a,b)=>(b[1].used||0)-(a[1].used||0)).slice(0,5);
+  el.innerHTML=L.map(([k,c])=>`<button class="btn-note" style="width:100%;text-align:left;margin-bottom:4px;" onclick="invPick('${escH(k)}')">🏢 ${escH(c.rs||'')} ${c.piva?'· '+escH(c.piva):''}</button>`).join('');}
+function invPick(k){const c=invCos()[k];if(!c)return;INV_F.forEach(([f])=>{const el=document.getElementById('inv_'+f);if(el)el.value=c[f]||'';});}
+function invRead(){const d={};INV_F.concat([['note']]).forEach(([k])=>{d[k]=String((document.getElementById('inv_'+k)||{}).value||'').trim();});d.piva=d.piva.replace(/^IT/i,'').replace(/\s/g,'');d.cf=d.cf.toUpperCase().replace(/\s/g,'');d.sdi=d.sdi.toUpperCase().replace(/\s/g,'');d.prov=d.prov.toUpperCase();return d;}
+function invWarnings(d){const w=[];if(d.piva&&!/^\d{11}$/.test(d.piva))w.push('la Partita IVA italiana ha 11 cifre');if(d.sdi&&!/^[A-Z0-9]{7}$/.test(d.sdi))w.push('il codice SDI ha 7 caratteri');if(!d.sdi&&!d.pec)w.push('manca codice SDI o PEC (se non li ha si usa 0000000)');if(!d.piva&&!d.cf)w.push('serve almeno Partita IVA o Codice fiscale');return w;}
+async function invFromPhoto(ev){const f=ev.target.files&&ev.target.files[0];if(!f)return;const st=document.getElementById('invSt');
+  if(!getGeminiKey()){st.textContent='⚠️ Per leggere la foto serve la Gemini API Key: scrivi i dati a mano.';ev.target.value='';return;}
+  st.textContent='⏳ Leggo il biglietto da visita…';
+  try{const b64=await shrinkImage(f,1400);const txt=await callGemini([{text:'Da questo biglietto da visita (o carta intestata) estrai i dati per una fattura elettronica italiana. Rispondi SOLO con un oggetto JSON con queste chiavi stringa: rs (ragione sociale o nome azienda), piva (solo 11 cifre, senza IT), cf, addr (via e numero), cap, city, prov (sigla 2 lettere), sdi (codice destinatario 7 caratteri), pec, email. Se un dato non c’è metti stringa vuota. Non inventare dati.'},{inline_data:{mime_type:'image/jpeg',data:b64}}],true);
+    const o=JSON.parse(txt.slice(txt.indexOf('{'),txt.lastIndexOf('}')+1));let n=0;INV_F.forEach(([k])=>{const v=String(o[k]||'').trim(),el=document.getElementById('inv_'+k);if(v&&el){el.value=v;n++;}});
+    st.textContent=n?`✅ Letti ${n} campi: controllali prima di salvare.`:'⚠️ Non ho trovato dati utili: scrivili a mano.';const w=invWarnings(invRead());document.getElementById('invWarn').textContent=w.length?'⚠️ '+w.join(' · '):'';}
+  catch(e){st.textContent='❌ Lettura non riuscita: '+e.message;}ev.target.value='';}
+function saveInvoice(){const t=state.tables[state.activeTableId];if(!t)return;const d=invRead();if(!d.rs)return alert('Scrivi almeno la ragione sociale.');const w=invWarnings(d);
+  if(w.length&&!confirm('⚠️ Controlla: '+w.join(', ')+'.\nSalvare lo stesso?'))return;
+  t.invoice={...d,at:Date.now(),by:state.waiterName||'Staff'};const key=(d.piva||d.cf||d.rs).toUpperCase(),cos=invCos(),old=cos[key]||{};cos[key]={...d,used:(old.used||0)+1,last:Date.now()};
+  saveState(false,{tables:[t.id],staff:true});document.getElementById('invModal').classList.remove('active');renderOrderScreen();}
+function removeInvoice(){const t=state.tables[state.activeTableId];if(!t||!confirm('Togliere la richiesta di fattura da '+t.name+'?'))return;t.invoice=null;saveState(false,{tables:[t.id]});document.getElementById('invModal').classList.remove('active');renderOrderScreen();}
+{const _ros2=renderOrderScreen;renderOrderScreen=function(){_ros2();const t=state.tables[state.activeTableId],cart=document.getElementById('cartContainer');if(!t||!cart||!t.items||!t.items.length)return;
+  cart.insertAdjacentHTML('afterbegin',t.invoice?`<div style="background:#EEF2FF;border:2px solid #6366F1;border-radius:12px;padding:8px 10px;margin-bottom:10px;font-size:.82rem;"><b>🧾 Fattura richiesta</b> · ${escH(t.invoice.rs)}${t.invoice.piva?' · P.IVA '+escH(t.invoice.piva):''}<button class="btn-note" style="margin-left:6px;padding:3px 9px;" onclick="openInvoice()">✏️</button></div>`:`<button class="btn-note" style="width:100%;margin-bottom:10px;padding:9px;" onclick="openInvoice()">🧾 Il cliente vuole la fattura</button>`);};}
+function invoiceList(){return (state.historyLog||[]).filter(e=>e&&e.invoice);}
+function renderInvList(){const el=document.getElementById('invList');if(!el)return;const L=invoiceList(),todo=L.filter(e=>!e.invoice.done).sort((a,b)=>(a.ts||0)-(b.ts||0)),done=L.filter(e=>e.invoice.done).sort((a,b)=>(b.invoice.doneAt||0)-(a.invoice.doneAt||0)).slice(0,10);
+  if(!L.length){el.style.display='none';return;}el.style.display='';
+  const row=(e,dn)=>`<div style="border-bottom:1px dashed var(--border);padding:8px 0;${dn?'opacity:.6;':''}"><div style="display:flex;justify-content:space-between;gap:8px;"><div><b>${escH(e.invoice.rs||'')}</b><div style="font-size:.74rem;color:var(--muted);">${escH((svcDate(e)||'').split('-').reverse().join('/'))} · ${escH(e.tableName||'')} · ${escH(e.time||'')}</div></div><div style="font-weight:900;color:var(--logo-coral);white-space:nowrap;">€ ${formatPrice(e.total||0)}</div></div><div style="margin-top:3px;">${payChip(e)}</div><pre style="white-space:pre-wrap;font-family:inherit;font-size:.76rem;margin:6px 0;color:#1F2937;">${escH(invText(e.invoice))}</pre><div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="btn-note" onclick="invCopy(${e.ts})">📋 Copia dati e piatti</button>${dn?`<span style="font-size:.75rem;font-weight:800;color:#166534;">✅ Emessa il ${new Date(e.invoice.doneAt).toLocaleDateString('it-IT')}</span>`:`<button class="btn-note" style="color:#166534;" onclick="invDone(${e.ts})">✅ Emessa</button>`}</div></div>`;
+  el.innerHTML=`<h3 style="margin-bottom:6px;">🧾 Fatture da emettere ${todo.length?`<span style="background:#DC2626;color:#fff;border-radius:10px;padding:1px 8px;font-size:.8rem;">${todo.length}</span>`:''}</h3>${todo.length?todo.map(e=>row(e,false)).join(''):'<div style="font-size:.85rem;color:#166534;font-weight:800;">🎉 Nessuna fattura in sospeso</div>'}${done.length?`<details style="margin-top:8px;"><summary style="font-size:.8rem;font-weight:800;cursor:pointer;">Ultime emesse (${done.length})</summary>${done.map(e=>row(e,true)).join('')}</details>`:''}`;}
+function invCopy(ts){const e=(state.historyLog||[]).find(x=>x.ts===ts);if(!e)return;const txt=invText(e.invoice)+'\n\nConto '+e.tableName+' del '+(svcDate(e)||'').split('-').reverse().join('/')+' ore '+(e.time||'')+'\n'+(e.items||[]).map(i=>`${i.qty} x ${i.name}  € ${formatPrice((Number(i.price)||0)*(Number(i.qty)||0))}`).join('\n')+'\nTOTALE € '+formatPrice(e.total||0);
+  (navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>alert('📋 Dati copiati: incollali nel programma delle fatture.'),()=>prompt('Copia questi dati:',txt));}
+function invDone(ts){const e=(state.historyLog||[]).find(x=>x.ts===ts);if(!e||!confirm(`Segnare come EMESSA la fattura di ${e.invoice.rs} (€ ${formatPrice(e.total||0)})?`))return;e.invoice.done=true;e.invoice.doneAt=Date.now();e.invoice.doneBy=state.waiterName||'';saveState(false,{history:true});renderInvList();}
+{const _rc2=renderConti;renderConti=function(){_rc2();renderInvList();};}
+</script>
+<script>
+/* ===== v2.0.9 · Grafici vendite: andamento giorni/settimane/mesi e torta dei piatti ===== */
+state.chMode='sett';
+const PIE_COL=['#FF5733','#1BE7FF','#F59E0B','#10B981','#6366F1','#EC4899','#84CC16','#06B6D4','#A855F7','#9CA3AF'];
+function salesDay(e){return svcDate(e);}
+function chBuckets(mode){const H=(state.historyLog||[]).filter(e=>e&&e.total!=null),today=svcBase(),out=[];
+  if(mode==='giorni'){for(let i=13;i>=0;i--){const d=new Date(today);d.setDate(today.getDate()-i);const k=isoD(d);out.push({k,label:d.toLocaleDateString('it-IT',{weekday:'narrow',day:'numeric'}),v:0});}H.forEach(e=>{const b=out.find(x=>x.k===salesDay(e));if(b)b.v+=Number(e.total)||0;});}
+  else if(mode==='sett'){const mon=new Date(today);mon.setDate(today.getDate()-((today.getDay()+6)%7));for(let i=7;i>=0;i--){const s=new Date(mon);s.setDate(mon.getDate()-7*i);const e2=new Date(s);e2.setDate(s.getDate()+6);out.push({a:isoD(s),b:isoD(e2),label:s.getDate()+'/'+(s.getMonth()+1),v:0});}H.forEach(e=>{const d=salesDay(e),b=out.find(x=>d>=x.a&&d<=x.b);if(b)b.v+=Number(e.total)||0;});}
+  else{for(let i=11;i>=0;i--){const d=new Date(today.getFullYear(),today.getMonth()-i,1);out.push({k:isoD(d).slice(0,7),label:d.toLocaleDateString('it-IT',{month:'short'}).replace('.',''),v:0});}H.forEach(e=>{const b=out.find(x=>x.k===String(salesDay(e)).slice(0,7));if(b)b.v+=Number(e.total)||0;});}
+  return out;}
+function barSVG(B){const W=360,H=190,pl=6,pr=6,pt=22,pb=28,n=B.length,max=Math.max(1,...B.map(b=>b.v)),bw=(W-pl-pr)/n,avg=B.reduce((s,b)=>s+b.v,0)/(B.filter(b=>b.v>0).length||1),y=v=>pt+(H-pt-pb)*(1-v/max);
+  const bars=B.map((b,i)=>{const x=pl+i*bw+bw*0.15,w=bw*0.7,yy=y(b.v),last=i===n-1;return `<rect x="${x.toFixed(1)}" y="${yy.toFixed(1)}" width="${w.toFixed(1)}" height="${(H-pb-yy).toFixed(1)}" rx="4" fill="${last?'#FF5733':'#FB923C'}" opacity="${b.v?1:.25}"/>${b.v?`<text x="${(x+w/2).toFixed(1)}" y="${(yy-4).toFixed(1)}" font-size="${n>12?7:9}" font-weight="700" text-anchor="middle" fill="#062329">${b.v>=1000?(b.v/1000).toFixed(1)+'k':Math.round(b.v)}</text>`:''}<text x="${(x+w/2).toFixed(1)}" y="${H-10}" font-size="${n>12?7:9}" text-anchor="middle" fill="#4B5563">${escH(b.label)}</text>`;}).join('');
+  const ya=y(avg);return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;" role="img" aria-label="Andamento incassi"><line x1="${pl}" x2="${W-pr}" y1="${H-pb}" y2="${H-pb}" stroke="#E5E7EB"/>${bars}<line x1="${pl}" x2="${W-pr}" y1="${ya.toFixed(1)}" y2="${ya.toFixed(1)}" stroke="#0EA5E9" stroke-dasharray="4 3" stroke-width="1.5"/><text x="${W-pr}" y="${(ya-4).toFixed(1)}" font-size="8" text-anchor="end" fill="#0369A1" font-weight="700">media € ${Math.round(avg)}</text></svg>`;}
+function topDishes(a,b){const cnt={};(state.historyLog||[]).filter(e=>e&&salesDay(e)>=a&&salesDay(e)<=b).forEach(e=>(e.items||[]).forEach(it=>{if(it.cat==='1 Coperto'||it.cat==='2 Bevande'||/coperto|\bacqua\b/i.test(it.name||''))return;cnt[it.name]=(cnt[it.name]||0)+(Number(it.qty)||0);}));
+  const L=Object.entries(cnt).sort((x,y)=>y[1]-x[1]),top=L.slice(0,8),rest=L.slice(8).reduce((s,x)=>s+x[1],0);if(rest)top.push(['Altri piatti',rest]);return top;}
+function pieSVG(D){const tot=D.reduce((s,d)=>s+d[1],0);if(!tot)return '<div style="font-size:.85rem;color:var(--muted);">Nessun piatto venduto nel periodo.</div>';let a0=-Math.PI/2;const R=70,cx=80,cy=80;
+  const sl=D.map((d,i)=>{const a=d[1]/tot*Math.PI*2,a1=a0+a,lg=a>Math.PI?1:0,p=D.length===1?`<circle cx="${cx}" cy="${cy}" r="${R}" fill="${PIE_COL[0]}"/>`:`<path d="M${cx},${cy} L${(cx+R*Math.cos(a0)).toFixed(2)},${(cy+R*Math.sin(a0)).toFixed(2)} A${R},${R} 0 ${lg} 1 ${(cx+R*Math.cos(a1)).toFixed(2)},${(cy+R*Math.sin(a1)).toFixed(2)} Z" fill="${PIE_COL[i%PIE_COL.length]}" stroke="#fff" stroke-width="1.5"/>`;a0=a1;return p;}).join('');
+  return `<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><svg viewBox="0 0 160 160" style="width:150px;height:150px;flex:0 0 auto;" role="img" aria-label="Piatti più venduti">${sl}<circle cx="${cx}" cy="${cy}" r="30" fill="#fff"/><text x="${cx}" y="${cy+4}" font-size="13" font-weight="900" text-anchor="middle" fill="#062329">${tot}</text></svg><div style="flex:1;min-width:150px;">${D.map((d,i)=>`<div style="display:flex;gap:6px;align-items:flex-start;font-size:.76rem;margin:3px 0;"><span style="width:10px;height:10px;border-radius:3px;background:${PIE_COL[i%PIE_COL.length]};flex:0 0 10px;margin-top:3px;"></span><span style="flex:1;">${escH(d[0])}</span><b style="white-space:nowrap;">${d[1]} · ${Math.round(d[1]/tot*100)}%</b></div>`).join('')}</div></div>`;}
+function renderSalesCharts(){const el=document.getElementById('salesCharts');if(!el)return;const B=chBuckets(state.chMode),[a,b]=contiRange(),tot=B.reduce((s,x)=>s+x.v,0),last=B[B.length-1].v,prev=B[B.length-2]?B[B.length-2].v:0,diff=prev?Math.round((last-prev)/prev*100):null;
+  const modes=[['giorni','📆 Giorni'],['sett','📅 Settimane'],['mesi','🗓️ Mesi']],lbl={giorni:'ultimi 14 giorni',sett:'ultime 8 settimane',mesi:'ultimi 12 mesi'}[state.chMode],cur={giorni:'Oggi',sett:'Questa settimana',mesi:'Questo mese'}[state.chMode];
+  el.innerHTML=`<h3 style="margin-bottom:6px;">📈 Andamento incassi</h3><div class="cat-bar" style="margin-bottom:6px;">${modes.map(([k,l])=>`<button class="cat-btn${state.chMode===k?' active':''}" onclick="state.chMode='${k}';renderSalesCharts();">${l}</button>`).join('')}</div><div style="font-size:.75rem;font-weight:800;color:var(--muted);margin-bottom:4px;">${lbl} · totale € ${formatPrice(tot)} · ${cur}: € ${formatPrice(last)}${diff!=null?` <span style="color:${diff>=0?'#166534':'#B91C1C'};">(${diff>=0?'+':''}${diff}% sul precedente)</span>`:''}</div>${barSVG(B)}
+  <h3 style="margin:14px 0 6px;">🥧 Piatti più venduti</h3><div style="font-size:.75rem;font-weight:800;color:var(--muted);margin-bottom:6px;">${a===b?new Date(a+'T12:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'}):'dal '+a.split('-').reverse().join('/')+' al '+b.split('-').reverse().join('/')} · cambia periodo con Oggi / Ieri / 7 giorni / Mese qui sopra · senza coperto e bevande</div>${pieSVG(topDishes(a,b))}`;}
+{const _rc3=renderConti;renderConti=function(){_rc3();renderSalesCharts();};}
 </script>
 <script>initApp();</script>
 </body>
