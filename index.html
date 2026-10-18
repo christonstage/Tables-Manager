@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.0.18</title>
+<title>Alicetta TableZ 2.0 - v2.0.19</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -235,7 +235,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.0.18</div>
+    <div class="version-badge">v2.0.19</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -344,7 +344,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.18)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.19)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -372,7 +372,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.18)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.19)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -1376,7 +1376,7 @@ function makeReceipt(t){
 let rcptBusy=false;
 async function flushReceipts(){
   if(rcptBusy||!navigator.onLine)return;let q;try{q=JSON.parse(localStorage.getItem('alicetta_rcpt_q')||'[]');}catch(e){q=[];}if(!q.length)return;rcptBusy=true;
-  try{while(q.length){await fbSend('/ricevute/'+q[0].rid,'PUT',q[0].data);if(q[0].tid){try{await fbSend('/ricevute_tavolo/'+q[0].tid,'PUT',{rid:q[0].rid,ts:q[0].data.ts});}catch(e){}}q.shift();localStorage.setItem('alicetta_rcpt_q',JSON.stringify(q));}}catch(e){}finally{rcptBusy=false;const m=document.getElementById('rcptState');if(m)m.textContent=rcptPending()?'⏳ In invio: appena torna internet il cliente vede il riepilogo.':'☁️ Pronto: il cliente può inquadrare.';}
+  try{while(q.length){await fbSend('/ricevute/'+q[0].rid,'PUT',q[0].data);if(q[0].tid){try{await fbSend('/ricevute_tavolo/'+q[0].tid,'PUT',{rid:q[0].rid,ts:q[0].data.ts});}catch(e){}}try{let ul=await fbGet('/ricevute_tavolo/_ultime');ul=(Array.isArray(ul)?ul:Object.values(ul||{})).filter(x=>x&&x.rid!==q[0].rid);ul.unshift({rid:q[0].rid,n:q[0].data.n,tot:q[0].data.tot,ts:q[0].data.ts});await fbSend('/ricevute_tavolo/_ultime','PUT',ul.slice(0,6));}catch(e){}q.shift();localStorage.setItem('alicetta_rcpt_q',JSON.stringify(q));}}catch(e){}finally{rcptBusy=false;const m=document.getElementById('rcptState');if(m)m.textContent=rcptPending()?'⏳ In invio: appena torna internet il cliente vede il riepilogo.':'☁️ Pronto: il cliente può inquadrare.';}
 }
 function rcptPending(){try{return JSON.parse(localStorage.getItem('alicetta_rcpt_q')||'[]').length;}catch(e){return 0;}}
 function showReceiptQr(rid){
@@ -1886,7 +1886,7 @@ function invCheck(){const el=document.getElementById('invMiss');if(el)el.innerHT
 {const _ip=invPick;invPick=function(k){_ip(k);invCheck();};}
 </script>
 <script>
-/* ===== v2.0.18 · Copia dei dati fattura campo per campo (per SumUp Fatture) ===== */
+/* ===== v2.0.17 · Copia dei dati fattura campo per campo (per SumUp Fatture) ===== */
 const INV_COPY=[['rs','Ragione sociale'],['piva','P.IVA'],['cf','Cod. fiscale'],['addr','Indirizzo'],['cap','CAP'],['city','Città'],['prov','Prov.'],['sdi','SDI'],['pec','PEC'],['email','Email']];
 function invClip(txt,lbl){const ok=()=>{const t=document.getElementById('orderToast');if(!t)return;document.getElementById('toastTitle').textContent='📋 COPIATO';document.getElementById('toastBody').textContent=lbl+': '+txt;t.classList.remove('sticky');t.classList.add('active');clearTimeout(window._clipT);window._clipT=setTimeout(()=>t.classList.remove('active'),1800);};
   (navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(txt):Promise.reject()).then(ok,()=>prompt('Copia:',txt));}
@@ -1894,7 +1894,7 @@ function invCopyField(ts,k){const e=(state.historyLog||[]).find(x=>x.ts===ts);if
 function invCopyChips(e){return `<details style="margin-top:6px;"><summary style="font-size:.78rem;font-weight:800;cursor:pointer;">📋 Copia campo per campo (per SumUp Fatture)</summary><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;">${INV_COPY.filter(([k])=>e.invoice[k]).map(([k,l])=>`<button class="btn-note" style="padding:4px 9px;font-size:.74rem;" onclick="invCopyField(${e.ts},'${k}')">${l}</button>`).join('')}<button class="btn-note" style="padding:4px 9px;font-size:.74rem;" onclick="invCopyField(${e.ts},'items')">Articoli</button><button class="btn-note" style="padding:4px 9px;font-size:.74rem;" onclick="invCopyField(${e.ts},'tot')">Totale</button></div></details>`;}
 </script>
 <script>
-/* ===== v2.0.18 · Tag NFC: tavolo (menù + conto/fidelity) e Club ===== */
+/* ===== v2.0.19 · Tag NFC: tavolo (menù + conto/fidelity) e Club ===== */
 const nfcBase=()=>location.origin+location.pathname.replace(/[^/]*$/,'');
 function openNfc(){
   let ov=document.getElementById('nfcModal');if(!ov){ov=document.createElement('div');ov.id='nfcModal';ov.className='modal-overlay';ov.onclick=e=>{if(e.target===ov)ov.classList.remove('active');};document.body.appendChild(ov);}
@@ -1902,15 +1902,15 @@ function openNfc(){
   const ok='NDEFReader' in window;
   ov.innerHTML=`<div class="receipt-box"><h3 style="color:var(--logo-coral);margin-bottom:4px;">📡 Tag NFC</h3><div style="font-size:.8rem;color:#4B5563;margin-bottom:8px;">Adesivi NFC (NTAG213/215) da mettere sui tavoli: il cliente avvicina il telefono e si apre la pagina, senza inquadrare niente. Funziona con iPhone (XS o più recenti) e Android con NFC attivo.</div>
   <label style="font-size:.78rem;font-weight:800;">Cosa scrivere sul tag</label>
-  <select id="nfcWhat" class="form-control" style="margin:4px 0 8px;" onchange="nfcPreview()"><option value="club">⭐ Iscrizione al Club (generico)</option>${T.map(t=>`<option value="${t.id}">🍽️ ${escH(t.baseName||t.name)}: menù + conto e punti dopo il pagamento</option>`).join('')}</select>
-  <div id="nfcUrl" style="font-size:.72rem;word-break:break-all;color:#4B5563;margin-bottom:8px;"></div>
+  <select id="nfcWhat" class="form-control" style="margin:4px 0 8px;" onchange="nfcPreview()"><option value="hub">🪪 Carta unica: menù + Club + conto appena pagato (da girare o tenere in cassa)</option><option value="club">⭐ Iscrizione al Club (generico)</option>${T.map(t=>`<option value="${t.id}">🍽️ ${escH(t.baseName||t.name)}: menù + conto e punti dopo il pagamento</option>`).join('')}</select>
+  <div id="nfcUrl" style="font-size:.72rem;word-break:break-all;color:#4B5563;margin-bottom:6px;"></div><div style="font-size:.72rem;font-weight:800;color:#4B5563;margin-bottom:4px;">Stesso link come QR, da stampare e incollare sulla carta per chi ha l’NFC spento:</div><div id="nfcQr" style="display:flex;justify-content:center;margin-bottom:8px;"></div>
   ${ok?`<button class="btn-main btn-bill" style="width:100%;" onclick="nfcWrite()">📡 Scrivi il tag: avvicinalo al telefono</button>`:`<div style="background:#FEF3C7;border-radius:10px;padding:8px;font-size:.78rem;font-weight:700;color:#78350F;">Questo dispositivo non può scrivere tag dall'app: serve Chrome su Android. In alternativa copia il link qui sopra e scrivilo con l'app gratuita “NFC Tools”.</div><button class="btn-note" style="width:100%;margin-top:6px;" onclick="invClip(document.getElementById('nfcUrl').textContent,'Link')">📋 Copia link</button>`}
   <div id="nfcSt" style="font-size:.85rem;font-weight:800;margin-top:8px;"></div>
   <div class="modal-actions"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('nfcModal').classList.remove('active')">Chiudi</button></div></div>`;
   ov.classList.add('active');nfcPreview();
 }
-function nfcUrlFor(w){return w==='club'?nfcBase()+'menu.html?club=1':nfcBase()+'menu.html?tb='+encodeURIComponent(w);}
-function nfcPreview(){const w=document.getElementById('nfcWhat').value;document.getElementById('nfcUrl').textContent=nfcUrlFor(w);}
+function nfcUrlFor(w){return w==='hub'?nfcBase()+'menu.html?hub=1':w==='club'?nfcBase()+'menu.html?club=1':nfcBase()+'menu.html?tb='+encodeURIComponent(w);}
+function nfcPreview(){const w=document.getElementById('nfcWhat').value,u=nfcUrlFor(w);document.getElementById('nfcUrl').textContent=u;const q=document.getElementById('nfcQr');if(q){q.innerHTML='';try{new QRCode(q,{text:u,width:170,height:170,colorDark:'#062329',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}catch(e){q.textContent='QR non disponibile offline';}}}
 async function nfcWrite(){const st=document.getElementById('nfcSt'),u=nfcUrlFor(document.getElementById('nfcWhat').value);
   try{st.style.color='#1D4ED8';st.textContent='📡 Avvicina il tag NFC al retro del telefono…';const r=new NDEFReader();await r.write({records:[{recordType:'url',data:u}]});st.style.color='#166534';st.textContent='✅ Tag scritto! Provalo con un altro telefono.';if(navigator.vibrate)try{navigator.vibrate(200);}catch(e){}}
   catch(e){st.style.color='#B91C1C';st.textContent='❌ '+(e.name==='NotAllowedError'?'Permesso NFC negato: consentilo a Chrome e riprova.':e.name==='NotSupportedError'?'NFC non disponibile o spento: attivalo nelle impostazioni.':'Scrittura non riuscita: '+e.message);}}
