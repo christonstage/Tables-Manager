@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 1.9.19 - v1.9.19 Gold</title>
-<meta name="theme-color" content="#2ECC71">
+<title>Alicetta TableZ 2.0 - v2.0</title>
+<meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,10 +14,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-:root{--bg:#2ECC71;--bg-deep:#27AE60;--card:#FFF;--text:#1F2937;--muted:#4B5563;--logo-cyan:#1BE7FF;--logo-coral:#FF5733;--border:rgba(0,0,0,0.15)}
+:root{--bg:#FF2E93;--bg-deep:#C2186F;--card:#FFF;--text:#1F2937;--muted:#4B5563;--logo-cyan:#1BE7FF;--logo-coral:#FF5733;--border:rgba(0,0,0,0.15)}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none;overflow-x:hidden}
-.topbar{position:sticky;top:0;z-index:50;background:rgba(46,204,113,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:6px 5px;display:flex;justify-content:space-between;align-items:center;gap:3px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,46,147,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:6px 5px;display:flex;justify-content:space-between;align-items:center;gap:3px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .brand-group{display:flex;align-items:center;gap:4px;flex-shrink:0}
 .brand-logo{display:flex;align-items:center;background:var(--logo-cyan);padding:2px 4px;border-radius:7px;border:1.5px solid var(--logo-coral)}
 .brand-logo svg{height:17px;width:auto;display:block}
@@ -90,7 +90,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 .chip-grid{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 10px 0}
 .note-chip{background:#F3F4F6;border:1px solid var(--border);border-radius:14px;padding:5px 9px;font-size:0.74rem;font-weight:800;cursor:pointer;color:#1F2937}
 .note-chip:active{background:var(--logo-cyan);border-color:var(--logo-coral)}
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(46,204,113,0.98);border-top:1px solid var(--border);padding:10px 12px;display:flex;gap:6px;z-index:60}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,46,147,0.97);border-top:1px solid var(--border);padding:10px 12px;display:flex;gap:6px;z-index:60}
 .btn-main{flex:1;padding:12px 6px;border-radius:10px;border:none;font-weight:800;font-size:0.84rem;cursor:pointer;text-align:center}
 .btn-print{background:var(--logo-cyan);color:#062329;border:1px solid var(--logo-coral)}
 .btn-bill{background:var(--logo-coral);color:#FFF}
@@ -171,15 +171,39 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 .mandata-group.served{background:#DCFCE7;border-radius:10px;padding:8px}
 .st-chip{font-size:.7rem;font-weight:900;padding:3px 8px;border-radius:6px;margin-left:6px;vertical-align:middle}
 .st-done{background:#16A34A;color:#fff}.st-fire{background:#F97316;color:#fff}.st-wait{background:#E5E7EB;color:#374151}.st-draft{background:#FEE2E2;color:#991B1B}
+/* ===== v2.0 grafica 3D ===== */
+html{background:#E81A80}
+.ntfy-nag{margin:10px 14px 0;background:#FEF3C7;color:#3B2F20;border:2px solid #F59E0B;border-radius:14px;padding:12px;font-size:.8rem;line-height:1.45;box-shadow:var(--sh-2)}
+.ntfy-nag a{color:#B45309;font-weight:900}
+:root{--sh-1:0 1px 2px rgba(70,0,35,.16),0 4px 10px rgba(70,0,35,.18);--sh-2:0 3px 6px rgba(70,0,35,.22),0 12px 26px rgba(70,0,35,.28);--edge:rgba(0,0,0,.24)}
+body{background-color:var(--bg);background-image:radial-gradient(130% 55% at 50% 0%,#FF6CB5 0%,rgba(255,108,181,0) 60%),linear-gradient(180deg,#FF2E93 0%,#E81A80 100%);background-attachment:fixed;min-height:100vh}
+.topbar{box-shadow:0 4px 14px rgba(70,0,35,.32),inset 0 -1px 0 rgba(0,0,0,.12)}
+.bottom-bar{box-shadow:0 -4px 16px rgba(70,0,35,.28),inset 0 1px 0 rgba(255,255,255,.35)}
+.room-tab,.mandata-btn,.cat-btn,.btn-top,.menu-item,.order-header,.cart-section,.fire-box,.kds-card,.kds-Banner,.asporto-bar{box-shadow:var(--sh-1),inset 0 1px 0 rgba(255,255,255,.75)}
+.room-tab.active,.mandata-btn.active,.cat-btn.active,.btn-top.active{box-shadow:0 3px 0 rgba(0,0,0,.18),var(--sh-1),inset 0 1px 0 rgba(255,255,255,.6)}
+.room-tab,.mandata-btn,.cat-btn,.btn-top{transition:transform .08s,box-shadow .08s}
+.room-tab:active,.mandata-btn:active,.cat-btn:active,.btn-top:active{transform:translateY(2px);box-shadow:0 1px 2px rgba(70,0,35,.2)}
+.menu-item{box-shadow:0 3px 0 rgba(0,0,0,.08),var(--sh-1),inset 0 1px 0 rgba(255,255,255,.9)}
+.btn-main,.btn-fire,.btn-kds-audio,.btn-kds-done,.btn-back,.btn-qty,.btn-note,.btn-modal,.btn-pager,.waiter-tag{box-shadow:0 3px 0 var(--edge),0 6px 12px rgba(70,0,35,.22),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .08s,box-shadow .08s}
+.btn-main:active,.btn-fire:active,.btn-kds-audio:active,.btn-kds-done:active,.btn-back:active,.btn-qty:active,.btn-note:active,.btn-modal:active,.btn-pager:active,.waiter-tag:active{transform:translateY(3px);box-shadow:0 0 0 var(--edge),0 1px 3px rgba(70,0,35,.25),inset 0 1px 0 rgba(255,255,255,.2)}
+.table-card{box-shadow:0 5px 0 rgba(0,0,0,.18),0 12px 22px rgba(70,0,35,.3),inset 0 2px 0 rgba(255,255,255,.6),inset 0 -3px 0 rgba(0,0,0,.08);background-image:linear-gradient(180deg,rgba(255,255,255,.32),rgba(255,255,255,0) 55%);transition:transform .1s,box-shadow .1s}
+.table-card:active{transform:translateY(4px) scale(.97);box-shadow:0 1px 0 rgba(0,0,0,.18),0 4px 8px rgba(70,0,35,.3),inset 0 2px 0 rgba(255,255,255,.5)}
+.table-card.busy{background-image:linear-gradient(180deg,rgba(255,255,255,.25),rgba(255,255,255,0) 55%);box-shadow:0 5px 0 #062329,0 12px 24px rgba(70,0,35,.4),inset 0 2px 0 rgba(255,255,255,.4)}
+.table-card.marcia{box-shadow:0 0 0 4px #F97316,0 0 22px rgba(249,115,22,.8)}
+.table-card.conto{box-shadow:0 0 0 5px #22C55E,0 0 26px rgba(34,197,94,.9)}
+.form-control,.search-input{box-shadow:inset 0 2px 4px rgba(0,0,0,.08)}
+.receipt-box{box-shadow:0 24px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.9)}
+.order-toast{box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.version-badge{box-shadow:0 2px 0 rgba(0,0,0,.35)}
 </style>
 </head>
 <body onclick="unlockAudioOnce()">
 <div class="topbar">
   <div class="brand-group">
-    <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 1.9">
-      <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 1.9</text></svg>
+    <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
+      <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v1.9.19 Gold</div>
+    <div class="version-badge">v2.0</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -195,6 +219,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
     <button class="btn-top" id="navMenu" onclick="switchMainView('menuMgr')" style="display:none;" title="Impostazioni">⚙️</button>
   </div>
 </div>
+<div id="ntfyNag" class="ntfy-nag" style="display:none;"></div>
 <div class="modal-overlay" id="loginModal">
   <div class="receipt-box" style="text-align:center;">
     <h3 style="color:var(--logo-coral);margin-bottom:6px;">👤 Chi sta usando il dispositivo?</h3>
@@ -272,6 +297,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
   <div class="cart-section">
     <div style="font-weight:800;margin-bottom:10px;font-size:0.95rem;">📋 Riepilogo Comanda (tocca ✏️ Nota per modifiche)</div>
     <div id="cartContainer"></div>
+    <button class="btn-main btn-print" style="width:100%;margin-top:10px;" onclick="suggestWine()">🍷 Consiglia vino</button>
     <button class="btn-main btn-bill" style="width:100%;margin-top:10px;" onclick="payWithSumUp()">💳 Paga con SumUp</button>
   </div>
   <div class="bottom-bar">
@@ -283,7 +309,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 1.9 (v1.9.19 Gold)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -303,7 +329,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:95px;user-select:none
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 1.9 (v1.9.19 Gold)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -526,7 +552,7 @@ async function selectUserRole(name,goKds){
   if(goKds){switchMainView('kds');enableKdsTabletMode();}
 }
 function selectCustomUser(){const v=document.getElementById('customWaiterInput').value.trim();if(!v)return alert("Scrivi un nome");selectUserRole(v,false);}
-function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('navDishes').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('btnPager').style.display='block';document.getElementById('navRes').style.display=/^christian$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navTime').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('navKds').style.display=/^(christian|kds cucina)$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navQr').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';if(/^timbrature$/i.test((state.waiterName||'').trim())){['navTables','navKds','navRes','navMenu','btnPager'].forEach(i=>document.getElementById(i).style.display='none');document.getElementById('navTime').style.display='block';}else document.getElementById('navTables').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';}
+function updateWaiterDisplay(){document.getElementById('waiterDisplay').textContent="👤 "+(state.waiterName||'Staff');document.getElementById('currentWaiterBadge').textContent=state.waiterName||'Staff';const own=state.waiterName.toLowerCase().trim()==='christian';document.getElementById('navMenu').style.display=own?'block':'none';document.getElementById('navDishes').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('btnPager').style.display='block';document.getElementById('navRes').style.display=/^christian$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navTime').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';document.getElementById('navKds').style.display=/^(christian|kds cucina)$/i.test((state.waiterName||'').trim())?'block':'none';document.getElementById('navQr').style.display=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim())?'none':'block';if(/^timbrature$/i.test((state.waiterName||'').trim())){['navTables','navKds','navRes','navMenu','btnPager'].forEach(i=>document.getElementById(i).style.display='none');document.getElementById('navTime').style.display='block';}else document.getElementById('navTables').style.display=/^kds cucina$/i.test((state.waiterName||'').trim())?'none':'block';if(typeof checkNtfyNag==='function')checkNtfyNag();}
 function updateRoomTabCounts(){document.getElementById('cntInt').textContent=state.tableCounts.interna;document.getElementById('cntEst').textContent=state.tableCounts.esterna;document.getElementById('cntAsp').textContent=state.tableCounts.asporto;updateOpenBadges();document.getElementById('cfgIntCount').value=state.tableCounts.interna;document.getElementById('cfgEstCount').value=state.tableCounts.esterna;document.getElementById('cfgAspCount').value=state.tableCounts.asporto;populateMergeSelectors();}
 function saveLocalOnly(){localStorage.setItem(STORAGE_KEY,JSON.stringify({menu:state.menu,tables:state.tables,tableCounts:state.tableCounts,useRawBT:state.useRawBT,firebaseUrl:state.firebaseUrl,waiterName:state.waiterName,historyLog:state.historyLog,lastAlertSignal:state.lastAlertSignal,lastOrderEvent:state.lastOrderEvent,lastPagerEvent:state.lastPagerEvent,timeLog:state.timeLog||{},pins:state.pins||{},qrUrl:state.qrUrl||'',stock:state.stock||{},seats:state.seats||{},staffCfg:state.staffCfg||{},res:state.res||{}}));}
 async function saveState(bell,parts){if(bell)state.lastAlertSignal=Date.now();saveLocalOnly();await pushToCloud(parts);if(!state.lastPushOk)addPending(parts);}
@@ -672,7 +698,7 @@ async function sendOrderToKitchen(){
   state.lastOrderEvent={id:Date.now(),title:`COMANDA ${t.name.toUpperCase()}`,waiter:state.waiterName||'Staff',summary:dl||'Solo Coperti'};if(vl.length)state.lastOrderEvent={id:Date.now(),title:`⚡ AL VOLO · ${t.name.toUpperCase()}`,waiter:state.waiterName||'Staff',summary:vl.map(i=>`<b>${i.qty}x</b> ${i.name} (con la ${i.mandata}ª)`).join(', ')};if(nw.length&&nw.every(i=>i.mandata===4))state.lastOrderEvent.sala=true;
   playKitchenBell();if(navigator.vibrate)try{navigator.vibrate([250,100,250]);}catch(e){}showOrderToast(state.lastOrderEvent,true);
   await saveState(true,{tables:[t.id]});renderOrderScreen();
-  const ts=buildTimeStr(),ESC="\x1B",GS="\x1D";let pv=`==========================================\n   ALICETTA TABLEZ 1.9 - ${t.name.toUpperCase()}\n   Cam: ${state.waiterName||'Staff'} - ${ts}\n==========================================\n\n`,ep=ESC+"@"+ESC+"a\x01"+ESC+"!\x38"+`${t.name.toUpperCase()}\n`+ESC+"!\x08"+`Cam: ${state.waiterName||'Staff'} - ${ts}\n------------------------------------------\n`+ESC+"a\x00";
+  const ts=buildTimeStr(),ESC="\x1B",GS="\x1D";let pv=`==========================================\n   ALICETTA TABLEZ 2.0 - ${t.name.toUpperCase()}\n   Cam: ${state.waiterName||'Staff'} - ${ts}\n==========================================\n\n`,ep=ESC+"@"+ESC+"a\x01"+ESC+"!\x38"+`${t.name.toUpperCase()}\n`+ESC+"!\x08"+`Cam: ${state.waiterName||'Staff'} - ${ts}\n------------------------------------------\n`+ESC+"a\x00";
   const cop=t.items.filter(i=>i.name==='Pane e Coperto');if(cop.length){const tc=cop.reduce((s,c)=>s+c.qty,0);pv+=`COPERTI: ${tc}\n\n`;ep+=ESC+"!\x08"+`COPERTI: ${tc}\n`+ESC+"!\x00";}
   [0,1,2,3,4].forEach(m=>{const l=t.items.filter(i=>i.mandata===m&&i.name!=='Pane e Coperto');if(!l.length)return;const h=m===1?">>> 1a MANDATA (MARCIA) <<<":m>1?`--- ${m}a MANDATA ---`:"--- SUBITO / BEV ---";pv+=`${h}\n`;ep+="\n"+ESC+"!\x08"+h+"\n"+ESC+"!\x00";l.forEach(it=>{const vv=it.alVolo?'[AL VOLO] ':'';pv+=`  ${it.qty}x ${vv}${it.name}\n`;ep+=ESC+"!\x18"+`${it.qty}x ${vv}${it.name}\n`+ESC+"!\x00";if(it.note){pv+=`     * ${it.note}\n`;ep+=ESC+"!\x08"+`   * ${it.note}\n`+ESC+"!\x00";}});pv+="\n";});
   dispatchPrint(pv+"==========================================\n",ep+"\n------------------------------------------\n\n\n"+GS+"V\x42\x00");
@@ -688,7 +714,7 @@ async function fireMandataTicket(m){{const t0=state.tables[state.activeTableId];
   l.forEach(it=>{pv+=`  ${it.qty}x ${it.name}\n`;ep+=ESC+"!\x38"+`${it.qty}x ${it.name}\n`+ESC+"!\x00";if(it.note){pv+=`     * ${it.note}\n`;ep+=ESC+"!\x08"+`   * ${it.note}\n`+ESC+"!\x00";}});
   dispatchPrint(pv+"\n******************************************\n",ep+"\n******************************************\n\n\n"+GS+"V\x42\x00");
 }
-function showPreBill(){const t=state.tables[state.activeTableId];if(!t||!t.items||!t.items.length)return;const tot=getTableTotal(t),ESC="\x1B",GS="\x1D";let pv=`==========================================\n   ALICETTA TABLEZ 1.9 - PRE-CONTO\n   ${t.name.toUpperCase()}\n==========================================\n\n`,ep=ESC+"@"+ESC+"a\x01"+ESC+"!\x08"+`ALICETTA TABLEZ 1.9\nPRE-CONTO ${t.name.toUpperCase()}\n------------------------------------------\n`+ESC+"a\x00"+ESC+"!\x00";t.items.forEach(it=>{const ln=`${it.qty}x ${it.name.substring(0,20)} EUR ${formatPrice(it.price*it.qty)}\n`;pv+=ln;ep+=ln;});dispatchPrint(pv+`\n------------------------------------------\nTOTALE SUMUP: EUR ${formatPrice(tot)}\n==========================================\n`,ep+"------------------------------------------\n"+ESC+"!\x38"+`TOTALE: EUR ${formatPrice(tot)}\n`+ESC+"!\x00\n\n\n"+GS+"V\x42\x00");}
+function showPreBill(){const t=state.tables[state.activeTableId];if(!t||!t.items||!t.items.length)return;const tot=getTableTotal(t),ESC="\x1B",GS="\x1D";let pv=`==========================================\n   ALICETTA TABLEZ 2.0 - PRE-CONTO\n   ${t.name.toUpperCase()}\n==========================================\n\n`,ep=ESC+"@"+ESC+"a\x01"+ESC+"!\x08"+`ALICETTA TABLEZ 2.0\nPRE-CONTO ${t.name.toUpperCase()}\n------------------------------------------\n`+ESC+"a\x00"+ESC+"!\x00";t.items.forEach(it=>{const ln=`${it.qty}x ${it.name.substring(0,20)} EUR ${formatPrice(it.price*it.qty)}\n`;pv+=ln;ep+=ln;});dispatchPrint(pv+`\n------------------------------------------\nTOTALE SUMUP: EUR ${formatPrice(tot)}\n==========================================\n`,ep+"------------------------------------------\n"+ESC+"!\x38"+`TOTALE: EUR ${formatPrice(tot)}\n`+ESC+"!\x00\n\n\n"+GS+"V\x42\x00");}
 function encodeBase64UTF8(s){let b='';for(let i=0;i<s.length;i++)b+=String.fromCharCode(s.charCodeAt(i)&0xFF);return btoa(b);}
 function dispatchPrint(pv,ep){state.lastEscPosPayload=ep;if(state.useRawBT)window.location.href="rawbt:base64,"+encodeBase64UTF8(ep);else{document.getElementById('receiptText').textContent=pv;document.getElementById('receiptModal').classList.add('active');}}
 function triggerRawBTFromModal(){if(state.lastEscPosPayload)window.location.href="rawbt:base64,"+encodeBase64UTF8(state.lastEscPosPayload);}
@@ -811,9 +837,9 @@ async function elaboraLavagnettaZeroClick(){if(!confirm('Sostituire i piatti del
   st.textContent=`✅ Menù aggiornato: ${dishes.length} piatti online.${(()=>{const g=[...new Set(chalkboardFinitoNames(raw).concat(gone))];return g.length?' Tolti perché finiti: '+g.join(', ')+'.':'';})()}${note}`;
 }
 function buildSectionHTML(title,items){if(!items||!items.length)return'';return`<div style="margin-top:16px;margin-bottom:6px;background:#1BE7FF;color:#062329;padding:6px 12px;border-radius:8px;border-left:5px solid #FF5733;font-weight:900;font-size:0.88rem;letter-spacing:1.5px;text-transform:uppercase;">${title}</div><div>${items.map(d=>`<div style="display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px dashed rgba(255,87,51,0.32);gap:12px;"><b style="color:#062329;font-size:0.92rem;text-align:left;">• ${d.name}</b><span style="color:#FF5733;font-weight:900;white-space:nowrap;">€ ${formatPrice(d.price)}</span></div>`).join('')}</div>`;}
-function exportDailyMenuPDF(){const d=state.menu.filter(m=>m.cat!=='1 Coperto'&&m.cat!=='2 Bevande');if(!d.length)return alert("Nessun piatto inserito.");const ts=new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),lg=document.getElementById('alicettaLogoSvg').innerHTML.replace('TABLEZ 1.9','TRATTORIA'),sec=buildSectionHTML('🍤 ANTIPASTI',d.filter(x=>x.cat==='3 Antipasti'))+buildSectionHTML('🍝 PRIMI PIATTI',d.filter(x=>x.cat==='4 Primi Piatti'))+buildSectionHTML('🐟 SECONDI & CONTORNI',d.filter(x=>x.cat==='5 Secondi'))+buildSectionHTML('🍰 DESSERT & FORMAGGI',d.filter(x=>x.cat==='6 Desserts'));const w=window.open('','_blank');w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Menù del Giorno</title></head><body style="padding:20px;"><div style="font-family:sans-serif;max-width:560px;margin:0 auto;border:4px solid #FF5733;border-radius:18px;background:#fff;padding:22px;"><div style="text-align:center;background:#1BE7FF;padding:16px;border-radius:12px;margin-bottom:12px;border:2px solid #FF5733;"><div style="max-width:210px;margin:0 auto;">${lg}</div><h3 style="color:#FF5733;margin-top:8px;">✨ MENÙ DEL GIORNO ✨</h3><p style="font-size:0.8rem;font-weight:700;color:#062329;">${ts}</p></div>${sec}<div style="margin-top:18px;text-align:center;background:#1BE7FF;padding:10px;border-radius:10px;border:1.5px solid #FF5733;color:#062329;font-weight:800;font-size:0.84rem;">🐟 Pane e Coperto € 3,00 — ENJOY! — 📞 392 3279000</div></div><scr`+`ipt>setTimeout(()=>window.print(),400);</scr`+`ipt></body></html>`);w.document.close();}
+function exportDailyMenuPDF(){const d=state.menu.filter(m=>m.cat!=='1 Coperto'&&m.cat!=='2 Bevande');if(!d.length)return alert("Nessun piatto inserito.");const ts=new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),lg=document.getElementById('alicettaLogoSvg').innerHTML.replace('TABLEZ 2.0','TRATTORIA'),sec=buildSectionHTML('🍤 ANTIPASTI',d.filter(x=>x.cat==='3 Antipasti'))+buildSectionHTML('🍝 PRIMI PIATTI',d.filter(x=>x.cat==='4 Primi Piatti'))+buildSectionHTML('🐟 SECONDI & CONTORNI',d.filter(x=>x.cat==='5 Secondi'))+buildSectionHTML('🍰 DESSERT & FORMAGGI',d.filter(x=>x.cat==='6 Desserts'));const w=window.open('','_blank');w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Menù del Giorno</title></head><body style="padding:20px;"><div style="font-family:sans-serif;max-width:560px;margin:0 auto;border:4px solid #FF5733;border-radius:18px;background:#fff;padding:22px;"><div style="text-align:center;background:#1BE7FF;padding:16px;border-radius:12px;margin-bottom:12px;border:2px solid #FF5733;"><div style="max-width:210px;margin:0 auto;">${lg}</div><h3 style="color:#FF5733;margin-top:8px;">✨ MENÙ DEL GIORNO ✨</h3><p style="font-size:0.8rem;font-weight:700;color:#062329;">${ts}</p></div>${sec}<div style="margin-top:18px;text-align:center;background:#1BE7FF;padding:10px;border-radius:10px;border:1.5px solid #FF5733;color:#062329;font-weight:800;font-size:0.84rem;">🐟 Pane e Coperto € 3,00 — ENJOY! — 📞 392 3279000</div></div><scr`+`ipt>setTimeout(()=>window.print(),400);</scr`+`ipt></body></html>`);w.document.close();}
 function classifyWineItem(name){const n=name.toLowerCase();if(/calice/.test(n))return'calici';if(/metodo classico|charmat|trabocco/.test(n))return'bollicine';if(/cerasuolo|rosato|fossimatto/.test(n))return'cerasuoli';if(/montepulciano|pinto\s*11|maleducato\s*11|dire\s*bere|febbre\s*d'abruzzo/.test(n))return'rossi';if(/trebbiano|pecorino|passerina|chardonnay|maiolica|orange|blondie|pane\s*al\s*pane/.test(n))return'bianchi';return'bevande';}
-function exportWineListPDF(){const lg=document.getElementById('alicettaLogoSvg').innerHTML.replace('TABLEZ 1.9','TRATTORIA'),dr=state.menu.filter(m=>m.cat==='2 Bevande'),sec=buildSectionHTML('🥂 BOLLICINE & METODO CLASSICO',dr.filter(d=>classifyWineItem(d.name)==='bollicine'))+buildSectionHTML('🍷 VINI BIANCHI & ORANGE',dr.filter(d=>classifyWineItem(d.name)==='bianchi'))+buildSectionHTML('🌸 CERASUOLI & ROSATI',dr.filter(d=>classifyWineItem(d.name)==='cerasuoli'))+buildSectionHTML('🍇 VINI ROSSI & MONTEPULCIANO',dr.filter(d=>classifyWineItem(d.name)==='rossi'))+buildSectionHTML('🍷 CALICI AL VETRO',dr.filter(d=>classifyWineItem(d.name)==='calici'))+buildSectionHTML('🍺 BIRRE, BEVANDE & LIQUORI',dr.filter(d=>classifyWineItem(d.name)==='bevande'));const w=window.open('','_blank');w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Carta dei Vini</title></head><body style="padding:20px;"><div style="font-family:sans-serif;max-width:560px;margin:0 auto;border:4px solid #FF5733;border-radius:18px;background:#fff;padding:22px;"><div style="text-align:center;background:#1BE7FF;padding:16px;border-radius:12px;margin-bottom:12px;border:2px solid #FF5733;"><div style="max-width:210px;margin:0 auto;">${lg}</div><h3 style="color:#FF5733;margin-top:8px;">🍷 CARTA DEI VINI 🍷</h3></div>${sec}</div><scr`+`ipt>setTimeout(()=>window.print(),400);</scr`+`ipt></body></html>`);w.document.close();}
+function exportWineListPDF(){const lg=document.getElementById('alicettaLogoSvg').innerHTML.replace('TABLEZ 2.0','TRATTORIA'),dr=state.menu.filter(m=>m.cat==='2 Bevande'),sec=buildSectionHTML('🥂 BOLLICINE & METODO CLASSICO',dr.filter(d=>classifyWineItem(d.name)==='bollicine'))+buildSectionHTML('🍷 VINI BIANCHI & ORANGE',dr.filter(d=>classifyWineItem(d.name)==='bianchi'))+buildSectionHTML('🌸 CERASUOLI & ROSATI',dr.filter(d=>classifyWineItem(d.name)==='cerasuoli'))+buildSectionHTML('🍇 VINI ROSSI & MONTEPULCIANO',dr.filter(d=>classifyWineItem(d.name)==='rossi'))+buildSectionHTML('🍷 CALICI AL VETRO',dr.filter(d=>classifyWineItem(d.name)==='calici'))+buildSectionHTML('🍺 BIRRE, BEVANDE & LIQUORI',dr.filter(d=>classifyWineItem(d.name)==='bevande'));const w=window.open('','_blank');w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Carta dei Vini</title></head><body style="padding:20px;"><div style="font-family:sans-serif;max-width:560px;margin:0 auto;border:4px solid #FF5733;border-radius:18px;background:#fff;padding:22px;"><div style="text-align:center;background:#1BE7FF;padding:16px;border-radius:12px;margin-bottom:12px;border:2px solid #FF5733;"><div style="max-width:210px;margin:0 auto;">${lg}</div><h3 style="color:#FF5733;margin-top:8px;">🍷 CARTA DEI VINI 🍷</h3></div>${sec}</div><scr`+`ipt>setTimeout(()=>window.print(),400);</scr`+`ipt></body></html>`);w.document.close();}
 function generatePerpetualQRCode(){if(state.qrUrl&&!confirm('Rigenerare il QR condiviso con i camerieri?'))return;const c=document.getElementById('qrcodeContainer');c.innerHTML='';const u=window.location.origin+window.location.pathname.replace('index.html','')+'menu.html';new QRCode(c,{text:u,width:150,height:150,colorDark:"#062329",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H});state.qrUrl=u;saveState(false,{});alert("✅ QR Code generato e condiviso con i camerieri!");}
 function selectReportPeriod(p){state.reportPeriod=p;document.getElementById('repTabDaily').classList.toggle('active',p==='daily');document.getElementById('repTabMonthly').classList.toggle('active',p==='monthly');document.getElementById('repTabYearly').classList.toggle('active',p==='yearly');updateDailyStats();}
 function getFilteredHistory(){const log=state.historyLog||[],td=buildDateISO();if(state.reportPeriod==='daily')return log.filter(e=>!e.closedEvening);if(state.reportPeriod==='monthly')return log.filter(e=>(e.date||td).slice(0,7)===td.slice(0,7));return log.filter(e=>(e.date||td).slice(0,4)===td.slice(0,4));}
@@ -1565,6 +1591,49 @@ function contiRange(){const n=svcBase(),P=state.contiPer;
   const d=state.contiDay||isoD(n);return[d,d];}
 function ccOpen(k){const[d,s]=k.split('|');state.contiPer='giorno';state.contiDay=d;state.ccSvc=s;renderConti();setTimeout(()=>{const el=document.getElementById('cashClose');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},50);}
 function ccDelete(k){if(!/^christian$/i.test((state.waiterName||'').trim()))return alert('Solo Christian può cancellare una chiusura.');if(!confirm('Cancellare questa chiusura dal registro?'))return;delete ccClosures()[k];saveState(false,{staff:true});renderConti();}
+</script>
+<script>
+/* ===== v2.0 · Sommelier di sala e promemoria ntfy ===== */
+function v2Overlay(id){let ov=document.getElementById(id);if(!ov){ov=document.createElement('div');ov.id=id;ov.className='modal-overlay';ov.onclick=e=>{if(e.target===ov)ov.classList.remove('active');};document.body.appendChild(ov);}ov.classList.add('active');return ov;}
+function isWineItem(m){if(m.cat!=='2 Bevande')return false;if(classifyWineItem(m.name)!=='bevande')return true;return /vino|doc\b|docg|igt|bottiglia/i.test(m.name)&&!/acqua|birra|caff/i.test(m.name);}
+function wineFallback(dishes,wines){
+  const sc={bollicine:0,bianchi:1,cerasuoli:0,rossi:0},tx=dishes.map(d=>d.name.toLowerCase()).join(' ');
+  if(/crud|tartar|carpacc|ostric|fritt|frittur|gamber/.test(tx))sc.bollicine+=3;if(/brodett|zupp|sugo|rag[uù]|pomodor|guazzett/.test(tx))sc.cerasuoli+=3;if(/arrostic|agnell|manzo|maial|carne|salsicc|tagliat|pecora|braciol/.test(tx))sc.rossi+=4;if(/grigli|spigol|orata|branzin|baccal|vongol|cozz|scamp|risott|sgombr/.test(tx))sc.bianchi+=2;
+  const ty=Object.keys(sc).sort((a,b)=>sc[b]-sc[a])[0],of=x=>wines.filter(w=>classifyWineItem(w.name)===x).sort((a,b)=>a.price-b.price);
+  const bl=of(ty),bottle=bl[Math.floor(bl.length/2)]||wines.filter(w=>!/calice/i.test(w.name))[0];
+  const cal=of('calici').find(w=>({bollicine:/bianco|bollic/i,bianchi:/bianco/i,cerasuoli:/cerasuolo/i,rossi:/rosso/i})[ty].test(w.name));
+  const why={bollicine:'le bollicine puliscono la bocca tra crudo e fritto',bianchi:'un bianco fresco esalta il pesce',cerasuoli:'il cerasuolo regge bene sughi e brodetti',rossi:'ci vuole un rosso per piatti così strutturati'}[ty];
+  return [bottle&&{w:bottle,frase:`Con questi piatti vi consiglio ${bottle.name}: ${why}.`,motivo:'Regola della casa (senza AI)'},cal&&{w:cal,frase:`Se preferite al calice, ${cal.name} è perfetto.`,motivo:'Alternativa al calice'}].filter(Boolean);
+}
+async function suggestWine(){
+  const t=state.tables[state.activeTableId];if(!t)return;
+  const dishes=(t.items||[]).filter(i=>i.cat!=='1 Coperto'&&i.cat!=='2 Bevande');
+  if(!dishes.length)return alert('Inserisci prima i piatti: poi ti suggerisco il vino giusto.');
+  const wines=state.menu.filter(m=>isWineItem(m)&&!m.soldOut&&stockLeft(m)!==0);
+  if(!wines.length)return alert('Non trovo vini disponibili nel menù.');
+  const ov=v2Overlay('wineModal');ov.innerHTML='<div class="receipt-box" style="text-align:center;"><h3 style="color:var(--logo-coral);">🍷 Il sommelier ci pensa…</h3></div>';
+  const cop=(t.items||[]).filter(i=>i.cat==='1 Coperto').reduce((a,b)=>a+b.qty,0);let res=null;
+  if(navigator.onLine&&getGeminiKey())try{
+    const pr=`Sei il sommelier di Alicetta, trattoria di pesce in Abruzzo. Al tavolo (${cop||'?'} persone) hanno ordinato: ${dishes.map(d=>d.qty+'x '+d.name).join(', ')}.
+Scegli SOLO dalla carta seguente, copiando il nome esatto: ${wines.map(w=>w.name+' ('+formatPrice(w.price)+' €)').join('; ')}.
+Rispondi solo in JSON: {"proposte":[{"nome":"...","frase":"frase simpatica e concreta che il cameriere dice al tavolo, massimo 20 parole","motivo":"perché si abbina, massimo 8 parole"}]}. Dai 2 proposte: una bottiglia adatta al numero di persone e, se c'è, un'alternativa al calice.`;
+    const j=JSON.parse((await callGemini([{text:pr}],true)).replace(/```json|```/g,'').trim()),low=x=>String(x||'').toLowerCase().trim();
+    res=(j.proposte||[]).map(p=>({w:wines.find(w=>low(w.name)===low(p.nome))||wines.find(w=>low(w.name).includes(low(p.nome).slice(0,14))),frase:p.frase,motivo:p.motivo})).filter(x=>x.w);
+  }catch(e){res=null;}
+  if(!res||!res.length)res=wineFallback(dishes,wines);window._wineRes=res;
+  ov.innerHTML=`<div class="receipt-box"><h3 style="color:var(--logo-coral);margin-bottom:8px;">🍷 Proposta per ${escH(t.name)}</h3>${res.map((r,i)=>`<div style="border:1px solid #E5E7EB;border-radius:12px;padding:10px;margin-bottom:8px;box-shadow:var(--sh-1);"><div style="font-weight:900;color:#062329;">${escH(r.w.name)} · <span style="color:var(--logo-coral);">${formatPrice(r.w.price)} €</span></div><div style="font-size:.88rem;margin:6px 0;font-style:italic;color:#1F2937;">“${escH(r.frase)}”</div><div style="font-size:.72rem;color:#4B5563;margin-bottom:8px;">${escH(r.motivo||'')}</div><button class="btn-main btn-print" style="width:100%;" onclick="addWineFromSuggest(${i})">➕ Aggiungi al tavolo</button></div>`).join('')}<div class="modal-actions"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('wineModal').classList.remove('active')">Chiudi</button></div></div>`;
+}
+function addWineFromSuggest(i){const r=(window._wineRes||[])[i];if(!r)return;const pm=state.currentMandata,pv=state.alVolo;state.alVolo=false;state.currentMandata=0;addItemToTable(r.w);state.currentMandata=pm;state.alVolo=pv;document.getElementById('wineModal').classList.remove('active');}
+const ntfyTopic=x=>(localStorage.getItem('alicetta_ntfy')||'').trim()+'-'+String(x).toLowerCase().replace(/[^a-z0-9]/g,'');
+function checkNtfyNag(){
+  const el=document.getElementById('ntfyNag');if(!el)return;const wn=(state.waiterName||'').trim(),code=(localStorage.getItem('alicetta_ntfy')||'').trim();
+  if(!wn||/^timbrature$/i.test(wn)||localStorage.getItem('alicetta_ntfy_ok')===wn.toLowerCase()){el.style.display='none';return;}
+  el.style.display='block';
+  el.innerHTML=code?`<div style="font-weight:900;margin-bottom:4px;">🔔 Promemoria: campanello a schermo spento</div><div>1. Installa l'app <b>ntfy</b>: <a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a> · <a href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a><br>2. Tocca “+” e iscriviti a <b>${escH(ntfyTopic(wn))}</b> e a <b>${escH(ntfyTopic('tutti'))}</b><br>3. Premi Prova, spegni lo schermo e aspetta 20 secondi</div><div style="display:flex;gap:6px;margin-top:8px;"><button class="btn-note" style="flex:1;" onclick="ntfyTest()">🔔 Prova</button><button class="btn-note" style="flex:1;" onclick="ntfyDone()">✅ Fatto</button></div>`
+  :`<div style="font-weight:900;margin-bottom:4px;">🔔 Promemoria: campanello a schermo spento</div><div>Manca il codice notifiche: Christian lo imposta in ⚙️ Impostazioni (🔔 Codice notifiche push). Poi qui compariranno le istruzioni per installare ntfy.</div><div style="margin-top:8px;"><button class="btn-note" onclick="ntfyDone()">Nascondi su questo dispositivo</button></div>`;
+}
+async function ntfyTest(){const wn=state.waiterName||'';if(!(localStorage.getItem('alicetta_ntfy')||'').trim())return alert('Manca il codice notifiche.');try{await fetch('https://ntfy.sh',{method:'POST',body:JSON.stringify({topic:ntfyTopic(wn),title:'🔔 Prova campanello',message:'Se la senti a schermo spento, è tutto pronto ✅',priority:5,tags:['bell'],delay:'20s'})});alert('Prova inviata ✅ Spegni lo schermo: arriva tra 20 secondi.');}catch(e){alert('Serve internet per la prova.');}}
+function ntfyDone(){localStorage.setItem('alicetta_ntfy_ok',(state.waiterName||'').trim().toLowerCase());checkNtfyNag();}
 </script>
 <script>initApp();</script>
 </body>
