@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.0.19</title>
+<title>Alicetta TableZ 2.0 - v2.0.20</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -227,6 +227,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 .topbar .btn-top .nv-t{display:block;margin-top:2px;font-size:.52rem;font-weight:900;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .topbar .btn-top.active{background:var(--na,#062329)!important;color:#fff!important;border-color:#062329!important;transform:translateY(1px)}
 #navFull{--nc:#E2E8F0;--na:#475569}#navTables{--nc:#A5F3FC;--na:#0891B2}#navKds{--nc:#FED7AA;--na:#EA580C}#navQr{--nc:#DDD6FE;--na:#7C3AED}#navRes{--nc:#BBF7D0;--na:#16A34A}#navTime{--nc:#FEF08A;--na:#CA8A04}#navDishes{--nc:#99F6E4;--na:#0D9488}#navSales{--nc:#D9F99D;--na:#4D7C0F}#navMenu{--nc:#E5E7EB;--na:#374151}
+.draft-badge{margin-top:6px;background:#FDE68A;color:#78350F;font-weight:900;font-size:.72rem;border-radius:8px;padding:3px 6px;border:1px solid #F59E0B}
 </style>
 </head>
 <body onclick="unlockAudioOnce()">
@@ -235,7 +236,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.0.19</div>
+    <div class="version-badge">v2.0.20</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -344,7 +345,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.19)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.20)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -372,7 +373,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.19)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.20)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -416,7 +417,8 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
       <div id="ocrStatus" style="font-size:0.8rem;font-weight:800;color:var(--logo-coral);display:none;"></div>
       <textarea id="ocrResultBox" class="form-control" rows="6" style="font-size:0.78rem;line-height:1.35;" placeholder="Piatti della lavagnetta..."></textarea>
       <button class="btn-main" style="background:#8B5CF6;color:#FFF;width:100%;border:none;padding:12px;border-radius:8px;font-weight:900;" onclick="elaboraLavagnettaZeroClick()">✨ Lavagnetta Zero-Click (Sostituisci Menù con AI)</button>
-      <button class="btn-note" style="width:100%;padding:10px;" onclick="enrichMenuAI()">🌍 Allergeni e traduzioni AI su tutto il menù</button>
+      <button class="btn-main btn-bill" style="width:100%;padding:12px;" onclick="completeTranslations()">🌍 Completa le traduzioni mancanti (sicuro: non cancella niente)</button>
+      <button class="btn-note" style="width:100%;padding:10px;" onclick="enrichMenuAI()">🌍 Rigenera allergeni e traduzioni di tutto il menù</button>
       <div style="font-size:0.76rem;font-weight:800;color:#062329;margin-top:6px;">🍽️ ESPORTA DOCUMENTI & ALLERGENI:</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
         <button class="btn-note" style="padding:9px;" onclick="exportDailyMenuPDF()">📑 PDF Menù del Giorno</button>
@@ -634,10 +636,8 @@ async function pullFromCloud(initial){
     if(data.tableCounts)state.tableCounts=data.tableCounts;
     if(data.tables){
       const rt=normalizeTablesStructure(data.tables,state.tableCounts),id=state.activeTableId,la=id&&state.tables[id],r=id&&rt[id];
+      Object.keys(state.tables||{}).forEach(k=>{const lt=state.tables[k],rr=rt[k];if(!lt||!rr)return;const ul=(lt.items||[]).filter(i=>!isItemSent(lt,i));if(!ul.length)return;rr.items=rr.items.filter(i=>isItemSent(rr,i)).concat(ul);if(!rr.openedAt)rr.openedAt=lt.openedAt||Date.now();});
       if(la&&r&&document.getElementById('viewOrder').classList.contains('active')){
-        const ul=(la.items||[]).filter(i=>!isItemSent(la,i));
-        if(ul.length)r.items=r.items.filter(i=>isItemSent(r,i)).concat(ul);
-        if(!r.openedAt&&r.items.length)r.openedAt=la.openedAt||Date.now();
         if(state.metaDirty&&la.room==='asporto'){r.pickupTime=la.pickupTime;r.customerName=la.customerName;}
       }
       Object.keys((state.pending||{}).tables||{}).forEach(id=>{if(state.tables[id])rt[id]=state.tables[id];});state.tables=rt;
@@ -694,7 +694,7 @@ function renderTables(){renderResBoard('resBoardTables');updateOpenBadges();upda
     const pk=(t.room==='asporto'&&t.pickupTime)?`<div class="pickup-badge">🕒 ${t.pickupTime}</div>`:'';
     const tm=(busy&&t.openedAt)?`<div><span class="table-timer" id="timer_${t.id}">⏱️ ${formatElapsed(now-t.openedAt)}</span></div>`:'';
     const card=document.createElement('div');card.className=`table-card ${busy?'busy':'free'} ${del?'delayed':''} ${marciaBadge(t)?'marcia':''} ${allServed(t)?'conto':''}`;card.onclick=()=>openTable(t.id);
-    card.innerHTML=`${del?BOMB_SVG:''}<div class="table-name">${t.name}</div>${pk}<div><span class="table-status ${busy?'status-busy':'status-free'}">${busy?'Occupato':'Libero'}</span></div>${tm}${kitchenChip(t)}${m4Chip(t)}${busy?`<div class="table-total">€ ${formatPrice(tot)}</div>`:`<div style="font-size:0.7rem;opacity:0.8;margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dots}</div>${contoBadge(t)}${amaroBadge(t)}${t.invoice?'<div class="inv-badge">🧾 Fattura</div>':''}${marciaBadge(t)}${paceBadge(t)}${resBadge(t)}`;
+    card.innerHTML=`${del?BOMB_SVG:''}<div class="table-name">${t.name}</div>${pk}<div><span class="table-status ${busy?'status-busy':'status-free'}">${busy?'Occupato':'Libero'}</span></div>${tm}${kitchenChip(t)}${m4Chip(t)}${busy?`<div class="table-total">€ ${formatPrice(tot)}</div>`:`<div style="font-size:0.7rem;opacity:0.8;margin-top:6px;">Tocca per aprire</div>`}<div class="course-dots">${dots}</div>${draftBadge(t)}${contoBadge(t)}${amaroBadge(t)}${t.invoice?'<div class="inv-badge">🧾 Fattura</div>':''}${marciaBadge(t)}${paceBadge(t)}${resBadge(t)}`;
     c.appendChild(card);
   });
 }
@@ -942,9 +942,9 @@ async function enrichMenuAI(){if(!confirm('Rigenerare allergeni e traduzioni con
   if(!getGeminiKey())return alert("Serve la Gemini API Key.");
   const items=state.menu.filter(m=>m.cat!=='1 Coperto');
   try{
-    for(let i=0;i<items.length;i+=20){
-      st.textContent=`⏳ Allergeni e traduzioni: ${Math.min(i+20,items.length)}/${items.length}...`;
-      const out=await callGemini([{text:`Menù di una trattoria di pesce abruzzese. Per ogni voce restituisci SOLO un array JSON di oggetti {"id":id,"allergens":[codici tra ${ALG_CODES}],"tr":{"en":nome,"fr":nome,"de":nome,"es":nome,"pl":nome in polacco,"zh":nome in cinese semplificato,"ru":nome in russo,"sq":nome in albanese,"ro":nome in rumeno,"hr":nome in croato,"sl":nome in sloveno}}. Gli allergeni vanno dedotti da ingredienti e preparazioni tipiche. Per vini, birre e marchi lascia il nome invariato. Voci (id|categoria|nome):\n${items.slice(i,i+20).map(m=>m.id+'|'+m.cat+'|'+m.name).join('\n')}`}],true);
+    for(let i=0;i<items.length;i+=6){
+      st.textContent=`⏳ Allergeni e traduzioni: ${Math.min(i+6,items.length)}/${items.length}...`;
+      const out=await callGemini([{text:`Menù di una trattoria di pesce abruzzese. Per ogni voce restituisci SOLO un array JSON di oggetti {"id":id,"allergens":[codici tra ${ALG_CODES}],"tr":{"en":nome,"fr":nome,"de":nome,"es":nome,"pl":nome in polacco,"zh":nome in cinese semplificato,"ru":nome in russo,"sq":nome in albanese,"ro":nome in rumeno,"hr":nome in croato,"sl":nome in sloveno}}. Gli allergeni vanno dedotti da ingredienti e preparazioni tipiche. Per vini, birre e marchi lascia il nome invariato. Voci (id|categoria|nome):\n${items.slice(i,i+6).map(m=>m.id+'|'+m.cat+'|'+m.name).join('\n')}`}],true);
       JSON.parse(out.slice(out.indexOf('['),out.lastIndexOf(']')+1)).forEach(x=>{const m=state.menu.find(k=>k.id===Number(x.id));if(m){m.allergens=cleanAlg(x.allergens);m.tr=cleanTr(x.tr);}});
     }
     await saveState(false,{menu:true});renderMenuMgr();st.textContent=`✅ Allergeni e traduzioni aggiornati su ${items.length} voci.`;
@@ -1894,7 +1894,7 @@ function invCopyField(ts,k){const e=(state.historyLog||[]).find(x=>x.ts===ts);if
 function invCopyChips(e){return `<details style="margin-top:6px;"><summary style="font-size:.78rem;font-weight:800;cursor:pointer;">📋 Copia campo per campo (per SumUp Fatture)</summary><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;">${INV_COPY.filter(([k])=>e.invoice[k]).map(([k,l])=>`<button class="btn-note" style="padding:4px 9px;font-size:.74rem;" onclick="invCopyField(${e.ts},'${k}')">${l}</button>`).join('')}<button class="btn-note" style="padding:4px 9px;font-size:.74rem;" onclick="invCopyField(${e.ts},'items')">Articoli</button><button class="btn-note" style="padding:4px 9px;font-size:.74rem;" onclick="invCopyField(${e.ts},'tot')">Totale</button></div></details>`;}
 </script>
 <script>
-/* ===== v2.0.19 · Tag NFC: tavolo (menù + conto/fidelity) e Club ===== */
+/* ===== v2.0.18 · Tag NFC: tavolo (menù + conto/fidelity) e Club ===== */
 const nfcBase=()=>location.origin+location.pathname.replace(/[^/]*$/,'');
 function openNfc(){
   let ov=document.getElementById('nfcModal');if(!ov){ov=document.createElement('div');ov.id='nfcModal';ov.className='modal-overlay';ov.onclick=e=>{if(e.target===ov)ov.classList.remove('active');};document.body.appendChild(ov);}
@@ -1914,6 +1914,46 @@ function nfcPreview(){const w=document.getElementById('nfcWhat').value,u=nfcUrlF
 async function nfcWrite(){const st=document.getElementById('nfcSt'),u=nfcUrlFor(document.getElementById('nfcWhat').value);
   try{st.style.color='#1D4ED8';st.textContent='📡 Avvicina il tag NFC al retro del telefono…';const r=new NDEFReader();await r.write({records:[{recordType:'url',data:u}]});st.style.color='#166534';st.textContent='✅ Tag scritto! Provalo con un altro telefono.';if(navigator.vibrate)try{navigator.vibrate(200);}catch(e){}}
   catch(e){st.style.color='#B91C1C';st.textContent='❌ '+(e.name==='NotAllowedError'?'Permesso NFC negato: consentilo a Chrome e riprova.':e.name==='NotSupportedError'?'NFC non disponibile o spento: attivalo nelle impostazioni.':'Scrittura non riuscita: '+e.message);}}
+</script>
+<script>
+/* ===== v2.0.20 · bozze tavolo sempre salvate, traduzioni mancanti, campanello semplice ===== */
+function draftBadge(t){return (t.items||[]).some(i=>!isItemSent(t,i))?'<div class="draft-badge">📝 DA INVIARE</div>':'';}
+window.addEventListener('pagehide',()=>{try{saveLocalOnly();}catch(e){}});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){try{saveLocalOnly();}catch(e){}}});
+
+/* --- traduzioni: completa solo le lingue mancanti, senza toccare quelle già presenti --- */
+const TR_LANGS=['en','fr','de','es','pl','zh','ru','sq','ro','hr','sl'];
+let trBusy=false;
+function missingTrItems(){return (state.menu||[]).filter(m=>m.cat!=='1 Coperto'&&TR_LANGS.some(l=>!(m.tr&&m.tr[l])));}
+function trToast(t,b){const el=document.getElementById('orderToast');if(!el)return;document.getElementById('toastTitle').textContent=t;document.getElementById('toastBody').textContent=b;el.classList.remove('sticky');el.classList.add('active');clearTimeout(window._trT);window._trT=setTimeout(()=>el.classList.remove('active'),3500);}
+async function completeTranslations(silent){
+  if(trBusy)return;const st=document.getElementById('ocrStatus');
+  if(!getGeminiKey()||!navigator.onLine){if(!silent)alert('Serve la Gemini API Key e internet.');return;}
+  const items=missingTrItems();if(!items.length){if(!silent){if(st){st.style.display='block';st.textContent='✅ Tutte le traduzioni sono già complete.';}}return;}
+  trBusy=true;localStorage.setItem('alicetta_tr_try',String(Date.now()));if(silent)trToast('🌍 TRADUZIONI','Completo le lingue mancanti di '+items.length+' piatti…');
+  let done=0,fail=0;
+  try{
+    for(let i=0;i<items.length;i+=5){
+      if(st&&!silent){st.style.display='block';st.textContent=`⏳ Traduzioni mancanti: ${Math.min(i+5,items.length)}/${items.length}...`;}
+      try{
+        const out=await callGemini([{text:`Menù di una trattoria di pesce abruzzese. Per ogni voce restituisci SOLO un array JSON di oggetti {"id":id,"tr":{"en":nome,"fr":nome,"de":nome,"es":nome,"pl":nome in polacco,"zh":nome in cinese semplificato,"ru":nome in russo,"sq":nome in albanese,"ro":nome in rumeno,"hr":nome in croato,"sl":nome in sloveno}}. Traduci in modo naturale e breve. Per vini, birre e marchi lascia il nome invariato. Voci (id|categoria|nome):\n${items.slice(i,i+5).map(m=>m.id+'|'+m.cat+'|'+m.name).join('\n')}`}],true);
+        JSON.parse(out.slice(out.indexOf('['),out.lastIndexOf(']')+1)).forEach(x=>{const m=state.menu.find(k=>k.id===Number(x.id));if(m){m.tr={...cleanTr(x.tr),...(m.tr||{})};done++;}});
+        await saveState(false,{menu:true});
+      }catch(e){fail++;if(/API key|permission|invalid|HTTP 40[013]/i.test(e.message))throw e;}
+    }
+    if(!state.menuMgrSkip)try{if(document.getElementById('viewMenuMgr').classList.contains('active'))renderMenuMgr();}catch(e){}
+    const left=missingTrItems().length;const msg=left?`⚠️ Tradotti ${done} piatti, ne restano ${left}: riprova tra un minuto.`:`✅ Traduzioni complete su ${done} piatti.`;
+    if(st&&!silent){st.style.display='block';st.textContent=msg;}else trToast('🌍 TRADUZIONI',msg);
+  }catch(e){if(st&&!silent){st.style.display='block';st.textContent='❌ '+e.message;}}
+  finally{trBusy=false;}
+}
+function autoTranslate(){if(!/^christian$/i.test((state.waiterName||'').trim()))return;if(!getGeminiKey()||!navigator.onLine||trBusy)return;if(!missingTrItems().length)return;if(Date.now()-Number(localStorage.getItem('alicetta_tr_try')||0)<30*60000)return;completeTranslations(true);}
+setTimeout(autoTranslate,9000);setInterval(autoTranslate,10*60000);
+
+/* --- campanello semplice per i camerieri (il KDS tiene il suo suono) --- */
+function playSimpleBell(){try{sndDest();const n=audioCtx.currentTime+0.03;
+  [0,0.5].forEach(o=>[[1,1.0,1.5],[2.4,0.5,0.9],[3.9,0.22,0.5]].forEach(([m,v,d])=>{const os=audioCtx.createOscillator(),g=audioCtx.createGain(),t0=n+o;os.type='sine';os.frequency.setValueAtTime(1760*m,t0);g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(v,t0+0.008);g.gain.exponentialRampToValueAtTime(0.0001,t0+d);os.connect(g);g.connect(sndDest());os.start(t0);os.stop(t0+d+0.05);}));}catch(e){}}
+{const _kb=playKitchenBell;playKitchenBell=function(){if(isKdsDev())return _kb();playSimpleBell();};}
 </script>
 <script>initApp();</script>
 </body>
