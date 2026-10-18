@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.0</title>
+<title>Alicetta TableZ 2.0 - v2.0.1</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -203,7 +203,7 @@ body{background-color:var(--bg);background-image:radial-gradient(130% 55% at 50%
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.0</div>
+    <div class="version-badge">v2.0.1</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -309,7 +309,7 @@ body{background-color:var(--bg);background-image:radial-gradient(130% 55% at 50%
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.1)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -329,7 +329,7 @@ body{background-color:var(--bg);background-image:radial-gradient(130% 55% at 50%
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.1)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -739,7 +739,7 @@ function renderKds(){syncStockSoldOut();if(document.getElementById('stockPanel')
     const card=document.createElement('div');card.className=`kds-card ${isTableDelayed(t)?'delayed':''}`;
     let h=`<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:8px;"><b>${t.name}</b><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:0.75rem;color:var(--logo-coral);">${t.room==='interna'?'❄️ Interna':t.room==='esterna'?'🕶️ Esterna':'🥡 Asporto'}</span><span id="kds_timer_${t.id}">⏱️ ${t.openedAt?formatElapsed(now-t.openedAt):'00:00'}</span></div></div>`+kitchenChip(t);
     [0,1,2,3].forEach(m=>{const mi=t.items.filter(i=>i.mandata===m&&isItemSent(t,i));if(!mi.length)return;const dn=t.doneMandate&&t.doneMandate[m],fr=(m===0||m===1||(t.firedMandate&&t.firedMandate[m])),bg=dn?`<span style="color:#10B981;">SERVITA</span>`:fr?`<span style="color:#10B981;">MARCIARE</span>`:`<span style="color:var(--logo-coral);">ATTESA</span>`;h+=`<div style="margin-bottom:8px;padding:6px;background:rgba(0,0,0,0.05);border-radius:6px;${dn?'opacity:0.4;':''}"><div style="font-size:0.75rem;display:flex;justify-content:space-between;"><b>${MANDATE_LABELS[m]}</b> ${bg}</div>${mi.map(i=>kdsItemRow(t,i,dn)).join('')}${(m>0&&fr)?`<button class="btn-kds-done" onclick="markMandataDone('${t.id}',${m})">${dn?'Riapri':'✅ FATTO'}</button>`:''}</div>`;});
-    card.innerHTML=(isTableDelayed(t)?BOMB_SVG+`<div class="kds-late">💣 ${lateInfo(t).m}ª MANDATA IN RITARDO · ${Math.floor(lateInfo(t).el/60000)} min <button class="btn-note" style="margin-left:6px;padding:3px 9px;" onclick="ackLate('${t.id}',${lateInfo(t).m})">🔕</button></div>`:'')+paceBadge(t)+h;c.appendChild(card);
+    card.innerHTML=(isTableDelayed(t)?BOMB_SVG+`<div class="kds-late">💣 ${lateInfo(t).m}ª MANDATA IN RITARDO · ${Math.floor(lateInfo(t).el/60000)} min</div>`:'')+paceBadge(t)+h;c.appendChild(card);
   });
 }
 const LANGS=['it','en','fr','de','es','pl','zh','ru'];
@@ -1476,7 +1476,7 @@ function checkLateAlarms(){
   if(!hit)return;playPoliceSiren(4);if(navigator.vibrate)try{navigator.vibrate([700,200,700,200,700]);}catch(e){}
   const el=document.getElementById('orderToast');if(toastTimer)clearTimeout(toastTimer);el.classList.add('sticky');
   document.getElementById('toastTitle').textContent=`🚨 ${hit.t.name.toUpperCase()} · ${hit.li.m}ª MANDATA IN RITARDO`;
-  document.getElementById('toastBody').innerHTML=`<div style="font-size:.95rem;margin-bottom:8px;">💣 In cucina da ${Math.floor(hit.li.el/60000)} minuti. La sirena si ripete ogni 4 minuti finché la mandata non è fatta.</div><button class="btn-note" style="font-size:1rem;padding:8px 16px;" onclick="ackLate('${hit.t.id}',${hit.li.m})">🔕 Silenzia questa mandata</button>`;
+  document.getElementById('toastBody').innerHTML=`<div style="font-size:.95rem;margin-bottom:8px;">💣 In cucina da ${Math.floor(hit.li.el/60000)} minuti. La sirena si ripete ogni 4 minuti finché la mandata non è segnata ✅ FATTO.</div><button class="btn-note" style="font-size:1rem;padding:8px 16px;" onclick="ackLate()">👀 Visto</button>`;
   el.classList.add('active');
 }
 function kdsUrg(t){const k=kitchenInfo(t);if(k)return[0,-k.el];const wait=[1,2,3,4].some(m=>(t.items||[]).some(i=>i.mandata===m&&i.name!=='Pane e Coperto'&&isItemSent(t,i))&&!(t.doneMandate&&t.doneMandate[m]));return[wait?1:2,t.openedAt||0];}
@@ -1634,6 +1634,10 @@ function checkNtfyNag(){
 }
 async function ntfyTest(){const wn=state.waiterName||'';if(!(localStorage.getItem('alicetta_ntfy')||'').trim())return alert('Manca il codice notifiche.');try{await fetch('https://ntfy.sh',{method:'POST',body:JSON.stringify({topic:ntfyTopic(wn),title:'🔔 Prova campanello',message:'Se la senti a schermo spento, è tutto pronto ✅',priority:5,tags:['bell'],delay:'20s'})});alert('Prova inviata ✅ Spegni lo schermo: arriva tra 20 secondi.');}catch(e){alert('Serve internet per la prova.');}}
 function ntfyDone(){localStorage.setItem('alicetta_ntfy_ok',(state.waiterName||'').trim().toLowerCase());checkNtfyNag();}
+</script>
+<script>
+/* KDS: gli allarmi non si possono silenziare, solo chiudere il riquadro */
+function ackLate(){const el=document.getElementById('orderToast');if(el)el.classList.remove('active','sticky');}
 </script>
 <script>initApp();</script>
 </body>
