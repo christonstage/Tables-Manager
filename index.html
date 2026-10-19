@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.1.4</title>
+<title>Alicetta TableZ 2.0 - v2.1.5</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -236,7 +236,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.1.4</div>
+    <div class="version-badge">v2.1.5</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -345,7 +345,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.1.4)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.1.5)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -373,27 +373,20 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.1.4)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.1.5)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
   </div>
   <div class="cart-section">
-    <h3 style="margin-bottom:8px;">🪑 Configurazione & Unione Tavoli</h3>
+    <h3 style="margin-bottom:8px;">🪑 Numero di tavoli</h3>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px;">
       <div><label style="font-size:0.72rem;font-weight:800;">❄️ Interna</label><input type="number" id="cfgIntCount" class="form-control" min="1" max="40" value="11"></div>
       <div><label style="font-size:0.72rem;font-weight:800;">🕶️ Esterna</label><input type="number" id="cfgEstCount" class="form-control" min="1" max="30" value="5"></div>
       <div><label style="font-size:0.72rem;font-weight:800;">🥡 Asporto</label><input type="number" id="cfgAspCount" class="form-control" min="1" max="30" value="5"></div>
     </div>
     <button class="btn-main btn-print" style="width:100%;margin-bottom:12px;" onclick="saveTableCounts()">💾 Salva Numero Tavoli</button>
-    <div style="border-top:1px dashed var(--border);padding-top:10px;">
-      <div style="font-size:0.8rem;font-weight:800;margin-bottom:6px;">🔗 Unisci due Tavoli:</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
-        <select id="mergeFromSel" class="form-control"></select>
-        <select id="mergeToSel" class="form-control"></select>
-      </div>
-      <button class="btn-main btn-bill" style="width:100%;" onclick="mergeTablesFromSettings()">🔗 Unisci Tavoli Selezionati</button>
-    </div>
+    <div style="font-size:.74rem;color:var(--muted);">🔗 L’unione dei tavoli ora si fa dalla pagina 🍽️ Tavoli (tasto “Unisci tavoli”), anche dai camerieri.</div>
   </div>
   <div class="cart-section">
     <h3 style="margin-bottom:6px;">📸 Lavagnetta Zero-Click AI, Vini & 🔲 QR Code</h3>
@@ -1942,7 +1935,7 @@ async function completeTranslations(silent){
       }catch(e){fail++;if(/API key|permission|invalid|HTTP 40[013]/i.test(e.message))throw e;}
     }
     if(!state.menuMgrSkip)try{if(document.getElementById('viewMenuMgr').classList.contains('active'))renderMenuMgr();}catch(e){}
-    const left=missingTrItems().length;const msg=left?`⚠️ Tradotti ${done} piatti, ne restano ${left}: riprova tra un minuto.`:`✅ Traduzioni complete su ${done} piatti.`;
+    const left=missingTrItems().length;const msg=left?`⚠️ Tradotti ${done} piatti, ne restano ${left}: ${(window.__trTries||0)<4?'riprovo da solo tra poco.':'riprova più tardi.'}`:`✅ Traduzioni complete su ${done} piatti.`;
     if(st&&!silent){st.style.display='block';st.textContent=msg;}else trToast('🌍 TRADUZIONI',msg);
   }catch(e){if(st&&!silent){st.style.display='block';st.textContent='❌ '+e.message;}}
   finally{trBusy=false;}
@@ -2063,7 +2056,7 @@ window.addEventListener('resize',()=>{placeDockPill();Object.keys(HUBS).forEach(
 /* ---------- 2. Pagine-hub con sotto-pagine (Vendite e AI) ---------- */
 const HUBS={
  sales:{screen:'viewSales',color:'#4D7C0F',cur:'oggi',pages:[['oggi','💶 Oggi'],['grafici','📈 Grafici'],['conti','🧾 Conti'],['forn','📦 Fornitori'],['storico','📚 Storico']]},
- ai:{screen:'viewAi',color:'#7C3AED',cur:'prev',pages:[['prev','🔮 Coperti'],['chef','🧑‍🍳 Sous-Chef'],['tempi','⏱️ Tempi'],['costi','💰 Costi'],['rank','🏆 Classifica'],['post','📣 Post'],['club','🎟️ Club'],['lav','📸 Lavagnetta']]}
+ ai:{screen:'viewAi',color:'#7C3AED',cur:'prev',pages:[['prev','🔮 Coperti'],['chef','🧑‍🍳 Sous-Chef'],['tempi','⏱️ Tempi'],['costi','💰 Costi'],['rank','🏆 Classifica'],['post','📣 Post'],['club','🎟️ Club'],['rev','⭐ Recensioni'],['lav','📸 Lavagnetta']]}
 };
 function buildHub(key,afterEl){const h=HUBS[key],sc=$(h.screen);const tabs=document.createElement('div');tabs.className='hub-tabs';tabs.id='hubTabs_'+key;tabs.innerHTML=`<div class="hub-pill" style="--hc:${h.color}"></div>`+h.pages.map(([k,l])=>`<button class="hub-tab" data-p="${k}">${l}</button>`).join('');
  tabs.querySelectorAll('.hub-tab').forEach(b=>b.onclick=()=>setHubPage(key,b.dataset.p));
@@ -2591,7 +2584,7 @@ Formato: Instagram = 4-7 righe brevi con qualche emoji e in fondo 8-12 hashtag; 
 Ogni post va scritto in italiano E in inglese (inglese naturale, non letterale; i nomi dei piatti restano in italiano con una breve spiegazione tra parentesi).${prev}
 Rispondi SOLO con JSON: {"instagram":{"it":"","en":""},"facebook":{"it":"","en":""},"google":{"it":"","en":""}}`;
  try{const parts=[{text:prompt}];if(PS.b64)parts.push({inline_data:{mime_type:'image/jpeg',data:PS.b64}});
-  const t=await callGemini(parts,true),o=JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1)),g=(a,b)=>String(((o[a]||{})[b])||'').trim();
+  const t=await callGemini(parts,true,{temperature:.9,onWait:(r,n)=>postMsg(`⏳ Gemini è molto richiesto, riprovo (${r}/${n})…`,true)}),o=JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1)),g=(a,b)=>String(((o[a]||{})[b])||'').trim();
   PS.out={};['instagram','facebook','google'].forEach(p=>PS.out[p]={it:g(p,'it'),en:g(p,'en')});
   ['instagram','facebook','google'].forEach(p=>{const l=(PS.out[p].it||'').split('\n')[0].slice(0,50);if(l)PS.prev.push(l);});PS.prev=PS.prev.slice(-9);
   postMsg('✅ Pronti! Controlla il testo e poi copialo o condividilo.');renderPostOut();setTimeout(()=>{const x=$('postOut');if(x)x.scrollIntoView({behavior:'smooth',block:'start'});},80);}
@@ -2662,7 +2655,7 @@ window.v214Tpl=v=>{CS.tpl[CS.tab]=v;saveTpl();renderClubList();};
 window.v214TplReset=()=>{CS.tpl[CS.tab]=TPL0[CS.tab];saveTpl();renderClub();};
 window.v214TplAi=async function(){if(CS.aiBusy)return;if(!getGeminiKey())return toast('🔑 Serve la chiave Gemini in Opzioni');const tab=CS.tab;if(tab==='ev'&&!evReady())return toast('Scrivi titolo e data della serata');CS.aiBusy=true;renderClub();
  const what=tab==='bday'?'auguri di compleanno con un calice di benvenuto in regalo, da ritirare entro 30 giorni':tab==='lost'?'un invito caloroso a tornare a trovarci perché non ci vediamo da tempo, senza dire il numero esatto di giorni':`un invito a questa serata: "${CS.ev.title.trim()}", ${evWhen()}${CS.ev.desc.trim()?'. Dettagli: '+CS.ev.desc.trim():''}`;
- try{const t=await callGemini([{text:`Scrivi un messaggio WhatsApp per un cliente di Alicetta Trattoria, trattoria di pesce a Fossacesia. Contenuto: ${what}. Italiano, tono caldo e familiare, massimo 55 parole, qualche emoji. Inizia con "Ciao {nome}!" (lascia esattamente il segnaposto {nome}). Non inventare sconti, prezzi o promozioni che non sono indicati. Chiudi esattamente con queste due righe:\n— Alicetta Trattoria, Fossacesia\nNon vuoi più messaggi? Rispondi STOP.\nRispondi SOLO con il testo del messaggio.`}]);const x=t.replace(/^```\w*\n?|```$/g,'').trim();if(x.includes('{nome}')){CS.tpl[tab]=x;saveTpl();}else toast('Gemini non ha messo {nome}: riprova');}catch(e){toast('AI non disponibile: '+e.message.slice(0,50));}
+ try{const t=await callGemini([{text:`Scrivi un messaggio WhatsApp per un cliente di Alicetta Trattoria, trattoria di pesce a Fossacesia. Contenuto: ${what}. Italiano, tono caldo e familiare, massimo 55 parole, qualche emoji. Inizia con "Ciao {nome}!" (lascia esattamente il segnaposto {nome}). Non inventare sconti, prezzi o promozioni che non sono indicati. Chiudi esattamente con queste due righe:\n— Alicetta Trattoria, Fossacesia\nNon vuoi più messaggi? Rispondi STOP.\nRispondi SOLO con il testo del messaggio.`}],false,{temperature:.9});const x=t.replace(/^```\w*\n?|```$/g,'').trim();if(x.includes('{nome}')){CS.tpl[tab]=x;saveTpl();}else toast('Gemini non ha messo {nome}: riprova');}catch(e){toast('AI non disponibile: '+e.message.slice(0,50));}
  CS.aiBusy=false;renderClub();};
 async function markSent(id,field,val){const c=(CS.cards||[]).find(x=>x.id===id);if(!c)return;c.camp=c.camp||{};if(val==null)delete c.camp[field];else c.camp[field]=val;try{await (val==null?fbSend('/fidelity/cards/'+id+'/camp/'+field,'DELETE'):fbSend('/fidelity/cards/'+id+'/camp/'+field,'PUT',val));CS.err='';}catch(e){toast('Non riesco a segnarlo su Firebase');}renderClubList();}
 window.v214Send=(id,kind,field)=>{const r=recips(kind).find(x=>x.c.id===id&&x.field===field);if(!r||!r.c.mkt)return toast('Questo cliente non ha dato il consenso');const t=msgFor(kind,r.c,r);window.open('https://wa.me/'+fidWa(r.c.phone)+'?text='+encodeURIComponent(t),'_blank');markSent(id,field,r.val);};
@@ -2671,6 +2664,173 @@ window.v214Undo=(id,kind,field)=>markSent(id,field,null);
 /* ================= collegamenti ================= */
 const _s=window.v211Show;
 window.v211Show=function(k,p){if(k==='ai'&&p==='post'){renderPost();return;}if(k==='ai'&&p==='club'){showClub();return;}const r=_s&&_s.apply(this,arguments);if(k==='ai'&&p==='tempi')appendPaceCard();return r;};
+})();
+</script>
+<!-- ===== v2.1.5: Gemini più paziente · unione tavoli nei Tavoli · carico cucina · risposte alle recensioni ===== -->
+<style>
+.tools-row{display:flex;gap:8px;align-items:stretch;padding:0 14px;margin:2px 0 8px}
+.tools-row .kl{flex:1;min-width:0}
+.btn-merge{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border:2px solid #062329;border-radius:14px;padding:6px 12px;font-weight:900;font-size:.72rem;color:#062329;cursor:pointer;background:linear-gradient(180deg,#FFD9A8,#FFB561);box-shadow:0 4px 0 #062329,inset 0 1px 0 rgba(255,255,255,.7);transition:transform .12s,box-shadow .12s}
+.btn-merge span{font-size:1.25rem;line-height:1}
+.btn-merge:active{transform:translateY(3px);box-shadow:0 1px 0 #062329}
+.kl{border-radius:14px;padding:7px 10px;color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.35);transition:background .5s}
+.kl0{background:linear-gradient(135deg,#22C55E,#15803D)}.kl1{background:linear-gradient(135deg,#38BDF8,#0369A1)}.kl2{background:linear-gradient(135deg,#FBBF24,#D97706)}.kl3{background:linear-gradient(135deg,#F87171,#B91C1C);animation:klPulse 1.8s ease-in-out infinite}
+.kl-top{display:flex;justify-content:space-between;gap:6px;align-items:baseline;flex-wrap:wrap}
+.kl-top b{font-size:.84rem}.kl-top span{font-size:.68rem;font-weight:800;opacity:.92}
+.kl-bar{height:8px;border-radius:8px;background:rgba(0,0,0,.25);margin-top:5px;overflow:hidden}
+.kl-bar span{display:block;height:100%;border-radius:8px;background:#fff;opacity:.92;transition:width .8s cubic-bezier(.2,.9,.25,1)}
+.kl-msg{margin-top:5px;font-size:.74rem;font-weight:900}
+.kfull-note{margin-top:6px;font-size:.72rem;font-weight:900;background:#DC2626;color:#fff;border-radius:6px;padding:3px 6px}
+#kLoadK{padding:0 14px;margin:0 0 8px}
+@keyframes klPulse{50%{filter:brightness(1.18)}}
+.mg-sel{width:100%;box-sizing:border-box;border-radius:10px;border:2px solid #E5E7EB;padding:11px;font-size:.95rem;font-weight:800;background:#fff;color:#062329;margin:4px 0 10px}
+.rv-card{border:2px solid #E9D5FF;border-radius:16px;padding:10px;margin-bottom:10px;background:#fff;box-shadow:0 4px 0 #E9D5FF;opacity:0;transform:translateY(10px);animation:rvIn .4s cubic-bezier(.2,.9,.3,1) forwards}
+.rv-card:nth-child(2){animation-delay:.08s}.rv-card:nth-child(3){animation-delay:.16s}
+@keyframes rvIn{to{opacity:1;transform:none}}
+.rv-card h4{margin:0 0 6px;font-size:.82rem;color:#7C3AED}
+.star-row{display:flex;gap:4px;margin:4px 0 10px}
+.star-row button{flex:1;border:2px solid rgba(6,35,41,.15);background:#fff;border-radius:12px;padding:8px 0;font-size:1rem;font-weight:900;color:#B45309;transition:transform .12s,background .2s}
+.star-row button.on{background:#FEF3C7;border-color:#F59E0B;transform:scale(1.05)}
+@media (prefers-reduced-motion:reduce){.kl3{animation:none}.rv-card{animation:none;opacity:1;transform:none}}
+</style>
+<div class="modal-overlay" id="mergeModal"><div class="receipt-box" id="mergeBox"></div></div>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>escH(s);
+const DISH=c=>c&&c!=='1 Coperto'&&c!=='2 Bevande';
+const catOK=i=>DISH(i.cat)&&!/coperto/i.test(i.name||'');
+let tt=0;function toast(m){let e=$('miniToast');if(!e){e=document.createElement('div');e.id='miniToast';e.className='mini-toast';document.body.appendChild(e);}e.textContent=m;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),1800);}
+async function copyTxt(t){try{await navigator.clipboard.writeText(t);return true;}catch(e){const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();let ok=false;try{ok=document.execCommand('copy');}catch(x){}a.remove();return ok;}}
+
+/* ================= 1. Gemini più paziente quando è sovraccarico ================= */
+['gemini-2.5-flash','gemini-2.5-flash-lite'].forEach(m=>{if(!GEMINI_MODELS.includes(m))GEMINI_MODELS.push(m);});
+callGemini=async function(parts,json,opts){opts=opts||{};const k=getGeminiKey();if(!k)throw new Error('API Key mancante');if(!navigator.onLine)throw new Error('Sei offline: serve internet.');
+ const body=JSON.stringify({contents:[{parts}],generationConfig:{temperature:opts.temperature!=null?opts.temperature:0.1,...(json?{responseMimeType:'application/json'}:{})}});
+ const sc=window.__gws||1,wait=ms=>new Promise(r=>setTimeout(r,ms*sc)),dead=new Set(),ROUNDS=4,WAITS=[3000,7000,14000];let err=new Error('nessun modello disponibile'),busy=false;
+ for(let round=0;round<ROUNDS;round++){
+  if(round>0){try{opts.onWait&&opts.onWait(round,ROUNDS-1);}catch(e){}await wait(WAITS[round-1]||14000);}
+  let alive=false;
+  for(const mdl of GEMINI_MODELS){if(dead.has(mdl))continue;alive=true;let fatal=null;const ac=new AbortController(),to=setTimeout(()=>ac.abort(),45000);
+   try{const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${mdl}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':k},body,signal:ac.signal});const d=await r.json().catch(()=>({}));
+    if(r.ok){const t=((d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts)||[]).filter(p=>!p.thought).map(p=>p.text||'').join('').trim();if(t){clearTimeout(to);return t;}err=new Error('risposta vuota');}
+    else{err=new Error((d&&d.error&&d.error.message)||('HTTP '+r.status));if(r.status===404)dead.add(mdl);else if([400,401,403].includes(r.status))fatal=err;else busy=true;}
+   }catch(e){err=e;busy=true;}
+   clearTimeout(to);if(fatal)throw fatal;}
+  if(!alive)break;}
+ if(busy){const e=new Error('Gemini è molto richiesto in questo momento (non dipende dall’app). Riprova fra qualche minuto.');e.raw=err.message;throw e;}
+ throw err;};
+/* traduzioni: se Gemini è occupato riprova da sola, a intervalli crescenti */
+window.__trTries=0;{const _ct=completeTranslations;completeTranslations=async function(silent){await _ct(silent);const left=missingTrItems().length;if(left&&window.__trTries<4&&navigator.onLine&&getGeminiKey()){window.__trTries++;clearTimeout(window._trRetry);window._trRetry=setTimeout(()=>{if(!trBusy&&missingTrItems().length)completeTranslations(true);},60000*window.__trTries);}else if(!left)window.__trTries=0;};}
+
+/* ================= 2. Unione tavoli: ora nei Tavoli, per tutti ================= */
+const rt=document.querySelector('#viewTables .room-tabs'),row=document.createElement('div');row.className='tools-row';row.innerHTML='<div id="kLoadT" class="kl kl0" style="display:none"></div><button class="btn-merge" onclick="v215Merge()"><span>🔗</span>Unisci<br>tavoli</button>';rt.after(row);
+const kk=document.createElement('div');kk.id='kLoadK';$('kdsContainer').before(kk);
+window.v215Merge=function(){const T=Object.values(state.tables).sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true})),occ=T.filter(t=>t.items&&t.items.length);
+ const box=$('mergeBox');
+ if(!occ.length){box.innerHTML='<h3 style="color:var(--logo-coral);margin-bottom:6px;">🔗 Unisci tavoli</h3><div style="font-size:.9rem;line-height:1.45;margin-bottom:12px;">Non c’è nessun tavolo con un conto aperto da spostare. Prima inserisci le comande, poi unisci.</div><div class="modal-actions"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="v215MergeClose()">Chiudi</button></div>';}
+ else{const cur=state.activeTableId&&occ.find(t=>t.id===state.activeTableId)?state.activeTableId:occ[0].id;
+  box.innerHTML=`<h3 style="color:var(--logo-coral);margin-bottom:4px;">🔗 Unisci tavoli</h3><div style="font-size:.8rem;color:#4B5563;margin-bottom:10px;">Il conto del primo tavolo passa dentro il secondo (per esempio quando due tavoli si siedono insieme).</div><label style="font-size:.78rem;font-weight:900;">Sposta il conto di</label><select id="mgFrom" class="mg-sel" onchange="v215MergeFill()">${occ.map(t=>`<option value="${esc(t.id)}"${t.id===cur?' selected':''}>${esc(t.name)} · € ${formatPrice(getTableTotal(t))}</option>`).join('')}</select><label style="font-size:.78rem;font-weight:900;">dentro</label><select id="mgTo" class="mg-sel"></select><div class="modal-actions"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="v215MergeClose()">Annulla</button><button class="btn-modal" style="background:var(--logo-coral);color:#fff;" onclick="v215MergeGo()">🔗 Unisci</button></div>`;v215MergeFill();}
+ $('mergeModal').classList.add('active');};
+window.v215MergeFill=function(){const f=$('mgFrom').value,s=state.tables[f],T=Object.values(state.tables).filter(t=>t.id!==f).sort((a,b)=>(a.room===s.room?0:1)-(b.room===s.room?0:1)||a.id.localeCompare(b.id,undefined,{numeric:true}));$('mgTo').innerHTML=T.map(t=>`<option value="${esc(t.id)}">${esc(t.name)} (${t.items&&t.items.length?'occupato':'libero'})</option>`).join('');};
+window.v215MergeClose=()=>$('mergeModal').classList.remove('active');
+window.v215MergeGo=function(){const f=$('mgFrom').value,t=$('mgTo').value;v215MergeClose();executeTableMerge(f,t);};
+$('mergeModal').addEventListener('click',e=>{if(e.target.id==='mergeModal')v215MergeClose();});
+function hideForKiosk(){const kiosk=/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim());row.style.display=kiosk?'none':'flex';}
+{const _u=updateWaiterDisplay;updateWaiterDisplay=function(){const r=_u.apply(this,arguments);hideForKiosk();return r;};}hideForKiosk();
+
+/* ================= 3. Indicatore carico cucina (roadmap 3) ================= */
+const KW={'3 Antipasti':.8,'4 Primi Piatti':1,'5 Secondi':1.3,'6 Desserts':.5};
+let KCAP=Number(localStorage.getItem('alicetta_kcap'))||14;
+const kcap=()=>KCAP;
+function kitchenLoad(){const now=Date.now(),L={units:0,dishes:0,queued:0,rem:[]};
+ Object.values(state.tables||{}).forEach(t=>{if(!t||!t.items||!t.sentOnce)return;
+  [0,1,2,3].forEach(m=>{const it=t.items.filter(i=>i.mandata===m&&catOK(i)&&isItemSent(t,i));if(!it.length)return;if(m>=1&&t.doneMandate&&t.doneMandate[m])return;
+   const fired=m<=1||(t.firedMandate&&t.firedMandate[m]);if(!fired){L.queued++;return;}
+   const st=(t.firedAt&&t.firedAt[m])||(m===1?t.openedAt:0)||now;
+   it.forEach(i=>{if(i.ready)return;const q=Number(i.qty)||1,w=(KW[i.cat]||1)*(1+.5*(q-1)),cook=window.v213DishMin?v213DishMin(i.name,i.cat).min:10;L.units+=w;L.dishes+=q;L.rem.push({w,r:Math.max(2,cook-(now-st)/60000)});});});});
+ L.pct=Math.round(L.units/kcap()*100);L.lvl=L.pct<40?0:L.pct<75?1:L.pct<100?2:3;return L;}
+let _kl=null,_klT=0;const load=()=>{if(!_kl||Date.now()-_klT>1500){_kl=kitchenLoad();_klT=Date.now();}return _kl;};
+function waitFor(L,add){const need=L.units+add-kcap();if(need<=0)return 0;const s=L.rem.slice().sort((a,b)=>a.r-b.r);let acc=0;for(const x of s){acc+=x.w;if(acc>=need)return Math.max(1,Math.ceil(x.r));}return s.length?Math.ceil(s[s.length-1].r):5;}
+function mandUnits(t,m){return (t.items||[]).filter(i=>i.mandata===m&&catOK(i)).reduce((s,i)=>{const q=Number(i.qty)||1;return s+(KW[i.cat]||1)*(1+.5*(q-1));},0);}
+window.v215Load=kitchenLoad;window.v215WaitFor=waitFor;
+const LN=['Libera','Regolare','Carica','Piena'];
+function klHtml(L){const w=L.lvl>=3?waitFor(L,3):0;return `<div class="kl-top"><b>🔥 Cucina ${LN[L.lvl]}</b><span>${L.dishes} ${L.dishes===1?'piatto':'piatti'} in lavorazione${L.queued?' · '+L.queued+(L.queued===1?' mandata in attesa':' mandate in attesa'):''}</span></div><div class="kl-bar"><span style="width:${Math.min(100,L.pct)}%"></span></div>${L.lvl>=3?`<div class="kl-msg">Aspetta ~${w||5}' prima di dare il via alle prossime mandate</div>`:''}`;}
+function drawKL(){const L=kitchenLoad();_kl=L;_klT=Date.now();[$('kLoadT'),$('kLoadK')].forEach((el,i)=>{if(!el)return;if(i===1){el.innerHTML=`<div class="kl kl${L.lvl}">${klHtml(L)}</div>`;return;}el.style.display=L.dishes||L.queued?'block':'none';el.className='kl kl'+L.lvl;el.innerHTML=klHtml(L);});}
+{const _rt=renderTables;renderTables=function(){const r=_rt.apply(this,arguments);try{drawKL();}catch(e){}return r;};const _rk=renderKds;renderKds=function(){const r=_rk.apply(this,arguments);try{drawKL();}catch(e){}return r;};}
+setInterval(()=>{if(document.visibilityState==='visible')try{drawKL();}catch(e){}},8000);
+/* il promemoria "dai il via" tiene conto della cucina */
+{const _pb=paceBadge;paceBadge=function(t){let h=_pb.apply(this,arguments);try{const L=load();getPaceAlerts(t).forEach(a=>{const w=waitFor(L,mandUnits(t,a.m));if(w>0)h+=`<div class="kfull-note">🔥 Cucina piena: aspetta ~${w}' prima di dare il via alla ${a.m}ª</div>`;});}catch(e){}return h;};}
+checkPace=function(){state.paceSeen=state.paceSeen||{};const L=kitchenLoad();Object.values(state.tables).forEach(t=>getPaceAlerts(t).forEach(a=>{const k=t.id+'_'+a.m+'_'+a.at,w=waitFor(L,mandUnits(t,a.m)),me=(state.waiterName||'').toLowerCase().trim()==='christian';
+ if(w>0){if(state.paceSeen[k+'_w'])return;state.paceSeen[k+'_w']=1;if(me){playKitchenBell();showOrderToast({title:'⏰ '+t.name.toUpperCase(),waiter:'Pacing',summary:`🔥 Cucina piena: aspetta ~${w}' prima di dare il via alla ${a.m}ª`});}return;}
+ if(state.paceSeen[k])return;state.paceSeen[k]=1;if(me){playKitchenBell();showOrderToast({title:'⏰ '+t.name.toUpperCase(),waiter:'Pacing',summary:state.paceSeen[k+'_w']?`✅ Cucina libera: puoi dare il via alla ${a.m}ª`:`Servita la ${a.m-1}ª da ${a.min} min: dare il via alla ${a.m}ª?`});}}));};
+/* quando la cucina diventa piena, il KDS avvisa tutta la sala (al massimo ogni 10 minuti) */
+let lastLvl=0,lastMsg=0;
+setInterval(()=>{if(!isKdsDev())return;const L=kitchenLoad();if(L.lvl>=3&&lastLvl<3&&Date.now()-lastMsg>10*60000){lastMsg=Date.now();state.lastOrderEvent={id:Date.now(),sala:true,title:'🔥 CUCINA PIENA',waiter:'Cucina',summary:'Aspettate qualche minuto prima di dare il via alle prossime mandate'};try{saveState(false,{});}catch(e){}try{ntfyPost('sala','🔥 Cucina piena','Aspettate qualche minuto prima di dare il via alle prossime mandate',3);}catch(e){}}lastLvl=L.lvl;},20000);
+/* soglia "cucina piena": la imposta Christian, la leggono tutti i dispositivi */
+async function pullCap(){try{const v=await fbGet('/pos_state/kcap');const n=Number(v);if(n>=4&&n<=60){KCAP=n;localStorage.setItem('alicetta_kcap',String(n));}}catch(e){}}
+setTimeout(pullCap,4000);setInterval(pullCap,5*60000);
+window.v215Cap=async d=>{KCAP=Math.max(4,Math.min(60,KCAP+d));localStorage.setItem('alicetta_kcap',String(KCAP));drawKL();appendLoadCard();try{await fbSend('/pos_state/kcap','PUT',KCAP);}catch(e){toast('Salvata solo su questo dispositivo');}};
+function appendLoadCard(){const el=$('hub_ai_tempi');if(!el)return;let c=$('loadCard');if(c)c.remove();c=document.createElement('div');c.id='loadCard';c.className='cart-section';const L=kitchenLoad();
+ c.innerHTML=`<div class="cs-h"><h3>🔥 Carico della cucina</h3></div><div class="kl kl${L.lvl}" style="margin-bottom:10px;">${klHtml(L)}</div><div class="fc-sub" style="margin-bottom:8px;">Ogni piatto pesa in base al tipo (un secondo pesa più di un dessert) e a quante porzioni sono. Quando il totale supera la soglia la cucina risulta <b>piena</b>: sui tavoli compare “aspetta ~5′ prima di dare il via” e il KDS avvisa la sala.</div><div class="sw-row"><b>Cucina piena a circa<br><span class="fc-sub">piatti in lavorazione insieme</span></b><div style="display:flex;align-items:center;gap:8px;"><button class="btn-note" style="padding:8px 14px;font-size:1.1rem;" onclick="v215Cap(-1)">−</button><b style="font-size:1.3rem;min-width:28px;text-align:center;">${kcap()}</b><button class="btn-note" style="padding:8px 14px;font-size:1.1rem;" onclick="v215Cap(1)">＋</button></div></div><div class="fc-sub">Se avvisa troppo presto, alza il numero. Se avvisa tardi, abbassalo. Vale per tutti i dispositivi.</div>`;el.appendChild(c);}
+
+/* ================= 4. Risposte alle recensioni Google (roadmap 6) ================= */
+const RV={text:'',stars:5,name:'',sig:'Christian',note:'',res:null,busy:false,msg:'',open:{}};
+const SIGS=['Christian','Alice','Serena','Tutta la brigata','Nessuna'];
+const HK='alicetta_rev_hist';
+const hist=()=>{try{return JSON.parse(localStorage.getItem(HK)||'[]')||[];}catch(e){return[];}};
+const words=(t,n,end)=>{const w=String(t||'').replace(/\s+/g,' ').trim().split(' ');return (end?w.slice(-n):w.slice(0,n)).join(' ').toLowerCase().replace(/[^\p{L}\p{N} ']/gu,'');};
+const OPENERS=['con il nome del cliente','con il piatto o il momento che cita','con una frase di gioia sincera','con un grazie breve e informale','rispondendo direttamente a ciò che ha scritto','con una battuta leggera (solo se la recensione è positiva)','con un saluto legato a Fossacesia o al mare','riprendendo con parole tue la frase più bella della recensione'];
+const FEEL=['frasi corte e affettuose','tono composto ma caldo, con una frase un po’ più lunga','tono familiare e un po’ scherzoso','tono semplice e molto diretto, quasi parlato','tono pacato e sincero'];
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);
+function humanize(t){let s=String(t||'').replace(/\*\*?/g,'').replace(/[—–]/g,', ').replace(/ ,/g,',').replace(/,\s*,/g,',').replace(/ {2,}/g,' ').trim();s=s.replace(/^["“«]+|["”»]+$/g,'').trim();let n=0;s=s.replace(/!+/g,()=>(++n===1?'!':'.'));s=s.replace(/^(Gentile|Egregio)[^,!.]*[,!.]\s*/i,'');return s.charAt(0).toUpperCase()+s.slice(1);}
+function renderRev(){const el=$('hub_ai_rev');if(!el)return;
+ el.innerHTML=`<div class="cart-section"><div class="cs-h"><h3>⭐ Risposte alle recensioni</h3></div><div class="fc-sub" style="margin-bottom:8px;">Incolla la recensione di Google: Gemini scrive 3 risposte diverse, come le scriveresti tu, nella lingua del cliente. Ogni volta cambiano attacco e stile.</div>
+ <button class="btn-note" style="width:100%;padding:10px;margin-bottom:6px;" onclick="v215Paste()">📋 Incolla dagli appunti</button>
+ <textarea id="rvText" class="v14-ta" rows="5" placeholder="Testo della recensione…" oninput="v215Set('text',this.value)">${esc(RV.text)}</textarea>
+ <div class="v14-lbl">Stelle</div><div class="star-row">${[1,2,3,4,5].map(n=>`<button class="${RV.stars===n?'on':''}" onclick="v215Stars(${n},this)">${n}★</button>`).join('')}</div>
+ <input class="v14-in" placeholder="Nome del cliente (facoltativo)" value="${esc(RV.name)}" oninput="v215Set('name',this.value)">
+ <div class="v14-lbl">Firma</div><div class="chips">${SIGS.map(s=>`<button class="chipb${RV.sig===s?' on':''}" onclick="v215Sig('${s}',this)">${s}</button>`).join('')}</div>
+ <div class="v14-lbl">Vuoi aggiungere qualcosa? <span class="fc-sub">(facoltativo)</span></div><textarea class="v14-ta" rows="2" placeholder="es. è un cliente abituale, offro un caffè, ci dispiace per l’attesa…" oninput="v215Set('note',this.value)">${esc(RV.note)}</textarea>
+ ${RV.stars<=2?'<div class="fc-sub" style="margin-top:6px;color:#B91C1C;font-weight:800;">Con poche stelle: rispondi con calma, senza difenderti e senza rivelare dettagli del cliente.</div>':''}
+ <button class="btn-main" style="width:100%;margin-top:10px;background:#7C3AED;color:#fff;" onclick="v215Gen()">✨ Scrivi le risposte</button><div id="rvMsg" class="fc-sub" style="margin-top:6px;font-weight:800;">${esc(RV.msg)}</div></div><div id="rvOut"></div>`;renderRevOut();}
+window.v215Set=(k,v)=>{RV[k]=v;};
+window.v215Stars=(n,b)=>{RV.stars=n;b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));};
+window.v215Sig=(s,b)=>{RV.sig=s;b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));};
+window.v215Paste=async()=>{try{const t=await navigator.clipboard.readText();if(!t.trim())return toast('Gli appunti sono vuoti');RV.text=t.trim();const e=$('rvText');if(e)e.value=RV.text;toast('📋 Incollata');}catch(e){toast('Tieni premuto nel riquadro e scegli Incolla');}};
+function rvMsg(t,pulse){RV.msg=t;const e=$('rvMsg');if(e){e.textContent=t;e.classList.toggle('gen-pulse',!!pulse);}}
+function buildPrompt(extra){const H=hist(),op=shuf(OPENERS).slice(0,3),fe=shuf(FEEL).slice(0,3),sigTxt=RV.sig==='Nessuna'?'non firmare':`la firma è "${RV.sig}": mettila solo in due delle tre risposte, ogni volta in forma diversa (es. "${RV.sig}", "A presto, ${RV.sig}", "${RV.sig} e tutta la brigata")`;
+ const who=RV.sig==='Tutta la brigata'||RV.sig==='Nessuna'?'il titolare di Alicetta Trattoria':RV.sig==='Christian'?'Christian, titolare di Alicetta Trattoria':RV.sig+', di Alicetta Trattoria';
+ const guide=RV.stars>=5?'Recensione positiva: gratitudine concreta e sincera, invito a tornare detto in modo naturale (senza formule).':RV.stars>=3?'Recensione mista: ringrazia, riconosci in modo specifico ciò che non è andato, di\' cosa farete, invita a tornare.':'Recensione negativa: tono calmo, nessuna difesa e nessuna scusa inventata, riconosci il problema in una frase, invita a parlarne di persona al 392 3279000, non rivelare dettagli del cliente.';
+ return `Sei ${who} a Fossacesia (Costa dei Trabocchi, trattoria di pesce). Rispondi di persona a una recensione di Google, scrivendo come parla un ristoratore al banco: frasi semplici, calde, niente linguaggio d'ufficio.
+Recensione (${RV.stars} stelle${RV.name.trim()?', di '+RV.name.trim():''}): """${RV.text.trim()}"""
+${RV.note.trim()?'Note del titolare da rispettare: '+RV.note.trim()+'\n':''}${guide}
+Regole:
+- Rispondi nella stessa lingua della recensione.
+- Scrivi 3 risposte molto diverse tra loro per attacco, struttura e chiusura. Lunghezze: una brevissima (15-25 parole), una media (30-50), una un po' più lunga (fino a 70).
+- Attacchi, in ordine: ${op.map((o,i)=>(i+1)+') '+o).join('; ')}. Stile, in ordine: ${fe.map((o,i)=>(i+1)+') '+o).join('; ')}.
+- Cita un dettaglio concreto della recensione (un piatto, una persona, un momento), ma solo se c'è davvero nel testo. Non inventare nulla, non promettere sconti o regali che non siano nelle note.
+- Non usare: "Gentile", "Grazie per la sua recensione", "Siamo lieti", "Ci dispiace sentire", "esperienza culinaria", "ospitalità", "feedback", "il nostro impegno", "non vediamo l'ora di riaccoglierla", "sentitamente". Nessun elenco, nessun trattino lungo, nessun hashtag, un solo punto esclamativo al massimo, al massimo una emoji e non in tutte.
+- ${sigTxt}.
+${H.length?'- Evita assolutamente queste aperture e chiusure già usate di recente: '+JSON.stringify(H.slice(-12).map(h=>h.o+' … '+h.c))+'.\n':''}${extra||''}
+Rispondi SOLO con JSON: {"lingua":"codice lingua della recensione","recensione_it":"traduzione italiana della recensione, vuota se è già italiano","risposte":[{"stile":"2-3 parole","testo":"...","it":"traduzione italiana della risposta, vuota se è già in italiano"}]}`;}
+window.v215Gen=async function(){if(RV.busy)return;if(!getGeminiKey())return rvMsg('🔑 Inserisci la chiave Gemini in ⚙️ Opzioni.');if(RV.text.trim().length<5)return rvMsg('Incolla prima il testo della recensione.');
+ RV.busy=true;rvMsg('⏳ Gemini sta scrivendo le risposte…',true);
+ try{let o=null;for(let a=0;a<2;a++){const t=await callGemini([{text:buildPrompt(a?'- ATTENZIONE: nella versione precedente alcune aperture erano uguali a risposte già usate: cambiale completamente.\n':'')}],true,{temperature:1,onWait:(r,m)=>rvMsg(`⏳ Gemini è molto richiesto, riprovo (${r}/${m})…`,true)});
+   o=JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1));const H=hist().map(h=>h.o),R=(o.risposte||[]).slice(0,3);const dup=R.filter(r=>H.includes(words(humanize(r.testo),3))).length;if(!dup||a)break;}
+  const R=(o.risposte||[]).filter(r=>r&&r.testo).slice(0,3).map(r=>({stile:String(r.stile||'').slice(0,30),testo:humanize(r.testo),it:humanize(r.it||'')}));if(!R.length)throw new Error('risposta vuota');
+  RV.res={lingua:String(o.lingua||'it'),rec:String(o.recensione_it||'').trim(),R};RV.open={};rvMsg('✅ Pronte! Scegli quella che ti somiglia di più, ritoccala e copiala.');renderRevOut();setTimeout(()=>{const x=$('rvOut');if(x)x.scrollIntoView({behavior:'smooth',block:'start'});},80);}
+ catch(e){console.error(e);rvMsg('❌ '+e.message);}RV.busy=false;};
+function renderRevOut(){const box=$('rvOut');if(!box)return;if(!RV.res){box.innerHTML='';return;}const r=RV.res,foreign=r.lingua&&!/^it/i.test(r.lingua);
+ box.innerHTML=(foreign?`<div class="cart-section"><div class="fc-sub"><b>🌍 Recensione in ${esc(r.lingua.toUpperCase())}</b>${r.rec?'<br>'+esc(r.rec):''}</div></div>`:'')+r.R.map((x,i)=>`<div class="rv-card"><h4>Risposta ${i+1}${x.stile?' · '+esc(x.stile):''}</h4><textarea class="v14-ta" rows="5" id="rvR${i}" oninput="v215Edit(${i},this.value)">${esc(x.testo)}</textarea>${foreign&&x.it?`<details style="margin-top:4px;"><summary class="fc-sub" style="cursor:pointer;">🇮🇹 Traduzione</summary><div class="fc-sub" style="margin-top:4px;">${esc(x.it)}</div></details>`:''}<div class="cs-btns" style="margin:8px 0 0;"><button class="btn-main btn-print" onclick="v215Copy(${i})">📋 Copia</button><button class="btn-note" style="padding:10px;" onclick="v215Share(${i})">📤 Condividi</button></div></div>`).join('')+`<button class="btn-note" style="width:100%;padding:11px;" onclick="v215Gen()">🔄 Tre risposte nuove</button><div class="fc-sub" style="margin-top:8px;">Poi apri la recensione su Google (app Google Business o Maps), tocca “Rispondi” e incolla il testo.</div>`;}
+window.v215Edit=(i,v)=>{if(RV.res&&RV.res.R[i])RV.res.R[i].testo=v;};
+function rememberUsed(t){const H=hist();H.push({o:words(t,3),c:words(t,3,true)});localStorage.setItem(HK,JSON.stringify(H.slice(-30)));}
+window.v215Copy=async i=>{const t=RV.res.R[i].testo;if(await copyTxt(t)){rememberUsed(t);toast('📋 Copiata!');}else toast('Non riesco a copiare');};
+window.v215Share=async i=>{const t=RV.res.R[i].testo;if(navigator.share){try{await navigator.share({text:t});rememberUsed(t);return;}catch(e){if(e&&e.name==='AbortError')return;}}if(await copyTxt(t)){rememberUsed(t);toast('📋 Copiata: incollala dove vuoi');}};
+
+/* ================= collegamenti alle pagine AI ================= */
+const _s=window.v211Show;window.v211Show=function(k,p){if(k==='ai'&&p==='rev'){renderRev();return;}const r=_s&&_s.apply(this,arguments);if(k==='ai'&&p==='tempi')appendLoadCard();return r;};
+drawKL();
 })();
 </script>
 <script>initApp();</script>
