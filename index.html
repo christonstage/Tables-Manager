@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.1</title>
+<title>Alicetta TableZ 2.0 - v2.1.1</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -236,7 +236,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.1</div>
+    <div class="version-badge">v2.1.1</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -345,7 +345,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.1)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.1.1)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -373,7 +373,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.1)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.1.1)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -2061,8 +2061,8 @@ window.addEventListener('resize',()=>{placeDockPill();Object.keys(HUBS).forEach(
 
 /* ---------- 2. Pagine-hub con sotto-pagine (Vendite e AI) ---------- */
 const HUBS={
- sales:{screen:'viewSales',color:'#4D7C0F',cur:'oggi',pages:[['oggi','💶 Oggi'],['grafici','📈 Grafici'],['conti','🧾 Conti'],['storico','📚 Storico']]},
- ai:{screen:'viewAi',color:'#7C3AED',cur:'prev',pages:[['prev','🔮 Coperti'],['chef','🧑‍🍳 Sous-Chef'],['lav','📸 Lavagnetta']]}
+ sales:{screen:'viewSales',color:'#4D7C0F',cur:'oggi',pages:[['oggi','💶 Oggi'],['grafici','📈 Grafici'],['conti','🧾 Conti'],['forn','📦 Fornitori'],['storico','📚 Storico']]},
+ ai:{screen:'viewAi',color:'#7C3AED',cur:'prev',pages:[['prev','🔮 Coperti'],['costi','💰 Costi'],['rank','🏆 Classifica'],['chef','🧑‍🍳 Sous-Chef'],['lav','📸 Lavagnetta']]}
 };
 function buildHub(key,afterEl){const h=HUBS[key],sc=$(h.screen);const tabs=document.createElement('div');tabs.className='hub-tabs';tabs.id='hubTabs_'+key;tabs.innerHTML=`<div class="hub-pill" style="--hc:${h.color}"></div>`+h.pages.map(([k,l])=>`<button class="hub-tab" data-p="${k}">${l}</button>`).join('');
  tabs.querySelectorAll('.hub-tab').forEach(b=>b.onclick=()=>setHubPage(key,b.dataset.p));
@@ -2080,12 +2080,13 @@ window.setHubPage=function(key,page,dir){const h=HUBS[key];if(!h)return;const id
  onHubShow(key,page);
 };
 function onHubShow(key,page){
+ if(window.v211Show&&v21CurView()===key)try{v211Show(key,page);}catch(e){console.error(e);}
  if(key==='sales'&&v21CurView()==='sales'){if(typeof renderConti==='function')try{renderConti();}catch(e){}if(page==='storico'&&typeof updateDailyStats==='function')updateDailyStats();}
  if(key==='ai'&&page==='prev'&&window.pvRender&&v21CurView()==='ai')pvRender(true);
 }
 
 /* Vendite */
-(function(){const sc=$('viewSales'),title=sc.querySelector('.screen-title');const hero=document.createElement('div');hero.className='sales-hero';hero.innerHTML='<b>💶 Vendite</b><span>Incassi del giorno, grafici, conti con fatture e storico</span>';title.replaceWith(hero);buildHub('sales',hero);
+(function(){const sc=$('viewSales'),title=sc.querySelector('.screen-title');const hero=document.createElement('div');hero.className='sales-hero';hero.innerHTML='<b>💶 Vendite</b><span>Incassi, grafici, conti, bolle dei fornitori e storico</span>';title.replaceWith(hero);buildHub('sales',hero);
  const mv=(id,pg)=>{const e=$(id);if(e)$('hub_sales_'+pg).appendChild(e);};
  mv('payTotals','oggi');mv('cashClose','oggi');mv('salesCharts','grafici');mv('invList','conti');mv('contiList','conti');
  const rep=$('dailyStats')&&$('dailyStats').closest('.cart-section');if(rep)$('hub_sales_storico').appendChild(rep);
@@ -2200,6 +2201,183 @@ window.pvAskAi=async function(){const o=$('pvAi');if(!getGeminiKey()){o.innerHTM
 if(typeof sousChefStats==='function'){const _ss=sousChefStats;sousChefStats=function(){const s=_ss.apply(this,arguments);try{const f=pvForecast(1)[0];if(f&&f.tot)s.cop=f.tot;}catch(e){}return s;};}
 
 updateDock();
+})();
+</script>
+
+<!-- ===== v2.1.1: bolle fornitori, andamento prezzi, ricette, food cost e classifica piatti ===== -->
+<style id="v211style">
+.cs-h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.cs-h h3{margin:0}
+.cs-sync{font-size:.72rem;font-weight:800;color:var(--muted);margin-bottom:8px}
+.cs-sync.bad{color:#B45309}
+.cs-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.cs-alert{border-radius:14px;padding:10px 12px;margin-bottom:8px;background:#FEF2F2;border:2px solid #FCA5A5;box-shadow:0 3px 0 #FCA5A5}
+.cs-alert.down{background:#F0FDF4;border-color:#86EFAC;box-shadow:0 3px 0 #86EFAC}
+.cs-alert b{font-size:.92rem}
+.cs-alert .d{font-size:.78rem;margin-top:6px;padding-top:6px;border-top:1px dashed rgba(0,0,0,.15)}
+.cs-alert .acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}
+.ing{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--border)}
+.ing .n{flex:1;min-width:0}.ing .n b{display:block;font-size:.88rem;text-transform:capitalize}.ing .n span{font-size:.7rem;color:var(--muted);font-weight:700}
+.ing .p{text-align:right;font-weight:900;font-size:.9rem;white-space:nowrap}
+.chg{display:inline-block;font-size:.68rem;font-weight:900;border-radius:20px;padding:2px 7px;margin-top:2px}
+.chg.up{background:#FEE2E2;color:#B91C1C}.chg.dn{background:#DCFCE7;color:#166534}.chg.eq{background:#F1F5F9;color:#64748B}
+.spark{width:60px;height:24px;flex-shrink:0}
+.fc{padding:9px 0;border-bottom:1px dashed var(--border)}
+.fc-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.fc-top b{font-size:.88rem}
+.fc-pct{font-weight:900;font-size:1rem}
+.fc-bar{height:9px;border-radius:9px;background:#F1F5F9;margin:5px 0 3px;overflow:hidden}
+.fc-bar span{display:block;height:100%;width:0;border-radius:9px;transition:width .8s cubic-bezier(.2,.9,.25,1)}
+.fc-sub{font-size:.72rem;color:var(--muted);font-weight:700}
+.g{color:#15803D}.y{color:#B45309}.r{color:#B91C1C}
+.bg-g{background:linear-gradient(90deg,#4ADE80,#16A34A)}.bg-y{background:linear-gradient(90deg,#FCD34D,#F59E0B)}.bg-r{background:linear-gradient(90deg,#FCA5A5,#DC2626)}
+.qd{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.qd>div{border-radius:16px;padding:10px;min-height:110px;box-shadow:0 4px 0 rgba(0,0,0,.18);opacity:0;transform:scale(.9);animation:qdIn .45s cubic-bezier(.3,1.5,.5,1) forwards}
+.qd>div:nth-child(2){animation-delay:.07s}.qd>div:nth-child(3){animation-delay:.14s}.qd>div:nth-child(4){animation-delay:.21s}
+@keyframes qdIn{to{opacity:1;transform:none}}
+.qd h4{margin:0 0 2px;font-size:.88rem}.qd small{display:block;font-size:.66rem;font-weight:700;opacity:.8;margin-bottom:6px}
+.qd .it{font-size:.74rem;font-weight:800;background:rgba(255,255,255,.65);border-radius:8px;padding:3px 6px;margin-top:3px}
+.q-star{background:#FEF9C3}.q-horse{background:#DBEAFE}.q-puz{background:#F3E8FF}.q-dog{background:#FEE2E2}
+.bl-row{display:grid;grid-template-columns:1fr 56px 52px 64px 26px;gap:4px;align-items:center;margin-bottom:6px}
+.bl-row input,.bl-row select{padding:7px 5px!important;font-size:.8rem!important;min-width:0}
+.bl-orig{grid-column:1/-1;font-size:.66rem;color:var(--muted);margin-top:-4px}
+.bl-x{background:#FEE2E2;border:none;border-radius:6px;font-weight:900;color:#991B1B;height:32px}
+.bl-head{display:grid;grid-template-columns:1fr 56px 52px 64px 26px;gap:4px;font-size:.62rem;font-weight:900;color:var(--muted);margin-bottom:4px}
+#v211Modal .receipt-box{max-width:520px}
+@media (prefers-reduced-motion:reduce){.qd>div{animation:none;opacity:1;transform:none}.fc-bar span{transition:none}}
+</style>
+<div class="modal-overlay" id="v211Modal"><div class="receipt-box" id="v211Box"></div></div>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const IVA=1.10,FC_OK=.30,FC_BAD=.38,FC_TARGET=.32;
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x;};
+const today=()=>{const d=new Date();if(d.getHours()<5)d.setDate(d.getDate()-1);d.setHours(12,0,0,0);return d;};
+const ik=n=>normDish(String(n||'').trim());
+const jsA=v=>escH(JSON.stringify(v));
+const eur=n=>'€ '+formatPrice(n||0);
+const num=v=>{const x=parseFloat(String(v==null?'':v).replace(',','.'));return isFinite(x)?x:0;};
+const DISH=c=>c&&c!=='1 Coperto'&&c!=='2 Bevande';
+const isDishItem=i=>i&&DISH(i.cat)&&!/coperto|\bacqua\b/i.test(i.name||'');
+
+/* ---------- dati: /costi su Firebase + copia sul telefono ---------- */
+const CK='alicetta_costi',CQ='alicetta_costi_q';
+let C=(()=>{try{return Object.assign({bolle:{},ricette:{}},JSON.parse(localStorage.getItem(CK)||'{}'));}catch(e){return{bolle:{},ricette:{}};}})();
+let syncMsg='',pulled=false;
+const saveL=()=>localStorage.setItem(CK,JSON.stringify(C));
+const q=()=>{try{return JSON.parse(localStorage.getItem(CQ)||'{}')||{};}catch(e){return {};}};
+const setQ=o=>localStorage.setItem(CQ,JSON.stringify(o));
+function setPath(p,v){const[a,b]=p.split('/');C[a]=C[a]||{};if(v==null)delete C[a][b];else C[a][b]=v;}
+async function flush(){const Q=q(),ks=Object.keys(Q);if(!ks.length)return true;for(const k of ks){try{await fbSend('/costi/'+k,Q[k]==null?'DELETE':'PUT',Q[k]==null?undefined:Q[k]);const Q2=q();delete Q2[k];setQ(Q2);}catch(e){syncMsg=errMsg(e);return false;}}syncMsg='';return true;}
+function errMsg(e){const m=String(e&&e.message||e);if(!navigator.onLine)return'📴 Offline: salvato sul telefono, lo invio appena torna internet.';if(/40[13]/.test(m))return'⚠️ Firebase rifiuta i costi ('+m+'): salvati solo su questo telefono. Aggiungi la regola “costi” e attiva 🔐 Accesso protetto.';return'⚠️ Firebase: '+m+' (salvato sul telefono)';}
+async function put(p,v){setPath(p,v);saveL();const Q=q();Q[p]=v==null?null:v;setQ(Q);await flush();}
+async function pull(){await flush();try{const d=await fbGet('/costi');const Q=q();C={bolle:(d&&d.bolle)||{},ricette:(d&&d.ricette)||{}};Object.entries(Q).forEach(([p,v])=>setPath(p,v));saveL();if(!Object.keys(Q).length)syncMsg='';}catch(e){syncMsg=errMsg(e);}pulled=true;}
+const syncLine=()=>`<div class="cs-sync ${syncMsg?'bad':''}">${syncMsg?escH(syncMsg):'☁️ Sincronizzato con Firebase: lo vedi da tutti i tuoi dispositivi.'}</div>`;
+
+/* ---------- prezzi delle materie prime ---------- */
+function priceIndex(){const ix={};Object.entries(C.bolle||{}).forEach(([id,b])=>{(b.righe||[]).forEach(r=>{const k=r.k||ik(r.i);if(!k||!(num(r.pu)>0))return;(ix[k]=ix[k]||{k,nome:r.i,hist:[]}).hist.push({d:b.data||'',pu:num(r.pu),u:r.u||'kg',f:b.fornitore||'',id});});});
+ Object.values(ix).forEach(o=>{o.hist.sort((a,b)=>a.d.localeCompare(b.d));const L=o.hist[o.hist.length-1];o.last=L;o.u=L.u;const lim=iso(addD(new Date((L.d||iso(today()))+'T12:00'),-90)),prev=o.hist.filter(h=>h.d<L.d&&h.d>=lim&&h.u===L.u);o.avg=prev.length?prev.reduce((s,h)=>s+h.pu,0)/prev.length:null;o.ch=o.avg?(L.pu-o.avg)/o.avg:null;});return ix;}
+function conv(ru,pu){ru=ru||'g';pu=pu||'kg';if(ru===pu)return 1;if((ru==='g'&&pu==='kg')||(ru==='ml'&&pu==='l')||(ru==='ml'&&pu==='kg')||(ru==='g'&&pu==='l'))return .001;if((ru==='kg'&&pu==='g')||(ru==='l'&&pu==='ml'))return 1000;return null;}
+function recipeCost(rc,ix){let c=0,est=false;const miss=[],parts=[];(rc&&rc.righe||[]).forEach(r=>{const k=r.k||ik(r.i),p=ix[k];let pu,uu,real=true;if(p){pu=p.last.pu;uu=p.u;}else if(num(r.s)>0){pu=num(r.s);uu=r.su||(r.u==='pz'?'pz':r.u==='ml'?'l':'kg');real=false;}else{miss.push(r.i);return;}const f=conv(r.u,uu);if(f==null){miss.push(r.i);return;}const v=num(r.q)*f*pu;c+=v;if(!real)est=true;parts.push({i:r.i,k,v,real});});return{c,est,miss,parts};}
+function dishInfo(name,price,ix){const rc=C.ricette[ik(name)];if(!rc)return{name,price,rc:null};const rcst=recipeCost(rc,ix),net=price/IVA,fc=net>0?rcst.c/net:null;return{name,price,rc,cost:rcst.c,est:rcst.est,miss:rcst.miss,parts:rcst.parts,fc,marg:net-rcst.c};}
+const fcCls=f=>f==null?'':f<=FC_OK?'g':f<=FC_BAD?'y':'r';
+const suggPrice=cost=>Math.ceil(cost/FC_TARGET*IVA*2)/2;
+function spark(h){const v=h.slice(-8).map(x=>x.pu);if(v.length<2)return'';const mn=Math.min(...v),mx=Math.max(...v),r=mx-mn||1,pts=v.map((y,i)=>`${(i/(v.length-1)*56+2).toFixed(1)},${(21-(y-mn)/r*18).toFixed(1)}`).join(' '),up=v[v.length-1]>=v[0];return`<svg class="spark" viewBox="0 0 60 24"><polyline points="${pts}" fill="none" stroke="${up?'#DC2626':'#16A34A'}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
+
+/* ---------- foto della bolla con Gemini ---------- */
+let draft=null,blMsg='';const blSet=t=>{blMsg=t;const e=document.getElementById('blStatus');if(e)e.textContent=t;};
+window.v211Bolla=function(cam){const i=document.createElement('input');i.type='file';i.accept='image/*';if(cam)i.capture='environment';else i.multiple=true;i.onchange=()=>readBolla([...i.files]);i.click();};
+window.v211BollaManual=function(){draft={fornitore:'',data:iso(today()),righe:[{p:'',i:'',q:1,u:'kg',pu:0}]};editBolla();};
+async function readBolla(files){if(!files.length)return;const st={set textContent(v){blSet(v);}};if(!getGeminiKey()){st.textContent='🔑 Per leggere la foto serve la chiave Gemini (⚙️ Opzioni). Puoi anche usare ✍️ A mano.';return;}
+ st.textContent='⏳ Gemini sta leggendo '+(files.length>1?files.length+' foto':'la bolla')+'...';
+ try{const imgs=[];for(const f of files.slice(0,4))imgs.push({inline_data:{mime_type:'image/jpeg',data:await shrinkImage(f,2000)}});
+  const known=Object.values(priceIndex()).map(o=>o.nome).slice(0,150);
+  const t=await callGemini([{text:`Leggi questa bolla o fattura di un fornitore di una trattoria di pesce. Restituisci SOLO JSON: {"fornitore":string,"data":"YYYY-MM-DD","righe":[{"prodotto":testo come scritto sul documento,"ingrediente":nome generico breve in italiano minuscolo, senza marca né calibro (es. "vongole", "spaghetti", "olio evo", "limoni")${known.length?'; se corrisponde usa esattamente uno di questi nomi già usati: '+JSON.stringify(known):''},"quantita":number,"unita":"kg" oppure "l" oppure "pz","prezzo_unitario":euro per 1 kg, 1 litro o 1 pezzo, IVA esclusa,"totale":euro della riga IVA esclusa}]}. Converti le confezioni: es. 5 conf. da 500 g = 2,5 kg. Ignora trasporto, cauzioni, sconti a piè di pagina e righe senza prezzo. Se la data non si legge usa ${iso(today())}.`},...imgs],true);
+  const o=JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1));
+  draft={fornitore:String(o.fornitore||'').trim(),data:/^\d{4}-\d{2}-\d{2}$/.test(o.data||'')?o.data:iso(today()),righe:(o.righe||[]).filter(r=>r&&(r.ingrediente||r.prodotto)).map(r=>{const q=num(r.quantita)||1;let pu=num(r.prezzo_unitario);if(!pu&&num(r.totale))pu=num(r.totale)/q;return{p:String(r.prodotto||''),i:String(r.ingrediente||r.prodotto||'').toLowerCase().trim(),q,u:['kg','l','pz'].includes(r.unita)?r.unita:'kg',pu:Math.round(pu*100)/100};})};
+  st.textContent=`✅ Lette ${draft.righe.length} righe: controlla e salva.`;editBolla();}
+ catch(e){console.error(e);st.textContent='❌ Lettura non riuscita: '+e.message+'. Riprova con una foto più dritta e luminosa, oppure ✍️ A mano.';}}
+function editBolla(){const d=draft,box=$('v211Box');
+ box.innerHTML=`<h3 style="color:var(--logo-coral);margin-bottom:8px;">📦 Controlla la bolla</h3><div style="display:grid;grid-template-columns:1.4fr 1fr;gap:6px;margin-bottom:10px;"><input id="blF" class="form-control" placeholder="Fornitore" value="${escH(d.fornitore)}"><input id="blD" type="date" class="form-control" value="${d.data}"></div>
+ <div class="bl-head"><span>Ingrediente</span><span>Quantità</span><span>Unità</span><span>€ / unità</span><span></span></div><div id="blRows">${d.righe.map((r,i)=>`<div class="bl-row" data-i="${i}"><input class="form-control" data-f="i" value="${escH(r.i)}" placeholder="es. vongole"><input class="form-control" data-f="q" inputmode="decimal" value="${r.q}"><select class="form-control" data-f="u">${['kg','l','pz'].map(u=>`<option${u===r.u?' selected':''}>${u}</option>`).join('')}</select><input class="form-control" data-f="pu" inputmode="decimal" value="${r.pu||''}" placeholder="0,00"><button class="bl-x" onclick="v211BlDel(${i})">✕</button>${r.p&&r.p.toLowerCase()!==r.i?`<div class="bl-orig">📄 ${escH(r.p)}</div>`:''}</div>`).join('')}</div>
+ <button class="btn-note" style="width:100%;margin:4px 0 10px;" onclick="v211BlAdd()">＋ Aggiungi riga</button>
+ <div style="font-size:.72rem;color:var(--muted);margin-bottom:8px;">Prezzi IVA esclusa, riferiti a 1 kg, 1 litro o 1 pezzo. Usa sempre lo stesso nome per lo stesso ingrediente.</div>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-note" style="padding:12px;" onclick="v211Close()">Annulla</button><button class="btn-main btn-bill" onclick="v211BlSave()">💾 Salva bolla</button></div>`;
+ $('v211Modal').classList.add('active');}
+function readRows(){const out=[];document.querySelectorAll('#blRows .bl-row').forEach(el=>{const g=f=>el.querySelector(`[data-f="${f}"]`).value,i=+el.dataset.i;out.push({p:(draft.righe[i]||{}).p||'',i:g('i').trim().toLowerCase(),q:num(g('q')),u:g('u'),pu:num(g('pu'))});});draft.righe=out;draft.fornitore=$('blF').value.trim();draft.data=$('blD').value||iso(today());}
+window.v211BlAdd=()=>{readRows();draft.righe.push({p:'',i:'',q:1,u:'kg',pu:0});editBolla();};
+window.v211BlDel=i=>{readRows();draft.righe.splice(i,1);editBolla();};
+window.v211Close=()=>$('v211Modal').classList.remove('active');
+window.v211BlSave=async()=>{readRows();const R=draft.righe.filter(r=>r.i&&r.pu>0).map(r=>({p:r.p,i:r.i,k:ik(r.i),q:r.q,u:r.u,pu:Math.round(r.pu*100)/100,t:Math.round(r.q*r.pu*100)/100}));if(!R.length)return alert('Serve almeno una riga con ingrediente e prezzo.');if(!draft.fornitore&&!confirm('Salvare senza nome del fornitore?'))return;
+ const id='b'+Date.now(),b={fornitore:draft.fornitore||'Fornitore',data:draft.data,ts:Date.now(),tot:Math.round(R.reduce((s,r)=>s+r.t,0)*100)/100,righe:R};v211Close();
+ const before=priceIndex();await put('bolle/'+id,b);const after=priceIndex(),up=R.filter(r=>{const o=after[r.k];return o&&o.ch!=null&&o.ch>=.15&&before[r.k];});
+ blSet(`✅ Bolla salvata: ${R.length} prezzi aggiornati.`+(up.length?' 📈 Aumenti: '+up.map(r=>r.i+' +'+Math.round(after[r.k].ch*100)+'%').join(', ')+' (vedi 🤖 AI › 💰 Costi).':''));rerender();};
+window.v211BlDelete=async id=>{const b=C.bolle[id];if(!b||!confirm(`Eliminare la bolla di ${b.fornitore} del ${b.data.split('-').reverse().join('/')}?\nI suoi prezzi escono dall’andamento.`))return;await put('bolle/'+id,null);rerender();};
+
+/* ---------- ricette (grammature) ---------- */
+function menuDishes(){return(state.menu||[]).filter(m=>DISH(m.cat)&&m.name);}
+window.v211MakeRecipes=async function(names,force){const st={set textContent(v){document.querySelectorAll('.rcSt').forEach(e=>e.textContent=v);}};if(!getGeminiKey()){if(st)st.textContent='🔑 Serve la chiave Gemini (⚙️ Opzioni).';return;}
+ names=(names||menuDishes().map(m=>m.name)).filter(n=>force||!C.ricette[ik(n)]);names=[...new Set(names)];if(!names.length){if(st)st.textContent='✅ Tutti i piatti hanno già la ricetta.';return;}
+ const known=Object.values(priceIndex()).map(o=>o.nome).slice(0,150);let done=0;
+ for(let i=0;i<names.length;i+=8){const part=names.slice(i,i+8);if(st)st.textContent=`⏳ Gemini scrive le ricette (${Math.min(i+8,names.length)}/${names.length})...`;
+  try{const t=await callGemini([{text:`Sei lo chef di una trattoria di pesce a Fossacesia (Abruzzo). Per ogni piatto scrivi la ricetta di UNA porzione con le grammature realistiche da ristorante. Restituisci SOLO JSON: {"piatti":[{"nome":esattamente il nome dato,"righe":[{"ingrediente":nome generico breve minuscolo${known.length?' (usa esattamente uno di questi nomi se è lo stesso ingrediente: '+JSON.stringify(known)+')':''},"quantita":number,"unita":"g" oppure "ml" oppure "pz","stima_prezzo":prezzo indicativo all'ingrosso in Italia oggi, IVA esclusa, in euro per kg se unita è g, per litro se ml, al pezzo se pz}]}]}. Per i pesci e i molluschi indica il peso lordo acquistato (con scarto). Metti solo gli ingredienti che pesano sul costo; sale, pepe, erbe e spezie raggruppali in una riga "varie" 1 pz da 0,30.\nPiatti: ${JSON.stringify(part)}`}],true);
+   const o=JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1));for(const p of (o.piatti||[])){const n=part.find(x=>ik(x)===ik(p.nome))||p.nome,k=ik(n);if(!k)continue;const righe=(p.righe||[]).filter(r=>r&&r.ingrediente).map(r=>{const u=['g','ml','pz'].includes(r.unita)?r.unita:'g',i=String(r.ingrediente).toLowerCase().trim();return{i,k:ik(i),q:num(r.quantita),u,s:Math.round(num(r.stima_prezzo)*100)/100,su:u==='pz'?'pz':u==='ml'?'l':'kg'};});if(!righe.length)continue;setPath('ricette/'+k,{nome:n,righe,ts:Date.now(),ai:true});const Q=q();Q['ricette/'+k]=C.ricette[k];setQ(Q);done++;}saveL();}
+  catch(e){console.error(e);if(st)st.textContent='❌ Gemini: '+e.message;}}
+ await flush();if(st)st.textContent=`✅ ${done} ricette pronte. Controlla le grammature dei piatti principali (tocca il piatto).`;rerender();};
+window.v211EditRecipe=function(name){const k=ik(name),rc=JSON.parse(JSON.stringify(C.ricette[k]||{nome:name,righe:[]})),ix=priceIndex(),box=$('v211Box');window._rc={k,rc};
+ const draw=()=>{const cst=recipeCost(rc,ix),m=(state.menu||[]).find(x=>ik(x.name)===k),pr=m?m.price:null,fc=pr?cst.c/(pr/IVA):null;
+  box.innerHTML=`<h3 style="color:var(--logo-coral);margin-bottom:2px;">🍽️ ${escH(rc.nome||name)}</h3><div style="font-size:.78rem;font-weight:800;margin-bottom:10px;">Costo porzione ${eur(cst.c)}${pr?` · prezzo ${eur(pr)} · food cost <span class="${fcCls(fc)}">${Math.round(fc*100)}%</span>`:''}</div>
+  <div class="bl-head" style="grid-template-columns:1fr 56px 52px 64px 26px;"><span>Ingrediente</span><span>Quantità</span><span>Unità</span><span>Costo</span><span></span></div><div id="rcRows">${rc.righe.map((r,i)=>{const p=cst.parts.find(x=>x.k===(r.k||ik(r.i)));return`<div class="bl-row" data-i="${i}"><input class="form-control" data-f="i" value="${escH(r.i)}"><input class="form-control" data-f="q" inputmode="decimal" value="${r.q}"><select class="form-control" data-f="u">${['g','ml','pz'].map(u=>`<option${u===r.u?' selected':''}>${u}</option>`).join('')}</select><div style="font-size:.74rem;font-weight:900;text-align:right;">${p?eur(p.v)+(p.real?'':'<br><span style="font-size:.6rem;color:#B45309;">stima</span>'):'<span style="color:#B91C1C;font-size:.66rem;">senza prezzo</span>'}</div><button class="bl-x" onclick="v211RcDel(${i})">✕</button></div>`;}).join('')}</div>
+  <button class="btn-note" style="width:100%;margin:4px 0 8px;" onclick="v211RcAdd()">＋ Aggiungi ingrediente</button>
+  <div style="font-size:.7rem;color:var(--muted);margin-bottom:8px;">“stima” = prezzo indicativo dell’AI finché non carichi una bolla con quell’ingrediente. Pesce e molluschi: peso lordo, con lo scarto.</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:6px;"><button class="btn-note" onclick="v211Close()">Annulla</button><button class="btn-note" onclick="v211Close();v211MakeRecipes([${jsA(name)}],true)">🤖 Rifai</button><button class="btn-main btn-bill" onclick="v211RcSave()">💾 Salva</button></div>`;};
+ window._rcRedraw=draw;draw();$('v211Modal').classList.add('active');};
+function readRc(){const rc=window._rc.rc;const out=[];document.querySelectorAll('#rcRows .bl-row').forEach(el=>{const g=f=>el.querySelector(`[data-f="${f}"]`).value,o=rc.righe[+el.dataset.i]||{},i=g('i').trim().toLowerCase();out.push({...o,i,k:ik(i),q:num(g('q')),u:g('u')});});rc.righe=out;}
+window.v211RcAdd=()=>{readRc();window._rc.rc.righe.push({i:'',q:100,u:'g'});window._rcRedraw();};
+window.v211RcDel=i=>{readRc();window._rc.rc.righe.splice(i,1);window._rcRedraw();};
+window.v211RcSave=async()=>{readRc();const {k,rc}=window._rc;rc.righe=rc.righe.filter(r=>r.i&&r.q>0);rc.ts=Date.now();rc.ai=false;v211Close();await put('ricette/'+k,rc);rerender();};
+
+/* ---------- pagine ---------- */
+function renderForn(){const el=$('hub_sales_forn');if(!el)return;const B=Object.entries(C.bolle||{}).map(([id,b])=>({id,...b})).sort((a,b)=>(b.data||'').localeCompare(a.data||'')||(b.ts||0)-(a.ts||0)),M={};B.forEach(b=>{const m=(b.data||'').slice(0,7);(M[m]=M[m]||[]).push(b);});
+ el.innerHTML=`<div class="cart-section"><div class="cs-h"><h3>📦 Bolle e fatture fornitori</h3></div>${syncLine()}<div class="cs-btns"><button class="btn-main btn-print" onclick="v211Bolla(true)">📷 Scatta foto</button><button class="btn-main btn-bill" onclick="v211Bolla(false)">🖼️ Carica foto</button></div><button class="btn-note" style="width:100%;padding:10px;" onclick="v211BollaManual()">✍️ Inserisci a mano</button><div id="blStatus" style="font-size:.8rem;font-weight:800;color:var(--logo-coral);margin-top:8px;">${escH(blMsg)}</div><div style="font-size:.72rem;color:var(--muted);margin-top:6px;">Gemini legge prodotti, quantità e prezzi. Tu controlli e salvi: i prezzi aggiornano subito il costo dei piatti.</div></div>`+
+ (B.length?Object.keys(M).slice(0,6).map(m=>{const L=M[m],tot=L.reduce((s,b)=>s+(b.tot||0),0),pf={};L.forEach(b=>pf[b.fornitore]=(pf[b.fornitore]||0)+(b.tot||0));return`<div class="cart-section"><div class="cs-h"><h3 style="text-transform:capitalize;">${new Date(m+'-15T12:00').toLocaleDateString('it-IT',{month:'long',year:'numeric'})}</h3><b style="color:var(--logo-coral);">${eur(tot)}</b></div><div class="pv-chips" style="margin:0 0 8px;">${Object.entries(pf).sort((a,b)=>b[1]-a[1]).map(([f,v])=>`<span class="pv-chip">${escH(f)} ${eur(v)}</span>`).join('')}</div>${L.map(b=>`<details style="border-bottom:1px dashed var(--border);padding:7px 0;"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:8px;"><span><b>${escH(b.fornitore)}</b> <span style="font-size:.74rem;color:var(--muted);font-weight:700;">${b.data.split('-').reverse().slice(0,2).join('/')} · ${(b.righe||[]).length} righe</span></span><b>${eur(b.tot)}</b></summary><div style="font-size:.78rem;margin-top:6px;">${(b.righe||[]).map(r=>`<div style="display:flex;justify-content:space-between;gap:6px;padding:2px 0;"><span style="text-transform:capitalize;">${escH(r.i)} <span style="color:var(--muted);">${formatPrice(r.q).replace(',00','')} ${r.u}</span></span><span>${eur(r.pu)}/${r.u}</span></div>`).join('')}<button class="btn-note" style="margin-top:6px;background:#FEE2E2;color:#991B1B;border-color:#991B1B;" onclick="v211BlDelete('${b.id}')">🗑️ Elimina bolla</button></div></details>`).join('')}</div>`;}).join(''):`<div class="cart-section" style="text-align:center;font-size:.85rem;">Nessuna bolla ancora. Fotografa la prossima che ti arriva: da lì parte il food cost.</div>`);}
+function alerts(ix){const md=menuDishes(),out=[];Object.values(ix).filter(o=>o.ch!=null&&Math.abs(o.ch)>=.15).sort((a,b)=>Math.abs(b.ch)-Math.abs(a.ch)).forEach(o=>{const up=o.ch>0,hit=md.filter(m=>{const rc=C.ricette[ik(m.name)];return rc&&(rc.righe||[]).some(r=>(r.k||ik(r.i))===o.k);}).map(m=>({m,d:dishInfo(m.name,m.price,ix)}));
+ out.push(`<div class="cs-alert ${up?'':'down'}"><b>${up?'📈':'📉'} <span style="text-transform:capitalize;">${escH(o.nome)}</span> ${eur(o.last.pu)}/${o.u}</b> <span class="chg ${up?'up':'dn'}">${up?'+':''}${Math.round(o.ch*100)}%</span><div style="font-size:.72rem;color:var(--muted);font-weight:700;">media ultimi 90 giorni ${eur(o.avg)} · ${escH(o.last.f)} ${o.last.d.split('-').reverse().slice(0,2).join('/')}</div>`+
+ (hit.length?hit.map(({m,d})=>{const bad=d.fc!=null&&d.fc>FC_BAD;return`<div class="d"><b>${escH(m.name)}</b>: food cost <b class="${fcCls(d.fc)}">${d.fc!=null?Math.round(d.fc*100)+'%':'—'}</b> (costo ${eur(d.cost)} su ${eur(m.price)})${up?(bad?`<br>👉 Così non rende: togli il piatto finché ${escH(o.nome)} resta caro, oppure portalo a <b>${eur(suggPrice(d.cost))}</b> (food cost 32%).<div class="acts"><button class="btn-note" style="background:#FEE2E2;color:#991B1B;border-color:#991B1B;" onclick="deleteMenuItem(${m.id});v211Rerender()">⛔ Togli dal menù</button><button class="btn-note" onclick="editMenuItem(${m.id});v211Rerender()">✏️ Cambia prezzo</button></div>`:'<br>👍 Rende ancora: tienilo d’occhio.'):'<br>👉 Costa meno del solito: è il momento di spingerlo in sala.'}</div>`;}).join(''):`<div class="d">Nessun piatto del menù di oggi lo usa${up?'':': puoi proporlo alla prossima lavagnetta'}.</div>`)+`</div>`);});return out.join('');}
+function renderCosti(){const el=$('hub_ai_costi');if(!el)return;const ix=priceIndex(),I=Object.values(ix),md=menuDishes(),D=md.map(m=>({m,...dishInfo(m.name,m.price,ix)})),withR=D.filter(d=>d.rc),noR=D.filter(d=>!d.rc);
+ const al=alerts(ix);withR.sort((a,b)=>(b.fc||0)-(a.fc||0));const avgFc=withR.length?withR.reduce((s,d)=>s+(d.fc||0),0)/withR.length:null;
+ el.innerHTML=(al?`<div class="cart-section"><h3 style="margin-bottom:8px;">🚨 Prezzi che cambiano</h3>${al}</div>`:'')+
+ `<div class="cart-section"><div class="cs-h"><h3>🍽️ Food cost dei piatti di oggi</h3>${avgFc!=null?`<b class="${fcCls(avgFc)}" style="font-size:1.1rem;">${Math.round(avgFc*100)}%</b>`:''}</div>${syncLine()}
+ ${noR.length?`<button class="btn-main" style="width:100%;background:#7C3AED;color:#fff;margin-bottom:6px;" onclick="v211MakeRecipes()">🤖 Crea con Gemini le ricette mancanti (${noR.length})</button>`:''}<div class="rcSt" style="font-size:.8rem;font-weight:800;color:#7C3AED;margin-bottom:6px;"></div>
+ ${withR.map(d=>{const c=fcCls(d.fc),w=Math.min(100,Math.round((d.fc||0)/.6*100));return`<div class="fc" onclick="v211EditRecipe(${jsA(d.name)})" style="cursor:pointer;"><div class="fc-top"><b>${escH(d.name)}</b><span class="fc-pct ${c}">${d.fc!=null?Math.round(d.fc*100)+'%':'—'}</span></div><div class="fc-bar"><span class="bg-${c}" data-w="${w}"></span></div><div class="fc-sub">costo ${eur(d.cost)} · prezzo ${eur(d.price)} · margine ${eur(d.marg)}${d.est?' · <span class="y">con prezzi stimati</span>':''}${d.miss.length?' · <span class="r">manca: '+escH(d.miss.join(', '))+'</span>':''}</div></div>`;}).join('')}
+ ${noR.length?`<div class="fc-sub" style="margin-top:8px;">Senza ricetta: ${noR.map(d=>`<a href="#" onclick="v211EditRecipe(${jsA(d.name)});return false;" style="color:#7C3AED;">${escH(d.name)}</a>`).join(', ')}</div>`:''}
+ ${!md.length?'<div class="fc-sub">Il menù di oggi è vuoto: carica la lavagnetta.</div>':''}
+ <div class="fc-sub" style="margin-top:8px;">Food cost = costo ingredienti ÷ prezzo senza IVA (10%). <span class="g">fino al 30% bene</span>, <span class="y">30–38% attenzione</span>, <span class="r">oltre 38% non rende</span>. Tocca un piatto per correggere le grammature.</div></div>`+
+ `<div class="cart-section"><div class="cs-h"><h3>📊 Prezzi materie prime</h3><button class="btn-note" onclick="setHubPage('sales','forn');switchMainView('sales')">📦 Bolle</button></div>${I.length?I.sort((a,b)=>Math.abs(b.ch||0)-Math.abs(a.ch||0)).map(o=>`<div class="ing"><div class="n"><b>${escH(o.nome)}</b><span>${escH(o.last.f)} · ${o.last.d.split('-').reverse().slice(0,2).join('/')} · ${o.hist.length} ${o.hist.length===1?'acquisto':'acquisti'}</span></div>${spark(o.hist)}<div class="p">${eur(o.last.pu)}<span style="font-size:.66rem;color:var(--muted);">/${o.u}</span><br>${o.ch==null?'<span class="chg eq">nuovo</span>':`<span class="chg ${o.ch>.02?'up':o.ch<-.02?'dn':'eq'}">${o.ch>0?'+':''}${Math.round(o.ch*100)}%</span>`}</div></div>`).join(''):'<div class="fc-sub">Ancora nessun prezzo vero: carica una bolla da 💶 Vendite › 📦 Fornitori. Nel frattempo il food cost usa le stime di Gemini.</div>'}</div>`;
+ requestAnimationFrame(()=>requestAnimationFrame(()=>el.querySelectorAll('.fc-bar span').forEach(s=>s.style.width=s.dataset.w+'%')));}
+let rankDays=30;
+window.v211RankDays=d=>{rankDays=d;renderRank();};
+function engineering(){const from=iso(addD(today(),-rankDays)),m={},ix=priceIndex();(state.historyLog||[]).forEach(e=>{try{if(!e||svcDate(e)<from)return;(e.items||[]).forEach(i=>{if(!isDishItem(i))return;const k=ik(i.name);if(!k)return;const o=m[k]=m[k]||{k,nome:i.name,q:0,rev:0};o.q+=num(i.qty);o.rev+=num(i.price)*num(i.qty);});}catch(x){}});
+ const L=Object.values(m).filter(o=>o.q>0).map(o=>{const pr=o.rev/o.q,d=dishInfo(o.nome,pr,ix);return{...o,pr,...d};}),R=L.filter(o=>o.rc),n=R.length,tq=R.reduce((s,o)=>s+o.q,0),pop=n?.7*tq/n:0,am=tq?R.reduce((s,o)=>s+o.marg*o.q,0)/tq:0;
+ R.forEach(o=>{o.hi=o.q>=pop;o.pr2=o.marg>=am;o.qd=o.hi&&o.pr2?'star':o.hi?'horse':o.pr2?'puz':'dog';});return{L,R,noR:L.filter(o=>!o.rc),am,pop};}
+function renderRank(){const el=$('hub_ai_rank');if(!el)return;const E=engineering(),Q={star:['⭐ Vende e rende','tienili così, in evidenza','q-star'],horse:['🐴 Vende ma rende poco','ritocca prezzo o grammature','q-horse'],puz:['💎 Rende ma non vende','fallo proporre in sala','q-puz'],dog:['🐕 Né vende né rende','da togliere','q-dog']};
+ const box=k=>{const L=E.R.filter(o=>o.qd===k).sort((a,b)=>b.q*b.marg-a.q*a.marg);return`<div class="${Q[k][2]}"><h4>${Q[k][0]}</h4><small>${Q[k][1]}</small>${L.slice(0,6).map(o=>`<div class="it">${escH(o.nome)}<br><span style="font-weight:700;opacity:.8;">${o.q} porz. · ${eur(o.marg)} l’una</span></div>`).join('')||'<div class="it" style="opacity:.6;">—</div>'}${L.length>6?`<div class="it">+${L.length-6} altri</div>`:''}</div>`;};
+ el.innerHTML=`<div class="cart-section"><div class="cs-h"><h3>🏆 Classifica piatti</h3></div><div class="cat-bar" style="margin-bottom:8px;">${[[7,'7 giorni'],[30,'30 giorni'],[90,'90 giorni']].map(([d,l])=>`<button class="cat-btn${rankDays===d?' active':''}" onclick="v211RankDays(${d})">${l}</button>`).join('')}</div>
+ ${E.R.length?`<div class="qd">${box('star')}${box('horse')}${box('puz')}${box('dog')}</div><div class="fc-sub" style="margin-bottom:8px;">“Vende” = almeno il 70% delle porzioni medie per piatto (${Math.round(E.pop*10)/10}). “Rende” = margine per porzione sopra la media (${eur(E.am)}).</div>
+ <button class="btn-main" style="width:100%;background:#7C3AED;color:#fff;" onclick="v211AskRank()">🤖 Cosa ritoccare? Chiedi a Gemini</button><div id="rkAi"></div>`:'<div class="fc-sub">Servono vendite e ricette: chiudi qualche serata e crea le ricette da 💰 Costi.</div>'}</div>`+
+ `<div class="cart-section"><h3 style="margin-bottom:6px;">📋 Tutti i piatti venduti</h3>${E.L.sort((a,b)=>(b.rc?b.q*b.marg:-1)-(a.rc?a.q*a.marg:-1)).map((o,i)=>`<div class="ing"><div class="n"><b style="text-transform:none;">${i+1}. ${escH(o.nome)}</b><span>${o.q} porzioni · incasso ${eur(o.rev)}${o.rc?' · food cost '+Math.round((o.fc||0)*100)+'%':''}</span></div><div class="p">${o.rc?eur(o.marg*o.q)+'<br><span style="font-size:.64rem;color:var(--muted);">margine totale</span>':`<button class="btn-note" onclick="v211EditRecipe(${jsA(o.nome)})">📝 Ricetta</button>`}</div></div>`).join('')||'<div class="fc-sub">Nessuna vendita nel periodo.</div>'}
+ ${E.noR.length?`<button class="btn-note" style="width:100%;margin-top:8px;padding:10px;" onclick="v211MakeRecipes(${jsA(E.noR.map(o=>o.nome).slice(0,40))})">🤖 Crea le ricette mancanti (${E.noR.length})</button><div class="rcSt" style="font-size:.8rem;font-weight:800;color:#7C3AED;margin-top:6px;"></div>`:''}</div>`;}
+window.v211AskRank=async function(){const o=$('rkAi');if(!getGeminiKey()){o.innerHTML='<div class="pv-ai">🔑 Inserisci la chiave Gemini in ⚙️ Opzioni.</div>';return;}o.innerHTML='<div class="pv-ai">⏳ Gemini sta guardando i numeri...</div>';const E=engineering(),ix=priceIndex(),md=menuDishes().map(m=>m.name);
+ const data={piatti:E.R.map(o=>({nome:o.nome,porzioni:o.q,prezzo:Math.round(o.pr*100)/100,costo:Math.round(o.cost*100)/100,food_cost:Math.round((o.fc||0)*100)+'%',casella:{star:'vende e rende',horse:'vende ma rende poco',puz:'rende ma non vende',dog:'né vende né rende'}[o.qd],in_menu_oggi:md.some(n=>ik(n)===o.k)})),prezzi_che_cambiano:Object.values(ix).filter(x=>x.ch!=null&&Math.abs(x.ch)>=.15).map(x=>({ingrediente:x.nome,prezzo:x.last.pu+' €/'+x.u,variazione:Math.round(x.ch*100)+'%'}))};
+ try{const t=await callGemini([{text:`Sei il consulente di Alicetta, trattoria di pesce a Fossacesia. Periodo: ultimi ${rankDays} giorni. Dati: ${JSON.stringify(data)}. Scrivi in italiano, massimo 12 righe semplici e concrete, con il nome dei piatti: quali prezzi ritoccare (con la cifra), quali grammature ridurre, cosa far proporre in sala da Alice e Serena, cosa togliere dalla lavagnetta, e se un ingrediente rincarato rende un piatto da sospendere. Prezzi tondi a 0,50 €.`}]);o.innerHTML='';const d=document.createElement('div');d.className='pv-ai';d.textContent=t;o.appendChild(d);}catch(e){o.innerHTML='';const d=document.createElement('div');d.className='pv-ai';d.textContent='AI non disponibile: '+e.message;o.appendChild(d);}};
+
+/* ---------- collegamento alle pagine ---------- */
+let cur=null;
+function rerender(){if(!cur)return;const[k,p]=cur;if(k==='sales'&&p==='forn')renderForn();if(k==='ai'&&p==='costi')renderCosti();if(k==='ai'&&p==='rank')renderRank();}
+window.v211Rerender=()=>setTimeout(rerender,50);
+window.v211Show=function(k,p){cur=[k,p];if(!((k==='sales'&&p==='forn')||(k==='ai'&&(p==='costi'||p==='rank'))))return;rerender();if(!pulled||Date.now()-(window._v211Pull||0)>60000){window._v211Pull=Date.now();pull().then(rerender);}};
+window.addEventListener('online',()=>flush().then(rerender));
 })();
 </script>
 
