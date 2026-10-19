@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.1.2</title>
+<title>Alicetta TableZ 2.0 - v2.1.3</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -236,7 +236,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.1.2</div>
+    <div class="version-badge">v2.1.3</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -345,7 +345,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.1.2)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.1.3)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -373,7 +373,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.1.2)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.1.3)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -2063,7 +2063,7 @@ window.addEventListener('resize',()=>{placeDockPill();Object.keys(HUBS).forEach(
 /* ---------- 2. Pagine-hub con sotto-pagine (Vendite e AI) ---------- */
 const HUBS={
  sales:{screen:'viewSales',color:'#4D7C0F',cur:'oggi',pages:[['oggi','💶 Oggi'],['grafici','📈 Grafici'],['conti','🧾 Conti'],['forn','📦 Fornitori'],['storico','📚 Storico']]},
- ai:{screen:'viewAi',color:'#7C3AED',cur:'prev',pages:[['prev','🔮 Coperti'],['costi','💰 Costi'],['rank','🏆 Classifica'],['chef','🧑‍🍳 Sous-Chef'],['lav','📸 Lavagnetta']]}
+ ai:{screen:'viewAi',color:'#7C3AED',cur:'prev',pages:[['prev','🔮 Coperti'],['costi','💰 Costi'],['rank','🏆 Classifica'],['tempi','⏱️ Tempi'],['chef','🧑‍🍳 Sous-Chef'],['lav','📸 Lavagnetta']]}
 };
 function buildHub(key,afterEl){const h=HUBS[key],sc=$(h.screen);const tabs=document.createElement('div');tabs.className='hub-tabs';tabs.id='hubTabs_'+key;tabs.innerHTML=`<div class="hub-pill" style="--hc:${h.color}"></div>`+h.pages.map(([k,l])=>`<button class="hub-tab" data-p="${k}">${l}</button>`).join('');
  tabs.querySelectorAll('.hub-tab').forEach(b=>b.onclick=()=>setHubPage(key,b.dataset.p));
@@ -2415,6 +2415,74 @@ const _o=openTable;openTable=function(){const r=_o.apply(this,arguments);sync();
 const c=document.createElement('div');c.className='cart-section';c.innerHTML='<h3 style="margin-bottom:6px;">⛶ Schermo intero</h3><button class="btn-main btn-print" style="width:100%;" onclick="toggleFullScreen()">⛶ Attiva / disattiva schermo intero</button>';
 const sw=$('chkSwipe'),card=sw&&sw.closest('.cart-section');if(card)card.after(c);else $('viewMenuMgr').appendChild(c);
 sync();
+})();
+</script>
+<!-- ===== v2.1.3: tempo medio reale di ogni piatto + "pronto verso le…" su KDS e tavoli ===== -->
+<style>
+.eta-chip{display:inline-block;margin-left:4px;font-size:.68rem;font-weight:900;border-radius:20px;padding:1px 7px;background:#E0F2FE;color:#075985;white-space:nowrap}
+.eta-chip.late{background:#FEE2E2;color:#B91C1C}.eta-chip.done{background:#DCFCE7;color:#166534}.eta-chip.wait{background:#F1F5F9;color:#64748B}
+.eta-ban{display:flex;justify-content:space-between;align-items:center;gap:6px;margin:5px 0 2px;padding:5px 9px;border-radius:9px;font-size:.8rem;font-weight:900;background:linear-gradient(90deg,#062329,#0E4752);color:#5EF2FF}
+.eta-ban.late{background:linear-gradient(90deg,#7F1D1D,#B91C1C);color:#fff;animation:etaPulse 1.6s ease-in-out infinite}
+.eta-ban small{font-weight:800;opacity:.85}
+@keyframes etaPulse{50%{filter:brightness(1.25)}}
+.tm-row{padding:8px 0;border-bottom:1px dashed var(--border)}
+.tm-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.tm-top b{font-size:.88rem}
+.tm-min{font-weight:900;font-size:1.05rem;color:#0E4752;white-space:nowrap}
+.tm-bar{position:relative;height:10px;border-radius:9px;background:#E0F2FE;margin:5px 0 3px;overflow:hidden}
+.tm-bar span{position:absolute;top:0;bottom:0;left:0;width:0;border-radius:9px;background:linear-gradient(90deg,#22D3EE,#0E7490);transition:width .8s cubic-bezier(.2,.9,.25,1)}
+.tm-bar i{position:absolute;top:0;bottom:0;background:rgba(14,116,144,.22);border-radius:9px}
+@media (prefers-reduced-motion:reduce){.eta-ban.late{animation:none}.tm-bar span{transition:none}}
+</style>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const ik=n=>normDish(String(n||'').trim());
+const DEF={'3 Antipasti':8,'4 Primi Piatti':14,'5 Secondi':16,'6 Desserts':6};
+const hm=ts=>new Date(ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+const med=a=>{const s=a.slice().sort((x,y)=>x-y),n=s.length;return n?(n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2):null;};
+const pct=(a,p)=>{const s=a.slice().sort((x,y)=>x-y);return s.length?s[Math.min(s.length-1,Math.floor(p*(s.length-1)+.5))]:null;};
+const startOf=(e,m,f)=>Number((f||{})[m])||(m===1?Number(e.opened||e.openedAt)||0:0);
+/* raccoglie i tempi: dal via della mandata alla spunta del piatto sul KDS (o al FATTO della mandata) */
+let S=null,Skey='';
+function stats(){const L=state.historyLog||[],k=L.length+'|'+(L[L.length-1]||{}).ts;if(S&&k===Skey)return S;Skey=k;
+ const lim=Date.now()-120*864e5,d={},c={},all=[];
+ L.forEach(e=>{if(!e||!e.items||(Number(e.ts)||0)<lim)return;const f=e.fired||{},dn=e.done||{};e.items.forEach(i=>{const m=Number(i.mandata);if(!(m>=1&&m<=3)||!i.name||/coperto/i.test(i.name)||i.cat==='2 Bevande')return;const st=startOf(e,m,f);if(!st)return;const own=Number(i.readyAt)||0,end=own||Number(dn[m])||0;if(!end||end<=st)return;const mn=(end-st)/60000;if(mn<1||mn>90)return;const kk=ik(i.name);if(!kk)return;const o=d[kk]=d[kk]||{k:kk,nome:i.name,cat:i.cat,v:[],own:0};o.v.push(mn);if(own)o.own++;o.nome=i.name;(c[i.cat]=c[i.cat]||[]).push(mn);all.push(mn);});});
+ Object.values(d).forEach(o=>{o.n=o.v.length;o.med=med(o.v);o.p25=pct(o.v,.25);o.p75=pct(o.v,.75);});
+ const cm={};Object.entries(c).forEach(([k,v])=>cm[k]={n:v.length,med:med(v)});
+ S={d,c:cm,all:med(all),n:all.length};return S;}
+function dishMin(name,cat){const s=stats(),o=s.d[ik(name)];if(o&&o.n>=2)return{min:o.med,src:'piatto',n:o.n};const c=s.c[cat];if(c&&c.n>=3)return{min:c.med,src:'categoria',n:c.n};return{min:DEF[cat]||s.all||12,src:'stima',n:0};}
+window.v213DishMin=dishMin;
+/* previsione di una mandata di un tavolo aperto */
+function mandEta(t,m){if(!t||!t.items)return null;const it=t.items.filter(i=>i.mandata===m&&i.name!=='Pane e Coperto'&&(typeof isItemSent!=='function'||isItemSent(t,i)));if(!it.length)return null;
+ const fired=m===1||(t.firedMandate&&t.firedMandate[m]),st=(t.firedAt&&t.firedAt[m])||(m===1?t.openedAt:0);
+ if(!fired||!st)return{wait:true,min:Math.max(...it.map(i=>dishMin(i.name,i.cat).min))};
+ const open=it.filter(i=>!i.ready);if(!open.length||(t.doneMandate&&t.doneMandate[m]))return null;
+ const eta=st+Math.max(...open.map(i=>dishMin(i.name,i.cat).min))*60000;return{eta,st,late:Date.now()>eta,left:Math.round((eta-Date.now())/60000)};}
+window.v213MandEta=mandEta;
+/* KDS: chip su ogni piatto */
+if(typeof kdsItemRow==='function'){const _r=kdsItemRow;kdsItemRow=function(t,i,dn){let h=_r.apply(this,arguments);try{const m=i.mandata;if(!(m>=1&&m<=3))return h;const dm=dishMin(i.name,i.cat),st=(t.firedAt&&t.firedAt[m])||(m===1?t.openedAt:0),fired=m===1||(t.firedMandate&&t.firedMandate[m]);let chip;
+ if(i.ready&&i.readyAt&&st)chip=`<span class="eta-chip done">✅ in ${Math.max(1,Math.round((i.readyAt-st)/60000))}'</span>`;
+ else if(!fired||!st)chip=`<span class="eta-chip wait">⏱ ~${Math.round(dm.min)}'</span>`;
+ else{const eta=st+dm.min*60000,late=Date.now()>eta;chip=`<span class="eta-chip${late?' late':''}">${late?'⚠️ +'+Math.round((Date.now()-eta)/60000)+"'":'⏱ '+hm(eta)}</span>`;}
+ const p=h.lastIndexOf('</div></div>');if(p>0)h=h.slice(0,p)+chip+h.slice(p);h=h.replace('<div class="kds-item',`<div data-et="${t.id}" data-em="${m}" class="kds-item`);}catch(e){}return h;};}
+/* KDS: "pronta verso le…" su ogni mandata */
+function kdsBanners(){const c=$('kdsContainer');if(!c)return;const seen={};c.querySelectorAll('[data-em]').forEach(r=>{const k=r.dataset.et+'|'+r.dataset.em;if(seen[k])return;seen[k]=1;const t=state.tables[r.dataset.et],m=+r.dataset.em,e=mandEta(t,m),box=r.parentElement;if(!e||e.wait||!box||box.querySelector('.eta-ban'))return;const b=document.createElement('div');b.className='eta-ban'+(e.late?' late':'');b.innerHTML=e.late?`<span>⚠️ Doveva uscire alle ${hm(e.eta)}</span><small>+${Math.round((Date.now()-e.eta)/60000)}'</small>`:`<span>🕒 Pronta verso le ${hm(e.eta)}</span><small>tra ${Math.max(0,e.left)}'</small>`;const hd=box.firstElementChild;if(hd)hd.after(b);else box.prepend(b);});}
+if(typeof renderKds==='function'){const _k=renderKds;renderKds=function(){const r=_k.apply(this,arguments);try{kdsBanners();}catch(e){}return r;};}
+/* Tavoli: la chip "in cucina da" mostra anche l'orario previsto */
+if(typeof kitchenChip==='function'){const _c=kitchenChip;kitchenChip=function(t){let h=_c.apply(this,arguments);try{const k=kitchenInfo(t);if(!k||!h)return h;const e=mandEta(t,k.m);if(!e||e.wait)return h;const p=h.lastIndexOf('</span>');if(p>0)h=h.slice(0,p)+(e.late?` · ⚠️ prevista ${hm(e.eta)}`:` · pronta ~${hm(e.eta)}`)+h.slice(p);}catch(x){}return h;};}
+/* pagina 🤖 AI › ⏱️ Tempi */
+let cat='';
+window.v213Cat=c=>{cat=c;renderTempi();};
+function renderTempi(){const el=$('hub_ai_tempi');if(!el)return;const s=stats(),L=Object.values(s.d).filter(o=>o.n>=1&&(!cat||o.cat===cat)).sort((a,b)=>b.med-a.med),mx=Math.max(20,...L.map(o=>o.p75||o.med)),own=Object.values(s.d).reduce((a,o)=>a+o.own,0),tot=Object.values(s.d).reduce((a,o)=>a+o.n,0);
+ const today=(state.menu||[]).filter(m=>DEF[m.cat]),noData=today.filter(m=>!(s.d[ik(m.name)]&&s.d[ik(m.name)].n>=2));
+ el.innerHTML=`<div class="cart-section"><div class="cs-h"><h3>⏱️ Tempi reali dei piatti</h3></div><div class="fc-sub" style="margin-bottom:8px;">Dal via della mandata alla spunta del piatto sul KDS, ultimi 120 giorni. ${tot?`Misure: ${tot}, di cui ${Math.round(own/tot*100)}% con la spunta del singolo piatto.`:''}</div>
+ <div class="pv-chips" style="margin:0 0 10px;">${Object.entries(DEF).map(([k])=>{const c=s.c[k];return`<span class="pv-chip">${k.replace(/^\d\s*/,'')}: ${c?Math.round(c.med)+"'":'—'}</span>`;}).join('')}</div>
+ <div class="cat-bar" style="margin-bottom:6px;"><button class="cat-btn${!cat?' active':''}" onclick="v213Cat('')">Tutti</button>${Object.keys(DEF).map(k=>`<button class="cat-btn${cat===k?' active':''}" onclick="v213Cat('${k}')">${k.replace(/^\d\s*/,'')}</button>`).join('')}</div>
+ ${L.length?L.map(o=>`<div class="tm-row"><div class="tm-top"><b>${escH(o.nome)}</b><span class="tm-min">${Math.round(o.med)}'</span></div><div class="tm-bar"><i style="left:${(o.p25/mx*100).toFixed(1)}%;width:${((o.p75-o.p25)/mx*100).toFixed(1)}%"></i><span data-w="${(o.med/mx*100).toFixed(1)}"></span></div><div class="fc-sub">di solito tra ${Math.round(o.p25)}' e ${Math.round(o.p75)}' · ${o.n} ${o.n===1?'uscita':'uscite'}${o.n<2?' · <span class="y">troppo poche, uso la media della categoria</span>':''}</div></div>`).join(''):'<div class="fc-sub">Ancora nessun tempo misurato. Si misura da solo: in cucina basta spuntare ogni piatto sul KDS quando esce, e chiudere i conti dai Tavoli.</div>'}
+ ${noData.length?`<div class="fc-sub" style="margin-top:8px;">Piatti di oggi senza tempi propri (uso la media della categoria): ${noData.map(m=>escH(m.name)).join(', ')}</div>`:''}
+ <div class="fc-sub" style="margin-top:8px;">👉 Più la cucina spunta i singoli piatti sul KDS, più l’orario “pronto verso le…” diventa preciso.</div></div>`;
+ requestAnimationFrame(()=>requestAnimationFrame(()=>el.querySelectorAll('.tm-bar span').forEach(x=>x.style.width=x.dataset.w+'%')));}
+const _show=window.v211Show;window.v211Show=function(k,p){if(k==='ai'&&p==='tempi'){renderTempi();return;}if(_show)return _show.apply(this,arguments);};
 })();
 </script>
 <script>initApp();</script>
