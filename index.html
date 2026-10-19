@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.1.3</title>
+<title>Alicetta TableZ 2.0 - v2.1.4</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -236,7 +236,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.1.3</div>
+    <div class="version-badge">v2.1.4</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -345,7 +345,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.1.3)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.1.4)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -373,7 +373,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.1.3)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.1.4)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -2063,7 +2063,7 @@ window.addEventListener('resize',()=>{placeDockPill();Object.keys(HUBS).forEach(
 /* ---------- 2. Pagine-hub con sotto-pagine (Vendite e AI) ---------- */
 const HUBS={
  sales:{screen:'viewSales',color:'#4D7C0F',cur:'oggi',pages:[['oggi','💶 Oggi'],['grafici','📈 Grafici'],['conti','🧾 Conti'],['forn','📦 Fornitori'],['storico','📚 Storico']]},
- ai:{screen:'viewAi',color:'#7C3AED',cur:'prev',pages:[['prev','🔮 Coperti'],['costi','💰 Costi'],['rank','🏆 Classifica'],['tempi','⏱️ Tempi'],['chef','🧑‍🍳 Sous-Chef'],['lav','📸 Lavagnetta']]}
+ ai:{screen:'viewAi',color:'#7C3AED',cur:'prev',pages:[['prev','🔮 Coperti'],['chef','🧑‍🍳 Sous-Chef'],['tempi','⏱️ Tempi'],['costi','💰 Costi'],['rank','🏆 Classifica'],['post','📣 Post'],['club','🎟️ Club'],['lav','📸 Lavagnetta']]}
 };
 function buildHub(key,afterEl){const h=HUBS[key],sc=$(h.screen);const tabs=document.createElement('div');tabs.className='hub-tabs';tabs.id='hubTabs_'+key;tabs.innerHTML=`<div class="hub-pill" style="--hc:${h.color}"></div>`+h.pages.map(([k,l])=>`<button class="hub-tab" data-p="${k}">${l}</button>`).join('');
  tabs.querySelectorAll('.hub-tab').forEach(b=>b.onclick=()=>setHubPage(key,b.dataset.p));
@@ -2128,19 +2128,15 @@ if(typeof ccOpen==='function'){const _cc=ccOpen;ccOpen=function(k){if(v21CurView
 
 /* ---------- 4. Scorrimento col dito ---------- */
 function canGo(dir){const v=v21CurView();if(!v||v==='order')return false;
- if(v==='tables'){const n=ROOMS.indexOf(state.currentRoom||'interna')+dir;if(n>=0&&n<ROOMS.length)return true;}
- if(HUBS[v]){const h=HUBS[v],n=h.pages.findIndex(p=>p[0]===h.cur)+dir;if(n>=0&&n<h.pages.length)return true;}
+  if(HUBS[v]){const h=HUBS[v],n=h.pages.findIndex(p=>p[0]===h.cur)+dir;if(n>=0&&n<h.pages.length)return true;}
  const L=visibleDock().map(x=>x[1]),i=L.indexOf(v),n=i+dir;return i>=0&&n>=0&&n<L.length;}
 function goNeighbor(dir){const v=v21CurView(),sc=document.querySelector('.screen.active');if(!v||v==='order')return;
- if(v==='tables'){const i=ROOMS.indexOf(state.currentRoom||'interna'),n=i+dir;if(n>=0&&n<ROOMS.length){selectRoom(ROOMS[n]);if(navigator.vibrate)try{navigator.vibrate(8);}catch(e){}return;}}
  if(HUBS[v]){const h=HUBS[v],i=h.pages.findIndex(p=>p[0]===h.cur),n=i+dir;if(n>=0&&n<h.pages.length){setHubPage(v,h.pages[n][0],dir);if(navigator.vibrate)try{navigator.vibrate(8);}catch(e){}return;}}
  const L=visibleDock().map(x=>x[1]),i=L.indexOf(v),n=i+dir;
  if(i<0||n<0||n>=L.length){bump(sc,dir);return;}
  const nv=L[n];
- if(nv==='tables')state.currentRoom=dir>0?'interna':'ritardi';
  if(HUBS[nv])HUBS[nv].cur=HUBS[nv].pages[dir>0?0:HUBS[nv].pages.length-1][0];
  switchMainView(nv);
- if(nv==='tables'&&typeof selectRoom==='function')_sr(state.currentRoom);
  if(navigator.vibrate)try{navigator.vibrate(12);}catch(e){}
 }
 window.v21GoNeighbor=goNeighbor;
@@ -2483,6 +2479,198 @@ function renderTempi(){const el=$('hub_ai_tempi');if(!el)return;const s=stats(),
  <div class="fc-sub" style="margin-top:8px;">👉 Più la cucina spunta i singoli piatti sul KDS, più l’orario “pronto verso le…” diventa preciso.</div></div>`;
  requestAnimationFrame(()=>requestAnimationFrame(()=>el.querySelectorAll('.tm-bar span').forEach(x=>x.style.width=x.dataset.w+'%')));}
 const _show=window.v211Show;window.v211Show=function(k,p){if(k==='ai'&&p==='tempi'){renderTempi();return;}if(_show)return _show.apply(this,arguments);};
+})();
+</script>
+<!-- ===== v2.1.4: ritmo intelligente mandate · post social · campagne Club ===== -->
+<style>
+.pace-soon{margin-top:6px;font-size:.68rem;font-weight:800;background:rgba(255,255,255,.8);color:#334155;border-radius:6px;padding:2px 6px;display:inline-block}
+.sw-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0}
+.sw-row b{font-size:.86rem}
+.sw{position:relative;width:50px;height:28px;flex-shrink:0}
+.sw input{opacity:0;position:absolute;inset:0;width:100%;height:100%;margin:0;z-index:2;cursor:pointer}
+.sw i{position:absolute;inset:0;border-radius:20px;background:#CBD5E1;transition:background .25s}
+.sw i::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.3);transition:transform .25s cubic-bezier(.3,1.5,.5,1)}
+.sw input:checked+i{background:#16A34A}.sw input:checked+i::after{transform:translateX(22px)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.chipb{border:2px solid rgba(6,35,41,.15);background:#fff;color:#062329;border-radius:20px;padding:7px 11px;font-weight:800;font-size:.78rem;cursor:pointer;transition:transform .12s,background .2s,color .2s}
+.chipb:active{transform:scale(.94)}.chipb.on{background:#7C3AED;border-color:#4C1D95;color:#fff}
+.seg{display:flex;gap:4px;background:rgba(6,35,41,.1);padding:4px;border-radius:14px;margin-bottom:10px}
+.seg button{flex:1;border:none;background:none;padding:10px 4px;border-radius:10px;font-weight:900;font-size:.78rem;color:#062329;transition:background .25s,color .25s,box-shadow .25s}
+.seg button.on{background:#7C3AED;color:#fff;box-shadow:0 3px 0 #4C1D95}
+.v14-lbl{font-size:.74rem;font-weight:900;color:#062329;margin:8px 0 2px}
+.v14-ta{width:100%;box-sizing:border-box;border-radius:12px;border:2px solid #E9D5FF;padding:10px;background:#FAF5FF;color:#1F2937;font-family:inherit;font-size:.88rem;line-height:1.45;user-select:text;-webkit-user-select:text;resize:vertical}
+.v14-in{width:100%;box-sizing:border-box;border-radius:10px;border:2px solid #E9D5FF;padding:9px;background:#FAF5FF;color:#1F2937;font-family:inherit;font-size:.88rem;margin-bottom:6px;user-select:text;-webkit-user-select:text}
+.ph-prev{display:flex;align-items:center;gap:10px;margin:6px 0}
+.ph-prev img{width:72px;height:72px;object-fit:cover;border-radius:12px;box-shadow:0 3px 0 rgba(0,0,0,.2)}
+.gen-pulse{animation:genPulse 1.2s ease-in-out infinite}
+@keyframes genPulse{50%{opacity:.45}}
+.club-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px dashed var(--border)}
+.club-row.sent{opacity:.55}
+.club-row .n{min-width:0}.club-row .n b{display:block;font-size:.9rem}.club-row .n span{font-size:.7rem;color:var(--muted);font-weight:700}
+.btn-wa{background:#25D366;color:#fff;border:none;border-radius:12px;padding:10px 12px;font-weight:900;font-size:.82rem;box-shadow:0 3px 0 #128C7E;white-space:nowrap;cursor:pointer}
+.btn-wa:active{transform:translateY(2px);box-shadow:0 1px 0 #128C7E}
+.club-prev{background:#DCFCE7;border-radius:14px 14px 14px 4px;padding:10px 12px;font-size:.82rem;line-height:1.4;white-space:pre-wrap;margin:8px 0;color:#14532D;user-select:text;-webkit-user-select:text}
+.mini-toast{position:fixed;left:50%;bottom:104px;transform:translate(-50%,20px);background:#062329;color:#fff;font-weight:800;font-size:.85rem;padding:10px 16px;border-radius:20px;z-index:120;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none}
+.mini-toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){.gen-pulse{animation:none}.sw i,.sw i::after{transition:none}}
+</style>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>escH(s);
+const DISH=c=>c&&c!=='1 Coperto'&&c!=='2 Bevande';
+const catLbl=c=>String(c||'').replace(/^\d+\s*/,'');
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const med=a=>{const s=a.slice().sort((x,y)=>x-y),n=s.length;return n?(n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2):null;};
+let tt=0;function toast(m){let e=$('miniToast');if(!e){e=document.createElement('div');e.id='miniToast';e.className='mini-toast';document.body.appendChild(e);}e.textContent=m;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),1800);}
+async function copyTxt(t){try{await navigator.clipboard.writeText(t);return true;}catch(e){const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();let ok=false;try{ok=document.execCommand('copy');}catch(x){}a.remove();return ok;}}
+
+/* ================= 1. Slide solo tra le sezioni (non più tra Interna/Esterna/Asporto/Ritardi) ================= */
+/* vedi modifica diretta di canGo e goNeighbor più sopra */
+
+/* ================= 2. Ritmo intelligente delle mandate (roadmap 4) ================= */
+const SMART=()=>localStorage.getItem('alicetta_pace_smart')!=='0';
+const EAT={'3 Antipasti':13,'4 Primi Piatti':16,'5 Secondi':20,'6 Desserts':10};
+const ADJ=[[/tagliere|misto|assaggi|degustazione/i,4],[/fritt|paranza|fish/i,2],[/brodetto|zuppa|zuppetta|risotto|scoglio/i,3],[/crudo|crudi|tartare|carpaccio|ostric|sashimi|insalata|bruschett/i,-3]];
+const dishEat=i=>(EAT[i.cat]||12)+clamp(ADJ.reduce((a,[re,v])=>a+(re.test(i.name||'')?v:0),0),-4,5);
+const coversOf=t=>(t.items||[]).filter(i=>i.name==='Pane e Coperto').reduce((s,i)=>s+(Number(i.qty)||0),0);
+const dishItems=(t,m)=>(t.items||[]).filter(i=>i.mandata===m&&DISH(i.cat)&&!/coperto/i.test(i.name||''));
+function eatMin(t,m){const it=dishItems(t,m);if(!it.length)return 10;return Math.max(...it.map(dishEat))+clamp(Math.floor((coversOf(t)-4)/2),0,4);}
+function cookMin(t,n){const it=dishItems(t,n);if(!it.length)return 3;let c=Math.max(...it.map(i=>window.v213DishMin?v213DishMin(i.name,i.cat).min:8));return n===4?Math.min(c,6):c;}
+function gapMin(t,m){const n=m+1,pause=n===4?6:3;return clamp(Math.round(eatMin(t,m)+pause-cookMin(t,n)),3,20);}
+window.v214Gap=gapMin;
+getPaceAlerts=function(t){const o=[];if(!t||!t.items||!t.sentOnce)return o;[1,2,3].forEach(m=>{const n=m+1,at=t.doneAt&&t.doneAt[m];if(t.doneMandate&&t.doneMandate[m]&&at&&t.items.some(i=>i.mandata===n)&&!(t.firedMandate&&t.firedMandate[n])){const gap=SMART()?gapMin(t,m):8,el=Date.now()-at;if(el>=gap*60000)o.push({m:n,at,min:Math.floor(el/60000),gap});}});return o;};
+paceBadge=function(t){let h=getPaceAlerts(t).map(a=>`<div style="margin-top:6px;font-size:0.72rem;font-weight:800;background:#FACC15;color:#000;border-radius:6px;padding:3px 6px;">⏰ Dare il via alla ${a.m}ª? (${a.min}'${SMART()?' · ideale '+a.gap+"'":''})</div>`).join('');
+ if(SMART()&&t&&t.items&&t.sentOnce)[1,2,3].forEach(m=>{const n=m+1,at=t.doneAt&&t.doneAt[m];if(!(t.doneMandate&&t.doneMandate[m]&&at&&t.items.some(i=>i.mandata===n)&&!(t.firedMandate&&t.firedMandate[n])))return;const left=gapMin(t,m)*60000-(Date.now()-at);if(left>0)h+=`<div class="pace-soon">⏳ ${n}ª: via tra ~${Math.ceil(left/60000)}'</div>`;});
+ return h;};
+window.v214PaceToggle=on=>{localStorage.setItem('alicetta_pace_smart',on?'1':'0');try{renderTables();}catch(e){}appendPaceCard();toast(on?'🧠 Ritmo intelligente attivo':'⏰ Ritmo fisso a 8 minuti');};
+function appendPaceCard(){const el=$('hub_ai_tempi');if(!el)return;let c=$('paceCard');if(c)c.remove();c=document.createElement('div');c.id='paceCard';c.className='cart-section';
+ const pairs=[['3 Antipasti','4 Primi Piatti'],['4 Primi Piatti','5 Secondi'],['5 Secondi','6 Desserts']];
+ const rows=pairs.map(([a,b])=>{const pause=b==='6 Desserts'?6:3,cook=window.v213DishMin?v213DishMin('',b).min:8,g=clamp(Math.round(EAT[a]+pause-(b==='6 Desserts'?Math.min(cook,6):cook)),3,20);return`<div class="tm-row"><div class="tm-top"><b>Dopo ${catLbl(a)} → via ${catLbl(b)}</b><span class="tm-min">~${g}'</span></div></div>`;}).join('');
+ const g={1:[],2:[],3:[]},lim=Date.now()-120*864e5;(state.historyLog||[]).forEach(e=>{if(!e||(e.ts||0)<lim)return;const f=e.fired||{},d=e.done||{};[1,2,3].forEach(m=>{const a=Number(d[m]),b=Number(f[m+1]);if(a&&b&&b>a&&(b-a)/60000<=45)g[m].push((b-a)/60000);});});
+ const real=[1,2,3].filter(m=>g[m].length>=3).map(m=>`${m}ª→${m+1}ª ${Math.round(med(g[m]))}'`).join(' · ');
+ c.innerHTML=`<div class="cs-h"><h3>🧠 Ritmo delle mandate</h3></div><div class="sw-row"><b>Ritmo intelligente<br><span class="fc-sub">Il promemoria “dai il via” scatta al momento giusto per ogni tavolo. Spento: sempre dopo 8'.</span></b><label class="sw"><input type="checkbox" ${SMART()?'checked':''} onchange="v214PaceToggle(this.checked)"><i></i></label></div>
+ <div class="fc-sub" style="margin:4px 0 6px;">Calcolo: tempo per mangiare la mandata servita (più lungo dopo un tagliere, un fritto o una zuppa, più corto dopo un crudo; più ospiti = più tempo) + una piccola pausa − tempo di cottura reale della mandata dopo. Esempi con i tempi di oggi:</div>${rows}
+ <div class="fc-sub" style="margin-top:8px;">${real?'Finora in sala avete dato il via dopo: '+real+'.':'Quando avrete qualche serata chiusa, qui vedrete anche dopo quanto avete dato il via finora.'}</div>`;
+ el.appendChild(c);}
+
+/* ================= 3. Post social dalla lavagnetta (roadmap 14) ================= */
+const PS={sel:new Set(),tone:'simpatico',prices:false,phone:true,note:'',file:null,b64:null,url:'',out:null,plat:'instagram',lang:'it',busy:false,msg:'',prev:[]};
+const TONES={simpatico:['😄 Simpatico','simpatico e allegro, con un pizzico di ironia leggera'],elegante:['🍷 Elegante','elegante e sobrio, con poche emoji'],famigliare:['🏖️ Di mare','caldo, familiare e ospitale, da trattoria di mare sulla Costa dei Trabocchi']};
+const dishList=()=>(state.menu||[]).filter(m=>DISH(m.cat)&&m.name&&!m.soldOut&&!(window.stockLeft&&stockLeft(m)===0));
+function renderPost(){const el=$('hub_ai_post');if(!el)return;const L=dishList(),by={};L.forEach(m=>(by[m.cat]=by[m.cat]||[]).push(m));
+ [...PS.sel].forEach(id=>{if(!L.some(m=>m.id===id))PS.sel.delete(id);});
+ el.innerHTML=`<div class="cart-section"><div class="cs-h"><h3>📣 Post del giorno</h3></div><div class="fc-sub" style="margin-bottom:6px;">Gemini scrive i post per Instagram, Facebook e Google Business, in italiano e in inglese. Tu controlli, copi e pubblichi.</div>
+ <div class="v14-lbl">Piatti da mettere in evidenza <span class="fc-sub">(vuoto = tutta la lavagnetta)</span></div>
+ ${L.length?Object.keys(by).sort().map(c=>`<div class="fc-sub" style="margin-top:4px;">${esc(catLbl(c))}</div><div class="chips">${by[c].map(m=>`<button class="chipb${PS.sel.has(m.id)?' on':''}" onclick="v214Sel(${m.id},this)">${esc(m.name.length>46?m.name.slice(0,44)+'…':m.name)}</button>`).join('')}</div>`).join(''):'<div class="fc-sub" style="margin:6px 0 10px;">Il menù di oggi è vuoto: carica la lavagnetta in 📸 Lavagnetta. Puoi comunque scrivere un post da una foto.</div>'}
+ <div class="v14-lbl">Foto del piatto <span class="fc-sub">(facoltativa)</span></div>
+ <div class="ph-prev" id="phPrev">${PS.url?`<img src="${PS.url}" alt=""><button class="btn-note" onclick="v214PhotoDel()">✕ Togli foto</button>`:''}</div>
+ <div class="cs-btns"><button class="btn-main btn-print" onclick="v214Photo(true)">📷 Scatta</button><button class="btn-main btn-bill" onclick="v214Photo(false)">🖼️ Carica</button></div>
+ <div class="v14-lbl">Tono</div><div class="seg" id="toneSeg">${Object.entries(TONES).map(([k,v])=>`<button class="${PS.tone===k?'on':''}" onclick="v214Tone('${k}',this)">${v[0]}</button>`).join('')}</div>
+ <div class="sw-row"><b>Scrivi i prezzi</b><label class="sw"><input type="checkbox" ${PS.prices?'checked':''} onchange="PS_set('prices',this.checked)"><i></i></label></div>
+ <div class="sw-row"><b>Invita a prenotare col telefono<br><span class="fc-sub">392 3279000</span></b><label class="sw"><input type="checkbox" ${PS.phone?'checked':''} onchange="PS_set('phone',this.checked)"><i></i></label></div>
+ <div class="v14-lbl">Note per il post <span class="fc-sub">(facoltative)</span></div><textarea class="v14-ta" rows="2" placeholder="es. stasera musica dal vivo, ultimi posti per sabato…" oninput="PS_set('note',this.value)">${esc(PS.note)}</textarea>
+ <button class="btn-main" style="width:100%;margin-top:10px;background:#7C3AED;color:#fff;" onclick="v214PostGen()">✨ Scrivi i post</button><div id="postMsg" class="fc-sub" style="margin-top:6px;font-weight:800;">${esc(PS.msg)}</div></div><div id="postOut"></div>`;
+ renderPostOut();}
+window.PS_set=(k,v)=>{PS[k]=v;};
+window.v214Sel=(id,b)=>{if(PS.sel.has(id))PS.sel.delete(id);else PS.sel.add(id);b.classList.toggle('on',PS.sel.has(id));};
+window.v214Tone=(k,b)=>{PS.tone=k;b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));};
+window.v214Photo=cam=>{const i=document.createElement('input');i.type='file';i.accept='image/*';if(cam)i.capture='environment';i.onchange=async()=>{const f=i.files&&i.files[0];if(!f)return;try{PS.b64=await shrinkImage(f,1280);PS.file=f;if(PS.url)URL.revokeObjectURL(PS.url);PS.url=URL.createObjectURL(f);renderPost();}catch(e){toast('Foto non leggibile');}};i.click();};
+window.v214PhotoDel=()=>{if(PS.url)URL.revokeObjectURL(PS.url);PS.file=null;PS.b64=null;PS.url='';renderPost();};
+function postMsg(t,pulse){PS.msg=t;const e=$('postMsg');if(e){e.textContent=t;e.classList.toggle('gen-pulse',!!pulse);}}
+window.v214PostGen=async function(){if(PS.busy)return;if(!getGeminiKey())return postMsg('🔑 Inserisci la chiave Gemini in ⚙️ Opzioni.');
+ const all=dishList(),chosen=all.filter(m=>PS.sel.has(m.id)),list=chosen.length?chosen:all;
+ if(!list.length&&!PS.b64)return postMsg('Carica la lavagnetta, scegli un piatto o aggiungi una foto.');
+ PS.busy=true;postMsg('⏳ Gemini sta scrivendo i post…',true);
+ const dishes=list.map(m=>m.name+(PS.prices?' ('+formatPrice(m.price)+' €)':'')).join('; ');
+ const prev=PS.prev.length?`\nQuesta è una nuova versione: non iniziare nessun post con queste aperture già usate: ${JSON.stringify(PS.prev.slice(-6))}.`:'';
+ const prompt=`Sei il social media manager di Alicetta Trattoria, trattoria di pesce a Fossacesia (Abruzzo, Costa dei Trabocchi). Scrivi i post di oggi. Tono: ${TONES[PS.tone][1]}.
+${PS.b64?'In allegato c\'è la foto di un piatto: descrivi solo ciò che si vede davvero e collegala ai piatti indicati.\n':''}${list.length?(chosen.length?'Piatti da mettere in evidenza: ':'Piatti della lavagnetta di oggi: ')+dishes+'.':''}
+${PS.note.trim()?'Note del titolare: '+PS.note.trim()+'\n':''}Regole: usa solo i piatti indicati; non inventare ingredienti, premi, offerte, orari o provenienze; nessuna affermazione su allergeni o diete. ${PS.prices?'Puoi citare i prezzi indicati.':'Non scrivere prezzi.'} ${PS.phone?'Chiudi invitando a prenotare al 392 3279000.':'Invita a prenotare senza scrivere numeri di telefono.'} Cita Fossacesia o la Costa dei Trabocchi in modo naturale.
+Formato: Instagram = 4-7 righe brevi con qualche emoji e in fondo 8-12 hashtag; Facebook = 3-5 righe e al massimo 3 hashtag; Google Business = massimo 700 caratteri, senza hashtag, al massimo un emoji, con invito a prenotare.
+Ogni post va scritto in italiano E in inglese (inglese naturale, non letterale; i nomi dei piatti restano in italiano con una breve spiegazione tra parentesi).${prev}
+Rispondi SOLO con JSON: {"instagram":{"it":"","en":""},"facebook":{"it":"","en":""},"google":{"it":"","en":""}}`;
+ try{const parts=[{text:prompt}];if(PS.b64)parts.push({inline_data:{mime_type:'image/jpeg',data:PS.b64}});
+  const t=await callGemini(parts,true),o=JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1)),g=(a,b)=>String(((o[a]||{})[b])||'').trim();
+  PS.out={};['instagram','facebook','google'].forEach(p=>PS.out[p]={it:g(p,'it'),en:g(p,'en')});
+  ['instagram','facebook','google'].forEach(p=>{const l=(PS.out[p].it||'').split('\n')[0].slice(0,50);if(l)PS.prev.push(l);});PS.prev=PS.prev.slice(-9);
+  postMsg('✅ Pronti! Controlla il testo e poi copialo o condividilo.');renderPostOut();setTimeout(()=>{const x=$('postOut');if(x)x.scrollIntoView({behavior:'smooth',block:'start'});},80);}
+ catch(e){console.error(e);postMsg('❌ Non è riuscito: '+e.message+'. Riprova tra un minuto.');}
+ PS.busy=false;};
+function postLimit(){return{instagram:2200,facebook:5000,google:1500}[PS.plat];}
+function postCount(){const t=((PS.out||{})[PS.plat]||{})[PS.lang]||'',e=$('postCnt');if(e){const l=postLimit();e.innerHTML=`${t.length} / ${l} caratteri${t.length>l?' <b class="r">troppo lungo</b>':''}`;}}
+function renderPostOut(){const box=$('postOut');if(!box)return;if(!PS.out){box.innerHTML='';return;}const t=(PS.out[PS.plat]||{})[PS.lang]||'';
+ box.innerHTML=`<div class="cart-section"><div class="seg">${[['instagram','📸 Instagram'],['facebook','👍 Facebook'],['google','📍 Google']].map(([k,l])=>`<button class="${PS.plat===k?'on':''}" onclick="v214Plat('${k}')">${l}</button>`).join('')}</div>
+ <div class="seg" style="max-width:220px;">${[['it','🇮🇹 Italiano'],['en','🇬🇧 English']].map(([k,l])=>`<button class="${PS.lang===k?'on':''}" onclick="v214Lang('${k}')">${l}</button>`).join('')}</div>
+ <textarea id="postTxt" class="v14-ta" rows="11" oninput="v214PostEdit(this.value)">${esc(t)}</textarea><div class="fc-sub" id="postCnt" style="margin:4px 0 8px;"></div>
+ <div class="cs-btns"><button class="btn-main btn-print" onclick="v214Copy()">📋 Copia</button><button class="btn-main btn-bill" onclick="v214Share()">📤 Condividi</button></div>
+ <button class="btn-note" style="width:100%;padding:10px;" onclick="v214PostGen()">🔄 Scrivi un’altra versione</button>
+ <div class="fc-sub" style="margin-top:8px;">${PS.plat==='google'?'Su Google: Profilo dell’attività → Aggiungi aggiornamento.':PS.plat==='instagram'?'Su Instagram: incolla il testo nella didascalia della foto.':'Su Facebook: incolla il testo nel nuovo post.'}</div></div>`;postCount();}
+window.v214Plat=p=>{PS.plat=p;renderPostOut();};window.v214Lang=l=>{PS.lang=l;renderPostOut();};
+window.v214PostEdit=v=>{if(PS.out&&PS.out[PS.plat])PS.out[PS.plat][PS.lang]=v;postCount();};
+window.v214Copy=async()=>{const t=((PS.out||{})[PS.plat]||{})[PS.lang]||'';toast(await copyTxt(t)?'📋 Copiato!':'Non riesco a copiare');};
+window.v214Share=async()=>{const t=((PS.out||{})[PS.plat]||{})[PS.lang]||'';if(navigator.share){try{if(PS.file&&navigator.canShare&&navigator.canShare({files:[PS.file]}))await navigator.share({files:[PS.file],text:t});else await navigator.share({text:t});return;}catch(e){if(e&&e.name==='AbortError')return;}}toast(await copyTxt(t)?'📋 Copiato: incollalo dove vuoi':'Non riesco a condividere');};
+
+/* ================= 4. Campagne Club (roadmap 16) – solo clienti con consenso promo ================= */
+const SIGN='— Alicetta Trattoria, Fossacesia\nNon vuoi più messaggi? Rispondi STOP.';
+const TPL0={bday:'Ciao {nome}! 🎂 Tutta la brigata di Alicetta ti fa tantissimi auguri di buon compleanno! Per festeggiare ti regaliamo un calice 🥂: passa a trovarci entro 30 giorni e chiedilo a chi ti serve al tavolo. Ti aspettiamo!\n'+SIGN,
+ lost:'Ciao {nome}! 🐟 Non ci vediamo da Alicetta da più di {tempo} e ci manchi! Ti aspettiamo per un piatto di pesce fresco: scrivici qui per prenotare il tuo tavolo 🍽️\n'+SIGN,
+ ev:'Ciao {nome}! 🎉 {titolo}: {quando} da Alicetta Trattoria. {dettagli}\nPosti limitati: rispondi qui per prenotare 🍽️\n'+SIGN};
+const CS={cards:null,ts:0,loading:false,err:'',tab:'bday',bdayWin:7,lostDays:60,seg:'all',ev:{title:'',date:'',time:'20:00',desc:''},tpl:Object.assign({},TPL0),aiBusy:false};
+try{Object.assign(CS.tpl,JSON.parse(localStorage.getItem('alicetta_camp_tpl')||'{}')||{});}catch(e){}
+const saveTpl=()=>localStorage.setItem('alicetta_camp_tpl',JSON.stringify(CS.tpl));
+const hash=s=>{let x=5381;for(const c of String(s))x=((x<<5)+x+c.charCodeAt(0))>>>0;return x.toString(36);};
+const evKey=()=>'e'+hash((CS.ev.date||'')+'|'+(CS.ev.title||'').trim().toLowerCase());
+const evReady=()=>CS.ev.title.trim().length>=3&&/^\d{4}-\d{2}-\d{2}$/.test(CS.ev.date);
+const firstName=n=>{const w=String(n||'').trim().split(/\s+/)[0]||'';return w?w[0].toUpperCase()+w.slice(1).toLowerCase():'';};
+function evWhen(){if(!/^\d{4}-\d{2}-\d{2}$/.test(CS.ev.date))return '';const d=new Date(CS.ev.date+'T12:00');return d.toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'})+(CS.ev.time?' alle '+CS.ev.time:'');}
+const tempoStr=days=>days<60?days+' giorni':days<365?Math.floor(days/30)+' mesi':'un anno';
+function msgFor(kind,c,r){let t=CS.tpl[kind]||'';const nm=firstName(c.name);t=t.split('{nome}').join(nm).split('{tempo}').join(r&&r.days!=null?tempoStr(r.days):'un po\'').split('{titolo}').join(CS.ev.title.trim()).split('{quando}').join(evWhen()).split('{dettagli}').join(CS.ev.desc.trim());return t.replace(/Ciao\s+!/,'Ciao!').replace(/ {2,}/g,' ').replace(/ \n/g,'\n');}
+function recips(kind){const C=CS.cards||[],now=Date.now(),today=new Date();today.setHours(0,0,0,0);const out=[],cons=C.filter(c=>c.mkt&&c.phone);
+ if(kind==='bday'){cons.forEach(c=>{const m=/^(\d{2})-(\d{2})$/.exec(c.bday||'');if(!m)return;const mo=+m[1],dd=+m[2],mk=y=>new Date(y,mo-1,Math.min(dd,new Date(y,mo,0).getDate()));let d=mk(today.getFullYear());if((d-today)/864e5<-3)d=mk(today.getFullYear()+1);const dt=Math.round((d-today)/864e5);if(dt>CS.bdayWin)return;out.push({c,kind,field:'bday',val:d.getFullYear(),sent:(c.camp||{}).bday===d.getFullYear(),sort:dt,info:`🎂 ${m[2]}/${m[1]} · ${dt===0?'oggi':dt===1?'domani':dt===-1?'ieri':dt<0?Math.abs(dt)+' giorni fa':'tra '+dt+' giorni'}`});});out.sort((a,b)=>a.sort-b.sort);}
+ else if(kind==='lost'){cons.forEach(c=>{const last=Number(c.last)||0;if(!last)return;const days=Math.floor((now-last)/864e5);if(days<CS.lostDays||days>730)return;const st=Number((c.camp||{}).lost)||0;out.push({c,kind,field:'lost',val:now,days,sent:!!st&&now-st<60*864e5,sort:-(Number(c.eur)||0),info:`🍽️ ultima visita ${fidDate(last)} · ${days} giorni fa · speso € ${formatPrice(c.eur||0)}`});});out.sort((a,b)=>a.sort-b.sort);}
+ else if(kind==='ev'){if(!evReady())return out;const k=evKey();cons.forEach(c=>{if(CS.seg==='recent'&&!(c.last&&now-c.last<120*864e5))return;if(CS.seg==='regulars'&&(Number(c.visits)||0)<3)return;const st=Number((c.camp||{})[k])||0;out.push({c,kind,field:k,val:now,sent:!!st,sort:String(c.name||'').toLowerCase(),info:`📱 ${c.visits||0} visite · ultima ${fidDate(c.last)}`});});out.sort((a,b)=>a.sort<b.sort?-1:1);}
+ return out;}
+async function loadCards(force){if(CS.loading)return;if(!force&&CS.cards&&Date.now()-CS.ts<60000)return;CS.loading=true;try{try{await processFidelity(true);}catch(e){}const o=await fbGet('/fidelity/cards')||{};CS.cards=Object.keys(o).map(id=>({id,...o[id]}));CS.ts=Date.now();CS.err='';}catch(e){CS.err=fidErr(e);}CS.loading=false;}
+async function showClub(){renderClub();await loadCards(false);renderClub();}
+window.v214ClubReload=async()=>{CS.cards=null;renderClub();await loadCards(true);renderClub();};
+function renderClub(){const el=$('hub_ai_club');if(!el)return;const C=CS.cards,tot=C?C.length:0,cons=C?C.filter(c=>c.mkt).length:0,tab=CS.tab;
+ const params=tab==='bday'?`<div class="v14-lbl">Compleanni (anche degli ultimi 3 giorni)</div><div class="chips">${[[0,'Oggi'],[7,'Prossimi 7 giorni'],[30,'Prossimi 30 giorni']].map(([d,l])=>`<button class="chipb${CS.bdayWin===d?' on':''}" onclick="v214Par('bdayWin',${d})">${l}</button>`).join('')}</div>`
+ :tab==='lost'?`<div class="v14-lbl">Non vengono da almeno</div><div class="chips">${[45,60,90].map(d=>`<button class="chipb${CS.lostDays===d?' on':''}" onclick="v214Par('lostDays',${d})">${d} giorni</button>`).join('')}</div><div class="fc-sub" style="margin-bottom:8px;">In cima chi ha speso di più. Chi hai già contattato negli ultimi 60 giorni risulta ✅.</div>`
+ :`<div class="v14-lbl">Serata</div><input class="v14-in" placeholder="Titolo (es. Serata del baccalà)" value="${esc(CS.ev.title)}" oninput="v214Ev('title',this.value)"><div style="display:grid;grid-template-columns:1.3fr 1fr;gap:6px;"><input class="v14-in" type="date" value="${esc(CS.ev.date)}" oninput="v214Ev('date',this.value)"><input class="v14-in" type="time" value="${esc(CS.ev.time)}" oninput="v214Ev('time',this.value)"></div><input class="v14-in" placeholder="Dettagli (menù, prezzo, musica…)" value="${esc(CS.ev.desc)}" oninput="v214Ev('desc',this.value)"><div class="v14-lbl">A chi invitare</div><div class="chips">${[['all','Tutti con consenso'],['recent','Venuti negli ultimi 4 mesi'],['regulars','Abituali (3+ visite)']].map(([k,l])=>`<button class="chipb${CS.seg===k?' on':''}" onclick="v214Par('seg','${k}')">${l}</button>`).join('')}</div>`;
+ el.innerHTML=`<div class="cart-section"><div class="cs-h"><h3>🎟️ Campagne Club</h3><button class="btn-note" onclick="v214ClubReload()">🔄 Aggiorna</button></div>
+ <div class="fc-sub" style="margin-bottom:8px;">${CS.loading&&!C?'⏳ Carico i clienti…':C?`${tot} clienti nella rubrica · <b>${cons}</b> hanno dato il consenso promo. Gli altri non vengono mai contattati.`:''}</div>${CS.err?`<div class="cs-sync bad">${esc(CS.err)}</div>`:''}
+ <div class="seg">${[['bday','🎂 Compleanni'],['lost','💤 Persi'],['ev','🎉 Serata']].map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="v214Tab('${k}')">${l}</button>`).join('')}</div>${params}
+ <div class="v14-lbl">Messaggio <span class="fc-sub">({nome} diventa il nome del cliente)</span></div>
+ <textarea id="clubTpl" class="v14-ta" rows="6" oninput="v214Tpl(this.value)">${esc(CS.tpl[tab])}</textarea>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;"><button class="btn-note" style="padding:10px;" onclick="v214TplAi()">${CS.aiBusy?'⏳ …':'✨ Riscrivi con Gemini'}</button><button class="btn-note" style="padding:10px;" onclick="v214TplReset()">↩️ Testo originale</button></div></div>
+ <div class="cart-section"><div id="clubList"></div></div>`;renderClubList();}
+function renderClubList(){const box=$('clubList');if(!box)return;const tab=CS.tab,R=recips(tab);
+ if(!CS.cards){box.innerHTML=CS.err?'':'<div class="fc-sub">⏳ Carico…</div>';return;}
+ const todo=R.filter(r=>!r.sent),done=R.filter(r=>r.sent),sample=R[0]?msgFor(tab,R[0].c,R[0]):msgFor(tab,{name:'Mario'},{days:CS.lostDays});
+ const head=tab==='bday'?'Compleanni':tab==='lost'?'Clienti da riconquistare':'Invitati alla serata';
+ box.innerHTML=`<div class="cs-h"><h3>${head}</h3><b style="color:#16A34A;">${todo.length} da inviare</b></div>
+ ${tab==='ev'&&!evReady()?'<div class="fc-sub">Scrivi titolo e data della serata per vedere chi invitare.</div>':`<div class="fc-sub">Anteprima ${R[0]?'per '+esc(firstName(R[0].c.name)):''}:</div><div class="club-prev">${esc(sample)}</div>
+ ${todo.length?todo.map(r=>rowHtml(r)).join(''):`<div class="fc-sub" style="margin:8px 0;">${R.length?'🎉 Hai già contattato tutti.':tab==='bday'?'Nessun compleanno in questo periodo tra i clienti con consenso.':tab==='lost'?'Nessun cliente perso con consenso promo: bene così!':'Nessun cliente con questi criteri.'}</div>`}
+ ${done.length?`<details style="margin-top:8px;"><summary style="font-size:.8rem;font-weight:900;cursor:pointer;">✅ Già contattati (${done.length})</summary>${done.map(r=>rowHtml(r)).join('')}</details>`:''}
+ <div class="fc-sub" style="margin-top:10px;line-height:1.4;">Ogni messaggio parte dal tuo WhatsApp, uno per volta. Meglio non più di una ventina al giorno. Se qualcuno risponde STOP, in 📒 Rubrica tocca “Togli promo”.</div>`}`;}
+function rowHtml(r){const c=r.c;return `<div class="club-row${r.sent?' sent':''}"><div class="n"><b>${esc(c.name||'')}</b><span>${esc(r.info)}</span></div>${r.sent?`<button class="btn-note" onclick="v214Undo('${esc(c.id)}','${r.kind}','${esc(r.field)}')">✅ inviato · ↩️</button>`:`<button class="btn-wa" onclick="v214Send('${esc(c.id)}','${r.kind}','${esc(r.field)}')">💬 Invia</button>`}</div>`;}
+window.v214Tab=t=>{CS.tab=t;renderClub();};
+window.v214Par=(k,v)=>{CS[k]=v;renderClub();};
+window.v214Ev=(k,v)=>{CS.ev[k]=v;renderClubList();};
+window.v214Tpl=v=>{CS.tpl[CS.tab]=v;saveTpl();renderClubList();};
+window.v214TplReset=()=>{CS.tpl[CS.tab]=TPL0[CS.tab];saveTpl();renderClub();};
+window.v214TplAi=async function(){if(CS.aiBusy)return;if(!getGeminiKey())return toast('🔑 Serve la chiave Gemini in Opzioni');const tab=CS.tab;if(tab==='ev'&&!evReady())return toast('Scrivi titolo e data della serata');CS.aiBusy=true;renderClub();
+ const what=tab==='bday'?'auguri di compleanno con un calice di benvenuto in regalo, da ritirare entro 30 giorni':tab==='lost'?'un invito caloroso a tornare a trovarci perché non ci vediamo da tempo, senza dire il numero esatto di giorni':`un invito a questa serata: "${CS.ev.title.trim()}", ${evWhen()}${CS.ev.desc.trim()?'. Dettagli: '+CS.ev.desc.trim():''}`;
+ try{const t=await callGemini([{text:`Scrivi un messaggio WhatsApp per un cliente di Alicetta Trattoria, trattoria di pesce a Fossacesia. Contenuto: ${what}. Italiano, tono caldo e familiare, massimo 55 parole, qualche emoji. Inizia con "Ciao {nome}!" (lascia esattamente il segnaposto {nome}). Non inventare sconti, prezzi o promozioni che non sono indicati. Chiudi esattamente con queste due righe:\n— Alicetta Trattoria, Fossacesia\nNon vuoi più messaggi? Rispondi STOP.\nRispondi SOLO con il testo del messaggio.`}]);const x=t.replace(/^```\w*\n?|```$/g,'').trim();if(x.includes('{nome}')){CS.tpl[tab]=x;saveTpl();}else toast('Gemini non ha messo {nome}: riprova');}catch(e){toast('AI non disponibile: '+e.message.slice(0,50));}
+ CS.aiBusy=false;renderClub();};
+async function markSent(id,field,val){const c=(CS.cards||[]).find(x=>x.id===id);if(!c)return;c.camp=c.camp||{};if(val==null)delete c.camp[field];else c.camp[field]=val;try{await (val==null?fbSend('/fidelity/cards/'+id+'/camp/'+field,'DELETE'):fbSend('/fidelity/cards/'+id+'/camp/'+field,'PUT',val));CS.err='';}catch(e){toast('Non riesco a segnarlo su Firebase');}renderClubList();}
+window.v214Send=(id,kind,field)=>{const r=recips(kind).find(x=>x.c.id===id&&x.field===field);if(!r||!r.c.mkt)return toast('Questo cliente non ha dato il consenso');const t=msgFor(kind,r.c,r);window.open('https://wa.me/'+fidWa(r.c.phone)+'?text='+encodeURIComponent(t),'_blank');markSent(id,field,r.val);};
+window.v214Undo=(id,kind,field)=>markSent(id,field,null);
+
+/* ================= collegamenti ================= */
+const _s=window.v211Show;
+window.v211Show=function(k,p){if(k==='ai'&&p==='post'){renderPost();return;}if(k==='ai'&&p==='club'){showClub();return;}const r=_s&&_s.apply(this,arguments);if(k==='ai'&&p==='tempi')appendPaceCard();return r;};
 })();
 </script>
 <script>initApp();</script>
