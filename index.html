@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.0.21</title>
+<title>Alicetta TableZ 2.0 - v2.1</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -236,7 +236,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.0.21</div>
+    <div class="version-badge">v2.1</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -345,7 +345,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.21)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.1)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -373,7 +373,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.21)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.1)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -1916,7 +1916,7 @@ async function nfcWrite(){const st=document.getElementById('nfcSt'),u=nfcUrlFor(
   catch(e){st.style.color='#B91C1C';st.textContent='❌ '+(e.name==='NotAllowedError'?'Permesso NFC negato: consentilo a Chrome e riprova.':e.name==='NotSupportedError'?'NFC non disponibile o spento: attivalo nelle impostazioni.':'Scrittura non riuscita: '+e.message);}}
 </script>
 <script>
-/* ===== v2.0.21 · bozze tavolo sempre salvate, traduzioni mancanti, campanello semplice ===== */
+/* ===== v2.1 · bozze tavolo sempre salvate, traduzioni mancanti, campanello semplice ===== */
 function draftBadge(t){return (t.items||[]).some(i=>!isItemSent(t,i))?'<div class="draft-badge">📝 DA INVIARE</div>':'';}
 window.addEventListener('pagehide',()=>{try{saveLocalOnly();}catch(e){}});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){try{saveLocalOnly();}catch(e){}}});
@@ -1956,7 +1956,7 @@ function playSimpleBell(){try{sndDest();const n=audioCtx.currentTime+0.03;
 {const _kb=playKitchenBell;playKitchenBell=function(){if(isKdsDev())return _kb();playSimpleBell();};}
 </script>
 <script>
-/* ===== v2.0.21 · Notifiche ntfy anche per comande e mandate (app chiusa o schermo spento) ===== */
+/* ===== v2.1 · Notifiche ntfy anche per comande e mandate (app chiusa o schermo spento) ===== */
 async function ntfyPost(target,title,msg,prio){const c=(localStorage.getItem('alicetta_ntfy')||'').trim();if(!c||!navigator.onLine)return;try{await fetch('https://ntfy.sh',{method:'POST',body:JSON.stringify({topic:c+'-'+String(target).toLowerCase().replace(/[^a-z0-9]/g,''),title,message:msg||' ',priority:prio||4,tags:['bell']})});}catch(e){}}
 const evText=h=>String(h||'').replace(/<[^>]*>/g,'').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim().slice(0,300);
 function pushEvent(ev){if(!ev)return;const fromKds=isKdsDev(),toSala=fromKds||ev.sala;ntfyPost(toSala?'sala':'kdscucina',ev.title||'TableZ',evText(ev.summary)+(ev.waiter&&!toSala?' · '+ev.waiter:''),toSala?4:5);}
@@ -1973,6 +1973,236 @@ function checkNtfyNag(){
 }
 function ntfyDone2(){localStorage.setItem('alicetta_ntfy_ok2',(state.waiterName||'').trim().toLowerCase());checkNtfyNag();}
 </script>
+<!-- ===== v2.1: nuova navigazione a pagine scorrevoli + Hub Vendite + Hub AI + Previsione coperti ===== -->
+<style id="v21style">
+.topbar::after{display:none!important}
+.topbar{flex-wrap:nowrap!important}
+.topbar .btn-top{order:3!important;flex:0 0 46px!important;min-height:44px!important}
+.topbar .btn-top .nv-t{display:none!important}
+.order-toast{top:64px}
+body.has-dock{padding-bottom:112px}
+#dock{position:fixed;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:70;display:flex;gap:2px;padding:6px;background:linear-gradient(180deg,#0E4752,#062329);border-radius:22px;box-shadow:0 6px 0 #021216,0 16px 30px rgba(70,0,35,.45),inset 0 1px 0 rgba(255,255,255,.2);transition:transform .38s cubic-bezier(.2,.9,.3,1.15),opacity .25s}
+body.in-order #dock,body.no-dock #dock{transform:translateY(150%);opacity:0;pointer-events:none}
+body.no-dock.has-dock{padding-bottom:95px}
+#dockPill{position:absolute;top:6px;bottom:6px;left:6px;width:0;border-radius:16px;background:var(--pc,#FF2E93);box-shadow:0 3px 0 rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.45);transition:left .4s cubic-bezier(.3,1.35,.5,1),width .4s cubic-bezier(.3,1.35,.5,1),background-color .3s}
+#dock .btn-top{position:relative;z-index:1;flex:1 1 0;min-width:0;background:none!important;border:none!important;color:#BDEFF5!important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 0!important;min-height:52px;border-radius:16px;box-shadow:none!important;transform:none!important;order:0!important}
+#dock .btn-top .nv-i{display:block;font-size:1.32rem;line-height:1.1;transition:transform .4s cubic-bezier(.3,1.7,.5,1)}
+#dock .btn-top .nv-t{display:block;font-size:.56rem;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#dock .btn-top.active{color:#fff!important}
+#dock .btn-top.active .nv-i{transform:translateY(-3px) scale(1.2)}
+#navAi{--nc:#E9D5FF;--na:#7C3AED}
+@keyframes swInR{from{transform:translateX(42%);opacity:0}to{transform:none;opacity:1}}
+@keyframes swInL{from{transform:translateX(-42%);opacity:0}to{transform:none;opacity:1}}
+@keyframes swBumpR{30%{transform:translateX(-18px)}}
+@keyframes swBumpL{30%{transform:translateX(18px)}}
+.sw-in-r{animation:swInR .36s cubic-bezier(.2,.8,.2,1)}
+.sw-in-l{animation:swInL .36s cubic-bezier(.2,.8,.2,1)}
+.sw-bump-r{animation:swBumpR .32s ease}
+.sw-bump-l{animation:swBumpL .32s ease}
+.hub-tabs{display:flex;gap:4px;position:relative;background:rgba(6,35,41,.16);padding:5px;border-radius:16px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;box-shadow:inset 0 2px 4px rgba(0,0,0,.12)}
+.hub-tabs::-webkit-scrollbar{display:none}
+.hub-tab{flex:1 0 auto;border:none;background:none;font-weight:900;font-size:.8rem;color:#062329;padding:10px 10px;border-radius:12px;position:relative;z-index:1;white-space:nowrap;cursor:pointer;transition:color .25s}
+.hub-tab.active{color:#fff}
+.hub-pill{position:absolute;top:5px;bottom:5px;left:5px;width:0;border-radius:12px;background:var(--hc,#062329);box-shadow:0 3px 0 rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.3);transition:left .38s cubic-bezier(.3,1.35,.5,1),width .38s cubic-bezier(.3,1.35,.5,1)}
+.hub-page{display:none}.hub-page.active{display:block}
+.hub-dots{display:flex;justify-content:center;gap:6px;margin:-4px 0 10px}
+.hub-dots i{width:7px;height:7px;border-radius:9px;background:rgba(6,35,41,.25);transition:width .3s,background .3s}
+.hub-dots i.on{width:22px;background:#062329}
+.ai-hero{border-radius:20px;padding:16px 16px 14px;margin-bottom:12px;color:#fff;background:linear-gradient(115deg,#7C3AED 0%,#C026D3 35%,#FF2E93 65%,#7C3AED 100%);background-size:250% 100%;animation:aiShine 9s linear infinite;box-shadow:0 6px 0 #4C1D95,0 14px 28px rgba(70,0,35,.35),inset 0 1px 0 rgba(255,255,255,.35)}
+.ai-hero b{display:block;font-size:1.25rem;font-weight:900}
+.ai-hero span{font-size:.8rem;font-weight:700;opacity:.92}
+@keyframes aiShine{to{background-position:250% 0}}
+.sales-hero{border-radius:20px;padding:14px 16px;margin-bottom:12px;color:#062329;background:linear-gradient(135deg,#D9F99D,#86EFAC);box-shadow:0 6px 0 #4D7C0F,0 14px 28px rgba(70,0,35,.3),inset 0 1px 0 rgba(255,255,255,.6)}
+.sales-hero b{display:block;font-size:1.2rem;font-weight:900}
+.sales-hero span{font-size:.8rem;font-weight:700}
+.pv-head{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;margin-bottom:10px}
+.pv-big{font-size:2.1rem;font-weight:900;color:#7C3AED;line-height:1}
+.pv-sub{font-size:.75rem;font-weight:800;color:var(--muted)}
+.pv-day{position:relative;background:#fff;border-radius:16px;padding:10px 12px;margin-bottom:9px;border:2px solid rgba(6,35,41,.08);box-shadow:0 4px 0 rgba(6,35,41,.12)}
+.pv-day.today{border-color:#7C3AED;box-shadow:0 4px 0 #7C3AED,0 0 0 4px rgba(124,58,237,.12)}
+.pv-row{display:flex;align-items:center;gap:10px}
+.pv-date{width:62px;flex-shrink:0;line-height:1.15}
+.pv-date b{display:block;font-size:.9rem;font-weight:900;color:#062329;text-transform:capitalize}
+.pv-date span{font-size:.7rem;font-weight:800;color:var(--muted)}
+.pv-wx{width:58px;flex-shrink:0;text-align:center;font-size:.72rem;font-weight:800;color:#0E4752;line-height:1.1}
+.pv-wx em{display:block;font-style:normal;font-size:1.45rem}
+.pv-bar{flex:1;height:14px;background:#F3E8FF;border-radius:9px;overflow:hidden;box-shadow:inset 0 2px 3px rgba(0,0,0,.08)}
+.pv-bar span{display:block;height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,#C026D3,#7C3AED);transition:width .9s cubic-bezier(.2,.9,.25,1)}
+.pv-num{width:46px;text-align:right;font-size:1.35rem;font-weight:900;color:#062329}
+.pv-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.pv-chip{font-size:.68rem;font-weight:800;border-radius:20px;padding:3px 8px;background:#F1F5F9;color:#334155;border:none;cursor:default}
+.pv-chip.res{background:#DCFCE7;color:#166534}.pv-chip.fest{background:#FEF3C7;color:#92400E}.pv-chip.ev{background:#FCE7F3;color:#9D174D;cursor:pointer}.pv-chip.wx{background:#E0F2FE;color:#075985}.pv-chip.add{background:none;border:1.5px dashed #C026D3;color:#C026D3;cursor:pointer}
+.pv-chip.lo{background:#F1F5F9;color:#64748B}
+.pv-ai{white-space:pre-wrap;margin-top:8px;padding:10px;background:#F5F3FF;border-radius:12px;font-size:.84rem;line-height:1.45}
+@media (prefers-reduced-motion:reduce){.sw-in-r,.sw-in-l,.sw-bump-r,.sw-bump-l,.ai-hero{animation:none!important}#dockPill,.hub-pill,.pv-bar span{transition:none!important}}
+</style>
+<script>
+(function(){
+const V21_OWNER=()=>/^christian$/i.test((state.waiterName||'').trim());
+const DOCK=[['navTables','tables'],['navRes','res'],['navKds','kds'],['navTime','time'],['navDishes','dishes'],['navSales','sales'],['navAi','ai'],['navMenu','menuMgr']];
+const SCR={viewTables:'tables',viewRes:'res',viewKds:'kds',viewTime:'time',viewDishes:'dishes',viewSales:'sales',viewAi:'ai',viewMenuMgr:'menuMgr',viewOrder:'order'};
+const $=id=>document.getElementById(id);
+window.v21CurView=()=>{const a=document.querySelector('.screen.active');return a?SCR[a.id]||null:null;};
+const visibleDock=()=>DOCK.filter(([id])=>{const b=$(id);return b&&getComputedStyle(b).display!=='none';});
+function animIn(el,dir){if(!el)return;el.classList.remove('sw-in-r','sw-in-l','sw-bump-r','sw-bump-l');void el.offsetWidth;el.classList.add(dir>0?'sw-in-r':'sw-in-l');el.addEventListener('animationend',()=>el.classList.remove('sw-in-r','sw-in-l'),{once:true});}
+function bump(el,dir){if(!el)return;el.classList.remove('sw-bump-r','sw-bump-l');void el.offsetWidth;el.classList.add(dir>0?'sw-bump-r':'sw-bump-l');el.addEventListener('animationend',()=>el.classList.remove('sw-bump-r','sw-bump-l'),{once:true});}
+window.v21Count=function(el,to,dur){if(!el)return;to=Math.round(to)||0;if(matchMedia('(prefers-reduced-motion: reduce)').matches){el.textContent=to;return;}const t0=performance.now();dur=dur||800;(function f(t){const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(f);})(t0);};
+
+/* ---------- 1. Barra in basso (dock) ---------- */
+const dock=document.createElement('div');dock.id='dock';dock.innerHTML='<div id="dockPill"></div>';document.body.appendChild(dock);document.body.classList.add('has-dock');
+const ai=document.createElement('button');ai.className='btn-top';ai.id='navAi';ai.style.display='none';ai.innerHTML='<span class="nv-i">🤖</span><span class="nv-t">AI</span>';ai.onclick=()=>switchMainView('ai');
+$('navSales').parentNode.insertBefore(ai,$('navMenu'));
+DOCK.forEach(([id])=>{const b=$(id);if(b)dock.appendChild(b);});
+function placeDockPill(){const p=$('dockPill'),a=dock.querySelector('.btn-top.active');if(!a||getComputedStyle(a).display==='none'){p.style.width='0';return;}p.style.left=a.offsetLeft+'px';p.style.width=a.offsetWidth+'px';p.style.setProperty('--pc',getComputedStyle(a).getPropertyValue('--na').trim()||'#FF2E93');}
+function updateDock(){const v=v21CurView();document.body.classList.toggle('in-order',v==='order');document.body.classList.toggle('no-dock',visibleDock().length<2);requestAnimationFrame(placeDockPill);}
+window.v21UpdateDock=updateDock;
+{const mo=new MutationObserver(updateDock);document.querySelectorAll('.screen').forEach(el=>mo.observe(el,{attributes:true,attributeFilter:['class']}));dock.querySelectorAll('.btn-top').forEach(el=>mo.observe(el,{attributes:true,attributeFilter:['class','style']}));mo.observe(document.body,{attributes:true,attributeFilter:['class']});}
+window.addEventListener('resize',()=>{placeDockPill();Object.keys(HUBS).forEach(placeHubPill);});
+
+/* ---------- 2. Pagine-hub con sotto-pagine (Vendite e AI) ---------- */
+const HUBS={
+ sales:{screen:'viewSales',color:'#4D7C0F',cur:'oggi',pages:[['oggi','💶 Oggi'],['grafici','📈 Grafici'],['conti','🧾 Conti'],['storico','📚 Storico']]},
+ ai:{screen:'viewAi',color:'#7C3AED',cur:'prev',pages:[['prev','🔮 Coperti'],['chef','🧑‍🍳 Sous-Chef'],['lav','📸 Lavagnetta']]}
+};
+function buildHub(key,afterEl){const h=HUBS[key],sc=$(h.screen);const tabs=document.createElement('div');tabs.className='hub-tabs';tabs.id='hubTabs_'+key;tabs.innerHTML=`<div class="hub-pill" style="--hc:${h.color}"></div>`+h.pages.map(([k,l])=>`<button class="hub-tab" data-p="${k}">${l}</button>`).join('');
+ tabs.querySelectorAll('.hub-tab').forEach(b=>b.onclick=()=>setHubPage(key,b.dataset.p));
+ const dots=document.createElement('div');dots.className='hub-dots';dots.id='hubDots_'+key;dots.innerHTML=h.pages.map(()=>'<i></i>').join('');
+ afterEl.after(tabs);tabs.after(dots);let last=dots;
+ h.pages.forEach(([k])=>{const p=document.createElement('div');p.className='hub-page';p.id='hub_'+key+'_'+k;last.after(p);last=p;});
+}
+function placeHubPill(key){const t=$('hubTabs_'+key);if(!t||!t.offsetParent)return;const a=t.querySelector('.hub-tab.active'),p=t.querySelector('.hub-pill');if(!a)return;p.style.left=a.offsetLeft+'px';p.style.width=a.offsetWidth+'px';const sl=a.offsetLeft-(t.clientWidth-a.offsetWidth)/2;t.scrollTo({left:Math.max(0,sl),behavior:'smooth'});}
+window.setHubPage=function(key,page,dir){const h=HUBS[key];if(!h)return;const idx=h.pages.findIndex(p=>p[0]===page);if(idx<0)return;const old=h.pages.findIndex(p=>p[0]===h.cur);h.cur=page;
+ h.pages.forEach(([k],i)=>{const el=$('hub_'+key+'_'+k);if(el)el.classList.toggle('active',k===page);});
+ const t=$('hubTabs_'+key);t.querySelectorAll('.hub-tab').forEach(b=>b.classList.toggle('active',b.dataset.p===page));
+ $('hubDots_'+key).querySelectorAll('i').forEach((d,i)=>d.classList.toggle('on',i===idx));
+ requestAnimationFrame(()=>placeHubPill(key));
+ if(old!==idx&&dir!==0)animIn($('hub_'+key+'_'+page),dir||(idx>old?1:-1));
+ onHubShow(key,page);
+};
+function onHubShow(key,page){
+ if(key==='sales'&&v21CurView()==='sales'){if(typeof renderConti==='function')try{renderConti();}catch(e){}if(page==='storico'&&typeof updateDailyStats==='function')updateDailyStats();}
+ if(key==='ai'&&page==='prev'&&window.pvRender&&v21CurView()==='ai')pvRender(true);
+}
+
+/* Vendite */
+(function(){const sc=$('viewSales'),title=sc.querySelector('.screen-title');const hero=document.createElement('div');hero.className='sales-hero';hero.innerHTML='<b>💶 Vendite</b><span>Incassi del giorno, grafici, conti con fatture e storico</span>';title.replaceWith(hero);buildHub('sales',hero);
+ const mv=(id,pg)=>{const e=$(id);if(e)$('hub_sales_'+pg).appendChild(e);};
+ mv('payTotals','oggi');mv('cashClose','oggi');mv('salesCharts','grafici');mv('invList','conti');mv('contiList','conti');
+ const rep=$('dailyStats')&&$('dailyStats').closest('.cart-section');if(rep)$('hub_sales_storico').appendChild(rep);
+ setHubPage('sales','oggi',0);
+})();
+
+/* AI */
+(function(){const v=document.createElement('div');v.id='viewAi';v.className='screen';v.innerHTML='<div class="ai-hero"><b>🤖 Alicetta AI</b><span>Previsioni e consigli per preparare il servizio</span></div>';$('viewSales').after(v);buildHub('ai',v.firstChild);try{const mo2=new MutationObserver(()=>window.v21UpdateDock&&v21UpdateDock());mo2.observe(v,{attributes:true,attributeFilter:['class']});}catch(e){}
+ $('hub_ai_prev').innerHTML='<div class="cart-section" id="pvBox"></div>';
+ const chef=document.createElement('div');chef.className='cart-section';chef.innerHTML='<h3 style="margin-bottom:6px;">🧑‍🍳 Sous-Chef</h3><div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">Piano di mise en place per oggi: porzioni dei piatti più richiesti, calcolate sui coperti previsti.</div>';
+ const sb=document.querySelector('button[onclick="runSousChef()"]'),sbox=$('sousChefBox');if(sb){sb.style.marginBottom='8px';chef.appendChild(sb);}if(sbox)chef.appendChild(sbox);$('hub_ai_chef').appendChild(chef);
+ const lav=$('chalkboardInput')&&$('chalkboardInput').closest('.cart-section');
+ const key=$('geminiKeyInput')&&$('geminiKeyInput').parentElement;
+ if(key){const kc=document.createElement('div');kc.className='cart-section';kc.innerHTML='<h3 style="margin-bottom:6px;">🔑 Chiave Gemini (AI)</h3><div style="font-size:.75rem;color:var(--muted);margin-bottom:6px;">Resta solo su questo dispositivo. Serve per lavagnetta, traduzioni, Sous-Chef e previsioni.</div>';kc.appendChild(key);const mm=$('viewMenuMgr'),anchor=mm.querySelectorAll('.cart-section')[1];if(anchor)anchor.after(kc);else mm.appendChild(kc);}
+ if(lav){const h3=lav.querySelector('h3');if(h3)h3.textContent='📸 Lavagnetta Zero-Click, menù PDF e 🔲 QR Code';$('hub_ai_lav').appendChild(lav);}
+ setHubPage('ai','prev',0);
+})();
+
+/* Opzioni: interruttore scorrimento */
+(function(){const c=document.createElement('div');c.className='cart-section';c.innerHTML='<h3 style="margin-bottom:6px;">👆 Scorrimento pagine</h3><label style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:.9rem;"><input type="checkbox" id="chkSwipe" style="width:18px;height:18px;"> Cambia pagina facendo scorrere il dito a destra e sinistra</label><div style="font-size:.72rem;color:var(--muted);margin-top:4px;">Vale solo per questo dispositivo. Nei tavoli il dito cambia sala (Interna, Esterna, Asporto, Ritardi).</div>';const mm=$('viewMenuMgr'),a=mm.querySelectorAll('.cart-section')[2];if(a)a.after(c);else mm.appendChild(c);const k=$('chkSwipe');k.checked=localStorage.getItem('alicetta_swipe')!=='0';k.onchange=()=>localStorage.setItem('alicetta_swipe',k.checked?'1':'0');})();
+
+/* ---------- 3. Collegamento alle funzioni esistenti ---------- */
+const _sw=switchMainView;
+switchMainView=function(v){const from=v21CurView();
+ if(v==='ai'){if(!V21_OWNER()||/^(kds cucina|timbrature)$/i.test((state.waiterName||'').trim()))return _sw('tables');document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.btn-top').forEach(b=>b.classList.remove('active'));$('viewAi').classList.add('active');$('navAi').classList.add('active');setHubPage('ai',HUBS.ai.cur,0);}
+ else _sw(v);
+ const to=v21CurView();
+ if(to==='sales')setHubPage('sales',HUBS.sales.cur,0);
+ if(from&&to&&from!==to&&from!=='order'){const L=visibleDock().map(x=>x[1]),a=L.indexOf(from),b=L.indexOf(to);if(a>=0&&b>=0){const sc=document.querySelector('.screen.active');animIn(sc,b>a?1:-1);}}
+ updateDock();
+};
+const _uwd=updateWaiterDisplay;
+updateWaiterDisplay=function(){_uwd.apply(this,arguments);const own=V21_OWNER();$('navAi').style.display=own?'block':'none';if(!own&&v21CurView()==='ai')switchMainView('tables');updateDock();};
+const _sr=selectRoom;const ROOMS=['interna','esterna','asporto','ritardi'];
+selectRoom=function(r){const a=ROOMS.indexOf(state.currentRoom||'interna'),b=ROOMS.indexOf(r);_sr(r);if(a>=0&&b>=0&&a!==b)animIn($('tablesContainer'),b>a?1:-1);};
+if(typeof payFilter==='function'){const _pf=payFilter;payFilter=function(m){_pf(m);if(state.contiPay&&v21CurView()==='sales'){setHubPage('sales','conti');setTimeout(()=>{const el=$('contiList');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},60);}};}
+if(typeof ccOpen==='function'){const _cc=ccOpen;ccOpen=function(k){if(v21CurView()==='sales'&&HUBS.sales.cur!=='oggi')setHubPage('sales','oggi');_cc(k);};}
+
+/* ---------- 4. Scorrimento col dito ---------- */
+function goNeighbor(dir){const v=v21CurView(),sc=document.querySelector('.screen.active');if(!v||v==='order')return;
+ if(v==='tables'){const i=ROOMS.indexOf(state.currentRoom||'interna'),n=i+dir;if(n>=0&&n<ROOMS.length){selectRoom(ROOMS[n]);if(navigator.vibrate)try{navigator.vibrate(8);}catch(e){}return;}}
+ if(HUBS[v]){const h=HUBS[v],i=h.pages.findIndex(p=>p[0]===h.cur),n=i+dir;if(n>=0&&n<h.pages.length){setHubPage(v,h.pages[n][0],dir);if(navigator.vibrate)try{navigator.vibrate(8);}catch(e){}return;}}
+ const L=visibleDock().map(x=>x[1]),i=L.indexOf(v),n=i+dir;
+ if(i<0||n<0||n>=L.length){bump(sc,dir);return;}
+ const nv=L[n];
+ if(nv==='tables')state.currentRoom=dir>0?'interna':'ritardi';
+ if(HUBS[nv])HUBS[nv].cur=HUBS[nv].pages[dir>0?0:HUBS[nv].pages.length-1][0];
+ switchMainView(nv);
+ if(nv==='tables'&&typeof selectRoom==='function')_sr(state.currentRoom);
+ if(navigator.vibrate)try{navigator.vibrate(12);}catch(e){}
+}
+window.v21GoNeighbor=goNeighbor;
+function scrollsX(el){for(let n=el;n&&n!==document.body;n=n.parentElement){if(n.scrollWidth>n.clientWidth+4){const o=getComputedStyle(n).overflowX;if(o==='auto'||o==='scroll')return true;}}return false;}
+let T=null;
+document.addEventListener('touchstart',e=>{T=null;if(localStorage.getItem('alicetta_swipe')==='0'||e.touches.length!==1)return;const v=v21CurView();if(!v||v==='order')return;if(document.querySelector('.modal-overlay.active'))return;const t=e.touches[0],tg=e.target;if(t.clientX<22||t.clientX>innerWidth-22)return;if(tg.closest('input,textarea,select,canvas,iframe,[contenteditable],#dock,.no-swipe,details[open] summary'))return;if(scrollsX(tg))return;T={x:t.clientX,y:t.clientY,t:Date.now(),lock:0,sc:document.querySelector('.screen.active')};},{passive:true});
+document.addEventListener('touchmove',e=>{if(!T)return;const t=e.touches[0],dx=t.clientX-T.x,dy=t.clientY-T.y;if(!T.lock){if(Math.abs(dx)>14&&Math.abs(dx)>Math.abs(dy)*1.6)T.lock=1;else if(Math.abs(dy)>12){T=null;return;}}if(T.lock===1){if(e.cancelable)e.preventDefault();T.dx=dx;T.sc.style.transition='none';T.sc.style.transform=`translateX(${dx*.45}px)`;T.sc.style.opacity=String(1-Math.min(.35,Math.abs(dx)/900));}},{passive:false});
+function endT(){if(!T)return;const s=T;T=null;if(!s.lock)return;s.sc.style.transition='transform .2s ease,opacity .2s ease';s.sc.style.transform='';s.sc.style.opacity='';setTimeout(()=>{s.sc.style.transition='';},220);const dx=s.dx||0,fast=Math.abs(dx)/(Date.now()-s.t)>.45;if(Math.abs(dx)>80||(fast&&Math.abs(dx)>40))goNeighbor(dx<0?1:-1);}
+document.addEventListener('touchend',endT);document.addEventListener('touchcancel',endT);
+
+/* ---------- 5. Previsione coperti (roadmap 8) ---------- */
+const PV_LAT=42.2457,PV_LON=14.4846,GG=['dom','lun','mar','mer','gio','ven','sab'],GGL=['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const pvToday=()=>{const d=new Date();if(d.getHours()<5)d.setDate(d.getDate()-1);d.setHours(12,0,0,0);return d;};
+const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x;};
+function easter(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da,12);}
+function holidays(y){const o={};[['01-01','Capodanno'],['01-06','Epifania'],['04-25','Liberazione'],['05-01','Festa dei lavoratori'],['06-02','Festa della Repubblica'],['08-15','Ferragosto'],['11-01','Ognissanti'],['12-08','Immacolata'],['12-24','Vigilia di Natale'],['12-25','Natale'],['12-26','Santo Stefano'],['12-31','San Silvestro']].forEach(([d,n])=>o[y+'-'+d]=n);const e=easter(y);o[iso(e)]='Pasqua';o[iso(addD(e,1))]='Pasquetta';return o;}
+const holi=ds=>holidays(+ds.slice(0,4))[ds]||'';
+function pvHist(){const m={};(state.historyLog||[]).forEach(e=>{try{if(!e)return;const d=svcDate(e);if(!d)return;const c=(copOf(e)||{}).n||0,s=svcOf(e);const o=m[d]=m[d]||{pranzo:0,cena:0};o[s]+=c;}catch(x){}});return m;}
+function pvRes(ds){const o={pranzo:0,cena:0,n:0};Object.values(state.res||{}).forEach(r=>{if(!r||r.date!==ds||r.status==='cancellata')return;const h=parseInt(String(r.time||'20').slice(0,2),10),s=(h<(typeof SVC_CUT!=='undefined'?SVC_CUT:17)&&h>=5)?'pranzo':'cena';o[s]+=Number(r.covers)||0;o.n++;});return o;}
+function pvWx(){try{return JSON.parse(localStorage.getItem('alicetta_pv_wx')||'null');}catch(e){return null;}}
+async function pvFetchWx(force){const c=pvWx();if(!force&&c&&Date.now()-c.ts<3600000)return c;try{const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${PV_LAT}&longitude=${PV_LON}&daily=weather_code,temperature_2m_max,precipitation_probability_max,precipitation_sum&timezone=Europe%2FRome&forecast_days=8`,{cache:'no-store'});if(!r.ok)throw 0;const d=await r.json(),o={ts:Date.now(),days:{}};(d.daily.time||[]).forEach((t,i)=>o.days[t]={code:d.daily.weather_code[i],tmax:d.daily.temperature_2m_max[i],prob:d.daily.precipitation_probability_max[i],mm:d.daily.precipitation_sum[i]});localStorage.setItem('alicetta_pv_wx',JSON.stringify(o));return o;}catch(e){return c;}}
+const wxIcon=c=>c==null?'❔':c===0?'☀️':c<=2?'🌤️':c===3?'☁️':c<=48?'🌫️':c<=67?'🌧️':c<=77?'❄️':c<=82?'🌦️':'⛈️';
+function wxFactor(w){if(!w)return[1,''];if(w.code>=95)return[.8,'⛈️ temporale −20%'];if((w.prob||0)>=70&&(w.mm||0)>=3)return[.85,'🌧️ pioggia −15%'];if((w.prob||0)>=50&&(w.mm||0)>=1)return[.93,'🌦️ forse pioggia −7%'];if(w.code<=1&&(w.tmax||0)>=24)return[1.05,'☀️ bel tempo +5%'];return[1,''];}
+function pvEvents(){try{return JSON.parse(localStorage.getItem('alicetta_pv_ev')||'{}')||{};}catch(e){return {};}}
+async function pvLoadEvents(){try{const d=await fbGet('/pos_state/prevEventi');if(d&&typeof d==='object'){localStorage.setItem('alicetta_pv_ev',JSON.stringify(d));}else if(d===null)localStorage.setItem('alicetta_pv_ev','{}');}catch(e){}}
+window.pvAddEvent=async function(ds){const n=prompt('Evento in zona per '+ds.split('-').reverse().join('/')+' (es. sagra, concerto, matrimonio):');if(!n||!n.trim())return;const ev=pvEvents();ev[ds]={name:n.trim().slice(0,60)};localStorage.setItem('alicetta_pv_ev',JSON.stringify(ev));pvRender(false);try{await fbSend('/pos_state/prevEventi/'+ds,'PUT',ev[ds]);}catch(e){}};
+window.pvDelEvent=async function(ds){const ev=pvEvents();if(!ev[ds]||!confirm('Togliere l’evento “'+ev[ds].name+'”?'))return;delete ev[ds];localStorage.setItem('alicetta_pv_ev',JSON.stringify(ev));pvRender(false);try{await fbSend('/pos_state/prevEventi/'+ds,'DELETE');}catch(e){}};
+function pvLog(){try{return JSON.parse(localStorage.getItem('alicetta_pv_log')||'{}')||{};}catch(e){return {};}}
+function pvCalib(hist){const lg=pvLog(),td=iso(pvToday()),rs=[];Object.keys(lg).sort().forEach(d=>{if(d>=td)return;const a=hist[d];if(!a||!lg[d])return;const act=a.pranzo+a.cena;if(act>0)rs.push({r:act/lg[d],e:Math.abs(act-lg[d])/act});});const last=rs.slice(-10);if(last.length<3)return{corr:1,err:null,n:last.length};const s=last.map(x=>x.r).sort((a,b)=>a-b),med=s[Math.floor(s.length/2)];return{corr:Math.max(.85,Math.min(1.15,1+.5*(med-1))),err:Math.round(last.reduce((t,x)=>t+x.e,0)/last.length*100),n:last.length};}
+window.pvForecast=function(days){days=days||7;const hist=pvHist(),t0=pvToday(),td=iso(t0),wx=pvWx(),ev=pvEvents(),cal=pvCalib(hist),out=[];
+ for(let k=0;k<days;k++){const d=addD(t0,k),ds=iso(d),wd=d.getDay();let wP=0,wC=0,W=0,n=0;
+  Object.keys(hist).forEach(h=>{if(h>=td)return;const hd=new Date(h+'T12:00');if(hd.getDay()!==wd||holi(h))return;const age=(t0-hd)/(7*864e5);if(age>26)return;const w=Math.pow(.8,age);wP+=hist[h].pranzo*w;wC+=hist[h].cena*w;W+=w;n++;});
+  const base=W?{pranzo:wP/W,cena:wC/W}:null,why=[];let f=1;
+  const w=wx&&wx.days&&wx.days[ds],[fw,tw]=wxFactor(w);f*=fw;if(tw)why.push(['wx',tw]);
+  const ho=holi(ds),nx=holi(iso(addD(d,1)));if(ho){f*=1.25;why.push(['fest','🎉 '+ho+' +25%']);}else if(nx&&wd!==6){f*=1.1;why.push(['fest','🎈 vigilia di '+nx+' +10%']);}
+  if(ev[ds]){f*=1.2;why.push(['ev','📍 '+ev[ds].name+' +20% ✕',ds]);}
+  if(cal.corr!==1)f*=cal.corr;
+  const R=pvRes(ds),r={};['pranzo','cena'].forEach(s=>{const adj=base?base[s]*f:0;r[s]=R[s]>0?Math.max(adj,R[s]+.35*adj):adj;});
+  const tot=Math.round(r.pranzo+r.cena);if(R.n)why.unshift(['res',`📅 ${R.pranzo+R.cena} prenotati`]);
+  out.push({ds,wd,k,base,n,tot:(base||R.n)?tot:null,pranzo:Math.round(r.pranzo),cena:Math.round(r.cena),w,why,conf:n>=6?'alta':n>=3?'media':'bassa',hasEv:!!ev[ds]});}
+ const lg=pvLog(),now=new Date();out.forEach(o=>{if(o.tot==null)return;if(o.k>0||now.getHours()<11)lg[o.ds]=o.tot;});const keep=Object.keys(lg).sort().slice(-60),nl={};keep.forEach(x=>nl[x]=lg[x]);localStorage.setItem('alicetta_pv_log',JSON.stringify(nl));
+ out.cal=cal;return out;};
+let pvBusy=false;
+window.pvRender=async function(fetchFirst){const box=$('pvBox');if(!box)return;draw(true);if(fetchFirst&&!pvBusy){pvBusy=true;await Promise.all([pvFetchWx(false),pvLoadEvents()]);pvBusy=false;draw(false);}
+ function draw(first){const F=pvForecast(7),max=Math.max(10,...F.map(x=>x.tot||0)),wk=F.reduce((s,x)=>s+(x.tot||0),0),cal=F.cal,wx=pvWx();
+  box.innerHTML=`<div class="pv-head"><div><div class="pv-sub">Coperti previsti nei prossimi 7 giorni</div><div class="pv-big"><span id="pvWeek">0</span></div></div><button class="btn-note" onclick="pvRefresh()">🔄 Aggiorna</button></div>
+  <div class="pv-sub" style="margin-bottom:10px;">${cal.err!=null?`🎯 Errore medio delle ultime ${cal.n} previsioni: ±${cal.err}%`:'🎯 La precisione si misura da sola dopo qualche serata chiusa'} · ${wx?'meteo Fossacesia aggiornato alle '+new Date(wx.ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}):'meteo non disponibile (offline?)'}</div>`+
+  F.map(x=>{const d=new Date(x.ds+'T12:00');return `<div class="pv-day${x.k===0?' today':''}"><div class="pv-row"><div class="pv-date"><b>${x.k===0?'Oggi':x.k===1?'Domani':GG[x.wd]}</b><span>${x.k<2?GG[x.wd]+' ':''}${d.getDate()}/${d.getMonth()+1}</span></div><div class="pv-wx"><em>${wxIcon(x.w&&x.w.code)}</em>${x.w?Math.round(x.w.tmax)+'° · '+(x.w.prob||0)+'%':''}</div><div class="pv-bar"><span data-w="${x.tot?Math.round(x.tot/max*100):0}"></span></div><div class="pv-num" data-n="${x.tot||0}">${x.tot==null?'—':(first?0:x.tot)}</div></div>
+  <div class="pv-chips">${x.tot!=null&&x.base?`<span class="pv-chip">☀️ pranzo ${x.pranzo}</span><span class="pv-chip">🌙 cena ${x.cena}</span>`:''}${x.why.filter(w=>x.tot!=null||w[0]==='ev').map(([c,t,ds])=>c==='ev'?`<button class="pv-chip ev" onclick="pvDelEvent('${ds}')">${escH(t)}</button>`:`<span class="pv-chip ${c}">${escH(t)}</span>`).join('')}${x.n?`<span class="pv-chip lo">affidabilità ${x.conf} (${x.n} ${GGL[x.wd]})</span>`:`<span class="pv-chip lo">nessuno storico di ${GGL[x.wd]}: chiuso?</span>`}${x.hasEv?'':`<button class="pv-chip add" onclick="pvAddEvent('${x.ds}')">＋ evento</button>`}</div></div>`;}).join('')+
+  `<button class="btn-main" style="width:100%;margin-top:6px;background:#7C3AED;color:#fff;" onclick="pvAskAi()">🤖 Piano della settimana con Gemini</button><div id="pvAi"></div>
+  <div style="font-size:.7rem;color:var(--muted);margin-top:8px;line-height:1.4;">Come calcolo: media dei coperti dello stesso giorno della settimana (le ultime settimane contano di più), poi meteo di Fossacesia, festività, eventi che aggiungi tu e prenotazioni già fatte. Ogni sera confronto la previsione con i coperti veri e mi correggo da solo.</div>`;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{box.querySelectorAll('.pv-bar span').forEach(s=>s.style.width=s.dataset.w+'%');if(first)return;v21Count($('pvWeek'),wk,900);box.querySelectorAll('.pv-num').forEach(n=>{if(n.textContent!=='—')v21Count(n,+n.dataset.n,700);});}));
+  if(first)$('pvWeek').textContent=wk;}
+};
+window.pvRefresh=async()=>{const b=$('pvBox');if(b)b.style.opacity='.6';await Promise.all([pvFetchWx(true),pvLoadEvents()]);if(b)b.style.opacity='';pvRender(false);};
+window.pvAskAi=async function(){const o=$('pvAi');if(!getGeminiKey()){o.innerHTML='<div class="pv-ai">🔑 Inserisci la chiave Gemini in ⚙️ Opzioni.</div>';return;}o.innerHTML='<div class="pv-ai">⏳ Gemini sta preparando il piano...</div>';
+ const F=pvForecast(7).map(x=>({giorno:GGL[x.wd]+' '+x.ds,coperti:x.tot,pranzo:x.pranzo,cena:x.cena,meteo:x.w?{icona:wxIcon(x.w.code),max:x.w.tmax,pioggia:x.w.prob}:null,note:x.why.map(w=>w[1].replace(' ✕','')),affidabilita:x.conf}));
+ const from=iso(addD(pvToday(),-30)),cnt={};let cop=0;(state.historyLog||[]).forEach(e=>{try{if(!e||svcDate(e)<from)return;cop+=(copOf(e)||{}).n||0;(e.items||[]).forEach(i=>{if(!i||i.cat==='1 Coperto'||i.cat==='2 Bevande'||/coperto|\bacqua\b/i.test(i.name||''))return;cnt[i.name]=(cnt[i.name]||0)+(Number(i.qty)||0);});}catch(x){}});
+ const rate=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,12).map(([n,q])=>({piatto:n,porzioni_ogni_100_coperti:cop?Math.round(q/cop*1000)/10:null}));
+ try{const t=await callGemini([{text:`Sei il consulente di Alicetta, trattoria di pesce a Fossacesia (Costa dei Trabocchi). Staff: il titolare Christian e le cameriere Alice e Serena. Previsione coperti dei prossimi 7 giorni: ${JSON.stringify(F)}. Piatti più venduti negli ultimi 30 giorni (porzioni ogni 100 coperti): ${JSON.stringify(rate)}. Scrivi in italiano, massimo 12 righe semplici: 1) i giorni più pieni e quelli tranquilli; 2) quante persone in sala servono giorno per giorno; 3) quando conviene ordinare il pesce fresco e in che quantità indicativa per i piatti principali; 4) un consiglio anti-spreco. Se l'affidabilità è bassa, dillo.`}]);o.innerHTML='';const d=document.createElement('div');d.className='pv-ai';d.textContent=t;o.appendChild(d);}catch(e){o.innerHTML='';const d=document.createElement('div');d.className='pv-ai';d.textContent='AI non disponibile: '+e.message;o.appendChild(d);}};
+/* Il Sous-Chef usa i coperti della nuova previsione */
+if(typeof sousChefStats==='function'){const _ss=sousChefStats;sousChefStats=function(){const s=_ss.apply(this,arguments);try{const f=pvForecast(1)[0];if(f&&f.tot)s.cop=f.tot;}catch(e){}return s;};}
+
+updateDock();
+})();
+</script>
+
 <script>initApp();</script>
 </body>
 </html>
