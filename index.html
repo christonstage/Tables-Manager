@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.0.20</title>
+<title>Alicetta TableZ 2.0 - v2.0.21</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -236,7 +236,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.0.20</div>
+    <div class="version-badge">v2.0.21</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -345,7 +345,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.20)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.0.21)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -373,7 +373,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.20)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.0.21)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -1916,7 +1916,7 @@ async function nfcWrite(){const st=document.getElementById('nfcSt'),u=nfcUrlFor(
   catch(e){st.style.color='#B91C1C';st.textContent='❌ '+(e.name==='NotAllowedError'?'Permesso NFC negato: consentilo a Chrome e riprova.':e.name==='NotSupportedError'?'NFC non disponibile o spento: attivalo nelle impostazioni.':'Scrittura non riuscita: '+e.message);}}
 </script>
 <script>
-/* ===== v2.0.20 · bozze tavolo sempre salvate, traduzioni mancanti, campanello semplice ===== */
+/* ===== v2.0.21 · bozze tavolo sempre salvate, traduzioni mancanti, campanello semplice ===== */
 function draftBadge(t){return (t.items||[]).some(i=>!isItemSent(t,i))?'<div class="draft-badge">📝 DA INVIARE</div>':'';}
 window.addEventListener('pagehide',()=>{try{saveLocalOnly();}catch(e){}});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){try{saveLocalOnly();}catch(e){}}});
@@ -1954,6 +1954,24 @@ setTimeout(autoTranslate,9000);setInterval(autoTranslate,10*60000);
 function playSimpleBell(){try{sndDest();const n=audioCtx.currentTime+0.03;
   [0,0.5].forEach(o=>[[1,1.0,1.5],[2.4,0.5,0.9],[3.9,0.22,0.5]].forEach(([m,v,d])=>{const os=audioCtx.createOscillator(),g=audioCtx.createGain(),t0=n+o;os.type='sine';os.frequency.setValueAtTime(1760*m,t0);g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(v,t0+0.008);g.gain.exponentialRampToValueAtTime(0.0001,t0+d);os.connect(g);g.connect(sndDest());os.start(t0);os.stop(t0+d+0.05);}));}catch(e){}}
 {const _kb=playKitchenBell;playKitchenBell=function(){if(isKdsDev())return _kb();playSimpleBell();};}
+</script>
+<script>
+/* ===== v2.0.21 · Notifiche ntfy anche per comande e mandate (app chiusa o schermo spento) ===== */
+async function ntfyPost(target,title,msg,prio){const c=(localStorage.getItem('alicetta_ntfy')||'').trim();if(!c||!navigator.onLine)return;try{await fetch('https://ntfy.sh',{method:'POST',body:JSON.stringify({topic:c+'-'+String(target).toLowerCase().replace(/[^a-z0-9]/g,''),title,message:msg||' ',priority:prio||4,tags:['bell']})});}catch(e){}}
+const evText=h=>String(h||'').replace(/<[^>]*>/g,'').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim().slice(0,300);
+function pushEvent(ev){if(!ev)return;const fromKds=isKdsDev(),toSala=fromKds||ev.sala;ntfyPost(toSala?'sala':'kdscucina',ev.title||'TableZ',evText(ev.summary)+(ev.waiter&&!toSala?' · '+ev.waiter:''),toSala?4:5);}
+{const _ss2=saveState;saveState=function(b,p){const ev=state.lastOrderEvent;if(ev&&window._evSeen!==undefined&&ev.id>(window._evSeen||0)){window._evSeen=ev.id;pushEvent(ev);}return _ss2(b,p);};}
+{const _pf=pullFromCloud;pullFromCloud=async function(i){const r=await _pf(i);if(state.lastOrderEvent&&state.lastOrderEvent.id>(window._evSeen||0))window._evSeen=state.lastOrderEvent.id;return r;};}
+{const _ia=initApp;initApp=async function(){const r=_ia();setTimeout(()=>{if(window._evSeen===undefined)window._evSeen=state.lastOrderEvent?state.lastOrderEvent.id:0;},4000);return r;};}
+function ntfyTopicsFor(wn){const kds=/^kds cucina$/i.test(wn);return kds?[ntfyTopic(wn),ntfyTopic('tutti')]:[ntfyTopic(wn),ntfyTopic('sala'),ntfyTopic('tutti')];}
+function checkNtfyNag(){
+  const el=document.getElementById('ntfyNag');if(!el)return;const wn=(state.waiterName||'').trim(),code=(localStorage.getItem('alicetta_ntfy')||'').trim();
+  if(!wn||/^timbrature$/i.test(wn)||localStorage.getItem('alicetta_ntfy_ok2')===wn.toLowerCase()){el.style.display='none';return;}
+  el.style.display='block';
+  el.innerHTML=code?`<div style="font-weight:900;margin-bottom:4px;">🔔 Campanello a schermo spento: argomenti da avere in ntfy</div><div>${ntfyTopicsFor(wn).map(t=>`<div style="font-family:monospace;font-weight:900;font-size:.85rem;margin:2px 0;">${escH(t)}</div>`).join('')}<div style="margin-top:4px;">Devono essere scritti <b>esattamente così</b>. Poi premi Prova e spegni lo schermo: deve suonare entro 20 secondi.</div></div><div style="display:flex;gap:6px;margin-top:8px;"><button class="btn-note" style="flex:1;" onclick="ntfyTest()">🔔 Prova</button><button class="btn-note" style="flex:1;" onclick="ntfyDone2()">✅ Funziona</button></div>`
+  :`<div style="font-weight:900;margin-bottom:4px;">🔔 Promemoria: campanello a schermo spento</div><div>Manca il codice notifiche: Christian lo imposta in ⚙️ Opzioni (Notifiche & Stampante).</div><div style="margin-top:8px;"><button class="btn-note" onclick="ntfyDone2()">Nascondi su questo dispositivo</button></div>`;
+}
+function ntfyDone2(){localStorage.setItem('alicetta_ntfy_ok2',(state.waiterName||'').trim().toLowerCase());checkNtfyNag();}
 </script>
 <script>initApp();</script>
 </body>
