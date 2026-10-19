@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alicetta TableZ 2.0 - v2.1.1</title>
+<title>Alicetta TableZ 2.0 - v2.1.2</title>
 <meta name="theme-color" content="#FF2E93">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -236,7 +236,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="version-badge">v2.1.1</div>
+    <div class="version-badge">v2.1.2</div>
     <div id="syncIndicator" class="sync-badge">LIVE</div>
   </div>
   <div class="top-actions">
@@ -345,7 +345,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.1.1)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — ALICETTA TABLEZ 2.0 (v2.1.2)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -373,7 +373,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.1.1)</h3>
+      <h3 style="color:var(--logo-coral);">🐟 Alicetta TableZ 2.0 (v2.1.2)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -1991,12 +1991,13 @@ body.no-dock.has-dock{padding-bottom:95px}
 #dock .btn-top.active{color:#fff!important}
 #dock .btn-top.active .nv-i{transform:translateY(-3px) scale(1.2)}
 #navAi{--nc:#E9D5FF;--na:#7C3AED}
-@keyframes swInR{from{transform:translateX(42%);opacity:0}to{transform:none;opacity:1}}
-@keyframes swInL{from{transform:translateX(-42%);opacity:0}to{transform:none;opacity:1}}
+#scrWrap{overflow-x:clip;position:relative}
+@keyframes swInR{from{transform:translate3d(30%,0,0);opacity:0}to{transform:none;opacity:1}}
+@keyframes swInL{from{transform:translate3d(-30%,0,0);opacity:0}to{transform:none;opacity:1}}
 @keyframes swBumpR{30%{transform:translateX(-18px)}}
 @keyframes swBumpL{30%{transform:translateX(18px)}}
-.sw-in-r{animation:swInR .36s cubic-bezier(.2,.8,.2,1)}
-.sw-in-l{animation:swInL .36s cubic-bezier(.2,.8,.2,1)}
+.sw-in-r{animation:swInR .3s cubic-bezier(.16,.84,.3,1)}
+.sw-in-l{animation:swInL .3s cubic-bezier(.16,.84,.3,1)}
 .sw-bump-r{animation:swBumpR .32s ease}
 .sw-bump-l{animation:swBumpL .32s ease}
 .hub-tabs{display:flex;gap:4px;position:relative;background:rgba(6,35,41,.16);padding:5px;border-radius:16px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;box-shadow:inset 0 2px 4px rgba(0,0,0,.12)}
@@ -2126,6 +2127,10 @@ if(typeof payFilter==='function'){const _pf=payFilter;payFilter=function(m){_pf(
 if(typeof ccOpen==='function'){const _cc=ccOpen;ccOpen=function(k){if(v21CurView()==='sales'&&HUBS.sales.cur!=='oggi')setHubPage('sales','oggi');_cc(k);};}
 
 /* ---------- 4. Scorrimento col dito ---------- */
+function canGo(dir){const v=v21CurView();if(!v||v==='order')return false;
+ if(v==='tables'){const n=ROOMS.indexOf(state.currentRoom||'interna')+dir;if(n>=0&&n<ROOMS.length)return true;}
+ if(HUBS[v]){const h=HUBS[v],n=h.pages.findIndex(p=>p[0]===h.cur)+dir;if(n>=0&&n<h.pages.length)return true;}
+ const L=visibleDock().map(x=>x[1]),i=L.indexOf(v),n=i+dir;return i>=0&&n>=0&&n<L.length;}
 function goNeighbor(dir){const v=v21CurView(),sc=document.querySelector('.screen.active');if(!v||v==='order')return;
  if(v==='tables'){const i=ROOMS.indexOf(state.currentRoom||'interna'),n=i+dir;if(n>=0&&n<ROOMS.length){selectRoom(ROOMS[n]);if(navigator.vibrate)try{navigator.vibrate(8);}catch(e){}return;}}
  if(HUBS[v]){const h=HUBS[v],i=h.pages.findIndex(p=>p[0]===h.cur),n=i+dir;if(n>=0&&n<h.pages.length){setHubPage(v,h.pages[n][0],dir);if(navigator.vibrate)try{navigator.vibrate(8);}catch(e){}return;}}
@@ -2140,10 +2145,15 @@ function goNeighbor(dir){const v=v21CurView(),sc=document.querySelector('.screen
 }
 window.v21GoNeighbor=goNeighbor;
 function scrollsX(el){for(let n=el;n&&n!==document.body;n=n.parentElement){if(n.scrollWidth>n.clientWidth+4){const o=getComputedStyle(n).overflowX;if(o==='auto'||o==='scroll')return true;}}return false;}
-let T=null;
-document.addEventListener('touchstart',e=>{T=null;if(localStorage.getItem('alicetta_swipe')==='0'||e.touches.length!==1)return;const v=v21CurView();if(!v||v==='order')return;if(document.querySelector('.modal-overlay.active'))return;const t=e.touches[0],tg=e.target;if(t.clientX<22||t.clientX>innerWidth-22)return;if(tg.closest('input,textarea,select,canvas,iframe,[contenteditable],#dock,.no-swipe,details[open] summary'))return;if(scrollsX(tg))return;T={x:t.clientX,y:t.clientY,t:Date.now(),lock:0,sc:document.querySelector('.screen.active')};},{passive:true});
-document.addEventListener('touchmove',e=>{if(!T)return;const t=e.touches[0],dx=t.clientX-T.x,dy=t.clientY-T.y;if(!T.lock){if(Math.abs(dx)>14&&Math.abs(dx)>Math.abs(dy)*1.6)T.lock=1;else if(Math.abs(dy)>12){T=null;return;}}if(T.lock===1){if(e.cancelable)e.preventDefault();T.dx=dx;T.sc.style.transition='none';T.sc.style.transform=`translateX(${dx*.45}px)`;T.sc.style.opacity=String(1-Math.min(.35,Math.abs(dx)/900));}},{passive:false});
-function endT(){if(!T)return;const s=T;T=null;if(!s.lock)return;s.sc.style.transition='transform .2s ease,opacity .2s ease';s.sc.style.transform='';s.sc.style.opacity='';setTimeout(()=>{s.sc.style.transition='';},220);const dx=s.dx||0,fast=Math.abs(dx)/(Date.now()-s.t)>.45;if(Math.abs(dx)>80||(fast&&Math.abs(dx)>40))goNeighbor(dx<0?1:-1);}
+/* v2.1.2: le pagine stanno in un contenitore che taglia ciò che esce di lato, così la pagina non si sposta e la barra in basso resta ferma */
+(function(){const first=document.querySelector('.screen');if(!first||$('scrWrap'))return;const w=document.createElement('div');w.id='scrWrap';first.before(w);document.querySelectorAll('.screen').forEach(sc=>w.appendChild(sc));})();
+let T=null,raf=0;
+function paint(){raf=0;if(!T||!T.lock)return;const dx=T.dx||0,W=innerWidth,x=T.can?dx:dx*.22;T.sc.style.transform=`translate3d(${x}px,0,0)`;T.sc.style.opacity=String(1-Math.min(.45,Math.abs(x)/W*.6));}
+document.addEventListener('touchstart',e=>{T=null;if(localStorage.getItem('alicetta_swipe')==='0'||e.touches.length!==1)return;const v=v21CurView();if(!v||v==='order')return;if(document.querySelector('.modal-overlay.active'))return;const t=e.touches[0],tg=e.target;if(t.clientX<22||t.clientX>innerWidth-22)return;if(tg.closest('input,textarea,select,canvas,iframe,[contenteditable],#dock,.topbar,.no-swipe,details[open] summary'))return;if(scrollsX(tg))return;T={x:t.clientX,y:t.clientY,t:Date.now(),lock:0,sc:document.querySelector('.screen.active')};},{passive:true});
+document.addEventListener('touchmove',e=>{if(!T)return;const t=e.touches[0],dx=t.clientX-T.x,dy=t.clientY-T.y;if(!T.lock){if(Math.abs(dx)>12&&Math.abs(dx)>Math.abs(dy)*1.5){T.lock=1;T.x=t.clientX-(dx>0?12:-12);T.dir=dx<0?1:-1;T.can=canGo(T.dir);T.sc.style.transition='none';T.sc.style.willChange='transform,opacity';}else if(Math.abs(dy)>12){T=null;return;}}if(T.lock===1){if(e.cancelable)e.preventDefault();T.dx=t.clientX-T.x;const d=T.dx<0?1:-1;if(d!==T.dir){T.dir=d;T.can=canGo(d);}T.lt=Date.now();if(!raf)raf=requestAnimationFrame(paint);}},{passive:false});
+function endT(){if(!T)return;const s=T;T=null;if(raf){cancelAnimationFrame(raf);raf=0;}if(!s.lock)return;const dx=s.dx||0,v=Math.abs(dx)/Math.max(1,Date.now()-s.t),go=s.can&&(Math.abs(dx)>innerWidth*.22||(v>.45&&Math.abs(dx)>40)),sc=s.sc;
+ if(go&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const dir=dx<0?1:-1;sc.style.transition='transform .14s cubic-bezier(.4,0,1,1),opacity .14s linear';sc.style.transform=`translate3d(${-dir*innerWidth*.55}px,0,0)`;sc.style.opacity='0';setTimeout(()=>{sc.style.transition='none';sc.style.transform='';sc.style.opacity='';sc.style.willChange='';goNeighbor(dir);requestAnimationFrame(()=>{sc.style.transition='';});},140);return;}
+ sc.style.transition='transform .32s cubic-bezier(.2,1.25,.4,1),opacity .25s ease';sc.style.transform='';sc.style.opacity='';setTimeout(()=>{sc.style.transition='';sc.style.willChange='';},340);if(go)goNeighbor(dx<0?1:-1);}
 document.addEventListener('touchend',endT);document.addEventListener('touchcancel',endT);
 
 /* ---------- 5. Previsione coperti (roadmap 8) ---------- */
@@ -2362,11 +2372,11 @@ function engineering(){const from=iso(addD(today(),-rankDays)),m={},ix=priceInde
  const L=Object.values(m).filter(o=>o.q>0).map(o=>{const pr=o.rev/o.q,d=dishInfo(o.nome,pr,ix);return{...o,pr,...d};}),R=L.filter(o=>o.rc),n=R.length,tq=R.reduce((s,o)=>s+o.q,0),pop=n?.7*tq/n:0,am=tq?R.reduce((s,o)=>s+o.marg*o.q,0)/tq:0;
  R.forEach(o=>{o.hi=o.q>=pop;o.pr2=o.marg>=am;o.qd=o.hi&&o.pr2?'star':o.hi?'horse':o.pr2?'puz':'dog';});return{L,R,noR:L.filter(o=>!o.rc),am,pop};}
 function renderRank(){const el=$('hub_ai_rank');if(!el)return;const E=engineering(),Q={star:['⭐ Vende e rende','tienili così, in evidenza','q-star'],horse:['🐴 Vende ma rende poco','ritocca prezzo o grammature','q-horse'],puz:['💎 Rende ma non vende','fallo proporre in sala','q-puz'],dog:['🐕 Né vende né rende','da togliere','q-dog']};
- const box=k=>{const L=E.R.filter(o=>o.qd===k).sort((a,b)=>b.q*b.marg-a.q*a.marg);return`<div class="${Q[k][2]}"><h4>${Q[k][0]}</h4><small>${Q[k][1]}</small>${L.slice(0,6).map(o=>`<div class="it">${escH(o.nome)}<br><span style="font-weight:700;opacity:.8;">${o.q} porz. · ${eur(o.marg)} l’una</span></div>`).join('')||'<div class="it" style="opacity:.6;">—</div>'}${L.length>6?`<div class="it">+${L.length-6} altri</div>`:''}</div>`;};
+ const box=k=>{const L=E.R.filter(o=>o.qd===k).sort((a,b)=>b.q-a.q||b.rev-a.rev);return`<div class="${Q[k][2]}"><h4>${Q[k][0]}</h4><small>${Q[k][1]}</small>${L.slice(0,6).map(o=>`<div class="it">${escH(o.nome)}<br><span style="font-weight:700;opacity:.8;">${o.q} porz. · ${eur(o.marg)} l’una</span></div>`).join('')||'<div class="it" style="opacity:.6;">—</div>'}${L.length>6?`<div class="it">+${L.length-6} altri</div>`:''}</div>`;};
  el.innerHTML=`<div class="cart-section"><div class="cs-h"><h3>🏆 Classifica piatti</h3></div><div class="cat-bar" style="margin-bottom:8px;">${[[7,'7 giorni'],[30,'30 giorni'],[90,'90 giorni']].map(([d,l])=>`<button class="cat-btn${rankDays===d?' active':''}" onclick="v211RankDays(${d})">${l}</button>`).join('')}</div>
  ${E.R.length?`<div class="qd">${box('star')}${box('horse')}${box('puz')}${box('dog')}</div><div class="fc-sub" style="margin-bottom:8px;">“Vende” = almeno il 70% delle porzioni medie per piatto (${Math.round(E.pop*10)/10}). “Rende” = margine per porzione sopra la media (${eur(E.am)}).</div>
  <button class="btn-main" style="width:100%;background:#7C3AED;color:#fff;" onclick="v211AskRank()">🤖 Cosa ritoccare? Chiedi a Gemini</button><div id="rkAi"></div>`:'<div class="fc-sub">Servono vendite e ricette: chiudi qualche serata e crea le ricette da 💰 Costi.</div>'}</div>`+
- `<div class="cart-section"><h3 style="margin-bottom:6px;">📋 Tutti i piatti venduti</h3>${E.L.sort((a,b)=>(b.rc?b.q*b.marg:-1)-(a.rc?a.q*a.marg:-1)).map((o,i)=>`<div class="ing"><div class="n"><b style="text-transform:none;">${i+1}. ${escH(o.nome)}</b><span>${o.q} porzioni · incasso ${eur(o.rev)}${o.rc?' · food cost '+Math.round((o.fc||0)*100)+'%':''}</span></div><div class="p">${o.rc?eur(o.marg*o.q)+'<br><span style="font-size:.64rem;color:var(--muted);">margine totale</span>':`<button class="btn-note" onclick="v211EditRecipe(${jsA(o.nome)})">📝 Ricetta</button>`}</div></div>`).join('')||'<div class="fc-sub">Nessuna vendita nel periodo.</div>'}
+ `<div class="cart-section"><h3 style="margin-bottom:6px;">📋 Piatti più venduti</h3>${E.L.sort((a,b)=>b.q-a.q||b.rev-a.rev).map((o,i)=>`<div class="ing"><div class="n"><b style="text-transform:none;">${i+1}. ${escH(o.nome)}</b><span>${o.q} porzioni · incasso ${eur(o.rev)}${o.rc?' · food cost '+Math.round((o.fc||0)*100)+'%':''}</span></div><div class="p">${o.rc?eur(o.marg*o.q)+'<br><span style="font-size:.64rem;color:var(--muted);">margine totale</span>':`<button class="btn-note" onclick="v211EditRecipe(${jsA(o.nome)})">📝 Ricetta</button>`}</div></div>`).join('')||'<div class="fc-sub">Nessuna vendita nel periodo.</div>'}
  ${E.noR.length?`<button class="btn-note" style="width:100%;margin-top:8px;padding:10px;" onclick="v211MakeRecipes(${jsA(E.noR.map(o=>o.nome).slice(0,40))})">🤖 Crea le ricette mancanti (${E.noR.length})</button><div class="rcSt" style="font-size:.8rem;font-weight:800;color:#7C3AED;margin-top:6px;"></div>`:''}</div>`;}
 window.v211AskRank=async function(){const o=$('rkAi');if(!getGeminiKey()){o.innerHTML='<div class="pv-ai">🔑 Inserisci la chiave Gemini in ⚙️ Opzioni.</div>';return;}o.innerHTML='<div class="pv-ai">⏳ Gemini sta guardando i numeri...</div>';const E=engineering(),ix=priceIndex(),md=menuDishes().map(m=>m.name);
  const data={piatti:E.R.map(o=>({nome:o.nome,porzioni:o.q,prezzo:Math.round(o.pr*100)/100,costo:Math.round(o.cost*100)/100,food_cost:Math.round((o.fc||0)*100)+'%',casella:{star:'vende e rende',horse:'vende ma rende poco',puz:'rende ma non vende',dog:'né vende né rende'}[o.qd],in_menu_oggi:md.some(n=>ik(n)===o.k)})),prezzi_che_cambiano:Object.values(ix).filter(x=>x.ch!=null&&Math.abs(x.ch)>=.15).map(x=>({ingrediente:x.nome,prezzo:x.last.pu+' €/'+x.u,variazione:Math.round(x.ch*100)+'%'}))};
@@ -2381,6 +2391,32 @@ window.addEventListener('online',()=>flush().then(rerender));
 })();
 </script>
 
+<!-- ===== v2.1.2: tasto Tavoli in alto, schermo intero in Opzioni ===== -->
+<style>
+#topTables{order:3;flex:0 0 auto;display:flex;align-items:center;gap:5px;background:linear-gradient(180deg,#5EF2FF,#1BE7FF);color:#062329;border:2px solid #062329;border-radius:14px;padding:0 12px;min-height:46px;font-weight:900;font-size:.95rem;box-shadow:0 4px 0 #062329,0 8px 16px rgba(70,0,35,.3),inset 0 1px 0 rgba(255,255,255,.7);cursor:pointer;white-space:nowrap;transition:transform .12s,box-shadow .12s}
+#topTables span{font-size:1.25rem;line-height:1}
+#topTables:active{transform:translateY(3px);box-shadow:0 1px 0 #062329,0 4px 8px rgba(70,0,35,.3)}
+#topTables.here{background:linear-gradient(180deg,#FF7A5C,#FF5733);color:#fff}
+@media (max-width:380px){#topTables b{display:none}#topTables{padding:0 10px}}
+.topbar .waiter-tag{min-width:46px;flex:0 1 auto!important}
+</style>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const b=document.createElement('button');b.id='topTables';b.type='button';b.innerHTML='<span>🍽️</span><b>Tavoli</b>';
+b.onclick=()=>{if(window.v21CurView&&v21CurView()==='order')closeTableView();else switchMainView('tables');if(navigator.vibrate)try{navigator.vibrate(10);}catch(e){}};
+const full=$('navFull');full.after(b);
+const role=()=>(state.waiterName||'').trim();
+function sync(){const r=role(),kiosk=/^(kds cucina|timbrature)$/i.test(r);b.style.display=kiosk?'none':'flex';full.style.display=kiosk?'':'none';const v=window.v21CurView?v21CurView():null;b.classList.toggle('here',v==='tables');}
+const _u=updateWaiterDisplay;updateWaiterDisplay=function(){_u.apply(this,arguments);sync();};
+const _s=switchMainView;switchMainView=function(){const r=_s.apply(this,arguments);sync();return r;};
+const _o=openTable;openTable=function(){const r=_o.apply(this,arguments);sync();return r;};
+/* schermo intero spostato in Opzioni */
+const c=document.createElement('div');c.className='cart-section';c.innerHTML='<h3 style="margin-bottom:6px;">⛶ Schermo intero</h3><button class="btn-main btn-print" style="width:100%;" onclick="toggleFullScreen()">⛶ Attiva / disattiva schermo intero</button>';
+const sw=$('chkSwipe'),card=sw&&sw.closest('.cart-section');if(card)card.after(c);else $('viewMenuMgr').appendChild(c);
+sync();
+})();
+</script>
 <script>initApp();</script>
 </body>
 </html>
