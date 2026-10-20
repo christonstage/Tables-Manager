@@ -260,7 +260,7 @@ function switchTab(tab) {
 function render() {
   const lang = document.getElementById('language').value;
   document.documentElement.lang = lang;
-  document.getElementById('notice').textContent = NOTICE[lang] || NOTICE.it;
+  document.getElementById('notice').textContent = (window.LUNCH_ON?(LUNCH_NOTE[lang]||LUNCH_NOTE.en)+' · ':'')+(NOTICE[lang] || NOTICE.it);
 
   ['btnGiorno','btnVini','btnAllergeni'].forEach(id => document.getElementById(id).classList.remove('active'));
   if(currentTab==='giorno') document.getElementById('btnGiorno').classList.add('active');
@@ -377,13 +377,15 @@ getAlgs=function(name){
   const L=document.getElementById('language').value,li=['it','en','fr','de','es','pl','zh','ru','sq','ro','hr','sl'].indexOf(L);
   const a=c.filter(x=>ALG_I[x]).map(x=>ALG_I[x][li]);return a.length?a:[ALG_NONE[L]];
 };
+function lunchP(x){const d=new Date(),iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),h=d.getHours();if(Number(x.lp)>0&&x.lpd===iso&&h>=5&&h<17){window.LUNCH_ON=true;return Number(x.lp);}return Number(x.price)||0;}
+const LUNCH_NOTE={it:'🌞 Prezzi del pranzo',en:'🌞 Lunch prices',fr:'🌞 Prix du déjeuner',de:'🌞 Mittagspreise',es:'🌞 Precios de almuerzo',pl:'🌞 Ceny lunchowe',zh:'🌞 午餐价格',ru:'🌞 Цены на обед',sq:'🌞 Çmimet e drekës',ro:'🌞 Prețuri de prânz',hr:'🌞 Cijene za ručak',sl:'🌞 Cene za kosilo'};
 async function loadLiveMenu(){
   try{
     const r=await fetch(FB_MENU_URL+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;
     const raw=await r.json(),m=(Array.isArray(raw)?raw:Object.values(raw||{})).filter(x=>x&&x.name&&!x.soldOut);
     const food=m.filter(x=>['3 Antipasti','4 Primi Piatti','5 Secondi','6 Desserts'].includes(x.cat)),drinks=m.filter(x=>x.cat==='2 Bevande');
     if(!food.length&&!drinks.length)return;
-    CHALKBOARD_ITEMS.length=0;food.forEach(x=>CHALKBOARD_ITEMS.push({cat:x.cat,name:x.name,price:Number(x.price)||0}));
+    CHALKBOARD_ITEMS.length=0;window.LUNCH_ON=false;food.forEach(x=>CHALKBOARD_ITEMS.push({cat:x.cat,name:x.name,price:lunchP(x)}));
     WINE_ITEMS.length=0;drinks.forEach(x=>WINE_ITEMS.push({name:x.name,price:Number(x.price)||0}));
     m.forEach(x=>{if(x.tr&&Object.keys(x.tr).length)TRANSLATIONS[x.name]=x.tr;if(Array.isArray(x.allergens)&&x.allergens.length)LIVE_ALG[x.name]=x.allergens;});
     render();
@@ -616,7 +618,7 @@ function paint(){
   $('hBill').textContent=t('bill');$('hRev').textContent=t('rev');$('pRev').textContent=t('revp');$('aRev').textContent=t('revb');$('fRule').textContent=t('rule');$('fSoon').textContent=t('soon');cardView(window._lp||null);$('fiscal').textContent=R?t('fiscal'):'';
   if(!RID)$('cBill').style.display='none';
   else if(!R)$('bill').innerHTML=`<div class="note">${t(window._noBill?'nobill':'wait')}</div>`;
-  else $('bill').innerHTML=`<div class="note" style="margin:0 0 6px;">${esc(R.n)} · ${esc(R.h||'')}${R.cop?' · '+R.cop+' '+t('cov'):''}</div>`+(R.it||[]).map(i=>`<div class="row"><span>${i.q}× ${esc(trN(i.n))}</span><b>${money(i.p*i.q)}</b></div>`).join('')+`<div class="tot"><span>${t('total')}</span><span>${money(R.tot)}</span></div>`;
+  else $('bill').innerHTML=`<div class="note" style="margin:0 0 6px;">${esc(R.n)} · ${esc(R.h||'')}${R.cop?' · '+R.cop+' '+t('cov'):''}</div>`+(R.it||[]).map(i=>`<div class="row"><span>${i.q}× ${esc(trN(i.n))}</span><b>${money(i.p*i.q)}</b></div>`).join('')+(R.sc?`<div class="row"><span>🏷️ ${({it:'Sconto',en:'Discount',fr:'Remise',de:'Rabatt',es:'Descuento',pl:'Rabat',zh:'折扣',ru:'Скидка',sq:'Zbritje',ro:'Reducere',hr:'Popust',sl:'Popust'})[L]||'Discount'}</span><b>−${money(R.sc)}</b></div>`:'')+`<div class="tot"><span>${t('total')}</span><span>${money(R.tot)}</span></div>`;
   renderForm();
 }
 function cardView(p){window._lp=p;const pts=Math.floor(Number(p&&p.eur)||0),pr=pts%EUR,av=Number(p&&p.av)||0;
@@ -649,5 +651,38 @@ document.documentElement.lang=L;paint();loadBill(0);refInvited();if(me)readPub(m
 window.setLang=setLang;const _rp=()=>{if(R&&!document.querySelector('#gzRoot input:focus')&&!(($('nm')||{}).value))paint();};setTimeout(_rp,2500);setTimeout(_rp,6000);
 })();
 </script>
+<script>
+/* ===== v2.4 · Pagina del buono regalo (menu.html?gift=CODICE) ===== */
+(function(){
+const q=new URLSearchParams(location.search),code=(q.get('gift')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length<8)return;
+const FBU='https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app';
+const isIt=((localStorage.getItem('alicetta_lang')||navigator.language||'it').slice(0,2).toLowerCase()==='it');
+const T=isIt?{t:'🎁 Buono regalo',per:'per',da:'da',res:'Valore residuo',of:'di',val:'Valido fino al',ok:'✅ Valido',used:'☑️ Già usato',expired:'⌛ Scaduto',void:'🚫 Non valido',show:'Mostra questo codice al momento del conto',book:'📞 Prenota un tavolo',menu:'🍽️ Guarda il menù del giorno',nf:'Buono non trovato: controlla il link.',load:'⏳ Carico il buono…'}
+ :{t:'🎁 Gift voucher',per:'for',da:'from',res:'Remaining value',of:'of',val:'Valid until',ok:'✅ Valid',used:'☑️ Already used',expired:'⌛ Expired',void:'🚫 Not valid',show:'Show this code when you pay',book:'📞 Book a table',menu:'🍽️ See today’s menu',nf:'Voucher not found: please check the link.',load:'⏳ Loading your voucher…'};
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=v=>new Intl.NumberFormat(isIt?'it-IT':'en-GB',{style:'currency',currency:'EUR'}).format(Number(v)||0);
+const ov=document.createElement('div');ov.id='giftView';ov.style.cssText='position:fixed;inset:0;z-index:99999;overflow:auto;background:linear-gradient(160deg,#FF2E93,#C2186F);padding:calc(24px + env(safe-area-inset-top,0px)) 16px 32px;font-family:inherit;color:#062329;box-sizing:border-box;';
+document.body.appendChild(ov);document.body.style.overflow='hidden';
+const card=c=>`<div style="max-width:440px;margin:0 auto;background:#fff;border-radius:26px;padding:22px 20px;box-shadow:0 10px 0 rgba(0,0,0,.18),0 24px 50px rgba(0,0,0,.3);text-align:center;">${c}</div>`;
+ov.innerHTML=card(`<div style="font-weight:800;">${T.load}</div>`);
+fetch(FBU+'/fidelity/pub/g_'+code+'.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
+ if(!v){ov.innerHTML=card(`<div style="font-size:3rem;">🎁</div><div style="font-weight:800;margin-top:8px;">${T.nf}</div>`);return;}
+ const st=v.st||'ok',exp=String(v.exp||'').split('-').reverse().join('/'),part=Number(v.balance)!==Number(v.amount);
+ const col={ok:'#16A34A',used:'#64748B',expired:'#B45309',void:'#B91C1C'}[st]||'#16A34A';
+ ov.innerHTML=card(`<div style="font-weight:900;letter-spacing:.18em;color:#FF5733;font-size:.85rem;">ALICETTA TRATTORIA · FOSSACESIA</div>
+ <div style="display:inline-block;margin:12px 0 4px;background:#1BE7FF;border-radius:30px;padding:6px 18px;font-weight:900;font-size:1.1rem;">${T.t}</div>
+ <div style="font-size:3.6rem;font-weight:900;color:#FF5733;line-height:1.1;margin-top:6px;">${money(v.balance)}</div>
+ ${part?`<div style="font-size:.85rem;font-weight:700;color:#4B5563;">${T.res} ${T.of} ${money(v.amount)}</div>`:''}
+ <div style="font-size:1.25rem;font-weight:800;margin-top:12px;">${T.per} ${esc(v.to)}</div>${v.from?`<div style="font-size:1rem;font-weight:700;color:#4B5563;">${T.da} ${esc(v.from)}</div>`:''}
+ ${v.msg?`<div style="font-style:italic;font-family:Georgia,serif;margin:12px 6px 0;color:#374151;font-size:1rem;">“${esc(v.msg)}”</div>`:''}
+ <div style="margin-top:16px;font-weight:900;color:${col};">${T[st]||T.ok}</div><div style="font-size:.85rem;font-weight:700;color:#4B5563;">${T.val} ${esc(exp)}</div>
+ <div style="margin:16px auto 6px;display:inline-block;background:#062329;color:#1BE7FF;border-radius:12px;padding:10px 18px;font-family:ui-monospace,Menlo,monospace;font-size:1.6rem;font-weight:900;letter-spacing:.12em;">${code.slice(0,4)}-${code.slice(4)}</div>
+ <div style="font-size:.82rem;font-weight:700;color:#4B5563;margin-bottom:16px;">${T.show}</div>
+ <a href="tel:+393923279000" style="display:block;background:#FF5733;color:#fff;text-decoration:none;font-weight:900;border-radius:14px;padding:13px;margin-bottom:8px;box-shadow:0 4px 0 #B91C1C;">${T.book}</a>
+ <a href="${location.pathname}" style="display:block;background:#1BE7FF;color:#062329;text-decoration:none;font-weight:900;border-radius:14px;padding:13px;box-shadow:0 4px 0 #0891B2;">${T.menu}</a>`);
+}).catch(()=>{ov.innerHTML=card(`<div style="font-weight:800;">${T.nf}</div>`);});
+})();
+</script>
+
 </body>
 </html>
