@@ -328,11 +328,13 @@ function render() {
   box.className = 'card-box';
   box.innerHTML = `<div class="brand-header">${LOGO_SVG}<h3 style="color:#FF5733; margin-top:8px; font-size:1.2rem; letter-spacing:1px;">✨ MENÙ DEL GIORNO ✨</h3><p style="font-size:0.78rem; font-weight:700; color:#062329; margin-top:2px;">` + new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + `</p></div>`;
 
+  if(window.algPanel) box.append(algPanel(lang));
   const catsMap = ['3 Antipasti', '4 Primi Piatti', '5 Secondi', '6 Desserts'];
   const titles = TITLES[lang] || TITLES.it;
+  const _alg = window.algSplit ? algSplit(CHALKBOARD_ITEMS) : null;
 
   catsMap.forEach((catCode, index) => {
-    const rows = CHALKBOARD_ITEMS.filter(x => x.cat === catCode);
+    const rows = (_alg ? _alg.ok : CHALKBOARD_ITEMS).filter(x => x.cat === catCode);
     if(!rows.length) return;
 
     const h2 = document.createElement('h2');
@@ -344,6 +346,7 @@ function render() {
       const tr = (TRANSLATIONS[item.name]?.[lang]) || (lang!=='it' ? TRANSLATIONS[item.name]?.en : undefined);
       text.innerHTML = `<b>• ${tr || item.name}</b>`;
       if(tr) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
+      if(_alg && window.algNote) { const an = algNote(item.name, lang); if(an) text.append(an); }
       
       price.className = 'price';
       price.textContent = new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'}).format(item.price);
@@ -351,6 +354,8 @@ function render() {
       box.append(article);
     });
   });
+
+  if(_alg && window.algGroups) algGroups(box, _alg, lang);
 
   const footerNotice = document.createElement('div');
   footerNotice.style.cssText = "margin-top:18px; text-align:center; background:#1BE7FF; padding:10px; border-radius:10px; border:1.5px solid #FF5733; color:#062329; font-weight:800; font-size:0.84rem;";
@@ -391,6 +396,67 @@ a.href=REVIEW_URL.startsWith('http')?REVIEW_URL:'https://www.google.com/maps/sea
 a.target='_blank';a.rel='noopener';a.style.cssText='display:block;margin:10px auto 0;max-width:320px;text-align:center;background:#FF5733;color:#fff;font-weight:800;padding:12px 14px;border-radius:10px;text-decoration:none;';hd.append(a);
 const RL={it:'⭐ Lascia una recensione su Google',en:'⭐ Leave us a Google review',fr:'⭐ Laissez-nous un avis Google',de:'⭐ Bewerten Sie uns auf Google',es:'⭐ Déjanos una reseña en Google',pl:'⭐ Zostaw nam opinię w Google',zh:'⭐ 在 Google 上给我们评价',ru:'⭐ Оставьте отзыв в Google',sq:'⭐ Na lini një vlerësim në Google',ro:'⭐ Lasă-ne o recenzie pe Google',hr:'⭐ Ostavite nam recenziju na Googleu',sl:'⭐ Pustite nam oceno na Googlu'};
 const upd=()=>{a.textContent=RL[document.getElementById('language').value]||RL.it;};upd();document.getElementById('language').addEventListener('change',upd);})();
+</script>
+
+<script>
+/* ===== v2.1.8 · Filtro allergeni sul menù del giorno ===== */
+(function(){
+const CODES=['glutine','crostacei','uova','pesce','arachidi','soia','latte','guscio','sedano','senape','sesamo','solfiti','lupini','molluschi'];
+const EMO={glutine:'🌾',crostacei:'🦐',uova:'🥚',pesce:'🐟',arachidi:'🥜',soia:'🫘',latte:'🥛',guscio:'🌰',sedano:'🌿',senape:'🟡',sesamo:'⚪',solfiti:'🍷',lupini:'🌼',molluschi:'🐚'};
+const LANGS=['it','en','fr','de','es','pl','zh','ru','sq','ro','hr','sl'];
+const TX={
+it:{btn:'Allergie e intolleranze',hint:'Tocca gli allergeni da evitare: mostro solo i piatti adatti.',clear:'Azzera',ok:'Adatti a te',verify:'Da verificare con il personale',verifyHint:'Per questi piatti non abbiamo i dati sugli allergeni: chiedi al cameriere.',bad:'Non adatti',contains:'Contiene',none:'Nessun allergene dichiarato',disc:'Indicazione di aiuto: non sostituisce le informazioni del personale. In caso di allergia avvisa sempre il cameriere: in cucina possono esserci tracce.',active:'attivi',nomatch:'Nessun piatto è adatto con questi filtri.'},
+en:{btn:'Allergies & intolerances',hint:'Tap the allergens to avoid: I will show only suitable dishes.',clear:'Clear',ok:'Suitable for you',verify:'Please check with staff',verifyHint:'We have no allergen data for these dishes: ask your waiter.',bad:'Not suitable',contains:'Contains',none:'No allergens declared',disc:'This is only a guide and does not replace staff information. If you have an allergy, always tell your waiter: traces may be present in the kitchen.',active:'active',nomatch:'No dish is suitable with these filters.'},
+fr:{btn:'Allergies et intolérances',hint:'Touchez les allergènes à éviter : je n’affiche que les plats adaptés.',clear:'Effacer',ok:'Adaptés pour vous',verify:'À vérifier avec le personnel',verifyHint:'Nous n’avons pas les données sur les allergènes de ces plats : demandez au serveur.',bad:'Non adaptés',contains:'Contient',none:'Aucun allergène déclaré',disc:'Indication à titre d’aide : elle ne remplace pas les informations du personnel. En cas d’allergie, prévenez toujours le serveur : des traces peuvent être présentes en cuisine.',active:'actifs',nomatch:'Aucun plat ne convient avec ces filtres.'},
+de:{btn:'Allergien und Unverträglichkeiten',hint:'Tippen Sie die zu meidenden Allergene an: Ich zeige nur passende Gerichte.',clear:'Zurücksetzen',ok:'Für Sie geeignet',verify:'Bitte beim Personal nachfragen',verifyHint:'Für diese Gerichte liegen uns keine Allergendaten vor: Fragen Sie den Service.',bad:'Nicht geeignet',contains:'Enthält',none:'Keine Allergene angegeben',disc:'Nur eine Orientierungshilfe, sie ersetzt nicht die Auskunft des Personals. Bei Allergien immer den Service informieren: In der Küche können Spuren vorhanden sein.',active:'aktiv',nomatch:'Mit diesen Filtern ist kein Gericht geeignet.'},
+es:{btn:'Alergias e intolerancias',hint:'Toca los alérgenos que quieres evitar: solo muestro los platos adecuados.',clear:'Borrar',ok:'Adecuados para ti',verify:'Consulta con el personal',verifyHint:'No tenemos datos de alérgenos de estos platos: pregunta al camarero.',bad:'No adecuados',contains:'Contiene',none:'Ningún alérgeno declarado',disc:'Orientación indicativa: no sustituye la información del personal. Si tienes alergia, avisa siempre al camarero: en la cocina puede haber trazas.',active:'activos',nomatch:'Ningún plato es adecuado con estos filtros.'},
+pl:{btn:'Alergie i nietolerancje',hint:'Dotknij alergenów, których chcesz unikać: pokażę tylko odpowiednie dania.',clear:'Wyczyść',ok:'Odpowiednie dla Ciebie',verify:'Zapytaj obsługę',verifyHint:'Nie mamy danych o alergenach tych dań: zapytaj kelnera.',bad:'Nieodpowiednie',contains:'Zawiera',none:'Nie zadeklarowano alergenów',disc:'Wskazówka pomocnicza: nie zastępuje informacji od obsługi. W przypadku alergii zawsze powiadom kelnera: w kuchni mogą występować śladowe ilości.',active:'aktywne',nomatch:'Żadne danie nie pasuje do tych filtrów.'},
+zh:{btn:'过敏与不耐受',hint:'点选需要避开的过敏原：只显示合适的菜品。',clear:'清除',ok:'适合您',verify:'请向服务员确认',verifyHint:'这些菜品没有过敏原资料：请询问服务员。',bad:'不适合',contains:'含有',none:'未声明过敏原',disc:'仅供参考，不能代替工作人员的说明。如有过敏，请务必告知服务员：厨房中可能含有微量成分。',active:'已选',nomatch:'按这些条件没有合适的菜品。'},
+ru:{btn:'Аллергии и непереносимость',hint:'Нажмите на аллергены, которых нужно избегать: покажу только подходящие блюда.',clear:'Сбросить',ok:'Подходят вам',verify:'Уточните у персонала',verifyHint:'У нас нет данных об аллергенах в этих блюдах: спросите официанта.',bad:'Не подходят',contains:'Содержит',none:'Аллергены не заявлены',disc:'Подсказка не заменяет информацию персонала. При аллергии всегда сообщайте официанту: на кухне возможны следы аллергенов.',active:'выбрано',nomatch:'С этими фильтрами нет подходящих блюд.'},
+sq:{btn:'Alergji dhe intolerancë',hint:'Prekni alergjenët që duhet të shmangni: do të shfaq vetëm gjellët e përshtatshme.',clear:'Pastro',ok:'Të përshtatshme për ju',verify:'Pyesni stafin',verifyHint:'Për këto gjella nuk kemi të dhëna për alergjenët: pyesni kamarierin.',bad:'Jo të përshtatshme',contains:'Përmban',none:'Asnjë alergjen i deklaruar',disc:'Orientim ndihmës: nuk zëvendëson informacionin e stafit. Në rast alergjie, njoftoni gjithmonë kamarierin: në kuzhinë mund të ketë gjurmë.',active:'aktive',nomatch:'Asnjë gjellë nuk përshtatet me këto filtra.'},
+ro:{btn:'Alergii și intoleranțe',hint:'Atinge alergenii pe care vrei să îi eviți: afișez doar preparatele potrivite.',clear:'Șterge',ok:'Potrivite pentru tine',verify:'Întreabă personalul',verifyHint:'Nu avem date despre alergeni pentru aceste preparate: întreabă ospătarul.',bad:'Nepotrivite',contains:'Conține',none:'Niciun alergen declarat',disc:'Indicație orientativă: nu înlocuiește informațiile personalului. În caz de alergie, anunță întotdeauna ospătarul: în bucătărie pot exista urme.',active:'active',nomatch:'Niciun preparat nu se potrivește cu aceste filtre.'},
+hr:{btn:'Alergije i intolerancije',hint:'Dodirnite alergene koje želite izbjeći: prikazat ću samo prikladna jela.',clear:'Poništi',ok:'Prikladno za vas',verify:'Provjerite s osobljem',verifyHint:'Za ova jela nemamo podatke o alergenima: pitajte konobara.',bad:'Nije prikladno',contains:'Sadrži',none:'Nema navedenih alergena',disc:'Orijentacijska informacija: ne zamjenjuje informacije osoblja. U slučaju alergije uvijek obavijestite konobara: u kuhinji mogu biti tragovi.',active:'aktivno',nomatch:'Uz ove filtre nijedno jelo nije prikladno.'},
+sl:{btn:'Alergije in intolerance',hint:'Tapnite alergene, ki se jim želite izogniti: prikazal bom le primerne jedi.',clear:'Počisti',ok:'Primerno za vas',verify:'Preverite z osebjem',verifyHint:'Za te jedi nimamo podatkov o alergenih: vprašajte natakarja.',bad:'Ni primerno',contains:'Vsebuje',none:'Ni navedenih alergenov',disc:'Orientacijska informacija: ne nadomešča informacij osebja. Ob alergiji vedno obvestite natakarja: v kuhinji so lahko sledovi.',active:'aktivno',nomatch:'S temi filtri ni nobene primerne jedi.'}};
+const st=document.createElement('style');st.textContent=`.alg-panel{margin:0 0 14px;border:2px solid #FF5733;border-radius:14px;background:#FFF7F0;overflow:hidden}
+.alg-tg{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;border:0;border-radius:0;background:#FF5733;color:#fff;font-size:.95rem;font-weight:800;padding:13px 14px;text-align:left}
+.alg-tg span:last-child{font-size:.78rem;opacity:.95;white-space:nowrap}
+.alg-body{padding:12px 12px 10px}
+.alg-hint{font-size:.8rem;font-weight:700;color:#062329;margin:0 0 9px}
+.alg-grid{display:flex;flex-wrap:wrap;gap:7px}
+.alg-chip{display:inline-flex;align-items:center;gap:5px;padding:9px 11px;border-radius:22px;border:2px solid #FF5733;background:#fff;color:#062329;font-size:.8rem;font-weight:800;transition:transform .12s,background .2s,color .2s}
+.alg-chip:active{transform:scale(.94)}
+.alg-chip.on{background:#062329;border-color:#062329;color:#fff}
+.alg-clear{margin-top:10px;border:0;background:none;color:#B91C1C;font-size:.8rem;font-weight:800;padding:4px 0;text-decoration:underline}
+.alg-disc{margin:10px 0 0;font-size:.7rem;line-height:1.4;color:#4B5563}
+.alg-note{color:#0F766E;font-weight:700}
+.alg-verify{margin-top:16px;border:2px solid #F59E0B;background:#FFFBEB;border-radius:12px;padding:10px 12px}
+.alg-verify h3{margin:0 0 3px;font-size:.92rem;color:#92400E}.alg-verify p{margin:0 0 6px;font-size:.76rem;color:#78350F;font-weight:700}
+.alg-bad{margin-top:12px;border:2px solid #E5E7EB;border-radius:12px;padding:8px 12px;background:#F9FAFB}
+.alg-bad summary{font-weight:800;font-size:.88rem;cursor:pointer;color:#991B1B}
+.alg-none{margin-top:14px;padding:12px;border-radius:12px;background:#FEE2E2;color:#7F1D1D;font-weight:800;font-size:.85rem;text-align:center}`;
+document.head.appendChild(st);
+let SEL=new Set();try{SEL=new Set((JSON.parse(localStorage.getItem('alicetta_alg_sel')||'[]')||[]).filter(c=>CODES.includes(c)));}catch(e){}
+let OPEN=SEL.size>0;
+const L=lang=>TX[lang]||TX.en,li=lang=>Math.max(0,LANGS.indexOf(lang));
+const lab=(c,lang)=>(ALG_I[c]||[c])[li(lang)]||c;
+const save=()=>{try{localStorage.setItem('alicetta_alg_sel',JSON.stringify([...SEL]));}catch(e){}};
+const redraw=()=>{const y=window.scrollY;render(currentTab);window.scrollTo(0,y);};
+const trName=(n,lang)=>(TRANSLATIONS[n]&&TRANSLATIONS[n][lang])||(lang!=='it'&&TRANSLATIONS[n]&&TRANSLATIONS[n].en)||n;
+const price=(v,lang)=>new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'}).format(v);
+window.algSplit=function(items){if(!SEL.size)return null;const r={ok:[],unknown:[],bad:[]};items.forEach(it=>{const c=LIVE_ALG[it.name];if(!c){r.unknown.push(it);return;}const hit=c.filter(x=>x!=='nessuno'&&SEL.has(x));if(hit.length)r.bad.push({it,hit});else r.ok.push(it);});return r;};
+window.algNote=function(name,lang){const c=LIVE_ALG[name];if(!c)return null;const l=c.filter(x=>x!=='nessuno'&&ALG_I[x]);const s=document.createElement('small');s.className='alg-note';s.textContent='✔ '+(l.length?L(lang).contains+': '+l.map(x=>lab(x,lang)).join(', '):L(lang).none);return s;};
+window.algPanel=function(lang){const t=L(lang),p=document.createElement('div');p.className='alg-panel';const b=document.createElement('button');b.className='alg-tg';b.type='button';const a=document.createElement('span');a.textContent='🥜 '+t.btn+(SEL.size?' · '+SEL.size+' '+((lang==='it'&&SEL.size===1)?'attivo':t.active):'');const z=document.createElement('span');z.textContent=OPEN?'▲':'▼';b.append(a,z);b.onclick=()=>{OPEN=!OPEN;redraw();};p.append(b);
+ if(OPEN){const bd=document.createElement('div');bd.className='alg-body';const h=document.createElement('p');h.className='alg-hint';h.textContent=t.hint;const g=document.createElement('div');g.className='alg-grid';
+  CODES.forEach(c=>{const k=document.createElement('button');k.type='button';k.className='alg-chip'+(SEL.has(c)?' on':'');k.textContent=EMO[c]+' '+lab(c,lang);k.onclick=()=>{if(SEL.has(c))SEL.delete(c);else SEL.add(c);save();OPEN=true;redraw();};g.append(k);});
+  bd.append(h,g);if(SEL.size){const cl=document.createElement('button');cl.type='button';cl.className='alg-clear';cl.textContent=t.clear;cl.onclick=()=>{SEL.clear();save();redraw();};bd.append(cl);}
+  const d=document.createElement('p');d.className='alg-disc';d.textContent=t.disc;bd.append(d);p.append(bd);}
+ return p;};
+window.algGroups=function(box,sp,lang){const t=L(lang);
+ if(sp.unknown.length){const v=document.createElement('div');v.className='alg-verify';const h=document.createElement('h3');h.textContent='⚠️ '+t.verify;const pp=document.createElement('p');pp.textContent=t.verifyHint;v.append(h,pp);sp.unknown.forEach(it=>{const a=document.createElement('article');const d=document.createElement('div');const b=document.createElement('b');b.textContent='• '+trName(it.name,lang);d.append(b);const pr=document.createElement('div');pr.className='price';pr.textContent=price(it.price,lang);a.append(d,pr);v.append(a);});box.append(v);}
+ if(sp.bad.length){const dt=document.createElement('details');dt.className='alg-bad';const sm=document.createElement('summary');sm.textContent='⛔ '+t.bad+' ('+sp.bad.length+')';dt.append(sm);sp.bad.forEach(({it,hit})=>{const a=document.createElement('article');const d=document.createElement('div');const b=document.createElement('b');b.textContent='• '+trName(it.name,lang);const s=document.createElement('small');s.style.color='#B91C1C';s.textContent=t.contains+': '+hit.map(x=>lab(x,lang)).join(', ');d.append(b,s);a.append(d);dt.append(a);});box.append(dt);}
+ if(!sp.ok.length&&!sp.unknown.length){const n=document.createElement('div');n.className='alg-none';n.textContent=t.nomatch;box.append(n);}};
+render();
+})();
 </script>
 
 
