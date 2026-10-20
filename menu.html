@@ -582,11 +582,33 @@ const LANGS8=['it','en','fr','de','es','pl','zh','ru','sq','ro','hr','sl'],LOC={
 const trN=n=>(typeof TRANSLATIONS!=='undefined'&&TRANSLATIONS[n]&&(TRANSLATIONS[n][L]||(L!=='it'?TRANSLATIONS[n].en:'')))||n;
 let L=(()=>{const l=(localStorage.getItem('alicetta_lang')||navigator.language||'it').slice(0,2).toLowerCase();return LANGS8.includes(l)?l:'en';})(),R=null,claimed=false,me=null;
 try{me=JSON.parse(localStorage.getItem('alicetta_fid_me')||'null');}catch(e){}
+const REF=(()=>{let r='';try{r=(new URLSearchParams(location.search).get('ref')||'').toLowerCase();}catch(e){}if(/^[a-z0-9]{6,12}$/.test(r)){try{localStorage.setItem('alicetta_ref',r);}catch(e){}return r;}try{return localStorage.getItem('alicetta_ref')||'';}catch(e){return'';}})();
+const RFT={
+it:{t:'🎁 Porta un amico',p:n=>`Quando un amico si iscrive con il tuo link e viene a trovarci, ricevete ${n} punti a testa.`,b:'📤 Invita un amico',m:l=>`Ti consiglio Alicetta Trattoria a Fossacesia 🐟 Iscriviti al Club con il mio invito: alla tua prima visita riceviamo punti tutti e due 🥂 ${l}`,by:(x,n)=>`🎁 Ti ha invitato ${x}! Iscriviti: alla tua prima visita ricevete ${n} punti a testa.`,cp:'Link copiato ✅'},
+en:{t:'🎁 Bring a friend',p:n=>`When a friend joins with your link and visits us, you both get ${n} points.`,b:'📤 Invite a friend',m:l=>`I recommend Alicetta Trattoria in Fossacesia 🐟 Join the Club with my invite: on your first visit we both get points 🥂 ${l}`,by:(x,n)=>`🎁 ${x} invited you! Join now: on your first visit you both get ${n} points.`,cp:'Link copied ✅'},
+fr:{t:'🎁 Parrainez un ami',p:n=>`Quand un ami s’inscrit avec votre lien et vient nous voir, vous recevez chacun ${n} points.`,b:'📤 Inviter un ami',m:l=>`Je te recommande Alicetta Trattoria à Fossacesia 🐟 Inscris-toi au Club avec mon invitation : à ta première visite, on gagne tous les deux des points 🥂 ${l}`,by:(x,n)=>`🎁 ${x} vous a invité ! Inscrivez-vous : à votre première visite, vous recevez chacun ${n} points.`,cp:'Lien copié ✅'},
+de:{t:'🎁 Freunde werben',p:n=>`Wenn sich ein Freund mit Ihrem Link anmeldet und uns besucht, erhalten Sie beide je ${n} Punkte.`,b:'📤 Freund einladen',m:l=>`Ich empfehle dir Alicetta Trattoria in Fossacesia 🐟 Melde dich mit meiner Einladung im Club an: bei deinem ersten Besuch bekommen wir beide Punkte 🥂 ${l}`,by:(x,n)=>`🎁 ${x} hat Sie eingeladen! Melden Sie sich an: beim ersten Besuch erhalten Sie beide je ${n} Punkte.`,cp:'Link kopiert ✅'},
+es:{t:'🎁 Trae a un amigo',p:n=>`Cuando un amigo se inscribe con tu enlace y nos visita, recibís ${n} puntos cada uno.`,b:'📤 Invitar a un amigo',m:l=>`Te recomiendo Alicetta Trattoria en Fossacesia 🐟 Únete al Club con mi invitación: en tu primera visita los dos ganamos puntos 🥂 ${l}`,by:(x,n)=>`🎁 ¡${x} te ha invitado! Inscríbete: en tu primera visita recibís ${n} puntos cada uno.`,cp:'Enlace copiado ✅'},
+pl:{t:'🎁 Poleć znajomemu',p:n=>`Gdy znajomy zapisze się przez Twój link i nas odwiedzi, każde z was otrzyma ${n} punktów.`,b:'📤 Zaproś znajomego',m:l=>`Polecam Ci Alicetta Trattoria w Fossacesii 🐟 Dołącz do Klubu z mojego zaproszenia: przy Twojej pierwszej wizycie oboje dostaniemy punkty 🥂 ${l}`,by:(x,n)=>`🎁 ${x} Cię zaprasza! Zapisz się: przy pierwszej wizycie każde z was otrzyma ${n} punktów.`,cp:'Link skopiowany ✅'},
+zh:{t:'🎁 推荐好友',p:n=>`好友通过您的链接加入并到店消费后，你们各得 ${n} 积分。`,b:'📤 邀请好友',m:l=>`推荐你来 Fossacesia 的 Alicetta Trattoria 🐟 用我的邀请加入会员：你第一次到店时我们都能获得积分 🥂 ${l}`,by:(x,n)=>`🎁 ${x} 邀请了您！立即加入：首次到店时你们各得 ${n} 积分。`,cp:'链接已复制 ✅'},
+ru:{t:'🎁 Приведи друга',p:n=>`Когда друг зарегистрируется по вашей ссылке и придёт к нам, вы оба получите по ${n} баллов.`,b:'📤 Пригласить друга',m:l=>`Советую тебе Alicetta Trattoria в Фоссачезии 🐟 Вступай в Клуб по моему приглашению: при твоём первом визите мы оба получим баллы 🥂 ${l}`,by:(x,n)=>`🎁 Вас пригласил(а) ${x}! Регистрируйтесь: при первом визите вы оба получите по ${n} баллов.`,cp:'Ссылка скопирована ✅'},
+sq:{t:'🎁 Sill një mik',p:n=>`Kur një mik regjistrohet me lidhjen tuaj dhe na viziton, secili prej jush merr ${n} pikë.`,b:'📤 Fto një mik',m:l=>`Të rekomandoj Alicetta Trattoria në Fossacesia 🐟 Regjistrohu në Klub me ftesën time: në vizitën tënde të parë marrim pikë të dy 🥂 ${l}`,by:(x,n)=>`🎁 ${x} ju ftoi! Regjistrohuni: në vizitën e parë secili merr ${n} pikë.`,cp:'Lidhja u kopjua ✅'},
+ro:{t:'🎁 Adu un prieten',p:n=>`Când un prieten se înscrie cu linkul tău și ne vizitează, primiți fiecare ${n} puncte.`,b:'📤 Invită un prieten',m:l=>`Îți recomand Alicetta Trattoria din Fossacesia 🐟 Înscrie-te în Club cu invitația mea: la prima ta vizită primim amândoi puncte 🥂 ${l}`,by:(x,n)=>`🎁 ${x} te-a invitat! Înscrie-te: la prima vizită primiți fiecare ${n} puncte.`,cp:'Link copiat ✅'},
+hr:{t:'🎁 Dovedi prijatelja',p:n=>`Kad se prijatelj prijavi preko vaše poveznice i posjeti nas, svatko od vas dobiva ${n} bodova.`,b:'📤 Pozovi prijatelja',m:l=>`Preporučujem ti Alicetta Trattoria u Fossaceziji 🐟 Učlani se u Klub preko moje pozivnice: pri tvom prvom posjetu oboje dobivamo bodove 🥂 ${l}`,by:(x,n)=>`🎁 ${x} vas je pozvao/la! Učlanite se: pri prvom posjetu svatko dobiva ${n} bodova.`,cp:'Poveznica kopirana ✅'},
+sl:{t:'🎁 Pripelji prijatelja',p:n=>`Ko se prijatelj včlani prek vaše povezave in nas obišče, vsak prejme ${n} točk.`,b:'📤 Povabi prijatelja',m:l=>`Priporočam ti Alicetta Trattoria v Fossacesii 🐟 Včlani se v Klub z mojim vabilom: ob tvojem prvem obisku oba dobiva točke 🥂 ${l}`,by:(x,n)=>`🎁 Povabil/a vas je ${x}! Včlanite se: ob prvem obisku vsak prejme ${n} točk.`,cp:'Povezava kopirana ✅'}};
+const rf=k=>(RFT[L]||RFT.en)[k];
+function refLink(code){return location.origin+location.pathname+'?club=1&ref='+code;}
+function refBox(p){let el=document.getElementById('fRef');if(!el){el=document.createElement('div');el.id='fRef';const e=document.getElementById('err');if(e)e.after(el);else return;}
+ if(!me||!p||!p.code){el.innerHTML='';return;}const n=Number(p.rb)||15,link=refLink(p.code);
+ el.innerHTML=`<div style="margin-top:12px;border:2px dashed #FF5733;border-radius:14px;padding:12px;background:#FFF7F0;text-align:center;"><div style="font-weight:900;font-size:1rem;">${rf('t')}</div><div style="font-size:.82rem;font-weight:700;margin:4px 0 10px;">${rf('p')(n)}</div><button class="btn" id="refBtn">${rf('b')}</button></div>`;
+ document.getElementById('refBtn').onclick=async()=>{const txt=rf('m')(link);if(navigator.share){try{await navigator.share({text:txt});return;}catch(e){if(e&&e.name==='AbortError')return;}}window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');};}
+async function refInvited(){if(!REF||me)return;try{const r=await fetch(FB+'/fidelity/pub/'+REF+'.json?t='+Date.now(),{cache:'no-store'});const d=r.ok?await r.json():null;if(!d||!d.n)return;let b=document.getElementById('refBy');if(!b){b=document.createElement('div');b.id='refBy';b.style.cssText='margin:0 0 10px;border-radius:14px;padding:10px 12px;background:#FEF3C7;border:2px solid #F59E0B;font-weight:800;font-size:.88rem;text-align:center;';const f=document.getElementById('cFid');if(f)f.prepend(b);}b.textContent=rf('by')(String(d.n).slice(0,30),Number(d.rb)||15);}catch(e){}}
+
 const t=k=>(T[L]&&T[L][k]!==undefined)?T[L][k]:T.en[k];
 function digits(p){let d=String(p||'').replace(/\D/g,'');if(d.startsWith('0039'))d=d.slice(4);else if(d.length>10&&d.startsWith('39'))d=d.slice(2);return d;}
 async function pubKey(d){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('alicetta-fid-'+d));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('').slice(0,24);}
 const money=v=>new Intl.NumberFormat(LOC[L],{style:'currency',currency:'EUR'}).format(Number(v)||0);
-function setLang(l){L=l;localStorage.setItem('alicetta_lang',l);document.documentElement.lang=l;paint();}
+function setLang(l){L=l;localStorage.setItem('alicetta_lang',l);document.documentElement.lang=l;paint();refInvited();}
 function paint(){
   $('gzLang').value=L;
   $('hThanks').textContent=RID?t('thanks'):t('clubT');
@@ -598,7 +620,7 @@ function paint(){
   renderForm();
 }
 function cardView(p){window._lp=p;const pts=Math.floor(Number(p&&p.eur)||0),pr=pts%EUR,av=Number(p&&p.av)||0;
-  $('fEur').textContent=t('pts')(pts);$('fBar').style.width=(pr/EUR*100)+'%';$('fNext').textContent=t('next')(EUR-pr);$('fGl').textContent='🥂'.repeat(Math.min(av,10));$('fAv').textContent=t('av')(av);}
+  $('fEur').textContent=t('pts')(pts);$('fBar').style.width=(pr/EUR*100)+'%';$('fNext').textContent=t('next')(EUR-pr);$('fGl').textContent='🥂'.repeat(Math.min(av,10));$('fAv').textContent=t('av')(av);refBox(p);}
 function renderForm(){
   const f=$('fForm');if(window._sent){f.innerHTML='';return;}
   if(RID&&claimed){$('fMsg').textContent=t('claimed');f.innerHTML='';return;}
@@ -613,7 +635,7 @@ function renderForm(){
 }
 async function send(p){
   $('err').textContent='';const b=document.querySelector('#fForm .btn');if(b){b.disabled=true;b.textContent=t('adding');}
-  const body={...(RID?{rid:RID}:{}),name:p.name,phone:p.phone,mkt:!!p.mkt,priv:true,ts:Date.now()};if(p.email)body.email=p.email.slice(0,80);if(p.bday)body.bday=p.bday;
+  const body={...(RID?{rid:RID}:{}),...(REF&&!me?{ref:REF}:{}),name:p.name,phone:p.phone,mkt:!!p.mkt,priv:true,ts:Date.now()};if(p.email)body.email=p.email.slice(0,80);if(p.bday)body.bday=p.bday;
   try{const r=await fetch(FB+'/fidelity/inbox.json',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw 0;
     me={name:p.name,phone:p.phone,email:p.email||'',mkt:!!p.mkt};localStorage.setItem('alicetta_fid_me',JSON.stringify(me));window._sent=true;window._other=false;renderForm();$('fMsg').textContent=RID?t('sent'):t('sentC');watch(p.phone);}
   catch(e){if(b){b.disabled=false;b.textContent=me&&!window._other&&RID?t('add')(me.name.split(/\s+/)[0]):(RID?t('go'):t('goC'));}$('err').textContent=t('eNet');}
@@ -622,7 +644,7 @@ async function readPub(phone){try{const r=await fetch(FB+'/fidelity/pub/'+await 
 async function watch(phone){const start=Date.now(),before=await readPub(phone),b0=before?Number(before.eur)||0:-1;cardView(before);if(!RID&&before){$('fMsg').textContent=t('joined');return;}
   const tick=async()=>{const p=await readPub(phone);if(p&&(Number(p.eur)||0)!==b0){cardView(p);$('fEur').classList.add('pop');$('fMsg').textContent=RID?t('done'):t('joined');return;}if(Date.now()-start>90000){$('fMsg').textContent=t('later');return;}setTimeout(tick,4000);};setTimeout(tick,3000);}
 async function loadBill(n){if(!RID)return;try{const r=await fetch(FB+'/ricevute/'+RID+'.json?t='+Date.now(),{cache:'no-store'});const d=r.ok?await r.json():null;if(d){R=d;claimed=!!d.claimed;paint();return;}}catch(e){}if(n<10)setTimeout(()=>loadBill(n+1),3000);else{window._noBill=true;paint();}}
-document.documentElement.lang=L;paint();loadBill(0);if(me)readPub(me.phone).then(p=>{if(p)cardView(p);});else cardView(null);
+document.documentElement.lang=L;paint();loadBill(0);refInvited();if(me)readPub(me.phone).then(p=>{if(p)cardView(p);});else cardView(null);
 
 window.setLang=setLang;const _rp=()=>{if(R&&!document.querySelector('#gzRoot input:focus')&&!(($('nm')||{}).value))paint();};setTimeout(_rp,2500);setTimeout(_rp,6000);
 })();
