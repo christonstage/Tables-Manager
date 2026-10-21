@@ -377,7 +377,7 @@ getAlgs=function(name){
   const L=document.getElementById('language').value,li=['it','en','fr','de','es','pl','zh','ru','sq','ro','hr','sl'].indexOf(L);
   const a=c.filter(x=>ALG_I[x]).map(x=>ALG_I[x][li]);return a.length?a:[ALG_NONE[L]];
 };
-function lunchP(x){const d=new Date(),iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),h=d.getHours();if(Number(x.lp)>0&&x.lpd===iso&&h>=5&&h<17){window.LUNCH_ON=true;return Number(x.lp);}return Number(x.price)||0;}
+function lunchP(x){const d=new Date(),iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),h=d.getHours();return Number(x.price)||0;}
 const LUNCH_NOTE={it:'🌞 Prezzi del pranzo',en:'🌞 Lunch prices',fr:'🌞 Prix du déjeuner',de:'🌞 Mittagspreise',es:'🌞 Precios de almuerzo',pl:'🌞 Ceny lunchowe',zh:'🌞 午餐价格',ru:'🌞 Цены на обед',sq:'🌞 Çmimet e drekës',ro:'🌞 Prețuri de prânz',hr:'🌞 Cijene za ručak',sl:'🌞 Cene za kosilo'};
 async function loadLiveMenu(){
   try{
@@ -684,6 +684,40 @@ fetch(FBU+'/fidelity/pub/g_'+code+'.json?t='+Date.now(),{cache:'no-store'}).then
 })();
 </script>
 
+<script>
+/* ===== v2.5 · Menù del pranzo a prezzo fisso (menu.html?pranzo=1) ===== */
+(function(){
+const q=new URLSearchParams(location.search);if(q.get('pranzo')!=='1')return;
+const FBU='https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app';
+const LS=['it','en','de','fr','es'];let L=(localStorage.getItem('alicetta_lang')||navigator.language||'it').slice(0,2).toLowerCase();if(!LS.includes(L))L='en';
+const T={it:{t:'Menù del pranzo',p:'prezzo fisso',inc:'Incluso',na:'Il menù del pranzo di oggi non è ancora pubblicato.',late:'Il menù del pranzo è servito fino alle 15:30.',carta:'📖 Menù alla carta',al:'Per ingredienti e allergeni chiedi al personale.',book:'📞 Prenota'},
+ en:{t:'Lunch menu',p:'set price',inc:'Included',na:'Today’s lunch menu is not published yet.',late:'The lunch menu is served until 3:30 pm.',carta:'📖 À la carte menu',al:'For ingredients and allergens please ask our staff.',book:'📞 Book'},
+ de:{t:'Mittagsmenü',p:'Festpreis',inc:'Inklusive',na:'Das heutige Mittagsmenü ist noch nicht veröffentlicht.',late:'Das Mittagsmenü gibt es bis 15:30 Uhr.',carta:'📖 À-la-carte-Menü',al:'Zu Zutaten und Allergenen fragen Sie bitte unser Personal.',book:'📞 Reservieren'},
+ fr:{t:'Menu du déjeuner',p:'prix fixe',inc:'Compris',na:'Le menu du déjeuner d’aujourd’hui n’est pas encore publié.',late:'Le menu du déjeuner est servi jusqu’à 15h30.',carta:'📖 Menu à la carte',al:'Pour les ingrédients et allergènes, demandez au personnel.',book:'📞 Réserver'},
+ es:{t:'Menú del almuerzo',p:'precio fijo',inc:'Incluido',na:'El menú del almuerzo de hoy aún no está publicado.',late:'El menú del almuerzo se sirve hasta las 15:30.',carta:'📖 Menú a la carta',al:'Para ingredientes y alérgenos pregunte al personal.',book:'📞 Reservar'}};
+const t=k=>(T[L]||T.en)[k];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const tr=(o)=>L==='it'||!o.tr||!o.tr[L]?o.n:o.tr[L];
+const pad=n=>String(n).padStart(2,'0');const d=new Date(),iso=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const ov=document.createElement('div');ov.id='lunchView';ov.style.cssText='position:fixed;inset:0;z-index:99999;overflow:auto;background:linear-gradient(160deg,#FDE047,#F59E0B 45%,#FF5733);padding:calc(18px + env(safe-area-inset-top,0px)) 14px 30px;color:#062329;box-sizing:border-box;font-family:inherit;';
+document.body.appendChild(ov);document.body.style.overflow='hidden';
+const card=c=>`<div style="max-width:460px;margin:0 auto;background:#fff;border-radius:26px;padding:22px 18px;box-shadow:0 10px 0 rgba(0,0,0,.15),0 24px 50px rgba(0,0,0,.25);">${c}</div>`;
+const langs=`<div style="display:flex;gap:6px;justify-content:center;margin-bottom:12px;">${LS.map(l=>`<button data-l="${l}" style="border:2px solid ${l===L?'#FF5733':'#E5E7EB'};background:${l===L?'#FFF1EC':'#fff'};border-radius:10px;padding:4px 9px;font-weight:900;font-size:.8rem;cursor:pointer;">${l.toUpperCase()}</button>`).join('')}</div>`;
+let data=null;
+function draw(){const head=`<div style="text-align:center;font-weight:900;letter-spacing:.18em;color:#FF5733;font-size:.8rem;">ALICETTA TRATTORIA · FOSSACESIA</div>`;
+ const foot=`<a href="${location.pathname}" style="display:block;margin-top:16px;background:#1BE7FF;color:#062329;text-decoration:none;font-weight:900;border-radius:14px;padding:12px;text-align:center;box-shadow:0 4px 0 #0891B2;">${t('carta')}</a><a href="tel:+393923279000" style="display:block;margin-top:8px;background:#FF5733;color:#fff;text-decoration:none;font-weight:900;border-radius:14px;padding:12px;text-align:center;box-shadow:0 4px 0 #B91C1C;">${t('book')}</a>`;
+ if(!data||data.d!==iso||!(data.secs||[]).length){ov.innerHTML=card(head+langs+`<div style="text-align:center;font-size:3rem;margin-top:10px;">🌞</div><div style="text-align:center;font-weight:800;margin:8px 0;">${t('na')}</div>`+foot);bind();return;}
+ const dt=d.toLocaleDateString({it:'it-IT',en:'en-GB',de:'de-DE',fr:'fr-FR',es:'es-ES'}[L],{weekday:'long',day:'numeric',month:'long'});
+ ov.innerHTML=card(head+langs+`<div style="text-align:center;margin:4px 0 2px;font-size:1.6rem;font-weight:900;">🌞 ${t('t')}</div><div style="text-align:center;font-weight:700;color:#4B5563;text-transform:capitalize;">${esc(dt)}</div>
+ <div style="text-align:center;margin:12px 0;"><span style="display:inline-block;background:#062329;color:#FDE047;border-radius:18px;padding:8px 20px;font-size:2rem;font-weight:900;">€ ${String(data.price).replace('.',',')}</span><div style="font-size:.85rem;font-weight:800;color:#4B5563;margin-top:4px;">${t('p')}</div></div>
+ ${data.inc?`<div style="text-align:center;background:#FEF3C7;border-radius:12px;padding:8px;font-weight:800;font-size:.9rem;margin-bottom:10px;">✅ ${t('inc')}: ${esc(L!=='it'&&data.inctr&&data.inctr[L]?data.inctr[L]:data.inc)}</div>`:''}
+ ${data.secs.map(s=>`<div style="margin-top:14px;"><div style="background:#1BE7FF;border-radius:10px;padding:6px 12px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;font-size:.88rem;">${esc(tr(s))}</div>${(s.items||[]).map(i=>`<div style="padding:9px 4px;border-bottom:1px dashed #E5E7EB;font-weight:700;font-size:1rem;">• ${esc(tr(i))}${L!=='it'&&i.tr&&i.tr[L]?`<div style="font-size:.75rem;color:#6B7280;font-weight:600;margin-left:12px;">${esc(i.n)}</div>`:''}</div>`).join('')}</div>`).join('')}
+ <div style="font-size:.78rem;color:#6B7280;font-weight:700;margin-top:14px;text-align:center;">${t('al')}</div>`+foot);bind();}
+function bind(){ov.querySelectorAll('button[data-l]').forEach(b=>b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem('alicetta_lang',L);}catch(e){}draw();});}
+ov.innerHTML=card('<div style="text-align:center;font-weight:800;">⏳</div>');
+fetch(FBU+'/fidelity/pub/lunch.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{data=v;draw();}).catch(()=>draw());
+})();
+</script>
+
 </body>
 </html>
-
