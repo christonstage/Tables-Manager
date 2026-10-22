@@ -1,32 +1,235 @@
-<!-- ===== v2.5.2: Numerazione righe Sinistra/Destra, Rubrica Fornitori da Bolle, Prenotazioni da WhatsApp ===== -->
-<style id="v252style">
-/* 1. Numerazione righe sinistra (piatto) e destra (cursori / controlli) */
-.v252-row-numbered {
+```html
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chef Bull Brigade v2.5.3 - Release</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+  body {
+    background: linear-gradient(180deg, #6B0F42 0%, #4A082C 100%);
+    color: #E5E7EB;
+    min-height: 100vh;
+    padding: 18px 14px 40px;
+  }
+  .card {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #171717;
+    border-radius: 24px;
+    padding: 22px 18px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #FFFFFF;
+    margin-bottom: 6px;
+  }
+  .sub {
+    font-size: 0.85rem;
+    color: #9CA3AF;
+    font-weight: 700;
+    padding-bottom: 14px;
+    border-bottom: 3px solid #FF2E93;
+    margin-bottom: 18px;
+  }
+  .sub b { color: #FFFFFF; }
+  .btn-copy {
+    width: 100%;
+    border: none;
+    border-radius: 16px;
+    padding: 16px 20px;
+    background: linear-gradient(180deg, #2CEEF0 0%, #06B6D4 100%);
+    color: #062329;
+    font-size: 1.15rem;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #0E7490, 0 10px 24px rgba(27,231,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: transform 0.1s, box-shadow 0.1s;
+    margin-bottom: 14px;
+  }
+  .btn-copy:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 #0E7490;
+  }
+  .btn-copy.done {
+    background: linear-gradient(180deg, #4ADE80 0%, #16A34A 100%);
+    color: #052E16;
+    box-shadow: 0 5px 0 #14532D;
+  }
+  .btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .btn-sec {
+    border: 1.5px solid #334155;
+    background: #1E293B;
+    color: #E2E8F0;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: center;
+  }
+  .steps {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: #D1D5DB;
+    margin: 0 0 16px 20px;
+  }
+  .steps li { margin-bottom: 6px; }
+  .steps b { color: #FFFFFF; }
+  .status-pill {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    width: 100%;
+    line-height: 1.4;
+  }
+  .status-pill.ok { background: rgba(22,163,74,0.2); border: 1px solid #22C55E; color: #86EFAC; }
+  .status-pill.wait { background: rgba(245,158,11,0.2); border: 1px solid #F59E0B; color: #FDE68A; }
+  .code-preview {
+    width: 100%;
+    height: 220px;
+    background: #222222;
+    color: #D1D5DB;
+    border: 1.5px solid #3F3F46;
+    border-radius: 12px;
+    padding: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    resize: vertical;
+  }
+  .paste-fallback {
+    display: none;
+    margin-bottom: 14px;
+    background: #27272A;
+    border: 1.5px dashed #F59E0B;
+    border-radius: 14px;
+    padding: 12px;
+  }
+  .feat-list {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(255,255,255,0.15);
+    font-size: 0.78rem;
+    color: #9CA3AF;
+    line-height: 1.45;
+  }
+  .feat-list b { color: #1BE7FF; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="title-row"><span>🐂</span> <span>Chef Bull Brigade v2.5.3</span></div>
+  <div class="sub" id="charInfo">File da sostituire: <b>solo index.html</b> · <span id="charCount">Preparazione in corso…</span></div>
+
+  <div id="statusBox" class="status-pill wait">⏳ Recupero automatico del tuo index.html base da GitHub e integrazione v2.5.3…</div>
+
+  <!-- Fallback immediato se il browser blocca la lettura automatica da GitHub -->
+  <div id="fallbackBox" class="paste-fallback">
+    <div style="font-size:0.8rem;font-weight:800;color:#FDE68A;margin-bottom:6px;">
+      ⚡ Incolla qui sotto il tuo index.html v2.5.1 (o premi il tasto per leggerlo dagli appunti): lo unisco istantaneamente con la v2.5.3!
+    </div>
+    <button class="btn-sec" style="width:100%;margin-bottom:6px;background:#F59E0B;color:#062329;border:none;" onclick="pasteFromClipboard()">📥 Incolla dagli Appunti e Genera v2.5.3</button>
+    <textarea id="baseInput" class="code-preview" style="height:90px;" placeholder="Tieni premuto qui e scegli 'Incolla' per inserire il tuo index.html v2.5.1..." oninput="buildFromInput(this.value)"></textarea>
+  </div>
+
+  <button id="btnCopy" class="btn-copy" onclick="copyFullHtml()">
+    <span>📋</span> <span id="btnCopyLbl">Copia index.html</span>
+  </button>
+
+  <div class="btn-row">
+    <button class="btn-sec" onclick="downloadFullHtml()">⬇️ Scarica index.html</button>
+    <button class="btn-sec" onclick="toggleFallback()">🔧 Carica base manuale</button>
+  </div>
+
+  <ol class="steps">
+    <li>Premi <b>Copia index.html</b>.</li>
+    <li>GitHub → <b>index.html</b> → ✏️ → seleziona tutto e cancella → incolla → <b>Commit changes</b>.</li>
+    <li>Dopo un minuto chiudi e riapri l’app due volte. (<b>menu.html</b> e <b>manifest.json</b> restano quelli della v2.5)</li>
+  </ol>
+
+  <textarea id="outputCode" class="code-preview" readonly placeholder="Il codice completo index.html v2.5.3 comparirà qui..."></textarea>
+
+  <div class="feat-list">
+    <b>Novità incluse nella v2.5.3:</b><br>
+    • <b>#1..#N Sinistra & Destra + Cursori Scorte:</b> numerazione automatica a sinistra sul piatto e a destra sui cursori/bottoni (+/-) + slider rapido nelle Scorte.<br>
+    • <b>📇 Rubrica Fornitori da Bolle:</b> estrazione automatica di nome, telefono, email, P.IVA e indirizzo da ogni foto bolla/fattura + storico spese e ordine WhatsApp.<br>
+    • <b>⚡ WhatsApp Diretto in Griglia:</b> incolla il messaggio (o carica lo screenshot) in Prenotazioni e lo inserisce subito in griglia col tavolo suggerito.<br>
+    • <b>🍷 Vetrinetta Cantina Zero-Click:</b> scatta una foto alle bottiglie nella vetrinetta per aggiornare in tempo reale la Carta dei Vini (Cassa, Sommelier AI, PDF e QR).<br>
+    • <b>🔧 Fix .sp-bar:</b> risolto il conflitto tra barra di avvio del logo e grafico spese.
+  </div>
+</div>
+
+<!-- Patch v2.5.3 completa in formato sicuro -->
+<script id="v253PatchTemplate" type="text/plain">
+<!-- ===== v2.5.3: Numerazione Sinistra/Destra + Cursori Scorte · Rubrica Fornitori da Bolle · WhatsApp Diretto in Griglia · Vetrinetta Cantina Vini AI · Fix sp-bar ===== -->
+<style id="v253style">
+/* 0. Fix conflitto .sp-bar tra Splash Screen e Grafico Spese */
+#splash .sp-bar {
+  display: block !important;
+  width: min(46vw, 200px) !important;
+  height: 5px !important;
+  padding: 0 !important;
+  border-radius: 5px !important;
+  background: rgba(255,255,255,.14) !important;
+  margin: 14px auto 0 !important;
+  overflow: hidden !important;
+}
+#splash .sp-bar i {
+  display: block !important;
+  height: 100% !important;
+  border-radius: 5px !important;
+  background: linear-gradient(90deg, #FF2E93, #1BE7FF) !important;
+}
+
+/* 1. Numerazione righe: Piatto a sinistra (#N) e Cursori/Controlli a destra (#N) */
+.v253-row {
   position: relative;
   padding-left: 6px !important;
   padding-right: 6px !important;
   border-radius: 8px;
   transition: background-color 0.15s;
 }
-.v252-row-numbered:nth-of-type(even) {
-  background-color: rgba(6, 35, 41, 0.045);
+.v253-row:nth-of-type(even) {
+  background-color: rgba(6, 35, 41, 0.055);
 }
-.v252-row-numbered:active,
-.v252-row-numbered:focus-within {
-  background-color: rgba(27, 231, 255, 0.22) !important;
+.v253-row:active,
+.v253-row:focus-within {
+  background-color: rgba(27, 231, 255, 0.24) !important;
   outline: 1.5px solid var(--logo-coral, #FF5733);
 }
-.v252-num-badge {
+.v253-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 24px;
-  height: 22px;
+  min-width: 25px;
+  height: 21px;
   padding: 0 5px;
   border-radius: 6px;
   background: #062329;
   color: #1BE7FF;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 900;
   line-height: 1;
   margin-right: 6px;
@@ -34,84 +237,76 @@
   font-variant-numeric: tabular-nums;
   box-shadow: 0 2px 0 rgba(0,0,0,0.25);
 }
-.v252-num-badge.right {
+.v253-badge.right {
   background: var(--logo-coral, #FF5733);
   color: #FFFFFF;
   margin-right: 0;
   margin-left: 6px;
 }
+.v253-stock-slider {
+  width: 78px;
+  accent-color: #FF2E93;
+  cursor: pointer;
+  margin: 0 4px;
+}
 
-/* 2. Stili Rubrica Fornitori */
+/* 2. Vetrinetta Cantina Vini Zero-Click */
+.cantina-box {
+  background: linear-gradient(135deg, #FFF1F2, #FFE4E6);
+  border: 2px solid #E11D48;
+  border-radius: 14px;
+  padding: 12px;
+  margin-top: 12px;
+}
+body.dark .cantina-box {
+  background: #2D0A16 !important;
+  border-color: #F43F5E !important;
+}
+
+/* 3. Rubrica Fornitori */
 .forn-card {
   background: #FFFFFF;
-  border: 1.5px solid rgba(6, 35, 41, 0.12);
+  border: 1.5px solid rgba(6, 35, 41, 0.14);
   border-radius: 14px;
   padding: 10px 12px;
   margin-bottom: 8px;
   box-shadow: 0 3px 0 rgba(6, 35, 41, 0.1);
 }
-.forn-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 8px;
+body.dark .forn-card {
+  background: #1E293B;
+  border-color: rgba(255,255,255,0.14);
 }
-.forn-title {
-  font-weight: 900;
-  font-size: 0.95rem;
-  color: #062329;
-}
-.forn-meta {
-  font-size: 0.74rem;
-  color: #4B5563;
-  font-weight: 700;
-  margin-top: 2px;
-  line-height: 1.35;
-}
-.forn-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 6px;
-}
-.forn-tag {
-  font-size: 0.68rem;
-  font-weight: 800;
-  background: #F1F5F9;
-  color: #0F172A;
-  padding: 2px 7px;
-  border-radius: 12px;
-}
-.forn-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
-}
+.forn-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.forn-title { font-weight: 900; font-size: 0.94rem; color: #062329; }
+body.dark .forn-title { color: #F8FAFC; }
+.forn-meta { font-size: 0.74rem; color: var(--muted, #4B5563); font-weight: 700; margin-top: 2px; line-height: 1.35; }
+.forn-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.forn-tag { font-size: 0.68rem; font-weight: 800; background: #F1F5F9; color: #0F172A; padding: 2px 7px; border-radius: 12px; }
+.forn-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 
-/* 3. Box WhatsApp Prenotazioni */
-.wa-res-bar {
+/* 4. Box WhatsApp Diretto in Griglia Prenotazioni */
+.wa-grid-box {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6px;
-  margin-bottom: 10px;
+  margin: 8px 0;
   padding: 8px;
-  background: #DCFCE7;
-  border: 2px solid #22C55E;
+  background: linear-gradient(135deg, #DCFCE7, #BBF7D0);
+  border: 2px solid #16A34A;
   border-radius: 12px;
 }
-.btn-wa-res {
+.btn-wa-grid {
   background: #16A34A;
   color: #FFFFFF;
   border: none;
-  border-radius: 8px;
-  padding: 9px 8px;
+  border-radius: 9px;
+  padding: 10px 8px;
   font-weight: 900;
   font-size: 0.8rem;
   cursor: pointer;
   box-shadow: 0 3px 0 #14532D;
 }
-.btn-wa-res.alt {
+.btn-wa-grid.alt {
   background: #062329;
   color: #1BE7FF;
   box-shadow: 0 3px 0 #000000;
@@ -122,222 +317,322 @@
 (function(){
   const $ = id => document.getElementById(id);
 
+  // Aggiorna badge versione a v2.5.3
+  document.title = 'Chef Bull Brigade - v2.5.3';
+  document.querySelectorAll('.version-badge').forEach(b => b.textContent = 'v2.5.3');
+
   /* =========================================================================
-     1. NUMERAZIONE SINISTRA (PIATTO) E DESTRA (CURSORI / PULSANTI +/-)
+     1. NUMERAZIONE RIGHE SINISTRA/DESTRA + CURSORI SCORTE
      ========================================================================= */
-  function numberContainerRows(container) {
-    if (!container) return;
-    // Seleziona righe di piatti/controlli (cart-row, ing, fc, bl-row o righe con range/slider)
-    const rows = Array.from(container.querySelectorAll('.cart-row, .ing, .fc, .bl-row')).filter(r => {
-      // Numeriamo solo le righe che hanno controlli a destra (bottoni +/-, input range o input numerici)
-      return r.querySelector('.cart-controls, input[type="range"], .btn-qty, input[type="number"], .fc-pct, .p');
-    });
+  if (typeof window.renderStock === 'function') {
+    window.renderStock = function() {
+      const p = $('stockPanel');
+      if (!p) return;
+      const items = (state.menu || []).filter(m => ['3 Antipasti', '4 Primi Piatti', '5 Secondi', '6 Desserts'].includes(m.cat));
+      p.innerHTML = '<h3 style="margin-bottom:6px;">📦 Scorte del giorno</h3><div style="font-size:0.75rem;color:var(--muted);margin-bottom:6px;">Usa il cursore o i tasti per impostare le porzioni. Ogni riga ha lo stesso numero # a sinistra e a destra per non confondersi.</div>' +
+        items.map((m, idx) => {
+          const n = idx + 1;
+          const l = stockLeft(m), s = (state.stock || {})[m.id];
+          const val = l === null ? 25 : Math.min(50, l);
+          return `<div class="cart-row v253-row">
+            <div class="cart-info"><span class="v253-badge left">#${n}</span><b>${escH(m.name)}</b></div>
+            <div class="cart-controls">
+              <input type="range" class="v253-stock-slider" min="0" max="50" value="${val}" oninput="setStock(${m.id}, parseInt(this.value,10))">
+              <button class="btn-qty" onclick="adjStock(${m.id},-1)">-</button>
+              <button class="btn-note" style="min-width:62px;${l===0?'background:#FEE2E2;color:#991B1B;':''}" onclick="askStock(${m.id})">${l===null?'∞':l+'/'+(s?s.start:0)}</button>
+              <button class="btn-qty" onclick="adjStock(${m.id},1)">+</button>
+              <span class="v253-badge right">#${n}</span>
+            </div>
+          </div>`;
+        }).join('');
+    };
+  }
 
-    // Supporto anche per eventuali righe custom con slider (input[type="range"]) non dentro .cart-row
-    const rangeInputs = Array.from(container.querySelectorAll('input[type="range"]'));
-    rangeInputs.forEach(rng => {
-      const row = rng.closest('.cart-row, .ing, .fc, div[style*="flex"], div[style*="grid"]');
-      if (row && !rows.includes(row)) rows.push(row);
-    });
+  function numberRowsIn(container) {
+    if (!container || container.id === 'stockPanel') return;
+    const groups = container.querySelectorAll('.mandata-group, .cart-section');
+    const targets = groups.length ? Array.from(groups) : [container];
 
-    rows.forEach((row, idx) => {
-      const n = idx + 1;
-      row.classList.add('v252-row-numbered');
+    targets.forEach(group => {
+      const rows = Array.from(group.querySelectorAll(':scope > .cart-row, :scope > div > .cart-row, :scope > .ing, :scope > .fc, :scope > .mg-row, :scope > .bl-row')).filter(r => {
+        return r.querySelector('.cart-controls, input[type="range"], .btn-qty, input[type="number"], .fc-pct, .p');
+      });
 
-      // Badge Sinistro (accanto al nome del piatto)
-      let leftBadge = row.querySelector(':scope .v252-num-badge.left');
-      if (!leftBadge) {
-        leftBadge = document.createElement('span');
-        leftBadge.className = 'v252-num-badge left';
-        const leftTarget = row.querySelector('.cart-info, .n, .fc-top b, b, span') || row.firstElementChild;
-        if (leftTarget) {
-          leftTarget.insertBefore(leftBadge, leftTarget.firstChild);
-        } else {
-          row.insertBefore(leftBadge, row.firstChild);
+      rows.forEach((row, idx) => {
+        const n = idx + 1;
+        row.classList.add('v253-row');
+
+        let lb = row.querySelector(':scope .v253-badge.left');
+        if (!lb) {
+          lb = document.createElement('span');
+          lb.className = 'v253-badge left';
+          const lt = row.querySelector('.cart-info, .n, .fc-top b, b, span') || row.firstElementChild;
+          if (lt) lt.insertBefore(lb, lt.firstChild);
+          else row.insertBefore(lb, row.firstChild);
         }
-      }
-      if (leftBadge.textContent !== '#' + n) leftBadge.textContent = '#' + n;
+        if (lb.textContent !== '#' + n) lb.textContent = '#' + n;
 
-      // Badge Destro (accanto al cursore o ai pulsanti - / +)
-      let rightBadge = row.querySelector(':scope .v252-num-badge.right');
-      if (!rightBadge) {
-        rightBadge = document.createElement('span');
-        rightBadge.className = 'v252-num-badge right';
-        const rightTarget = row.querySelector('.cart-controls, .p, .fc-pct') ||
-                            (row.querySelector('input[type="range"]') && row.querySelector('input[type="range"]').parentElement);
-        if (rightTarget) {
-          rightTarget.appendChild(rightBadge);
-        } else {
-          row.appendChild(rightBadge);
+        let rb = row.querySelector(':scope .v253-badge.right');
+        if (!rb) {
+          rb = document.createElement('span');
+          rb.className = 'v253-badge right';
+          const rng = row.querySelector('input[type="range"]');
+          const rt = row.querySelector('.cart-controls, .p, .fc-pct') || (rng && rng.parentElement);
+          if (rt) rt.appendChild(rb);
+          else row.appendChild(rb);
         }
-      }
-      if (rightBadge.textContent !== '#' + n) rightBadge.textContent = '#' + n;
+        if (rb.textContent !== '#' + n) rb.textContent = '#' + n;
+      });
     });
   }
 
-  function refreshAllRowNumbers() {
-    [
-      'stockPanel', 'cartContainer', 'menuMgrList', 'dishList',
-      'viewAi', 'viewSales', 'v211Box'
-    ].forEach(id => {
+  function refreshAllNumbers() {
+    ['cartContainer', 'menuMgrList', 'dishList', 'viewAi', 'viewSales', 'v211Box'].forEach(id => {
       const el = $(id);
-      if (el) numberContainerRows(el);
+      if (el) numberRowsIn(el);
     });
   }
 
-  // Osservatore automatico per numerare qualsiasi schermata appena si aggiorna
   let numTimer = null;
-  const rowObserver = new MutationObserver(() => {
+  new MutationObserver(() => {
     clearTimeout(numTimer);
-    numTimer = setTimeout(refreshAllRowNumbers, 60);
-  });
-  window.addEventListener('DOMContentLoaded', () => {
-    rowObserver.observe(document.body, { childList: true, subtree: true });
-    setTimeout(refreshAllRowNumbers, 500);
-  });
-  setTimeout(() => {
-    if (document.body) rowObserver.observe(document.body, { childList: true, subtree: true });
-    refreshAllRowNumbers();
-  }, 500);
+    numTimer = setTimeout(refreshAllNumbers, 70);
+  }).observe(document.body, { childList: true, subtree: true });
+  setTimeout(refreshAllNumbers, 600);
 
 
   /* =========================================================================
-     2. RUBRICA FORNITORI AUTOMATICA DA BOLLE & FATTURE
+     2. VETRINETTA CANTINA VINI ZERO-CLICK (FOTO -> CARTA VINI IN TEMPO REALE)
+     ========================================================================= */
+  function isBaseNonBottleBeverage(name) {
+    const n = String(name || '').toLowerCase().trim();
+    return /^(acqua|caff|coca|fanta|sprite|birra|liquore|amaro|calice\s+(bianco|rosso|cerasuolo)$)/i.test(n);
+  }
+
+  function injectCantinaBox() {
+    const lavBox = $('ocrResultBox') && $('ocrResultBox').closest('.cart-section');
+    if (!lavBox || $('v253CantinaBox')) return;
+
+    const div = document.createElement('div');
+    div.id = 'v253CantinaBox';
+    div.className = 'cantina-box';
+    div.innerHTML = `
+      <h3 style="color:#BE123C;margin-bottom:4px;">🍷 Vetrinetta Cantina Zero-Click (Carta Vini Live)</h3>
+      <div style="font-size:.76rem;color:#881337;font-weight:700;margin-bottom:8px;line-height:1.35;">
+        Scatta una foto alla vetrinetta o al frigo dei vini: Gemini riconosce le etichette e i prezzi (o mantiene i prezzi già in memoria) e aggiorna in tempo reale la Carta dei Vini in cassa, nel Sommelier AI e sul QR clienti.
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+        <button type="button" class="btn-main" style="background:#E11D48;color:#fff;" onclick="v253ScanCantina(true)">📷 Scatta Vetrinetta</button>
+        <button type="button" class="btn-main btn-print" onclick="v253ScanCantina(false)">🖼️ Carica Foto Vini</button>
+      </div>
+      <div id="v253WineSt" style="display:none;font-size:.8rem;font-weight:800;color:#BE123C;margin:6px 0;"></div>
+      <textarea id="v253WineBox" class="form-control" rows="4" style="font-size:.78rem;margin-bottom:6px;" placeholder="Elenco vini rilevati dalla vetrinetta (es. Pecorino Superiore Canaglia Fontefico 35,00)..."></textarea>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <button type="button" class="btn-main" style="background:#9F1239;color:#fff;font-size:.8rem;" onclick="v253ApplyWineList('replace')">🔄 Sostituisci Carta Vini</button>
+        <button type="button" class="btn-main btn-bill" style="font-size:.8rem;" onclick="v253ApplyWineList('merge')">➕ Aggiungi / Aggiorna Vini</button>
+      </div>
+    `;
+    lavBox.appendChild(div);
+  }
+
+  window.v253ScanCantina = function(useCam) {
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = 'image/*';
+    if (useCam) inp.capture = 'environment';
+    else inp.multiple = true;
+
+    inp.onchange = async () => {
+      const files = Array.from(inp.files || []).slice(0, 4);
+      if (!files.length) return;
+      const st = $('v253WineSt');
+      if (st) st.style.display = 'block';
+      if (!getGeminiKey()) {
+        if (st) st.textContent = '⚠️ Inserisci la chiave Gemini in ⚙️ Opzioni per leggere le foto della vetrinetta.';
+        return;
+      }
+      if (st) st.textContent = '⏳ Gemini sta leggendo le bottiglie nella vetrinetta...';
+      try {
+        const imgs = [];
+        for (const f of files) {
+          imgs.push({ inline_data: { mime_type: 'image/jpeg', data: await shrinkImage(f, 1800) } });
+        }
+        const existingWines = (state.menu || [])
+          .filter(m => m.cat === '2 Bevande' && !isBaseNonBottleBeverage(m.name))
+          .map(m => `${m.name} (${m.price}€)`);
+
+        const out = await callGemini([{
+          text: `Sei il sommelier di Alicetta Trattoria in Abruzzo. Osserva questa foto della vetrinetta/cantina vini.
+Riconosci tutte le bottiglie visibili leggendo l'etichetta (nome vino, vitigno e cantina).
+Se corrisponde a uno già nel nostro storico, usa il nome e il prezzo del nostro storico (a meno che nella foto non sia scritto chiaramente un prezzo diverso):
+Storico vini: ${JSON.stringify(existingWines)}
+Se il prezzo non è visibile e non è nello storico, stima un prezzo da ristorante coerente (es. 18-35 €).
+Restituisci SOLO un elenco di righe nel formato: Nome Vino e Cantina Prezzo (uno per riga, es: Cerasuolo Superiore Fossimatto Fontefico 35,00).`
+        }, ...imgs], false);
+
+        const cleanLines = String(out || '').replace(/^```\w*\n?|```$/g, '').trim();
+        if ($('v253WineBox')) $('v253WineBox').value = cleanLines;
+        if (st) st.textContent = '✅ Bottiglie lette dalla vetrinetta! Controlla le righe qui sotto e scegli se sostituire o aggiornare.';
+      } catch (e) {
+        if (st) st.textContent = '❌ Errore lettura foto: ' + e.message;
+      }
+    };
+    inp.click();
+  };
+
+  window.v253ApplyWineList = async function(mode) {
+    const raw = ($('v253WineBox') && $('v253WineBox').value || '').trim();
+    if (!raw) return alert('Scatta prima la foto alla vetrinetta o scrivi i vini nel riquadro.');
+    const msg = mode === 'replace'
+      ? 'Sostituire le bottiglie della Carta dei Vini con quelle della vetrinetta?\n(Piatti del giorno, Acqua, Caffè, Birra e Calici base restano intatti).'
+      : 'Aggiungere e aggiornare questi vini nella Carta dei Vini attuale?';
+    if (!confirm(msg)) return;
+
+    const existingByNorm = {};
+    (state.menu || []).forEach(m => {
+      if (m.cat === '2 Bevande') existingByNorm[normDish(m.name)] = m;
+    });
+
+    const parsedWines = [];
+    raw.split('\n').forEach(line => {
+      let cl = line.replace(/^[\-•*]+\s*/, '').trim();
+      if (!cl || cl.length < 3) return;
+      const fin = isFinito(cl);
+      cl = stripFinito(cl).replace(/\[FINITO\]/gi, '').trim();
+      const pm = cl.match(/(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$/i);
+      let price = 20;
+      let name = cl;
+      if (pm) {
+        price = parseFloat(pm[1].replace(',', '.')) || 20;
+        name = cl.slice(0, pm.index).replace(/[:.\-€]+\s*$/, '').trim();
+      } else {
+        const old = existingByNorm[normDish(name)];
+        if (old && old.price) price = old.price;
+      }
+      if (name.length >= 2) parsedWines.push({ name, price, soldOut: fin });
+    });
+
+    if (!parsedWines.length) return alert('Nessun vino valido trovato.');
+    let nextId = Math.max(300, ...(state.menu || []).map(m => Number(m.id) || 0)) + 1;
+
+    if (mode === 'replace') {
+      const kept = (state.menu || []).filter(m => m.cat !== '2 Bevande' || isBaseNonBottleBeverage(m.name));
+      const usedIds = new Set(kept.map(m => m.id));
+      parsedWines.forEach(w => {
+        const old = existingByNorm[normDish(w.name)];
+        const id = (old && !usedIds.has(old.id)) ? old.id : nextId++;
+        usedIds.add(id);
+        kept.push({ id, cat: '2 Bevande', name: w.name, price: w.price, soldOut: !!w.soldOut, allergens: ['solfiti'] });
+      });
+      state.menu = kept;
+    } else {
+      parsedWines.forEach(w => {
+        const nk = normDish(w.name);
+        const old = (state.menu || []).find(m => m.cat === '2 Bevande' && normDish(m.name) === nk);
+        if (old) { old.price = w.price; old.soldOut = !!w.soldOut; }
+        else state.menu.push({ id: nextId++, cat: '2 Bevande', name: w.name, price: w.price, soldOut: !!w.soldOut, allergens: ['solfiti'] });
+      });
+    }
+
+    await saveState(true, { menu: true });
+    if (typeof renderMenuGrid === 'function') renderMenuGrid();
+    if (typeof renderDishList === 'function') renderDishList();
+    const st = $('v253WineSt');
+    if (st) { st.style.display = 'block'; st.textContent = `✅ Carta dei Vini aggiornata in tempo reale (${parsedWines.length} etichette)!`; }
+  };
+
+  new MutationObserver(() => {
+    if ($('ocrResultBox') && !$('v253CantinaBox')) injectCantinaBox();
+  }).observe(document.body, { childList: true, subtree: true });
+  setTimeout(injectCantinaBox, 700);
+
+
+  /* =========================================================================
+     3. ESTRAZIONE CONTATTI DA BOLLE & RUBRICA FORNITORI
      ========================================================================= */
   const FORN_KEY = 'alicetta_fornitori_v1';
+  const loadFornLocal = () => { try { return JSON.parse(localStorage.getItem(FORN_KEY) || '{}') || {}; } catch (e) { return {}; } };
+  const saveFornLocal = d => localStorage.setItem(FORN_KEY, JSON.stringify(d || {}));
+  const fornKey = name => String(name || '').toLowerCase()
+    .replace(/\b(s\.?\s?r\.?\s?l\.?|s\.?\s?p\.?\s?a\.?|s\.?\s?n\.?\s?c\.?|s\.?\s?a\.?\s?s\.?|srls)\b/g, '')
+    .replace(/[^a-z0-9àèéìòù]/g, '').trim();
 
-  function loadFornitoriLocal() {
-    try {
-      return JSON.parse(localStorage.getItem(FORN_KEY) || '{}') || {};
-    } catch (e) {
-      return {};
-    }
+  async function syncFornCloud(id, obj) {
+    const all = loadFornLocal();
+    if (obj === null) delete all[id]; else all[id] = obj;
+    saveFornLocal(all);
+    try { if (typeof fbSend === 'function') await fbSend('/costi/fornitori/' + id, obj === null ? 'DELETE' : 'PUT', obj === null ? undefined : obj); } catch (e) {}
   }
 
-  function saveFornitoriLocal(data) {
-    localStorage.setItem(FORN_KEY, JSON.stringify(data || {}));
+  function mergeFornData(oldObj, newC) {
+    const o = { ...(oldObj || {}) };
+    if (newC.nome && !o.nome) o.nome = String(newC.nome).trim();
+    if (newC.fornitore && !o.nome) o.nome = String(newC.fornitore).trim();
+    if ((newC.telefono || newC.tel) && !o.tel) o.tel = String(newC.telefono || newC.tel).trim();
+    if (newC.email && !o.email) o.email = String(newC.email).trim();
+    if (newC.pec && !o.pec) o.pec = String(newC.pec).trim();
+    if (newC.piva && !o.piva) o.piva = String(newC.piva).replace(/^IT/i, '').trim();
+    if ((newC.indirizzo || newC.addr) && !o.addr) o.addr = String(newC.indirizzo || newC.addr).trim();
+    o.updatedAt = Date.now();
+    return o;
   }
 
-  async function syncFornitoreToCloud(id, obj) {
-    const all = loadFornitoriLocal();
-    if (obj === null) delete all[id];
-    else all[id] = obj;
-    saveFornitoriLocal(all);
+  function getBolleMap() {
     try {
-      if (typeof fbSend === 'function') {
-        await fbSend('/costi/fornitori/' + id, obj === null ? 'DELETE' : 'PUT', obj === null ? undefined : obj);
-      }
-    } catch (e) {}
+      if (typeof window.v211Data === 'function') { const d = window.v211Data(); if (d && d.bolle) return d.bolle; }
+      return (JSON.parse(localStorage.getItem('alicetta_costi') || '{}')).bolle || {};
+    } catch (e) { return {}; }
   }
 
-  async function pullFornitoriFromCloud() {
-    try {
-      if (typeof fbGet === 'function' && navigator.onLine) {
-        const remote = await fbGet('/costi/fornitori');
-        if (remote && typeof remote === 'object') {
-          const loc = loadFornitoriLocal();
-          const merged = { ...remote, ...loc };
-          saveFornitoriLocal(merged);
-        }
-      }
-    } catch (e) {}
-  }
-
-  const fornIdFromName = name => String(name || '').toLowerCase().trim().replace(/[^a-z0-9àèéìòù]/g, '');
-
-  // Unisce i fornitori salvati con quelli estratti da tutte le bolle in memoria
-  function getFullRubricaFornitori() {
-    const rub = loadFornitoriLocal();
-    let bolle = {};
-    try {
-      const c = JSON.parse(localStorage.getItem('alicetta_costi') || '{}');
-      bolle = c.bolle || {};
-    } catch (e) {}
-
+  function buildRubricaList() {
+    const rub = loadFornLocal();
+    const bolle = getBolleMap();
     const stats = {};
     Object.values(bolle).forEach(b => {
       if (!b || !b.fornitore) return;
-      const fid = fornIdFromName(b.fornitore);
+      const fid = fornKey(b.fornitore);
       if (!fid) return;
-      if (!stats[fid]) {
-        stats[fid] = { nome: b.fornitore.trim(), bolleCount: 0, totSpesa: 0, lastDate: '', items: new Set() };
-      }
-      stats[fid].bolleCount++;
-      if (b.data && b.data > stats[fid].lastDate) stats[fid].lastDate = b.data;
+      if (!stats[fid]) stats[fid] = { nome: b.fornitore.trim(), count: 0, tot: 0, last: '', items: new Set() };
+      stats[fid].count++;
+      if (b.data && b.data > stats[fid].last) stats[fid].last = b.data;
       (b.righe || []).forEach(r => {
-        const q = parseFloat(r.q) || 1;
-        const pu = parseFloat(r.pu) || 0;
-        stats[fid].totSpesa += q * pu;
-        if (r.i || r.p) stats[fid].items.add((r.i || r.p).trim());
+        stats[fid].tot += (parseFloat(r.q) || 1) * (parseFloat(r.pu) || 0);
+        if (r.i || r.p) stats[fid].items.add(String(r.i || r.p).trim());
       });
-      // Se nella bolla erano salvati contatti, li recupera
-      if (b.contatti && typeof b.contatti === 'object') {
-        rub[fid] = mergeFornContact(rub[fid] || { nome: b.fornitore.trim() }, b.contatti);
-      }
     });
-
-    // Assicura che ogni fornitore presente nelle bolle esista nella rubrica
-    let changed = false;
+    let dirty = false;
     Object.entries(stats).forEach(([fid, st]) => {
-      if (!rub[fid]) {
-        rub[fid] = { id: fid, nome: st.nome, tel: '', email: '', pec: '', piva: '', addr: '', note: '', updatedAt: Date.now() };
-        changed = true;
-      }
+      if (!rub[fid]) { rub[fid] = { id: fid, nome: st.nome, tel: '', email: '', pec: '', piva: '', addr: '', note: '' }; dirty = true; }
     });
-    if (changed) saveFornitoriLocal(rub);
+    if (dirty) saveFornLocal(rub);
 
     return Object.entries(rub).map(([fid, f]) => {
-      const st = stats[fid] || { bolleCount: 0, totSpesa: 0, lastDate: '', items: new Set() };
-      return {
-        ...f,
-        id: fid,
-        nome: f.nome || st.nome || fid,
-        bolleCount: st.bolleCount,
-        totSpesa: st.totSpesa,
-        lastDate: st.lastDate,
-        prodotti: Array.from(st.items).slice(0, 12)
-      };
+      const st = stats[fid] || { count: 0, tot: 0, last: '', items: new Set() };
+      return { ...f, id: fid, nome: f.nome || st.nome || fid, bolleCount: st.count, totSpesa: st.tot, lastDate: st.last, prodotti: Array.from(st.items).slice(0, 12) };
     }).sort((a, b) => (b.bolleCount - a.bolleCount) || String(a.nome).localeCompare(String(b.nome), 'it'));
   }
 
-  function mergeFornContact(oldObj, newC) {
-    const out = { ...oldObj };
-    if (newC.fornitore && !out.nome) out.nome = String(newC.fornitore).trim();
-    if (newC.telefono && !out.tel) out.tel = String(newC.telefono).trim();
-    if (newC.email && !out.email) out.email = String(newC.email).trim();
-    if (newC.pec && !out.pec) out.pec = String(newC.pec).trim();
-    if (newC.piva && !out.piva) out.piva = String(newC.piva).replace(/^IT/i, '').trim();
-    if (newC.indirizzo && !out.addr) out.addr = String(newC.indirizzo).trim();
-    out.updatedAt = Date.now();
-    return out;
-  }
-
-  // Intercetta la chiamata Gemini sulle bolle per estrarre in automatico anche i contatti del fornitore
   if (typeof window.callGemini === 'function') {
-    const _origCallGemini = window.callGemini;
+    const _origGem = window.callGemini;
     window.callGemini = async function(parts, json) {
-      let isBollaPrompt = false;
+      let isBolla = false;
       if (Array.isArray(parts) && parts[0] && typeof parts[0].text === 'string' && parts[0].text.includes('Leggi questo documento di acquisto')) {
-        isBollaPrompt = true;
+        isBolla = true;
         parts[0].text = parts[0].text.replace(
           'Restituisci SOLO JSON:',
-          'Estrai anche eventuali dati di contatto del fornitore presenti nell\'intestazione o a piè di pagina (telefono, email, pec, piva, indirizzo). Restituisci SOLO JSON includendo anche la chiave opzionale "contatti":{"telefono":"","email":"","pec":"","piva":"","indirizzo":""}:'
+          'Estrai anche i contatti del fornitore (telefono, email, pec, piva, indirizzo). Restituisci SOLO JSON aggiungendo "contatti":{"telefono":"","email":"","pec":"","piva":"","indirizzo":""}:'
         );
       }
-      const res = await _origCallGemini.apply(this, arguments);
-      if (isBollaPrompt && res) {
+      const res = await _origGem.apply(this, arguments);
+      if (isBolla && res) {
         try {
-          const parsed = JSON.parse(res.slice(res.indexOf('{'), res.lastIndexOf('}') + 1));
-          if (parsed && parsed.fornitore) {
-            const fid = fornIdFromName(parsed.fornitore);
+          const o = JSON.parse(res.slice(res.indexOf('{'), res.lastIndexOf('}') + 1));
+          if (o && o.fornitore) {
+            const fid = fornKey(o.fornitore);
             if (fid) {
-              const all = loadFornitoriLocal();
-              const updated = mergeFornContact(all[fid] || { id: fid, nome: parsed.fornitore.trim() }, {
-                fornitore: parsed.fornitore,
-                ...(parsed.contatti || {})
-              });
-              await syncFornitoreToCloud(fid, updated);
-              setTimeout(renderRubricaFornitoriUI, 300);
+              const all = loadFornLocal();
+              await syncFornCloud(fid, mergeFornData(all[fid] || { id: fid, nome: o.fornitore.trim() }, { fornitore: o.fornitore, ...(o.contatti || {}) }));
+              setTimeout(renderRubricaFornCard, 250);
             }
           }
         } catch (e) {}
@@ -346,83 +641,36 @@
     };
   }
 
-  // Scansione rapida dedicata: scatta foto a bolla/fattura/biglietto per salvare il fornitore
-  window.v252ScanFornitorePhoto = function() {
-    const inp = document.createElement('input');
-    inp.type = 'file';
-    inp.accept = 'image/*';
-    inp.capture = 'environment';
-    inp.onchange = async () => {
-      const f = inp.files && inp.files[0];
-      if (!f) return;
-      if (!getGeminiKey()) return alert('Inserisci la chiave Gemini in ⚙️ Opzioni per leggere le foto.');
-      const st = $('v252FornStatus');
-      if (st) { st.style.display = 'block'; st.textContent = '⏳ Estrazione dati e contatti fornitore dalla foto...'; }
-      try {
-        const b64 = await shrinkImage(f, 1600);
-        const txt = await callGemini([{
-          text: 'Da questa bolla, fattura o biglietto da visita di un fornitore ristorante estrai i dati anagrafici e di contatto. Rispondi SOLO in JSON: {"nome":"ragione sociale o nome breve","telefono":"numero fisso o cellulare","email":"email","pec":"pec","piva":"solo 11 cifre","indirizzo":"via, cap e città","note":"eventuale categoria merceologica es. Ittico, Vini, Ortofrutta"}',
-          inline_data: undefined
-        }, { inline_data: { mime_type: 'image/jpeg', data: b64 } }], true);
-        const o = JSON.parse(txt.slice(txt.indexOf('{'), txt.lastIndexOf('}') + 1));
-        if (!o.nome) throw new Error('Nome fornitore non trovato nella foto');
-        const fid = fornIdFromName(o.nome);
-        const all = loadFornitoriLocal();
-        const merged = mergeFornContact(all[fid] || { id: fid, nome: o.nome.trim() }, o);
-        if (o.note && !merged.note) merged.note = o.note;
-        await syncFornitoreToCloud(fid, merged);
-        if (st) st.textContent = '✅ Fornitore "' + merged.nome + '" salvato in rubrica!';
-        renderRubricaFornitoriUI();
-      } catch (e) {
-        if (st) st.textContent = '❌ Errore lettura: ' + e.message;
-      }
-    };
-    inp.click();
-  };
-
-  window.v252EditFornitore = function(fid) {
-    const all = loadFornitoriLocal();
+  window.v253EditForn = function(fid) {
+    const all = loadFornLocal();
     const cur = (fid && all[fid]) || { nome: '', tel: '', email: '', pec: '', piva: '', addr: '', note: '' };
-    let ov = $('v252FornModal');
-    if (!ov) {
-      ov = document.createElement('div');
-      ov.id = 'v252FornModal';
-      ov.className = 'modal-overlay';
-      document.body.appendChild(ov);
-    }
+    let ov = $('v253FornModal');
+    if (!ov) { ov = document.createElement('div'); ov.id = 'v253FornModal'; ov.className = 'modal-overlay'; document.body.appendChild(ov); }
     ov.innerHTML = `
       <div class="receipt-box">
-        <h3 style="color:var(--logo-coral);margin-bottom:8px;">📦 ${fid ? 'Modifica Fornitore' : 'Nuovo Fornitore'}</h3>
-        <label style="font-size:.75rem;font-weight:800;">Nome / Ragione Sociale *</label>
-        <input id="vf_nome" class="form-control" style="margin-bottom:6px;" value="${escH(cur.nome || '')}" placeholder="Es. Ittica Adriatica">
-        <label style="font-size:.75rem;font-weight:800;">Telefono / Cellulare WhatsApp</label>
-        <input id="vf_tel" class="form-control" type="tel" style="margin-bottom:6px;" value="${escH(cur.tel || '')}" placeholder="Es. 333 1234567">
-        <label style="font-size:.75rem;font-weight:800;">Email ordini</label>
-        <input id="vf_email" class="form-control" type="email" style="margin-bottom:6px;" value="${escH(cur.email || '')}" placeholder="ordini@fornitore.it">
-        <label style="font-size:.75rem;font-weight:800;">PEC</label>
-        <input id="vf_pec" class="form-control" type="email" style="margin-bottom:6px;" value="${escH(cur.pec || '')}">
-        <label style="font-size:.75rem;font-weight:800;">Partita IVA</label>
-        <input id="vf_piva" class="form-control" style="margin-bottom:6px;" value="${escH(cur.piva || '')}">
-        <label style="font-size:.75rem;font-weight:800;">Indirizzo / Città</label>
-        <input id="vf_addr" class="form-control" style="margin-bottom:6px;" value="${escH(cur.addr || '')}">
-        <label style="font-size:.75rem;font-weight:800;">Note (Giorni consegna, Agente, ecc.)</label>
-        <input id="vf_note" class="form-control" style="margin-bottom:10px;" value="${escH(cur.note || '')}" placeholder="Es. Consegna Mar/Ven entro le 11">
+        <h3 style="color:var(--logo-coral);margin-bottom:8px;">📇 ${fid ? 'Modifica Fornitore' : 'Nuovo Fornitore'}</h3>
+        <input id="vf_nome" class="form-control" style="margin-bottom:6px;" placeholder="Ragione Sociale / Nome *" value="${escH(cur.nome || '')}">
+        <input id="vf_tel" class="form-control" type="tel" style="margin-bottom:6px;" placeholder="Telefono / Cellulare WhatsApp" value="${escH(cur.tel || '')}">
+        <input id="vf_email" class="form-control" type="email" style="margin-bottom:6px;" placeholder="Email" value="${escH(cur.email || '')}">
+        <input id="vf_pec" class="form-control" type="email" style="margin-bottom:6px;" placeholder="PEC" value="${escH(cur.pec || '')}">
+        <input id="vf_piva" class="form-control" style="margin-bottom:6px;" placeholder="Partita IVA" value="${escH(cur.piva || '')}">
+        <input id="vf_addr" class="form-control" style="margin-bottom:6px;" placeholder="Indirizzo" value="${escH(cur.addr || '')}">
+        <input id="vf_note" class="form-control" style="margin-bottom:10px;" placeholder="Note / Giorni di consegna" value="${escH(cur.note || '')}">
         <div class="modal-actions">
-          <button class="btn-modal" style="background:#10b981;color:#fff;" onclick="v252SaveFornitore('${escH(fid || '')}')">💾 Salva</button>
-          ${fid ? `<button class="btn-modal" style="background:#FEE2E2;color:#991B1B;flex:0.6;" onclick="v252DeleteFornitore('${escH(fid)}')">🗑️</button>` : ''}
-          <button class="btn-modal" style="background:#334155;color:#fff;flex:0.6;" onclick="document.getElementById('v252FornModal').classList.remove('active')">Chiudi</button>
+          <button class="btn-modal" style="background:#10b981;color:#fff;" onclick="v253SaveForn('${escH(fid || '')}')">💾 Salva</button>
+          ${fid ? `<button class="btn-modal" style="background:#FEE2E2;color:#991B1B;flex:0.5;" onclick="v253DelForn('${escH(fid)}')">🗑️</button>` : ''}
+          <button class="btn-modal" style="background:#334155;color:#fff;flex:0.6;" onclick="document.getElementById('v253FornModal').classList.remove('active')">Chiudi</button>
         </div>
       </div>`;
     ov.classList.add('active');
   };
 
-  window.v252SaveFornitore = async function(oldFid) {
+  window.v253SaveForn = async function(oldFid) {
     const nome = ($('vf_nome').value || '').trim();
     if (!nome) return alert('Inserisci il nome del fornitore.');
-    const fid = oldFid || fornIdFromName(nome);
-    const obj = {
-      id: fid,
-      nome,
+    const fid = oldFid || fornKey(nome);
+    await syncFornCloud(fid, {
+      id: fid, nome,
       tel: ($('vf_tel').value || '').trim(),
       email: ($('vf_email').value || '').trim(),
       pec: ($('vf_pec').value || '').trim(),
@@ -430,55 +678,41 @@
       addr: ($('vf_addr').value || '').trim(),
       note: ($('vf_note').value || '').trim(),
       updatedAt: Date.now()
-    };
-    await syncFornitoreToCloud(fid, obj);
-    $('v252FornModal').classList.remove('active');
-    renderRubricaFornitoriUI();
+    });
+    $('v253FornModal').classList.remove('active');
+    renderRubricaFornCard();
   };
 
-  window.v252DeleteFornitore = async function(fid) {
+  window.v253DelForn = async function(fid) {
     if (!confirm('Eliminare questo fornitore dalla rubrica?')) return;
-    await syncFornitoreToCloud(fid, null);
-    $('v252FornModal').classList.remove('active');
-    renderRubricaFornitoriUI();
+    await syncFornCloud(fid, null);
+    $('v253FornModal').classList.remove('active');
+    renderRubricaFornCard();
   };
 
-  function renderRubricaFornitoriUI() {
+  function renderRubricaFornCard() {
     const host = $('hub_sales_forn');
     if (!host) return;
-    let box = $('v252RubricaFornBox');
+    let box = $('v253RubricaFornBox');
     if (!box) {
       box = document.createElement('div');
-      box.id = 'v252RubricaFornBox';
+      box.id = 'v253RubricaFornBox';
       box.className = 'cart-section';
-      host.insertBefore(box, host.firstChild);
+      const first = host.querySelector('.cart-section');
+      if (first && first.nextSibling) host.insertBefore(box, first.nextSibling);
+      else host.appendChild(box);
     }
-    const q = (($('v252FornSearch') || {}).value || '').toLowerCase().trim();
-    const list = getFullRubricaFornitori().filter(f =>
-      !q ||
-      String(f.nome).toLowerCase().includes(q) ||
-      String(f.note || '').toLowerCase().includes(q) ||
-      (f.prodotti || []).some(p => String(p).toLowerCase().includes(q))
-    );
-
-    const cleanWa = t => {
-      const d = String(t || '').replace(/\D/g, '');
-      return d.length === 10 && d.startsWith('3') ? '39' + d : d;
-    };
+    const q = (($('v253FornQ') || {}).value || '').toLowerCase().trim();
+    const list = buildRubricaList().filter(f => !q || String(f.nome).toLowerCase().includes(q) || (f.prodotti || []).some(p => String(p).toLowerCase().includes(q)));
+    const waClean = t => { const d = String(t || '').replace(/\D/g, ''); return d.length === 10 && d.startsWith('3') ? '39' + d : d; };
 
     box.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
-        <h3 style="color:var(--logo-coral);margin:0;">📇 Rubrica Fornitori (${list.length})</h3>
-        <div style="display:flex;gap:6px;">
-          <button class="btn-note" onclick="v252ScanFornitorePhoto()">📸 Da foto Bolla</button>
-          <button class="btn-note" onclick="v252EditFornitore('')">＋ Nuovo</button>
-        </div>
+      <div class="cs-h">
+        <h3>📇 Rubrica Fornitori (${list.length})</h3>
+        <button class="btn-note" onclick="v253EditForn('')">＋ Nuovo</button>
       </div>
-      <div style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
-        I fornitori e i prodotti vengono estratti in automatico da ogni bolla o fattura caricata.
-      </div>
-      <div id="v252FornStatus" style="display:none;font-size:.8rem;font-weight:800;color:#065F46;margin-bottom:8px;"></div>
-      <input id="v252FornSearch" class="form-control" style="margin-bottom:10px;" placeholder="🔍 Cerca fornitore o ingrediente (es. vongole, vino)..." value="${escH(q)}" oninput="v252FilterForn()">
+      <div class="fc-sub" style="margin-bottom:8px;">Estratta in automatico dalle bolle caricate.</div>
+      <input id="v253FornQ" class="form-control" style="margin-bottom:10px;" placeholder="🔍 Cerca fornitore o prodotto..." value="${escH(q)}" oninput="v253RefreshForn()">
       <div>
         ${list.map(f => `
           <div class="forn-card">
@@ -487,292 +721,266 @@
                 <div class="forn-title">🏢 ${escH(f.nome)}</div>
                 <div class="forn-meta">
                   ${f.piva ? 'P.IVA ' + escH(f.piva) + ' · ' : ''}
-                  ${f.bolleCount ? `${f.bolleCount} ${f.bolleCount === 1 ? 'bolla' : 'bolle'} · Spesa € ${formatPrice(f.totSpesa)}` : 'Nessuna bolla registrata'}
-                  ${f.lastDate ? ' · Ultima: ' + f.lastDate.split('-').reverse().join('/') : ''}
+                  ${f.bolleCount ? `${f.bolleCount} bolle · € ${formatPrice(f.totSpesa)}` : 'Salvato in rubrica'}
                 </div>
                 ${f.tel ? `<div class="forn-meta">📞 ${escH(f.tel)}</div>` : ''}
                 ${f.email ? `<div class="forn-meta">✉️ ${escH(f.email)}</div>` : ''}
                 ${f.addr ? `<div class="forn-meta">📍 ${escH(f.addr)}</div>` : ''}
-                ${f.note ? `<div class="forn-meta" style="color:#B45309;">📝 ${escH(f.note)}</div>` : ''}
               </div>
-              <button class="btn-note" onclick="v252EditFornitore('${escH(f.id)}')">✏️</button>
+              <button class="btn-note" onclick="v253EditForn('${escH(f.id)}')">✏️</button>
             </div>
-            ${f.prodotti && f.prodotti.length ? `
-              <div class="forn-tags">
-                ${f.prodotti.map(p => `<span class="forn-tag">${escH(p)}</span>`).join('')}
-              </div>` : ''}
+            ${f.prodotti && f.prodotti.length ? `<div class="forn-tags">${f.prodotti.map(p => `<span class="forn-tag">${escH(p)}</span>`).join('')}</div>` : ''}
             <div class="forn-actions">
               ${f.tel ? `<a class="btn-note" style="text-decoration:none;background:#DCFCE7;color:#166534;" href="tel:${escH(f.tel)}">📞 Chiama</a>` : ''}
-              ${f.tel ? `<a class="btn-note" style="text-decoration:none;background:#25D366;color:#fff;" target="_blank" rel="noopener" href="https://wa.me/${cleanWa(f.tel)}?text=${encodeURIComponent('Ciao ' + f.nome + ', ecco l\'ordine per Alicetta Trattoria:\n- ')}">💬 Ordina WhatsApp</a>` : ''}
-              ${f.email ? `<a class="btn-note" style="text-decoration:none;" href="mailto:${escH(f.email)}?subject=${encodeURIComponent('Ordine Alicetta Trattoria')}">✉️ Email</a>` : ''}
-              ${!f.tel && !f.email ? `<button class="btn-note" onclick="v252EditFornitore('${escH(f.id)}')">＋ Aggiungi contatti</button>` : ''}
+              ${f.tel ? `<a class="btn-note" style="text-decoration:none;background:#25D366;color:#fff;" target="_blank" rel="noopener" href="https://wa.me/${waClean(f.tel)}?text=${encodeURIComponent('Ciao ' + f.nome + ', ordine per Alicetta Trattoria:\n- ')}">💬 WhatsApp</a>` : ''}
+              ${f.email ? `<a class="btn-note" style="text-decoration:none;" href="mailto:${escH(f.email)}">✉️ Email</a>` : ''}
+              ${!f.tel && !f.email ? `<button class="btn-note" onclick="v253EditForn('${escH(f.id)}')">＋ Aggiungi contatti</button>` : ''}
             </div>
-          </div>
-        `).join('') || '<div style="font-size:.84rem;color:var(--muted);">Nessun fornitore ancora in rubrica. Carica una foto bolla o premi "＋ Nuovo".</div>'}
-      </div>
-    `;
+          </div>`).join('') || '<div class="fc-sub">Carica una bolla per popolare la rubrica fornitori.</div>'}
+      </div>`;
   }
-  window.v252FilterForn = renderRubricaFornitoriUI;
+  window.v253RefreshForn = renderRubricaFornCard;
 
-  // Aggancia il rendering quando si apre la tab Fornitori
-  const _origSetHubPage = window.setHubPage;
-  if (typeof _origSetHubPage === 'function') {
-    window.setHubPage = function(key, page, dir) {
-      _origSetHubPage.apply(this, arguments);
-      if (key === 'sales' && page === 'forn') {
-        pullFornitoriFromCloud().then(renderRubricaFornitoriUI);
-        renderRubricaFornitoriUI();
-      }
-    };
-  }
+  new MutationObserver(() => {
+    const h = $('hub_sales_forn');
+    if (h && h.childElementCount && !$('v253RubricaFornBox')) renderRubricaFornCard();
+  }).observe(document.body, { childList: true, subtree: true });
 
 
   /* =========================================================================
-     3. CARICA PRENOTAZIONE DA WHATSAPP E INSERISCI DIRETTAMENTE IN GRIGLIA
+     4. PRENOTAZIONE WHATSAPP DIRETTA IN GRIGLIA
      ========================================================================= */
-  function injectWhatsAppResButtons() {
-    const resForm = $('resForm');
-    if (!resForm || $('v252WaResBar')) return;
-    const h3 = resForm.querySelector('h3');
+  function injectWaDirectBar() {
+    const target = $('resMsgCard') || $('resForm');
+    if (!target || $('v253WaGridBar')) return;
     const bar = document.createElement('div');
-    bar.id = 'v252WaResBar';
-    bar.className = 'wa-res-bar';
+    bar.id = 'v253WaGridBar';
+    bar.className = 'wa-grid-box';
     bar.innerHTML = `
-      <button type="button" class="btn-wa-res" onclick="v252OpenWaModal()">💬 Carica testo WhatsApp</button>
-      <button type="button" class="btn-wa-res alt" onclick="v252ScanWaScreenshot()">📸 Screenshot WhatsApp</button>
+      <button type="button" class="btn-wa-grid" onclick="v253WaDirectToGrid()">⚡ WhatsApp → Diretto in Griglia</button>
+      <button type="button" class="btn-wa-grid alt" onclick="v253WaPhotoToGrid()">📸 Screenshot WA → In Griglia</button>
     `;
-    if (h3 && h3.nextSibling) resForm.insertBefore(bar, h3.nextSibling);
-    else resForm.insertBefore(bar, resForm.firstChild);
+    target.appendChild(bar);
   }
 
-  // Parser locale intelligente in italiano (funziona anche senza AI / offline)
-  function parseWhatsAppTextLocal(txt) {
-    const clean = String(txt || '').trim();
-    const today = new Date();
-    const toISO = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-    let date = toISO(today);
-    let time = '20:30';
-    let covers = 2;
-    let phone = '';
-    let name = '';
-    let note = [];
-
-    // 1. Telefono
-    const phMatch = clean.match(/(?:\+?39[\s.-]?)?(3\d{2}[\s.-]?\d{3,4}[\s.-]?\d{3,4}|\b0\d{1,3}[\s.-]?\d{5,8}\b)/);
-    if (phMatch) phone = phMatch[0].replace(/[^\d+]/g, '');
-
-    // 2. Data (oggi, domani, dopodomani, giorni settimana o gg/mm)
-    const low = clean.toLowerCase();
-    if (/\bdopodomani\b/.test(low)) {
-      const d = new Date(today); d.setDate(d.getDate() + 2); date = toISO(d);
-    } else if (/\bdomani\b/.test(low)) {
-      const d = new Date(today); d.setDate(d.getDate() + 1); date = toISO(d);
-    } else {
-      const dm = low.match(/\b(\d{1,2})\s*[\/\-]\s*(\d{1,2})(?:\s*[\/\-]\s*(\d{2,4}))?\b/);
-      if (dm) {
-        const dd = parseInt(dm[1], 10), mm = parseInt(dm[2], 10);
-        if (dd >= 1 && dd <= 31 && mm >= 1 && mm <= 12) {
-          const yy = dm[3] ? (dm[3].length === 2 ? 2000 + parseInt(dm[3], 10) : parseInt(dm[3], 10)) : today.getFullYear();
-          date = `${yy}-${String(mm).padStart(2, '0')}-${String(dd).padStart(2, '0')}`;
-        }
-      } else {
-        const days = ['domenica', 'luned', 'marted', 'mercoled', 'gioved', 'venerd', 'sabat'];
-        days.forEach((dw, idx) => {
-          if (low.includes(dw)) {
-            const d = new Date(today);
-            const diff = (idx - d.getDay() + 7) % 7 || 7;
-            d.setDate(d.getDate() + diff);
-            date = toISO(d);
-          }
-        });
-      }
-    }
-
-    // 3. Orario (es. "alle 21", "ore 20:30", "20.15", "pranzo")
-    const tmMatch = low.match(/(?:alle|ore|per\s+le|h)\s*(\d{1,2})(?:[:.,](\d{2}))?\b/) || low.match(/\b(1[2345]|19|2[0123])[:.](\d{2})\b/);
-    if (tmMatch) {
-      const hh = parseInt(tmMatch[1], 10);
-      const mm = tmMatch[2] ? tmMatch[2] : '00';
-      if (hh >= 11 && hh <= 23) time = String(hh).padStart(2, '0') + ':' + mm;
-    } else if (/\bpranzo\b/.test(low)) {
-      time = '13:00';
-    }
-
-    // 4. Coperti (es. "siamo in 4", "per 6 persone", "4 pax", "tavolo per 3")
-    const covMatch = low.match(/(?:siamo\s+in|per|in|tavolo\s+da|tavolo\s+per|x)\s*(\d{1,2})\s*(?:person[ae]|pax|copert[io]|adulti|amici)?\b/) ||
-                     low.match(/\b(\d{1,2})\s*(?:person[ae]|pax|copert[io])\b/);
-    if (covMatch) {
-      const c = parseInt(covMatch[1], 10);
-      if (c >= 1 && c <= 60) covers = c;
-    }
-
-    // 5. Nome (es. "a nome Marco Rossi", "sono Giulia", "prenotazione Rossi")
-    const nmMatch = clean.match(/(?:a\s+nome(?:\s+di)?|sono|mi\s+chiamo|prenotazione|sig\.?|signor(?:a)?)\s+([A-ZÀ-Úa-zà-ú]{2,20}(?:\s+[A-ZÀ-Úa-zà-ú]{2,20})?)/i);
-    if (nmMatch) {
-      name = nmMatch[1].replace(/\b(per|alle|ore|siamo|in|domani|stasera)\b.*/i, '').trim();
-    }
-    if (!name) {
-      // Cerca nome in formato "[20:15, 22/10/2026] Nome Cognome: messaggio"
-      const waHeader = clean.match(/\]\s*([^:]{2,30}):/);
-      if (waHeader) name = waHeader[1].trim();
-    }
-
-    // 6. Note automatiche (allergie, seggiolone, cane, esterno/interno)
-    ['seggiolon', 'passeggin', 'celiac', 'glutine', 'lattosio', 'allerg', 'cane', 'cagnolin', 'estern', 'fuori', 'intern', 'compleann'].forEach(k => {
-      if (low.includes(k)) {
-        const m = clean.match(new RegExp('[^.,;\\n]*' + k + '[^.,;\\n]*', 'i'));
-        if (m) note.push(m[0].trim());
-      }
-    });
-
-    return {
-      name: name || 'Cliente WhatsApp',
-      phone,
-      date,
-      time,
-      covers,
-      note: [...new Set(note)].join(' · ')
+  async function commitResToGrid(d) {
+    const id = 'r' + Date.now();
+    const r = {
+      id,
+      name: String(d.nome || d.name || 'Cliente WhatsApp').trim(),
+      phone: String(d.telefono || d.phone || '').trim(),
+      date: /^\d{4}-\d{2}-\d{2}$/.test(d.data || d.date || '') ? (d.data || d.date) : buildDateISO(),
+      time: /^\d{2}:\d{2}$/.test(d.ora || d.time || '') ? (d.ora || d.time) : '20:30',
+      covers: Math.max(1, parseInt(d.persone || d.covers, 10) || 2),
+      note: d.note ? '[WA] ' + d.note : '[WA]',
+      status: 'attesa',
+      tables: []
     };
+    const s = typeof suggestTables === 'function' ? suggestTables(r) : null;
+    if (s && s.ids && s.ids.length) r.tables = s.ids;
+    delete r.id;
+
+    state.res = state.res || {};
+    state.res[id] = r;
+    await saveState(false, { res: [id] });
+    if ($('rView')) $('rView').value = r.date;
+    if (typeof renderResList === 'function') renderResList();
+    if (typeof renderResBoard === 'function') renderResBoard('resBoardTables');
+    if (typeof renderTables === 'function') renderTables();
+
+    const tb = (r.tables || []).map(tid => (state.tables[tid] && state.tables[tid].baseName) || tid).join(' + ') || 'Da assegnare';
+    alert(`✅ Prenotazione WhatsApp inserita in griglia!\n\n👤 ${r.name} (${r.covers} pers.)\n📅 ${r.date.split('-').reverse().join('/')} ore ${r.time}\n🪑 Tavolo: ${tb}`);
   }
 
-  async function parseWhatsAppSmart(rawText, imageB64) {
-    if (getGeminiKey() && navigator.onLine) {
-      try {
-        const todayISO = buildDateISO();
-        const promptParts = [{
-          text: `Oggi è ${todayISO} (${new Date().toLocaleDateString('it-IT', { weekday: 'long' })}). Estrai i dati della prenotazione ristorante da questo messaggio WhatsApp. Rispondi SOLO con un oggetto JSON: {"name":"Nome del cliente","phone":"numero telefono se presente o stringa vuota","date":"YYYY-MM-DD","time":"HH:MM (default 20:30 per cena, 13:00 per pranzo)","covers":numero_interi_coperti,"note":"eventuali richieste come seggiolone, allergie, cane, esterno"}.\nTesto: ${rawText || ''}`
-        }];
-        if (imageB64) promptParts.push({ inline_data: { mime_type: 'image/jpeg', data: imageB64 } });
-        const out = await callGemini(promptParts, true);
-        const j = JSON.parse(out.slice(out.indexOf('{'), out.lastIndexOf('}') + 1));
-        if (j && (j.name || j.covers)) {
-          return {
-            name: String(j.name || 'Cliente WhatsApp').trim(),
-            phone: String(j.phone || '').trim(),
-            date: /^\d{4}-\d{2}-\d{2}$/.test(j.date || '') ? j.date : todayISO,
-            time: /^\d{2}:\d{2}$/.test(j.time || '') ? j.time : '20:30',
-            covers: Math.max(1, parseInt(j.covers, 10) || 2),
-            note: String(j.note || '').trim()
-          };
-        }
-      } catch (e) {}
+  window.v253WaDirectToGrid = async function() {
+    let raw = ($('resMsg') && $('resMsg').value || '').trim();
+    if (!raw && navigator.clipboard && navigator.clipboard.readText) {
+      try { raw = (await navigator.clipboard.readText() || '').trim(); } catch (e) {}
     }
-    return parseWhatsAppTextLocal(rawText);
-  }
-
-  window.v252OpenWaModal = async function() {
-    let ov = $('v252WaModal');
-    if (!ov) {
-      ov = document.createElement('div');
-      ov.id = 'v252WaModal';
-      ov.className = 'modal-overlay';
-      document.body.appendChild(ov);
-    }
-    ov.innerHTML = `
-      <div class="receipt-box">
-        <h3 style="color:#16A34A;margin-bottom:6px;">💬 Prenotazione da WhatsApp</h3>
-        <div style="font-size:.76rem;color:var(--muted);margin-bottom:8px;">
-          Incolla il messaggio WhatsApp del cliente: l'app estrae nome, data, ora, coperti, note e lo inserisce direttamente in griglia col tavolo suggerito.
-        </div>
-        <textarea id="v252WaInput" class="form-control" rows="4" placeholder="Es: Ciao Christian, siamo in 4 per stasera alle 21:00 a nome Marco Rossi 3331234567, un seggiolone grazie!"></textarea>
-        <div id="v252WaSt" style="font-size:.78rem;font-weight:800;color:#166534;margin:6px 0;display:none;"></div>
-        <div style="display:grid;gap:6px;margin-top:10px;">
-          <button class="btn-main" style="background:#16A34A;color:#fff;" onclick="v252ProcessWa(true)">⚡ Inserisci subito in griglia</button>
-          <button class="btn-main btn-print" onclick="v252ProcessWa(false)">📝 Compila modulo per controllare</button>
-        </div>
-        <div class="modal-actions">
-          <button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('v252WaModal').classList.remove('active')">Annulla</button>
-        </div>
-      </div>`;
-    ov.classList.add('active');
-    try {
-      if (navigator.clipboard && navigator.clipboard.readText) {
-        const clip = await navigator.clipboard.readText();
-        if (clip && clip.trim().length > 4 && $('v252WaInput'))$('v252WaInput').value = clip.trim();
-      }
-    } catch (e) {}
+    if (!raw) raw = (prompt('Incolla il messaggio WhatsApp del cliente:') || '').trim();
+    if (!raw) return;
+    if ($('resMsg')) $('resMsg').value = raw;
+    if (typeof window.v24Parse === 'function') await window.v24Parse();
+    await commitResToGrid({
+      name: ($('rName') && $('rName').value) || 'Cliente WhatsApp',
+      phone: ($('rPhone') && $('rPhone').value) || '',
+      date: ($('rDate') && $('rDate').value) || buildDateISO(),
+      time: ($('rTime') && $('rTime').value) || '20:30',
+      covers: ($('rCov') && $('rCov').value) || 2,
+      note: ($('rNote') && $('rNote').value) || ''
+    });
   };
 
-  window.v252ScanWaScreenshot = function() {
+  window.v253WaPhotoToGrid = function() {
     const inp = document.createElement('input');
     inp.type = 'file';
     inp.accept = 'image/*';
     inp.onchange = async () => {
       const f = inp.files && inp.files[0];
       if (!f) return;
-      if (!getGeminiKey()) return alert('Serve la chiave Gemini in ⚙️ Opzioni per leggere gli screenshot.');
-      v252OpenWaModal();
-      const st = $('v252WaSt');
-      if (st) { st.style.display = 'block'; st.textContent = '⏳ Lettura screenshot WhatsApp in corso...'; }
+      if (!getGeminiKey()) return alert('Inserisci la chiave Gemini in ⚙️ Opzioni.');
       try {
         const b64 = await shrinkImage(f, 1500);
-        const d = await parseWhatsAppSmart('', b64);
-        await insertOrFillWaRes(d, true);
+        const out = await callGemini([{
+          text: `Oggi è ${buildDateISO()}. Da questo screenshot WhatsApp estrai la prenotazione ristorante in JSON: {"nome":string,"telefono":string,"data":"YYYY-MM-DD","ora":"HH:MM","persone":number,"note":string}`
+        }, { inline_data: { mime_type: 'image/jpeg', data: b64 } }], true);
+        const o = JSON.parse(out.slice(out.indexOf('{'), out.lastIndexOf('}') + 1));
+        await commitResToGrid(o);
       } catch (e) {
-        if (st) st.textContent = '❌ Errore: ' + e.message;
+        alert('Errore lettura screenshot: ' + e.message);
       }
     };
     inp.click();
   };
 
-  window.v252ProcessWa = async function(directToGrid) {
-    const raw = ($('v252WaInput') &&$('v252WaInput').value || '').trim();
-    if (!raw) return alert('Incolla prima il messaggio WhatsApp.');
-    const st = $('v252WaSt');
-    if (st) { st.style.display = 'block'; st.textContent = '⏳ Analisi messaggio WhatsApp...'; }
-    const d = await parseWhatsAppSmart(raw, null);
-    await insertOrFillWaRes(d, directToGrid);
-  };
-
-  async function insertOrFillWaRes(d, directToGrid) {
-    if ($('rName'))$('rName').value = d.name || '';
-    if ($('rPhone'))$('rPhone').value = d.phone || '';
-    if ($('rDate'))$('rDate').value = d.date || buildDateISO();
-    if ($('rTime'))$('rTime').value = d.time || '20:30';
-    if ($('rCov'))$('rCov').value = d.covers || 2;
-    if ($('rNote'))$('rNote').value = d.note || '';
-
-    const modal = $('v252WaModal');
-    if (modal) modal.classList.remove('active');
-
-    if (!directToGrid) return;
-
-    // Inserimento diretto in griglia con assegnazione automatica del tavolo migliore
-    const id = 'r' + Date.now();
-    const r = {
-      id,
-      name: d.name || 'Cliente WhatsApp',
-      phone: d.phone || '',
-      date: d.date || buildDateISO(),
-      time: d.time || '20:30',
-      covers: parseInt(d.covers, 10) || 2,
-      note: d.note ? '[WA] ' + d.note : '[WA]',
-      status: 'attesa',
-      tables: []
-    };
-    const sugg = typeof suggestTables === 'function' ? suggestTables(r) : null;
-    if (sugg && sugg.ids && sugg.ids.length) {
-      r.tables = sugg.ids;
-    }
-    delete r.id;
-    state.res = state.res || {};
-    state.res[id] = r;
-    await saveState(false, { res: [id] });
-    if ($('rView'))$('rView').value = r.date;
-    if (typeof renderResList === 'function') renderResList();
-    if (typeof renderResBoard === 'function') renderResBoard('resBoardTables');
-    const tbTxt = (r.tables || []).map(t => (state.tables[t] && state.tables[t].baseName) || t).join(' + ') || 'Nessun tavolo libero automatico';
-    alert(`✅ Prenotazione WhatsApp inserita in griglia!\n\n👤 ${r.name} (${r.covers} cop.)\n📅 ${r.date.split('-').reverse().join('/')} ore ${r.time}\n🪑 Tavolo: ${tbTxt}`);
-  }
-
-  // Aggancia il pulsante WhatsApp quando si apre la schermata Prenotazioni
-  if (typeof window.renderRes === 'function') {
-    const _origRenderRes = window.renderRes;
-    window.renderRes = function() {
-      _origRenderRes.apply(this, arguments);
-      injectWhatsAppResButtons();
-    };
-  }
-  setTimeout(injectWhatsAppResButtons, 600);
+  new MutationObserver(() => {
+    if (($('resMsgCard') || $('resForm')) && !$('v253WaGridBar')) injectWaDirectBar();
+  }).observe(document.body, { childList: true, subtree: true });
+  setTimeout(injectWaDirectBar, 700);
 })();
 </script>
+</script>
+
+<script>
+const patchCode = document.getElementById('v253PatchTemplate').textContent.trim();
+let finalHtml = '';
+
+function mergeBaseWithPatch(baseHtml) {
+  let clean = String(baseHtml || '').trim();
+  if (!clean.includes('<!DOCTYPE html') && !clean.includes('<html')) return null;
+
+  // Rimuove eventuale v2.5.3 già presente
+  if (clean.includes('id="v253style"')) {
+    clean = clean.slice(0, clean.indexOf('<!-- ===== v2.5.3:'));
+    clean += '\n<script>initApp();<\/script>\n</body>\n</html>';
+  }
+
+  // Aggiorna titolo e badge versione a v2.5.3
+  clean = clean.replace(/<title>Chef Bull Brigade - v2\.5\.[0-9]<\/title>/, '<title>Chef Bull Brigade - v2.5.3</title>');
+  clean = clean.replace(/<div class="version-badge">v2\.5\.[0-9]<\/div>/g, '<div class="version-badge">v2.5.3</div>');
+  clean = clean.replace(/Chef Bull Brigade \(v2\.5\.[0-9]\)/g, 'Chef Bull Brigade (v2.5.3)');
+
+  const target = '<script>initApp();<\/script>';
+  const idx = clean.lastIndexOf(target);
+  if (idx !== -1) {
+    return clean.slice(0, idx) + '\n' + patchCode + '\n' + clean.slice(idx);
+  }
+  const bIdx = clean.lastIndexOf('</body>');
+  if (bIdx !== -1) {
+    return clean.slice(0, bIdx) + '\n' + patchCode + '\n<script>initApp();<\/script>\n</body>\n</html>';
+  }
+  return clean + '\n' + patchCode + '\n<script>initApp();<\/script>\n</body>\n</html>';
+}
+
+function setReadyState(merged, sourceDesc) {
+  finalHtml = merged;
+  document.getElementById('outputCode').value = merged;
+  document.getElementById('charCount').textContent = merged.length.toLocaleString('it-IT') + ' caratteri';
+  const st = document.getElementById('statusBox');
+  st.className = 'status-pill ok';
+  st.innerHTML = '✅ <b>index.html v2.5.3 pronto!</b> (' + sourceDesc + ' · inizia con <code>&lt;!DOCTYPE html&gt;</code> e finisce con <code>&lt;/html&gt;</code>). Premi <b>Copia index.html</b> qui sotto.';
+  document.getElementById('fallbackBox').style.display = 'none';
+}
+
+function buildFromInput(raw) {
+  const merged = mergeBaseWithPatch(raw);
+  if (merged && merged.length > 50000) {
+    setReadyState(merged, 'unito dal tuo codice incollato');
+  }
+}
+
+async function pasteFromClipboard() {
+  try {
+    const txt = await navigator.clipboard.readText();
+    if (txt && txt.includes('<!DOCTYPE html')) {
+      document.getElementById('baseInput').value = txt;
+      buildFromInput(txt);
+    } else {
+      alert('Negli appunti non c\'è il codice index.html. Tieni premuto nel riquadro qui sotto e tocca "Incolla".');
+    }
+  } catch (e) {
+    alert('Tieni premuto direttamente nel riquadro di testo qui sotto e scegli "Incolla".');
+  }
+}
+
+function toggleFallback() {
+  const fb = document.getElementById('fallbackBox');
+  fb.style.display = fb.style.display === 'block' ? 'none' : 'block';
+}
+
+async function autoFetchFromGitHub() {
+  try {
+    // 1. Cerca i repository pubblici di christonstage
+    const reposRes = await fetch('https://api.github.com/users/christonstage/repos?per_page=30');
+    if (!reposRes.ok) throw new Error('API GitHub non raggiungibile');
+    const repos = await reposRes.json();
+    const targetRepo = repos.find(r => /table|alicetta|cbb|brigade/i.test(r.name)) || repos[0];
+    if (!targetRepo) throw new Error('Repo non trovato');
+
+    // 2. Cerca gli ultimi commit di index.html per prendere l'ultimo file completo (>100KB)
+    const commitsRes = await fetch(`https://api.github.com/repos/christonstage/${targetRepo.name}/commits?path=index.html&per_page=10`);
+    const commits = await commitsRes.json();
+
+    for (const c of (commits || [])) {
+      const rawRes = await fetch(`https://raw.githubusercontent.com/christonstage/${targetRepo.name}/${c.sha}/index.html`);
+      if (!rawRes.ok) continue;
+      const txt = await rawRes.text();
+      if (txt && txt.length > 80000 && txt.includes('<!DOCTYPE html')) {
+        const merged = mergeBaseWithPatch(txt);
+        if (merged) {
+          setReadyState(merged, `recuperato automaticamente da GitHub @${targetRepo.name}`);
+          return;
+        }
+      }
+    }
+    throw new Error('Nessun commit completo trovato');
+  } catch (e) {
+    // Se GitHub non risponde o siamo in sandbox, mostra il box rapido da appunti
+    const st = document.getElementById('statusBox');
+    st.className = 'status-pill wait';
+    st.innerHTML = '⚡ <b>Ultimo passaggio:</b> tocca il pulsante arancione qui sotto (o incolla il tuo index.html v2.5.1) per generare subito il file completo v2.5.3.';
+    document.getElementById('fallbackBox').style.display = 'block';
+  }
+}
+
+async function copyFullHtml() {
+  if (!finalHtml) {
+    alert('Prima premi il pulsante arancione per caricare il codice base dagli appunti (o incollalo nel riquadro).');
+    document.getElementById('fallbackBox').style.display = 'block';
+    return;
+  }
+  const btn = document.getElementById('btnCopy');
+  const lbl = document.getElementById('btnCopyLbl');
+  try {
+    await navigator.clipboard.writeText(finalHtml);
+  } catch (e) {
+    const ta = document.getElementById('outputCode');
+    ta.select();
+    document.execCommand('copy');
+  }
+  btn.classList.add('done');
+  lbl.textContent = '✅ Copiato! Ora incollalo su GitHub';
+  setTimeout(() => {
+    btn.classList.remove('done');
+    lbl.textContent = 'Copia index.html';
+  }, 4000);
+}
+
+function downloadFullHtml() {
+  if (!finalHtml) {
+    alert('Prima carica il codice base per generare il file.');
+    document.getElementById('fallbackBox').style.display = 'block';
+    return;
+  }
+  const blob = new Blob([finalHtml], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'index.html';
+  a.click();
+}
+
+autoFetchFromGitHub();
+</script>
+</body>
+</html>
+```
