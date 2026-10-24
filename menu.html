@@ -232,8 +232,8 @@ function classifyWine(name, wt) {
   if (wt && W[wt]) return W[wt];
   const n = name.toLowerCase();
   if (/calice/.test(n)) return 'Calici al vetro';
-  if (/metodo classico|charmat|trabocco/.test(n)) return 'Bollicine & Metodo Classico';
-  if (/cerasuolo|rosato|fossimatto/.test(n)) return 'Cerasuoli & Rosati';
+  if (/metodo classico|charmat|trabocco|spumante|brut|prosecco|bollicin/.test(n)) return 'Bollicine & Metodo Classico';
+  if (/cerasuolo|carasuolo|rosato|fossimatto/.test(n)) return 'Cerasuoli & Rosati';
   if (/montepulciano|pinto\s*11|maleducato\s*11|dire\s*bere|febbre\s*d'abruzzo/.test(n)) return 'Vini Rossi & Montepulciano';
   if (/trebbiano|pecorino|passerina|chardonnay|maiolica|orange|blondie|pane\s*al\s*pane/.test(n)) return 'Vini Bianchi & Orange';
   return 'Acqua, Birra & Caffetteria';
@@ -723,5 +723,6 @@ fetch(FBU+'/fidelity/pub/lunch.json?t='+Date.now(),{cache:'no-store'}).then(r=>r
 })();
 </script>
 
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.8.2</div>
 </body>
 </html>
