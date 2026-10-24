@@ -21,6 +21,39 @@
   .btn-tab { background: #1BE7FF; color: #062329; border: 2px solid #FF5733; }
   .btn-tab.active { background: #FF5733; color: #fff; }
 </style>
+<style id="v29">
+:root{--bg:#FFF7EF;--card:#FFFFFF;--ink:#0F172A;--muted:#64748B;--acc:#E8572E;--acc2:#0EA5B7;--soft:#FFEDE3;--line:#F1E2D6;--bar:rgba(255,247,239,.88)}
+@media (prefers-color-scheme:dark){:root{--bg:#0B1220;--card:#131C2E;--ink:#F1F5F9;--muted:#9AA8BC;--acc:#FF7A50;--acc2:#38D7EA;--soft:#2B1D18;--line:#26324A;--bar:rgba(11,18,32,.88)}}
+html{background:var(--bg)}
+body{background:radial-gradient(130% 55% at 50% 0%,#FFE4CC 0%,var(--bg) 60%) no-repeat,var(--bg)!important;color:var(--ink)!important;-webkit-font-smoothing:antialiased}
+@media (prefers-color-scheme:dark){body{background:radial-gradient(130% 55% at 50% 0%,#1E2A44 0%,var(--bg) 60%) no-repeat,var(--bg)!important}}
+main{padding:0 14px 40px!important}
+.nav-bar{position:sticky;top:0;z-index:20;margin:0 -14px 14px!important;padding:10px 12px!important;background:var(--bar);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);gap:6px!important;flex-wrap:nowrap!important;overflow-x:auto;justify-content:flex-start!important;scrollbar-width:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.btn-tab{background:var(--card)!important;color:var(--ink)!important;border:1.5px solid var(--line)!important;border-radius:999px!important;padding:8px 11px!important;font-size:.8rem!important;white-space:nowrap;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+.btn-tab.active{background:var(--acc)!important;color:#fff!important;border-color:var(--acc)!important;box-shadow:0 6px 14px rgba(232,87,46,.3)}
+header,.card-box{background:var(--card)!important;border:1px solid var(--line)!important;border-radius:24px!important;box-shadow:0 12px 32px rgba(15,23,42,.08)!important;padding:20px 18px!important;margin-bottom:16px!important}
+h1{color:var(--acc)!important;font-size:1.65rem!important;letter-spacing:-.01em;margin-bottom:6px!important}
+select{border:1.5px solid var(--line)!important;border-radius:999px!important;background:var(--card)!important;color:var(--ink)!important;padding:9px 14px!important}
+#notice{color:var(--muted)!important}
+.brand-header{background:linear-gradient(160deg,#0E4A5C 0%,#062329 100%)!important;border:none!important;border-radius:18px!important;padding:22px 16px 18px!important;margin-bottom:10px!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.brand-header p{color:#BFE6EE!important}
+.brand-header h3{letter-spacing:2px}
+h2:has(+ article){background:none!important;border:none!important;border-bottom:1.5px solid var(--line)!important;border-radius:0!important;color:var(--acc)!important;padding:6px 2px 9px!important;font-size:.8rem!important;letter-spacing:2.6px!important;margin:24px 0 4px!important;display:flex;align-items:center;gap:9px}
+h2:has(+ article)::before{content:'';width:9px;height:9px;border-radius:50%;background:var(--acc2);flex:none;box-shadow:0 0 0 4px rgba(14,165,183,.15)}
+article{border-bottom:1px solid var(--line)!important;padding:13px 2px!important;align-items:flex-start!important;gap:14px!important}
+article:last-child{border-bottom:none!important}
+article b{font-weight:750;font-size:1rem;line-height:1.32;color:var(--ink)}
+article small,small{color:var(--muted)!important;font-size:.78rem!important;line-height:1.35}
+.price{background:var(--soft);color:var(--acc)!important;padding:5px 11px;border-radius:999px;font-size:.92rem!important;font-weight:850!important;margin-top:1px}
+.card-box > div[style*="background:#FF5733"],.card-box button{border-radius:999px!important}
+@media (prefers-color-scheme:dark){
+ .card-box [style*="color:#062329"],header [style*="color:#062329"]{color:var(--ink)!important}
+ .card-box [style*="background:#fff"],.card-box [style*="background: #fff"],.card-box [style*="background:white"]{background:var(--card)!important;color:var(--ink)!important}
+ label{color:var(--ink)}
+}
+@media print{body{background:#fff!important}.nav-bar{display:none}header,.card-box{box-shadow:none!important;border:1px solid #ddd!important}.price{background:none}}
+</style>
 </head>
 <body>
 <main>
@@ -282,7 +315,7 @@ function render() {
     allItems.forEach(item => {
       const article = document.createElement('article'), text = document.createElement('div'), algSpan = document.createElement('div');
       const tr = (TRANSLATIONS[item.name]?.[lang]) || (lang!=='it' ? TRANSLATIONS[item.name]?.en : undefined);
-      text.innerHTML = `<b>• ${tr || item.name}</b>`;
+      text.innerHTML = `<b>${tr || item.name}</b>`;
       if(tr) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
 
       algSpan.style.cssText = "color:#FF5733; font-weight:800; font-size:0.8rem; text-align:right; white-space:nowrap;";
@@ -312,7 +345,7 @@ function render() {
       itemsInCat.forEach(item => {
         const article = document.createElement('article'), text = document.createElement('div'), price = document.createElement('div');
         const tr = (TRANSLATIONS[item.name]?.[lang]) || (lang!=='it' ? TRANSLATIONS[item.name]?.en : undefined);
-        text.innerHTML = `<b>• ${tr || item.name}</b>`;
+        text.innerHTML = `<b>${tr || item.name}</b>`;
         if(tr) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
         { const a = parseFloat(String(item.alc||'').replace(',','.')); const info = [item.annata, item.uv, (a>0&&a<25)?(String(Math.round(a*10)/10).replace('.',',')+'% vol'):''].filter(Boolean).join(' · ');
           if(info){ const wd = document.createElement('small'); wd.textContent = info; wd.style.cssText='display:block;color:#0E7490;font-weight:700;margin-top:2px;'; text.append(wd); } }
@@ -348,7 +381,7 @@ function render() {
     rows.forEach(item => {
       const article = document.createElement('article'), text = document.createElement('div'), price = document.createElement('div');
       const tr = (TRANSLATIONS[item.name]?.[lang]) || (lang!=='it' ? TRANSLATIONS[item.name]?.en : undefined);
-      text.innerHTML = `<b>• ${tr || item.name}</b>`;
+      text.innerHTML = `<b>${tr || item.name}</b>`;
       if(tr) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
       if(_alg && window.algNote) { const an = algNote(item.name, lang); if(an) text.append(an); }
       
@@ -723,6 +756,6 @@ fetch(FBU+'/fidelity/pub/lunch.json?t='+Date.now(),{cache:'no-store'}).then(r=>r
 })();
 </script>
 
-<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.8.2</div>
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9</div>
 </body>
 </html>
