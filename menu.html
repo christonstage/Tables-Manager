@@ -244,18 +244,18 @@ const NOTICE = {
 };
 
 const TITLES = {
-  it: ['Antipasti', 'Primi Piatti', 'Secondi & Contorni', 'Desserts'],
-  en: ['Starters', 'First Courses', 'Main Courses & Sides', 'Desserts'],
-  fr: ['Entrées', 'Premiers Plats', 'Plats Principaux & Accompagnements', 'Desserts'],
-  de: ['Vorspeisen', 'Erste Gänge', 'Hauptgerichte & Beilagen', 'Desserts'],
-  es: ['Entrantes', 'Primeros Platos', 'Platos Principales & Guarniciones', 'Postres'],
-  pl: ['Przystawki', 'Pierwsze dania', 'Dania główne i dodatki', 'Desery'],
-  zh: ['开胃菜', '第一道菜', '主菜与配菜', '甜点'],
-  ru: ['Закуски', 'Первые блюда', 'Основные блюда и гарниры', 'Десерты'],
-  sq: ['Antipasta', 'Pjata e parë', 'Pjata kryesore dhe garniturat', 'Ëmbëlsira'],
-  ro: ['Aperitive', 'Primul fel', 'Felul principal și garnituri', 'Deserturi'],
-  hr: ['Predjela', 'Prvo jelo', 'Glavna jela i prilozi', 'Deserti'],
-  sl: ['Predjedi', 'Prve jedi', 'Glavne jedi in priloge', 'Sladice']
+  it: ['Antipasti', 'Primi Piatti', 'Secondi', 'Contorni', 'Desserts'],
+  en: ['Starters', 'First Courses', 'Main Courses', 'Side Dishes', 'Desserts'],
+  fr: ['Entrées', 'Premiers Plats', 'Plats Principaux', 'Accompagnements', 'Desserts'],
+  de: ['Vorspeisen', 'Erste Gänge', 'Hauptgerichte', 'Beilagen', 'Desserts'],
+  es: ['Entrantes', 'Primeros Platos', 'Platos Principales', 'Guarniciones', 'Postres'],
+  pl: ['Przystawki', 'Pierwsze dania', 'Dania główne', 'Dodatki', 'Desery'],
+  zh: ['开胃菜', '第一道菜', '主菜', '配菜', '甜点'],
+  ru: ['Закуски', 'Первые блюда', 'Основные блюда', 'Гарниры', 'Десерты'],
+  sq: ['Antipasta', 'Pjata e parë', 'Pjata kryesore', 'Garniturat', 'Ëmbëlsira'],
+  ro: ['Aperitive', 'Primul fel', 'Felul principal', 'Garnituri', 'Deserturi'],
+  hr: ['Predjela', 'Prvo jelo', 'Glavna jela', 'Prilozi', 'Deserti'],
+  sl: ['Predjedi', 'Prve jedi', 'Glavne jedi', 'Priloge', 'Sladice']
 };
 
 let currentTab = 'giorno';
@@ -366,7 +366,7 @@ function render() {
   box.innerHTML = `<div class="brand-header">${LOGO_SVG}<h3 style="color:#FF5733; margin-top:8px; font-size:1.2rem; letter-spacing:1px;">✨ MENÙ DEL GIORNO ✨</h3><p style="font-size:0.78rem; font-weight:700; color:#062329; margin-top:2px;">` + new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + `</p></div>`;
 
   if(window.algPanel) box.append(algPanel(lang));
-  const catsMap = ['3 Antipasti', '4 Primi Piatti', '5 Secondi', '6 Desserts'];
+  const catsMap = ['3 Antipasti', '4 Primi Piatti', '5 Secondi', '5 Contorni', '6 Desserts'];
   const titles = TITLES[lang] || TITLES.it;
   const _alg = window.algSplit ? algSplit(CHALKBOARD_ITEMS) : null;
 
@@ -420,7 +420,7 @@ async function loadLiveMenu(){
   try{
     const r=await fetch(FB_MENU_URL+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;
     const raw=await r.json(),m=(Array.isArray(raw)?raw:Object.values(raw||{})).filter(x=>x&&x.name&&!x.soldOut);
-    const food=m.filter(x=>['3 Antipasti','4 Primi Piatti','5 Secondi','6 Desserts'].includes(x.cat)),drinks=m.filter(x=>x.cat==='2 Bevande');
+    const food=m.filter(x=>['3 Antipasti','4 Primi Piatti','5 Secondi','5 Contorni','6 Desserts'].includes(x.cat)),drinks=m.filter(x=>x.cat==='2 Bevande');
     if(!food.length&&!drinks.length)return;
     CHALKBOARD_ITEMS.length=0;window.LUNCH_ON=false;food.forEach(x=>CHALKBOARD_ITEMS.push({cat:x.cat,name:x.name,price:lunchP(x)}));
     WINE_ITEMS.length=0;drinks.forEach(x=>WINE_ITEMS.push({name:x.name,price:Number(x.price)||0,wtype:x.wtype||'',annata:x.annata||'',uv:x.uv||'',alc:x.alc||''}));
@@ -756,6 +756,6 @@ fetch(FBU+'/fidelity/pub/lunch.json?t='+Date.now(),{cache:'no-store'}).then(r=>r
 })();
 </script>
 
-<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9</div>
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.6</div>
 </body>
 </html>
