@@ -227,7 +227,9 @@ const TITLES = {
 
 let currentTab = 'giorno';
 
-function classifyWine(name) {
+function classifyWine(name, wt) {
+  const W = {bollicine:'Bollicine & Metodo Classico', bianchi:'Vini Bianchi & Orange', cerasuoli:'Cerasuoli & Rosati', rossi:'Vini Rossi & Montepulciano', calici:'Calici al vetro'};
+  if (wt && W[wt]) return W[wt];
   const n = name.toLowerCase();
   if (/calice/.test(n)) return 'Calici al vetro';
   if (/metodo classico|charmat|trabocco/.test(n)) return 'Bollicine & Metodo Classico';
@@ -300,7 +302,7 @@ function render() {
 
     const categories = ['Bollicine & Metodo Classico', 'Vini Bianchi & Orange', 'Cerasuoli & Rosati', 'Vini Rossi & Montepulciano', 'Calici al vetro', 'Acqua, Birra & Caffetteria'];
     categories.forEach(catName => {
-      const itemsInCat = WINE_ITEMS.filter(d => classifyWine(d.name) === catName);
+      const itemsInCat = WINE_ITEMS.filter(d => classifyWine(d.name, d.wtype) === catName);
       if(!itemsInCat.length) return;
       
       const h2 = document.createElement('h2');
@@ -312,6 +314,8 @@ function render() {
         const tr = (TRANSLATIONS[item.name]?.[lang]) || (lang!=='it' ? TRANSLATIONS[item.name]?.en : undefined);
         text.innerHTML = `<b>• ${tr || item.name}</b>`;
         if(tr) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
+        { const a = parseFloat(String(item.alc||'').replace(',','.')); const info = [item.annata, item.uv, (a>0&&a<25)?(String(Math.round(a*10)/10).replace('.',',')+'% vol'):''].filter(Boolean).join(' · ');
+          if(info){ const wd = document.createElement('small'); wd.textContent = info; wd.style.cssText='display:block;color:#0E7490;font-weight:700;margin-top:2px;'; text.append(wd); } }
         
         price.className = 'price';
         price.textContent = new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'}).format(item.price);
@@ -386,7 +390,7 @@ async function loadLiveMenu(){
     const food=m.filter(x=>['3 Antipasti','4 Primi Piatti','5 Secondi','6 Desserts'].includes(x.cat)),drinks=m.filter(x=>x.cat==='2 Bevande');
     if(!food.length&&!drinks.length)return;
     CHALKBOARD_ITEMS.length=0;window.LUNCH_ON=false;food.forEach(x=>CHALKBOARD_ITEMS.push({cat:x.cat,name:x.name,price:lunchP(x)}));
-    WINE_ITEMS.length=0;drinks.forEach(x=>WINE_ITEMS.push({name:x.name,price:Number(x.price)||0}));
+    WINE_ITEMS.length=0;drinks.forEach(x=>WINE_ITEMS.push({name:x.name,price:Number(x.price)||0,wtype:x.wtype||'',annata:x.annata||'',uv:x.uv||'',alc:x.alc||''}));
     m.forEach(x=>{if(x.tr&&Object.keys(x.tr).length)TRANSLATIONS[x.name]=x.tr;if(Array.isArray(x.allergens)&&x.allergens.length)LIVE_ALG[x.name]=x.allergens;});
     render();
   }catch(e){console.error(e);}
