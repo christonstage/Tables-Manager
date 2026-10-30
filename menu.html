@@ -574,6 +574,12 @@ body.gz-mode{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;co
 #gzRoot .lang button{border:0;padding:4px 6px}
 #gzRoot #gzLang{width:auto;padding:6px 10px;font-size:.85rem;border-radius:10px;border:1px solid #D5E3E8;background:#fff;font-weight:700}
 body.gz-mode main{display:none}
+html.gz-mode{color-scheme:only light}
+#gzRoot{color:var(--ink)}
+#gzRoot .card{color:var(--ink)}
+#gzRoot .row,#gzRoot .tot{color:var(--ink)}
+#gzRoot .sv-tip{font-size:.78rem;color:var(--muted);margin-top:10px;line-height:1.4}
+#gzRoot .two .btn{margin-top:8px}
 </style>
 <div id="gzRoot" style="display:none">
 <div class="wrap">
@@ -581,6 +587,7 @@ body.gz-mode main{display:none}
   <svg class="logo" viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#E8705A" stroke-width="2.2" fill="#E8705A" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#E8705A"/><text x="110" y="51" text-anchor="middle" fill="#E8705A" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#E8705A" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#E8705A"/><line x1="122" y1="58" x2="192" y2="58" stroke="#E8705A" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#E8705A" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TRATTORIA</text></svg>
   <div class="card"><h1 id="hThanks"></h1><div class="sub" id="hSub"></div></div>
   <div class="card" id="cBill"><h2 id="hBill"></h2><div id="bill"></div></div>
+  <div class="card" id="cSave" style="display:none"></div>
   <div class="card" id="cReview"><div class="stars">⭐⭐⭐⭐⭐</div><h2 id="hRev" style="text-align:center;margin-top:6px;"></h2><div class="sub" id="pRev" style="font-weight:600;"></div><a class="btn" id="aRev" target="_blank" rel="noopener" href="https://g.page/r/CU8mTr5r3HReEBM/review"></a></div>
   <div class="card" id="cFid">
     <div class="fid"><div class="t">ALICETTA · FIDELITY CARD</div><div class="big" id="fEur">—</div><div id="fRule" style="font-weight:800;font-size:.88rem;"></div><div class="bar"><i id="fBar" style="width:0%"></i></div><div id="fNext" style="font-size:.8rem;font-weight:700;"></div><div class="glasses" id="fGl"></div><div id="fAv" style="font-weight:900;"></div><div id="fSoon" style="margin-top:8px;font-size:.8rem;font-weight:800;background:rgba(255,255,255,.6);border-radius:10px;padding:6px 8px;"></div></div>
@@ -656,7 +663,7 @@ function paint(){
   if(!RID)$('cBill').style.display='none';
   else if(!R)$('bill').innerHTML=`<div class="note">${t(window._noBill?'nobill':'wait')}</div>`;
   else $('bill').innerHTML=`<div class="note" style="margin:0 0 6px;">${esc(R.n)} · ${esc(R.h||'')}${R.cop?' · '+R.cop+' '+t('cov'):''}</div>`+(R.it||[]).map(i=>`<div class="row"><span>${i.q}× ${esc(trN(i.n))}</span><b>${money(i.p*i.q)}</b></div>`).join('')+(R.sc?`<div class="row"><span>🏷️ ${({it:'Sconto',en:'Discount',fr:'Remise',de:'Rabatt',es:'Descuento',pl:'Rabat',zh:'折扣',ru:'Скидка',sq:'Zbritje',ro:'Reducere',hr:'Popust',sl:'Popust'})[L]||'Discount'}</span><b>−${money(R.sc)}</b></div>`:'')+`<div class="tot"><span>${t('total')}</span><span>${money(R.tot)}</span></div>`;
-  renderForm();
+  renderForm();saveBox();
 }
 function cardView(p){window._lp=p;const pts=Math.floor(Number(p&&p.eur)||0),pr=pts%EUR,av=Number(p&&p.av)||0;
   $('fEur').textContent=t('pts')(pts);$('fBar').style.width=(pr/EUR*100)+'%';$('fNext').textContent=t('next')(EUR-pr);$('fGl').textContent='🥂'.repeat(Math.min(av,10));$('fAv').textContent=t('av')(av);refBox(p);}
@@ -682,8 +689,36 @@ async function send(p){
 async function readPub(phone){try{const r=await fetch(FB+'/fidelity/pub/'+await pubKey(phone)+'.json?t='+Date.now(),{cache:'no-store'});return r.ok?await r.json():null;}catch(e){return null;}}
 async function watch(phone){const start=Date.now(),before=await readPub(phone),b0=before?Number(before.eur)||0:-1;cardView(before);if(!RID&&before){$('fMsg').textContent=t('joined');return;}
   const tick=async()=>{const p=await readPub(phone);if(p&&(Number(p.eur)||0)!==b0){cardView(p);$('fEur').classList.add('pop');$('fMsg').textContent=RID?t('done'):t('joined');return;}if(Date.now()-start>90000){$('fMsg').textContent=t('later');return;}setTimeout(tick,4000);};setTimeout(tick,3000);}
-async function loadBill(n){if(!RID)return;try{const r=await fetch(FB+'/ricevute/'+RID+'.json?t='+Date.now(),{cache:'no-store'});const d=r.ok?await r.json():null;if(d){R=d;claimed=!!d.claimed;paint();return;}}catch(e){}if(n<10)setTimeout(()=>loadBill(n+1),3000);else{window._noBill=true;paint();}}
-document.documentElement.lang=L;paint();loadBill(0);refInvited();if(me)readPub(me.phone).then(p=>{if(p)cardView(p);});else cardView(null);
+async function loadBill(n){if(!RID)return;try{const r=await fetch(FB+'/ricevute/'+RID+'.json?t='+Date.now(),{cache:'no-store'});const d=r.ok?await r.json():null;if(d){R=d;claimed=!!d.claimed;try{localStorage.setItem('alicetta_last_rid',JSON.stringify({rid:RID,ts:Date.now()}));}catch(e){}paint();return;}}catch(e){}if(n<10)setTimeout(()=>loadBill(n+1),3000);else{window._noBill=true;paint();}}
+
+/* ===== v2.9.20 · Salva la pagina del riepilogo, promemoria e conto non ancora aggiunto ===== */
+const SV={
+it:{t:'💾 Salva questa pagina',p:'Il tuo riepilogo resta qui: salva il link per ritrovarlo e iscriverti al Club quando vuoi. I punti di questo conto ti verranno aggiunti.',sh:'📤 Salva o condividi il link',wa:'💬 Mandamelo su WhatsApp',cp:'📋 Copia il link',rem:'⏰ Ricordamelo domani',ok:'Link copiato ✅',tip:'Oppure dal menu ⋮ del browser: “Aggiungi ai preferiti” o “Aggiungi a schermata Home”.',msg:l=>`Il mio riepilogo e la Fidelity Card di Alicetta Trattoria 🐟 ${l}`,evt:'Alicetta Club: aggiungi i punti del tuo conto',pend:'🧾 Hai un conto non ancora aggiunto ai tuoi punti',padd:'➕ Aggiungi i punti di questo conto'},
+en:{t:'💾 Save this page',p:'Your summary stays here: save the link to find it again and join the Club whenever you like. The points of this bill will be added to your card.',sh:'📤 Save or share the link',wa:'💬 Send it to me on WhatsApp',cp:'📋 Copy the link',rem:'⏰ Remind me tomorrow',ok:'Link copied ✅',tip:'Or from your browser’s ⋮ menu: “Add to bookmarks” or “Add to Home screen”.',msg:l=>`My summary and Fidelity Card from Alicetta Trattoria 🐟 ${l}`,evt:'Alicetta Club: add the points of your bill',pend:'🧾 You have a bill not yet added to your points',padd:'➕ Add the points of this bill'},
+fr:{t:'💾 Enregistrer cette page',p:'Votre récapitulatif reste ici : enregistrez le lien pour le retrouver et rejoindre le Club quand vous voulez. Les points de cette addition seront ajoutés.',sh:'📤 Enregistrer ou partager le lien',wa:'💬 Me l’envoyer sur WhatsApp',cp:'📋 Copier le lien',rem:'⏰ Me le rappeler demain',ok:'Lien copié ✅',tip:'Ou depuis le menu ⋮ du navigateur : « Ajouter aux favoris » ou « Ajouter à l’écran d’accueil ».',msg:l=>`Mon récapitulatif et ma carte de fidélité Alicetta Trattoria 🐟 ${l}`,evt:'Alicetta Club : ajoutez les points de votre addition',pend:'🧾 Vous avez une addition pas encore ajoutée à vos points',padd:'➕ Ajouter les points de cette addition'},
+de:{t:'💾 Diese Seite speichern',p:'Ihre Übersicht bleibt hier: Speichern Sie den Link, um sie wiederzufinden und dem Club beizutreten, wann Sie möchten. Die Punkte dieser Rechnung werden gutgeschrieben.',sh:'📤 Link speichern oder teilen',wa:'💬 Per WhatsApp an mich senden',cp:'📋 Link kopieren',rem:'⏰ Morgen erinnern',ok:'Link kopiert ✅',tip:'Oder im Browser-Menü ⋮: „Lesezeichen hinzufügen“ oder „Zum Startbildschirm hinzufügen“.',msg:l=>`Meine Übersicht und Treuekarte von Alicetta Trattoria 🐟 ${l}`,evt:'Alicetta Club: Punkte Ihrer Rechnung hinzufügen',pend:'🧾 Sie haben eine Rechnung, die noch nicht zu Ihren Punkten gehört',padd:'➕ Punkte dieser Rechnung hinzufügen'},
+es:{t:'💾 Guardar esta página',p:'Tu resumen se queda aquí: guarda el enlace para encontrarlo y unirte al Club cuando quieras. Los puntos de esta cuenta se añadirán a tu tarjeta.',sh:'📤 Guardar o compartir el enlace',wa:'💬 Enviármelo por WhatsApp',cp:'📋 Copiar el enlace',rem:'⏰ Recordármelo mañana',ok:'Enlace copiado ✅',tip:'O desde el menú ⋮ del navegador: «Añadir a favoritos» o «Añadir a la pantalla de inicio».',msg:l=>`Mi resumen y mi tarjeta de fidelidad de Alicetta Trattoria 🐟 ${l}`,evt:'Alicetta Club: añade los puntos de tu cuenta',pend:'🧾 Tienes una cuenta aún no añadida a tus puntos',padd:'➕ Añadir los puntos de esta cuenta'}};
+const sv=k=>(SV[L]||SV.en)[k];
+function saveLink(){return location.origin+location.pathname+'?r='+RID;}
+function saveBox(){const c=document.getElementById('cSave');if(!c)return;if(!RID||claimed||window._sent){c.style.display='none';return;}
+ if(c.dataset.l===L&&c.innerHTML)return;c.dataset.l=L;c.style.display='block';
+ c.innerHTML=`<h2>${sv('t')}</h2><div style="font-size:.88rem;font-weight:600;line-height:1.4;">${sv('p')}</div><button class="btn" id="svSh">${sv('sh')}</button><div class="two" style="gap:8px;"><button class="btn ghost" id="svWa" style="flex:1">${sv('wa')}</button><button class="btn ghost" id="svCp" style="flex:1">${sv('cp')}</button></div><button class="btn ghost" id="svRem">${sv('rem')}</button><div class="sv-tip">${sv('tip')}</div>`;
+ const link=saveLink();
+ const copy=async()=>{try{await navigator.clipboard.writeText(link);const b=document.getElementById('svCp');if(b){b.textContent=sv('ok');setTimeout(()=>{b.textContent=sv('cp');},2500);}}catch(e){window.prompt('Link',link);}};
+ document.getElementById('svSh').onclick=async()=>{if(navigator.share){try{await navigator.share({title:'Alicetta Trattoria',text:sv('msg')(''),url:link});return;}catch(e){if(e&&e.name==='AbortError')return;}}copy();};
+ document.getElementById('svWa').onclick=()=>{window.open('https://wa.me/?text='+encodeURIComponent(sv('msg')(link)),'_blank');};
+ document.getElementById('svCp').onclick=copy;
+ document.getElementById('svRem').onclick=()=>{const p=n=>String(n).padStart(2,'0'),d=new Date();d.setDate(d.getDate()+1);d.setHours(12,0,0,0);const e=new Date(d.getTime()+30*60000),f=x=>x.getFullYear()+p(x.getMonth()+1)+p(x.getDate())+'T'+p(x.getHours())+p(x.getMinutes())+'00',n=new Date(),st=n.getUTCFullYear()+p(n.getUTCMonth()+1)+p(n.getUTCDate())+'T'+p(n.getUTCHours())+p(n.getUTCMinutes())+p(n.getUTCSeconds())+'Z';
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Alicetta//Club//IT','BEGIN:VEVENT','UID:alicetta-'+RID+'@alicetta','DTSTAMP:'+st,'DTSTART:'+f(d),'DTEND:'+f(e),'SUMMARY:'+sv('evt'),'DESCRIPTION:'+link,'URL:'+link,'BEGIN:VALARM','TRIGGER:PT0M','ACTION:DISPLAY','DESCRIPTION:'+sv('evt'),'END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='alicetta-club.ics';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);};}
+async function pendingBill(){if(RID)return;let s=null;try{s=JSON.parse(localStorage.getItem('alicetta_last_rid')||'null');}catch(e){}if(!s||!/^[a-z0-9]{6,20}$/i.test(s.rid||'')||Date.now()-(s.ts||0)>90*864e5)return;
+ try{const r=await fetch(FB+'/ricevute/'+s.rid+'.json?t='+Date.now(),{cache:'no-store'});const d=r.ok?await r.json():null;if(!d||d.claimed)return;
+  let b=document.getElementById('pendB');if(!b){b=document.createElement('div');b.id='pendB';b.style.cssText='margin:0 0 10px;border-radius:14px;padding:12px;background:#FEF3C7;border:2px solid #F59E0B;font-weight:800;font-size:.9rem;text-align:center;color:#062329;';const f=document.getElementById('cFid');if(f)f.prepend(b);}
+  const dt=d.d?new Date(d.d+'T12:00').toLocaleDateString(LOC[L],{day:'numeric',month:'long'}):'';
+  b.innerHTML=`${sv('pend')}<div style="font-weight:700;margin:4px 0 8px;">${esc(d.n||'')}${dt?' · '+dt:''} · ${money(d.tot)}</div><a class="btn" style="margin-top:0" href="${location.pathname}?r=${s.rid}">${sv('padd')}</a>`;}catch(e){}}
+
+document.documentElement.lang=L;paint();loadBill(0);refInvited();pendingBill();if(me)readPub(me.phone).then(p=>{if(p)cardView(p);});else cardView(null);
+
 
 window.setLang=setLang;const _rp=()=>{if(R&&!document.querySelector('#gzRoot input:focus')&&!(($('nm')||{}).value))paint();};setTimeout(_rp,2500);setTimeout(_rp,6000);
 })();
