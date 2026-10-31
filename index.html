@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Chef Bull Brigade - v2.9.20</title>
+<title>Chef Bull Brigade - v2.9.21</title>
 <meta name="application-name" content="Chef Bull Brigade">
 <meta name="apple-mobile-web-app-title" content="Chef Bull Brigade">
 <link rel="apple-touch-icon" href="chef-bull-brigade-icon-192.png">
@@ -256,7 +256,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.20</div></div>
+    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.21</div></div>
   </div>
   <div class="top-actions">
     <div id="waiterDisplay" class="waiter-tag" onclick="openLoginModal()">👤 --</div>
@@ -364,7 +364,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.20)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.21)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="v53Reconnect()" style="background:#22C55E;color:#062329;font-weight:900;">🔄 Riconnetti</button><button class="btn-note" onclick="openLoginModal()">👤 Cambia utente</button><button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -392,7 +392,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.20)</h3>
+      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.21)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -5675,6 +5675,8 @@ setInterval(()=>{if(document.visibilityState==='visible'){try{check();}catch(e){
 window.v2919Check=check;
 })();
 </script>
+<!-- ===== v2.9.21: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
+<style>.sp-st{border-radius:14px;padding:10px 12px;margin:0 0 10px;line-height:1.35}.sp-st b{font-size:.98rem}</style>
 <script>
 (function(){
 const $=id=>document.getElementById(id);const esc=s=>escH(s);
@@ -5688,8 +5690,16 @@ let tt=0;function toast(m,ms){let e=$('miniToast');if(!e){e=document.createEleme
 let SP=(()=>{try{return JSON.parse(localStorage.getItem('alicetta_special')||'null');}catch(e){return null;}})();
 let D=(()=>{try{return JSON.parse(localStorage.getItem('alicetta_special_draft')||'null');}catch(e){return null;}})()||{title:'Menù di Halloween 🎃',date:day(),price:'',inc:'',note:'',text:''};
 let MSG='',busy=false;
+const srcNow=()=>JSON.stringify({t:(D.title||'').trim(),d:D.date||'',p:String(D.price||'').trim(),i:(D.inc||'').trim(),n:(D.note||'').trim(),x:(D.text||'').trim()});
+const dirty=()=>{if(!isOn())return false;try{return localStorage.getItem('alicetta_special_src')!==srcNow();}catch(e){return false;}};
+const hm=ts=>new Date(ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+const mp=(cls,t,p,sub)=>{const b=$('mpBar');if(!b)return;b.className='on'+(cls?' '+cls:'');$('mpT').textContent=t;$('mpI').style.width=p+'%';$('mpS').textContent=sub;};
+function statusBox(){if(busy)return`<div class="sp-st" style="background:#FEF3C7;border:2px solid #F59E0B;color:#78350F;"><b>⏳ Sto pubblicando…</b><div style="font-size:.78rem;font-weight:700;">Guarda la barra in basso: finché non compare ✅ non è ancora online.</div></div>`;
+ if(isOn()){const d=dirty();return d?`<div class="sp-st" style="background:#FFEDD5;border:2px solid #EA580C;color:#7C2D12;"><b>✏️ Pubblicato, ma con modifiche non ancora online</b><div style="font-size:.78rem;font-weight:700;">I clienti vedono ancora la versione delle ${hm(SP.ts)}. Premi “Aggiorna il menù speciale”.</div></div>`:`<div class="sp-st" style="background:#DCFCE7;border:2px solid #16A34A;color:#14532D;"><b>✅ PUBBLICATO · ${hm(SP.ts)}</b><div style="font-size:.78rem;font-weight:700;">I clienti lo vedono già dal QR${SP.verified?' (controllato: è online)':''}.</div></div>`;}
+ return`<div class="sp-st" style="background:#E5E7EB;border:2px solid #9CA3AF;color:#374151;"><b>⚪ NON PUBBLICATO</b><div style="font-size:.78rem;font-weight:700;">I clienti ancora non lo vedono. Compila i piatti e premi “Pubblica”.</div></div>`;}
 const saveD=()=>{try{localStorage.setItem('alicetta_special_draft',JSON.stringify(D));}catch(e){}};
 const isOn=()=>!!(SP&&SP.on&&(SP.secs||[]).length);
+/* testo → sezioni (una riga per piatto, "# " per le portate, prezzo facoltativo in fondo alla riga) */
 function parse(t){const secs=[];let cur=null;String(t||'').split('\n').map(x=>x.trim()).filter(Boolean).forEach(l=>{if(/^#/.test(l)){cur={n:l.replace(/^#+\s*/,''),items:[]};secs.push(cur);return;}
  if(!cur){cur={n:'Menù',items:[]};secs.push(cur);}l=l.replace(/^[-•*]\s*/,'');let p=null;const m=l.match(/^(.*?\S)\s+(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?\s*$/i);if(m&&m[1].length>2){p=num(m[2]);l=m[1].replace(/[-–—:.\s]+$/,'');}
  cur.items.push({n:l,...(p>0?{p}:{})});});return secs.filter(s=>s.items.length);}
@@ -5697,7 +5707,7 @@ function toText(secs){return(secs||[]).map(s=>'# '+s.n+'\n'+(s.items||[]).map(i=
 async function pull(){try{const d=await fbGet('/fidelity/pub/special');if(d&&typeof d==='object'){SP=d;localStorage.setItem('alicetta_special',JSON.stringify(d));}}catch(e){}}
 function place(){if(!isOwner())return;const dc=$('dishesContent');if(!dc||$('spCard'))return;const c=document.createElement('div');c.className='cart-section';c.id='spCard';const lu=$('luCard');if(lu)lu.after(c);else dc.before(c);draw();pull().then(()=>{if($('spCard')&&!busy)draw();});}
 function draw(){const c=$('spCard');if(!c)return;const on=isOn();
- c.innerHTML=`<div class="cs-h"><h3>🎃 Menù speciale</h3><span class="fc-sub">${on?'<b style="color:#EA580C;">pubblicato</b>':'non pubblicato'}</span></div>
+ c.innerHTML=`<div class="cs-h" style="margin-bottom:6px;"><h3>🎃 Menù speciale</h3></div>${statusBox()}
  <div class="fc-sub" style="margin-bottom:8px;line-height:1.4;">Per le serate a tema (Halloween, Capodanno…): carichi i piatti della serata e i clienti li vedono con un QR dedicato. Il menù alla carta <b>non viene toccato</b>.</div>
  <label class="btn-note" style="display:block;text-align:center;padding:12px;cursor:pointer;">📸 Foto del menù speciale (leggo io i piatti)<input type="file" accept="image/*" multiple style="display:none" onchange="v2920Photo(this)"></label>
  ${MSG?`<div class="fc-sub" style="font-weight:800;margin:6px 0;">${MSG}</div>`:''}
@@ -5722,16 +5732,33 @@ window.v2920Photo=async inp=>{const fs=[...(inp.files||[])];inp.value='';if(!fs.
   MSG=`✅ Letti ${secs.reduce((a,s)=>a+s.items.length,0)} piatti in ${secs.length} portate. Controlla e premi “Pubblica”.`;}
  catch(e){MSG='❌ '+esc(e.message||e);}draw();};
 async function translate(names){const need=[...new Set(names.filter(Boolean))];if(!need.length||!getGeminiKey())return{};try{const r=await callGemini([{text:`Traduci questi testi di un menù speciale di una trattoria di pesce abruzzese in inglese (en), tedesco (de), francese (fr) e spagnolo (es). Resta fedele, non aggiungere ingredienti, non tradurre i nomi propri. Rispondi SOLO JSON: {"<testo italiano>":{"en":"","de":"","fr":"","es":""}}. Testi: ${JSON.stringify(need)}`}],true,{temperature:.1});const o=jparse(r),m={};Object.keys(o).forEach(k=>{if(o[k]&&typeof o[k]==='object')m[k]=o[k];});return m;}catch(e){return{};}}
-window.v2920Pub=async()=>{if(busy)return;const secs=parse(D.text);if(!secs.length){MSG='Scrivi o fotografa i piatti della serata.';draw();return;}
- busy=true;MSG='⏳ Traduco e pubblico…';draw();
+window.v2920Pub=async()=>{if(busy)return false;const secs=parse(D.text);if(!secs.length){MSG='Scrivi o fotografa i piatti della serata.';mp('warn','⚠️ Mancano i piatti',0,'Scrivi o fotografa i piatti della serata, poi premi Pubblica.');setTimeout(v2918MpClose,5000);draw();return false;}
+ busy=true;MSG='';draw();let ok=false,creep=0;
  try{const title=(D.title||'').trim()||'Menù speciale',inc=(D.inc||'').trim(),note=(D.note||'').trim();
-  const names=[title,inc,note,...secs.map(s=>s.n),...secs.flatMap(s=>s.items.map(i=>i.n))];const T=await translate(names);
+  mp('','Pubblico il menù speciale… 10%',10,'1/4 · Preparo i piatti ('+secs.reduce((a,s)=>a+s.items.length,0)+' piatti in '+secs.length+' portate)');
+  const names=[title,inc,note,...secs.map(s=>s.n),...secs.flatMap(s=>s.items.map(i=>i.n))];
+  let p=20;mp('','Pubblico il menù speciale… '+p+'%',p,getGeminiKey()?'2/4 · Traduco in inglese, tedesco, francese e spagnolo…':'2/4 · Salto le traduzioni (manca la chiave Gemini)');
+  creep=setInterval(()=>{if(p<65){p+=3;mp('','Pubblico il menù speciale… '+p+'%',p,'2/4 · Traduco in inglese, tedesco, francese e spagnolo…');}},1200);
+  const T=await translate(names);clearInterval(creep);creep=0;
+  mp('','Pubblico il menù speciale… 75%',75,'3/4 · Metto il menù online…');
   const data={on:true,title,titletr:T[title]||null,d:D.date||day(),price:num(D.price)>0?num(D.price):null,inc,inctr:inc?(T[inc]||null):null,note,notetr:note?(T[note]||null):null,secs:secs.map(s=>({n:s.n,tr:T[s.n]||null,items:s.items.map(i=>({n:i.n,tr:T[i.n]||null,...(i.p>0?{p:i.p}:{})}))})),ts:Date.now(),by:(state.waiterName||'').trim()};
-  await fbSend('/fidelity/pub/special','PUT',data);SP=data;try{localStorage.setItem('alicetta_special',JSON.stringify(data));}catch(e){}
-  MSG='✅ Menù speciale pubblicato: il QR mostra già questo menù.'+(Object.keys(T).length?'':' (senza traduzioni: manca Gemini o è occupato)');if(window.v22Confetti)v22Confetti(70);}
- catch(e){MSG='⚠️ Non pubblicato: '+esc(e.message||e);}busy=false;draw();};
-window.v2920View=()=>{if(!isOn())return alert('Prima pubblica il menù speciale: poi lo vedi come lo vedono i clienti.');window.open(link(),'_blank');};
-window.v2920Off=async()=>{if(!confirm('Togliere il menù speciale? Il QR mostrerà “non disponibile”.'))return;try{await fbSend('/fidelity/pub/special','PUT',{on:false,ts:Date.now()});}catch(e){}SP=null;try{localStorage.removeItem('alicetta_special');}catch(e){}MSG='Menù speciale tolto.';draw();};
+  await fbSend('/fidelity/pub/special','PUT',data);
+  mp('','Pubblico il menù speciale… 90%',90,'4/4 · Controllo che sia davvero online…');
+  let verified=false;try{const c=await fbGet('/fidelity/pub/special');verified=!!(c&&c.on&&c.ts===data.ts);}catch(e){}
+  data.verified=verified;SP=data;try{localStorage.setItem('alicetta_special',JSON.stringify(data));localStorage.setItem('alicetta_special_src',srcNow());}catch(e){}
+  const nt=Object.keys(T).length;
+  if(verified){mp('done','✅ Menù speciale PUBBLICATO',100,'Alle '+hm(data.ts)+' · online e controllato · '+data.secs.reduce((a,s)=>a+s.items.length,0)+' piatti'+(nt?' · tradotto in 4 lingue':' · senza traduzioni (Gemini non ha risposto)')+'. I clienti lo vedono dal QR.');}
+  else{mp('warn','⚠️ Pubblicato, ma non riesco a controllarlo',100,'Il menù è stato inviato ma non ho potuto verificarlo. Premi “Vedi come lo vedono i clienti” per controllare.');}
+  ok=true;if(window.v22Confetti&&verified)v22Confetti(70);setTimeout(()=>{const b=$('mpBar');if(b&&b.classList.contains('done'))v2918MpClose();},15000);}
+ catch(e){if(creep)clearInterval(creep);mp('warn','❌ Menù speciale NON pubblicato',0,'Errore: '+(e.message||e)+'. Controlla la connessione e riprova.');}
+ busy=false;draw();return ok;};
+window.v2920View=async()=>{if(busy)return;const url=link();
+ if(!isOn()){if(!parse(D.text).length)return alert('Non c’è ancora nessun menù speciale: scrivi o fotografa i piatti e premi “Pubblica”.');
+  if(!confirm('Il menù speciale non è ancora pubblicato.\n\nOK = lo pubblico adesso e poi te lo mostro\nAnnulla = non faccio niente'))return;
+  const w=window.open('about:blank','_blank');const ok=await v2920Pub();if(ok&&w)w.location.href=url;else if(w)w.close();return;}
+ if(dirty()){if(confirm('Hai modifiche non ancora pubblicate: i clienti vedono la versione vecchia.\n\nOK = pubblico le modifiche e poi guardo\nAnnulla = guardo la versione già pubblicata')){const w=window.open('about:blank','_blank');const ok=await v2920Pub();if(w){if(ok)w.location.href=url;else w.close();}return;}}
+ window.open(url,'_blank');};
+window.v2920Off=async()=>{if(!confirm('Togliere il menù speciale? Il QR mostrerà “non disponibile”.'))return;try{await fbSend('/fidelity/pub/special','PUT',{on:false,ts:Date.now()});}catch(e){}SP=null;try{localStorage.removeItem('alicetta_special');}catch(e){}MSG='';try{localStorage.removeItem('alicetta_special_src');}catch(e){}mp('done','🗑️ Menù speciale tolto',100,'Il QR ora mostra “non disponibile”.');setTimeout(v2918MpClose,6000);draw();};
 window.v2920Copy=async()=>{try{await navigator.clipboard.writeText(link());toast('📋 Link copiato');}catch(e){prompt('Link:',link());}};
 window.v2920Print=()=>{const q=$('spQr'),cv=q&&q.querySelector('canvas'),src=cv?cv.toDataURL('image/png'):((q&&q.querySelector('img'))||{}).src;if(!src)return toast('QR non disponibile offline');const w=window.open('','_blank');if(!w)return;
  w.document.write(`<!DOCTYPE html><html><head><title>QR menù speciale</title><style>body{font-family:Arial,sans-serif;text-align:center;padding:30px}h1{color:#EA580C;margin:0 0 6px}h2{margin:0 0 20px}img{width:300px;height:300px}p{font-size:18px;color:#444}</style></head><body><h1>ALICETTA TRATTORIA</h1><h2>${esc(D.title||'Menù speciale')}</h2><img src="${src}"><p>Inquadra il QR per vedere il menù della serata</p><p style="font-size:14px">Scan to see tonight’s special menu</p></body></html>`);w.document.close();setTimeout(()=>{try{w.print();}catch(e){}},500);};
