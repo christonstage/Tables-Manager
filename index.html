@@ -56,6 +56,11 @@ article small,small{color:var(--muted)!important;font-size:.78rem!important;line
 </style>
 </head>
 <body>
+<script>
+/* ===== v2.9.29 · Se l'icona dell'app dello staff apre il menù: torna subito a Chef Bull ===== */
+(function(){try{var st=['standalone','fullscreen','minimal-ui'].some(function(m){return window.matchMedia&&matchMedia('(display-mode: '+m+')').matches;})||navigator.standalone;
+ if(st&&!location.search&&!document.referrer&&localStorage.getItem('alicetta_pos_v9')){location.replace(location.pathname.replace(/[^/]*$/,'')+'index.html');}}catch(e){}})();
+</script>
 <main>
   <div class="nav-bar">
     <button class="btn-tab active" id="btnGiorno" onclick="switchTab('giorno')">🍽️ Menù del Giorno</button>
@@ -846,7 +851,6 @@ fetch(FBU+'/fidelity/pub/special.json?t='+Date.now(),{cache:'no-store'}).then(r=
  a.style.cssText='position:fixed;left:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:100000;background:#FF2E93;color:#fff;font-weight:900;font-size:1rem;padding:13px 18px;border-radius:999px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.35);border:3px solid #062329;font-family:inherit;';
  document.body.appendChild(a);}catch(e){}})();
 </script>
-<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.28</div>
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.29</div>
 </body>
 </html>
-
