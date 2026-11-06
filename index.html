@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Chef Bull Brigade - v2.9.26</title>
+<title>Chef Bull Brigade - v2.9.27</title>
 <meta name="application-name" content="Chef Bull Brigade">
 <meta name="apple-mobile-web-app-title" content="Chef Bull Brigade">
 <link rel="apple-touch-icon" href="chef-bull-brigade-icon-192.png">
@@ -256,7 +256,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.26</div></div>
+    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.27</div></div>
   </div>
   <div class="top-actions">
     <div id="waiterDisplay" class="waiter-tag" onclick="openLoginModal()">👤 --</div>
@@ -364,7 +364,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.26)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.27)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="v53Reconnect()" style="background:#22C55E;color:#062329;font-weight:900;">🔄 Riconnetti</button><button class="btn-note" onclick="openLoginModal()">👤 Cambia utente</button><button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -392,7 +392,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.26)</h3>
+      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.27)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -4144,7 +4144,7 @@ const base=()=>location.origin+location.pathname.replace(/[^/]*$/,'');
 setTimeout(()=>{if(!isOwner())return;let ch=false;(state.menu||[]).forEach(m=>{if('lp' in m||'lpd' in m){delete m.lp;delete m.lpd;ch=true;}});if(ch)saveState(false,{menu:true});},6000);
 
 let LU=(()=>{try{return JSON.parse(localStorage.getItem('alicetta_lunch')||'null');}catch(e){return null;}})(),LUmsg='',LUtr={},LUdraft=null;
-const lunchToday=()=>LU&&LU.d===day()&&(LU.secs||[]).some(s=>(s.items||[]).length);
+const lunchToday=()=>LU&&(LU.secs||[]).some(s=>(s.items||[]).length);
 const lunchHour=()=>{const h=new Date().getHours();return h>=5&&h<SVC_CUT;};
 const lunchLink=()=>base()+'menu.html?pranzo=1';
 function luSave(){try{localStorage.setItem('alicetta_lunch',JSON.stringify(LU));}catch(e){}}
@@ -5675,7 +5675,7 @@ setInterval(()=>{if(document.visibilityState==='visible'){try{check();}catch(e){
 window.v2919Check=check;
 })();
 </script>
-<!-- ===== v2.9.26: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
+<!-- ===== v2.9.27: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <!-- ===== v2.9.20: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <!-- ===== v2.9.20: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <style>#mpBar .mp-s{white-space:pre-line}#mpBar .mp-t{line-height:1.25}.sp-st{border-radius:14px;padding:10px 12px;margin:0 0 10px;line-height:1.35}.sp-st b{font-size:.98rem}</style>
@@ -5781,7 +5781,7 @@ window.v2920Print=()=>{const q=$('spQr'),cv=q&&q.querySelector('canvas'),src=cv?
 setInterval(()=>{try{place();}catch(e){}},1500);
 })();
 </script>
-<!-- ===== v2.9.26: report ore lavorate per qualsiasi giorno, mese o anno + CSV del periodo scelto ===== -->
+<!-- ===== v2.9.27: report ore lavorate per qualsiasi giorno, mese o anno + CSV del periodo scelto ===== -->
 <script>
 (function(){
 const pad=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
@@ -5805,7 +5805,7 @@ exportTimeCSV=function(){const p=per(),ref=refD(),S=periodShifts().sort((a,b)=>a
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+rows.join('\n')],{type:'text/csv'}));a.download='presenze_'+pre(p,ref)+'.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);};
 })();
 </script>
-<!-- ===== v2.9.26: scorte per portata · piatti contati in giallo con ! · ricevuta su Epson TM-m30III (RawBT) ===== -->
+<!-- ===== v2.9.27: scorte per portata · piatti contati in giallo con ! · ricevuta su Epson TM-m30III (RawBT) ===== -->
 <style>
 .st-gh{margin:14px 0 4px;padding:7px 12px;border-radius:12px;background:#062329;color:#fff;font-size:1rem;font-weight:900;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .st-gh span{font-size:.72rem;font-weight:700;opacity:.85}
@@ -5852,6 +5852,18 @@ function rcBtns(){document.querySelectorAll('#hub_sales_conti button[onclick^="v
 new MutationObserver(()=>{clearTimeout(window._rcT);window._rcT=setTimeout(()=>{try{rcBtns();}catch(e){}},150);}).observe(document.body,{childList:true,subtree:true});
 /* tasto Ricevuta nella finestra QR Grazie dopo il pagamento */
 {const _s=showReceiptQr;showReceiptQr=function(rid){const r=_s.apply(this,arguments);try{const a=document.querySelector('#rcptModal .modal-actions');if(a&&!a.querySelector('.v2925pr')){const b=document.createElement('button');b.className='btn-modal v2925pr';b.style.cssText='background:#0E7490;color:#fff;';b.textContent='🖨️ Ricevuta';b.onclick=()=>v2925PrintBill(rid);a.prepend(b);}}catch(e){}return r;};}
+})();
+</script>
+<!-- ===== v2.9.27: menù pranzo sempre visibile finché non lo sostituisci · QR e anteprima pranzo per tutti ===== -->
+<div class="modal-overlay" id="luQrModal"><div class="receipt-box" style="text-align:center;max-width:400px;"><h3 style="color:var(--logo-coral);margin-bottom:4px;">🌞 Menù del pranzo</h3><div style="font-weight:700;margin-bottom:10px;">Inquadra il codice con la fotocamera</div><div id="luQrBox" style="display:flex;justify-content:center;background:#fff;padding:12px;border-radius:14px;"></div><div id="luQrLink" style="font-size:.72rem;color:var(--muted);margin-top:8px;word-break:break-all;"></div><div class="modal-actions" style="margin-top:12px;"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('luQrModal').classList.remove('active')">Chiudi</button><button class="btn-modal" style="background:#F59E0B;color:#062329;" onclick="v2931LuView()">👀 Vedi</button></div></div></div>
+<script>
+(function(){
+const luLink=()=>location.origin+location.pathname.replace(/[^/]*$/,'')+'menu.html?pranzo=1';
+window.v2931LuView=()=>window.open(luLink(),'_blank');
+window.v2931LuQr=()=>{const b=document.getElementById('luQrBox');b.innerHTML='';try{new QRCode(b,{text:luLink(),width:240,height:240,colorDark:'#062329',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}catch(e){b.textContent='QR non disponibile';}document.getElementById('luQrLink').textContent=luLink();document.getElementById('luQrModal').classList.add('active');};
+{const _q=showQrModal;showQrModal=function(){const r=_q.apply(this,arguments);try{const ov=document.getElementById('qrModal');if(!ov||!ov.classList.contains('active'))return r;const box=ov.querySelector('.receipt-box');if(!box||box.querySelector('.v2931lu'))return r;const close=box.querySelector('button.btn-modal');
+ const d=document.createElement('div');d.className='v2931lu';d.innerHTML='<button class="btn-main" style="width:100%;margin-bottom:8px;background:#FDE047;color:#062329;" onclick="v2931LuQr()">🌞 QR del menù pranzo</button><button class="btn-main" style="width:100%;margin-bottom:8px;background:#F59E0B;color:#062329;" onclick="v2931LuView()">👀 Vedi il menù pranzo come i clienti</button>';
+ if(close)close.before(d);else box.appendChild(d);}catch(e){}return r;};}
 })();
 </script>
 <script>initApp();</script>
