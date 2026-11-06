@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Chef Bull Brigade - v2.9.29</title>
+<title>Chef Bull Brigade - v2.9.30</title>
 <meta name="application-name" content="Chef Bull Brigade">
 <meta name="apple-mobile-web-app-title" content="Chef Bull Brigade">
 <link rel="apple-touch-icon" href="chef-bull-brigade-icon-192.png">
@@ -256,7 +256,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.29</div></div>
+    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.30</div></div>
   </div>
   <div class="top-actions">
     <div id="waiterDisplay" class="waiter-tag" onclick="openLoginModal()">👤 --</div>
@@ -364,7 +364,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.29)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.30)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="v53Reconnect()" style="background:#22C55E;color:#062329;font-weight:900;">🔄 Riconnetti</button><button class="btn-note" onclick="openLoginModal()">👤 Cambia utente</button><button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -392,7 +392,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.29)</h3>
+      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.30)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -1585,15 +1585,15 @@ function ccClosures(){const c=state.staffCfg=state.staffCfg||{};return c.closure
 function renderCashClose(){
   const el=document.getElementById('cashClose');if(!el)return;const ae=document.activeElement;if(ae&&el.contains(ae)&&ae.tagName==='INPUT')return;const dr={rtCash:ccNum('ccRtCash'),rtEl:ccNum('ccRtEl'),pos:ccNum('ccPos'),suCash:ccNum('ccSuCash'),k:el.dataset.k};const[a,b]=contiRange();
   const reg=Object.entries(ccClosures()).map(([k,v])=>({k,...v})).sort((x,y)=>String(y.k).localeCompare(String(x.k))).slice(0,20);
-  const regHtml=`<div style="margin-top:12px;"><div style="font-weight:900;font-size:.9rem;margin-bottom:4px;">📒 Registro chiusure</div>${reg.map(r=>{const[d,s]=r.k.split('|');return `<div onclick="ccOpen('${r.k}')" style="cursor:pointer;display:flex;justify-content:space-between;gap:8px;font-size:.8rem;padding:6px 0;border-bottom:1px dashed var(--border);"><span>${new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'numeric'})} · ${s==='pranzo'?'☀️ Pranzo':s==='cena'?'🌙 Cena':'📅 Giornata'} <span style="color:var(--logo-coral);font-weight:900;">›</span><br><span style="color:var(--muted);">${escH(r.by||'')} · ${r.at?new Date(r.at).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}):''}</span></span><span style="font-weight:900;text-align:right;color:${r.ok?'#166534':'#B91C1C'};">${r.auto?'<span style="color:#0369A1;">🔄 Ricostruita</span>':r.ok?'✅ Quadrata':'⚠️ Da sistemare'}${r.ok?'':`<br><span style="font-size:.72rem;">${ccDiffTxt(r.diff)}</span>`}<br><button class="btn-note" style="padding:2px 8px;font-size:.7rem;margin-top:3px;" onclick="event.stopPropagation();ccDelete('${r.k}')">🗑️</button></span></div>`;}).join('')||'<div style="font-size:.8rem;color:var(--muted);">Nessuna chiusura registrata.</div>'}</div>`;
+  const regHtml=`<div style="margin-top:12px;"><div style="font-weight:900;font-size:.9rem;margin-bottom:4px;">📒 Registro chiusure</div>${reg.map(r=>{const[d,s]=r.k.split('|');return `<div onclick="ccOpen('${r.k}')" style="cursor:pointer;display:flex;justify-content:space-between;gap:8px;font-size:.8rem;padding:6px 0;border-bottom:1px dashed var(--border);"><span>${new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'numeric'})} · ${s==='pranzo'?'☀️ Pranzo':s==='cena'?'🌙 Cena':'📅 Giornata'} <span style="color:var(--logo-coral);font-weight:900;">›</span><br><span style="color:var(--muted);">${escH(r.by||'')} · ${r.at?new Date(r.at).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}):''}</span>${window.v2930DayTot?v2930DayTot(d,s):''}</span><span style="font-weight:900;text-align:right;color:${r.ok?'#166534':'#B91C1C'};">${r.auto?'<span style="color:#0369A1;">🔄 Ricostruita</span>':r.ok?'✅ Quadrata':'⚠️ Da sistemare'}${r.ok?'':`<br><span style="font-size:.72rem;">${ccDiffTxt(r.diff)}</span>`}<br><button class="btn-note" style="padding:2px 8px;font-size:.7rem;margin-top:3px;" onclick="event.stopPropagation();ccDelete('${r.k}')">🗑️</button></span></div>`;}).join('')||'<div style="font-size:.8rem;color:var(--muted);">Nessuna chiusura registrata.</div>'}</div>`;
   if(a!==b){el.innerHTML=`<h3 style="margin-bottom:6px;">🧾 Chiusura cassa</h3><div style="font-size:.8rem;color:var(--muted);">Per fare una chiusura scegli in alto Oggi, Ieri o un giorno preciso, oppure tocca una riga del registro qui sotto per riaprirla.</div>`+regHtml;return;}
   if(!state.ccSvc)state.ccSvc='giorno';
   const L=(state.historyLog||[]).filter(e=>e&&svcDate(e)===a&&(state.ccSvc==='giorno'||svcOf(e)===state.ccSvc)),S=sumBlock(L),k=ccKey(a,state.ccSvc),sv=ccClosures()[k]||{};el.dataset.k=k;const pv=f=>dr.k===k&&dr[f]!=null?dr[f]:(sv[f]??'');
-  el.innerHTML=`<h3 style="margin-bottom:6px;">🧾 Chiusura cassa</h3><div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">Inserisci i totali del registratore telematico e del POS: l’app li confronta con i conti chiusi e ti segnala gli scontrini dimenticati. Se i totali che leggi sono di tutta la giornata (chiusura Z, report POS del giorno), scegli “Giornata intera”.</div>
+  el.innerHTML=`<h3 style="margin-bottom:6px;">🧾 Chiusura cassa</h3><div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">Inserisci i totali del registratore locale e del POS: l’app li confronta con i conti chiusi e ti segnala gli scontrini dimenticati. Se i totali che leggi sono di tutta la giornata (chiusura Z, report POS del giorno), scegli “Giornata intera”.</div>
   <div class="cat-bar" style="margin-bottom:8px;"><button class="cat-btn${state.ccSvc==='giorno'?' active':''}" onclick="state.ccSvc='giorno';renderCashClose();">📅 Giornata intera</button><button class="cat-btn${state.ccSvc==='pranzo'?' active':''}" onclick="state.ccSvc='pranzo';renderCashClose();">☀️ Pranzo</button><button class="cat-btn${state.ccSvc==='cena'?' active':''}" onclick="state.ccSvc='cena';renderCashClose();">🌙 Cena</button></div>
   <div style="font-size:.8rem;font-weight:800;margin-bottom:8px;">Nell’app: 💵 € ${formatPrice(S.cash)} · 💳 € ${formatPrice(S.card)} · ${S.n} conti${S.nd?` · <span style="color:#B91C1C;">❔ € ${formatPrice(S.nd)} senza forma di pagamento: sistemali prima</span>`:''}</div>
-  <label style="font-size:.78rem;font-weight:800;">Registratore telematico · contanti (€)</label><input id="ccRtCash" class="form-control" type="number" inputmode="decimal" step="0.01" style="margin:4px 0 8px;" value="${pv('rtCash')}">
-  <label style="font-size:.78rem;font-weight:800;">Registratore telematico · elettronico (€)</label><input id="ccRtEl" class="form-control" type="number" inputmode="decimal" step="0.01" style="margin:4px 0 8px;" value="${pv('rtEl')}">
+  <label style="font-size:.78rem;font-weight:800;">Registratore locale · contanti (€)</label><input id="ccRtCash" class="form-control" type="number" inputmode="decimal" step="0.01" style="margin:4px 0 8px;" value="${pv('rtCash')}">
+  <label style="font-size:.78rem;font-weight:800;">Registratore locale · elettronico (€)</label><input id="ccRtEl" class="form-control" type="number" inputmode="decimal" step="0.01" style="margin:4px 0 8px;" value="${pv('rtEl')}">
   <label style="font-size:.78rem;font-weight:800;">SumUp / POS · carte (€)</label><input id="ccPos" class="form-control" type="number" inputmode="decimal" step="0.01" style="margin:4px 0 8px;" value="${pv('pos')}">
   <label style="font-size:.78rem;font-weight:800;">SumUp · contanti registrati (€)</label><input id="ccSuCash" class="form-control" type="number" inputmode="decimal" step="0.01" style="margin:4px 0 8px;" value="${pv('suCash')}">
   <button class="btn-main btn-print" style="width:100%;" onclick="saveCashClose()">✅ Verifica e salva chiusura</button>
@@ -5675,7 +5675,7 @@ setInterval(()=>{if(document.visibilityState==='visible'){try{check();}catch(e){
 window.v2919Check=check;
 })();
 </script>
-<!-- ===== v2.9.29: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
+<!-- ===== v2.9.30: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <!-- ===== v2.9.20: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <!-- ===== v2.9.20: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <style>#mpBar .mp-s{white-space:pre-line}#mpBar .mp-t{line-height:1.25}.sp-st{border-radius:14px;padding:10px 12px;margin:0 0 10px;line-height:1.35}.sp-st b{font-size:.98rem}</style>
@@ -5781,7 +5781,7 @@ window.v2920Print=()=>{const q=$('spQr'),cv=q&&q.querySelector('canvas'),src=cv?
 setInterval(()=>{try{place();}catch(e){}},1500);
 })();
 </script>
-<!-- ===== v2.9.29: report ore lavorate per qualsiasi giorno, mese o anno + CSV del periodo scelto ===== -->
+<!-- ===== v2.9.30: report ore lavorate per qualsiasi giorno, mese o anno + CSV del periodo scelto ===== -->
 <script>
 (function(){
 const pad=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
@@ -5805,7 +5805,7 @@ exportTimeCSV=function(){const p=per(),ref=refD(),S=periodShifts().sort((a,b)=>a
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+rows.join('\n')],{type:'text/csv'}));a.download='presenze_'+pre(p,ref)+'.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);};
 })();
 </script>
-<!-- ===== v2.9.29: scorte per portata · piatti contati in giallo con ! · ricevuta su Epson TM-m30III (RawBT) ===== -->
+<!-- ===== v2.9.30: scorte per portata · piatti contati in giallo con ! · ricevuta su Epson TM-m30III (RawBT) ===== -->
 <style>
 .st-gh{margin:14px 0 4px;padding:7px 12px;border-radius:12px;background:#062329;color:#fff;font-size:1rem;font-weight:900;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .st-gh span{font-size:.72rem;font-weight:700;opacity:.85}
@@ -5854,7 +5854,7 @@ new MutationObserver(()=>{clearTimeout(window._rcT);window._rcT=setTimeout(()=>{
 {const _s=showReceiptQr;showReceiptQr=function(rid){const r=_s.apply(this,arguments);try{const a=document.querySelector('#rcptModal .modal-actions');if(a&&!a.querySelector('.v2925pr')){const b=document.createElement('button');b.className='btn-modal v2925pr';b.style.cssText='background:#0E7490;color:#fff;';b.textContent='🖨️ Ricevuta';b.onclick=()=>v2925PrintBill(rid);a.prepend(b);}}catch(e){}return r;};}
 })();
 </script>
-<!-- ===== v2.9.29: menù pranzo sempre visibile finché non lo sostituisci · QR e anteprima pranzo per tutti ===== -->
+<!-- ===== v2.9.30: menù pranzo sempre visibile finché non lo sostituisci · QR e anteprima pranzo per tutti ===== -->
 <div class="modal-overlay" id="luQrModal"><div class="receipt-box" style="text-align:center;max-width:400px;"><h3 style="color:var(--logo-coral);margin-bottom:4px;">🌞 Menù del pranzo</h3><div style="font-weight:700;margin-bottom:10px;">Inquadra il codice con la fotocamera</div><div id="luQrBox" style="display:flex;justify-content:center;background:#fff;padding:12px;border-radius:14px;"></div><div id="luQrLink" style="font-size:.72rem;color:var(--muted);margin-top:8px;word-break:break-all;"></div><div class="modal-actions" style="margin-top:12px;"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('luQrModal').classList.remove('active')">Chiudi</button><button class="btn-modal" style="background:#F59E0B;color:#062329;" onclick="v2931LuView()">👀 Vedi</button></div></div></div>
 <script>
 (function(){
@@ -5866,7 +5866,7 @@ window.v2931LuQr=()=>{const b=document.getElementById('luQrBox');b.innerHTML='';
  if(close)close.before(d);else box.appendChild(d);}catch(e){}return r;};}
 })();
 </script>
-<!-- ===== v2.9.29: chiusure mancanti ricostruite · chiusura cassa obbligatoria a fine serata ===== -->
+<!-- ===== v2.9.30: chiusure mancanti ricostruite · chiusura cassa obbligatoria a fine serata ===== -->
 <div id="ccBanner" onclick="v2928Go()" style="display:none;position:fixed;left:10px;right:10px;top:calc(112px + env(safe-area-inset-top,0px));z-index:95;background:#B91C1C;color:#fff;font-weight:900;border-radius:14px;padding:10px 12px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.35);cursor:pointer;">⚠️ Chiusura cassa di stasera da fare · tocca qui</div>
 <script>
 (function(){
@@ -5887,7 +5887,7 @@ function tick(){const b=document.getElementById('ccBanner');if(!b)return;let on=
 setInterval(tick,5000);
 })();
 </script>
-<!-- ===== v2.9.29: punti Club a mano · chiusura di un altro giorno · scorrere i giorni negli incassi · pranzo sopra il menù speciale ===== -->
+<!-- ===== v2.9.30: punti Club a mano · chiusura di un altro giorno · scorrere i giorni negli incassi · pranzo sopra il menù speciale ===== -->
 <script>
 (function(){
 const $=id=>document.getElementById(id);
@@ -5915,6 +5915,63 @@ window.v2929Day=n=>{const[a,b]=contiRange();let d=(a===b?a:svcToday());d=addD(d,
  if(bar)bar.after(d);else T.prepend(d);}}catch(e){}return r;};}
 /* ---------- 4. Menù pranzo sopra il menù speciale ---------- */
 setInterval(()=>{try{const lu=$('luCard'),sp=$('spCard');if(lu&&sp&&(sp.compareDocumentPosition(lu)&Node.DOCUMENT_POSITION_FOLLOWING))sp.before(lu);}catch(e){}},1200);
+})();
+</script>
+<!-- ===== v2.9.30: registratore locale · totali accanto a ogni chiusura · allineamento con SumUp dal 21/10 ===== -->
+<div class="modal-overlay" id="suModal"><div class="receipt-box" id="suBox" style="max-width:560px;max-height:88vh;overflow:auto;"></div></div>
+<script>
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);
+const isOwner=()=>/^christian$/i.test((state.waiterName||'').trim());
+const isSU=e=>/sumup/i.test(String(e&&e.pay&&e.pay.via||''));
+const r2=n=>Math.round((Number(n)||0)*100)/100;
+/* ---------- totali accanto a ogni chiusura ---------- */
+window.v2930DayTot=(d,s)=>{try{const L=(state.historyLog||[]).filter(e=>e&&svcDate(e)===d&&(s==='giorno'||!s||svcOf(e)===s));const tot=L.reduce((a,e)=>a+(Number(e.total)||0),0),su=L.filter(isSU).reduce((a,e)=>a+(Number(e.total)||0),0);
+ return `<br><span style="font-weight:800;color:var(--text,inherit);">Tot € ${formatPrice(tot)} · 🏪 Cassa locale € ${formatPrice(tot-su)} · 🟦 SumUp € ${formatPrice(su)}</span>`;}catch(e){return'';}};
+/* ---------- pagamenti letti dal terminale SumUp (foto del 06/11) ---------- */
+const SU=[['2026-11-06','15:26',122,'split'],['2026-11-06','15:21',64,'cash'],['2026-11-06','14:18',56,'cash'],['2026-11-06','14:09',51,'card'],
+['2026-11-05','14:48',74,'cash'],['2026-11-05','14:28',74,'card'],
+['2026-10-31','20:03',22,'cash'],['2026-10-31','15:16',86,'card'],['2026-10-31','13:51',89,'card'],
+['2026-10-30','22:25',10,'cash'],['2026-10-30','22:13',111.5,'card'],
+['2026-10-29','21:12',70,'card'],
+['2026-10-25','22:11',64,'card'],['2026-10-25','15:13',70,'card'],['2026-10-25','15:10',99,'card'],['2026-10-25','14:18',74,'card'],['2026-10-25','14:12',49,'card'],['2026-10-25','13:24',109,'card'],
+['2026-10-24','23:11',89,'cash'],['2026-10-24','22:17',77,'card'],['2026-10-24','21:24',92,'cash'],['2026-10-24','16:11',113,'card'],['2026-10-24','15:00',52,'cash'],
+['2026-10-23','22:47',188,'card'],['2026-10-23','22:04',203.5,'split'],['2026-10-23','21:18',79,'card'],
+['2026-10-22','22:33',100,'card'],['2026-10-22','21:57',41.5,'card'],['2026-10-22','21:27',171,'card'],['2026-10-22','21:06',66,'card'],['2026-10-22','20:52',114,'card'],
+['2026-10-21','22:53',223,'card'],['2026-10-21','22:44',44,'cash'],['2026-10-21','21:29',69,'card']];
+const FROM='2026-10-21',TO='2026-11-06';
+const addD=(s,n)=>{const d=new Date(s+'T12:00');d.setDate(d.getDate()+n);const p=x=>String(x).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());};
+const tsOf=(d,t)=>new Date(d+'T'+t+':00').getTime();
+const kindOf=e=>{const m=payOf(e).m;return m==='contanti'?'cash':m==='carta'?'card':m==='misto'?'split':'other';};
+let PLAN=null;
+function plan(){const H=(state.historyLog||[]).filter(e=>e&&!e.deleted&&Number(e.total)>0&&svcDate(e)>=addD(FROM,-1)&&svcDate(e)<=TO);const used=new Set(),P=[];
+ const pick=(s,days,needKind)=>{let best=null,bd=1e15;H.forEach(e=>{if(used.has(e))return;if(Math.abs((Number(e.total)||0)-s[2])>0.01)return;if(!days.includes(svcDate(e)))return;if(needKind&&s[3]!=='split'&&kindOf(e)!==s[3])return;const dd=Math.abs((e.ts||0)-tsOf(s[0],s[1]));if(dd<bd){bd=dd;best=e;}});return best;};
+ SU.forEach(s=>{let e=pick(s,[s[0]],true)||pick(s,[s[0]],false)||pick(s,[addD(s[0],1),addD(s[0],-1)],false);if(e){used.add(e);P.push({s,e});}else P.push({s,e:null});});
+ const local=H.filter(e=>!used.has(e)&&svcDate(e)>=FROM);return{P,local};}
+const lbl=d=>new Date(d+'T12:00').toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit'});
+const kn={cash:'contanti',card:'carta',split:'diviso'};
+window.v2930Open=()=>{if(!isOwner())return alert('Solo Christian.');PLAN=plan();const{P,local}=PLAN;
+ const toSU=P.filter(x=>x.e&&!isSU(x.e)),fix=P.filter(x=>x.e&&x.s[3]!=='split'&&kindOf(x.e)!==x.s[3]),move=P.filter(x=>x.e&&svcDate(x.e)!==x.s[0]),miss=P.filter(x=>!x.e),toLoc=local.filter(isSU);
+ const row=(t,c)=>`<div style="font-size:.8rem;padding:3px 0;border-bottom:1px dashed var(--border);${c?'color:'+c+';':''}">${t}</div>`;
+ $('suBox').innerHTML=`<h3 style="margin-bottom:4px;">🔍 Allinea i conti con SumUp</h3><div class="fc-sub" style="margin-bottom:8px;">Dal 21/10 al 06/11, confrontando i conti dell’app con le foto del terminale SumUp. Controlla e premi Applica.</div>
+ <div style="font-weight:900;margin-top:6px;">🟦 Da segnare come SumUp (${toSU.length})</div>${toSU.map(x=>row(`${lbl(x.s[0])} ${x.s[1]} · ${esc(x.e.tableName||'')} € ${formatPrice(x.s[2])} · ${kn[x.s[3]]}`)).join('')||row('nessuno')}
+ ${fix.length?`<div style="font-weight:900;margin-top:8px;">💳 Forma di pagamento da correggere (${fix.length})</div>${fix.map(x=>row(`${lbl(x.s[0])} · ${esc(x.e.tableName||'')} € ${formatPrice(x.s[2])}: ${kn[kindOf(x.e)]||'?'} → ${kn[x.s[3]]}`)).join('')}`:''}
+ ${move.length?`<div style="font-weight:900;margin-top:8px;">📅 Conti nel giorno sbagliato (${move.length})</div>${move.map(x=>row(`${esc(x.e.tableName||'')} € ${formatPrice(x.s[2])}: ${lbl(svcDate(x.e))} → ${lbl(x.s[0])}`)).join('')}`:''}
+ <div style="font-weight:900;margin-top:8px;">🏪 Da segnare come cassa locale (${toLoc.length})</div>${toLoc.map(e=>row(`${lbl(svcDate(e))} · ${esc(e.tableName||'')} € ${formatPrice(e.total)}`)).join('')||row('nessuno')}
+ <div class="fc-sub" style="margin-top:4px;">Gli altri ${local.length-toLoc.length} conti non presenti su SumUp sono già su cassa locale.</div>
+ <div style="font-weight:900;margin-top:8px;color:#B91C1C;">❓ Pagamenti SumUp che nell’app non ci sono (${miss.length})</div>${miss.map(x=>row(`${lbl(x.s[0])} ${x.s[1]} · € ${formatPrice(x.s[2])} · ${kn[x.s[3]]}`,'#B91C1C')).join('')||row('nessuno')}
+ ${miss.length?`<label style="display:flex;gap:8px;align-items:center;margin-top:8px;font-weight:800;font-size:.85rem;"><input type="checkbox" id="suAddMiss" style="width:22px;height:22px;"> Aggiungili come conti “Recuperato da SumUp”</label><div class="fc-sub">Spunta solo se sei sicuro che nell’app mancano davvero: se lo stesso conto c’è con un importo un po’ diverso (sconto, mancia), aggiungerlo lo conterebbe due volte.</div>`:''}
+ <div class="modal-actions" style="margin-top:12px;"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('suModal').classList.remove('active')">Annulla</button><button class="btn-modal" style="background:#0369A1;color:#fff;" onclick="v2930Apply()">✅ Applica</button></div>`;
+ $('suModal').classList.add('active');};
+window.v2930Apply=()=>{if(!PLAN)return;const{P,local}=PLAN,addMiss=!!($('suAddMiss')&&$('suAddMiss').checked);let n=0;const now=Date.now();
+ P.forEach(({s,e})=>{if(!e)return;const tot=Number(e.total)||0;let pay=Object.assign({},e.pay||{});
+  if(s[3]==='cash')pay={m:'contanti',cash:tot,via:'SumUp'};else if(s[3]==='card')pay={m:'carta',card:tot,via:'SumUp'};else{pay.via='SumUp';if(!pay.m)pay.m='misto';}
+  e.pay=pay;if(svcDate(e)!==s[0]){e.moved={from:e.ts,by:'Allineamento SumUp',at:now};e.ts=tsOf(s[0],s[1]);e.date=s[0];e.time=s[1];}e.mt=now;e.suChk=now;n++;});
+ local.forEach(e=>{if(isSU(e)){e.pay=Object.assign({},e.pay||{},{via:'Registratore'});e.mt=now;e.suChk=now;n++;}});
+ let added=0;if(addMiss)P.filter(x=>!x.e).forEach(({s})=>{const ts=tsOf(s[0],s[1]);state.historyLog.push({ts,date:s[0],time:s[1],tableName:'Recuperato da SumUp',items:[],total:s[2],coperti:0,pay:s[3]==='cash'?{m:'contanti',cash:s[2],via:'SumUp'}:s[3]==='card'?{m:'carta',card:s[2],via:'SumUp'}:{m:'misto',cash:0,card:s[2],via:'SumUp'},recovered:true,mt:now,rid:'su'+ts});added++;});
+ saveState(false,{history:true});$('suModal').classList.remove('active');PLAN=null;try{renderConti();}catch(e){}
+ alert('✅ Fatto: '+n+' conti sistemati'+(added?' e '+added+' pagamenti SumUp aggiunti':'')+'. Le chiusure mostrano ora i totali cassa locale / SumUp aggiornati.');};
+{const _r=renderCashClose;renderCashClose=function(){const r=_r.apply(this,arguments);try{const el=$('cashClose');if(el&&isOwner()&&!el.querySelector('.v2930su')){const b=document.createElement('button');b.className='btn-main v2930su';b.style.cssText='width:100%;margin:0 0 10px;background:#1D4ED8;color:#fff;';b.textContent='🔍 Allinea i conti con SumUp (21/10 – 06/11)';b.onclick=v2930Open;el.prepend(b);}}catch(e){}return r;};}
 })();
 </script>
 <script>initApp();</script>
