@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Chef Bull Brigade - v2.9.28</title>
+<title>Chef Bull Brigade - v2.9.29</title>
 <meta name="application-name" content="Chef Bull Brigade">
 <meta name="apple-mobile-web-app-title" content="Chef Bull Brigade">
 <link rel="apple-touch-icon" href="chef-bull-brigade-icon-192.png">
@@ -256,7 +256,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.28</div></div>
+    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.29</div></div>
   </div>
   <div class="top-actions">
     <div id="waiterDisplay" class="waiter-tag" onclick="openLoginModal()">👤 --</div>
@@ -364,7 +364,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.28)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.29)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="v53Reconnect()" style="background:#22C55E;color:#062329;font-weight:900;">🔄 Riconnetti</button><button class="btn-note" onclick="openLoginModal()">👤 Cambia utente</button><button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -392,7 +392,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.28)</h3>
+      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.29)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -5675,7 +5675,7 @@ setInterval(()=>{if(document.visibilityState==='visible'){try{check();}catch(e){
 window.v2919Check=check;
 })();
 </script>
-<!-- ===== v2.9.28: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
+<!-- ===== v2.9.29: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <!-- ===== v2.9.20: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <!-- ===== v2.9.20: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <style>#mpBar .mp-s{white-space:pre-line}#mpBar .mp-t{line-height:1.25}.sp-st{border-radius:14px;padding:10px 12px;margin:0 0 10px;line-height:1.35}.sp-st b{font-size:.98rem}</style>
@@ -5781,7 +5781,7 @@ window.v2920Print=()=>{const q=$('spQr'),cv=q&&q.querySelector('canvas'),src=cv?
 setInterval(()=>{try{place();}catch(e){}},1500);
 })();
 </script>
-<!-- ===== v2.9.28: report ore lavorate per qualsiasi giorno, mese o anno + CSV del periodo scelto ===== -->
+<!-- ===== v2.9.29: report ore lavorate per qualsiasi giorno, mese o anno + CSV del periodo scelto ===== -->
 <script>
 (function(){
 const pad=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
@@ -5805,7 +5805,7 @@ exportTimeCSV=function(){const p=per(),ref=refD(),S=periodShifts().sort((a,b)=>a
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+rows.join('\n')],{type:'text/csv'}));a.download='presenze_'+pre(p,ref)+'.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);};
 })();
 </script>
-<!-- ===== v2.9.28: scorte per portata · piatti contati in giallo con ! · ricevuta su Epson TM-m30III (RawBT) ===== -->
+<!-- ===== v2.9.29: scorte per portata · piatti contati in giallo con ! · ricevuta su Epson TM-m30III (RawBT) ===== -->
 <style>
 .st-gh{margin:14px 0 4px;padding:7px 12px;border-radius:12px;background:#062329;color:#fff;font-size:1rem;font-weight:900;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .st-gh span{font-size:.72rem;font-weight:700;opacity:.85}
@@ -5854,7 +5854,7 @@ new MutationObserver(()=>{clearTimeout(window._rcT);window._rcT=setTimeout(()=>{
 {const _s=showReceiptQr;showReceiptQr=function(rid){const r=_s.apply(this,arguments);try{const a=document.querySelector('#rcptModal .modal-actions');if(a&&!a.querySelector('.v2925pr')){const b=document.createElement('button');b.className='btn-modal v2925pr';b.style.cssText='background:#0E7490;color:#fff;';b.textContent='🖨️ Ricevuta';b.onclick=()=>v2925PrintBill(rid);a.prepend(b);}}catch(e){}return r;};}
 })();
 </script>
-<!-- ===== v2.9.28: menù pranzo sempre visibile finché non lo sostituisci · QR e anteprima pranzo per tutti ===== -->
+<!-- ===== v2.9.29: menù pranzo sempre visibile finché non lo sostituisci · QR e anteprima pranzo per tutti ===== -->
 <div class="modal-overlay" id="luQrModal"><div class="receipt-box" style="text-align:center;max-width:400px;"><h3 style="color:var(--logo-coral);margin-bottom:4px;">🌞 Menù del pranzo</h3><div style="font-weight:700;margin-bottom:10px;">Inquadra il codice con la fotocamera</div><div id="luQrBox" style="display:flex;justify-content:center;background:#fff;padding:12px;border-radius:14px;"></div><div id="luQrLink" style="font-size:.72rem;color:var(--muted);margin-top:8px;word-break:break-all;"></div><div class="modal-actions" style="margin-top:12px;"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('luQrModal').classList.remove('active')">Chiudi</button><button class="btn-modal" style="background:#F59E0B;color:#062329;" onclick="v2931LuView()">👀 Vedi</button></div></div></div>
 <script>
 (function(){
@@ -5866,7 +5866,7 @@ window.v2931LuQr=()=>{const b=document.getElementById('luQrBox');b.innerHTML='';
  if(close)close.before(d);else box.appendChild(d);}catch(e){}return r;};}
 })();
 </script>
-<!-- ===== v2.9.28: chiusure mancanti ricostruite · chiusura cassa obbligatoria a fine serata ===== -->
+<!-- ===== v2.9.29: chiusure mancanti ricostruite · chiusura cassa obbligatoria a fine serata ===== -->
 <div id="ccBanner" onclick="v2928Go()" style="display:none;position:fixed;left:10px;right:10px;top:calc(112px + env(safe-area-inset-top,0px));z-index:95;background:#B91C1C;color:#fff;font-weight:900;border-radius:14px;padding:10px 12px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.35);cursor:pointer;">⚠️ Chiusura cassa di stasera da fare · tocca qui</div>
 <script>
 (function(){
@@ -5885,6 +5885,36 @@ window.v2928Go=()=>{const m=document.getElementById('endModal');if(m)m.classList
 {const _s=saveCashClose;saveCashClose=function(){const r=_s.apply(this,arguments);try{if(window.v2928CcDone&&v2928CcDone()){const t=svcToday();dayBills(t).forEach(e=>{e.closedEvening=true;});saveState(false,{history:true});}}catch(e){}tick();return r;};}
 function tick(){const b=document.getElementById('ccBanner');if(!b)return;let on=false;try{const h=new Date().getHours(),t=svcToday();on=isOwner()&&(h>=21||h<5)&&!Object.values(state.tables||{}).some(x=>x&&x.items&&x.items.length)&&dayBills(t).length>0&&!(window.v2928CcDone&&v2928CcDone());}catch(e){}b.style.display=on?'block':'none';}
 setInterval(tick,5000);
+})();
+</script>
+<!-- ===== v2.9.29: punti Club a mano · chiusura di un altro giorno · scorrere i giorni negli incassi · pranzo sopra il menù speciale ===== -->
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const isOwner=()=>/^christian$/i.test((state.waiterName||'').trim());
+const pad=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const addD=(s,n)=>{const d=new Date(s+'T12:00');d.setDate(d.getDate()+n);return iso(d);};
+const lbl=s=>new Date(s+'T12:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
+/* ---------- 1. Club: aggiungere conti vecchi (o correggere i punti) ---------- */
+window.v2929FidAdd=async id=>{if(!isOwner())return alert('Solo Christian può modificare i punti.');let c;try{c=await fbGet('/fidelity/cards/'+id);}catch(e){return alert('Connessione assente: riprova.');}if(!c)return alert('Cliente non trovato.');
+ const v=prompt('➕ Conto da aggiungere a '+(c.name||'')+'\nScrivi l’importo del conto in € (es. 74,50).\nPer togliere punti scrivi un numero negativo (es. -20).');if(v==null)return;const amt=Math.round(parseFloat(String(v).replace(',','.'))*100)/100;if(!isFinite(amt)||amt===0||Math.abs(amt)>5000)return alert('Importo non valido.');
+ const dv=prompt('Data del conto (gg/mm/aaaa). Lascia vuoto per oggi.',''),m=String(dv||'').match(/(\d{1,2})\D+(\d{1,2})\D+(\d{2,4})/);let ts=Date.now();if(m){let y=+m[3];if(y<100)y+=2000;const d=new Date(y,+m[2]-1,+m[1],21,0);if(!isNaN(d))ts=Math.min(d.getTime(),Date.now());}
+ const eur=Math.max(0,Math.round(((Number(c.eur)||0)+amt)*100)/100),bonus=Number(c.bonus)||0,earned=Math.floor((eur+bonus)/FID_EUR),used=Number(c.used)||0,visits=Math.max(0,(Number(c.visits)||0)+(amt>0?1:0)),last=Math.max(Number(c.last)||0,amt>0?ts:0)||c.last||null;
+ const adj=Array.isArray(c.adj)?c.adj.slice(-30):[];adj.push({ts:Date.now(),d:ts,amt,by:(state.waiterName||'').trim()});
+ try{await fbSend('/fidelity/cards/'+id,'PATCH',{eur,earned,visits,last,adj});await fbSend('/fidelity/pub/'+await fidPubKey(id.slice(1)),'PATCH',{eur:eur+bonus,av:Math.max(0,earned-used)});}catch(e){return alert('Non salvato: '+(e.message||e));}
+ try{const x=(fidCache||[]).find(k=>k.id===id);if(x)Object.assign(x,{eur,earned,visits,last,adj});renderFidList();}catch(e){}
+ const ne=earned-(Number(c.earned)||0);alert('✅ '+(amt>0?'Aggiunti ':'Tolti ')+Math.abs(Math.floor(amt))+' punti a '+(c.name||'')+'. Ora ha '+Math.floor(eur+bonus)+' punti'+(ne>0?' e '+ne+(ne===1?' nuovo calice':' nuovi calici')+' da consegnare 🥂':'')+'.');};
+{const _f=renderFidList;renderFidList=function(){const r=_f.apply(this,arguments);try{if(isOwner())document.querySelectorAll('button[onclick^="toggleFidMkt("]').forEach(b=>{if(b.dataset.add)return;b.dataset.add='1';const m=(b.getAttribute('onclick')||'').match(/toggleFidMkt\('([^']+)'\)/);if(!m)return;const n=document.createElement('button');n.className='btn-note';n.textContent='➕ Conto vecchio / punti';n.setAttribute('onclick',"v2929FidAdd('"+m[1]+"')");b.before(n);});}catch(e){}return r;};}
+/* ---------- 2. Chiusura di un giorno non registrato ---------- */
+window.v2929OtherDay=()=>{const y=addD(svcToday(),-1),v=prompt('Di quale giorno vuoi fare la chiusura? (gg/mm/aaaa)',y.split('-').reverse().join('/'));if(v==null)return;const m=String(v).match(/(\d{1,2})\D+(\d{1,2})\D+(\d{2,4})/);if(!m)return alert('Data non valida');let yy=+m[3];if(yy<100)yy+=2000;const d=yy+'-'+pad(+m[2])+'-'+pad(+m[1]);if(d>svcToday())return alert('Non si può fare la chiusura di un giorno futuro.');ccOpen(d+'|giorno');};
+{const _r=renderCashClose;renderCashClose=function(){const r=_r.apply(this,arguments);try{const el=$('cashClose');if(el&&isOwner()&&!el.querySelector('.v2929od')){const b=document.createElement('button');b.className='btn-note v2929od';b.style.cssText='width:100%;margin:0 0 10px;padding:11px;';b.textContent='➕ Chiusura di un altro giorno';b.onclick=v2929OtherDay;const rec=el.querySelector('.v2928rec');if(rec)rec.after(b);else el.prepend(b);}}catch(e){}return r;};}
+/* ---------- 3. Incassi: frecce per i giorni precedenti ---------- */
+window.v2929Day=n=>{const[a,b]=contiRange();let d=(a===b?a:svcToday());d=addD(d,n);if(d>svcToday())return;state.contiPer=d===svcToday()?'oggi':'giorno';state.contiDay=d;renderConti();};
+{const _c=renderConti;renderConti=function(){const r=_c.apply(this,arguments);try{const T=$('payTotals');if(T&&!T.querySelector('.v2929nav')){const bar=T.querySelector('.cat-bar');const[a,b]=contiRange(),cur=a===b?a:null,isT=cur===svcToday();const d=document.createElement('div');d.className='v2929nav';d.style.cssText='display:grid;grid-template-columns:48px 1fr 48px;gap:6px;align-items:center;margin:4px 0 8px;';
+ d.innerHTML=`<button class="btn-note" style="min-height:42px;font-size:1.1rem;" onclick="v2929Day(-1)" aria-label="Giorno prima">◀</button><div style="text-align:center;font-weight:900;font-size:.88rem;text-transform:capitalize;">${cur?lbl(cur)+(isT?' · oggi':''):'tocca ◀ per i singoli giorni'}</div><button class="btn-note" style="min-height:42px;font-size:1.1rem;${isT?'opacity:.3;':''}" ${isT?'disabled':''} onclick="v2929Day(1)" aria-label="Giorno dopo">▶</button>`;
+ if(bar)bar.after(d);else T.prepend(d);}}catch(e){}return r;};}
+/* ---------- 4. Menù pranzo sopra il menù speciale ---------- */
+setInterval(()=>{try{const lu=$('luCard'),sp=$('spCard');if(lu&&sp&&(sp.compareDocumentPosition(lu)&Node.DOCUMENT_POSITION_FOLLOWING))sp.before(lu);}catch(e){}},1200);
 })();
 </script>
 <script>initApp();</script>
