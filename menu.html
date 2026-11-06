@@ -56,6 +56,11 @@ article small,small{color:var(--muted)!important;font-size:.78rem!important;line
 </style>
 </head>
 <body>
+<script>
+/* ===== v2.9.29 · Se l'icona dell'app dello staff apre il menù: torna subito a Chef Bull ===== */
+(function(){try{var st=['standalone','fullscreen','minimal-ui'].some(function(m){return window.matchMedia&&matchMedia('(display-mode: '+m+')').matches;})||navigator.standalone;
+ if(st&&!location.search&&!document.referrer){location.replace(location.pathname.replace(/[^/]*$/,'')+'index.html');}}catch(e){}})();
+</script>
 <main>
   <div class="nav-bar">
     <button class="btn-tab active" id="btnGiorno" onclick="switchTab('giorno')">🍽️ Menù del Giorno</button>
@@ -360,6 +365,11 @@ function render() {
     return;
   }
 
+  // nomi tutti in MAIUSCOLO (dalla lavagnetta) -> scrittura normale, nomi propri con la maiuscola
+  function nice(s){s=String(s||'');const L=s.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ]/g,'');if(L.length<3)return s;const up=L.replace(/[^A-ZÀ-ÖØ-Þ]/g,'').length;if(up/L.length<0.8)return s;
+    let x=s.toLowerCase();x=x.charAt(0).toUpperCase()+x.slice(1);x=x.replace(/maiale nero peligno/gi,'Maiale Nero Peligno').replace(/fish ?& ?chips/gi,'Fish & Chips');
+    ['Verrigni','Avezzano','Altino','Gregorio','Rotolo','Peligno','Adriatico','Abruzzo','Fossacesia','Kamado','Chardonnay','Montepulciano','Trebbiano','Sottosopra','Alicetta','Fucino','Ortona','Lanciano','Majella'].forEach(p=>{x=x.replace(new RegExp('(^|[^A-Za-zÀ-ÿ])'+p.toLowerCase()+'(?![A-Za-zÀ-ÿ])','g'),(m,a)=>a+p);});
+    return x;}
   // Tab Menù del Giorno
   const box = document.createElement('div');
   box.className = 'card-box';
@@ -381,8 +391,8 @@ function render() {
     rows.forEach(item => {
       const article = document.createElement('article'), text = document.createElement('div'), price = document.createElement('div');
       const tr = (TRANSLATIONS[item.name]?.[lang]) || (lang!=='it' ? TRANSLATIONS[item.name]?.en : undefined);
-      text.innerHTML = `<b>${tr || item.name}</b>`;
-      if(tr) { const sm = document.createElement('small'); sm.textContent = item.name; text.append(sm); }
+      text.innerHTML = `<b>${tr || nice(item.name)}</b>`;
+      if(tr) { const sm = document.createElement('small'); sm.textContent = nice(item.name); text.append(sm); }
       if(_alg && window.algNote) { const an = algNote(item.name, lang); if(an) text.append(an); }
       
       price.className = 'price';
@@ -778,7 +788,7 @@ const langs=`<div style="display:flex;gap:6px;justify-content:center;margin-bott
 let data=null;
 function draw(){const head=`<div style="text-align:center;font-weight:900;letter-spacing:.18em;color:#FF5733;font-size:.8rem;">ALICETTA TRATTORIA · FOSSACESIA</div>`;
  const foot=`<a href="${location.pathname}" style="display:block;margin-top:16px;background:#1BE7FF;color:#062329;text-decoration:none;font-weight:900;border-radius:14px;padding:12px;text-align:center;box-shadow:0 4px 0 #0891B2;">${t('carta')}</a><a href="tel:+393923279000" style="display:block;margin-top:8px;background:#FF5733;color:#fff;text-decoration:none;font-weight:900;border-radius:14px;padding:12px;text-align:center;box-shadow:0 4px 0 #B91C1C;">${t('book')}</a>`;
- if(!data||data.d!==iso||!(data.secs||[]).length){ov.innerHTML=card(head+langs+`<div style="text-align:center;font-size:3rem;margin-top:10px;">🌞</div><div style="text-align:center;font-weight:800;margin:8px 0;">${t('na')}</div>`+foot);bind();return;}
+ if(!data||!(data.secs||[]).length){ov.innerHTML=card(head+langs+`<div style="text-align:center;font-size:3rem;margin-top:10px;">🌞</div><div style="text-align:center;font-weight:800;margin:8px 0;">${t('na')}</div>`+foot);bind();return;}
  const dt=d.toLocaleDateString({it:'it-IT',en:'en-GB',de:'de-DE',fr:'fr-FR',es:'es-ES'}[L],{weekday:'long',day:'numeric',month:'long'});
  ov.innerHTML=card(head+langs+`<div style="text-align:center;margin:4px 0 2px;font-size:1.6rem;font-weight:900;">🌞 ${t('t')}</div><div style="text-align:center;font-weight:700;color:#4B5563;text-transform:capitalize;">${esc(dt)}</div>
  <div style="text-align:center;margin:12px 0;"><span style="display:inline-block;background:#062329;color:#FDE047;border-radius:18px;padding:8px 20px;font-size:2rem;font-weight:900;">€ ${String(data.price).replace('.',',')}</span><div style="font-size:.85rem;font-weight:800;color:#4B5563;margin-top:4px;">${t('p')}</div></div>
@@ -834,6 +844,13 @@ fetch(FBU+'/fidelity/pub/special.json?t='+Date.now(),{cache:'no-store'}).then(r=
 })();
 </script>
 
-<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.23</div>
+<script>
+/* ===== v2.9.28 · Se il menù si apre dentro l'app dello staff: tasto per tornare a Chef Bull ===== */
+(function(){try{const sa=['standalone','fullscreen','minimal-ui'].some(m=>window.matchMedia&&matchMedia('(display-mode: '+m+')').matches)||navigator.standalone;if(!sa)return;
+ const a=document.createElement('a');a.href=location.pathname.replace(/[^/]*$/,'')+'index.html';a.textContent='⬅️ Torna a Chef Bull';
+ a.style.cssText='position:fixed;left:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:100000;background:#FF2E93;color:#fff;font-weight:900;font-size:1rem;padding:13px 18px;border-radius:999px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.35);border:3px solid #062329;font-family:inherit;';
+ document.body.appendChild(a);}catch(e){}})();
+</script>
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.31</div>
 </body>
 </html>
