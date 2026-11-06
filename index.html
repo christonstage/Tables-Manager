@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Chef Bull Brigade - v2.9.27</title>
+<title>Chef Bull Brigade - v2.9.28</title>
 <meta name="application-name" content="Chef Bull Brigade">
 <meta name="apple-mobile-web-app-title" content="Chef Bull Brigade">
 <link rel="apple-touch-icon" href="chef-bull-brigade-icon-192.png">
@@ -256,7 +256,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.27</div></div>
+    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.28</div></div>
   </div>
   <div class="top-actions">
     <div id="waiterDisplay" class="waiter-tag" onclick="openLoginModal()">👤 --</div>
@@ -364,7 +364,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.27)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.28)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="v53Reconnect()" style="background:#22C55E;color:#062329;font-weight:900;">🔄 Riconnetti</button><button class="btn-note" onclick="openLoginModal()">👤 Cambia utente</button><button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -392,7 +392,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.27)</h3>
+      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.28)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -1585,7 +1585,7 @@ function ccClosures(){const c=state.staffCfg=state.staffCfg||{};return c.closure
 function renderCashClose(){
   const el=document.getElementById('cashClose');if(!el)return;const ae=document.activeElement;if(ae&&el.contains(ae)&&ae.tagName==='INPUT')return;const dr={rtCash:ccNum('ccRtCash'),rtEl:ccNum('ccRtEl'),pos:ccNum('ccPos'),suCash:ccNum('ccSuCash'),k:el.dataset.k};const[a,b]=contiRange();
   const reg=Object.entries(ccClosures()).map(([k,v])=>({k,...v})).sort((x,y)=>String(y.k).localeCompare(String(x.k))).slice(0,20);
-  const regHtml=`<div style="margin-top:12px;"><div style="font-weight:900;font-size:.9rem;margin-bottom:4px;">📒 Registro chiusure</div>${reg.map(r=>{const[d,s]=r.k.split('|');return `<div onclick="ccOpen('${r.k}')" style="cursor:pointer;display:flex;justify-content:space-between;gap:8px;font-size:.8rem;padding:6px 0;border-bottom:1px dashed var(--border);"><span>${new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'numeric'})} · ${s==='pranzo'?'☀️ Pranzo':s==='cena'?'🌙 Cena':'📅 Giornata'} <span style="color:var(--logo-coral);font-weight:900;">›</span><br><span style="color:var(--muted);">${escH(r.by||'')} · ${r.at?new Date(r.at).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}):''}</span></span><span style="font-weight:900;text-align:right;color:${r.ok?'#166534':'#B91C1C'};">${r.ok?'✅ Quadrata':'⚠️ Da sistemare'}${r.ok?'':`<br><span style="font-size:.72rem;">${ccDiffTxt(r.diff)}</span>`}<br><button class="btn-note" style="padding:2px 8px;font-size:.7rem;margin-top:3px;" onclick="event.stopPropagation();ccDelete('${r.k}')">🗑️</button></span></div>`;}).join('')||'<div style="font-size:.8rem;color:var(--muted);">Nessuna chiusura registrata.</div>'}</div>`;
+  const regHtml=`<div style="margin-top:12px;"><div style="font-weight:900;font-size:.9rem;margin-bottom:4px;">📒 Registro chiusure</div>${reg.map(r=>{const[d,s]=r.k.split('|');return `<div onclick="ccOpen('${r.k}')" style="cursor:pointer;display:flex;justify-content:space-between;gap:8px;font-size:.8rem;padding:6px 0;border-bottom:1px dashed var(--border);"><span>${new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'numeric'})} · ${s==='pranzo'?'☀️ Pranzo':s==='cena'?'🌙 Cena':'📅 Giornata'} <span style="color:var(--logo-coral);font-weight:900;">›</span><br><span style="color:var(--muted);">${escH(r.by||'')} · ${r.at?new Date(r.at).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}):''}</span></span><span style="font-weight:900;text-align:right;color:${r.ok?'#166534':'#B91C1C'};">${r.auto?'<span style="color:#0369A1;">🔄 Ricostruita</span>':r.ok?'✅ Quadrata':'⚠️ Da sistemare'}${r.ok?'':`<br><span style="font-size:.72rem;">${ccDiffTxt(r.diff)}</span>`}<br><button class="btn-note" style="padding:2px 8px;font-size:.7rem;margin-top:3px;" onclick="event.stopPropagation();ccDelete('${r.k}')">🗑️</button></span></div>`;}).join('')||'<div style="font-size:.8rem;color:var(--muted);">Nessuna chiusura registrata.</div>'}</div>`;
   if(a!==b){el.innerHTML=`<h3 style="margin-bottom:6px;">🧾 Chiusura cassa</h3><div style="font-size:.8rem;color:var(--muted);">Per fare una chiusura scegli in alto Oggi, Ieri o un giorno preciso, oppure tocca una riga del registro qui sotto per riaprirla.</div>`+regHtml;return;}
   if(!state.ccSvc)state.ccSvc='giorno';
   const L=(state.historyLog||[]).filter(e=>e&&svcDate(e)===a&&(state.ccSvc==='giorno'||svcOf(e)===state.ccSvc)),S=sumBlock(L),k=ccKey(a,state.ccSvc),sv=ccClosures()[k]||{};el.dataset.k=k;const pv=f=>dr.k===k&&dr[f]!=null?dr[f]:(sv[f]??'');
@@ -5649,20 +5649,20 @@ window.v2919RdToday=()=>{state.repDay=svcToday();updateDailyStats();};
 
 const openN=()=>Object.values(state.tables||{}).filter(t=>t&&t.items&&t.items.length).length;
 function lastBillTs(){let m=0;const d=svcToday();(state.historyLog||[]).forEach(e=>{try{if(e&&svcDate(e)===d&&(e.ts||0)>m)m=e.ts;}catch(x){}});return m;}
+const ccDone=()=>{try{const t=svcToday();return Object.keys(ccClosures()).some(k=>k.indexOf(t+'|')===0);}catch(e){return false;}};window.v2928CcDone=ccDone;
 function closedFlag(){try{const C=JSON.parse(localStorage.getItem('alicetta_chiusura')||'{}');return !!((C.log||{})[svcToday()]||{}).closed;}catch(e){return false;}}
 function check(){if(!isOwner())return;if(document.querySelector('.modal-overlay.active'))return;const h=new Date().getHours();if(!(h>=21||h<5))return;
- if(openN()>0)return;const lt=lastBillTs();if(!lt)return;const age=Date.now()-lt;if(age<3000||age>25*60000)return;if(closedFlag())return;
- if(localStorage.getItem('alicetta_endnag')===String(lt))return;
+ if(openN()>0)return;const lt=lastBillTs();if(!lt)return;const age=Date.now()-lt;if(age<3000)return;if(ccDone())return;
+ if(Date.now()-(Number(localStorage.getItem('alicetta_endnag_t'))||0)<10*60000)return;
  try{const now=Date.now(),d=svcToday();if(Object.values(state.res||{}).some(r=>r&&r.date===d&&r.status==='attesa'&&resTs(r)>now-30*60000))return;}catch(e){}
- localStorage.setItem('alicetta_endnag',String(lt));show();}
+ localStorage.setItem('alicetta_endnag_t',String(Date.now()));show();}
 function show(){const d=svcToday(),L=(state.historyLog||[]).filter(e=>{try{return e&&svcDate(e)===d;}catch(x){return false;}}),S=sumBlock(L);let au=[];try{au=(window.v31AuditLines?v31AuditLines():[]).slice(0,3);}catch(e){}
  $('endBox').innerHTML=`<h3 style="color:var(--logo-coral);margin-bottom:2px;">🌙 Tutti i tavoli sono chiusi</h3><div class="fc-sub" style="font-weight:800;">Serata di ${dlabel(d)}</div>
  <div class="en-k"><div><small>Incasso</small><b>${eur(S.tot)}</b></div><div><small>Coperti</small><b>${S.cop}</b></div><div><small>Conti</small><b>${S.n}</b></div></div>
  <div class="fc-sub" style="margin-bottom:6px;">💵 ${eur(S.cash)} · 💳 ${eur(S.card)}${S.nd?' · ❔ '+eur(S.nd):''}</div>
  ${au.length?`<div class="en-w">⚠️ Da controllare:<br>${au.map(x=>'• '+esc(x)).join('<br>')}</div>`:''}
- <button class="btn-main btn-bill" style="width:100%;margin-top:8px;font-size:1.1rem;" onclick="v2919Close()">🌙 Chiudi serata</button>
- <button class="btn-note" style="width:100%;margin-top:8px;padding:11px;" onclick="v2919Full()">📋 Apri la chiusura completa (checklist, WhatsApp)</button>
- <div class="modal-actions"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="v2919Later()">Non ancora</button></div>`;
+ <div style="font-weight:800;margin:6px 0 2px;color:#B91C1C;">Per finire la serata fai la chiusura cassa: questa finestra torna ogni 10 minuti finché non è fatta.</div><button class="btn-main btn-bill" style="width:100%;margin-top:8px;font-size:1.1rem;" onclick="v2928Go()">🧾 Fai la chiusura cassa adesso</button>
+ <button class="btn-note" style="width:100%;margin-top:8px;padding:11px;" onclick="v2919Full()">📋 Checklist e riepilogo WhatsApp</button>`;
  $('endModal').classList.add('active');try{if(navigator.vibrate)navigator.vibrate(60);}catch(e){}}
 window.v2919Later=()=>$('endModal').classList.remove('active');
 window.v2919Full=()=>{$('endModal').classList.remove('active');try{switchMainView('sales');setHubPage('sales','chiusura');}catch(e){}};
@@ -5670,12 +5670,12 @@ window.v2919Close=async()=>{$('endModal').classList.remove('active');
  (state.historyLog||[]).forEach(e=>{if(e)e.closedEvening=true;});try{await saveState(false,{history:true});}catch(e){}
  try{if(window.v22Close){const oc=window.confirm;window.confirm=()=>true;try{await v22Close();}finally{window.confirm=oc;}}else toast('🌙 Serata chiusa');}catch(e){}
  try{updateDailyStats();}catch(e){}};
-$('endModal').addEventListener('click',e=>{if(e.target.id==='endModal')v2919Later();});
+
 setInterval(()=>{if(document.visibilityState==='visible'){try{check();}catch(e){}}},5000);
 window.v2919Check=check;
 })();
 </script>
-<!-- ===== v2.9.27: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
+<!-- ===== v2.9.28: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <!-- ===== v2.9.20: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <!-- ===== v2.9.20: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <style>#mpBar .mp-s{white-space:pre-line}#mpBar .mp-t{line-height:1.25}.sp-st{border-radius:14px;padding:10px 12px;margin:0 0 10px;line-height:1.35}.sp-st b{font-size:.98rem}</style>
@@ -5781,7 +5781,7 @@ window.v2920Print=()=>{const q=$('spQr'),cv=q&&q.querySelector('canvas'),src=cv?
 setInterval(()=>{try{place();}catch(e){}},1500);
 })();
 </script>
-<!-- ===== v2.9.27: report ore lavorate per qualsiasi giorno, mese o anno + CSV del periodo scelto ===== -->
+<!-- ===== v2.9.28: report ore lavorate per qualsiasi giorno, mese o anno + CSV del periodo scelto ===== -->
 <script>
 (function(){
 const pad=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
@@ -5805,7 +5805,7 @@ exportTimeCSV=function(){const p=per(),ref=refD(),S=periodShifts().sort((a,b)=>a
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+rows.join('\n')],{type:'text/csv'}));a.download='presenze_'+pre(p,ref)+'.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);};
 })();
 </script>
-<!-- ===== v2.9.27: scorte per portata · piatti contati in giallo con ! · ricevuta su Epson TM-m30III (RawBT) ===== -->
+<!-- ===== v2.9.28: scorte per portata · piatti contati in giallo con ! · ricevuta su Epson TM-m30III (RawBT) ===== -->
 <style>
 .st-gh{margin:14px 0 4px;padding:7px 12px;border-radius:12px;background:#062329;color:#fff;font-size:1rem;font-weight:900;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .st-gh span{font-size:.72rem;font-weight:700;opacity:.85}
@@ -5854,7 +5854,7 @@ new MutationObserver(()=>{clearTimeout(window._rcT);window._rcT=setTimeout(()=>{
 {const _s=showReceiptQr;showReceiptQr=function(rid){const r=_s.apply(this,arguments);try{const a=document.querySelector('#rcptModal .modal-actions');if(a&&!a.querySelector('.v2925pr')){const b=document.createElement('button');b.className='btn-modal v2925pr';b.style.cssText='background:#0E7490;color:#fff;';b.textContent='🖨️ Ricevuta';b.onclick=()=>v2925PrintBill(rid);a.prepend(b);}}catch(e){}return r;};}
 })();
 </script>
-<!-- ===== v2.9.27: menù pranzo sempre visibile finché non lo sostituisci · QR e anteprima pranzo per tutti ===== -->
+<!-- ===== v2.9.28: menù pranzo sempre visibile finché non lo sostituisci · QR e anteprima pranzo per tutti ===== -->
 <div class="modal-overlay" id="luQrModal"><div class="receipt-box" style="text-align:center;max-width:400px;"><h3 style="color:var(--logo-coral);margin-bottom:4px;">🌞 Menù del pranzo</h3><div style="font-weight:700;margin-bottom:10px;">Inquadra il codice con la fotocamera</div><div id="luQrBox" style="display:flex;justify-content:center;background:#fff;padding:12px;border-radius:14px;"></div><div id="luQrLink" style="font-size:.72rem;color:var(--muted);margin-top:8px;word-break:break-all;"></div><div class="modal-actions" style="margin-top:12px;"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('luQrModal').classList.remove('active')">Chiudi</button><button class="btn-modal" style="background:#F59E0B;color:#062329;" onclick="v2931LuView()">👀 Vedi</button></div></div></div>
 <script>
 (function(){
@@ -5864,6 +5864,27 @@ window.v2931LuQr=()=>{const b=document.getElementById('luQrBox');b.innerHTML='';
 {const _q=showQrModal;showQrModal=function(){const r=_q.apply(this,arguments);try{const ov=document.getElementById('qrModal');if(!ov||!ov.classList.contains('active'))return r;const box=ov.querySelector('.receipt-box');if(!box||box.querySelector('.v2931lu'))return r;const close=box.querySelector('button.btn-modal');
  const d=document.createElement('div');d.className='v2931lu';d.innerHTML='<button class="btn-main" style="width:100%;margin-bottom:8px;background:#FDE047;color:#062329;" onclick="v2931LuQr()">🌞 QR del menù pranzo</button><button class="btn-main" style="width:100%;margin-bottom:8px;background:#F59E0B;color:#062329;" onclick="v2931LuView()">👀 Vedi il menù pranzo come i clienti</button>';
  if(close)close.before(d);else box.appendChild(d);}catch(e){}return r;};}
+})();
+</script>
+<!-- ===== v2.9.28: chiusure mancanti ricostruite · chiusura cassa obbligatoria a fine serata ===== -->
+<div id="ccBanner" onclick="v2928Go()" style="display:none;position:fixed;left:10px;right:10px;top:calc(112px + env(safe-area-inset-top,0px));z-index:95;background:#B91C1C;color:#fff;font-weight:900;border-radius:14px;padding:10px 12px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.35);cursor:pointer;">⚠️ Chiusura cassa di stasera da fare · tocca qui</div>
+<script>
+(function(){
+const isOwner=()=>/^christian$/i.test((state.waiterName||'').trim());
+const dayBills=d=>(state.historyLog||[]).filter(e=>{try{return e&&svcDate(e)===d;}catch(x){return false;}});
+const missing=()=>{const t=svcToday(),K=Object.keys(ccClosures()),D=new Set();(state.historyLog||[]).forEach(e=>{try{const d=svcDate(e);if(d&&d<t)D.add(d);}catch(x){}});return[...D].filter(d=>!K.some(k=>k.indexOf(d+'|')===0)).sort();};
+const fmtD=d=>new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'numeric'});
+window.v2928Recover=()=>{if(!isOwner())return alert('Solo Christian può ricostruire le chiusure.');const M=missing();if(!M.length)return alert('Non mancano chiusure: tutti i giorni con conti hanno la loro chiusura.');
+ const rows=M.map(d=>{const S=sumBlock(dayBills(d));return{d,S};});
+ const txt=rows.slice(0,14).map(r=>'• '+fmtD(r.d)+': € '+formatPrice(r.S.tot)+' ('+r.S.n+' conti)').join('\n')+(rows.length>14?'\n… e altri '+(rows.length-14)+' giorni':'');
+ if(!confirm('Ricostruisco '+rows.length+' chiusure mancanti con i totali dell’app (contanti e carte dei conti di quel giorno):\n\n'+txt+'\n\nNel registro saranno segnate “🔄 Ricostruita”, perché la cassa non è stata contata. Procedo?'))return;
+ const C=ccClosures();rows.forEach(({d,S})=>{C[d+'|giorno']={rtCash:S.cash,rtEl:S.card,pos:null,suCash:null,app:{cash:S.cash,card:S.card,tot:S.tot,n:S.n},diff:{cash:0,el:0,pos:null,su:null},ok:true,auto:true,at:Date.now(),by:'Ricostruita dall’app'};});
+ saveState(false,{staff:true});try{renderConti();}catch(e){}alert('✅ Fatto: '+rows.length+' chiusure aggiunte al registro.');};
+window.v2928Go=()=>{const m=document.getElementById('endModal');if(m)m.classList.remove('active');try{switchMainView('sales');setHubPage('sales','oggi');}catch(e){}state.contiPer='oggi';state.ccSvc='giorno';try{renderConti();}catch(e){}setTimeout(()=>{const el=document.getElementById('cashClose');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},250);};
+{const _r=renderCashClose;renderCashClose=function(){const r=_r.apply(this,arguments);try{const el=document.getElementById('cashClose');if(el&&isOwner()&&!el.querySelector('.v2928rec')){const M=missing();if(M.length){const b=document.createElement('button');b.className='btn-main v2928rec';b.style.cssText='width:100%;margin:0 0 10px;background:#0369A1;color:#fff;';b.textContent='🔄 Ricostruisci '+M.length+(M.length===1?' chiusura mancante':' chiusure mancanti');b.onclick=v2928Recover;el.prepend(b);}}}catch(e){}return r;};}
+{const _s=saveCashClose;saveCashClose=function(){const r=_s.apply(this,arguments);try{if(window.v2928CcDone&&v2928CcDone()){const t=svcToday();dayBills(t).forEach(e=>{e.closedEvening=true;});saveState(false,{history:true});}}catch(e){}tick();return r;};}
+function tick(){const b=document.getElementById('ccBanner');if(!b)return;let on=false;try{const h=new Date().getHours(),t=svcToday();on=isOwner()&&(h>=21||h<5)&&!Object.values(state.tables||{}).some(x=>x&&x.items&&x.items.length)&&dayBills(t).length>0&&!(window.v2928CcDone&&v2928CcDone());}catch(e){}b.style.display=on?'block':'none';}
+setInterval(tick,5000);
 })();
 </script>
 <script>initApp();</script>
