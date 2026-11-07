@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Chef Bull Brigade - v2.9.30</title>
+<title>Chef Bull Brigade - v2.9.31</title>
 <meta name="application-name" content="Chef Bull Brigade">
 <meta name="apple-mobile-web-app-title" content="Chef Bull Brigade">
 <link rel="apple-touch-icon" href="chef-bull-brigade-icon-192.png">
@@ -256,7 +256,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.30</div></div>
+    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.31</div></div>
   </div>
   <div class="top-actions">
     <div id="waiterDisplay" class="waiter-tag" onclick="openLoginModal()">👤 --</div>
@@ -364,7 +364,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.30)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.31)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="v53Reconnect()" style="background:#22C55E;color:#062329;font-weight:900;">🔄 Riconnetti</button><button class="btn-note" onclick="openLoginModal()">👤 Cambia utente</button><button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -392,7 +392,7 @@ body.kds-mode .btn-kds-done{padding:6px;margin-top:4px}
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.30)</h3>
+      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.31)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -1568,7 +1568,7 @@ function renderConti(){
   const all=sumBlock(L),P=sumBlock(L.filter(e=>svcOf(e)==='pranzo')),C=sumBlock(L.filter(e=>svcOf(e)==='cena'));
   const per=[['oggi','Oggi'],['ieri','Ieri'],['7g','7 giorni'],['mese','Mese'],['giorno','📅 Giorno']];
   T.innerHTML=`<h3 style="margin-bottom:8px;">💶 Incassi per forma di pagamento</h3><div class="cat-bar" style="margin-bottom:6px;">${per.map(([k,l])=>`<button class="cat-btn${state.contiPer===k?' active':''}" onclick="state.contiPer='${k}';renderConti();">${l}</button>`).join('')}</div>${state.contiPer==='giorno'?`<input type="date" class="form-control" style="margin-bottom:8px;" value="${state.contiDay||buildDateISO()}" onchange="state.contiDay=this.value;renderConti();">`:''}<div style="font-size:.75rem;font-weight:800;color:var(--muted);margin-bottom:8px;">${a===b?new Date(a+'T12:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'}):'dal '+a.split('-').reverse().join('/')+' al '+b.split('-').reverse().join('/')}</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div onclick="payFilter('contanti')" style="cursor:pointer;background:#DCFCE7;border-radius:12px;padding:12px;${state.contiPay==='contanti'?'outline:3px solid #166534;':''}"><div style="font-size:.8rem;font-weight:800;">💵 Contanti</div><div style="font-size:1.35rem;font-weight:900;color:#166534;">€ ${formatPrice(all.cash)}</div><div style="font-size:.7rem;font-weight:800;color:#166534;">${L.filter(e=>payOf(e).cash>0).length} conti · tocca per vederli ›</div>${(()=>{const su=L.filter(e=>e.pay&&e.pay.via==='SumUp').reduce((x,e)=>x+payOf(e).cash,0),rg=all.cash-su;return su?`<div style="font-size:.68rem;font-weight:700;color:#166534;margin-top:2px;">SumUp € ${formatPrice(su)} · cassa locale € ${formatPrice(rg)}</div>`:'';})()}</div><div onclick="payFilter('carta')" style="cursor:pointer;background:#DBEAFE;border-radius:12px;padding:12px;${state.contiPay==='carta'?'outline:3px solid #1E40AF;':''}"><div style="font-size:.8rem;font-weight:800;">💳 Carta</div><div style="font-size:1.35rem;font-weight:900;color:#1E40AF;">€ ${formatPrice(all.card)}</div><div style="font-size:.7rem;font-weight:800;color:#1E40AF;">${L.filter(e=>payOf(e).card>0).length} conti · tocca per vederli ›</div></div></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div onclick="payFilter('contanti')" style="cursor:pointer;background:#DCFCE7;border-radius:12px;padding:12px;${state.contiPay==='contanti'?'outline:3px solid #166534;':''}"><div style="font-size:.8rem;font-weight:800;">💵 Contanti</div><div style="font-size:1.35rem;font-weight:900;color:#166534;">€ ${formatPrice(all.cash)}</div><div style="font-size:.7rem;font-weight:800;color:#166534;">${L.filter(e=>payOf(e).cash>0).length} conti · tocca per vederli ›</div>${(()=>{const su=L.filter(e=>e.pay&&e.pay.via==='SumUp').reduce((x,e)=>x+payOf(e).cash,0),rg=all.cash-su;return `<div style="font-size:.8rem;font-weight:800;color:#166534;margin-top:4px;">🟦 SumUp € ${formatPrice(su)} · 🏪 cassa locale € ${formatPrice(rg)}</div>`;})()}</div><div onclick="payFilter('carta')" style="cursor:pointer;background:#DBEAFE;border-radius:12px;padding:12px;${state.contiPay==='carta'?'outline:3px solid #1E40AF;':''}"><div style="font-size:.8rem;font-weight:800;">💳 Carta</div><div style="font-size:1.35rem;font-weight:900;color:#1E40AF;">€ ${formatPrice(all.card)}</div><div style="font-size:.7rem;font-weight:800;color:#1E40AF;">${L.filter(e=>payOf(e).card>0).length} conti · tocca per vederli ›</div></div></div>
   ${P.n?svcCard('☀️ Pranzo',P,'#FEF9C3'):''}${C.n?svcCard('🌙 Cena',C,'#E0E7FF'):''}
   <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);font-weight:900;"><span>Totale · ${all.n} ${all.n===1?'conto':'conti'} · ${all.cop} coperti</span><span style="color:var(--logo-coral);">€ ${formatPrice(all.tot)}</span></div>${all.n?`<div style="font-size:.75rem;color:var(--muted);font-weight:700;">Scontrino medio € ${formatPrice(all.tot/all.n)}${all.cop?' · a coperto € '+formatPrice(all.totCop/all.cop):''}</div>`:''}${all.off?`<div style="font-size:.75rem;font-weight:800;color:#92400E;margin-top:4px;">🎁 Coperti offerti: ${all.off} (€ ${formatPrice(all.offVal)} non incassati), già inclusi nei coperti</div>`:''}${all.noCop?`<div style="font-size:.75rem;font-weight:800;color:#B45309;margin-top:4px;">⚠️ ${all.noCop} ${all.noCop===1?'conto senza':'conti senza'} coperti: aprilo qui sotto e premi “✏️ Coperti” per correggerlo. Non entra nella media a coperto.</div>`:''}${all.nd?`<div style="font-size:.75rem;font-weight:800;color:#6B7280;margin-top:4px;">❔ Pagamento non indicato: € ${formatPrice(all.nd)}</div>`:''}${openWarn()}`;
   const LF=state.contiPay?L.filter(e=>state.contiPay==='contanti'?payOf(e).cash>0:payOf(e).card>0):L;
@@ -2266,10 +2266,10 @@ async function readBolla(files){if(!files.length)return;const st={set textConten
  st.textContent='⏳ Gemini sta leggendo '+(files.length>1?files.length+' foto':'la bolla')+'...';
  try{const imgs=[];for(const f of files.slice(0,6))imgs.push({inline_data:{mime_type:'image/jpeg',data:await shrinkImage(f,2000)}});
   const known=Object.values(priceIndex()).map(o=>o.nome).slice(0,150);
-  const t=await callGemini([{text:(files.length>1?'Le '+Math.min(files.length,6)+' foto sono le PAGINE DELLO STESSO DOCUMENTO, in ordine: leggi tutte le pagine, unisci le righe di prodotto di ogni pagina in un unico elenco e non ripetere le righe già lette; il totale è quello dell\'ultima pagina. ':'')+`Leggi questo documento di acquisto di una trattoria di pesce. Può essere una FATTURA o bolla di un fornitore, oppure uno SCONTRINO di un negozio, supermercato, pescheria, mercato o cash&carry${docType==='fattura'?' (qui è una fattura o bolla)':docType==='scontrino'?' (qui è uno scontrino)':''}. Restituisci SOLO JSON: {"tipo":"fattura" oppure "scontrino","fornitore_info":{"ragione_sociale":string|null,"partita_iva":string|null,"indirizzo":string|null,"telefono":string|null,"email":string|null,"sito":string|null} (dati del fornitore stampati sul documento, null se mancano),"totale_imponibile":number|null,"totale_documento":number|null,"fornitore":nome del fornitore o del negozio, breve e senza forma societaria (es. "Ittica Adriatica", "Metro", "Conad"),"data":"YYYY-MM-DD","righe":[{"prodotto":testo come scritto sul documento,"ingrediente":nome generico breve in italiano minuscolo, senza marca né calibro (es. "vongole", "spaghetti", "olio evo", "limoni")${known.length?'; se corrisponde usa esattamente uno di questi nomi già usati: '+JSON.stringify(known):''},"quantita":number,"unita":"kg" oppure "l" oppure "pz","prezzo_unitario":euro per 1 kg, 1 litro o 1 pezzo,"iva_pct":aliquota IVA della riga (4, 5, 10 o 22) se leggibile, altrimenti null,"totale":euro della riga come stampato}]}. Per una FATTURA o bolla prezzi e totali sono IVA ESCLUSA. Per uno SCONTRINO prezzi e totali sono quelli stampati, IVA INCLUSA: indica iva_pct se riesci a collegare la lettera o il codice dell'aliquota. Sugli scontrini le righe a peso hanno la forma "0,874 kg x 12,90": quantità 0,874 kg, prezzo 12,90 €/kg; "2 x 1,29" sono 2 pezzi a 1,29. Converti le confezioni (5 conf. da 500 g = 2,5 kg). Ignora sconti a piè di pagina, resto, pagamenti, punti fedeltà, buste, prodotti non alimentari (detersivi, utensili) e righe senza prezzo. Se la data non si legge usa ${iso(today())}. IMPORTANTE: elenca TUTTE le righe di prodotto, dalla prima all’ultima, senza saltarne nessuna.`},...imgs],true,{fast:true,maxTokens:16384,temperature:0});
+  const t=await callGemini([{text:(files.length>1?'Le '+Math.min(files.length,6)+' foto sono le PAGINE DELLO STESSO DOCUMENTO, in ordine: leggi tutte le pagine, unisci le righe di prodotto di ogni pagina in un unico elenco e non ripetere le righe già lette; il totale è quello dell\'ultima pagina. ':'')+`Leggi questo documento di acquisto di una trattoria di pesce. Può essere una FATTURA o bolla di un fornitore, oppure uno SCONTRINO di un negozio, supermercato, pescheria, mercato o cash&carry${docType==='fattura'?' (qui è una fattura o bolla)':docType==='scontrino'?' (qui è uno scontrino)':''}. Restituisci SOLO JSON: {"tipo":"fattura" oppure "scontrino","fornitore_info":{"ragione_sociale":string|null,"partita_iva":string|null,"indirizzo":string|null,"telefono":string|null,"email":string|null,"sito":string|null} (dati del fornitore stampati sul documento, null se mancano),"totale_imponibile":number|null,"totale_documento":number|null,"numero_documento":numero della fattura o del DDT come stampato oppure null,"fornitore":nome del fornitore o del negozio, breve e senza forma societaria (es. "Ittica Adriatica", "Metro", "Conad"),"data":"YYYY-MM-DD","righe":[{"prodotto":testo come scritto sul documento,"lotto":numero di lotto della riga se stampato oppure null,"ingrediente":nome generico breve in italiano minuscolo, senza marca né calibro (es. "vongole", "spaghetti", "olio evo", "limoni")${known.length?'; se corrisponde usa esattamente uno di questi nomi già usati: '+JSON.stringify(known):''},"quantita":number,"unita":"kg" oppure "l" oppure "pz","prezzo_unitario":euro per 1 kg, 1 litro o 1 pezzo,"iva_pct":aliquota IVA della riga (4, 5, 10 o 22) se leggibile, altrimenti null,"totale":euro della riga come stampato}]}. Per una FATTURA o bolla prezzi e totali sono IVA ESCLUSA. Per uno SCONTRINO prezzi e totali sono quelli stampati, IVA INCLUSA: indica iva_pct se riesci a collegare la lettera o il codice dell'aliquota. Sugli scontrini le righe a peso hanno la forma "0,874 kg x 12,90": quantità 0,874 kg, prezzo 12,90 €/kg; "2 x 1,29" sono 2 pezzi a 1,29. Converti le confezioni (5 conf. da 500 g = 2,5 kg). Ignora sconti a piè di pagina, resto, pagamenti, punti fedeltà, buste, prodotti non alimentari (detersivi, utensili) e righe senza prezzo. Se la data non si legge usa ${iso(today())}. IMPORTANTE: elenca TUTTE le righe di prodotto, dalla prima all’ultima, senza saltarne nessuna.`},...imgs],true,{fast:true,maxTokens:16384,temperature:0});
   const o=JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1));
   const tipo=docType!=='auto'?docType:(o.tipo==='scontrino'?'scontrino':'fattura');
-  draft={tipo,fornitore:String(o.fornitore||'').trim(),data:/^\d{4}-\d{2}-\d{2}$/.test(o.data||'')?o.data:iso(today()),righe:(o.righe||[]).filter(r=>r&&(r.ingrediente||r.prodotto)).map(r=>{const q=num(r.quantita)||1;let pu=num(r.prezzo_unitario);if(!pu&&num(r.totale))pu=num(r.totale)/q;let iva=[4,5,10,22].includes(Number(r.iva_pct))?Number(r.iva_pct):0;if(tipo==='scontrino'){iva=iva||10;pu=pu/(1+iva/100);}return{p:String(r.prodotto||''),i:String(r.ingrediente||r.prodotto||'').toLowerCase().trim(),q,u:['kg','l','pz'].includes(r.unita)?r.unita:'kg',pu:Math.round(pu*100)/100,iva};})};window.__blInfo={info:o.fornitore_info||null,imp:num(o.totale_imponibile),tot:num(o.totale_documento),tipo};
+  draft={tipo,num:String(o.numero_documento||'').replace(/^null$/,'').trim(),fornitore:String(o.fornitore||'').trim(),data:/^\d{4}-\d{2}-\d{2}$/.test(o.data||'')?o.data:iso(today()),righe:(o.righe||[]).filter(r=>r&&(r.ingrediente||r.prodotto)).map(r=>{const q=num(r.quantita)||1;let pu=num(r.prezzo_unitario);if(!pu&&num(r.totale))pu=num(r.totale)/q;let iva=[4,5,10,22].includes(Number(r.iva_pct))?Number(r.iva_pct):0;if(tipo==='scontrino'){iva=iva||10;pu=pu/(1+iva/100);}return{p:String(r.prodotto||''),l:String(r.lotto||'').replace(/^null$/,''),i:String(r.ingrediente||r.prodotto||'').toLowerCase().trim(),q,u:['kg','l','pz'].includes(r.unita)?r.unita:'kg',pu:Math.round(pu*100)/100,iva};})};window.__blInfo={info:o.fornitore_info||null,imp:num(o.totale_imponibile),tot:num(o.totale_documento),tipo};
   st.textContent=`✅ ${draft.tipo==='scontrino'?'Scontrino letto':'Documento letto'}: ${draft.righe.length} righe. Controlla e salva.`;editBolla();}
  catch(e){console.error(e);st.textContent='❌ Lettura non riuscita: '+e.message+'. Riprova con una foto più dritta e luminosa, oppure ✍️ A mano.';}}
 function editBolla(){const d=draft,box=$('v211Box');
@@ -2279,15 +2279,15 @@ function editBolla(){const d=draft,box=$('v211Box');
  <div style="font-size:.72rem;color:var(--muted);margin-bottom:8px;">${d.tipo==='scontrino'?'Dallo scontrino ho tolto l’IVA (di solito 10% sugli alimentari, 22% su vino e bibite), così i prezzi sono confrontabili con le fatture. ':''}Prezzi IVA esclusa, riferiti a 1 kg, 1 litro o 1 pezzo. Usa sempre lo stesso nome per lo stesso ingrediente.</div>
  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-note" style="padding:12px;" onclick="v211Close()">Annulla</button><button class="btn-main btn-bill" onclick="v211BlSave()">💾 Salva bolla</button></div>`;
  $('v211Modal').classList.add('active');}
-function readRows(){const out=[];document.querySelectorAll('#blRows .bl-row').forEach(el=>{const g=f=>el.querySelector(`[data-f="${f}"]`).value,i=+el.dataset.i;out.push({p:(draft.righe[i]||{}).p||'',iva:(draft.righe[i]||{}).iva||0,i:g('i').trim().toLowerCase(),q:num(g('q')),u:g('u'),pu:num(g('pu'))});});draft.righe=out;draft.fornitore=$('blF').value.trim();draft.data=$('blD').value||iso(today());}
+function readRows(){const out=[];document.querySelectorAll('#blRows .bl-row').forEach(el=>{const g=f=>el.querySelector(`[data-f="${f}"]`).value,i=+el.dataset.i;out.push({p:(draft.righe[i]||{}).p||'',l:(draft.righe[i]||{}).l||'',iva:(draft.righe[i]||{}).iva||0,i:g('i').trim().toLowerCase(),q:num(g('q')),u:g('u'),pu:num(g('pu'))});});draft.righe=out;draft.fornitore=$('blF').value.trim();draft.data=$('blD').value||iso(today());}
 window.v211BlAdd=()=>{readRows();draft.righe.push({p:'',i:'',q:1,u:'kg',pu:0});editBolla();};
 window.v211BlDel=i=>{readRows();draft.righe.splice(i,1);editBolla();};
 window.v211Close=()=>$('v211Modal').classList.remove('active');
-window.v211BlSave=async()=>{readRows();const R=draft.righe.filter(r=>r.i&&r.pu>0).map(r=>({p:r.p,i:r.i,k:ik(r.i),q:r.q,u:r.u,pu:Math.round(r.pu*100)/100,t:Math.round(r.q*r.pu*100)/100,...(r.iva?{iva:r.iva}:{})}));if(!R.length)return alert('Serve almeno una riga con ingrediente e prezzo.');if(!draft.fornitore&&!confirm('Salvare senza nome del fornitore?'))return;
- const id='b'+Date.now(),b={tipo:draft.tipo||'fattura',fornitore:draft.fornitore||'Fornitore',data:draft.data,ts:Date.now(),tot:Math.round(R.reduce((s,r)=>s+r.t,0)*100)/100,righe:R};
+window.v211BlSave=async()=>{readRows();const R=draft.righe.filter(r=>r.i&&r.pu>0).map(r=>({p:r.p,i:r.i,k:ik(r.i),q:r.q,u:r.u,pu:Math.round(r.pu*100)/100,t:Math.round(r.q*r.pu*100)/100,...(r.iva?{iva:r.iva}:{}),...(r.l?{l:r.l}:{})}));if(!R.length)return alert('Serve almeno una riga con ingrediente e prezzo.');if(!draft.fornitore&&!confirm('Salvare senza nome del fornitore?'))return;
+ const id='b'+Date.now(),b={tipo:draft.tipo||'fattura',...(draft.num?{num:draft.num}:{}),fornitore:draft.fornitore||'Fornitore',data:draft.data,ts:Date.now(),tot:Math.round(R.reduce((s,r)=>s+r.t,0)*100)/100,righe:R};
  const sk=x=>ik(String(x||'').toLowerCase().replace(/\b(s\.?\s?r\.?\s?l\.?|s\.?\s?p\.?\s?a\.?|s\.?\s?n\.?\s?c\.?|s\.?\s?a\.?\s?s\.?|srls)\b/g,' '));
  if(Object.values(C.bolle||{}).some(x=>x&&x.data===b.data&&sk(x.fornitore)===sk(b.fornitore)&&Math.abs((x.tot||0)-b.tot)<=1)&&!confirm('Sembra che questo documento sia già stato caricato (stesso fornitore, data e totale). Salvarlo lo stesso?'))return;v211Close();
- const before=priceIndex();await put('bolle/'+id,b);const after=priceIndex(),up=R.filter(r=>{const o=after[r.k];return o&&o.ch!=null&&o.ch>=.15&&before[r.k];});
+ const before=priceIndex();await put('bolle/'+id,b);try{window.v2931Sc1FromBolla&&v2931Sc1FromBolla(id,b);}catch(e){}const after=priceIndex(),up=R.filter(r=>{const o=after[r.k];return o&&o.ch!=null&&o.ch>=.15&&before[r.k];});
  blSet(`✅ Bolla salvata: ${R.length} prezzi aggiornati.`+(up.length?' 📈 Aumenti: '+up.map(r=>r.i+' +'+Math.round(after[r.k].ch*100)+'%').join(', ')+' (vedi 🤖 AI › 💰 Costi).':''));rerender();};
 window.v211BlDelete=async id=>{const b=C.bolle[id];if(!b||!confirm(`Eliminare la bolla di ${b.fornitore} del ${b.data.split('-').reverse().join('/')}?\nI suoi prezzi escono dall’andamento.`))return;await put('bolle/'+id,null);rerender();};
 
@@ -5675,9 +5675,6 @@ setInterval(()=>{if(document.visibilityState==='visible'){try{check();}catch(e){
 window.v2919Check=check;
 })();
 </script>
-<!-- ===== v2.9.30: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
-<!-- ===== v2.9.20: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
-<!-- ===== v2.9.20: menù speciale (Halloween e serate a tema) con QR dedicato ===== -->
 <style>#mpBar .mp-s{white-space:pre-line}#mpBar .mp-t{line-height:1.25}.sp-st{border-radius:14px;padding:10px 12px;margin:0 0 10px;line-height:1.35}.sp-st b{font-size:.98rem}</style>
 <script>
 (function(){
@@ -5707,7 +5704,6 @@ function statusBox(){if(busy)return`<div class="sp-st" style="background:#FEF3C7
  return`<div class="sp-st" style="background:#E5E7EB;border:2px solid #9CA3AF;color:#374151;"><b>⚪ NON PUBBLICATO</b><div style="font-size:.78rem;font-weight:700;">I clienti ancora non lo vedono. Compila i piatti e premi “Pubblica”.</div></div>`;}
 const saveD=()=>{try{localStorage.setItem('alicetta_special_draft',JSON.stringify(D));}catch(e){}};
 const isOn=()=>!!(SP&&SP.on&&(SP.secs||[]).length);
-/* testo → sezioni (una riga per piatto, "# " per le portate, prezzo facoltativo in fondo alla riga) */
 function parse(t){const secs=[];let cur=null;String(t||'').split('\n').map(x=>x.trim()).filter(Boolean).forEach(l=>{if(/^#/.test(l)){cur={n:l.replace(/^#+\s*/,''),items:[]};secs.push(cur);return;}
  if(!cur){cur={n:'Menù',items:[]};secs.push(cur);}l=l.replace(/^[-•*]\s*/,'');let p=null;const m=l.match(/^(.*?\S)\s+(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?\s*$/i);if(m&&m[1].length>2){p=num(m[2]);l=m[1].replace(/[-–—:.\s]+$/,'');}
  cur.items.push({n:l,...(p>0?{p}:{})});});return secs.filter(s=>s.items.length);}
@@ -5781,7 +5777,6 @@ window.v2920Print=()=>{const q=$('spQr'),cv=q&&q.querySelector('canvas'),src=cv?
 setInterval(()=>{try{place();}catch(e){}},1500);
 })();
 </script>
-<!-- ===== v2.9.30: report ore lavorate per qualsiasi giorno, mese o anno + CSV del periodo scelto ===== -->
 <script>
 (function(){
 const pad=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
@@ -5805,7 +5800,6 @@ exportTimeCSV=function(){const p=per(),ref=refD(),S=periodShifts().sort((a,b)=>a
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+rows.join('\n')],{type:'text/csv'}));a.download='presenze_'+pre(p,ref)+'.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);};
 })();
 </script>
-<!-- ===== v2.9.30: scorte per portata · piatti contati in giallo con ! · ricevuta su Epson TM-m30III (RawBT) ===== -->
 <style>
 .st-gh{margin:14px 0 4px;padding:7px 12px;border-radius:12px;background:#062329;color:#fff;font-size:1rem;font-weight:900;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .st-gh span{font-size:.72rem;font-weight:700;opacity:.85}
@@ -5817,7 +5811,6 @@ exportTimeCSV=function(){const p=per(),ref=refD(),S=periodShifts().sort((a,b)=>a
 <script>
 (function(){
 const $=id=>document.getElementById(id);
-/* ---------- 1. Scorte divise per portata (zebra per ogni gruppo) ---------- */
 const GR=[['3 Antipasti','🥗 Antipasti'],['4 Primi Piatti','🍝 Primi'],['5 Secondi','🐟 Secondi'],['5 Contorni','🥬 Contorni'],['6 Desserts','🍰 Dolci']];
 const byName=(x,y)=>String(x.name||'').localeCompare(String(y.name||''),'it',{sensitivity:'base',numeric:true});
 const row=m=>{const l=stockLeft(m);return`<div class="cart-row"><div class="cart-info"><b>${escH(m.name)}</b></div><div class="cart-controls"><button class="btn-qty" onclick="adjStock(${m.id},-1)">-</button><button class="btn-note" style="min-width:104px;${l===0?'background:#FEE2E2;color:#991B1B;':l!==null?'background:#FDE047;color:#422006;':''}" onclick="askStock(${m.id})">${l===null?'∞ senza limite':(l===0?'0 · finito':'❗ '+l+(l===1?' rimasta':' rimaste'))}</button><button class="btn-qty" onclick="adjStock(${m.id},1)">+</button></div></div>`;};
@@ -5826,7 +5819,6 @@ renderStock=function(){const p=$('stockPanel');if(!p)return;let h='<h3 style="ma
   h+=`<h4 class="st-gh">${l}<span>${it.length} piatti${cnt?' · ❗ '+cnt+' contati':''}${fin?' · '+fin+' finiti':''}</span></h4><div class="st-grp">${it.map(row).join('')}</div>`;});
  p.innerHTML=h;};
 try{renderStock();}catch(e){}
-/* ---------- 2. Stampa: lettere accentate corrette e ricevuta del conto ---------- */
 const clean=s=>String(s==null?'':s).normalize('NFC').replace(/[’‘´`]/g,"'").replace(/[“”«»]/g,'"').replace(/[–—]/g,'-').replace(/€/g,'EUR').replace(/…/g,'...').replace(/×/g,'x').replace(/[^\x00-\xFF]/g,'');
 {const _e=encodeBase64UTF8;encodeBase64UTF8=function(s){return _e(clean(s).replace(/\x1B@/g,'\x1B@\x1Bt\x10'));};}
 const W=48,ESC='\x1B',GS='\x1D';
@@ -5847,14 +5839,11 @@ window.v2925PrintBill=key=>{const e=(state.historyLog||[]).find(x=>x&&(x.rid===k
  if(e.rid&&window.grazieUrl){ep+='\nRiepilogo, recensione e Fidelity Card:\n'+qr(grazieUrl(e.rid))+'\n';pv+='\n[QR: riepilogo e Fidelity Card]\n';}
  ep+=ESC+'a\x00'+'\n\n\n'+GS+'V\x42\x00';pv+='\nDocumento non valido ai fini fiscali';
  dispatchPrint(pv,ep);};
-/* tasto Ricevuta su ogni conto (Vendite › Conti) */
 function rcBtns(){document.querySelectorAll('#hub_sales_conti button[onclick^="v26EditTot("]').forEach(b=>{if(b.dataset.rc)return;b.dataset.rc='1';const m=(b.getAttribute('onclick')||'').match(/\((\d+)\)/);if(!m)return;const n=document.createElement('button');n.className='btn-note';n.textContent='🖨️ Ricevuta';n.setAttribute('onclick','v2925PrintBill('+m[1]+')');b.after(n);});}
 new MutationObserver(()=>{clearTimeout(window._rcT);window._rcT=setTimeout(()=>{try{rcBtns();}catch(e){}},150);}).observe(document.body,{childList:true,subtree:true});
-/* tasto Ricevuta nella finestra QR Grazie dopo il pagamento */
 {const _s=showReceiptQr;showReceiptQr=function(rid){const r=_s.apply(this,arguments);try{const a=document.querySelector('#rcptModal .modal-actions');if(a&&!a.querySelector('.v2925pr')){const b=document.createElement('button');b.className='btn-modal v2925pr';b.style.cssText='background:#0E7490;color:#fff;';b.textContent='🖨️ Ricevuta';b.onclick=()=>v2925PrintBill(rid);a.prepend(b);}}catch(e){}return r;};}
 })();
 </script>
-<!-- ===== v2.9.30: menù pranzo sempre visibile finché non lo sostituisci · QR e anteprima pranzo per tutti ===== -->
 <div class="modal-overlay" id="luQrModal"><div class="receipt-box" style="text-align:center;max-width:400px;"><h3 style="color:var(--logo-coral);margin-bottom:4px;">🌞 Menù del pranzo</h3><div style="font-weight:700;margin-bottom:10px;">Inquadra il codice con la fotocamera</div><div id="luQrBox" style="display:flex;justify-content:center;background:#fff;padding:12px;border-radius:14px;"></div><div id="luQrLink" style="font-size:.72rem;color:var(--muted);margin-top:8px;word-break:break-all;"></div><div class="modal-actions" style="margin-top:12px;"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('luQrModal').classList.remove('active')">Chiudi</button><button class="btn-modal" style="background:#F59E0B;color:#062329;" onclick="v2931LuView()">👀 Vedi</button></div></div></div>
 <script>
 (function(){
@@ -5866,7 +5855,6 @@ window.v2931LuQr=()=>{const b=document.getElementById('luQrBox');b.innerHTML='';
  if(close)close.before(d);else box.appendChild(d);}catch(e){}return r;};}
 })();
 </script>
-<!-- ===== v2.9.30: chiusure mancanti ricostruite · chiusura cassa obbligatoria a fine serata ===== -->
 <div id="ccBanner" onclick="v2928Go()" style="display:none;position:fixed;left:10px;right:10px;top:calc(112px + env(safe-area-inset-top,0px));z-index:95;background:#B91C1C;color:#fff;font-weight:900;border-radius:14px;padding:10px 12px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.35);cursor:pointer;">⚠️ Chiusura cassa di stasera da fare · tocca qui</div>
 <script>
 (function(){
@@ -5887,7 +5875,6 @@ function tick(){const b=document.getElementById('ccBanner');if(!b)return;let on=
 setInterval(tick,5000);
 })();
 </script>
-<!-- ===== v2.9.30: punti Club a mano · chiusura di un altro giorno · scorrere i giorni negli incassi · pranzo sopra il menù speciale ===== -->
 <script>
 (function(){
 const $=id=>document.getElementById(id);
@@ -5895,7 +5882,6 @@ const isOwner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const pad=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 const addD=(s,n)=>{const d=new Date(s+'T12:00');d.setDate(d.getDate()+n);return iso(d);};
 const lbl=s=>new Date(s+'T12:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
-/* ---------- 1. Club: aggiungere conti vecchi (o correggere i punti) ---------- */
 window.v2929FidAdd=async id=>{if(!isOwner())return alert('Solo Christian può modificare i punti.');let c;try{c=await fbGet('/fidelity/cards/'+id);}catch(e){return alert('Connessione assente: riprova.');}if(!c)return alert('Cliente non trovato.');
  const v=prompt('➕ Conto da aggiungere a '+(c.name||'')+'\nScrivi l’importo del conto in € (es. 74,50).\nPer togliere punti scrivi un numero negativo (es. -20).');if(v==null)return;const amt=Math.round(parseFloat(String(v).replace(',','.'))*100)/100;if(!isFinite(amt)||amt===0||Math.abs(amt)>5000)return alert('Importo non valido.');
  const dv=prompt('Data del conto (gg/mm/aaaa). Lascia vuoto per oggi.',''),m=String(dv||'').match(/(\d{1,2})\D+(\d{1,2})\D+(\d{2,4})/);let ts=Date.now();if(m){let y=+m[3];if(y<100)y+=2000;const d=new Date(y,+m[2]-1,+m[1],21,0);if(!isNaN(d))ts=Math.min(d.getTime(),Date.now());}
@@ -5905,19 +5891,15 @@ window.v2929FidAdd=async id=>{if(!isOwner())return alert('Solo Christian può mo
  try{const x=(fidCache||[]).find(k=>k.id===id);if(x)Object.assign(x,{eur,earned,visits,last,adj});renderFidList();}catch(e){}
  const ne=earned-(Number(c.earned)||0);alert('✅ '+(amt>0?'Aggiunti ':'Tolti ')+Math.abs(Math.floor(amt))+' punti a '+(c.name||'')+'. Ora ha '+Math.floor(eur+bonus)+' punti'+(ne>0?' e '+ne+(ne===1?' nuovo calice':' nuovi calici')+' da consegnare 🥂':'')+'.');};
 {const _f=renderFidList;renderFidList=function(){const r=_f.apply(this,arguments);try{if(isOwner())document.querySelectorAll('button[onclick^="toggleFidMkt("]').forEach(b=>{if(b.dataset.add)return;b.dataset.add='1';const m=(b.getAttribute('onclick')||'').match(/toggleFidMkt\('([^']+)'\)/);if(!m)return;const n=document.createElement('button');n.className='btn-note';n.textContent='➕ Conto vecchio / punti';n.setAttribute('onclick',"v2929FidAdd('"+m[1]+"')");b.before(n);});}catch(e){}return r;};}
-/* ---------- 2. Chiusura di un giorno non registrato ---------- */
 window.v2929OtherDay=()=>{const y=addD(svcToday(),-1),v=prompt('Di quale giorno vuoi fare la chiusura? (gg/mm/aaaa)',y.split('-').reverse().join('/'));if(v==null)return;const m=String(v).match(/(\d{1,2})\D+(\d{1,2})\D+(\d{2,4})/);if(!m)return alert('Data non valida');let yy=+m[3];if(yy<100)yy+=2000;const d=yy+'-'+pad(+m[2])+'-'+pad(+m[1]);if(d>svcToday())return alert('Non si può fare la chiusura di un giorno futuro.');ccOpen(d+'|giorno');};
 {const _r=renderCashClose;renderCashClose=function(){const r=_r.apply(this,arguments);try{const el=$('cashClose');if(el&&isOwner()&&!el.querySelector('.v2929od')){const b=document.createElement('button');b.className='btn-note v2929od';b.style.cssText='width:100%;margin:0 0 10px;padding:11px;';b.textContent='➕ Chiusura di un altro giorno';b.onclick=v2929OtherDay;const rec=el.querySelector('.v2928rec');if(rec)rec.after(b);else el.prepend(b);}}catch(e){}return r;};}
-/* ---------- 3. Incassi: frecce per i giorni precedenti ---------- */
 window.v2929Day=n=>{const[a,b]=contiRange();let d=(a===b?a:svcToday());d=addD(d,n);if(d>svcToday())return;state.contiPer=d===svcToday()?'oggi':'giorno';state.contiDay=d;renderConti();};
 {const _c=renderConti;renderConti=function(){const r=_c.apply(this,arguments);try{const T=$('payTotals');if(T&&!T.querySelector('.v2929nav')){const bar=T.querySelector('.cat-bar');const[a,b]=contiRange(),cur=a===b?a:null,isT=cur===svcToday();const d=document.createElement('div');d.className='v2929nav';d.style.cssText='display:grid;grid-template-columns:48px 1fr 48px;gap:6px;align-items:center;margin:4px 0 8px;';
  d.innerHTML=`<button class="btn-note" style="min-height:42px;font-size:1.1rem;" onclick="v2929Day(-1)" aria-label="Giorno prima">◀</button><div style="text-align:center;font-weight:900;font-size:.88rem;text-transform:capitalize;">${cur?lbl(cur)+(isT?' · oggi':''):'tocca ◀ per i singoli giorni'}</div><button class="btn-note" style="min-height:42px;font-size:1.1rem;${isT?'opacity:.3;':''}" ${isT?'disabled':''} onclick="v2929Day(1)" aria-label="Giorno dopo">▶</button>`;
  if(bar)bar.after(d);else T.prepend(d);}}catch(e){}return r;};}
-/* ---------- 4. Menù pranzo sopra il menù speciale ---------- */
 setInterval(()=>{try{const lu=$('luCard'),sp=$('spCard');if(lu&&sp&&(sp.compareDocumentPosition(lu)&Node.DOCUMENT_POSITION_FOLLOWING))sp.before(lu);}catch(e){}},1200);
 })();
 </script>
-<!-- ===== v2.9.30: registratore locale · totali accanto a ogni chiusura · allineamento con SumUp dal 21/10 ===== -->
 <div class="modal-overlay" id="suModal"><div class="receipt-box" id="suBox" style="max-width:560px;max-height:88vh;overflow:auto;"></div></div>
 <script>
 (function(){
@@ -5925,10 +5907,8 @@ const $=id=>document.getElementById(id);const esc=s=>escH(s);
 const isOwner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const isSU=e=>/sumup/i.test(String(e&&e.pay&&e.pay.via||''));
 const r2=n=>Math.round((Number(n)||0)*100)/100;
-/* ---------- totali accanto a ogni chiusura ---------- */
 window.v2930DayTot=(d,s)=>{try{const L=(state.historyLog||[]).filter(e=>e&&svcDate(e)===d&&(s==='giorno'||!s||svcOf(e)===s));const tot=L.reduce((a,e)=>a+(Number(e.total)||0),0),su=L.filter(isSU).reduce((a,e)=>a+(Number(e.total)||0),0);
  return `<br><span style="font-weight:800;color:var(--text,inherit);">Tot € ${formatPrice(tot)} · 🏪 Cassa locale € ${formatPrice(tot-su)} · 🟦 SumUp € ${formatPrice(su)}</span>`;}catch(e){return'';}};
-/* ---------- pagamenti letti dal terminale SumUp (foto del 06/11) ---------- */
 const SU=[['2026-11-06','15:26',122,'split'],['2026-11-06','15:21',64,'cash'],['2026-11-06','14:18',56,'cash'],['2026-11-06','14:09',51,'card'],
 ['2026-11-05','14:48',74,'cash'],['2026-11-05','14:28',74,'card'],
 ['2026-10-31','20:03',22,'cash'],['2026-10-31','15:16',86,'card'],['2026-10-31','13:51',89,'card'],
@@ -5972,6 +5952,88 @@ window.v2930Apply=()=>{if(!PLAN)return;const{P,local}=PLAN,addMiss=!!($('suAddMi
  saveState(false,{history:true});$('suModal').classList.remove('active');PLAN=null;try{renderConti();}catch(e){}
  alert('✅ Fatto: '+n+' conti sistemati'+(added?' e '+added+' pagamenti SumUp aggiunti':'')+'. Le chiusure mostrano ora i totali cassa locale / SumUp aggiornati.');};
 {const _r=renderCashClose;renderCashClose=function(){const r=_r.apply(this,arguments);try{const el=$('cashClose');if(el&&isOwner()&&!el.querySelector('.v2930su')){const b=document.createElement('button');b.className='btn-main v2930su';b.style.cssText='width:100%;margin:0 0 10px;background:#1D4ED8;color:#fff;';b.textContent='🔍 Allinea i conti con SumUp (21/10 – 06/11)';b.onclick=v2930Open;el.prepend(b);}}catch(e){}return r;};}
+})();
+</script>
+<style>
+.hx-row{border-bottom:1px dashed var(--border);padding:7px 0;font-size:.82rem;display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.hx-row b{font-size:.88rem}.hx-c{min-width:46px;border:2px solid #062329;border-radius:9px;font-weight:900;padding:4px 6px;cursor:pointer}
+.hx-c.ok{background:#DCFCE7;color:#14532D}.hx-c.no{background:#FEE2E2;color:#991B1B}
+.hx-nav{display:grid;grid-template-columns:44px 1fr 44px;gap:6px;align-items:center;margin:4px 0 8px}.hx-nav b{text-align:center;text-transform:capitalize}
+.hx-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}.hx-g button{padding:11px 6px;font-size:.86rem}
+#hxModal .receipt-box{max-width:520px;max-height:90vh;overflow:auto}#hxModal label{display:block;font-size:.74rem;font-weight:800;margin-top:6px}
+</style>
+<div class="modal-overlay" id="hxModal"><div class="receipt-box" id="hxBox"></div></div>
+<script>
+(function(){
+const $=id=>document.getElementById(id),esc=s=>escH(s),pad=n=>String(n).padStart(2,'0');
+const isOwner=()=>/^christian$/i.test((state.waiterName||'').trim());
+const FULL=n=>{const t=String(n||'').trim();return /^alice$/i.test(t)?'Alice Di Mascio':/^christian$/i.test(t)?'Christian Carafa':t;};
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());};
+const dmy=s=>s?String(s).split('-').reverse().join('/'):'';
+const MESI=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+let tt=0;function toast(m){let e=$('miniToast');if(!e){e=document.createElement('div');e.id='miniToast';e.className='mini-toast';document.body.appendChild(e);}e.textContent=m;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),3000);}
+const D={sc1:{},sc8:{}};['sc1','sc8'].forEach(k=>{try{D[k]=JSON.parse(localStorage.getItem('alicetta_'+k)||'{}')||{};}catch(e){}});
+const saveL=k=>{try{localStorage.setItem('alicetta_'+k,JSON.stringify(D[k]));}catch(e){}};
+async function put(k,id,v){if(v)D[k][id]=v;else delete D[k][id];saveL(k);try{await fbSend('/costi/haccp/'+k+'/'+id,v?'PUT':'DELETE',v||undefined);}catch(e){toast('⚠️ Salvato sul telefono, lo invio quando c’è rete');}}
+async function pull(){for(const k of ['sc1','sc8']){try{const r=await fbGet('/costi/haccp/'+k);if(r&&typeof r==='object'){D[k]=r;saveL(k);}}catch(e){}}}
+let M=today().slice(0,7);
+const prodTxt=b=>(b.righe||[]).map(r=>{const n=String(r.p||r.i||'').trim();return n+(r.l?' (lotto '+r.l+')':'');}).filter(Boolean).join(', ');
+window.v2931Sc1FromBolla=(id,b)=>{if(!b||b.tipo==='scontrino'||!b.data)return;if(Object.values(D.sc1).some(x=>x&&x.src===id))return;const rid='s'+(b.ts||Date.now());put('sc1',rid,{d:b.data,num:b.num||'',forn:b.fornitore||'',prod:prodTxt(b)||'vedi fattura',c:true,firma:FULL(state.waiterName)||'Alice Di Mascio',src:id,ts:Date.now()});};
+function syncBolle(){try{const C=window.v211Data?v211Data():null;if(!C||!C.bolle)return;Object.entries(C.bolle).forEach(([id,b])=>{if(b&&b.data>='2026-11-01')v2931Sc1FromBolla(id,b);});}catch(e){}}
+function rowsOf(k,f){return Object.entries(D[k]).filter(([id,r])=>r&&String(r[f]||'').slice(0,7)===M).sort((a,b)=>String(a[1][f]).localeCompare(String(b[1][f]))||(a[1].ts||0)-(b[1].ts||0));}
+function draw(){const host=$('hxCards');if(!host)return;const lbl=MESI[+M.slice(5,7)-1]+' '+M.slice(0,4);
+ const nav=`<div class="hx-nav"><button class="btn-note" onclick="v2931M(-1)">◀</button><b>${lbl}</b><button class="btn-note" onclick="v2931M(1)">▶</button></div>`;
+ const s1=rowsOf('sc1','d'),s8=rowsOf('sc8','dab');
+ let wk=0;try{const C=window.v211Data?v211Data():{};const a=new Date();a.setDate(a.getDate()-7);const t=a.toISOString().slice(0,10);wk=Object.values((C&&C.bolle)||{}).filter(b=>b&&b.data>=t).length;}catch(e){}
+ host.innerHTML=`<div class="hc-card"><h3>🧾 Fatture e bolle</h3><div class="fc-sub" style="margin:4px 0 8px;">Ultimi 7 giorni: <b>${wk}</b> documenti caricati. Quando carichi una bolla o una fattura in Fornitori, finisce da sola nella scheda di accettazione qui sotto.</div>${isOwner()?'<button class="btn-main btn-bill" style="width:100%;" onclick="v2931Forn()">📦 Apri fatture e bolle</button>':''}</div>
+ <div class="hc-card"><h3>📦 Accettazione merci <span class="fc-sub">(scheda SC1)</span></h3>${nav}
+ <div class="hx-g"><button class="btn-main btn-print" onclick="v2931Photo('sc1')">📸 Foto bolla</button><button class="btn-main btn-bill" onclick="v2931Edit('sc1')">✍️ A mano</button></div>
+ ${s1.map(([id,r])=>`<div class="hx-row"><div onclick="v2931Edit('sc1','${id}')" style="flex:1;cursor:pointer;"><b>${dmy(r.d).slice(0,5)} · ${esc(r.forn)}</b>${r.num?' · n. '+esc(r.num):''}<div class="fc-sub">${esc(r.prod)}</div><div class="fc-sub">✍️ ${esc(r.firma||'')}</div></div><button class="hx-c ${r.c?'ok':'no'}" onclick="v2931C('${id}')">${r.c?'C ✓':'NC ✗'}</button></div>`).join('')||'<div class="fc-sub">Nessuna accettazione in questo mese.</div>'}
+ <button class="btn-note" style="width:100%;margin-top:8px;padding:10px;" onclick="v2931Print('sc1')">🖨️ Stampa scheda SC1 del mese</button></div>
+ <div class="hc-card"><h3>❄️ Abbattimento <span class="fc-sub">(scheda SC8)</span></h3>${nav}
+ <div class="hx-g"><button class="btn-main btn-print" onclick="v2931Photo('sc8')">📸 Foto etichetta</button><button class="btn-main btn-bill" onclick="v2931Edit('sc8')">✍️ A mano</button></div>
+ ${s8.map(([id,r])=>`<div class="hx-row" onclick="v2931Edit('sc8','${id}')" style="cursor:pointer;"><div style="flex:1;"><b>${dmy(r.dab).slice(0,5)} · ${esc(r.al)}</b><div class="fc-sub">${esc(r.forn||'ns produzione')}${r.peso?' · '+esc(r.peso):''}${r.oin?' · '+esc(r.oin)+'→'+esc(r.oout||'…'):''}${r.scad?' · scade '+dmy(r.scad).slice(0,5):''}</div><div class="fc-sub">✍️ ${esc(r.add||'')}</div></div><span class="hx-c ${r.c!==false?'ok':'no'}">${r.c!==false?'C ✓':'NC ✗'}</span></div>`).join('')||'<div class="fc-sub">Nessun abbattimento in questo mese.</div>'}
+ <button class="btn-note" style="width:100%;margin-top:8px;padding:10px;" onclick="v2931Print('sc8')">🖨️ Stampa scheda SC8 del mese</button></div>`;}
+function place(){const hp=$('hcPage');if(!hp)return;if(!$('hxCards')){const d=document.createElement('div');d.id='hxCards';hp.after(d);syncBolle();draw();pull().then(()=>{syncBolle();draw();});}}
+setInterval(()=>{try{place();}catch(e){}},1500);
+window.v2931M=n=>{const d=new Date(M+'-15T12:00');d.setMonth(d.getMonth()+n);M=d.getFullYear()+'-'+pad(d.getMonth()+1);draw();};
+window.v2931Forn=()=>{try{switchMainView('sales');setHubPage('sales','forn');}catch(e){}};
+window.v2931C=id=>{const r=D.sc1[id];if(!r)return;put('sc1',id,{...r,c:!r.c});draw();};
+const F={sc1:[['d','Data accettazione','date'],['num','N° fattura o bolla'],['forn','Fornitore'],['prod','Prodotti conferiti (lotto)','area'],['firma','Firma addetto al ricevimento']],
+ sc8:[['al','Alimento'],['forn','Fornitore / ns produzione'],['arr','Data arrivo','date'],['dab','Data abbattimento','date'],['peso','Peso / N° fattura'],['oin','Ora ingresso','time'],['oout','Ora uscita','time'],['dout','Data uscita','date'],['scad','Scadenza (dall’etichetta)','date'],['add','Addetto al controllo']]};
+let ED=null;
+window.v2931Edit=(k,id,pre)=>{const r=id?{...D[k][id]}:(pre||(k==='sc1'?{d:today(),c:true,firma:FULL(state.waiterName)}:{dab:today(),arr:today(),forn:'ns produzione',c:true,add:FULL(state.waiterName)}));ED={k,id,r};
+ $('hxBox').innerHTML=`<h3>${k==='sc1'?'📦 Accettazione merci':'❄️ Abbattimento'}</h3>${F[k].map(([f,l,t])=>`<label>${l}</label>${t==='area'?`<textarea class="v14-in" id="hx_${f}" rows="3">${esc(r[f]||'')}</textarea>`:`<input class="v14-in" id="hx_${f}" type="${t||'text'}" value="${esc(r[f]||'')}">`}`).join('')}
+ <label><input type="checkbox" id="hx_c" ${r.c!==false?'checked':''} style="width:20px;height:20px;vertical-align:middle;"> Conforme (C)</label>
+ <div class="modal-actions" style="margin-top:12px;">${id?`<button class="btn-modal" style="background:#B91C1C;color:#fff;" onclick="v2931Del()">🗑️</button>`:''}<button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('hxModal').classList.remove('active')">Annulla</button><button class="btn-modal" style="background:#0891B2;color:#fff;" onclick="v2931Save()">💾 Salva</button></div>`;
+ $('hxModal').classList.add('active');};
+window.v2931Save=()=>{if(!ED)return;const{k,id}=ED,r={...ED.r};F[k].forEach(([f])=>{const e=$('hx_'+f);if(e)r[f]=e.value.trim();});r.c=$('hx_c').checked;r.ts=r.ts||Date.now();if(k==='sc1'&&!r.d)return alert('Serve la data');if(k==='sc8'&&(!r.al||!r.dab))return alert('Servono alimento e data di abbattimento');
+ put(k,id||((k==='sc1'?'s':'a')+Date.now()),r);$('hxModal').classList.remove('active');M=String(k==='sc1'?r.d:r.dab).slice(0,7)||M;draw();toast('✅ Registrato');};
+window.v2931Del=()=>{if(!ED||!ED.id||!confirm('Eliminare questa riga?'))return;put(ED.k,ED.id,null);$('hxModal').classList.remove('active');draw();};
+window.v2931Photo=k=>{const i=document.createElement('input');i.type='file';i.accept='image/*';i.multiple=k==='sc1';i.onchange=()=>{const f=[...i.files];if(f.length)read(k,f);};i.click();};
+async function read(k,files){if(!getGeminiKey())return alert('Serve la chiave Gemini in ⚙️ Opzioni.');toast('⏳ Leggo la foto…');
+ try{const parts=[];for(const f of files.slice(0,4))parts.push({inline_data:{mime_type:'image/jpeg',data:await shrinkImage(f,2000)}});
+  const y=new Date().getFullYear();
+  parts.push({text:k==='sc1'?`Foto di una fattura o DDT di un fornitore di alimenti. Rispondi SOLO JSON: {"data":"YYYY-MM-DD","numero_documento":string|null,"fornitore":nome breve senza forma societaria,"prodotti":[{"nome":nome breve del prodotto in italiano,"lotto":numero di lotto se scritto altrimenti null}]}. Elenca tutti i prodotti.`:`Foto di un'etichetta di cucina (abbattimento o preparazione) scritta a mano. Campi tipici: Contenuto, Confezionato il, Scadenza, Dipendente, Responsabile. Rispondi SOLO JSON: {"contenuto":string,"confezionato":"YYYY-MM-DD"|null,"scadenza":"YYYY-MM-DD"|null,"dipendente":string|null,"responsabile":string|null}. Le date come 03/11/26 sono giorno/mese/anno ${y}.`});
+  const o=jparse(await callGemini(parts,true,{temperature:0}));const ok=s=>/^\d{4}-\d{2}-\d{2}$/.test(String(s||''));
+  if(k==='sc1')v2931Edit('sc1',null,{d:ok(o.data)?o.data:today(),num:String(o.numero_documento||'').replace(/^null$/,''),forn:String(o.fornitore||''),prod:(o.prodotti||[]).map(p=>p&&p.nome?p.nome+(p.lotto&&p.lotto!=='null'?' (lotto '+p.lotto+')':''):'').filter(Boolean).join(', ')||'vedi fattura',c:true,firma:FULL(state.waiterName)});
+  else{const d=ok(o.confezionato)?o.confezionato:today();v2931Edit('sc8',null,{al:String(o.contenuto||''),forn:'ns produzione',arr:d,dab:d,scad:ok(o.scadenza)?o.scadenza:'',c:true,add:FULL(o.dipendente)||FULL(state.waiterName),resp:String(o.responsabile||'')});}}
+ catch(e){alert('Non riesco a leggere la foto: '+(e.message||e)+'. Riprova o inserisci a mano.');}}
+window.v2931Print=k=>{const lbl=MESI[+M.slice(5,7)-1]+' '+M.slice(0,4);const w=window.open('','_blank');if(!w)return;const td=v=>`<td>${esc(v==null?'':v)}</td>`;
+ const head=`<html><head><meta charset="utf-8"><title>${k.toUpperCase()} ${lbl}</title><style>@page{size:A4 landscape;margin:10mm}body{font-family:Arial,sans-serif;font-size:11px;color:#000}h2{color:#1D4ED8;text-align:center;margin:4px 0}table{width:100%;border-collapse:collapse}th,td{border:1px solid #000;padding:4px;vertical-align:top}th{font-size:10px}.c{text-align:center;font-weight:bold}.top{display:flex;justify-content:space-between;border:1px solid #000;padding:6px 10px;margin-bottom:8px;font-weight:bold}</style></head><body><div class="top"><span>ALICETTA TRATTORIA</span><span>SCHEDE DI AUTOCONTROLLO HACCP</span></div>`;
+ let h;if(k==='sc1'){const R=rowsOf('sc1','d');h=head+`<h2>SC1 – SCHEDA DI REGISTRAZIONE ACCETTAZIONE PRODOTTI DEPERIBILI · ${lbl}</h2><table><tr><th>Data accettazione</th><th>Estremi del documento di accompagnamento N° Fatt. o bolla</th><th>Fornitore</th><th>Prodotto conferito (lotto) / vedi fattura</th><th>C</th><th>NC</th><th>Firma addetto al ricevimento merci</th></tr>${R.map(([i,r])=>`<tr>${td(dmy(r.d))}${td(r.num)}${td(r.forn)}${td(r.prod)}<td class="c">${r.c?'X':''}</td><td class="c">${r.c?'':'X'}</td>${td(r.firma)}</tr>`).join('')}</table><p><b style="color:#B91C1C">*Conformità:</b> l’addetto al ricevimento merci prima di accettare i prodotti si assicura che questi siano trasportati in modo igienico e rispettando le idonee temperature ed inoltre effettua un accurato esame visivo degli stessi al fine di controllare l’integrità delle confezioni, l’assenza di insudiciamento o di alterazioni visibili dei prodotti.</p><p>Firma del responsabile dell’autocontrollo: <b>Alice Di Mascio</b> ____________________</p>`;}
+ else{const R=rowsOf('sc8','dab');h=head+`<h2>SC8 – SCHEDA REGISTRAZIONE ABBATTIMENTO · Mese ${MESI[+M.slice(5,7)-1]} Anno ${M.slice(0,4)}</h2><div>C = CONFORME · NC = NON CONFORME</div><table><tr><th>Data arrivo</th><th>Alimento</th><th>C</th><th>NC</th><th>Fornitore / ns produzione</th><th>Data abbattimento</th><th>Peso / N° fatt</th><th>Ora ingresso</th><th>Ora uscita</th><th>Data uscita</th><th>Addetto al controllo</th></tr>${R.map(([i,r])=>`<tr>${td(dmy(r.arr))}${td(r.al)}<td class="c">${r.c!==false?'X':''}</td><td class="c">${r.c!==false?'':'X'}</td>${td(r.forn)}${td(dmy(r.dab))}${td(r.peso)}${td(r.oin)}${td(r.oout)}${td(dmy(r.dout))}${td(r.add)}</tr>`).join('')}</table><p>Eventuali condizioni correttive: ____________________________________________</p>`;}
+ w.document.write(h+'</body></html>');w.document.close();setTimeout(()=>{try{w.print();}catch(e){}},500);};
+function lastWeek(){const d=new Date();const day=(d.getDay()+6)%7;const mon=new Date(d);mon.setDate(d.getDate()-day-7);const sun=new Date(mon);sun.setDate(mon.getDate()+6);const f=x=>x.getFullYear()+'-'+pad(x.getMonth()+1)+'-'+pad(x.getDate());return[f(mon),f(sun)];}
+window.v2931Mon=force=>{const[a,b]=lastWeek(),key='alicetta_fattmon',wk=a;if(!force&&(localStorage.getItem(key)===wk||Date.now()<(Number(localStorage.getItem(key+'_snz'))||0)))return;if(document.querySelector('.modal-overlay.active')&&!force)return;
+ let L=[];try{const C=window.v211Data?v211Data():{};L=Object.values((C&&C.bolle)||{}).filter(x=>x&&x.data>=a&&x.data<=b).sort((x,y)=>x.data.localeCompare(y.data));}catch(e){}
+ const tot=L.reduce((s,x)=>s+(Number(x.tot)||0),0),txt='Fatture e bolle Alicetta Trattoria dal '+dmy(a)+' al '+dmy(b)+':\n'+L.map(x=>'• '+dmy(x.data)+' '+(x.fornitore||'')+(x.num?' n. '+x.num:'')+' € '+formatPrice(x.tot||0)).join('\n')+'\nTotale imponibile € '+formatPrice(tot);
+ $('hxBox').innerHTML=`<h3>📤 Lunedì: invia le fatture</h3><div class="fc-sub" style="margin-bottom:8px;">Settimana dal <b>${dmy(a)}</b> al <b>${dmy(b)}</b>: ${L.length} documenti, € ${formatPrice(tot)} imponibile.</div>${L.map(x=>`<div class="hx-row"><span>${dmy(x.data).slice(0,5)} · ${esc(x.fornitore||'')}${x.num?' · n. '+esc(x.num):''}</span><b>€ ${formatPrice(x.tot||0)}</b></div>`).join('')||'<div class="fc-sub">Nessun documento caricato la settimana scorsa.</div>'}
+ <div class="fc-sub" style="margin-top:8px;">Manda al commercialista anche le foto o i PDF dei documenti.</div><div class="modal-actions" style="margin-top:12px;flex-wrap:wrap;"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="v2931MonLater()">Più tardi</button><button class="btn-modal" style="background:#25D366;color:#062329;" id="hxShare">📤 Invia elenco</button><button class="btn-modal" style="background:#16A34A;color:#fff;" onclick="v2931MonDone('${wk}')">✅ Fatto</button></div>`;
+ $('hxShare').onclick=async()=>{if(navigator.share){try{await navigator.share({text:txt});return;}catch(e){}}window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');};$('hxModal').classList.add('active');};
+window.v2931MonLater=()=>{localStorage.setItem('alicetta_fattmon_snz',String(Date.now()+2*3600e3));$('hxModal').classList.remove('active');};
+window.v2931MonDone=wk=>{localStorage.setItem('alicetta_fattmon',wk);$('hxModal').classList.remove('active');toast('✅ Fatture della settimana segnate come inviate');};
+setInterval(()=>{try{const d=new Date();if(isOwner()&&d.getDay()===1&&d.getHours()>=9&&document.visibilityState==='visible')v2931Mon(false);}catch(e){}},60000);
 })();
 </script>
 <script>initApp();</script>
