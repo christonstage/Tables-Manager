@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Chef Bull Brigade - v2.9.34</title>
+<title>Chef Bull Brigade - v2.9.35</title>
 <meta name="application-name" content="Chef Bull Brigade">
 <meta name="apple-mobile-web-app-title" content="Chef Bull Brigade">
 <link rel="apple-touch-icon" href="chef-bull-brigade-icon-192.png">
@@ -29,7 +29,7 @@
     <div class="brand-logo" id="alicettaLogoSvg" title="Alicetta TableZ 2.0">
       <svg viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#FF5733" stroke-width="2.2" fill="#FF5733" stroke-linejoin="round"><polygon points="75,16 95,12 90,20"/><polygon points="95,12 115,12 103,20"/><polygon points="90,20 103,20 115,12 122,19 102,24"/><polygon points="75,16 90,20 102,24"/><polygon points="98,12 105,4 112,12"/><polygon points="102,24 108,31 115,22"/><polygon points="115,12 134,17 122,23" fill="none"/><polygon points="75,16 64,9 68,16 64,23" fill="none"/></g><circle cx="125" cy="17" r="1.8" fill="#FF5733"/><text x="110" y="51" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="4">ΛLICETTΛ</text><line x1="28" y1="58" x2="98" y2="58" stroke="#FF5733" stroke-width="1.6"/><circle cx="110" cy="58" r="2.2" fill="#FF5733"/><line x1="122" y1="58" x2="192" y2="58" stroke="#FF5733" stroke-width="1.6"/><text x="110" y="69" text-anchor="middle" fill="#FF5733" font-family="sans-serif" font-size="9.5" font-weight="700" letter-spacing="5">TABLEZ 2.0</text></svg>
     </div>
-    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.34</div></div>
+    <div class="brand-meta"><div id="syncIndicator" class="sync-badge" onclick="v53Reconnect()" title="Tocca per riconnettere" style="cursor:pointer;">LIVE</div><div class="version-badge">v2.9.35</div></div>
   </div>
   <div class="top-actions">
     <div id="waiterDisplay" class="waiter-tag" onclick="openLoginModal()">👤 --</div>
@@ -137,7 +137,7 @@
 </div>
 <div id="viewKds" class="screen">
   <div class="kds-Banner">
-    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.34)</div>
+    <div style="font-weight:800;font-size:1.05rem;">🖥️ KDS LIVE — CHEF BULL BRIGADE (v2.9.35)</div>
     <div style="display:flex;gap:6px;">
       <button id="btnKdsAudio" class="btn-kds-audio" onclick="enableKdsTabletMode()">🔔 ATTIVA AUDIO</button>
       <button class="btn-note" onclick="v53Reconnect()" style="background:#22C55E;color:#062329;font-weight:900;">🔄 Riconnetti</button><button class="btn-note" onclick="openLoginModal()">👤 Cambia utente</button><button class="btn-note" onclick="playKitchenBell()">🔊 Test</button>
@@ -165,7 +165,7 @@
   <div class="cart-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="openFidelity()">📒 Rubrica clienti Fidelity</button><button class="btn-main btn-bill" onclick="showClubQr()">🎟️ QR Alicetta Club</button></div>
   <div class="cart-section" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.34)</h3>
+      <h3 style="color:var(--logo-coral);"><svg class="cbb-mini" viewBox="0 0 964 964" aria-hidden="true"><use href="#cbbLogo"/></svg>Chef Bull Brigade (v2.9.35)</h3>
       <div style="font-size:0.8rem;color:var(--muted);">Utente: <b id="currentWaiterBadge">--</b></div>
     </div>
     <button class="btn-note" onclick="openLoginModal()">Cambia Utente</button>
@@ -4189,7 +4189,7 @@ $('wcBox').innerHTML=`<div class="cs-h"><h3>🍷 Carta dei vini</h3><button clas
 <div class="g" style="margin-top:6px;"><select id="wcT"><option value="bianchi">Bianco</option><option value="rossi">Rosso</option><option value="cerasuoli">Rosato / Cerasuolo</option><option value="bollicine">Bollicine</option><option value="calici">Al calice</option><option value="birre">Birra</option></select><button class="btn-main btn-bill" style="padding:8px;" onclick="v43Add()">Aggiungi</button></div><div id="wcHint" class="fc-sub" style="margin-top:6px;font-weight:800;"></div></div>
 ${window.v45Btn?v45Btn():''}<input class="v14-in" placeholder="🔎 Cerca un vino" value="${esc(wlQ)}" oninput="v43Q(this.value)">
 ${so?`<button class="btn-note" style="width:100%;margin:4px 0;background:#FEE2E2;color:#991B1B;border-color:#991B1B;" onclick="v43RmSold()">🧹 Togli tutti gli esauriti (${so})</button>`:''}
-${Object.keys(WT).filter(k=>G[k]).map(k=>`<div class="wc-h">${WT[k]} (${G[k].length})</div>`+G[k].sort((a,b)=>a.name.localeCompare(b.name)).map(m=>`<div class="wc-row"><div><b>${esc(m.name)}</b> <button class="bk" style="border-color:#7C3AED;background:#EDE9FE;color:#5B21B6;" onclick="v45Edit(${m.id})" aria-label="Modifica scheda">✏️</button>${window.wineInfo?wineInfo(m,true):''}${m.soldOut?`<small>esaurito <button class="bk" onclick="v43Back(${m.id})">↺ rimetti</button></small>`:''}</div><input inputmode="decimal" value="${formatPrice(m.price||0)}" onchange="v43Px(${m.id},this.value)" aria-label="Prezzo"><button class="rm" onclick="v43Rm(${m.id})" aria-label="Togli dalla carta">−</button></div>`).join('')).join('')||'<div class="fc-sub">Nessun vino trovato.</div>'}`;}
+${Object.keys(WT).filter(k=>G[k]).map(k=>`<div class="wc-h">${WT[k]} (${G[k].length})</div>`+G[k].sort((a,b)=>a.name.localeCompare(b.name)).map(m=>`<div class="wc-row"><div><b>${esc(m.name)}</b> <button class="bk" style="border-color:#7C3AED;background:#EDE9FE;color:#5B21B6;" onclick="v45Edit(${m.id})" aria-label="Modifica nome e scheda">✏️</button>${window.wineInfo?wineInfo(m,true):''}${m.soldOut?`<small>esaurito <button class="bk" onclick="v43Back(${m.id})">↺ rimetti</button></small>`:''}</div><input inputmode="decimal" value="${formatPrice(m.price||0)}" onchange="v43Px(${m.id},this.value)" aria-label="Prezzo"><button class="rm" onclick="v43Rm(${m.id})" aria-label="Togli dalla carta">−</button></div>`).join('')).join('')||'<div class="fc-sub">Nessun vino trovato.</div>'}`;}
 const save=async()=>{try{await saveState(false,{menu:true});}catch(e){}try{renderDishes();}catch(e){}};
 window.v43Open=()=>{wlQ='';wlDraw();$('wcModal').classList.add('active');};
 let qT=0;window.v43Q=v=>{wlQ=v;clearTimeout(qT);qT=setTimeout(()=>{wlDraw();const i=document.querySelector('#wcBox .v14-in');if(i){i.focus();i.setSelectionRange(v.length,v.length);}},300);};
@@ -4237,11 +4237,12 @@ setTimeout(()=>{const s=$('wcNetSt');if(s)s.innerHTML=`✅ Schede aggiornate per
 try{localStorage.setItem('alicetta_wine_net',JSON.stringify({at:Date.now(),ok,total:L.length,err:window._wnErr||'',toolErr:window._wnToolErr||''}));window._wnToolErr='';}catch(e){}window._wnErr='';
 toast(`🍷 Uvaggi e gradazioni: ${ok} vini aggiornati`);};
 window.v45Edit=async id=>{const m=(state.menu||[]).find(x=>x.id===id);if(!m)return;
+const nn=prompt('Nome del vino (puoi correggerlo):',m.name);if(nn===null)return;const nm=nn.trim().replace(/\s+/g,' ');if(nm&&nm!==m.name){if((state.menu||[]).some(x=>x!==m&&String(x.name||'').trim().toLowerCase()===nm.toLowerCase()))return alert('C’è già un vino con questo nome.');m.oldNames=[...(m.oldNames||[]),m.name].slice(-5);m.name=nm;delete m.tr;}
 const a=prompt('Annata di “'+m.name+'” (es. 2021, vuoto se non c’è):',m.annata||'');if(a===null)return;
 const u=prompt('Uvaggio (es. Montepulciano 100% oppure Trebbiano 60%, Pecorino 40%):',m.uv||'');if(u===null)return;
 const g=prompt('Gradazione alcolica in % vol (es. 13,5):',m.alc?String(m.alc).replace('.',','):'');if(g===null)return;
 const y=(a.match(/(19|20)\d{2}/)||[])[0]||'';if(y)m.annata=y;else delete m.annata;if(u.trim())m.uv=u.trim().slice(0,90);else delete m.uv;const n=parseFloat(g.replace(',','.'));if(n>0&&n<25)m.alc=Math.round(n*10)/10;else delete m.alc;m.infoAt=Date.now();m.infoNet=false;m.infoOk=true;
-await saveState(false,{menu:true});if(window.v43Open)v43Open();toast('Scheda del vino aggiornata');};
+await saveState(false,{menu:true});if(window.v43Open)v43Open();toast('Vino aggiornato');if(!m.tr&&typeof completeTranslations==='function'&&getGeminiKey())setTimeout(()=>{try{completeTranslations(true);}catch(e){}},800);};
 })();
 </script>
 <script>
