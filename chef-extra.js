@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.38 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.39 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -947,4 +947,85 @@ function box(){const L=dayTx(suDay),tot=L.reduce((a,x)=>a+x.a,0),cd=L.filter(x=>
 {const _r=renderConti;renderConti=function(){const r=_r.apply(this,arguments);try{if(window._suO!=null)suOpen=window._suO;const c=$('contiList');if(c&&/^christian$/i.test((state.waiterName||'').trim())){const h=c.querySelector('h3');const d=document.createElement('div');d.innerHTML=box();const el=d.firstElementChild;if(h)h.after(el);else c.prepend(el);}order();}catch(e){}return r;};}
 })();
 }catch(e){console.error("chef-extra v2.9.38",e);}
-try{(function(){const V='v2.9.38';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);
+const r2=n=>Math.round((Number(n)||0)*100)/100;const eur=n=>'€ '+formatPrice(r2(n));
+const pad=n=>String(n).padStart(2,'0');const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const dmy=s=>{const p=String(s||'').split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:s;};
+const hm=ts=>new Date(ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
+const st=document.createElement('style');
+st.textContent='.cx{border-radius:18px;padding:12px;margin-bottom:12px;background:#0F172A;color:#F1F5F9;border:2px solid #334155}.cx-h{display:flex;align-items:center;gap:10px}.cx-l{width:46px;height:46px;border-radius:50%;flex:none;box-shadow:inset 0 -4px 0 rgba(0,0,0,.25),0 0 18px currentColor;border:3px solid #fff}.cx-l.g{background:#22C55E;color:#22C55E}.cx-l.y{background:#FACC15;color:#FACC15}.cx-l.r{background:#EF4444;color:#EF4444}.cx-l.n{background:#64748B;color:transparent}.cx-h b{font-size:1.05rem;line-height:1.2}.cx-h small{display:block;font-weight:700;opacity:.8;font-size:.78rem}.cx-nav{display:grid;grid-template-columns:42px 1fr 42px;gap:6px;align-items:center;margin:10px 0}.cx-nav button{border:2px solid #fff;border-radius:10px;background:#1E293B;color:#fff;font-weight:900;padding:6px}.cx-nav b{text-align:center}.cx-t{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.cx-t div{border-radius:12px;padding:8px 6px;text-align:center;font-weight:800;font-size:.72rem;line-height:1.2}.cx-t b{display:block;font-size:1.02rem;margin-top:3px}.cx-su{margin-top:8px;border-radius:12px;padding:9px 10px;background:#1D4ED8;color:#fff;font-weight:900;display:flex;justify-content:space-between;align-items:center;gap:8px}.cx-su b{font-size:1.25rem}.cx-tot{display:flex;justify-content:space-between;font-weight:800;font-size:.85rem;margin-top:6px;opacity:.9}.cx-w{margin-top:8px;border-radius:12px;padding:8px 10px;font-weight:800;font-size:.8rem;line-height:1.3}.cx-btn{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}.cx-btn label,.cx-btn button{border:2px solid #fff;border-radius:12px;background:#334155;color:#fff;font-weight:900;padding:10px 6px;text-align:center;font-size:.82rem;cursor:pointer}.cx-in{display:flex;gap:6px;align-items:center;margin-top:8px;font-weight:800;font-size:.8rem}.cx-in input{flex:1;min-width:0;border-radius:10px;border:2px solid #fff;background:#1E293B;color:#fff;padding:8px;font-weight:900;font-size:1rem}.cx details{margin-top:8px}.cx summary{font-weight:900;cursor:pointer;padding:4px 0}.cx-r{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed #475569;padding:5px 0;font-size:.8rem;font-weight:700}.cx-r b{white-space:nowrap}.cx-r.bad{color:#FCA5A5}.cx-r.ok{color:#BBF7D0}.cx-r.mid{color:#FDE68A}';
+document.head.appendChild(st);
+/* --- quanto di ogni conto è passato da SumUp --- */
+function parts(e){const p=e.pay||{},T=r2(e.total),nm=e.tableName||'Conto',out=[];
+ if(Array.isArray(p.parts)&&p.parts.length){p.parts.forEach((x,i)=>{const a=r2(x.a),q=' · quota '+(i+1)+'/'+p.parts.length;if(x.v==='loc')out.push({a,k:'loc',l:nm+q});else out.push({a,k:x.m==='contanti'?'cash':'card',l:nm+q});});return out;}
+ const cd=r2(p.card),cs=r2(p.cash),viaSU=/sumup/i.test(String(p.via||''));
+ if(p.cashLoc!=null){const loc=r2(p.cashLoc),su=r2(T-loc);if(loc>0)out.push({a:loc,k:'loc',l:nm});if(su>0){const c=Math.min(cd,su);if(c>0)out.push({a:c,k:'card',l:nm});if(su-c>0.004)out.push({a:r2(su-c),k:'cash',l:nm});}return out;}
+ if(!viaSU){out.push({a:T,k:'loc',l:nm});return out;}
+ if(cd>0&&cs>0){out.push({a:cd,k:'card',l:nm},{a:cs,k:'cash',l:nm});return out;}
+ out.push({a:T,k:p.m==='contanti'?'cash':'card',l:nm});return out;}
+function day(D){const L=[];(state.historyLog||[]).forEach(e=>{if(!e||!e.ts||iso(new Date(e.ts))!==D)return;const sd=svcDate(e);parts(e).forEach(x=>L.push({...x,ts:e.ts,prev:sd&&sd<D}));});return L.sort((a,b)=>a.ts-b.ts);}
+let D=iso(new Date()),open=false;
+const store=k=>{try{return JSON.parse(localStorage.getItem(k)||'{}');}catch(e){return{};}};
+const save=(k,o)=>{try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}};
+window.v39Nav=n=>{const x=new Date(D+'T12:00');x.setDate(x.getDate()+n);const v=iso(x);if(v>iso(new Date()))return;D=v;open=true;rerender();};
+window.v39Tot=v=>{const M=store('alicetta_su_tot');const s=String(v).trim();const n=parseFloat(s.replace(/\./g,'').replace(',','.'));if(s&&n>=0)M[D]=n;else delete M[D];save('alicetta_su_tot',M);open=true;rerender();};
+window.v39Clear=()=>{if(!confirm('Togliere la lista SumUp letta dalle foto per il '+dmy(D)+'?'))return;const R=store('alicetta_su_rows');delete R[D];save('alicetta_su_rows',R);rerender();};
+function rerender(){try{renderConti();}catch(e){}}
+/* --- foto della lista Vendite di SumUp letta con Gemini --- */
+window.v39Photo=async inp=>{const fs=[...(inp.files||[])].slice(0,6);inp.value='';if(!fs.length)return;if(!getGeminiKey())return alert('Serve la chiave Gemini (⚙️ Opzioni).');
+ window._jobLabel='📷 Lettura lista SumUp';const R=store('alicetta_su_rows');let rows=R[D]||[];let tot=null,err='';
+ for(let i=0;i<fs.length;i++){try{const b64=await shrinkImage(fs[i],1800);const txt=await callGemini([{inline_data:{mime_type:'image/jpeg',data:b64}},{text:'Questa è la schermata "Vendite" del terminale SumUp. Leggi TUTTE le righe visibili. Rispondi SOLO con JSON: {"data":"GG/MM/AAAA o vuoto","totale_giorno":numero o null,"righe":[{"ora":"HH:MM","descrizione":"testo","importo":numero,"esito":"riuscita" oppure "non riuscita","tipo":"carta" oppure "contanti"}]}. Il tipo è "contanti" se l’icona è una banconota, altrimenti "carta". Gli importi barrati sono "non riuscita". Usa il punto per i decimali.'}],true);
+  const o=JSON.parse(txt.slice(txt.indexOf('{'),txt.lastIndexOf('}')+1));if(o.totale_giorno!=null&&!isNaN(o.totale_giorno))tot=Number(o.totale_giorno);
+  (o.righe||[]).forEach(x=>{const a=r2(String(x.importo).replace(',','.')),t=String(x.ora||'').slice(0,5);if(!(a>0)||!/^\d{1,2}:\d{2}$/.test(t))return;const ok=!/non/i.test(String(x.esito||''));const k=/contant/i.test(String(x.tipo||''))?'cash':'card';if(!rows.some(y=>y.t===t&&y.a===a&&y.ok===ok))rows.push({t,a,ok,k,d:String(x.descrizione||'').slice(0,40)});});}catch(e){err=e.message||String(e);}}
+ rows.sort((a,b)=>a.t.localeCompare(b.t));R[D]=rows;save('alicetta_su_rows',R);if(tot!=null){const M=store('alicetta_su_tot');M[D]=tot;save('alicetta_su_tot',M);}
+ open=true;rerender();try{toast(err&&!rows.length?'❌ '+esc(err):'✅ Lette '+rows.length+' righe SumUp');}catch(e){}
+ setTimeout(()=>{if(window._jobLabel==='📷 Lettura lista SumUp')window._jobLabel='';},2500);};
+/* --- abbinamento righe SumUp ↔ app --- */
+function match(app,su){const A=app.filter(x=>x.k!=='loc').map(x=>({...x,m:null})),S=su.filter(x=>x.ok).map(x=>({...x,m:null}));
+ const tsOf=t=>{const [h,m]=t.split(':').map(Number);return new Date(D+'T'+pad(h)+':'+pad(m)+':00').getTime();};
+ S.forEach(s=>{s.ts=tsOf(s.t);let best=null,bd=1e15;A.forEach(a=>{if(a.m||Math.abs(a.a-s.a)>0.004)return;const d=Math.abs(a.ts-s.ts);if(d<bd){bd=d;best=a;}});if(best){best.m=s;s.m=best;}});
+ const near=[];S.filter(s=>!s.m).forEach(s=>{const c=A.filter(a=>!a.m&&!a.near&&Math.abs(a.a-s.a)<=Math.max(5,a.a*0.1)&&Math.abs(a.ts-s.ts)<3*3600e3).sort((x,y)=>Math.abs(x.ts-s.ts)-Math.abs(y.ts-s.ts))[0];if(c){c.near=s;s.near=c;near.push([c,s]);}});
+ return{A,S,near};}
+function panel(){const L=day(D),card=L.filter(x=>x.k==='card').reduce((a,x)=>a+x.a,0),cash=L.filter(x=>x.k==='cash').reduce((a,x)=>a+x.a,0),loc=L.filter(x=>x.k==='loc').reduce((a,x)=>a+x.a,0),su=r2(card+cash);
+ const prev=L.filter(x=>x.prev&&x.k!=='loc'),prevT=prev.reduce((a,x)=>a+x.a,0);
+ const nx=new Date(D+'T12:00');nx.setDate(nx.getDate()+1);const N=iso(nx);const late=(state.historyLog||[]).filter(e=>e&&e.ts&&iso(new Date(e.ts))===N&&svcDate(e)===D).reduce((a,e)=>a+parts(e).filter(x=>x.k!=='loc').reduce((b,x)=>b+x.a,0),0);
+ const T=store('alicetta_su_tot')[D],rows=store('alicetta_su_rows')[D]||[];
+ let lamp='n',msg='Fotografa la lista Vendite del terminale oppure scrivi il suo totale',sub='',detail='';
+ if(rows.length){const m=match(L,rows);const aU=m.A.filter(a=>!a.m),sU=m.S.filter(s=>!s.m),suOk=m.S.reduce((a,s)=>a+s.a,0);
+  if(!aU.length&&!sU.length){lamp='g';msg='SumUp e app coincidono';sub=m.S.length+' pagamenti riusciti · '+eur(suOk);}
+  else{lamp=m.near.length===aU.length&&m.near.length===sU.length?'y':'r';msg=lamp==='y'?'Quasi: '+m.near.length+(m.near.length===1?' importo diverso':' importi diversi'):(()=>{const k=m.near.length+sU.filter(s=>!s.near).length+aU.filter(a=>!a.near).length;return 'Non coincidono: '+k+(k===1?' cosa da controllare':' cose da controllare');})();sub='SumUp '+eur(suOk)+' · app '+eur(su);}
+  const ko=rows.filter(r=>!r.ok);
+  detail=`<details ${lamp!=='g'?'open':''}><summary>📋 Riga per riga (${m.S.length} SumUp · ${m.A.length} app)</summary>`+
+  m.near.map(([a,s])=>`<div class="cx-r mid"><span>🟡 ${s.t} SumUp ${eur(s.a)} ↔ ${esc(a.l)} ${eur(a.a)} (alle ${hm(a.ts)})</span><b>${r2(s.a-a.a)>0?'+':''}${formatPrice(r2(s.a-a.a))}</b></div>`).join('')+
+  sU.filter(s=>!s.near).map(s=>`<div class="cx-r bad"><span>🔴 Solo su SumUp: ${s.t} ${esc(s.d||'')} ${s.k==='cash'?'💵':'💳'}</span><b>${eur(s.a)}</b></div>`).join('')+
+  aU.filter(a=>!a.near).map(a=>`<div class="cx-r bad"><span>🔴 Solo nell’app: ${hm(a.ts)} ${esc(a.l)} ${a.k==='cash'?'💵':'💳'}</span><b>${eur(a.a)}</b></div>`).join('')+
+  m.S.filter(s=>s.m).map(s=>`<div class="cx-r ok"><span>🟢 ${s.t} ${esc(s.m.l)}${s.m.prev?' · 🌙 di ieri sera':''} ${s.k==='cash'?'💵':'💳'}</span><b>${eur(s.a)}</b></div>`).join('')+
+  (ko.length?`<div class="cx-r" style="opacity:.6;"><span>✖ Non riuscite su SumUp (non contano): ${ko.map(r=>r.t+' '+formatPrice(r.a)).join(' · ')}</span></div>`:'')+
+  `<button class="cx-btn" style="display:block;width:100%;margin-top:6px;border:2px solid #fff;border-radius:12px;background:#334155;color:#fff;font-weight:900;padding:8px;" onclick="v39Clear()">🗑️ Togli la lista letta dalle foto</button></details>`;}
+ else if(T!=null){const d=r2(T-su);if(Math.abs(d)<0.01){lamp='g';msg='SumUp e app coincidono';sub='Totale '+eur(T);}else{lamp='r';msg='Differenza '+(d>0?'+':'')+formatPrice(d)+' €';sub='SumUp '+eur(T)+' · app '+eur(su)+' · fotografa la lista per sapere quale conto';}}
+ const appRows=`<details><summary>🧾 Pagamenti SumUp nell’app (${L.filter(x=>x.k!=='loc').length})</summary>${L.filter(x=>x.k!=='loc').slice().reverse().map(x=>`<div class="cx-r"><span>${hm(x.ts)} · ${esc(x.l)}${x.prev?' · 🌙 di ieri sera':''} ${x.k==='cash'?'💵':'💳'}</span><b>${eur(x.a)}</b></div>`).join('')||'<div class="cx-r"><span>Nessuno</span></div>'}</details>`;
+ const t=iso(new Date()),y=new Date();y.setDate(y.getDate()-1);const tag=D===t?' · OGGI':D===iso(y)?' · IERI':'';
+ return `<div class="cx"><div class="cx-h"><div class="cx-l ${lamp}"></div><div><b>${lamp==='g'?'🟢 ':lamp==='y'?'🟡 ':lamp==='r'?'🔴 ':''}${esc(msg)}</b><small>${esc(sub||'Cassa SumUp del giorno, da mezzanotte a mezzanotte')}</small></div></div>
+<div class="cx-nav"><button onclick="v39Nav(-1)">◀</button><b>${new Date(D+'T12:00').toLocaleDateString('it-IT',{weekday:'long'})} ${dmy(D)}${tag}</b><button onclick="v39Nav(1)" ${D>=t?'disabled style="opacity:.35"':''}>▶</button></div>
+<div class="cx-t"><div style="background:#DBEAFE;color:#1E3A8A;">💳 Carta<br>SumUp<b>${eur(card)}</b></div><div style="background:#E0F2FE;color:#075985;">💵 Contanti<br>SumUp<b>${eur(cash)}</b></div><div style="background:#DCFCE7;color:#14532D;">🏪 Contanti<br>cassa locale<b>${eur(loc)}</b></div></div>
+<div class="cx-su"><span>🟦 Totale SumUp<br><small style="font-weight:700;">deve coincidere col terminale</small></span><b>${eur(su)}</b></div>
+<div class="cx-tot"><span>Incasso del giorno (SumUp + cassa locale)</span><span>${eur(su+loc)}</span></div>
+${prev.length?`<div class="cx-w" style="background:#312E81;color:#E0E7FF;">🌙 Dentro il totale SumUp c’è ${eur(prevT)} di <b>ieri sera</b>, battuto dopo mezzanotte: ${prev.map(x=>hm(x.ts)+' '+esc(x.l)+' '+eur(x.a)).join(' · ')}. Nell’app è nella serata del ${dmy(svcDate({ts:prev[0].ts}))}.</div>`:''}
+${late>0?`<div class="cx-w" style="background:#3B0764;color:#F3E8FF;">🌙 ${eur(late)} di questa sera è stato battuto dopo mezzanotte: SumUp lo mette nel giorno ${dmy(N)}.</div>`:''}
+<div class="cx-btn"><label>📷 Fotografa SumUp<input type="file" accept="image/*" capture="environment" multiple style="display:none" onchange="v39Photo(this)"></label><label>🖼️ Foto dalla galleria<input type="file" accept="image/*" multiple style="display:none" onchange="v39Photo(this)"></label></div>
+<div class="cx-in">o scrivi il totale del terminale: <input inputmode="decimal" placeholder="es. 813,35" value="${T!=null?formatPrice(T):''}" onchange="v39Tot(this.value)"></div>
+${detail}${appRows}</div>`;}
+{const _r=renderConti;renderConti=function(){const res=_r.apply(this,arguments);try{if(!owner())return res;document.querySelectorAll('.su-box').forEach(x=>x.remove());const h=panel();
+ const P=$('payTotals');if(P){let w=P.querySelector('.cx-wrap');if(!w){w=document.createElement('div');w.className='cx-wrap';P.prepend(w);}else P.prepend(w);w.innerHTML=h;}
+ const C=$('contiList');if(C){let w=C.querySelector('.cx-wrap');if(!w){w=document.createElement('div');w.className='cx-wrap';const hh=C.querySelector('h3');if(hh)hh.after(w);else C.prepend(w);}w.innerHTML=h;}}catch(e){console.error(e);}return res;};}
+/* --- date sempre giorno/mese/anno --- */
+const RX=/\b(20\d\d)-(\d\d)-(\d\d)\b/g,SKIP={SCRIPT:1,STYLE:1,TEXTAREA:1,INPUT:1,CODE:1,PRE:1,OPTION:1};
+function fix(root){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>{const p=n.parentNode;if(!p||SKIP[p.nodeName]||p.isContentEditable)return NodeFilter.FILTER_REJECT;return /\b20\d\d-\d\d-\d\d\b/.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP;}});const L=[];while(w.nextNode())L.push(w.currentNode);L.forEach(n=>{n.nodeValue=n.nodeValue.replace(RX,'$3/$2/$1');});}
+let q=null;new MutationObserver(ms=>{if(q)return;q=setTimeout(()=>{q=null;try{fix(document.body);}catch(e){}},250);}).observe(document.body,{childList:true,subtree:true,characterData:true});
+setTimeout(()=>{try{fix(document.body);}catch(e){}},1500);
+})();
+}catch(e){console.error("chef-extra v2.9.39",e);}
+try{(function(){const V='v2.9.39';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
