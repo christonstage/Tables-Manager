@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.40 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.41 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1040,4 +1040,94 @@ setTimeout(()=>{try{fix(document.body);}catch(e){}},1500);
 })();
 (function(){const _g=window.callGemini;if(typeof _g!=='function')return;window.callGemini=callGemini=function(parts,json,opts){if(!opts&&/🪪/.test(window._jobLabel||''))opts={fast:true,timeout:45000};return _g.call(this,parts,json,opts);};})();
 }catch(e){console.error("chef-extra v2.9.40",e);}
-try{(function(){const V='v2.9.40';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);
+const r2=n=>Math.round((Number(n)||0)*100)/100;const eur=n=>'€ '+formatPrice(r2(n));
+const pad=n=>String(n).padStart(2,'0');const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const addD=(s,n)=>{const x=new Date(s+'T12:00');x.setDate(x.getDate()+n);return iso(x);};
+const dmy=s=>{const p=String(s||'').split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:s;};
+const hm=ts=>new Date(ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
+const wd=s=>new Date(s+'T12:00').toLocaleDateString('it-IT',{weekday:'long'});
+const st=document.createElement('style');
+st.textContent='.cx{border-radius:18px;padding:12px;margin-bottom:12px;background:#0F172A;color:#F1F5F9;border:2px solid #334155}.cx-nav{display:grid;grid-template-columns:42px 1fr 42px;gap:6px;align-items:center;margin-bottom:8px}.cx-nav button{border:2px solid #fff;border-radius:10px;background:#1E293B;color:#fff;font-weight:900;padding:6px}.cx-nav b{text-align:center;line-height:1.2}.cx-nav small{display:block;font-weight:700;opacity:.75;font-size:.72rem}.cx-big{text-align:center;margin:4px 0 8px}.cx-big small{display:block;font-weight:800;opacity:.8;font-size:.8rem}.cx-big b{font-size:2rem;color:#4ADE80}.cx-t{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.cx-t div{border-radius:12px;padding:8px 6px;text-align:center;font-weight:800;font-size:.72rem;line-height:1.2}.cx-t b{display:block;font-size:1rem;margin-top:3px}.cx-s{margin-top:10px;border-radius:14px;padding:10px;display:flex;gap:10px;align-items:center}.cx-s.g{background:#14532D;border:2px solid #22C55E}.cx-s.r{background:#7F1D1D;border:2px solid #EF4444}.cx-s.y{background:#713F12;border:2px solid #FACC15}.cx-s.n{background:#1E293B;border:2px dashed #64748B}.cx-l{width:44px;height:44px;border-radius:50%;flex:none;border:3px solid #fff}.g .cx-l{background:#22C55E;box-shadow:0 0 16px #22C55E}.r .cx-l{background:#EF4444;box-shadow:0 0 16px #EF4444}.y .cx-l{background:#FACC15;box-shadow:0 0 16px #FACC15}.n .cx-l{background:#64748B}.cx-s b{display:block;font-size:1.02rem;line-height:1.2}.cx-s small{display:block;font-weight:700;opacity:.9;font-size:.78rem;margin-top:2px}.cx-w{margin-top:8px;border-radius:12px;padding:8px 10px;font-weight:700;font-size:.76rem;line-height:1.3;background:#1E1B4B;color:#E0E7FF}.cx-btn{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}.cx-btn label{border:2px solid #fff;border-radius:12px;background:#334155;color:#fff;font-weight:900;padding:10px 6px;text-align:center;font-size:.82rem;cursor:pointer}.cx details{margin-top:8px}.cx summary{font-weight:900;cursor:pointer;padding:4px 0}.cx-r{border-bottom:1px dashed #475569;padding:6px 0;font-size:.8rem;font-weight:700}.cx-r .a{display:flex;justify-content:space-between;gap:8px}.cx-r b{white-space:nowrap}.cx-r.bad{color:#FCA5A5}.cx-r.ok{color:#BBF7D0}.cx-r.mid{color:#FDE68A}.cx-fx{margin-top:5px;border:2px solid #fff;border-radius:9px;background:#334155;color:#fff;font-weight:900;padding:6px 9px;font-size:.78rem}';
+document.head.appendChild(st);
+/* --- quanto di ogni conto è passato da SumUp --- */
+function parts0(e){const p=e.pay||{},T=r2(e.total),nm=e.tableName||'Conto',out=[];
+ if(Array.isArray(p.parts)&&p.parts.length){p.parts.forEach((x,i)=>{const a=r2(x.a),q=' · quota '+(i+1)+'/'+p.parts.length;out.push({a,k:x.v==='loc'?'loc':x.m==='contanti'?'cash':'card',l:nm+q});});return out;}
+ const cd=r2(p.card),cs=r2(p.cash),viaSU=/sumup/i.test(String(p.via||''));
+ if(p.cashLoc!=null){const loc=r2(p.cashLoc),su=r2(T-loc);if(loc>0)out.push({a:loc,k:'loc',l:nm});if(su>0){const c=Math.min(cd,su);if(c>0)out.push({a:c,k:'card',l:nm});if(su-c>0.004)out.push({a:r2(su-c),k:'cash',l:nm});}return out;}
+ if(!viaSU){out.push({a:T,k:'loc',l:nm});return out;}
+ if(cd>0&&cs>0){out.push({a:cd,k:'card',l:nm},{a:cs,k:'cash',l:nm});return out;}
+ out.push({a:T,k:p.m==='contanti'?'cash':'card',l:nm});return out;}
+function parts(e){const out=parts0(e),tip=r2(e.pay&&e.pay.tipSU);if(tip>0){const c=out.find(x=>x.k==='card')||out.find(x=>x.k==='cash');if(c){c.a=r2(c.a+tip);c.tip=tip;}}out.forEach(x=>{x.e=e;x.ts=e.ts;});return out;}
+/* giorno di servizio: i conti dopo mezzanotte (fino alle 5) vanno alla sera prima */
+const svcOfTs=ts=>{const d=new Date(ts);if(d.getHours()<5)d.setDate(d.getDate()-1);return iso(d);};
+const appDay=S=>{const L=[];(state.historyLog||[]).forEach(e=>{if(!e||!e.ts)return;if(svcDate(e)!==S)return;parts(e).forEach(x=>L.push(x));});return L.sort((a,b)=>a.ts-b.ts);};
+let S=svcToday(),open=false;
+const store=k=>{try{return JSON.parse(localStorage.getItem(k)||'{}');}catch(e){return{};}};
+const save=(k,o)=>{try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}};
+/* righe SumUp salvate per data di calendario; per la serata S prendo S dalle 5 e S+1 prima delle 5 */
+const suDay=S=>{const R=store('alicetta_su_rows2');const L=[];(R[S]||[]).forEach(r=>{if(r.t>='05:00')L.push({...r,date:S});});(R[addD(S,1)]||[]).forEach(r=>{if(r.t<'05:00')L.push({...r,date:addD(S,1)});});return L.map(r=>({...r,ts:new Date(r.date+'T'+r.t+':00').getTime()})).sort((a,b)=>a.ts-b.ts);};
+const hasPhoto=S=>{const R=store('alicetta_su_rows2');return !!((R[S]||[]).length||(R[addD(S,1)]||[]).some(r=>r.t<'05:00'));};
+function rerender(){try{renderConti();}catch(e){}}
+window.v41Nav=n=>{const v=addD(S,n);if(v>svcToday())return;S=v;open=false;rerender();};
+window.v41Clear=()=>{if(!confirm('Togliere le righe SumUp lette dalle foto per la serata del '+dmy(S)+'?'))return;const R=store('alicetta_su_rows2');if(R[S])R[S]=R[S].filter(r=>r.t<'05:00');const n=addD(S,1);if(R[n])R[n]=R[n].filter(r=>r.t>='05:00');save('alicetta_su_rows2',R);rerender();};
+/* --- foto della lista Vendite: modello leggero, foto piccole, tutte insieme --- */
+const MESI={gennaio:1,febbraio:2,marzo:3,aprile:4,maggio:5,giugno:6,luglio:7,agosto:8,settembre:9,ottobre:10,novembre:11,dicembre:12};
+const pDate=s=>{s=String(s||'').trim().toLowerCase();let m=s.match(/(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})/);if(m)return m[3]+'-'+pad(m[2])+'-'+pad(m[1]);m=s.match(/(\d{1,2})\s+([a-zà]+)\s+(\d{4})/);if(m&&MESI[m[2]])return m[3]+'-'+pad(MESI[m[2]])+'-'+pad(m[1]);return '';};
+window.v41Photo=async inp=>{const fs=[...(inp.files||[])].slice(0,6);inp.value='';if(!fs.length)return;if(!getGeminiKey())return alert('Serve la chiave Gemini (⚙️ Opzioni).');
+ const L='📷 Lettura lista SumUp ('+fs.length+(fs.length===1?' foto)':' foto)');window._jobLabel=L;
+ const M=(typeof GEMINI_MODELS!=='undefined')?GEMINI_MODELS:null,orig=M?M.slice():null;
+ if(M){const lite=M.filter(m=>/lite/.test(m)),rest=M.filter(m=>!/lite/.test(m));M.splice(0,M.length,...lite,...rest);}
+ const one=async f=>{const b64=await shrinkImage(f,1100);const txt=await callGemini([{inline_data:{mime_type:'image/jpeg',data:b64}},{text:'Schermata "Vendite" del terminale SumUp. Per OGNI riga visibile dai: data (quella dell’intestazione di sezione sopra la riga, es. "8 NOVEMBRE 2026"; null se non si vede), ora HH:MM, descrizione, importo, esito ("riuscita" se c’è la spunta verde o "Pagata", "non riuscita" se c’è la X rossa o l’importo è barrato), tipo ("contanti" se l’icona è una banconota, altrimenti "carta"). Solo JSON: {"righe":[{"data":"8 novembre 2026","ora":"21:42","descrizione":"...","importo":91.35,"esito":"riuscita","tipo":"carta"}]}'}],true,{fast:true,timeout:30000});return JSON.parse(txt.slice(txt.indexOf('{'),txt.lastIndexOf('}')+1));};
+ let res=[];try{res=await Promise.allSettled(fs.map(one));}finally{if(M)M.splice(0,M.length,...orig);}
+ const R=store('alicetta_su_rows2');let n=0,err='';
+ res.forEach(r=>{if(r.status!=='fulfilled'){err=(r.reason&&r.reason.message)||String(r.reason);return;}let last='';(r.value&&r.value.righe||[]).forEach(x=>{const a=r2(String(x.importo).replace(',','.')),t=String(x.ora||'').padStart(5,'0').slice(0,5);if(!(a>0)||!/^\d{2}:\d{2}$/.test(t))return;let d=pDate(x.data)||last;if(!d)d=t<'05:00'?addD(S,1):S;last=d;const ok=!/non/i.test(String(x.esito||''));const k=/contant/i.test(String(x.tipo||''))?'cash':'card';const A=R[d]=R[d]||[];if(!A.some(y=>y.t===t&&y.a===a&&y.ok===ok)){A.push({t,a,ok,k,d:String(x.descrizione||'').slice(0,40)});n++;}A.sort((p,q)=>q.t.localeCompare(p.t));});});
+ save('alicetta_su_rows2',R);open=true;rerender();try{toast(err&&!n?'❌ '+esc(err):'✅ Lette '+n+' righe nuove da SumUp');}catch(e){}
+ setTimeout(()=>{if(window._jobLabel===L)window._jobLabel='';},2500);};
+/* --- correzioni --- */
+const find=ts=>(state.historyLog||[]).find(e=>e&&e.ts===Number(ts));
+const simple=e=>e&&!(e.pay&&Array.isArray(e.pay.parts)&&e.pay.parts.length);
+async function saveH(){try{await saveState(false,{history:true});}catch(e){}rerender();}
+const clean=p=>{delete p.cashLoc;delete p.cashSU;delete p.parts;return p;};
+window.v41Tip=async(ts,v)=>{const e=find(ts);if(!e)return;if(!confirm('I '+formatPrice(v)+' € in più di '+(e.tableName||'questo conto')+' sono una mancia lasciata sul terminale SumUp?'))return;e.pay=Object.assign({},e.pay||{},{tipSU:r2(v)});e.mt=Date.now();await saveH();};
+window.v41Su=async(ts,k)=>{const e=find(ts);if(!e)return;const T=r2(e.total);if(!confirm((e.tableName||'Conto')+' € '+formatPrice(T)+' → '+(k==='cash'?'contanti con SumUp':'carta SumUp')+'?'))return;e.pay=clean(Object.assign({},e.pay||{},k==='cash'?{m:'contanti',cash:T,card:0,via:'SumUp'}:{m:'carta',card:T,cash:0,via:'SumUp'}));e.mt=Date.now();await saveH();};
+window.v41Part=async(ts,a,k)=>{const e=find(ts);if(!e)return;const T=r2(e.total),loc=r2(T-a);if(!confirm((e.tableName||'Conto')+' € '+formatPrice(T)+':\n€ '+formatPrice(a)+' '+(k==='cash'?'contanti con SumUp':'carta SumUp')+' + € '+formatPrice(loc)+' contanti cassa locale?'))return;e.pay=clean(Object.assign({},e.pay||{}));Object.assign(e.pay,k==='cash'?{m:'contanti',cash:T,card:0}:{m:'misto',card:a,cash:loc},{via:'SumUp + cassa locale',cashLoc:loc,cashSU:k==='cash'?a:0});e.mt=Date.now();await saveH();};
+window.v41Loc=async ts=>{const e=find(ts);if(!e)return;const T=r2(e.total);if(!confirm((e.tableName||'Conto')+' € '+formatPrice(T)+' non è su SumUp: era contanti cassa locale?'))return;e.pay=clean(Object.assign({},e.pay||{},{m:'contanti',cash:T,card:0,via:'Registratore'}));delete e.pay.tipSU;e.mt=Date.now();await saveH();};
+/* --- abbinamento --- */
+function match(app,su){const A=app.filter(x=>x.k!=='loc').map(x=>({...x})),SU=su.filter(x=>x.ok).map(x=>({...x})),LOC=app.filter(x=>x.k==='loc').map(x=>({...x}));
+ SU.forEach(s=>{let b=null,bd=1e15;A.forEach(a=>{if(a.m||Math.abs(a.a-s.a)>0.004)return;const d=Math.abs(a.ts-s.ts);if(d<bd){bd=d;b=a;}});if(b){b.m=s;s.m=b;}});
+ SU.filter(s=>!s.m).forEach(s=>{const c=A.filter(a=>!a.m&&!a.near&&s.a>a.a&&s.a-a.a<=Math.max(5,a.a*0.2)&&Math.abs(a.ts-s.ts)<3*3600e3).sort((x,y)=>Math.abs(x.ts-s.ts)-Math.abs(y.ts-s.ts))[0];if(c){c.near=s;s.near=c;}});
+ SU.filter(s=>!s.m&&!s.near).forEach(s=>{const ex=LOC.filter(a=>!a.used&&simple(a.e)&&Math.abs(a.a-s.a)<0.01).sort((x,y)=>Math.abs(x.ts-s.ts)-Math.abs(y.ts-s.ts))[0];if(ex){ex.used=1;s.locEx=ex;return;}const pt=LOC.filter(a=>!a.used&&simple(a.e)&&a.a>s.a&&Math.abs(a.ts-s.ts)<3*3600e3).sort((x,y)=>Math.abs(x.ts-s.ts)-Math.abs(y.ts-s.ts))[0];if(pt){pt.used=1;s.locPt=pt;}});
+ return{A,SU};}
+const ic=k=>k==='cash'?'💵':k==='loc'?'🏪':'💳';
+function panel(){const app=appDay(S),card=app.filter(x=>x.k==='card').reduce((a,x)=>a+x.a,0),cash=app.filter(x=>x.k==='cash').reduce((a,x)=>a+x.a,0),loc=app.filter(x=>x.k==='loc').reduce((a,x)=>a+x.a,0),tips=app.reduce((a,x)=>a+(x.tip||0),0),tot=card+cash+loc;
+ const night=app.filter(x=>new Date(x.ts).getHours()<5);
+ const t=svcToday(),tag=S===t?' · OGGI':S===addD(t,-1)?' · IERI':'';
+ let sem='',rows='';
+ if(!hasPhoto(S)){sem=`<div class="cx-s n"><div class="cx-l"></div><div><b>Confronto con SumUp da fare</b><small>Fotografa la lista “Vendite” del terminale: anche 2–3 foto scorrendo fino alle righe della notte.</small></div></div>`;}
+ else{const su=suDay(S),m=match(app,su),aU=m.A.filter(a=>!a.m&&!a.near),sU=m.SU.filter(s=>!s.m&&!s.near),nr=m.SU.filter(s=>s.near),okN=m.SU.filter(s=>s.m).length,suT=m.SU.reduce((a,s)=>a+s.a,0),appSU=card+cash;
+  const nBad=aU.length+sU.length+nr.length;const cls=nBad?'r':'g';
+  sem=`<div class="cx-s ${cls}"><div class="cx-l"></div><div><b>${nBad?'🔴 SumUp e app NON coincidono':'🟢 SumUp e app coincidono'}</b><small>${nBad?nBad+(nBad===1?' pagamento da sistemare':' pagamenti da sistemare')+' · SumUp '+eur(suT)+' · app '+eur(appSU):okN+' pagamenti, tutti al centesimo · '+eur(suT)}</small></div></div>`;
+  const ko=su.filter(r=>!r.ok);
+  rows=`<details ${nBad||open?'open':''}><summary>📋 ${nBad?'Cosa non torna e come sistemarlo':'Vedi riga per riga'}</summary>`+
+  nr.map(s=>{const a=s.near,d=r2(s.a-a.a);return `<div class="cx-r mid"><div class="a"><span>🟡 ${esc(a.l)}: nell’app ${eur(a.a)}, su SumUp ${eur(s.a)} (${s.t})</span><b>+${formatPrice(d)}</b></div>${simple(a.e)?`<button class="cx-fx" onclick="v41Tip(${a.e.ts},${d})">💶 Sono ${formatPrice(d)} € di mancia</button>`:''}</div>`;}).join('')+
+  sU.map(s=>`<div class="cx-r bad"><div class="a"><span>🔴 Su SumUp ma non nell’app: ${s.date!==S?'notte, ':''}${s.t} ${esc(s.d||'')} ${ic(s.k)}</span><b>${eur(s.a)}</b></div>${s.locEx?`<div>Nell’app ${esc(s.locEx.l)} ${eur(s.locEx.a)} è segnato come 🏪 cassa locale.</div><button class="cx-fx" onclick="v41Su(${s.locEx.e.ts},'${s.k}')">✔️ Era ${s.k==='cash'?'contanti SumUp':'carta SumUp'}</button>`:s.locPt?`<div>Forse è una parte di ${esc(s.locPt.l)} ${eur(s.locPt.a)} (alle ${hm(s.locPt.ts)}), segnato tutto come 🏪 cassa locale.</div><button class="cx-fx" onclick="v41Part(${s.locPt.e.ts},${s.a},'${s.k}')">✔️ ${formatPrice(s.a)} € ${s.k==='cash'?'contanti SumUp':'carta SumUp'} + ${formatPrice(r2(s.locPt.a-s.a))} € cassa locale</button>`:'<div>Pagamento fatto solo sul terminale: se è di un tavolo, correggi quel conto in Conti.</div>'}</div>`).join('')+
+  aU.map(a=>`<div class="cx-r bad"><div class="a"><span>🔴 Nell’app come SumUp ma non sul terminale: ${hm(a.ts)} ${esc(a.l)} ${ic(a.k)}</span><b>${eur(a.a)}</b></div>${simple(a.e)?`<button class="cx-fx" onclick="v41Loc(${a.e.ts})">🏪 Era contanti cassa locale</button>`:''}</div>`).join('')+
+  m.SU.filter(s=>s.m).map(s=>`<div class="cx-r ok"><div class="a"><span>🟢 ${s.t} ${esc(s.m.l)} ${ic(s.k)}${s.m.tip?' · 💶 mancia '+formatPrice(s.m.tip):''}</span><b>${eur(s.a)}</b></div></div>`).join('')+
+  (ko.length?`<div class="cx-r" style="opacity:.6;">✖ Non riuscite su SumUp, non contano: ${ko.map(r=>r.t+' '+formatPrice(r.a)).join(' · ')}</div>`:'')+
+  `<button class="cx-fx" style="width:100%;margin-top:8px;" onclick="v41Clear()">🗑️ Togli le righe lette dalle foto</button></details>`;}
+ return `<div class="cx"><div class="cx-nav"><button onclick="v41Nav(-1)">◀</button><b>${wd(S)} ${dmy(S)}${tag}<small>pranzo + cena, compresi i conti battuti dopo mezzanotte</small></b><button onclick="v41Nav(1)" ${S>=t?'disabled style="opacity:.35"':''}>▶</button></div>
+<div class="cx-big"><small>💰 Hai incassato</small><b>${eur(tot)}</b>${tips>0?`<small>di cui ${eur(tips)} di mance su SumUp</small>`:''}</div>
+<div class="cx-t"><div style="background:#DBEAFE;color:#1E3A8A;">💳 Carta<br>SumUp<b>${eur(card)}</b></div><div style="background:#E0F2FE;color:#075985;">💵 Contanti<br>SumUp<b>${eur(cash)}</b></div><div style="background:#DCFCE7;color:#14532D;">🏪 Contanti<br>cassa locale<b>${eur(loc)}</b></div></div>
+${sem}
+${night.length?`<div class="cx-w">🌙 Battuti dopo mezzanotte e contati in questa serata: ${night.map(x=>hm(x.ts)+' '+esc(x.l)+' '+eur(x.a)+' '+ic(x.k)).join(' · ')}. Sul terminale SumUp sono nella lista del ${dmy(addD(S,1))}.</div>`:''}
+<div class="cx-btn"><label>📷 Fotografa SumUp<input type="file" accept="image/*" capture="environment" multiple style="display:none" onchange="v41Photo(this)"></label><label>🖼️ Foto dalla galleria<input type="file" accept="image/*" multiple style="display:none" onchange="v41Photo(this)"></label></div>
+${rows}</div>`;}
+{const _r=renderConti;renderConti=function(){const res=_r.apply(this,arguments);try{if(!owner())return res;document.querySelectorAll('.su-box').forEach(x=>x.remove());const h=panel();
+ [['payTotals',0],['contiList',1]].forEach(([id,afterH])=>{const P=$(id);if(!P)return;let w=P.querySelector('.cx-wrap');if(!w){w=document.createElement('div');w.className='cx-wrap';const hh=afterH&&P.querySelector('h3');if(hh)hh.after(w);else P.prepend(w);}else if(!afterH)P.prepend(w);w.innerHTML=h;});}catch(e){console.error(e);}return res;};}
+})();
+}catch(e){console.error("chef-extra v2.9.41",e);}
+try{(function(){const V='v2.9.41';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
