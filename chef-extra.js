@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.42 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.43 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1072,7 +1072,7 @@ const save=(k,o)=>{try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}};
 const suDay=S=>{const R=store('alicetta_su_rows2');const L=[];(R[S]||[]).forEach(r=>{if(r.t>='05:00')L.push({...r,date:S});});(R[addD(S,1)]||[]).forEach(r=>{if(r.t<'05:00')L.push({...r,date:addD(S,1)});});return L.map(r=>({...r,ts:new Date(r.date+'T'+r.t+':00').getTime()})).sort((a,b)=>a.ts-b.ts);};
 const hasPhoto=S=>{const R=store('alicetta_su_rows2');return !!((R[S]||[]).length||(R[addD(S,1)]||[]).some(r=>r.t<'05:00'));};
 function rerender(){try{renderConti();}catch(e){}}
-window.v41Nav=n=>{const v=addD(S,n);if(v>svcToday())return;S=v;open=false;rerender();};
+window.v41Nav=n=>{const v=addD(S,n);if(v>svcToday())return;S=v;open=false;rerender();};window.v41Parts=parts;window.v41Go=d=>{S=d;open=false;rerender();};
 window.v41Clear=()=>{if(!confirm('Togliere le righe SumUp lette dalle foto per la serata del '+dmy(S)+'?'))return;const R=store('alicetta_su_rows2');if(R[S])R[S]=R[S].filter(r=>r.t<'05:00');const n=addD(S,1);if(R[n])R[n]=R[n].filter(r=>r.t>='05:00');save('alicetta_su_rows2',R);rerender();};
 /* --- foto della lista Vendite: modello leggero, foto piccole, tutte insieme --- */
 const MESI={gennaio:1,febbraio:2,marzo:3,aprile:4,maggio:5,giugno:6,luglio:7,agosto:8,settembre:9,ottobre:10,novembre:11,dicembre:12};
@@ -1147,4 +1147,47 @@ ccLine=function(lbl,app,rt,kind,L){
 {const _s=saveCashClose;saveCashClose=function(){const r=_s.apply(this,arguments);try{const[a]=contiRange(),s=state.ccSvc,K=ccKey(a,s),C=ccClosures()[K];if(C&&C.rtCash!=null&&C.app){const L=(state.historyLog||[]).filter(e=>e&&svcDate(e)===a&&(s==='giorno'||svcOf(e)===s)),S=sumBlock(L),exp=r2(S.cash-suCashOf(L));C.app.cashRt=exp;C.diff.cash=r2(C.rtCash-exp);if(Math.abs(C.diff.cash)<=2)C.diff.cashSmall=C.diff.cash;const cOk=Math.abs(C.diff.cash)<=2;C.ok=cOk&&Math.abs(C.diff.el||0)<0.01&&(C.diff.pos==null||Math.abs(C.diff.pos)<0.01)&&(C.diff.su==null||Math.abs(C.diff.su)<0.01)&&!S.nd;saveState(false,{staff:true});renderCashClose();}}catch(e){console.error(e);}return r;};}
 })();
 }catch(e){console.error("chef-extra v2.9.42",e);}
-try{(function(){const V='v2.9.42';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);
+const r2=n=>Math.round((Number(n)||0)*100)/100;const eur=n=>'€ '+formatPrice(r2(n));
+const pad=n=>String(n).padStart(2,'0');const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
+const st=document.createElement('style');
+st.textContent='.cx-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:10px}.cx-tabs button{border:2px solid #475569;border-radius:12px;background:#1E293B;color:#fff;font-weight:900;padding:8px 2px;font-size:.8rem}.cx-tabs button.on{background:#FF2D95;border-color:#fff}.cx-tb{width:100%;border-collapse:collapse;font-size:.74rem;margin-top:10px}.cx-tb th{text-align:right;font-weight:900;padding:5px 3px;border-bottom:2px solid #475569;white-space:nowrap}.cx-tb th:first-child,.cx-tb td:first-child{text-align:left}.cx-tb td{text-align:right;padding:6px 3px;border-bottom:1px dashed #334155;white-space:nowrap;font-weight:700}.cx-tb tr.tot td{font-weight:900;border-top:2px solid #475569;border-bottom:0;color:#4ADE80}.cx-tb tr[onclick]{cursor:pointer}.cx-sc{overflow-x:auto}.cc-miss{background:#FEF3C7;color:#78350F;border:2px solid #F59E0B;border-radius:12px;padding:8px 10px;margin:6px 0 10px;font-weight:800;font-size:.84rem}.cc-miss button{margin:4px 6px 0 0;border:2px solid #78350F;border-radius:9px;background:#fff;color:#78350F;font-weight:900;padding:5px 9px}';
+document.head.appendChild(st);
+const P=window._cxP=window._cxP||{mode:'g',ref:null};
+const partsOf=e=>{try{return window.v41Parts?v41Parts(e):[];}catch(x){return[];}};
+function sums(L){const o={card:0,cash:0,loc:0,tip:0,n:0,cop:0};L.forEach(e=>{o.n++;o.cop+=Number(e.coperti)||0;partsOf(e).forEach(x=>{o[x.k]+=x.a;o.tip+=x.tip||0;});});return o;}
+const monday=s=>{const d=new Date(s+'T12:00');const w=(d.getDay()+6)%7;d.setDate(d.getDate()-w);return iso(d);};
+const addD=(s,n)=>{const x=new Date(s+'T12:00');x.setDate(x.getDate()+n);return iso(x);};
+const MN=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+function range(){const t=svcToday(),r=P.ref||t;if(P.mode==='s'){const a=monday(r);return{a,b:addD(a,6),lbl:'Settimana dal '+a.split('-').reverse().join('/').slice(0,5)+' al '+addD(a,6).split('-').reverse().join('/')};}
+ if(P.mode==='m'){const y=+r.slice(0,4),m=+r.slice(5,7);const a=y+'-'+pad(m)+'-01',b=iso(new Date(y,m,0));return{a,b,lbl:MN[m-1]+' '+y};}
+ const y=r.slice(0,4);return{a:y+'-01-01',b:y+'-12-31',lbl:'Anno '+y};}
+window.v43Mode=m=>{P.mode=m;P.ref=null;try{renderConti();}catch(e){}};
+window.v43Nav=n=>{const t=svcToday(),r=P.ref||t;let v;if(P.mode==='s')v=addD(r,7*n);else if(P.mode==='m'){const d=new Date(r.slice(0,7)+'-15T12:00');d.setMonth(d.getMonth()+n);v=iso(d);}else v=(+r.slice(0,4)+n)+r.slice(4);if(n>0&&range().b>=t)return;P.ref=v;try{renderConti();}catch(e){}};
+window.v43Day=d=>{P.mode='g';P.ref=null;try{if(window.v41Go)v41Go(d);else renderConti();}catch(e){}};
+window.v43Month=ym=>{P.mode='m';P.ref=ym+'-15';try{renderConti();}catch(e){}};
+const tabs=()=>`<div class="cx-tabs">${[['g','Giorno'],['s','Settimana'],['m','Mese'],['a','Anno']].map(([k,l])=>`<button class="${P.mode===k?'on':''}" onclick="v43Mode('${k}')">${l}</button>`).join('')}</div>`;
+window.v43Tabs=tabs;
+function period(){const{a,b,lbl}=range(),t=svcToday();const L=(state.historyLog||[]).filter(e=>{if(!e)return false;const d=svcDate(e);return d>=a&&d<=b;});const S=sums(L),tot=S.card+S.cash+S.loc;
+ let rows='';
+ if(P.mode==='a'){const by={};L.forEach(e=>{const k=svcDate(e).slice(0,7);(by[k]=by[k]||[]).push(e);});rows=Object.keys(by).sort().map(k=>{const s=sums(by[k]);return `<tr onclick="v43Month('${k}')"><td>${MN[+k.slice(5)-1].slice(0,3)} ›</td><td>${formatPrice(r2(s.card))}</td><td>${formatPrice(r2(s.cash))}</td><td>${formatPrice(r2(s.loc))}</td><td><b>${formatPrice(r2(s.card+s.cash+s.loc))}</b></td></tr>`;}).join('');}
+ else{const by={};L.forEach(e=>{const k=svcDate(e);(by[k]=by[k]||[]).push(e);});const days=[];for(let d=a;d<=b&&d<=t;d=addD(d,1))days.push(d);rows=days.map(d=>{const s=sums(by[d]||[]);const tt=s.card+s.cash+s.loc;const w=new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'short'});return `<tr onclick="v43Day('${d}')" style="${tt?'':'opacity:.45'}"><td>${w} ${d.slice(8)}/${d.slice(5,7)} ›</td><td>${formatPrice(r2(s.card))}</td><td>${formatPrice(r2(s.cash))}</td><td>${formatPrice(r2(s.loc))}</td><td><b>${formatPrice(r2(tt))}</b></td></tr>`;}).reverse().join('');}
+ const pct=v=>tot?' · '+Math.round(v/tot*100)+'%':'';
+ return `<div class="cx">${tabs()}<div class="cx-nav"><button onclick="v43Nav(-1)">◀</button><b>${esc(lbl)}<small>${S.n} conti · ${S.cop} coperti${S.n?' · scontrino medio '+eur(tot/S.n):''}</small></b><button onclick="v43Nav(1)" ${b>=t?'disabled style="opacity:.35"':''}>▶</button></div>
+<div class="cx-big"><small>💰 Hai incassato</small><b>${eur(tot)}</b>${S.tip>0?`<small>di cui ${eur(S.tip)} di mance su SumUp</small>`:''}</div>
+<div class="cx-t"><div style="background:#DBEAFE;color:#1E3A8A;">💳 Carta<br>SumUp<b>${eur(S.card)}</b><small style="font-weight:700;">${pct(S.card).slice(3)}</small></div><div style="background:#E0F2FE;color:#075985;">💵 Contanti<br>SumUp<b>${eur(S.cash)}</b><small style="font-weight:700;">${pct(S.cash).slice(3)}</small></div><div style="background:#DCFCE7;color:#14532D;">🏪 Contanti<br>cassa locale<b>${eur(S.loc)}</b><small style="font-weight:700;">${pct(S.loc).slice(3)}</small></div></div>
+<div class="cx-su" style="margin-top:8px;border-radius:12px;padding:9px 10px;background:#1D4ED8;color:#fff;font-weight:900;display:flex;justify-content:space-between;"><span>🟦 Totale SumUp (carta + contanti)</span><span>${eur(S.card+S.cash)}</span></div>
+<div class="cx-sc"><table class="cx-tb"><thead><tr><th>${P.mode==='a'?'Mese':'Giorno'}</th><th>💳 SumUp</th><th>💵 SumUp</th><th>🏪 Locale</th><th>Totale</th></tr></thead><tbody>${rows||'<tr><td colspan="5">Nessun conto.</td></tr>'}<tr class="tot"><td>Totale</td><td>${formatPrice(r2(S.card))}</td><td>${formatPrice(r2(S.cash))}</td><td>${formatPrice(r2(S.loc))}</td><td>${formatPrice(r2(tot))}</td></tr></tbody></table></div>
+<div style="font-size:.72rem;opacity:.75;margin-top:6px;font-weight:700;">Tocca un ${P.mode==='a'?'mese':'giorno'} per aprirlo. I conti dopo mezzanotte sono contati nella sera prima.</div></div>`;}
+{const _r=renderConti;renderConti=function(){const res=_r.apply(this,arguments);try{if(!owner())return res;
+ document.querySelectorAll('.cx-wrap').forEach(w=>{if(P.mode!=='g'){w.innerHTML=period();}else{const c=w.querySelector('.cx');if(c&&!c.querySelector('.cx-tabs'))c.insertAdjacentHTML('afterbegin',tabs());}});
+ /* chiusure mancanti ben visibili nel registro */
+ const el=$('cashClose');if(el&&!el.querySelector('.cc-miss')){const t=svcToday(),K=Object.keys(ccClosures()),D=new Set();(state.historyLog||[]).forEach(e=>{try{const d=svcDate(e);if(d&&d<t&&d>=addD(t,-30))D.add(d);}catch(x){}});const M=[...D].filter(d=>!K.some(k=>k.indexOf(d+'|')===0)).sort().reverse();
+  if(M.length){const h=[...el.querySelectorAll('div,b,h3,h4')].find(x=>/Registro chiusure/.test(x.textContent)&&x.children.length<3);const box=document.createElement('div');box.className='cc-miss';box.innerHTML='⚠️ '+(M.length===1?'Manca la chiusura di':'Mancano le chiusure di')+':<br>'+M.map(d=>`<button onclick="ccOpen('${d}|giorno')">${new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'short'})} ${d.slice(8)}/${d.slice(5,7)} · fai la chiusura</button>`).join('');if(h)h.after(box);else el.prepend(box);}}
+}catch(e){console.error(e);}return res;};}
+})();
+}catch(e){console.error("chef-extra v2.9.43",e);}
+try{(function(){const V='v2.9.43';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
