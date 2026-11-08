@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.37 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.38 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -455,7 +455,7 @@ const ccDone=()=>{try{const t=svcToday();return Object.keys(ccClosures()).some(k
 function closedFlag(){try{const C=JSON.parse(localStorage.getItem('alicetta_chiusura')||'{}');return !!((C.log||{})[svcToday()]||{}).closed;}catch(e){return false;}}
 function check(){if(!isOwner())return;if(document.querySelector('.modal-overlay.active'))return;const h=new Date().getHours();if(!(h>=21||h<5))return;
 if(openN()>0)return;const lt=lastBillTs();if(!lt)return;const age=Date.now()-lt;if(age<3000)return;if(ccDone())return;
-if(Date.now()-(Number(localStorage.getItem('alicetta_endnag_t'))||0)<10*60000)return;
+if(Date.now()-(Number(localStorage.getItem('alicetta_endnag_t'))||0)<10*60000)return;if(Date.now()<(Number(localStorage.getItem('alicetta_cc_snooze'))||0))return;
 try{const now=Date.now(),d=svcToday();if(Object.values(state.res||{}).some(r=>r&&r.date===d&&r.status==='attesa'&&resTs(r)>now-30*60000))return;}catch(e){}
 localStorage.setItem('alicetta_endnag_t',String(Date.now()));show();}
 function show(){const d=svcToday(),L=(state.historyLog||[]).filter(e=>{try{return e&&svcDate(e)===d;}catch(x){return false;}}),S=sumBlock(L);let au=[];try{au=(window.v31AuditLines?v31AuditLines():[]).slice(0,3);}catch(e){}
@@ -464,7 +464,7 @@ $('endBox').innerHTML=`<h3 style="color:var(--logo-coral);margin-bottom:2px;">�
 <div class="fc-sub" style="margin-bottom:6px;">💵 ${eur(S.cash)} · 💳 ${eur(S.card)}${S.nd?' · ❔ '+eur(S.nd):''}</div>
 ${au.length?`<div class="en-w">⚠️ Da controllare:<br>${au.map(x=>'• '+esc(x)).join('<br>')}</div>`:''}
 <div style="font-weight:800;margin:6px 0 2px;color:#B91C1C;">Per finire la serata fai la chiusura cassa: questa finestra torna ogni 10 minuti finché non è fatta.</div><button class="btn-main btn-bill" style="width:100%;margin-top:8px;font-size:1.1rem;" onclick="v2928Go()">🧾 Fai la chiusura cassa adesso</button>
-<button class="btn-note" style="width:100%;margin-top:8px;padding:11px;" onclick="v2919Full()">📋 Checklist e riepilogo WhatsApp</button>`;
+<button class="btn-note" style="width:100%;margin-top:8px;padding:11px;" onclick="v2919Full()">📋 Checklist e riepilogo WhatsApp</button><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;"><button class="btn-note" style="padding:11px;" onclick="v2938Snooze(30)">⏰ Tra 30 min</button><button class="btn-note" style="padding:11px;" onclick="v2938Snooze(60)">⏰ Tra 1 ora</button></div>`;
 $('endModal').classList.add('active');try{if(navigator.vibrate)navigator.vibrate(60);}catch(e){}}
 window.v2919Later=()=>$('endModal').classList.remove('active');
 window.v2919Full=()=>{$('endModal').classList.remove('active');try{switchMainView('sales');setHubPage('sales','chiusura');}catch(e){}};
@@ -905,3 +905,46 @@ lbl('v35Go','📸 Lettura lavagnetta e vini');lbl('completeTranslations','🌍 T
 {const _s=window.saveInvoice;if(_s)window.saveInvoice=function(){const r=_s.apply(this,arguments);try{const t=state.tables[state.activeTableId];if(t&&t.invoice)window._invDraft=null;}catch(e){}return r;};}
 })();
 }catch(e){console.error("chef-extra v2.9.37",e);}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const eur=n=>'€ '+formatPrice(Math.round((Number(n)||0)*100)/100);
+const st=document.createElement('style');
+st.textContent='body.cc-snz #ccBanner{display:none!important}#ccBanner .snz{display:flex;gap:6px;justify-content:center;margin-top:7px}#ccBanner .snz button{border:2px solid #fff;background:rgba(255,255,255,.15);color:#fff;border-radius:10px;padding:6px 10px;font-weight:900;font-size:.82rem}.su-box{background:#DBEAFE;color:#0B2545;border-radius:14px;padding:10px 12px;margin-bottom:10px;border:2px solid #1D4ED8}.su-box summary{list-style:none;cursor:pointer;font-weight:900;display:flex;justify-content:space-between;gap:8px;align-items:center}.su-box summary::-webkit-details-marker{display:none}.su-big{font-size:1.25rem;color:#1D4ED8}.su-nav{display:grid;grid-template-columns:40px 1fr 40px;gap:6px;align-items:center;margin:8px 0}.su-nav button{border:2px solid #0B2545;border-radius:10px;background:#fff;font-weight:900;padding:6px}.su-row{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed #93C5FD;padding:5px 0;font-size:.84rem;font-weight:700}.su-row b{white-space:nowrap}.su-in{display:flex;gap:6px;align-items:center;margin-top:8px;font-weight:800;font-size:.85rem}.su-in input{flex:1;min-width:0;border:2px solid #0B2545;border-radius:10px;padding:8px;font-weight:900;font-size:1rem}.su-diff{margin-top:6px;font-weight:900;border-radius:10px;padding:7px 9px}';
+document.head.appendChild(st);
+/* ---- rimanda la chiusura cassa ---- */
+const snzUntil=()=>Number(localStorage.getItem('alicetta_cc_snooze'))||0;
+const hm=ts=>new Date(ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+function snzApply(){document.body.classList.toggle('cc-snz',Date.now()<snzUntil());}
+window.v2938Snooze=(min,ev)=>{if(ev)ev.stopPropagation();const t=Date.now()+min*60000;localStorage.setItem('alicetta_cc_snooze',String(t));localStorage.setItem('alicetta_endnag_t',String(t));snzApply();const m=$('endModal');if(m)m.classList.remove('active');try{toast('⏰ Ti ricordo la chiusura cassa alle '+hm(t));}catch(e){}};
+{const b=$('ccBanner');if(b&&!b.querySelector('.snz'))b.insertAdjacentHTML('beforeend','<div class="snz"><button onclick="v2938Snooze(30,event)">⏰ Tra 30 min</button><button onclick="v2938Snooze(60,event)">⏰ Tra 1 ora</button></div>');}
+setInterval(snzApply,15000);snzApply();
+/* ---- Conti: prima i conti, poi le fatture ---- */
+function order(){const c=$('contiList'),i=$('invList');if(c&&i&&c.nextElementSibling!==i)c.after(i);}
+order();setInterval(order,3000);
+/* ---- confronto con il terminale SumUp (giorno di calendario, come SumUp) ---- */
+const pad=n=>String(n).padStart(2,'0');const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+let suDay=iso(new Date()),suOpen=false;
+function tx(e){const p=e.pay||{},T=Number(e.total)||0,nm=e.tableName||'Conto',out=[];
+ if(Array.isArray(p.parts)&&p.parts.length){p.parts.forEach((x,i)=>{if(x.v==='loc')return;out.push({a:Number(x.a)||0,k:x.m==='contanti'?'cash':'card',l:nm+' · quota '+(i+1)+'/'+p.parts.length});});return out;}
+ if(p.cashLoc!=null){const s=Math.round((T-Number(p.cashLoc))*100)/100;if(s>0.004){const cd=Number(p.card)||0;if(cd>0.004)out.push({a:Math.min(cd,s),k:'card',l:nm});const cs=Math.round((s-Math.min(cd,s))*100)/100;if(cs>0.004)out.push({a:cs,k:'cash',l:nm+' (contanti)'});}return out;}
+ if(!/sumup/i.test(String(p.via||'')))return out;
+ const cd=Number(p.card)||0,cs=Number(p.cash)||0;
+ if(p.m==='misto'&&cd>0&&cs>0){out.push({a:cd,k:'card',l:nm},{a:cs,k:'cash',l:nm+' (contanti)'});}
+ else out.push({a:T,k:p.m==='contanti'?'cash':'card',l:nm});return out;}
+function dayTx(d){const L=[];(state.historyLog||[]).forEach(e=>{if(!e||!e.ts)return;if(iso(new Date(e.ts))!==d)return;tx(e).forEach(x=>L.push({...x,ts:e.ts}));});return L.sort((a,b)=>b.ts-a.ts);}
+const lbl=d=>{const t=iso(new Date()),y=new Date();y.setDate(y.getDate()-1);const x=new Date(d+'T12:00');return x.toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'long'})+(d===t?' · OGGI':d===iso(y)?' · IERI':'');};
+window.v2938Nav=n=>{const x=new Date(suDay+'T12:00');x.setDate(x.getDate()+n);const v=iso(x);if(v>iso(new Date()))return;suDay=v;suOpen=true;try{renderConti();}catch(e){}};
+window.v2938Set=v=>{const k='alicetta_su_tot';let M={};try{M=JSON.parse(localStorage.getItem(k)||'{}');}catch(e){}const n=parseFloat(String(v).replace(/\./g,'').replace(',','.'));if(n>=0)M[suDay]=n;else delete M[suDay];localStorage.setItem(k,JSON.stringify(M));suOpen=true;try{renderConti();}catch(e){}};
+function box(){const L=dayTx(suDay),tot=L.reduce((a,x)=>a+x.a,0),cd=L.filter(x=>x.k==='card').reduce((a,x)=>a+x.a,0),cs=tot-cd;let M={};try{M=JSON.parse(localStorage.getItem('alicetta_su_tot')||'{}');}catch(e){}const su=M[suDay];
+ const diff=su!=null?Math.round((su-tot)*100)/100:null;
+ const dh=diff==null?'':Math.abs(diff)<0.01?'<div class="su-diff" style="background:#DCFCE7;color:#14532D;">✅ Torna al centesimo con SumUp</div>':`<div class="su-diff" style="background:#FEF3C7;color:#78350F;">⚠️ Differenza ${diff>0?'+':''}${formatPrice(diff)} €: ${diff>0?'su SumUp c’è di più (pagamento fatto solo sul terminale, mancia, o conto segnato come contanti/cassa locale)':'nell’app c’è di più (pagamento SumUp non riuscito ma segnato come pagato, o fatto in contanti/cassa locale)'}. Confronta riga per riga qui sotto.</div>`;
+ return `<details class="su-box" ${suOpen?'open':''} ontoggle="window._suO=this.open"><summary><span>🟦 Da confrontare con SumUp<br><small style="font-weight:700;">${esc(lbl(suDay))} · ${L.length} pagamenti</small></span><span class="su-big">${eur(tot)}</span></summary>
+<div class="su-nav"><button onclick="v2938Nav(-1)">◀</button><b style="text-align:center;">${esc(lbl(suDay))}</b><button onclick="v2938Nav(1)" ${suDay>=iso(new Date())?'disabled style="opacity:.35"':''}>▶</button></div>
+<div style="font-size:.8rem;font-weight:800;">💳 Carte ${eur(cd)} · 💵 Contanti su SumUp ${eur(cs)}</div>
+<div style="font-size:.74rem;font-weight:700;margin:4px 0 6px;opacity:.85;">Come il terminale: giorno da mezzanotte a mezzanotte (un conto pagato dopo le 24 va nel giorno dopo). Su SumUp conta solo le righe ✅ Riuscita.</div>
+<div class="su-in">Totale sul terminale: <input inputmode="decimal" placeholder="es. 813,35" value="${su!=null?formatPrice(su):''}" onchange="v2938Set(this.value)"></div>${dh}
+<div style="margin-top:8px;">${L.map(x=>`<div class="su-row"><span>${hm(x.ts)} · ${esc(x.l)} ${x.k==='cash'?'💵':'💳'}</span><b>${eur(x.a)}</b></div>`).join('')||'<div class="fc-sub">Nessun pagamento SumUp in questo giorno.</div>'}</div></details>`;}
+{const _r=renderConti;renderConti=function(){const r=_r.apply(this,arguments);try{if(window._suO!=null)suOpen=window._suO;const c=$('contiList');if(c&&/^christian$/i.test((state.waiterName||'').trim())){const h=c.querySelector('h3');const d=document.createElement('div');d.innerHTML=box();const el=d.firstElementChild;if(h)h.after(el);else c.prepend(el);}order();}catch(e){}return r;};}
+})();
+}catch(e){console.error("chef-extra v2.9.38",e);}
+try{(function(){const V='v2.9.38';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
