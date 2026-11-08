@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.41 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.42 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1130,4 +1130,21 @@ ${rows}</div>`;}
  [['payTotals',0],['contiList',1]].forEach(([id,afterH])=>{const P=$(id);if(!P)return;let w=P.querySelector('.cx-wrap');if(!w){w=document.createElement('div');w.className='cx-wrap';const hh=afterH&&P.querySelector('h3');if(hh)hh.after(w);else P.prepend(w);}else if(!afterH)P.prepend(w);w.innerHTML=h;});}catch(e){console.error(e);}return res;};}
 })();
 }catch(e){console.error("chef-extra v2.9.41",e);}
-try{(function(){const V='v2.9.41';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const r2=n=>Math.round((Number(n)||0)*100)/100;
+const suCashOf=L=>L.reduce((x,e)=>x+(window.v2934SuCash?v2934SuCash(e):0),0);
+/* controllo chiusura: leggibile e senza contare i contanti battuti su SumUp */
+ccLine=function(lbl,app,rt,kind,L){
+ let note='';if(kind==='cash'&&lbl==='Contanti'){const su=r2(suCashOf(L));if(su>0){note=` <span style="font-weight:700;">(tolti € ${formatPrice(su)} di contanti battuti su SumUp, che non vanno sul registratore)</span>`;app=r2(app-su);}}
+ if(rt==null)return `<div style="font-size:.8rem;opacity:.8;">${lbl} registratore: non inserito</div>`;
+ const d=r2(rt-app);
+ if(Math.abs(d)<0.01)return `<div style="font-size:.85rem;font-weight:800;color:#22C55E;padding:4px 0;">✅ ${lbl} registratore: quadra (€ ${formatPrice(rt)})${note}</div>`;
+ if(Math.abs(d)<=2)return `<div style="background:#FEF3C7;border:2px solid #F59E0B;border-radius:10px;padding:8px 10px;margin:6px 0;font-size:.84rem;color:#78350F;"><b>🟡 ${lbl}: piccola differenza di € ${formatPrice(Math.abs(d))}</b><br>App € ${formatPrice(app)} · registratore € ${formatPrice(rt)}${note}. Probabile resto o arrotondamento: se ti torna, va bene così.</div>`;
+ if(d<0){const part=e=>kind==='cash'?payOf(e).cash-(window.v2934SuCash?v2934SuCash(e):0):payOf(e).card;const ex=L.filter(e=>Math.abs(part(e)+d)<0.01);const c=ex.length?ex:L.filter(e=>part(e)>0);
+  return `<div style="background:#FEE2E2;border:2px solid #EF4444;border-radius:10px;padding:8px 10px;margin:6px 0;font-size:.84rem;color:#7F1D1D;"><b>🔴 ${lbl}: sul registratore mancano € ${formatPrice(-d)}</b><br>App € ${formatPrice(app)} · registratore € ${formatPrice(rt)}${note}.<br>Probabile scontrino non emesso: emettilo e rifai la verifica.<div style="margin-top:6px;font-weight:900;">🔎 ${ex.length?'Conto con lo stesso importo:':'Conti in contanti da controllare:'}</div>${c.map(e=>`<div>• ${escH(e.tableName||'')} ${escH(e.time||'')} · € ${formatPrice(part(e))}</div>`).join('')}</div>`;}
+ return `<div style="background:#FEF3C7;border:2px solid #F59E0B;border-radius:10px;padding:8px 10px;margin:6px 0;font-size:.84rem;color:#78350F;"><b>🟡 ${lbl}: sul registratore ci sono € ${formatPrice(d)} in più</b><br>App € ${formatPrice(app)} · registratore € ${formatPrice(rt)}${note}.<br>Probabile conto non chiuso nell’app o con la forma di pagamento sbagliata.</div>`;};
+{const _s=saveCashClose;saveCashClose=function(){const r=_s.apply(this,arguments);try{const[a]=contiRange(),s=state.ccSvc,K=ccKey(a,s),C=ccClosures()[K];if(C&&C.rtCash!=null&&C.app){const L=(state.historyLog||[]).filter(e=>e&&svcDate(e)===a&&(s==='giorno'||svcOf(e)===s)),S=sumBlock(L),exp=r2(S.cash-suCashOf(L));C.app.cashRt=exp;C.diff.cash=r2(C.rtCash-exp);if(Math.abs(C.diff.cash)<=2)C.diff.cashSmall=C.diff.cash;const cOk=Math.abs(C.diff.cash)<=2;C.ok=cOk&&Math.abs(C.diff.el||0)<0.01&&(C.diff.pos==null||Math.abs(C.diff.pos)<0.01)&&(C.diff.su==null||Math.abs(C.diff.su)<0.01)&&!S.nd;saveState(false,{staff:true});renderCashClose();}}catch(e){console.error(e);}return r;};}
+})();
+}catch(e){console.error("chef-extra v2.9.42",e);}
+try{(function(){const V='v2.9.42';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
