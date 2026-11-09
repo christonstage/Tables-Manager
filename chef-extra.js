@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.44 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.45 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1203,4 +1203,54 @@ payChip=function(e){try{const p=payOf(e);if(!e||p.m==='nd'||p.m==='buono'||!wind
  return `<span style="${sty('#7C3AED')}">🔀 Pagato in parte: ${K.map(k=>`€ ${formatPrice(Math.round(g[k]*100)/100)} ${LB[k]}`).join(' + ')}${tip>0?' · 💶 mancia € '+formatPrice(tip):''}</span>`;}catch(x){return _pc.apply(this,arguments);}};
 })();
 }catch(e){console.error("chef-extra v2.9.44",e);}
-try{(function(){const V='v2.9.44';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);
+const r2=n=>Math.round((Number(n)||0)*100)/100;const eur=n=>'€ '+formatPrice(r2(n));
+const pad=n=>String(n).padStart(2,'0');const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const addD=(s,n)=>{const x=new Date(s+'T12:00');x.setDate(x.getDate()+n);return iso(x);};
+const isAl=()=>/^alice$/i.test((state.waiterName||'').trim());
+const OK=['oggi','forn'];
+const st=document.createElement('style');
+st.textContent='body.al-mode #payTotals,body.al-mode #cashClose,body.al-mode #spCard,body.al-mode #ccBanner{display:none!important}body.al-mode #hubTabs_sales .hub-tab:not([data-p="oggi"]):not([data-p="forn"]){display:none!important}body.al-mode #hubDots_sales{display:none}.al{border-radius:18px;padding:12px;margin-bottom:12px;background:#0F172A;color:#F1F5F9;border:2px solid #334155}.al-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}.al-tabs button{border:2px solid #475569;border-radius:12px;background:#1E293B;color:#fff;font-weight:900;padding:9px 2px}.al-tabs button.on{background:#FF2D95;border-color:#fff}.al-nav{display:grid;grid-template-columns:42px 1fr 42px;gap:6px;align-items:center;margin-bottom:8px}.al-nav button{border:2px solid #fff;border-radius:10px;background:#1E293B;color:#fff;font-weight:900;padding:6px}.al-nav b{text-align:center;line-height:1.2}.al-nav small{display:block;font-weight:700;opacity:.75;font-size:.74rem}.al-big{text-align:center;margin:6px 0 10px}.al-big small{display:block;font-weight:800;opacity:.85}.al-big b{font-size:2.1rem;color:#4ADE80}.al-k{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}.al-k div{background:#1E293B;border-radius:12px;padding:8px 4px;text-align:center;font-weight:800;font-size:.72rem}.al-k b{display:block;font-size:1.1rem;margin-top:2px}.al-t{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.al-t div{border-radius:12px;padding:8px 4px;text-align:center;font-weight:800;font-size:.72rem;line-height:1.2}.al-t b{display:block;font-size:.98rem;margin-top:3px}.al h4{margin:14px 0 6px;font-size:1rem}.al-row{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px dashed #334155;font-weight:700;font-size:.84rem}.al-rk{display:grid;grid-template-columns:24px 1fr auto;gap:6px;align-items:center;padding:5px 0;font-size:.82rem;font-weight:700}.al-rk i{display:block;height:7px;border-radius:9px;background:linear-gradient(90deg,#FF2D95,#1BE7FF);margin-top:3px}.al-rk .n{font-weight:900;color:#FDE68A;text-align:center}';
+document.head.appendChild(st);
+/* barra in basso: niente Menù e Ore, sì Vendite */
+function nav(){const a=isAl();document.body.classList.toggle('al-mode',a);if(!a)return;let ch=false;[['navDishes','none'],['navTime','none'],['navSales','block']].forEach(([id,v])=>{const b=$(id);if(b&&b.style.display!==v){b.style.display=v;ch=true;}});if(ch&&window.v21UpdateDock)try{v21UpdateDock();}catch(e){}}
+setInterval(nav,1000);nav();
+/* apertura di Vendite per Alice: solo Oggi e Fornitori */
+{const _s=switchMainView;switchMainView=function(v){if(v==='sales'&&isAl()){const w=state.waiterName;state.waiterName='Christian';let r;try{r=_s.apply(this,arguments);}finally{state.waiterName=w;}setTimeout(()=>{try{setHubPage('sales','oggi',0);}catch(e){}draw();},30);return r;}
+ if((v==='dishes'||v==='time')&&isAl())return _s.call(this,'tables');return _s.apply(this,arguments);};}
+{const _h=setHubPage;window.setHubPage=setHubPage=function(key,page,dir){if(key==='sales'&&isAl()&&OK.indexOf(page)<0)page='oggi';const r=_h.call(this,key,page,dir);if(key==='sales'&&page==='oggi'&&isAl())setTimeout(draw,30);return r;};}
+/* --- riepilogo vendite --- */
+const A=window._alP=window._alP||{m:'g',ref:null};
+const MN=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+const monday=s=>{const d=new Date(s+'T12:00');d.setDate(d.getDate()-(d.getDay()+6)%7);return iso(d);};
+const fd=s=>s.slice(8)+'/'+s.slice(5,7)+'/'+s.slice(0,4);
+function range(){const t=svcToday(),r=A.ref||t;if(A.m==='g')return{a:r,b:r,lbl:new Date(r+'T12:00').toLocaleDateString('it-IT',{weekday:'long'})+' '+fd(r)+(r===t?' · OGGI':r===addD(t,-1)?' · IERI':'')};
+ if(A.m==='s'){const a=monday(r),b=addD(a,6);return{a,b,lbl:'dal '+fd(a).slice(0,5)+' al '+fd(b)};}
+ const y=+r.slice(0,4),m=+r.slice(5,7);return{a:y+'-'+pad(m)+'-01',b:iso(new Date(y,m,0)),lbl:MN[m-1]+' '+y};}
+window.v45M=m=>{A.m=m;A.ref=null;draw();};
+window.v45N=n=>{const t=svcToday(),r=A.ref||t;let v;if(A.m==='g')v=addD(r,n);else if(A.m==='s')v=addD(r,7*n);else{const d=new Date(r.slice(0,7)+'-15T12:00');d.setMonth(d.getMonth()+n);v=iso(d);}if(n>0&&range().b>=t)return;A.ref=v;draw();};
+window.v45D=d=>{A.m='g';A.ref=d;draw();};
+const NOPE=/coperto|\bacqua\b/i;
+function draw(){if(!isAl())return;const host=$('hub_sales_oggi');if(!host)return;let box=$('alSales');if(!box){box=document.createElement('div');box.id='alSales';host.prepend(box);}else if(host.firstElementChild!==box)host.prepend(box);
+ const{a,b,lbl}=range(),t=svcToday();const L=(state.historyLog||[]).filter(e=>{if(!e)return false;const d=svcDate(e);return d>=a&&d<=b;});
+ const s={card:0,cash:0,loc:0,n:L.length,cop:0};L.forEach(e=>{s.cop+=Number(e.coperti)||0;(window.v41Parts?v41Parts(e):[]).forEach(x=>{s[x.k]+=x.a;});});const tot=s.card+s.cash+s.loc;
+ const R={};L.forEach(e=>(e.items||[]).forEach(i=>{if(!i||NOPE.test(i.name||'')||i.cat==='1 Coperto')return;const k=i.name;R[k]=R[k]||{q:0,v:0,c:i.cat||''};R[k].q+=Number(i.qty)||0;R[k].v+=(Number(i.price)||0)*(Number(i.qty)||0);}));
+ const isDrink=c=>/bevand|vin|birr|caff|amar|bibit/i.test(c||'');
+ const top=(f)=>Object.entries(R).filter(([k,v])=>f(v)).sort((x,y)=>y[1].q-x[1].q).slice(0,10);
+ const rk=(list)=>{const mx=list.length?list[0][1].q:1;return list.map(([k,v],i)=>`<div class="al-rk"><span class="n">${i+1}</span><div>${esc(k.length>46?k.slice(0,44)+'…':k)}<i style="width:${Math.max(6,Math.round(v.q/mx*100))}%"></i></div><b>${v.q}×</b></div>`).join('')||'<div class="al-row"><span>Nessun piatto venduto.</span></div>';};
+ let rows='';if(A.m!=='g'){const by={};L.forEach(e=>{const d=svcDate(e);(by[d]=by[d]||[]).push(e);});const D=[];for(let d=a;d<=b&&d<=t;d=addD(d,1))D.push(d);rows=`<h4>📅 Giorno per giorno</h4>`+D.reverse().map(d=>{const l=by[d]||[];let tt=0;l.forEach(e=>(window.v41Parts?v41Parts(e):[]).forEach(x=>tt+=x.a));return `<div class="al-row" onclick="v45D('${d}')" style="cursor:pointer;${tt?'':'opacity:.45'}"><span>${new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'short'})} ${d.slice(8)}/${d.slice(5,7)} · ${l.length} conti ›</span><b>${eur(tt)}</b></div>`;}).join('');}
+ box.innerHTML=`<div class="al"><div class="al-tabs">${[['g','Giorno'],['s','Settimana'],['m','Mese']].map(([k,l])=>`<button class="${A.m===k?'on':''}" onclick="v45M('${k}')">${l}</button>`).join('')}</div>
+<div class="al-nav"><button onclick="v45N(-1)">◀</button><b>${esc(lbl)}<small>pranzo + cena</small></b><button onclick="v45N(1)" ${b>=t?'disabled style="opacity:.35"':''}>▶</button></div>
+<div class="al-big"><small>💰 Incasso</small><b>${eur(tot)}</b></div>
+<div class="al-k"><div>🧾 Conti<b>${s.n}</b></div><div>👥 Coperti<b>${s.cop}</b></div><div>💶 A coperto<b>${s.cop?eur(tot/s.cop):'—'}</b></div></div>
+<div class="al-t"><div style="background:#DBEAFE;color:#1E3A8A;">💳 Carta<br>SumUp<b>${eur(s.card)}</b></div><div style="background:#E0F2FE;color:#075985;">💵 Contanti<br>SumUp<b>${eur(s.cash)}</b></div><div style="background:#DCFCE7;color:#14532D;">🏪 Contanti<br>cassa locale<b>${eur(s.loc)}</b></div></div>
+${rows}
+<h4>🏆 Piatti più venduti</h4>${rk(top(v=>!isDrink(v.c)))}
+<h4>🍷 Bevande più vendute</h4>${rk(top(v=>isDrink(v.c)).slice(0,5))}
+<button class="btn-main btn-bill" style="width:100%;margin-top:12px;" onclick="setHubPage('sales','forn')">📦 Fornitori · 📷 fotografa una fattura</button></div>`;}
+{const _r=renderConti;renderConti=function(){const r=_r.apply(this,arguments);try{if(isAl())draw();}catch(e){}return r;};}
+})();
+}catch(e){console.error("chef-extra v2.9.45",e);}
+try{(function(){const V='v2.9.45';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
