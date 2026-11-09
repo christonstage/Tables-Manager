@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.45 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.46 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -892,8 +892,8 @@ let act=0,t0=0,done=0,pct=0,lab='',hid=false,tick=0,endT=0;window._jobAfter=null
 $('jbX').onclick=e=>{e.stopPropagation();hid=true;bar.classList.remove('on');};
 bar.onclick=()=>{if(bar.classList.contains('ok')&&window._jobAfter){const f=window._jobAfter;window._jobAfter=null;bar.classList.remove('on','ok');try{f();}catch(x){}}};
 const det=()=>{for(const id of ['oneSt','invSt','ocrStatus','wcNetSt','v2918Prog','pubSt']){const e=$(id);const s=e&&(e.textContent||'').trim();if(s&&/⏳|…|\.\.\./.test(s))return s.slice(0,110);}return'';};
-function draw(){if(hid||!act&&!bar.classList.contains('ok'))return;const el=(Date.now()-t0)/1000;if(act){pct=Math.max(pct,Math.min(96,96*(1-Math.exp(-el/(22+done*6)))));$('jbT').textContent='⏳ '+(lab||window._jobLabel||'🤖 Gemini al lavoro');const d=det();$('jbD').textContent=(d?d+' · ':'')+'da '+Math.round(el)+' s · puoi continuare a usare l’app';}$('jbP').style.width=pct+'%';bar.classList.add('on');}
-function begin(){clearTimeout(endT);if(!act&&!bar.classList.contains('busy')){t0=Date.now();done=0;pct=2;hid=false;lab=window._jobLabel||'';bar.classList.remove('ok');bar.classList.add('busy');window._jobAfter=null;}act++;if(window._jobLabel)lab=window._jobLabel;if(!tick)tick=setInterval(draw,500);draw();}
+function draw(){if(act&&Date.now()-lastB>150000){act=1;end();return;}if(hid||!act&&!bar.classList.contains('ok'))return;const el=(Date.now()-t0)/1000;if(act){pct=Math.max(pct,Math.min(96,96*(1-Math.exp(-el/(22+done*6)))));$('jbT').textContent='⏳ '+(lab||window._jobLabel||'🤖 Gemini al lavoro');const d=det();$('jbD').textContent=(d?d+' · ':'')+'da '+Math.round(el)+' s · puoi continuare a usare l’app';}$('jbP').style.width=pct+'%';bar.classList.add('on');}
+let lastB=0;function begin(){lastB=Date.now();clearTimeout(endT);if(!act&&!bar.classList.contains('busy')){t0=Date.now();done=0;pct=2;hid=false;lab=window._jobLabel||'';bar.classList.remove('ok');bar.classList.add('busy');window._jobAfter=null;}act++;if(window._jobLabel)lab=window._jobLabel;if(!tick)tick=setInterval(draw,500);draw();}
 function end(){act=Math.max(0,act-1);done++;if(act)return;endT=setTimeout(()=>{if(act)return;clearInterval(tick);tick=0;bar.classList.remove('busy');pct=100;$('jbT').textContent='✅ '+(lab||'Elaborazione')+': fatto';$('jbD').textContent=window._jobAfter?'Tocca qui per vedere il risultato':'In '+Math.round((Date.now()-t0)/1000)+' s';$('jbP').style.width='100%';bar.classList.add('ok');if(!hid)bar.classList.add('on');setTimeout(()=>{if(!act&&!window._jobAfter)bar.classList.remove('on','ok');},window._jobAfter?60000:4000);},1800);}
 const _f=window.fetch;window.fetch=function(u){let url='';try{url=String(u&&u.url||u);}catch(e){}if(!/generativelanguage\.googleapis\.com/.test(url))return _f.apply(this,arguments);begin();const p=_f.apply(this,arguments);p.then(end,end);return p;};
 const lbl=(name,L)=>{const o=window[name];if(typeof o!=='function')return;window[name]=async function(){window._jobLabel=L;lab=act?L:lab;try{return await o.apply(this,arguments);}finally{setTimeout(()=>{if(window._jobLabel===L)window._jobLabel='';},2500);}};};
@@ -1253,4 +1253,4 @@ ${rows}
 {const _r=renderConti;renderConti=function(){const r=_r.apply(this,arguments);try{if(isAl())draw();}catch(e){}return r;};}
 })();
 }catch(e){console.error("chef-extra v2.9.45",e);}
-try{(function(){const V='v2.9.45';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{(function(){const V='v2.9.46';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
