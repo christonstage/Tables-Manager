@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.43 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.44 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -964,7 +964,7 @@ function parts0(e){const p=e.pay||{},T=r2(e.total),nm=e.tableName||'Conto',out=[
  if(Array.isArray(p.parts)&&p.parts.length){p.parts.forEach((x,i)=>{const a=r2(x.a),q=' · quota '+(i+1)+'/'+p.parts.length;if(x.v==='loc')out.push({a,k:'loc',l:nm+q});else out.push({a,k:x.m==='contanti'?'cash':'card',l:nm+q});});return out;}
  const cd=r2(p.card),cs=r2(p.cash),viaSU=/sumup/i.test(String(p.via||''));
  if(p.cashLoc!=null){const loc=r2(p.cashLoc),su=r2(T-loc);if(loc>0)out.push({a:loc,k:'loc',l:nm});if(su>0){const c=Math.min(cd,su);if(c>0)out.push({a:c,k:'card',l:nm});if(su-c>0.004)out.push({a:r2(su-c),k:'cash',l:nm});}return out;}
- if(!viaSU){out.push({a:T,k:'loc',l:nm});return out;}
+ if(!viaSU){const c=Math.min(cd,T);if(c>0.004)out.push({a:c,k:'card',l:nm});const rest=r2(T-c);if(rest>0.004)out.push({a:rest,k:'loc',l:nm});return out;}
  if(cd>0&&cs>0){out.push({a:cd,k:'card',l:nm},{a:cs,k:'cash',l:nm});return out;}
  out.push({a:T,k:p.m==='contanti'?'cash':'card',l:nm});return out;}
 function nightBefore(D){const x=new Date(D+'T00:00:00').getTime(),L=[];(state.historyLog||[]).forEach(e=>{if(!e||!e.ts||e.ts<x-6*3600e3||e.ts>=x)return;parts(e).forEach(p=>L.push({...p,ts:e.ts,eve:true}));});return L;}
@@ -1058,7 +1058,7 @@ function parts0(e){const p=e.pay||{},T=r2(e.total),nm=e.tableName||'Conto',out=[
  if(Array.isArray(p.parts)&&p.parts.length){p.parts.forEach((x,i)=>{const a=r2(x.a),q=' · quota '+(i+1)+'/'+p.parts.length;out.push({a,k:x.v==='loc'?'loc':x.m==='contanti'?'cash':'card',l:nm+q});});return out;}
  const cd=r2(p.card),cs=r2(p.cash),viaSU=/sumup/i.test(String(p.via||''));
  if(p.cashLoc!=null){const loc=r2(p.cashLoc),su=r2(T-loc);if(loc>0)out.push({a:loc,k:'loc',l:nm});if(su>0){const c=Math.min(cd,su);if(c>0)out.push({a:c,k:'card',l:nm});if(su-c>0.004)out.push({a:r2(su-c),k:'cash',l:nm});}return out;}
- if(!viaSU){out.push({a:T,k:'loc',l:nm});return out;}
+ if(!viaSU){const c=Math.min(cd,T);if(c>0.004)out.push({a:c,k:'card',l:nm});const rest=r2(T-c);if(rest>0.004)out.push({a:rest,k:'loc',l:nm});return out;}
  if(cd>0&&cs>0){out.push({a:cd,k:'card',l:nm},{a:cs,k:'cash',l:nm});return out;}
  out.push({a:T,k:p.m==='contanti'?'cash':'card',l:nm});return out;}
 function parts(e){const out=parts0(e),tip=r2(e.pay&&e.pay.tipSU);if(tip>0){const c=out.find(x=>x.k==='card')||out.find(x=>x.k==='cash');if(c){c.a=r2(c.a+tip);c.tip=tip;}}out.forEach(x=>{x.e=e;x.ts=e.ts;});return out;}
@@ -1190,4 +1190,17 @@ function period(){const{a,b,lbl}=range(),t=svcToday();const L=(state.historyLog|
 }catch(e){console.error(e);}return res;};}
 })();
 }catch(e){console.error("chef-extra v2.9.43",e);}
-try{(function(){const V='v2.9.43';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const LB={card:'💳 carta SumUp',cash:'💵 contanti SumUp',loc:'🏪 contanti cassa locale'},CL={card:'#2563EB',cash:'#0891B2',loc:'#16A34A'};
+const _pc=payChip;
+payChip=function(e){try{const p=payOf(e);if(!e||p.m==='nd'||p.m==='buono'||!window.v41Parts)return _pc.apply(this,arguments);
+ const P=v41Parts(e).filter(x=>x.a>0);if(!P.length)return _pc.apply(this,arguments);
+ const g={};P.forEach(x=>{g[x.k]=(g[x.k]||0)+x.a;});const K=['card','cash','loc'].filter(k=>g[k]);const tip=P.reduce((a,x)=>a+(x.tip||0),0);
+ const term=/terminal/i.test(String(e.pay&&e.pay.via||''))?' (terminale)':'';
+ const sty=c=>`display:inline-block;font-size:.72rem;font-weight:900;color:#fff;background:${c};border-radius:6px;padding:2px 7px;line-height:1.35;`;
+ if(K.length===1){const k=K[0];return `<span style="${sty(CL[k])}">${({card:'💳 Carta SumUp',cash:'💵 Contanti con SumUp',loc:'🏪 Contanti cassa locale'})[k]}${k==='card'?term:''}${tip>0?' · 💶 mancia € '+formatPrice(tip):''}</span>`;}
+ return `<span style="${sty('#7C3AED')}">🔀 Pagato in parte: ${K.map(k=>`€ ${formatPrice(Math.round(g[k]*100)/100)} ${LB[k]}`).join(' + ')}${tip>0?' · 💶 mancia € '+formatPrice(tip):''}</span>`;}catch(x){return _pc.apply(this,arguments);}};
+})();
+}catch(e){console.error("chef-extra v2.9.44",e);}
+try{(function(){const V='v2.9.44';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
