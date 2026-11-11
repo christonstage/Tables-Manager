@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.47 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.49 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1072,7 +1072,7 @@ const save=(k,o)=>{try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}};
 const suDay=S=>{const R=store('alicetta_su_rows2');const L=[];(R[S]||[]).forEach(r=>{if(r.t>='05:00')L.push({...r,date:S});});(R[addD(S,1)]||[]).forEach(r=>{if(r.t<'05:00')L.push({...r,date:addD(S,1)});});return L.map(r=>({...r,ts:new Date(r.date+'T'+r.t+':00').getTime()})).sort((a,b)=>a.ts-b.ts);};
 const hasPhoto=S=>{const R=store('alicetta_su_rows2');return !!((R[S]||[]).length||(R[addD(S,1)]||[]).some(r=>r.t<'05:00'));};
 function rerender(){try{renderConti();}catch(e){}}
-window.v41Nav=n=>{const v=addD(S,n);if(v>svcToday())return;S=v;open=false;rerender();};window.v41Parts=parts;window.v41Go=d=>{S=d;open=false;rerender();};
+window.v41Nav=n=>{const v=addD(S,n);if(v>svcToday())return;S=v;state.contiPer='giorno';state.contiDay=S;open=false;rerender();};window.v41Parts=parts;window.v41Go=d=>{S=d;state.contiPer='giorno';state.contiDay=S;open=false;rerender();};
 window.v41Clear=()=>{if(!confirm('Togliere le righe SumUp lette dalle foto per la serata del '+dmy(S)+'?'))return;const R=store('alicetta_su_rows2');if(R[S])R[S]=R[S].filter(r=>r.t<'05:00');const n=addD(S,1);if(R[n])R[n]=R[n].filter(r=>r.t>='05:00');save('alicetta_su_rows2',R);rerender();};
 /* --- foto della lista Vendite: modello leggero, foto piccole, tutte insieme --- */
 const MESI={gennaio:1,febbraio:2,marzo:3,aprile:4,maggio:5,giugno:6,luglio:7,agosto:8,settembre:9,ottobre:10,novembre:11,dicembre:12};
@@ -1126,7 +1126,7 @@ ${sem}
 ${night.length?`<div class="cx-w">🌙 Battuti dopo mezzanotte e contati in questa serata: ${night.map(x=>hm(x.ts)+' '+esc(x.l)+' '+eur(x.a)+' '+ic(x.k)).join(' · ')}. Sul terminale SumUp sono nella lista del ${dmy(addD(S,1))}.</div>`:''}
 <div class="cx-btn"><label>📷 Fotografa SumUp<input type="file" accept="image/*" capture="environment" multiple style="display:none" onchange="v41Photo(this)"></label><label>🖼️ Foto dalla galleria<input type="file" accept="image/*" multiple style="display:none" onchange="v41Photo(this)"></label></div>
 ${rows}</div>`;}
-{const _r=renderConti;renderConti=function(){const res=_r.apply(this,arguments);try{if(!owner())return res;document.querySelectorAll('.su-box').forEach(x=>x.remove());const h=panel();
+{const _r=renderConti;renderConti=function(){try{const P=state.contiPer;if(P==='giorno'&&state.contiDay)S=state.contiDay;else if(P==='oggi')S=svcToday();else if(P==='ieri')S=addD(svcToday(),-1);}catch(e){}const res=_r.apply(this,arguments);try{if(!owner())return res;document.querySelectorAll('.su-box').forEach(x=>x.remove());const h=panel();
  [['payTotals',0],['contiList',1]].forEach(([id,afterH])=>{const P=$(id);if(!P)return;let w=P.querySelector('.cx-wrap');if(!w){w=document.createElement('div');w.className='cx-wrap';const hh=afterH&&P.querySelector('h3');if(hh)hh.after(w);else P.prepend(w);}else if(!afterH)P.prepend(w);w.innerHTML=h;});}catch(e){console.error(e);}return res;};}
 })();
 }catch(e){console.error("chef-extra v2.9.41",e);}
@@ -1396,4 +1396,48 @@ window.v47Card=()=>{let ov=$('bcModal');if(!ov){ov=document.createElement('div')
 {const _q=showQrModal;showQrModal=function(){const r=_q.apply(this,arguments);try{const ov=$('qrModal'),box=ov&&ov.classList.contains('active')&&ov.querySelector('.receipt-box');if(box&&!box.querySelector('.v47bc')){const b=document.createElement('button');b.className='btn-main btn-bill v47bc';b.style.cssText='width:100%;margin-top:10px;';b.innerHTML='💼 Il mio biglietto da visita';b.onclick=()=>{ov.classList.remove('active');v47Card();};const nfc=[...box.querySelectorAll('button')].find(x=>/Tag NFC per tavoli/.test(x.textContent));if(nfc)nfc.after(b);else box.appendChild(b);}}catch(e){}return r;};}
 })();
 }catch(e){console.error("chef-extra v2.9.47 biglietto",e);}
-try{(function(){const V='v2.9.47';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const F=['rs','piva','cf','addr','cap','city','prov','sdi','pec','email'];
+const st=t=>{const e=$('invSt');if(e)e.textContent=t;};
+function fill(o,src){let n=0;F.forEach(k=>{const v=String(o[k]||'').trim(),el=$('inv_'+k);if(v&&el){el.value=v;n++;}});
+ if(o.importo){const nt=$('inv_note');if(nt&&!/Importo indicato/.test(nt.value))nt.value=(nt.value?nt.value+' · ':'')+'Importo indicato dal cliente: € '+o.importo;}
+ st(n?`✅ ${src}: compilati ${n} campi. Controllali prima di salvare.`:`⚠️ ${src}: non ho trovato dati utili, scrivili a mano.`);
+ try{const w=invWarnings(invRead()),iw=$('invWarn');if(iw)iw.textContent=w.length?'⚠️ '+w.join(' · '):'';invCheck();}catch(e){}return n;}
+/* lettura del testo senza intelligenza artificiale */
+function parse(raw){const T=String(raw||'').replace(/\r/g,'').replace(/[*_~]/g,''),L=T.split('\n').map(s=>s.trim()).filter(Boolean),o={};
+ let m=T.match(/(?:p\.?\s*iva|partita\s*iva|vat)[^\d]{0,20}(?:IT)?\s?(\d{11})\b/i)||T.match(/\b(?:IT)?(\d{11})\b/);if(m)o.piva=m[1];
+ m=T.match(/(?:c\.?\s*f\.?|cod(?:ice)?\.?\s*fisc(?:ale)?)[^A-Z0-9]{0,12}([A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z])/i);if(m)o.cf=m[1].toUpperCase();
+ else if(o.piva&&/p\.?\s*iva\s*(?:e|\/|&)\s*c\.?\s*f/i.test(T))o.cf=o.piva;
+ m=T.match(/(?:codice\s*(?:univoco|destinatario|sdi)|cod\.?\s*(?:univ|dest)\w*\.?|\bsdi\b|\bcud\b)[\s:.\-]*([A-Z0-9]{7})\b/i);if(m)o.sdi=m[1].toUpperCase();
+ const mails=(T.match(/[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g)||[]).map(x=>x.replace(/[.,;]+$/,''));
+ const pec=mails.find(x=>/pec|legalmail|postacert|arubapec|cert\./i.test(x))||((T.match(/\bpec\b[\s:.\-]*([\w.+-]+@[\w-]+(?:\.[\w-]+)+)/i)||[])[1]);if(pec)o.pec=pec;
+ const em=mails.find(x=>x!==pec);if(em)o.email=em;
+ for(const l of L){const c=l.match(/\b(\d{5})\s*[-,]?\s*([A-Za-zÀ-ÿ'][A-Za-zÀ-ÿ' .-]*?)\s*[\(,-]?\s*\b([A-Za-z]{2})\b\)?\s*$/);if(c&&!/p\.?\s*iva|codice|c\.?f/i.test(l)){o.cap=c[1];o.city=c[2].trim().replace(/\s+/g,' ');o.prov=c[3].toUpperCase();break;}}
+ const A=L.find(l=>/^(via|v\.le|viale|v\.|piazza|p\.zza|p\.za|piazzale|corso|c\.so|largo|strada|str\.|località|loc\.|contrada|c\.da|vicolo|borgo|lungomare|frazione|fraz\.)\s/i.test(l));if(A)o.addr=A.replace(/\s*[-,]\s*\d{5}.*$/,'').trim();
+ const RS=L.find(l=>/\b(s\.?\s?r\.?\s?l\.?s?|s\.?\s?p\.?\s?a\.?|s\.?\s?n\.?\s?c\.?|s\.?\s?a\.?\s?s\.?|soc\.|societ[àa]|ditta|studio|coop\w*|impresa|associazione|onlus)\b/i.test(l)&&!/@/.test(l));
+ o.rs=(RS||L.find(l=>!/\d{5}|@|p\.?\s*iva|codice|c\.?f\.?|euro|€|^(via|viale|piazza|corso)\b/i.test(l))||'').replace(/^(ragione\s*sociale|intestat\w*\s*a|fattura\s*a)[\s:.-]*/i,'').trim();
+ m=T.match(/(?:euro|€|importo|totale)\s*[:.]?\s*(\d+(?:[.,]\d{1,2})?)/i)||T.match(/(\d+(?:[.,]\d{1,2})?)\s*(?:euro|€)/i);if(m)o.importo=m[1].replace('.',',');
+ return o;}
+window.v49Parse=parse;{const s=document.createElement('style');s.textContent='body.dark #invSt{color:#CBD5E1!important}';document.head.appendChild(s);}
+const PROMPT_WA='Questa è una schermata di una chat WhatsApp (o di un messaggio) dove un cliente ha scritto i dati della sua azienda per ricevere una fattura elettronica italiana. Ignora il numero di telefono e il nome nella barra in alto della chat, gli orari dei messaggi e i messaggi che non contengono dati aziendali. Rispondi SOLO con un oggetto JSON con queste chiavi stringa: rs (ragione sociale), piva (solo 11 cifre, senza IT), cf, addr (via e numero civico), cap, city, prov (sigla 2 lettere), sdi (codice destinatario o codice univoco, 7 caratteri), pec, email, importo (l’importo in euro se il cliente lo ha scritto, altrimenti stringa vuota). Se un dato non è scritto metti stringa vuota: NON inventare niente. Se è scritto "P.IVA e CF" lo stesso numero vale per tutti e due.';
+const PROMPT_TXT='Dal testo qui sotto estrai i dati aziendali per una fattura elettronica italiana. Rispondi SOLO con un oggetto JSON con queste chiavi stringa: rs, piva (11 cifre senza IT), cf, addr, cap, city, prov (2 lettere), sdi (7 caratteri), pec, email, importo. Se un dato manca metti stringa vuota, non inventare. Se è scritto "P.IVA e CF" lo stesso numero vale per tutti e due.\n\nTESTO:\n';
+const jget=t=>JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1));
+window.v49Shot=async inp=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)return;if(!getGeminiKey()){st('⚠️ Per leggere lo screenshot serve la chiave Gemini (⚙️ Opzioni). Usa “Incolla messaggio”: funziona anche senza.');return;}
+ const L='💬 Lettura screenshot WhatsApp';window._jobLabel=L;st('⏳ Leggo lo screenshot di WhatsApp…');
+ try{const b64=await shrinkImage(f,1400);const o=jget(await callGemini([{text:PROMPT_WA},{inline_data:{mime_type:'image/jpeg',data:b64}}],true,{fast:true,timeout:45000}));fill(o,'Screenshot letto');}
+ catch(e){st('❌ Lettura non riuscita: '+(e.message||e)+'. Prova con “Incolla messaggio”.');}
+ finally{setTimeout(()=>{if(window._jobLabel===L)window._jobLabel='';},2500);}};
+window.v49PasteOpen=async()=>{const b=$('v49Box');if(!b)return;b.style.display='block';const ta=$('v49Txt');try{if(navigator.clipboard&&navigator.clipboard.readText){const c=await navigator.clipboard.readText();if(c&&c.trim()&&!ta.value)ta.value=c.trim();}}catch(e){}ta.focus();};
+window.v49PasteGo=async()=>{const ta=$('v49Txt'),txt=(ta&&ta.value||'').trim();if(!txt){st('Incolla prima il messaggio del cliente nel riquadro.');return;}
+ const o=parse(txt);const n=fill(o,'Messaggio letto');
+ if((!o.rs||!o.piva||!o.sdi&&!o.pec)&&getGeminiKey()){st('⏳ Completo i dati mancanti…');try{const g=jget(await callGemini([{text:PROMPT_TXT+txt.slice(0,3000)}],true,{fast:true,timeout:30000}));const add={};F.forEach(k=>{const el=$('inv_'+k);if(g[k]&&el&&!el.value.trim())add[k]=g[k];});if(!o.importo&&g.importo)add.importo=g.importo;fill(Object.assign({},add),'Messaggio letto');}catch(e){if(!n)st('❌ Non sono riuscito a leggerlo: scrivi i dati a mano.');}}};
+function inject(){const ov=$('invModal');if(!ov||!ov.classList.contains('active'))return;const box=ov.querySelector('.receipt-box');if(!box||box.querySelector('.v49row'))return;const grid=box.querySelector('label.btn-main')&&box.querySelector('label.btn-main').parentElement;
+ const html=`<div class="v49row" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;"><label class="btn-main" style="display:block;text-align:center;cursor:pointer;font-size:.9rem;background:#25D366;color:#063A1E;">💬 Screenshot<br><span style="font-size:.72rem;">di WhatsApp</span><input type="file" accept="image/*" style="display:none;" onchange="v49Shot(this)"></label><button class="btn-main" style="font-size:.9rem;background:#E0F2FE;color:#075985;line-height:1.25;" onclick="v49PasteOpen()">📋 Incolla<br><span style="font-size:.72rem;">il messaggio</span></button></div>
+<div id="v49Box" style="display:none;margin-bottom:8px;"><textarea id="v49Txt" class="form-control" rows="5" placeholder="Tieni premuto qui e scegli Incolla: il messaggio del cliente con i dati dell’azienda"></textarea><button class="btn-main btn-bill" style="width:100%;margin-top:6px;" onclick="v49PasteGo()">✨ Compila i campi</button></div>`;
+ if(grid)grid.insertAdjacentHTML('afterend',html);else box.querySelector('h3').insertAdjacentHTML('afterend',html);}
+new MutationObserver(()=>{try{inject();}catch(e){}}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+})();
+}catch(e){console.error("chef-extra v2.9.49",e);}
+try{(function(){const V='v2.9.49';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
