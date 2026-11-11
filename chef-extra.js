@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.46 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.47 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1253,4 +1253,147 @@ ${rows}
 {const _r=renderConti;renderConti=function(){const r=_r.apply(this,arguments);try{if(isAl())draw();}catch(e){}return r;};}
 })();
 }catch(e){console.error("chef-extra v2.9.45",e);}
-try{(function(){const V='v2.9.46';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+/* ================= GRAFICA 3D ================= */
+const FXK='alicetta_fx3d';
+const fxOn=()=>localStorage.getItem(FXK)!=='0';
+const st=document.createElement('style');st.id='fx3dCss';
+st.textContent=`
+body.fx3d{--fx-lip:rgba(0,0,0,.26);--fx-hi:rgba(255,255,255,.5);--fx-gl:rgba(255,255,255,.3);--fx-drop:0 8px 16px rgba(90,0,45,.30);--fx-drop-s:0 4px 8px rgba(90,0,45,.26);--fx-card:0 5px 0 rgba(120,0,60,.28),0 18px 32px rgba(90,0,45,.30),inset 0 1px 0 rgba(255,255,255,.95);--fx-ease:cubic-bezier(.2,.9,.3,1.25)}
+body.fx3d.dark{--fx-lip:rgba(0,0,0,.34);--fx-hi:rgba(255,255,255,.30);--fx-gl:rgba(255,255,255,.18);--fx-drop:0 10px 20px rgba(0,0,0,.50);--fx-drop-s:0 5px 10px rgba(0,0,0,.42);--fx-card:0 20px 38px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.10)}
+body.fx3d .k3{box-shadow:inset 0 -4px 0 var(--fx-lip),inset 0 2px 0 var(--fx-hi),inset 0 16px 14px -13px var(--fx-gl),var(--fx-drop);transition:transform .09s ease-out,box-shadow .09s ease-out,filter .12s;-webkit-tap-highlight-color:transparent}
+body.fx3d .k3.k3s{box-shadow:inset 0 -3px 0 var(--fx-lip),inset 0 1.5px 0 var(--fx-hi),var(--fx-drop-s)}
+body.fx3d .k3:active{box-shadow:inset 0 -1px 0 var(--fx-lip),inset 0 3px 6px rgba(0,0,0,.28),0 2px 4px rgba(0,0,0,.25);filter:brightness(.95)}
+body.fx3d .k3.k3m:active{transform:translateY(3px) scale(.985)}
+body.fx3d .k3:disabled,body.fx3d .k3[disabled]{box-shadow:inset 0 -2px 0 var(--fx-lip);filter:saturate(.7)}
+body.fx3d .btn-print,body.fx3d .btn-note,body.fx3d .btn-back,body.fx3d .btn-qty{border-color:rgba(6,35,41,.18)}
+body.fx3d .btn-main,body.fx3d .btn-modal{border-radius:14px}
+body.fx3d .btn-note{border-radius:10px}
+body.fx3d #tablesContainer .table-card:not(.marcia):not(.conto):not(.delayed){border-color:#8DF4FF;box-shadow:inset 0 -7px 0 rgba(0,0,0,.17),inset 0 2px 0 rgba(255,255,255,.8),inset 0 26px 22px -20px rgba(255,255,255,.65),0 12px 22px rgba(0,60,80,.38);transition:transform .1s ease-out,box-shadow .1s ease-out}
+body.fx3d #tablesContainer .table-card.busy:not(.marcia):not(.conto):not(.delayed){border-color:#FF9C85;box-shadow:inset 0 -7px 0 rgba(0,0,0,.24),inset 0 2px 0 rgba(255,255,255,.5),inset 0 26px 22px -20px rgba(255,255,255,.4),0 12px 26px rgba(255,87,51,.42)}
+body.fx3d #tablesContainer .table-card:not(.marcia):not(.conto):not(.delayed):active{transform:translateY(4px) scale(.975);box-shadow:inset 0 -2px 0 rgba(0,0,0,.2),inset 0 4px 8px rgba(0,0,0,.2),0 3px 6px rgba(0,0,0,.3)}
+body.fx3d .cart-section,body.fx3d .hc-card,body.fx3d .kds-card,body.fx3d .order-header,body.fx3d .fire-box{box-shadow:var(--fx-card);border-radius:20px}
+body.fx3d.dark .cart-section,body.fx3d.dark .kds-card,body.fx3d.dark .order-header{background-image:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,0) 110px);border-color:rgba(255,255,255,.10)}
+body.fx3d .receipt-box{border-radius:24px;box-shadow:0 34px 70px rgba(0,0,0,.6),0 6px 0 rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.9)}
+body.fx3d.dark .receipt-box{box-shadow:0 34px 70px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.12)!important;background-image:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,0) 130px)}
+body.fx3d .modal-overlay{background:rgba(10,6,22,.6);-webkit-backdrop-filter:blur(5px) saturate(1.15);backdrop-filter:blur(5px) saturate(1.15)}
+body.fx3d .modal-overlay.fx-in{animation:fxFade .2s ease-out}
+body.fx3d .modal-overlay.fx-in>*{animation:fxPop .34s var(--fx-ease)}
+body.fx3d .screen.fx-in{animation:fxFade .22s ease-out}
+body.fx3d .topbar{box-shadow:0 8px 20px rgba(0,0,0,.30),inset 0 -1px 0 rgba(255,255,255,.14)}
+body.fx3d .bottom-bar{box-shadow:0 -12px 26px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.3)}
+body.fx3d .form-control,body.fx3d input[type=text],body.fx3d input[type=number],body.fx3d input[type=tel],body.fx3d input[type=search],body.fx3d input[type=email],body.fx3d input[type=date],body.fx3d input[type=time],body.fx3d textarea,body.fx3d select{box-shadow:inset 0 2px 4px rgba(0,0,0,.16),0 1px 0 rgba(255,255,255,.5);transition:box-shadow .15s}
+body.fx3d.dark .form-control,body.fx3d.dark input[type=text],body.fx3d.dark input[type=number],body.fx3d.dark input[type=tel],body.fx3d.dark input[type=search],body.fx3d.dark input[type=email],body.fx3d.dark input[type=date],body.fx3d.dark input[type=time],body.fx3d.dark textarea,body.fx3d.dark select{box-shadow:inset 0 2px 5px rgba(0,0,0,.5),0 1px 0 rgba(255,255,255,.06)}
+body.fx3d input:focus,body.fx3d textarea:focus,body.fx3d select:focus{outline:none;box-shadow:inset 0 2px 4px rgba(0,0,0,.2),0 0 0 3px rgba(27,231,255,.5)}
+body.fx3d #dock{box-shadow:0 6px 0 #021216,0 22px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.28),inset 0 18px 18px -16px rgba(255,255,255,.18)}
+body.fx3d #dock .btn-top .nv-i .ios-tile{box-shadow:inset 0 -3px 0 rgba(0,0,0,.24),inset 0 1.5px 0 rgba(255,255,255,.65),inset 0 12px 10px -9px rgba(255,255,255,.55),0 5px 9px rgba(0,0,0,.42)}
+body.fx3d #dock .btn-top .nv-i .ios-tile svg{filter:drop-shadow(0 1.5px 0 rgba(0,0,0,.28))}
+body.fx3d .mini-toast{box-shadow:inset 0 -3px 0 rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25),0 12px 24px rgba(0,0,0,.45);border-radius:18px}
+body.fx3d .version-badge,body.fx3d .sync-badge{box-shadow:inset 0 -2px 0 rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.25)}
+@keyframes fxFade{from{opacity:0}to{opacity:1}}
+@keyframes fxPop{0%{transform:translateY(26px) scale(.93);opacity:0}65%{transform:translateY(-3px) scale(1.012);opacity:1}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){body.fx3d .modal-overlay.fx-in,body.fx3d .modal-overlay.fx-in>*,body.fx3d .screen.fx-in{animation:none}body.fx3d .k3.k3m:active{transform:none}}
+`;
+document.head.appendChild(st);
+/* etichetto i tasti: solo quelli con uno sfondo vero diventano "tasti 3D" */
+const SEL='button,.menu-item,.room-tab,.mandata-btn,.cat-btn,label.btn-main,label.btn-note,label.btn-modal,.cx-btn label,a.btn-main';
+const SKIP='#dock,.hub-tabs,.seg,.table-card,#jobBar .t,.topbar .logo';
+function tag(){if(!fxOn())return;document.querySelectorAll(SEL).forEach(b=>{if(b.dataset.k)return;b.dataset.k='1';if(b.closest(SKIP))return;let cs;try{cs=getComputedStyle(b);}catch(e){return;}
+ const bg=cs.backgroundColor||'',m=bg.match(/rgba?\(([^)]+)\)/),a=m?(m[1].split(',').length>3?parseFloat(m[1].split(',')[3]):1):0,img=cs.backgroundImage&&cs.backgroundImage!=='none';
+ if(a<0.2&&!img)return;if(/inset/.test(b.style.boxShadow||''))return;
+ b.classList.add('k3');const h=(parseFloat(cs.paddingTop)||0)+(parseFloat(cs.paddingBottom)||0)+(parseFloat(cs.fontSize)||14)*1.3;if(h<40)b.classList.add('k3s');
+ if(cs.transform==='none'&&cs.position!=='fixed')b.classList.add('k3m');
+ /* se scritta e sfondo hanno quasi lo stesso colore (succede col tema scuro) rendo la scritta leggibile */
+ try{if(a>0.85&&!img){const L=c=>{const p=(c.match(/rgba?\(([^)]+)\)/)||[])[1];if(!p)return null;const v=p.split(',').slice(0,3).map(x=>{x=parseFloat(x)/255;return x<=0.03928?x/12.92:Math.pow((x+0.055)/1.055,2.4);});return 0.2126*v[0]+0.7152*v[1]+0.0722*v[2];};const lb=L(bg),lt=L(cs.color||'');if(lb!=null&&lt!=null){const r=(Math.max(lb,lt)+0.05)/(Math.min(lb,lt)+0.05);if(r<1.9)b.style.color=lb>0.4?'#062329':'#fff';}}}catch(e){}
+});}
+let tq=0;const mo=new MutationObserver(()=>{if(tq)return;tq=setTimeout(()=>{tq=0;try{tag();}catch(e){}},160);});
+/* animazione di ingresso solo quando una finestra o una schermata si apre davvero */
+const seen=new WeakMap();document.querySelectorAll('.modal-overlay,.screen').forEach(e=>seen.set(e,e.classList.contains('active')));
+const mo2=new MutationObserver(L=>{if(!fxOn())return;L.forEach(r=>{const e=r.target;if(!e.classList)return;const isM=e.classList.contains('modal-overlay'),isS=e.classList.contains('screen');if(!isM&&!isS)return;const on=e.classList.contains('active'),was=seen.get(e);seen.set(e,on);if(on&&!was&&!e.classList.contains('sw-in-r')&&!e.classList.contains('sw-in-l')){e.classList.add('fx-in');setTimeout(()=>e.classList.remove('fx-in'),420);}});});
+function fxApply(){const on=fxOn();document.body.classList.toggle('fx3d',on);if(on){try{tag();}catch(e){}
+  try{if(!localStorage.getItem('alicetta_fx_icons')){localStorage.setItem('alicetta_fx_icons','1');const cur=localStorage.getItem('alicetta_icons')||'ios';if(cur!=='ios'&&cur!=='cbb'&&window.v221Icons){localStorage.setItem('alicetta_icons_prev',cur);v221Icons('ios');}}}catch(e){}}}
+window.v47Fx=v=>{localStorage.setItem(FXK,v?'1':'0');if(!v){document.querySelectorAll('[data-k]').forEach(b=>{b.classList.remove('k3','k3s','k3m');delete b.dataset.k;});try{const p=localStorage.getItem('alicetta_icons_prev');if(p&&window.v221Icons){v221Icons(p);localStorage.removeItem('alicetta_icons_prev');localStorage.removeItem('alicetta_fx_icons');}}catch(e){}}fxApply();drawOpt();};
+mo.observe(document.body,{childList:true,subtree:true});mo2.observe(document.body,{attributes:true,attributeFilter:['class'],subtree:true});
+fxApply();setTimeout(fxApply,1500);
+
+/* ================= SUONI ================= */
+function note(f,t0,dur,vol,parts,type){const A=audioCtx,out=sndDest();(parts||[[1,1,1],[2.76,.28,.5],[5.4,.1,.28]]).forEach(([m,v,d])=>{const o=A.createOscillator(),g=A.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f*m,t0);g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(Math.max(0.0002,vol*v),t0+0.007);g.gain.exponentialRampToValueAtTime(0.0001,t0+dur*d);o.connect(g);g.connect(out);o.start(t0);o.stop(t0+dur*d+0.06);});}
+const MAR=[[1,1,1],[4,.22,.35],[9.2,.06,.18]];   /* marimba: caldo, attacco netto */
+const BELL=[[1,1,1],[2.76,.3,.55],[5.4,.12,.3]]; /* campanella */
+const GLO=[[1,1,1],[2,.45,.7],[3,.16,.45]];      /* glockenspiel pieno */
+const T=()=>{sndDest();return audioCtx.currentTime+0.03;};
+const SND={
+ /* cameriere: piatto pronto / campanello — due note che salgono, ripetute una volta più piano */
+ sala(){const n=T();[[0,.95],[.62,.5]].forEach(([o,v])=>{note(1318.5,n+o,.55,v,MAR);note(1760,n+o+.15,.8,v,MAR);});},
+ /* cucina (tablet KDS): nuova comanda — arpeggio di campanelle */
+ cucina(){const n=T();[[784,0],[1046.5,.13],[1318.5,.26],[1568,.42]].forEach(([f,d],i)=>note(f,n+d,i===3?1.5:.7,i===3?1:.85,GLO));[[1318.5,1.05],[1568,1.18]].forEach(([f,d])=>note(f,n+d,.9,.55,GLO));},
+ /* chiamata urgente (cercapersone): tre coppie decise ma intonate */
+ chiamata(){const n=T();for(let k=0;k<3;k++){const o=k*.5;note(1174.7,n+o,.22,1,GLO,'triangle');note(1760,n+o+.13,.34,1,GLO,'triangle');}note(2349.3,n+1.55,1.1,.8,BELL);},
+ /* ritardo: richiamo che scende, due volte */
+ ritardo(){const n=T();[0,1.7].forEach(o=>{note(1760,n+o,.5,.9,BELL);note(1396.9,n+o+.2,.5,.9,BELL);note(1760,n+o+.4,.5,.9,BELL);note(1174.7,n+o+.62,1.1,1,BELL);});},
+ /* timbratura: due note leggere */
+ soft(){const n=T();note(1046.5,n,.5,.28,MAR);note(1568,n+.16,.8,.28,MAR);},
+ /* allarme lungo */
+ allarme(sec){const n=T(),d=Math.max(2,sec||4);for(let t=0;t<d;t+=.5){note(1174.7,n+t,.22,1,GLO,'triangle');note(1760,n+t+.13,.3,1,GLO,'triangle');}}
+};
+const safe=f=>function(){try{return f.apply(this,arguments);}catch(e){}};
+playSimpleBell=safe(SND.sala);
+playKitchenBell=safe(function(){if(typeof isKdsDev==='function'&&isKdsDev())SND.cucina();else SND.sala();});
+playPagerSiren=safe(function(){window._sndLoud=true;try{SND.chiamata();}finally{setTimeout(()=>{window._sndLoud=false;},2800);}});
+playLateChime=safe(function(){SND.ritardo();if(navigator.vibrate)try{navigator.vibrate([300,150,300]);}catch(e){}});
+softChime=safe(SND.soft);
+playPoliceSiren=safe(function(s){window._sndLoud=true;try{SND.allarme(s);}finally{setTimeout(()=>{window._sndLoud=false;},(s||4)*1000+300);}});
+window.v47Snd=k=>{try{(SND[k]||SND.sala)();}catch(e){}};
+
+/* ================= scheda in Opzioni ================= */
+function drawOpt(){const host=$('viewMenuMgr');if(!host)return;let c=$('fxCard');if(!c){c=document.createElement('div');c.id='fxCard';c.className='cart-section';const th=$('themeCard');if(th&&th.parentNode)th.parentNode.insertBefore(c,th.nextSibling);else host.appendChild(c);}
+ const on=fxOn();c.innerHTML=`<h3 style="margin-bottom:6px;">✨ Grafica 3D e suoni</h3><div class="fc-sub" style="margin-bottom:8px;">Tasti in rilievo che si premono, ombre, finestre che si aprono con un piccolo rimbalzo. Se qualcosa non ti piace o si vede male, spegnila: l’app torna com’era.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main ${on?'btn-bill':'btn-print'}" onclick="v47Fx(true)">${on?'✅ ':''}Grafica 3D accesa</button><button class="btn-main ${on?'btn-print':'btn-bill'}" onclick="v47Fx(false)">${on?'':'✅ '}Come prima</button></div>
+<div style="font-weight:900;margin:12px 0 6px;">🔊 Prova i suoni nuovi</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="v47Snd('sala')">🛎️ Piatto pronto</button><button class="btn-main btn-print" onclick="v47Snd('cucina')">👨‍🍳 Nuova comanda</button><button class="btn-main btn-print" onclick="v47Snd('chiamata')">📟 Chiamata</button><button class="btn-main btn-print" onclick="v47Snd('ritardo')">⏰ Ritardo</button><button class="btn-main btn-print" onclick="v47Snd('soft')">🕒 Timbratura</button></div>`;}
+setTimeout(drawOpt,1200);
+{const _s=switchMainView;switchMainView=function(v){const r=_s.apply(this,arguments);if(v==='menuMgr')setTimeout(drawOpt,60);return r;};}
+})();
+}catch(e){console.error("chef-extra v2.9.47 grafica",e);}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);
+/* ================= BIGLIETTO DA VISITA ================= */
+const SK='alicetta_card_soc';
+const soc=()=>{try{return JSON.parse(localStorage.getItem(SK)||'{}')||{};}catch(e){return{};}};
+const clean=v=>String(v||'').trim().replace(/^(https?:\/\/)?(www\.|m\.)?(instagram|facebook)\.com\//i,'').replace(/^@/,'').replace(/[?#].*$/,'').replace(/\/+$/,'');
+const base=()=>(typeof nfcBase==='function'?nfcBase():location.origin+location.pathname.replace(/[^/]*$/,''));
+function cardUrl(){const s=soc(),q=[],ig=clean(s.ig),fb=clean(s.fb);if(ig)q.push('ig='+encodeURIComponent(ig).replace(/%2F/g,'/'));if(fb)q.push('fb='+encodeURIComponent(fb).replace(/%2F/g,'/'));return base()+'biglietto.html'+(q.length?'?'+q.join('&'):'');}
+window.v47CardUrl=cardUrl;
+function qr(){const b=$('bcQr');if(!b)return;b.innerHTML='';try{new QRCode(b,{text:cardUrl(),width:210,height:210,colorDark:'#0B3A44',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}catch(e){b.textContent='QR non disponibile offline';}const u=$('bcUrl');if(u)u.textContent=cardUrl();}
+window.v47CardSoc=()=>{localStorage.setItem(SK,JSON.stringify({ig:($('bcIg')||{}).value||'',fb:($('bcFb')||{}).value||''}));qr();try{toast('✅ Link salvati nel biglietto');}catch(e){}};
+window.v47CardNfc=async()=>{const st=$('bcSt');if(!('NDEFReader' in window)){st.style.color='#B91C1C';st.textContent='Questo telefono o questo browser non scrive i tag NFC: usa Chrome su Android con l’NFC acceso.';return;}
+ try{st.style.color='#1D4ED8';st.textContent='📡 Avvicina la tessera o l’adesivo NFC al retro del telefono…';const r=new NDEFReader();await r.write({records:[{recordType:'url',data:cardUrl()}]});st.style.color='#166534';st.textContent='✅ Scritto! Ora chi avvicina il telefono a questo tag apre il tuo biglietto.';if(navigator.vibrate)try{navigator.vibrate(200);}catch(e){}}
+ catch(e){st.style.color='#B91C1C';st.textContent='Non sono riuscito a scrivere: '+((e&&e.name==='NotAllowedError')?'consenti l’NFC a Chrome e riprova.':(e&&e.message)||'riprova tenendo il tag fermo.');}};
+window.v47CardShare=async()=>{const u=cardUrl(),txt='Christian Carafa – Alicetta Trattoria, Fossacesia. Il mio biglietto da visita:';if(navigator.share){try{await navigator.share({title:'Christian Carafa – Alicetta Trattoria',text:txt,url:u});return;}catch(e){if(e&&e.name==='AbortError')return;}}window.open('https://wa.me/?text='+encodeURIComponent(txt+' '+u),'_blank');};
+window.v47Card=()=>{let ov=$('bcModal');if(!ov){ov=document.createElement('div');ov.id='bcModal';ov.className='modal-overlay';ov.onclick=e=>{if(e.target===ov)ov.classList.remove('active');};document.body.appendChild(ov);}
+ const s=soc();
+ ov.innerHTML=`<div class="receipt-box" style="text-align:center;">
+<div style="border-radius:16px;padding:14px 16px;text-align:left;color:#FFF7EF;background:linear-gradient(155deg,#0E5563,#0B3A44 62%,#072A32);box-shadow:0 5px 0 #051E24,0 12px 22px rgba(5,30,36,.35),inset 0 1px 0 rgba(255,255,255,.22);margin-bottom:12px;">
+<div style="font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:1.9rem;line-height:1;">Alicetta</div><div style="font-weight:700;font-size:.8rem;color:#C9D8DE;">Trattoria a Fossacesia</div>
+<div style="width:34px;height:3px;border-radius:3px;background:#E8572E;margin:10px 0 8px;"></div><div style="font-weight:900;">Christian Carafa</div><div style="font-weight:700;font-size:.8rem;color:#C9D8DE;">Titolare · +39 392 327 9000</div></div>
+<div style="font-size:.86rem;font-weight:800;margin-bottom:8px;">Fai inquadrare questo codice al cliente</div>
+<div id="bcQr" style="display:flex;justify-content:center;margin-bottom:6px;background:#fff;padding:8px;border-radius:14px;width:max-content;margin-left:auto;margin-right:auto;"></div>
+<div id="bcUrl" style="font-size:.66rem;color:#6B7280;word-break:break-all;margin-bottom:10px;"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-bill" onclick="v47CardShare()">📤 Invia il link</button><button class="btn-main btn-print" onclick="window.open(v47CardUrl(),'_blank')">👀 Apri</button></div>
+<button class="btn-main btn-print" style="width:100%;margin-top:8px;" onclick="v47CardNfc()">📡 Scrivi su tessera o adesivo NFC</button>
+<div id="bcSt" style="font-size:.8rem;font-weight:800;margin-top:6px;min-height:1.1em;"></div>
+<div class="fc-sub" style="text-align:left;margin-top:6px;">Da telefono a telefono l’NFC non passa più (Android l’ha tolto). Con una tessera o un adesivo NFC scritto una volta, al cliente basta avvicinare il telefono.</div>
+<details style="text-align:left;margin-top:10px;"><summary style="font-weight:900;cursor:pointer;">🔗 Instagram e Facebook di Alicetta</summary>
+<div class="fc-sub" style="margin:6px 0;">Incolla i link delle pagine del locale: compaiono come tasti nel biglietto.</div>
+<input id="bcIg" class="form-control" style="margin-bottom:6px;" placeholder="Link o nome Instagram" value="${esc(s.ig||'')}">
+<input id="bcFb" class="form-control" style="margin-bottom:8px;" placeholder="Link o nome Facebook" value="${esc(s.fb||'')}">
+<button class="btn-main btn-print" style="width:100%;" onclick="v47CardSoc()">💾 Salva i link</button></details>
+<button class="btn-modal" style="background:#334155;color:#fff;width:100%;margin-top:12px;" onclick="document.getElementById('bcModal').classList.remove('active')">Chiudi</button></div>`;
+ ov.classList.add('active');qr();};
+{const _q=showQrModal;showQrModal=function(){const r=_q.apply(this,arguments);try{const ov=$('qrModal'),box=ov&&ov.classList.contains('active')&&ov.querySelector('.receipt-box');if(box&&!box.querySelector('.v47bc')){const b=document.createElement('button');b.className='btn-main btn-bill v47bc';b.style.cssText='width:100%;margin-top:10px;';b.innerHTML='💼 Il mio biglietto da visita';b.onclick=()=>{ov.classList.remove('active');v47Card();};const nfc=[...box.querySelectorAll('button')].find(x=>/Tag NFC per tavoli/.test(x.textContent));if(nfc)nfc.after(b);else box.appendChild(b);}}catch(e){}return r;};}
+})();
+}catch(e){console.error("chef-extra v2.9.47 biglietto",e);}
+try{(function(){const V='v2.9.47';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
