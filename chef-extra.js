@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.62 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.63 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1760,4 +1760,20 @@ let q=0;new MutationObserver(()=>{if(q)return;q=setTimeout(()=>{q=0;try{deco();}
 setTimeout(deco,1500);
 })();
 }catch(e){console.error("chef-extra v2.9.62",e);}
-try{(function(){const V='v2.9.62';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const st=document.createElement('style');
+st.textContent='.trash-btn{background:#FEE2E2!important;background-image:none!important;color:#B91C1C!important;border:2px solid #DC2626!important;box-shadow:0 3px 0 #991B1B!important;font-size:1.05rem!important;min-width:44px}.trash-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #991B1B!important}#contiList{margin-top:10px}#hub_sales_oggi #contiList .cx-wrap,#hub_sales_oggi #contiList .su-box{display:none!important}';
+document.head.appendChild(st);
+/* 1) elenco dei conti subito sotto gli incassi, nella prima pagina di Vendite */
+function place(){const P=$('payTotals'),C=$('contiList');if(!P||!C)return;if(P.nextElementSibling!==C)P.after(C);const I=$('invList');if(I&&C.nextElementSibling!==I)C.after(I);
+ const pc=$('hub_sales_conti');if(pc&&pc.offsetParent&&!pc.contains(C)){const t=document.querySelector('#hubTabs_sales .hub-tab[data-p="oggi"]');if(t){t.click();setTimeout(()=>{try{C.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}},120);}}}
+setInterval(place,500);place();
+{const t=()=>{const b=document.querySelector('#hubTabs_sales .hub-tab[data-p="conti"]');if(b&&!b.dataset.v63){b.dataset.v63='1';b.textContent='🧾 Conti ↓';}};setInterval(t,2000);t();}
+/* 2) cestini rossi e ben visibili */
+function trash(){document.querySelectorAll('button').forEach(b=>{if(b.classList.contains('trash-btn'))return;const t=(b.textContent||'').trim();if(t==='🗑️'||t==='🗑'||/^🗑️?\s?(Elimina|Cancella)?$/.test(t))b.classList.add('trash-btn');});}
+let q=0;new MutationObserver(()=>{if(q)return;q=setTimeout(()=>{q=0;try{trash();}catch(e){}},200);}).observe(document.body,{childList:true,subtree:true});trash();
+})();
+}catch(e){console.error("chef-extra v2.9.63",e);}
+try{(function(){const V='v2.9.63';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
