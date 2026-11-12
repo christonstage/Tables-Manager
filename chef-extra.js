@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.61 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.62 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1749,4 +1749,15 @@ window.v61CopUndo=async()=>{const t=state.tables[state.activeTableId];if(!t||!(N
 setTimeout(()=>{try{renderTables();}catch(e){}},1500);
 })();
 }catch(e){console.error("chef-extra v2.9.61",e);}
-try{(function(){const V='v2.9.61';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const st=document.createElement('style');
+st.textContent='.ct-more{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:5px 11px;border-radius:999px;background:#1BE7FF;color:#062329;font-weight:900;font-size:.76rem;box-shadow:0 2px 0 #0E7490}.ct-more .c{display:none}details[open]>summary .ct-more{background:#334155;color:#fff;box-shadow:none}details[open]>summary .ct-more .o{display:none}details[open]>summary .ct-more .c{display:inline}#contiList details>summary{border-radius:12px;padding:4px 2px}#contiList details[open]{background:rgba(27,231,255,.06);border-radius:12px}';
+document.head.appendChild(st);
+function deco(){const L=document.getElementById('contiList');if(!L)return;L.querySelectorAll('details>summary').forEach(s=>{if(s.querySelector('.ct-more'))return;const left=s.firstElementChild;if(!left||!s.parentNode.querySelector('button'))return;
+ const inv=/Fattura da emettere/.test(s.textContent||'');const b=document.createElement('span');b.className='ct-more';b.innerHTML=`<span class="o">${inv?'🧾 Tocca per emettere la fattura':'👆 Fattura, ricevuta, modifica'} ▾</span><span class="c">▴ Chiudi</span>`;left.appendChild(b);});}
+let q=0;new MutationObserver(()=>{if(q)return;q=setTimeout(()=>{q=0;try{deco();}catch(e){}},150);}).observe(document.body,{childList:true,subtree:true});
+setTimeout(deco,1500);
+})();
+}catch(e){console.error("chef-extra v2.9.62",e);}
+try{(function(){const V='v2.9.62';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
