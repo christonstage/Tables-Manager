@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.54 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.55 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1642,4 +1642,27 @@ ${nx?`<button class="bc-next" onclick="v54Next()">▶️ Invia a ${esc(first(nx.
 <div class="bc-warn">⚠️ WhatsApp blocca i numeri che mandano troppi messaggi a chi non li vuole. Scrivi solo a chi ti conosce, non più di qualche decina al giorno, e togli subito chi risponde STOP (tasto 🚫).</div>${o.last?`<div class="fc-sub">Ultimo invio: ${new Date(o.last.at).toLocaleDateString('it-IT')} a ${o.last.n} clienti.</div>`:''}`;}
 })();
 }catch(e){console.error("chef-extra v2.9.54",e);}
-try{(function(){const V='v2.9.54';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+/* 1) righe della lavagnetta: se Gemini le manda come elenco, una per riga (prima diventavano un'unica riga separata da virgole) */
+const fixRighe=o=>{try{if(o&&typeof o==='object'&&!Array.isArray(o)&&Array.isArray(o.righe)){o.righe=o.righe.map(it=>{if(typeof it==='string')return it;if(it&&typeof it==='object'){const n=it.nome||it.piatto||it.name||it.riga||'',p=it.prezzo!=null?it.prezzo:(it.price!=null?it.price:''),f=it.finito||it.esaurito||it.finished;return [n,p===''?'':String(p).replace('.',','),f?'[FINITO]':''].join(' ').replace(/\s+/g,' ').trim();}return String(it||'');}).filter(Boolean).join('\n');}}catch(e){}return o;};
+if(typeof window.jparse==='function'){const _j=window.jparse;window.jparse=function(){return fixRighe(_j.apply(this,arguments));};}
+/* 2) Gemini più veloce: parte il primo modello, se entro pochi secondi non risponde (o dà errore) parte il successivo; vince il primo che risponde */
+const _cg=callGemini;
+async function hedged(parts,json,opts){const k=getGeminiKey();if(!k)throw new Error('API Key mancante');if(!navigator.onLine)throw new Error('Sei offline: serve internet.');
+ const models=(typeof GEMINI_MODELS!=='undefined'?GEMINI_MODELS:['gemini-flash-latest']).slice();const ctl=new AbortController(),errs=[];let started=0;
+ const total=Math.max(30000,Math.min(Number(opts.timeout)||90000,120000)),gap=parts.some(p=>p&&p.inline_data)?9000:6000;
+ const call=async(mdl,think)=>{const gc={temperature:opts.temperature!=null?opts.temperature:0.2};if(opts.maxTokens)gc.maxOutputTokens=opts.maxTokens;if(json)gc.responseMimeType='application/json';if(think)gc.thinkingConfig=/gemini-3/.test(mdl)?{thinkingLevel:'low'}:{thinkingBudget:0};
+  const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+mdl+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':k},body:JSON.stringify({contents:[{parts}],generationConfig:gc}),signal:ctl.signal});
+  const d=await r.json().catch(()=>({}));if(!r.ok){const e=new Error((d.error&&d.error.message)||('HTTP '+r.status));e.status=r.status;throw e;}
+  const c=((d.candidates||[])[0]||{});const tx=((c.content||{}).parts||[]).filter(p=>!p.thought).map(p=>p.text||'').join('').trim();if(!tx){const e=new Error(c.finishReason==='MAX_TOKENS'?'risposta troppo lunga':'risposta vuota');e.status=0;throw e;}return tx;};
+ const one=async mdl=>{try{return await call(mdl,true);}catch(e){if(e.name==='AbortError')throw e;if(e.status===400&&!/API key|API_KEY/i.test(e.message)){try{return await call(mdl,false);}catch(e2){errs.push(e2);throw e2;}}errs.push(e);throw e;}};
+ return await new Promise((resolve,reject)=>{let done=false,pending=0,timer=null;const fin=(ok,v)=>{if(done)return;done=true;clearTimeout(timer);clearTimeout(tt);ctl.abort();ok?resolve(v):reject(v);};
+  const tt=setTimeout(()=>fin(false,new Error('Gemini non ha risposto in '+Math.round(total/1000)+' secondi.')),total);
+  const next=()=>{if(done||started>=models.length)return;const m=models[started++];pending++;clearTimeout(timer);timer=setTimeout(next,gap);
+   one(m).then(v=>fin(true,v),e=>{pending--;if(done)return;if(/API key not valid|API_KEY_INVALID/i.test(String(e.message)))return fin(false,new Error('La chiave Gemini non è valida: controllala in ⚙️ Opzioni.'));if(started<models.length)next();else if(!pending){const M=errs.map(x=>String(x.message)).join(' | ');fin(false,new Error(errs.some(x=>x.status===429)||/quota|RESOURCE_EXHAUSTED/i.test(M)?'Hai finito per adesso le richieste gratuite di Gemini: riprova fra qualche minuto.':errs.some(x=>x.status===503)?'Gemini è sovraccarico: riprova fra qualche minuto.':'Gemini: '+M.slice(0,160)));}});};
+  next();});}
+callGemini=window.callGemini=async function(parts,json,opts){opts=opts||{};if(opts.tools||opts.noHedge)return _cg.apply(this,arguments);try{return await hedged(parts,json,opts);}catch(e){throw e;}};
+})();
+}catch(e){console.error("chef-extra v2.9.55",e);}
+try{(function(){const V='v2.9.55';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
