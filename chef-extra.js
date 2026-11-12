@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.60 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.61 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1732,4 +1732,21 @@ arriveRes=window.arriveRes=async function(id){const t0=Date.now();const res=awai
  seat(r,ids[0]);}catch(e){console.error(e);}return res;};
 })();
 }catch(e){console.error("chef-extra v2.9.58",e);}
-try{(function(){const V='v2.9.60';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const st=document.createElement('style');st.textContent='.cov-off{display:block;margin-top:4px;font-size:.7rem;font-weight:900;background:#FEF3C7;color:#78350F;border-radius:999px;padding:2px 8px}.cop-undo{margin-left:8px;border:2px solid #78350F;background:#fff;color:#78350F;border-radius:999px;padding:3px 10px;font-weight:900;font-size:.78rem;cursor:pointer}';document.head.appendChild(st);
+/* togliere un "coperto offerto" inserito per sbaglio */
+window.v61CopUndo=async()=>{const t=state.tables[state.activeTableId];if(!t||!(Number(t.copOff)>0))return;
+ if(!confirm('Togliere 1 coperto offerto?\nUsalo se era un errore: quella persona non c’era.'))return;
+ const n=Number(t.copOff)||0,unit=n?(Number(t.copOffVal)||0)/n:0;t.copOff=n-1;t.copOffVal=Math.max(0,Math.round(((Number(t.copOffVal)||0)-unit)*100)/100);
+ (t.copOffLog=t.copOffLog||[]).push({ts:Date.now(),by:state.waiterName||'Staff',n:-1,undo:true});
+ try{await saveState(false,{tables:[t.id]});}catch(e){}try{renderOrderScreen();}catch(e){}try{renderTables();}catch(e){}};
+{const _o=renderOrderScreen;renderOrderScreen=function(){const r=_o.apply(this,arguments);try{const t=state.tables[state.activeTableId];if(t&&Number(t.copOff)>0){document.querySelectorAll('div').forEach(d=>{if(d.dataset.cu||d.children.length||!/^🎁 \d+ copert[oi] offert/.test(d.textContent||''))return;d.dataset.cu='1';const b=document.createElement('button');b.className='cop-undo';b.textContent='↩️ Era un errore';b.onclick=v61CopUndo;d.appendChild(b);});}}catch(e){}return r;};}
+/* sulla scheda del tavolo: se ci sono coperti offerti lo scrive sotto il numero */
+{const _r=renderTables;renderTables=function(){const r=_r.apply(this,arguments);try{document.querySelectorAll('#tablesContainer .table-card[data-tid]').forEach(c=>{const t=state.tables[c.dataset.tid],b=c.querySelector('.cov-big');let e=c.querySelector('.cov-off');const n=t&&t.items&&t.items.length?Number(t.copOff)||0:0;
+ if(!b||!n){if(e)e.remove();return;}const h=`di cui ${n} 🎁 ${n===1?'offerto':'offerti'}`;if(!e){e=document.createElement('span');e.className='cov-off';b.appendChild(e);}if(e.textContent!==h)e.textContent=h;});}catch(e){}return r;};}
+setTimeout(()=>{try{renderTables();}catch(e){}},1500);
+})();
+}catch(e){console.error("chef-extra v2.9.61",e);}
+try{(function(){const V='v2.9.61';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
