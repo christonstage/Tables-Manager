@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.53 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.54 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1554,4 +1554,92 @@ window.v33WaShot=async inp=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)
 {const _p=window.v24Parse;if(_p)window.v24Parse=async function(){try{const ta=$('resMsg'),c=ta&&contactParse(ta.value);if(c){setF(c);vst('✅ Letto dal nome del contatto: controlla e salva.');return;}}catch(e){}return _p.apply(this,arguments);};}
 })();
 }catch(e){console.error("chef-extra v2.9.52",e);}
-try{(function(){const V='v2.9.53';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);
+const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
+const st=document.createElement('style');
+st.textContent='#cuTabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 12px;position:sticky;top:0;z-index:5;padding:6px 0;background:inherit}#cuTabs button{border:2px solid rgba(0,0,0,.12);border-radius:14px;background:#fff;color:#062329;font-weight:900;padding:9px 2px;font-size:.78rem;line-height:1.15}#cuTabs button b{display:block;font-size:1.25rem}#cuTabs button.on{background:#7C3AED;color:#fff;border-color:#fff}body.dark #cuTabs button:not(.on){background:#1E293B;color:#E2E8F0;border-color:#334155}.cu-hide{display:none!important}.cu-k{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.cu-k div{border-radius:12px;padding:8px 4px;text-align:center;font-weight:800;font-size:.72rem;background:rgba(124,58,237,.1)}.cu-k b{display:block;font-size:1.25rem}.bc-src{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--border);font-weight:800;font-size:.86rem}.bc-src input{width:22px;height:22px;flex:none;margin-top:1px}.bc-src small{display:block;font-weight:600;opacity:.75;font-size:.74rem}.bc-chip{border:2px solid #7C3AED;border-radius:999px;background:transparent;color:inherit;font-weight:800;padding:5px 10px;font-size:.76rem;margin:0 6px 6px 0}.bc-row{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:6px 0;border-bottom:1px dashed var(--border);font-size:.82rem;font-weight:700}.bc-row.done{opacity:.5}.bc-row button{border:0;border-radius:9px;padding:5px 8px;font-weight:900;font-size:.74rem;background:rgba(0,0,0,.08);color:inherit}.bc-next{display:block;width:100%;border:0;border-radius:16px;padding:16px;font-weight:900;font-size:1.05rem;background:#25D366;color:#063A1E;margin:10px 0 6px}.bc-warn{border-radius:12px;padding:8px 10px;font-size:.78rem;font-weight:700;background:#FEF3C7;color:#78350F;margin:8px 0}';
+document.head.appendChild(st);
+/* ---------- sezione unica: Prenotazioni · Rubrica · Club · Messaggio a tutti ---------- */
+const TABS=[['pren','📅','Prenota-<br>zioni'],['rub','📇','Rubrica'],['club','🎟️','Club'],['bc','📣','Messaggio<br>a tutti']];
+let TAB=localStorage.getItem('alicetta_cu_tab')||'pren';
+const kind=el=>{if(el.id==='cuTabs')return'tabs';if(el.id==='cuClub')return'club';if(el.id==='cuBc')return'bc';const h=(el.querySelector('h3,summary')||el).textContent||'';if(/Rubrica clienti/.test(h)||el.id==='ctCard')return'rub';return'pren';};
+function apply(){const host=$('resContent');if(!host)return;ensure(host);[...host.children].forEach(el=>{const k=kind(el);if(k==='tabs')return;el.classList.toggle('cu-hide',k!==TAB);if(k==='rub'&&TAB==='rub'){const d=el.matches('details')?el:el.querySelector('details');if(d&&!d.open)d.open=true;}});
+ document.querySelectorAll('#cuTabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===TAB));if(TAB==='club')drawClub();if(TAB==='bc')drawBc();}
+function ensure(host){if(!$('cuTabs')){const d=document.createElement('div');d.id='cuTabs';d.innerHTML=TABS.map(([k,i,l])=>`<button data-t="${k}" onclick="v54Tab('${k}')"><b>${i}</b>${l}</button>`).join('');host.prepend(d);}else if(host.firstElementChild!==$('cuTabs'))host.prepend($('cuTabs'));
+ if(!$('cuClub')){const c=document.createElement('div');c.id='cuClub';c.className='cart-section';host.appendChild(c);}if(!$('cuBc')){const c=document.createElement('div');c.id='cuBc';c.className='cart-section';host.appendChild(c);}}
+window.v54Tab=t=>{TAB=t;localStorage.setItem('alicetta_cu_tab',t);apply();window.scrollTo({top:0,behavior:'smooth'});};
+{const _r=renderRes;renderRes=function(){const r=_r.apply(this,arguments);try{apply();}catch(e){}return r;};}
+let aq=0;new MutationObserver(()=>{if(aq)return;aq=setTimeout(()=>{aq=0;try{if($('viewRes')&&$('viewRes').classList.contains('active')){const host=$('resContent');if(host&&[...host.children].some(el=>kind(el)!=='tabs'&&!el.classList.contains('cu-hide')&&kind(el)!==TAB))apply();}}catch(e){}},120);}).observe(document.body,{childList:true,subtree:true});
+function label(){const b=$('navRes');const t=b&&b.querySelector('.nv-t');if(t&&t.textContent!=='Clienti'){t.textContent='Clienti';}}
+setInterval(label,2000);label();
+/* ---------- dati: Club + rubrica prenotazioni ---------- */
+let CLUB=null,clubErr='';
+async function loadClub(force){if(CLUB&&!force)return CLUB;try{const o=await fbGet('/fidelity/cards')||{};CLUB=Object.entries(o).map(([id,c])=>({id,...c}));clubErr='';}catch(e){clubErr=e.message||String(e);CLUB=CLUB||[];}return CLUB;}
+const norm=p=>{let d=String(p||'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d[0]==='3')d='39'+d;if((d.length===9||d.length===10)&&d[0]==='0')d='39'+d;return d.length>=11?d:'';};
+const first=n=>{const w=String(n||'').trim().split(/\s+/)[0]||'';return w?w[0].toUpperCase()+w.slice(1).toLowerCase():'';};
+function rubrica(){const M={};try{Object.values(JSON.parse(localStorage.getItem('alicetta_contacts')||'{}')||{}).forEach(c=>{const p=norm(c&&c.p);if(p)M[p]={n:c.n,p};});}catch(e){}
+ Object.values(state.res||{}).forEach(r=>{const p=norm(r&&r.phone);if(p&&!M[p])M[p]={n:r.name,p};});return M;}
+const STOP=()=>{const c=state.staffCfg=state.staffCfg||{};c.waStop=c.waStop||{};return c.waStop;};
+/* ---------- Club ---------- */
+async function drawClub(){const el=$('cuClub');if(!el)return;if(!el.dataset.ok){el.innerHTML='<h3>🎟️ Club</h3><div class="fc-sub">⏳ Carico i clienti del Club…</div>';}
+ const L=await loadClub();el.dataset.ok='1';const mk=L.filter(c=>c.mkt).length,cal=L.reduce((s,c)=>s+Math.max(0,(c.earned||0)-(c.used||0)),0);
+ el.innerHTML=`<h3 style="margin-bottom:4px;">🎟️ Club fedeltà</h3><div class="fc-sub">Ogni ${typeof FID_EUR!=='undefined'?FID_EUR:45} punti un calice di benvenuto (1 € = 1 punto). I clienti si iscrivono dal QR e scelgono se ricevere le promo.</div>
+<div class="cu-k"><div>👥 Iscritti<b>${L.length}</b></div><div>📣 Accettano promo<b>${mk}</b></div><div>🥂 Calici da dare<b>${cal}</b></div></div>${clubErr?`<div class="bc-warn">⚠️ Non riesco a leggere il Club: ${esc(clubErr)}</div>`:''}
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-bill" onclick="openFidelity()">📒 Elenco clienti</button><button class="btn-main btn-print" onclick="showClubQr()">🎟️ QR del Club</button><button class="btn-main btn-print" onclick="openFidelity().then(()=>{try{fidNewForm();}catch(e){}})">➕ Nuovo cliente</button><button class="btn-main btn-print" onclick="v54Tab('bc')">📣 Scrivi a tutti</button></div>`;}
+/* ---------- Messaggio a tutti ---------- */
+const BK='alicetta_bc';const B=()=>{try{return JSON.parse(localStorage.getItem(BK)||'null')||{};}catch(e){return{};}};const Bs=o=>localStorage.setItem(BK,JSON.stringify(o));
+const SRC=()=>{const o=B();return Object.assign({mk:true,nomk:false,rub:false},o.src||{});};
+const TPL=[['🎉 Serata','Ciao {nome}! Venerdì sera da Alicetta serata speciale: … Prenota rispondendo a questo messaggio 🐟'],['🍽️ Menù','Ciao {nome}! Oggi a pranzo da Alicetta: … Ti aspettiamo!'],['🎂 Promo','Ciao {nome}! Per i soci del Club questo mese c’è …'],['📢 Avviso','Ciao {nome}, ti informiamo che Alicetta Trattoria resterà chiusa dal … al …']];
+async function recipients(){const s=SRC(),M={},stop=STOP();if(s.mk||s.nomk){(await loadClub()).forEach(c=>{const p=norm(c.phone);if(!p)return;if(c.mkt?s.mk:s.nomk)M[p]={n:c.name,p,src:c.mkt?'Club ✓ promo':'Club'};});}
+ if(s.rub)Object.values(rubrica()).forEach(c=>{if(!M[c.p])M[c.p]={n:c.n,p:c.p,src:'Rubrica'};});
+ const all=Object.values(M);return{list:all.filter(c=>!stop[c.p]),stopped:all.filter(c=>stop[c.p]).length};}
+const msgFor=(t,c,stopLine)=>(String(t||'').replace(/\{nome\}/g,first(c.n)||'').replace(/\s+([!,.])/g,'$1').trim()+(stopLine?'\n\nPer non ricevere più messaggi rispondi STOP.':''));
+function waLink(p,text){const o=B(),app=o.app||'w4b',t=encodeURIComponent(text);if(app==='any')return 'https://wa.me/'+p+'?text='+t;
+ const pkg=app==='w4b'?'com.whatsapp.w4b':'com.whatsapp';return `intent://send?phone=${p}&text=${t}#Intent;scheme=whatsapp;package=${pkg};S.browser_fallback_url=${encodeURIComponent('https://wa.me/'+p+'?text='+t)};end`;}
+window.v54Src=(k,v)=>{const o=B();o.src=Object.assign(SRC(),{[k]:v});if((k==='nomk'||k==='rub')&&v&&!o.okServ){if(!confirm('Questi contatti NON hanno dato il consenso alle promozioni.\nPuoi scrivergli solo per comunicazioni di servizio (chiusure, cambi di orario, una prenotazione), non per pubblicità.\n\nConfermi che il messaggio è di servizio?')){o.src[k]=false;Bs(o);return drawBc();}o.okServ=1;}Bs(o);drawBc();};
+window.v54Txt=v=>{const o=B();o.text=v;Bs(o);const pv=$('bcPrev');if(pv)pv.textContent=msgFor(v,{n:'Maria'},o.stopLine!==false);};
+window.v54Tpl=i=>{const o=B();o.text=TPL[i][1];Bs(o);drawBc();};
+window.v54Opt=(k,v)=>{const o=B();o[k]=v;Bs(o);drawBc();};
+window.v54Start=async()=>{const o=B(),t=String(o.text||'').trim();if(t.length<5)return alert('Scrivi prima il messaggio.');const{list}=await recipients();if(!list.length)return alert('Nessun destinatario: scegli almeno un gruppo.');
+ if(!confirm(`Preparo l’invio a ${list.length} ${list.length===1?'cliente':'clienti'}.\nPer ognuno si apre WhatsApp con il messaggio già scritto: tu tocchi solo “Invia” e torni qui.`))return;
+ o.run={at:Date.now(),text:t,stopLine:o.stopLine!==false,list:list.map(c=>({n:c.n,p:c.p,st:''}))};Bs(o);drawBc();};
+window.v54Next=()=>{const o=B(),R=o.run;if(!R)return;const c=R.list.find(x=>!x.st);if(!c){alert('✅ Inviato a tutti!');return;}c.st='inviato';c.at=Date.now();Bs(o);drawBc();location.href=waLink(c.p,msgFor(R.text,c,R.stopLine));};
+window.v54Mark=(i,s)=>{const o=B(),R=o.run;if(!R||!R.list[i])return;const c=R.list[i];if(s==='stop'){if(!confirm(first(c.n)+' non vuole più messaggi? Lo tolgo da tutti gli invii futuri.'))return;STOP()[c.p]=Date.now();saveState(false,{staff:true});}c.st=s==='stop'?'STOP':s;Bs(o);drawBc();};
+window.v54End=()=>{if(!confirm('Chiudere questo invio? Quelli non ancora inviati restano esclusi.'))return;const o=B();o.last={at:o.run.at,n:o.run.list.filter(x=>x.st==='inviato').length};delete o.run;Bs(o);drawBc();};
+window.v54Vcf=async()=>{const{list}=await recipients();if(!list.length)return alert('Nessun destinatario.');const v=list.map(c=>['BEGIN:VCARD','VERSION:3.0','N:'+String(c.n||'').replace(/[;,]/g,' ')+';Cliente;;;','FN:Cliente '+String(c.n||'').replace(/[;,]/g,' '),'TEL;TYPE=CELL:+'+c.p,'END:VCARD'].join('\r\n')).join('\r\n');
+ const b=new Blob([v],{type:'text/vcard'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='Clienti Alicetta ('+list.length+').vcf';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);};
+window.v54Copy=()=>{const o=B();const t=msgFor(o.text,{n:''},o.stopLine!==false).replace(/^Ciao\s*[!,]\s*/,'Ciao! ');(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{try{toast('📋 Messaggio copiato');}catch(e){}},()=>prompt('Copia il messaggio:',t));};
+async function drawBc(){const el=$('cuBc');if(!el)return;if(!owner()){el.innerHTML='<h3>📣 Messaggio a tutti</h3><div class="fc-sub">Solo Christian può inviare messaggi ai clienti.</div>';return;}
+ const o=B(),s=SRC(),R=o.run;
+ if(R){const done=R.list.filter(x=>x.st).length,nx=R.list.find(x=>!x.st);
+  el.innerHTML=`<h3 style="margin-bottom:4px;">📣 Invio in corso · ${done}/${R.list.length}</h3><div class="fc-sub">Tocca il tasto verde: si apre WhatsApp con il messaggio già pronto, tu premi Invia e torni qui per il prossimo.</div>
+${nx?`<button class="bc-next" onclick="v54Next()">▶️ Invia a ${esc(first(nx.n)||'+'+nx.p)} (${done+1}/${R.list.length})</button>`:'<div class="bc-warn" style="background:#DCFCE7;color:#14532D;">✅ Finito: messaggio inviato a tutti.</div>'}
+<div style="max-height:46vh;overflow:auto;">${R.list.map((c,i)=>`<div class="bc-row ${c.st?'done':''}"><span>${c.st==='inviato'?'✅':c.st==='saltato'?'⏭️':c.st==='STOP'?'🚫':'⬜'} ${esc(c.n||'')} <small style="opacity:.7">+${esc(c.p)}</small></span><span>${c.st?'':`<button onclick="v54Mark(${i},'saltato')">Salta</button>`} <button onclick="v54Mark(${i},'stop')" title="Non vuole messaggi">🚫</button></span></div>`).join('')}</div>
+<button class="btn-main btn-print" style="width:100%;margin-top:10px;" onclick="v54End()">🏁 Chiudi questo invio</button>`;return;}
+ el.innerHTML='<h3>📣 Messaggio a tutti</h3><div class="fc-sub">⏳ Preparo l’elenco…</div>';
+ const CL=await loadClub(),mk=CL.filter(c=>c.mkt&&norm(c.phone)).length,nomk=CL.filter(c=>!c.mkt&&norm(c.phone)).length,clubP=new Set(CL.map(c=>norm(c.phone))),rub=Object.values(rubrica()).filter(c=>!clubP.has(c.p)).length;const{list,stopped}=await recipients();
+ const app=o.app||'w4b',stopLine=o.stopLine!==false;
+ el.innerHTML=`<h3 style="margin-bottom:4px;">📣 Messaggio a tutti</h3><div class="fc-sub">Scrivi un messaggio e mandalo ai tuoi clienti con WhatsApp Business, uno dopo l’altro con un tocco, oppure con una lista broadcast.</div>
+<div style="font-weight:900;margin:12px 0 2px;">1 · A chi</div>
+<label class="bc-src"><input type="checkbox" ${s.mk?'checked':''} onchange="v54Src('mk',this.checked)"><span>🎟️ Club che hanno accettato le promo (${mk})<small>Puoi mandare offerte, serate, novità.</small></span></label>
+<label class="bc-src"><input type="checkbox" ${s.nomk?'checked':''} onchange="v54Src('nomk',this.checked)"><span>🎟️ Club senza consenso promo (${nomk})<small>Solo comunicazioni di servizio (chiusure, orari).</small></span></label>
+<label class="bc-src"><input type="checkbox" ${s.rub?'checked':''} onchange="v54Src('rub',this.checked)"><span>📇 Rubrica prenotazioni, non iscritti al Club (${rub})<small>Solo comunicazioni di servizio.</small></span></label>
+<div style="font-weight:800;margin:6px 0;">👥 Destinatari: ${list.length}${stopped?` · 🚫 ${stopped} esclusi perché hanno chiesto STOP`:''}${clubErr?` · ⚠️ Club non letto (${esc(clubErr)})`:''}</div>
+<div style="font-weight:900;margin:12px 0 6px;">2 · Il messaggio</div>
+<div>${TPL.map((t,i)=>`<button class="bc-chip" onclick="v54Tpl(${i})">${t[0]}</button>`).join('')}</div>
+<textarea class="form-control" rows="5" placeholder="Ciao {nome}! …" oninput="v54Txt(this.value)">${esc(o.text||'')}</textarea>
+<div class="fc-sub" style="margin:4px 0;">Scrivi <b>{nome}</b> e ognuno riceve il suo nome.</div>
+<label class="bc-src" style="border:0;"><input type="checkbox" ${stopLine?'checked':''} onchange="v54Opt('stopLine',this.checked)"><span>Aggiungi in fondo “Per non ricevere più messaggi rispondi STOP”<small>Consigliato: protegge il tuo numero WhatsApp Business dalle segnalazioni.</small></span></label>
+<div class="fc-sub" style="font-weight:800;">Anteprima:</div><div id="bcPrev" style="white-space:pre-wrap;border-radius:12px;padding:10px;background:#DCF8C6;color:#062329;font-size:.86rem;margin-bottom:6px;">${esc(msgFor(o.text,{n:'Maria'},stopLine))}</div>
+<div style="font-weight:900;margin:12px 0 6px;">3 · Come inviarlo</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;font-size:.8rem;font-weight:800;">Apri con: ${[['w4b','WhatsApp Business'],['wa','WhatsApp'],['any','Scegli ogni volta']].map(([k,l])=>`<button class="bc-chip" style="${app===k?'background:#7C3AED;color:#fff;':''}" onclick="v54Opt('app','${k}')">${l}</button>`).join('')}</div>
+<button class="bc-next" onclick="v54Start()">▶️ Invio uno alla volta (${list.length})</button>
+<div class="fc-sub">Ogni messaggio parte dal tuo WhatsApp Business ed è personale: lo ricevono tutti, anche chi non ha salvato il tuo numero.</div>
+<details style="margin-top:10px;"><summary style="font-weight:900;cursor:pointer;">📋 Oppure con una lista broadcast di WhatsApp Business</summary><ol style="font-size:.82rem;line-height:1.45;padding-left:18px;"><li>Tocca <b>⬇️ Scarica i contatti</b> e apri il file: salva i ${list.length} clienti nella rubrica del telefono.</li><li>In WhatsApp Business: ⋮ → <b>Nuovo broadcast</b> → scegli i clienti (massimo 256 per lista).</li><li>Tocca <b>📋 Copia il messaggio</b> e incollalo nella lista.</li></ol><div class="bc-warn">La lista broadcast arriva <b>solo a chi ha salvato il tuo numero</b> nella sua rubrica. Con l’invio uno alla volta arriva a tutti.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-print" onclick="v54Vcf()">⬇️ Scarica i contatti</button><button class="btn-main btn-print" onclick="v54Copy()">📋 Copia il messaggio</button></div></details>
+<div class="bc-warn">⚠️ WhatsApp blocca i numeri che mandano troppi messaggi a chi non li vuole. Scrivi solo a chi ti conosce, non più di qualche decina al giorno, e togli subito chi risponde STOP (tasto 🚫).</div>${o.last?`<div class="fc-sub">Ultimo invio: ${new Date(o.last.at).toLocaleDateString('it-IT')} a ${o.last.n} clienti.</div>`:''}`;}
+})();
+}catch(e){console.error("chef-extra v2.9.54",e);}
+try{(function(){const V='v2.9.54';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
