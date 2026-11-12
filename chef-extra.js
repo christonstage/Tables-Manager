@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.56 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.60 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1447,17 +1447,22 @@ const cut=(s,n)=>String(s||'').replace(/\s+/g,' ').trim().slice(0,n);
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 /* dati della società (dalla visura camerale) */
 const CED={den:'CADIMA S.N.C. DI CARAFA CHRISTIAN E DI MASCIO ALICE',piva:'02446950699',ind:'VIA MARINA',civ:'25',cap:'66026',com:'ORTONA',prov:'CH',reaUff:'CH',reaN:'179642',email:'alicettatrattoria@gmail.com',locale:'Alicetta Trattoria, Via Lungomare 148, 66022 Fossacesia (CH)'};
-function cfg(){const c=state.staffCfg=state.staffCfg||{};c.fe=c.fe||{};const f=c.fe;if(!f.start)f.start={'2026':3};if(!f.rf)f.rf='RF01';if(f.iva==null)f.iva=10;if(!f.prog)f.prog=0;return f;}
+function cfg(){const c=state.staffCfg=state.staffCfg||{};c.fe=c.fe||{};const f=c.fe;if(!f.start)f.start={'2026':3};if(!f.rf)f.rf='RF01';if(f.iva==null)f.iva=10;if(f.ivaCop==null||(f.ivaCop==22&&!f.ivaCopSet))f.ivaCop=f.iva;if(!f.prog)f.prog=0;return f;}
 const pd=n=>String(n).padStart(2,'0');const iso=d=>d.getFullYear()+'-'+pd(d.getMonth()+1)+'-'+pd(d.getDate());
 const dmy=s=>String(s||'').split('-').reverse().join('/');
 function nextNum(y){const f=cfg();let m=Number(f.start[y])||0;(state.historyLog||[]).forEach(e=>{const v=e&&e.invoice;if(v&&v.feY==y&&Number(v.feN)>m)m=Number(v.feN);});return m+1;}
 const find=ts=>(state.historyLog||[]).find(e=>e&&e.ts===Number(ts));
 function check(d){const m=[];if(!d.rs)m.push('ragione sociale');if(!d.piva&&!d.cf)m.push('Partita IVA o codice fiscale');if(!d.addr)m.push('indirizzo');if(!/^\d{5}$/.test(d.cap||''))m.push('CAP (5 cifre)');if(!d.city)m.push('città');if(d.piva&&!/^\d{11}$/.test(d.piva))m.push('Partita IVA di 11 cifre');if(d.sdi&&!/^[A-Z0-9]{7}$/i.test(d.sdi))m.push('codice SDI di 7 caratteri');return m;}
-function build(e,num,y,day,prog){const f=cfg(),d=e.invoice,T=r2(e.total),al=Number(f.iva)||10,imp=r2(T/(1+al/100)),iva=r2(T-imp);
+function split(e){const f=cfg(),T=r2(e.total),isC=i=>i&&(i.cat==='1 Coperto'||/coperto/i.test(i.name||''));const it=e.items||[];const all=it.reduce((s,i)=>s+(Number(i.qty)||0)*(Number(i.price)||0),0),c=it.filter(isC).reduce((s,i)=>s+(Number(i.qty)||0)*(Number(i.price)||0),0);
+ const aF=Number(f.iva)||10,aC=f.ivaCop!=null?Number(f.ivaCop):aF,copG=(all>0&&aC!==aF)?r2(Math.min(T,c*T/all)):0,food=r2(T-copG);const L=[];
+ if(food>0){const im=r2(food/(1+aF/100));L.push({al:aF,gross:food,imp:im,iva:r2(food-im),kind:'food'});}if(copG>0){const im=r2(copG/(1+aC/100));L.push({al:aC,gross:copG,imp:im,iva:r2(copG-im),kind:'cop'});}
+ const R={};L.forEach(l=>{const k=l.al.toFixed(2);R[k]=R[k]||{al:l.al,imp:0,iva:0};R[k].imp=r2(R[k].imp+l.imp);R[k].iva=r2(R[k].iva+l.iva);});return{T,L,R:Object.values(R)};}
+window.v50Split=split;
+function build(e,num,y,day,prog){const f=cfg(),d=e.invoice,S=split(e),T=S.T;
  const piva=String(d.piva||'').replace(/^IT/i,'').replace(/\s/g,''),cf=String(d.cf||'').toUpperCase().replace(/\s/g,''),sdi=String(d.sdi||'').toUpperCase().replace(/\s/g,'');
  const cod=/^[A-Z0-9]{7}$/.test(sdi)?sdi:'0000000';const pec=cod==='0000000'&&d.pec?d.pec:'';
  const sd=svcDate(e)||iso(new Date(e.ts||Date.now()));const cop=(e.items||[]).filter(i=>i.cat==='1 Coperto'||/coperto/i.test(i.name||'')).reduce((s,i)=>s+(Number(i.qty)||0),0)||Number(e.coperti)||0;
- const desc=cut(`Somministrazione di alimenti e bevande del ${dmy(sd)}${cop?' ('+cop+' coperti)':''}`,1000);
+ const desc=cut(`Somministrazione di alimenti e bevande del ${dmy(sd)}`,1000);
  const p=e.pay||{},pays=[];const card=r2(p.card),cash=r2(p.cash);
  if(card>0&&cash>0){pays.push(['MP08',card],['MP01',r2(T-card)]);}else pays.push([p.m==='contanti'?'MP01':'MP08',T]);
  const caus=[`Corrispettivo già incassato il ${dmy(sd)} presso ${CED.locale}`];
@@ -1470,7 +1475,7 @@ function build(e,num,y,day,prog){const f=cfg(),d=e.invoice,T=r2(e.total),al=Numb
 </FatturaElettronicaHeader>
 <FatturaElettronicaBody>
 <DatiGenerali><DatiGeneraliDocumento><TipoDocumento>TD01</TipoDocumento><Divisa>EUR</Divisa><Data>${day}</Data><Numero>${num}/${y}</Numero><ImportoTotaleDocumento>${f2(T)}</ImportoTotaleDocumento>${caus.map(c=>`<Causale>${x(cut(c,200))}</Causale>`).join('')}</DatiGeneraliDocumento></DatiGenerali>
-<DatiBeniServizi><DettaglioLinee><NumeroLinea>1</NumeroLinea><Descrizione>${x(desc)}</Descrizione><Quantita>1.00</Quantita><PrezzoUnitario>${f2(imp)}</PrezzoUnitario><PrezzoTotale>${f2(imp)}</PrezzoTotale><AliquotaIVA>${f2(al)}</AliquotaIVA></DettaglioLinee><DatiRiepilogo><AliquotaIVA>${f2(al)}</AliquotaIVA><ImponibileImporto>${f2(imp)}</ImponibileImporto><Imposta>${f2(iva)}</Imposta><EsigibilitaIVA>I</EsigibilitaIVA></DatiRiepilogo></DatiBeniServizi>
+<DatiBeniServizi>${S.L.map((l,i)=>`<DettaglioLinee><NumeroLinea>${i+1}</NumeroLinea><Descrizione>${x(l.kind==='cop'?cut('Coperto'+(cop?' ('+cop+(cop===1?' persona)':' persone)'):''),1000):desc)}</Descrizione><Quantita>1.00</Quantita><PrezzoUnitario>${f2(l.imp)}</PrezzoUnitario><PrezzoTotale>${f2(l.imp)}</PrezzoTotale><AliquotaIVA>${f2(l.al)}</AliquotaIVA></DettaglioLinee>`).join('')}${S.R.map(r=>`<DatiRiepilogo><AliquotaIVA>${f2(r.al)}</AliquotaIVA><ImponibileImporto>${f2(r.imp)}</ImponibileImporto><Imposta>${f2(r.iva)}</Imposta><EsigibilitaIVA>I</EsigibilitaIVA></DatiRiepilogo>`).join('')}</DatiBeniServizi>
 <DatiPagamento><CondizioniPagamento>TP02</CondizioniPagamento>${pays.map(([m,a])=>`<DettaglioPagamento><ModalitaPagamento>${m}</ModalitaPagamento><ImportoPagamento>${f2(a)}</ImportoPagamento></DettaglioPagamento>`).join('')}</DatiPagamento>
 </FatturaElettronicaBody>
 </p:FatturaElettronica>`;}
@@ -1480,26 +1485,26 @@ function blobOf(e){const v=e.invoice;return new Blob([build(e,v.feN,v.feY,v.feDa
 function download(e){const b=blobOf(e),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=fileOf(e.invoice);document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),5000);}
 window.v50Make=async ts=>{const e=find(ts);if(!e||!e.invoice)return;const d=e.invoice;const miss=check(d);if(miss.length)return alert('Per la fattura elettronica manca: '+miss.join(', ')+'.\nCorreggi i dati del cliente e riprova.');
  if(!d.feN){const f=cfg(),now=new Date(),y=String(now.getFullYear()),n=nextNum(y);
-  if(!confirm(`Creo la fattura n. ${n}/${y} del ${now.toLocaleDateString('it-IT')}\nper ${d.rs}, totale € ${formatPrice(e.total||0)} (IVA ${f.iva}% inclusa)?`))return;
+  if(!confirm(`Creo la fattura n. ${n}/${y} del ${now.toLocaleDateString('it-IT')}\nper ${d.rs}, totale € ${formatPrice(e.total||0)} (IVA ${f.ivaCop!=null&&f.ivaCop!=f.iva?'pasti '+f.iva+'%, coperto '+f.ivaCop+'%':f.iva+'% inclusa'})?`))return;
   f.prog=(Number(f.prog)||0)+1;d.feN=n;d.feY=y;d.feDay=iso(now);d.feProg=f.prog.toString(36).toUpperCase().padStart(5,'0');d.feAt=Date.now();d.feBy=state.waiterName||'';
   try{await saveState(false,{history:true,staff:true});}catch(x){}}
  download(e);try{renderInvList();}catch(z){}v50Show(ts);};
 window.v50Share=async ts=>{const e=find(ts);if(!e||!e.invoice||!e.invoice.feN)return;try{const file=new File([blobOf(e)],fileOf(e.invoice),{type:'application/xml'});if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Fattura '+e.invoice.feN+'/'+e.invoice.feY});return;}}catch(x){if(x&&x.name==='AbortError')return;}download(e);};
 window.v50Again=ts=>{const e=find(ts);if(e)download(e);};
-window.v50Show=ts=>{const e=find(ts);if(!e)return;const v=e.invoice,f=cfg(),T=r2(e.total),al=Number(f.iva)||10,imp=r2(T/(1+al/100));
+window.v50Show=ts=>{const e=find(ts);if(!e)return;const v=e.invoice,f=cfg(),S=split(e),T=S.T;
  let ov=$('feModal');if(!ov){ov=document.createElement('div');ov.id='feModal';ov.className='modal-overlay';ov.onclick=ev=>{if(ev.target===ov)ov.classList.remove('active');};document.body.appendChild(ov);}
  ov.innerHTML=`<div class="receipt-box"><h3 style="color:var(--logo-coral);margin-bottom:4px;">📄 Fattura n. ${v.feN}/${v.feY}</h3><div class="fc-sub" style="margin-bottom:8px;">del ${dmy(v.feDay)} · file ${esc(fileOf(v))}</div>
-<div style="border-radius:12px;padding:10px;background:rgba(14,165,183,.1);font-size:.86rem;line-height:1.5;margin-bottom:10px;"><b>${esc(v.rs)}</b><br>Imponibile € ${formatPrice(imp)} · IVA ${al}% € ${formatPrice(r2(T-imp))}<br><b>Totale € ${formatPrice(T)}</b></div>
+<div style="border-radius:12px;padding:10px;background:rgba(14,165,183,.1);font-size:.86rem;line-height:1.5;margin-bottom:10px;"><b>${esc(v.rs)}</b><br>${S.R.map(r=>`IVA ${r.al}%: imponibile € ${formatPrice(r.imp)} · IVA € ${formatPrice(r.iva)}`).join('<br>')}<br><b>Totale € ${formatPrice(T)}</b></div>
 <div style="font-weight:900;margin-bottom:6px;">Adesso trasmettila all'Agenzia delle Entrate</div>
 <ol style="font-size:.84rem;line-height:1.45;padding-left:18px;margin:0 0 10px;"><li>Il file è nei <b>Download</b> del telefono.</li><li>Apri <b>Fatture e Corrispettivi</b> ed entra con lo SPID.</li><li><b>Fatturazione elettronica → Trasmissione → Trasmetti un file</b> e scegli il file ${esc(fileOf(v))}.</li><li>Dopo qualche minuto, in “Fatture emesse” vedi la ricevuta di consegna. Poi tocca ✅ Emessa.</li></ol>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-bill" onclick="window.open('https://ivaservizi.agenziaentrate.gov.it/portale/','_blank')">🌐 Fatture e Corrispettivi</button><button class="btn-main btn-print" onclick="v50Share(${e.ts})">📤 Condividi file</button><button class="btn-main btn-print" onclick="v50Again(${e.ts})">⬇️ Scarica di nuovo</button><button class="btn-main" style="background:#16A34A;color:#fff;" onclick="document.getElementById('feModal').classList.remove('active');invDone(${e.ts})">✅ Emessa</button></div>
 <button class="btn-modal" style="background:#334155;color:#fff;width:100%;margin-top:10px;" onclick="document.getElementById('feModal').classList.remove('active')">Chiudi</button></div>`;ov.classList.add('active');};
 window.v50Cfg=()=>{const f=cfg(),y=String(new Date().getFullYear());const a=prompt(`Ultimo numero di fattura emesso nel ${y} prima di questa app (anche con SumUp):`,String(f.start[y]||0));if(a===null)return;const n=parseInt(a,10);if(!(n>=0))return alert('Scrivi un numero, per esempio 3.');f.start[y]=n;
  const r=prompt('Regime fiscale (RF01 = ordinario; chiedi al commercialista se è diverso):',f.rf||'RF01');if(r!==null&&/^RF\d{2}$/i.test(r.trim()))f.rf=r.trim().toUpperCase();
- const i=prompt('Aliquota IVA in %:',String(f.iva));if(i!==null&&Number(i.replace(',','.'))>=0)f.iva=Number(i.replace(',','.'));
+ const i=prompt('Aliquota IVA di cibo e bevande in %:',String(f.iva));const ic=prompt('Aliquota IVA del coperto in %:',String(f.ivaCop));if(ic!==null&&Number(ic.replace(',','.'))>=0){f.ivaCop=Number(ic.replace(',','.'));f.ivaCopSet=1;}if(i!==null&&Number(i.replace(',','.'))>=0)f.iva=Number(i.replace(',','.'));
  saveState(false,{staff:true});try{renderInvList();}catch(e){}};
 {const _r=renderInvList;renderInvList=function(){const r=_r.apply(this,arguments);try{if(!owner())return r;const el=$('invList');if(!el||el.style.display==='none')return r;const y=String(new Date().getFullYear()),f=cfg();
- const h=el.querySelector('h3');if(h&&!el.querySelector('.fe-bar')){h.insertAdjacentHTML('afterend',`<div class="fe-bar" style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.78rem;font-weight:800;margin:0 0 8px;padding:8px 10px;border-radius:12px;background:rgba(14,165,183,.12);"><span>📄 Prossima fattura: <b>${nextNum(y)}/${y}</b> · IVA ${f.iva}% · ${esc(f.rf)}</span><button class="btn-note" onclick="v50Cfg()">⚙️ Cambia</button></div>`);}
+ const h=el.querySelector('h3');if(h&&!el.querySelector('.fe-bar')){h.insertAdjacentHTML('afterend',`<div class="fe-bar" style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.78rem;font-weight:800;margin:0 0 8px;padding:8px 10px;border-radius:12px;background:rgba(14,165,183,.12);"><span>📄 Prossima fattura: <b>${nextNum(y)}/${y}</b> · IVA ${f.ivaCop!=null&&f.ivaCop!=f.iva?'pasti '+f.iva+'% · coperto '+f.ivaCop+'%':f.iva+'% su tutto'} · ${esc(f.rf)}</span><button class="btn-note" onclick="v50Cfg()">⚙️ Cambia</button></div>`);}
  el.querySelectorAll('button[onclick^="invCopy("]').forEach(b=>{const ts=(b.getAttribute('onclick').match(/invCopy\((\d+)\)/)||[])[1],e=find(ts);if(!e||!e.invoice||b.parentElement.querySelector('.fe-btn'))return;
   const n=document.createElement('button');n.className='btn-note fe-btn';n.style.cssText='background:#0E5563;color:#fff;';
   if(e.invoice.feN){n.textContent='📄 Fattura '+e.invoice.feN+'/'+e.invoice.feY;n.onclick=()=>v50Show(e.ts);}else if(!e.invoice.done){n.textContent='📄 Crea fattura elettronica';n.onclick=()=>v50Make(e.ts);}else return;b.after(n);});}catch(x){console.error(x);}return r;};}
@@ -1690,4 +1695,41 @@ setInterval(()=>{document.querySelectorAll('#oneSt,#ocrStatus,#invSt,#resMsgSt,#
  else{if(sp)sp.remove();T.delete(el);}});},1000);
 })();
 }catch(e){console.error("chef-extra v2.9.56",e);}
-try{(function(){const V='v2.9.56';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const st=document.createElement('style');
+st.textContent='#waiterDisplay{position:relative!important;padding-right:52px!important}#fsMini{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:34px;border-radius:9px;border:2px solid rgba(255,255,255,.85);background:rgba(0,0,0,.22);color:#fff;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;box-shadow:inset 0 -2px 0 rgba(0,0,0,.25)}#fsMini svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}#fsMini:active{transform:translateY(-50%) scale(.92)}.v2931lu button{color:#3B2A00!important;text-shadow:none!important;-webkit-text-fill-color:#3B2A00!important}';
+document.head.appendChild(st);
+const fsOn=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
+const ICON_OUT='<svg viewBox="0 0 24 24"><path d="M9 4v5H4M15 4v5h5M4 15h5v5M20 15h-5v5"/></svg>',ICON_IN='<svg viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg>';
+window.v57Fs=ev=>{if(ev){ev.stopPropagation();ev.preventDefault();}
+ if(fsOn()){localStorage.setItem('alicetta_autofs','0');try{(document.exitFullscreen||document.webkitExitFullscreen).call(document);}catch(e){}try{toast('Schermo intero tolto. Per rimetterlo tocca di nuovo il quadratino.');}catch(e){}}
+ else{localStorage.setItem('alicetta_autofs','1');try{const el=document.documentElement;(el.requestFullscreen||el.webkitRequestFullscreen).call(el,{navigationUI:'hide'}).catch(()=>{});}catch(e){}}
+ setTimeout(paint,300);};
+function paint(){const w=$('waiterDisplay');if(!w)return;let b=$('fsMini');if(!b||b.parentNode!==w){b=document.createElement('button');b.id='fsMini';b.type='button';b.onclick=window.v57Fs;w.appendChild(b);}
+ const on=fsOn(),h=on?ICON_OUT:ICON_IN,t=on?'Esci dallo schermo intero':'Schermo intero';if(b.dataset.s!==String(on)){b.innerHTML=h;b.dataset.s=String(on);b.title=t;b.setAttribute('aria-label',t);}}
+document.addEventListener('fullscreenchange',paint);document.addEventListener('webkitfullscreenchange',paint);
+setInterval(paint,1000);paint();
+})();
+}catch(e){console.error("chef-extra v2.9.57",e);}
+try{
+(function(){
+const copItem=()=>(state.menu||[]).find(m=>m&&m.cat==='1 Coperto')||null;
+const tid=v=>{v=String(v||'').trim().toUpperCase().replace(/^TAVOLO\s*/,'');if(!v)return null;const id=/^E/.test(v)?'EST_'+v.replace(/^E\D*/,''):'INT_'+v.replace(/^\D*/,'');return state.tables[id]?id:null;};
+function seat(r,id){const t=state.tables[id];if(!t)return false;t.items=t.items||[];
+ if(t.items.length){alert(`⚠️ ${t.name} è già occupato: non aggiungo i coperti di ${r.name}.\nSe li fai sedere altrove, usa “Assegna” nella prenotazione o apri il tavolo giusto.`);return false;}
+ const c=copItem(),n=Math.max(1,parseInt(r.covers,10)||1);t.openedAt=Date.now();t.customerName=r.name||'';t.resId=r.id||'';
+ if(c)t.items.push({lineId:Date.now()+Math.random(),menuId:c.id,cat:c.cat,name:c.name,price:c.price,qty:n,mandata:state.currentMandata||1,waiter:state.waiterName||'Staff',note:'',sent:false});
+ try{saveState(false,{tables:[id]});}catch(e){}try{state.activeTableId=id;renderOrderScreen();}catch(e){}try{renderTables();}catch(e){}
+ try{toast(`✅ ${r.name} al ${t.name}: ${n} ${n===1?'coperto':'coperti'} già inseriti`);}catch(e){}return true;}
+const _a=arriveRes;
+arriveRes=window.arriveRes=async function(id){const t0=Date.now();const res=await _a.apply(this,arguments);try{const r=state.res&&state.res[id];if(!r||r.status!=='arrivato'||!(r.arrivedAt>=t0-1000))return res;r.id=r.id||id;
+ let ids=r.tables||[];
+ if(!ids.length){const free=Object.values(state.tables).filter(t=>t.room!=='asporto'&&!(t.items&&t.items.length)).sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true}));
+  const v=prompt(`A quale tavolo fai sedere ${r.name} (${r.covers} pers.)?\nScrivi il numero, per esempio 7 (oppure E2 per l’esterna).${free.length?'\nLiberi: '+free.slice(0,12).map(t=>t.room==='esterna'?'E'+t.id.slice(4):t.id.slice(4)).join(', '):''}`,'');
+  const k=tid(v);if(!k){if(v)alert('Tavolo non trovato: aprilo a mano.');return res;}r.tables=[k];try{await saveState(false,{res:[id]});}catch(e){}ids=[k];try{openTable(k);}catch(e){}}
+ seat(r,ids[0]);}catch(e){console.error(e);}return res;};
+})();
+}catch(e){console.error("chef-extra v2.9.58",e);}
+try{(function(){const V='v2.9.60';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
