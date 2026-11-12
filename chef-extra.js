@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.51 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.52 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1505,4 +1505,45 @@ window.v50Cfg=()=>{const f=cfg(),y=String(new Date().getFullYear());const a=prom
   if(e.invoice.feN){n.textContent='📄 Fattura '+e.invoice.feN+'/'+e.invoice.feY;n.onclick=()=>v50Show(e.ts);}else if(!e.invoice.done){n.textContent='📄 Crea fattura elettronica';n.onclick=()=>v50Make(e.ts);}else return;b.after(n);});}catch(x){console.error(x);}return r;};}
 })();
 }catch(e){console.error("chef-extra v2.9.50",e);}
-try{(function(){const V='v2.9.51';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);const pad=n=>String(n).padStart(2,'0');
+const vst=t=>{const e=$('resMsgSt');if(e)e.innerHTML=t;};
+const MESI=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+/* formato dei tuoi contatti: "Cliente Techi X 2 12 Nov 20.00" */
+function contactParse(t){const s=String(t||'').replace(/\s+/g,' ').trim();
+ const m=s.match(/(?:cliente\s+)?([A-Za-zÀ-ÿ'][A-Za-zÀ-ÿ' ]*?)\s+[xX×]\s*(\d{1,2})\s+(\d{1,2})\s+([A-Za-zÀ-ÿ]{3,9})\.?\s+(\d{1,2})[.:](\d{2})\b/i);if(!m)return null;
+ const mi=MESI.indexOf(m[4].toLowerCase().slice(0,3));if(mi<0)return null;const d=+m[3],now=new Date();let y=now.getFullYear();
+ if(new Date(y,mi,d)<new Date(y,now.getMonth(),now.getDate()-1))y++;
+ const ph=s.match(/(\+?\d[\d\s]{8,}\d)/);
+ return{nome:m[1].trim(),persone:+m[2],data:y+'-'+pad(mi+1)+'-'+pad(d),ora:pad(+m[5])+':'+m[6],telefono:ph?ph[1].replace(/[^\d+]/g,''):''};}
+window.v52Contact=contactParse;
+function setF(o){const s=(id,v)=>{const e=$(id);if(e&&v!=null&&v!=='')e.value=v;};s('rName',o.nome);s('rPhone',o.telefono?String(o.telefono).replace(/[^\d+]/g,''):'');
+ if(/^\d{4}-\d{2}-\d{2}$/.test(o.data||''))s('rDate',o.data);else if(window.v41NoDate)v41NoDate();if(/^\d{2}:\d{2}$/.test(o.ora||''))s('rTime',o.ora);if(o.persone)s('rCov',o.persone);s('rNote',o.note);}
+async function saveNow(){const n=(($('rName')||{}).value||'').trim(),c=parseInt((($('rCov')||{}).value||''),10);
+ if(!n||!c){vst('⚠️ Non trovo '+[!n&&'il nome',!c&&'i coperti'].filter(Boolean).join(' e ')+': completa il modulo e premi “Salva”.');return false;}
+ const before=new Set(Object.keys(state.res||{}));const info=`${n} · ${String(($('rDate')||{}).value||'').split('-').reverse().join('/')} ${($('rTime')||{}).value} · ${c} pers.`;
+ await saveRes();const id=Object.keys(state.res||{}).find(k=>!before.has(k));
+ if(id){window._lastResId=id;vst('✅ Prenotazione salvata: '+escH(info));try{toast('✅ Salvata: '+escH(info)+' · <u onclick="v33ResUndo()">Annulla</u>',7000);}catch(e){}return true;}
+ vst('⚠️ Controlla il modulo e premi “Salva”.');return false;}
+/* Gemini veloce: 3 modelli insieme, vince il primo che risponde, tempo massimo fisso */
+async function quick(parts,ms){const k=getGeminiKey();if(!k)throw new Error('Serve la chiave Gemini in ⚙️ Opzioni.');if(!navigator.onLine)throw new Error('Sei offline: serve internet.');
+ const all=(typeof GEMINI_MODELS!=='undefined'?GEMINI_MODELS:['gemini-flash-latest']).slice();const order=all.filter(m=>/lite/.test(m)).concat(all.filter(m=>!/lite/.test(m))).slice(0,3);
+ const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),ms);
+ const one=async mdl=>{const gc={temperature:0,maxOutputTokens:1024,responseMimeType:'application/json',thinkingConfig:/gemini-3/.test(mdl)?{thinkingLevel:'low'}:{thinkingBudget:0}};
+  const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+mdl+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':k},body:JSON.stringify({contents:[{parts}],generationConfig:gc}),signal:ctl.signal});
+  const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error((d.error&&d.error.message)||('HTTP '+r.status));
+  const t=(((d.candidates||[])[0]||{}).content||{}).parts;const tx=(t||[]).filter(p=>!p.thought).map(p=>p.text||'').join('').trim();if(!tx)throw new Error('risposta vuota');return tx;};
+ try{return await Promise.any(order.map(one));}catch(e){throw new Error('Gemini non ha risposto in '+Math.round(ms/1000)+' secondi.');}finally{clearTimeout(to);ctl.abort();}}
+window.v33WaShot=async inp=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)return;if(!getGeminiKey())return vst('🔑 Serve la chiave Gemini in ⚙️ Opzioni.');
+ const L='📅 Lettura prenotazione';window._jobLabel=L;vst('⏳ Leggo lo screenshot…');
+ try{const b64=await shrinkImage(f,1000),d=new Date(),GG=['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'],iso=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+  const r=await quick([{inline_data:{mime_type:'image/jpeg',data:b64}},{text:`Oggi è ${iso} (${GG[d.getDay()]}). Questo è uno screenshot con la richiesta di prenotazione di un cliente di un ristorante. Può essere una chat WhatsApp (nome o numero del contatto in alto) oppure la scheda "Aggiungi ai contatti" o una rubrica. NELLA RUBRICA il campo Nome è scritto così: "Cliente <Nome> X <persone> <giorno> <mese> <ora>", per esempio "Cliente Techi X 2 12 Nov 20.00" significa nome Techi, 2 persone, 12 novembre, ore 20:00; il telefono è il numero mostrato. Rispondi SOLO JSON: {"nome":string|null,"telefono":string|null,"data":"YYYY-MM-DD"|null,"ora":"HH:MM"|null,"persone":number|null,"note":string|null}. In una chat: "stasera"/"oggi" = oggi, "domani" = domani, un giorno della settimana = il prossimo con quel nome; "alle 8" di sera = 20:00. Nelle note solo richieste utili (allergie, seggiolone, esterno, compleanno), brevi. Se l'anno manca usa il prossimo giorno futuro con quella data.`}],25000);
+  const o=JSON.parse(r.slice(r.indexOf('{'),r.lastIndexOf('}')+1));setF(o);await saveNow();}
+ catch(e){vst('❌ '+escH(e.message||e)+'<br>Prova così: copia il nome del contatto e tocca <b>⚡ Incolla e salva</b>: funziona subito, senza Gemini.');}
+ finally{setTimeout(()=>{if(window._jobLabel===L)window._jobLabel='';},2500);}};
+/* testo incollato nel formato dei contatti: lettura immediata, senza Gemini */
+{const _p=window.v24Parse;if(_p)window.v24Parse=async function(){try{const ta=$('resMsg'),c=ta&&contactParse(ta.value);if(c){setF(c);vst('✅ Letto dal nome del contatto: controlla e salva.');return;}}catch(e){}return _p.apply(this,arguments);};}
+})();
+}catch(e){console.error("chef-extra v2.9.52",e);}
+try{(function(){const V='v2.9.52';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
