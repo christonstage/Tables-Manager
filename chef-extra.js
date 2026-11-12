@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.55 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.56 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1665,4 +1665,29 @@ async function hedged(parts,json,opts){const k=getGeminiKey();if(!k)throw new Er
 callGemini=window.callGemini=async function(parts,json,opts){opts=opts||{};if(opts.tools||opts.noHedge)return _cg.apply(this,arguments);try{return await hedged(parts,json,opts);}catch(e){throw e;}};
 })();
 }catch(e){console.error("chef-extra v2.9.55",e);}
-try{(function(){const V='v2.9.55';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const FOOD=['3 Antipasti','4 Primi Piatti','5 Secondi','5 Contorni','6 Desserts'];
+/* 1) un piatto senza allergeni è "controllato": lo segno come "nessuno" invece di lasciarlo vuoto (prima restava per sempre "da completare") */
+if(typeof window.algMerge==='function'){const _m=window.algMerge;window.algMerge=function(){const r=_m.apply(this,arguments);return Array.isArray(r)&&r.length?r:['nessuno'];};}
+function fixData(){try{let n=0;(state.menu||[]).forEach(m=>{if(m&&FOOD.includes(m.cat)&&Array.isArray(m.allergens)&&!m.allergens.length){m.allergens=['nessuno'];n++;}});
+ if(n&&/^christian$/i.test((state.waiterName||'').trim())){saveState(false,{menu:true});}return n;}catch(e){return 0;}}
+setTimeout(fixData,4000);setInterval(fixData,20000);
+const pending=()=>{let a=0,t=0;try{a=(state.menu||[]).filter(m=>FOOD.includes(m.cat)&&!(Array.isArray(m.allergens)&&m.allergens.length)).length;}catch(e){}try{t=missingTrItems().length;}catch(e){}return a+t;};
+/* 2) barra "Sto elaborando il menù": secondi sempre visibili, e niente avviso vecchio se ormai è tutto fatto */
+let t0=0,lastCls='';
+function mp(){const b=$('mpBar');if(!b)return;let s=$('mpSec');if(!s){s=document.createElement('div');s.id='mpSec';s.style.cssText='font-size:.78rem;font-weight:900;opacity:.85;margin-top:4px;';const ref=$('mpS');(ref&&ref.parentNode?ref.parentNode:b).appendChild(s);}
+ const on=/\bon\b/.test(b.className),warn=/warn/.test(b.className),done=/done/.test(b.className);
+ if(on&&!warn&&!done){if(!t0||lastCls!=='work')t0=Date.now();lastCls='work';s.textContent='⏱️ '+Math.round((Date.now()-t0)/1000)+' s';}
+ else if(on){if(lastCls==='work'&&t0)s.textContent='Durata: '+Math.round((Date.now()-t0)/1000)+' s';lastCls=warn?'warn':'done';if(warn&&!fixData()&&pending()===0&&window.v2918MpClose)v2918MpClose();if(warn&&pending()===0&&window.v2918MpClose)v2918MpClose();}
+ else{lastCls='';t0=0;s.textContent='';}}
+setInterval(mp,1000);
+/* 3) ogni messaggio "⏳ …" (lavagnetta, fattura, prenotazioni, foto SumUp…) mostra da quanti secondi sta lavorando */
+const T=new WeakMap();
+setInterval(()=>{document.querySelectorAll('#oneSt,#ocrStatus,#invSt,#resMsgSt,#bcSt,#bcSt2,#feSt,[data-sec]').forEach(el=>{const sp=el.querySelector(':scope > .v56s');const txt=(el.textContent||'').replace(sp?sp.textContent:'','').trim();
+ if(/^⏳/.test(txt)){let r=T.get(el);if(!r||r.t!==txt.slice(0,40)){r={t:txt.slice(0,40),at:r&&/^⏳/.test(r.t)?r.at:Date.now()};T.set(el,r);}const v=' · ⏱️ '+Math.round((Date.now()-r.at)/1000)+' s';if(sp){if(sp.textContent!==v)sp.textContent=v;}else{const n=document.createElement('span');n.className='v56s';n.textContent=v;el.appendChild(n);}}
+ else{if(sp)sp.remove();T.delete(el);}});},1000);
+})();
+}catch(e){console.error("chef-extra v2.9.56",e);}
+try{(function(){const V='v2.9.56';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
