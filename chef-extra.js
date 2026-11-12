@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.52 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.53 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1528,17 +1528,25 @@ async function saveNow(){const n=(($('rName')||{}).value||'').trim(),c=parseInt(
  vst('⚠️ Controlla il modulo e premi “Salva”.');return false;}
 /* Gemini veloce: 3 modelli insieme, vince il primo che risponde, tempo massimo fisso */
 async function quick(parts,ms){const k=getGeminiKey();if(!k)throw new Error('Serve la chiave Gemini in ⚙️ Opzioni.');if(!navigator.onLine)throw new Error('Sei offline: serve internet.');
- const all=(typeof GEMINI_MODELS!=='undefined'?GEMINI_MODELS:['gemini-flash-latest']).slice();const order=all.filter(m=>/lite/.test(m)).concat(all.filter(m=>!/lite/.test(m))).slice(0,3);
- const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),ms);
- const one=async mdl=>{const gc={temperature:0,maxOutputTokens:1024,responseMimeType:'application/json',thinkingConfig:/gemini-3/.test(mdl)?{thinkingLevel:'low'}:{thinkingBudget:0}};
+ const all=(typeof GEMINI_MODELS!=='undefined'?GEMINI_MODELS:['gemini-flash-latest']).slice();const order=all.filter(m=>/lite/.test(m)).concat(all.filter(m=>!/lite/.test(m)));
+ const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),ms),errs=[];
+ const call=async(mdl,think)=>{const gc={temperature:0,maxOutputTokens:2048,responseMimeType:'application/json'};if(think)gc.thinkingConfig=/gemini-3/.test(mdl)?{thinkingLevel:'low'}:{thinkingBudget:0};
   const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+mdl+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':k},body:JSON.stringify({contents:[{parts}],generationConfig:gc}),signal:ctl.signal});
-  const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error((d.error&&d.error.message)||('HTTP '+r.status));
-  const t=(((d.candidates||[])[0]||{}).content||{}).parts;const tx=(t||[]).filter(p=>!p.thought).map(p=>p.text||'').join('').trim();if(!tx)throw new Error('risposta vuota');return tx;};
- try{return await Promise.any(order.map(one));}catch(e){throw new Error('Gemini non ha risposto in '+Math.round(ms/1000)+' secondi.');}finally{clearTimeout(to);ctl.abort();}}
+  const d=await r.json().catch(()=>({}));if(!r.ok){const e=new Error((d.error&&d.error.message)||('HTTP '+r.status));e.status=r.status;throw e;}
+  const t=(((d.candidates||[])[0]||{}).content||{}).parts;const tx=(t||[]).filter(p=>!p.thought).map(p=>p.text||'').join('').trim();if(!tx){const e=new Error('risposta vuota');e.status=0;throw e;}return tx;};
+ const one=async mdl=>{try{return await call(mdl,true);}catch(e){if(e.status===400&&!/API key|API_KEY/i.test(e.message)){try{return await call(mdl,false);}catch(e2){errs.push([mdl,e2]);throw e2;}}errs.push([mdl,e]);throw e;}};
+ try{return await Promise.any(order.map(one));}
+ catch(e){const S=errs.map(x=>x[1].status),M=errs.map(x=>String(x[1].message||'')).join(' | ');console.warn('Gemini errori:',errs.map(x=>x[0]+': '+(x[1].status||'')+' '+x[1].message));
+  if(ctl.signal.aborted&&errs.length<order.length)throw new Error('Gemini non ha risposto in '+Math.round(ms/1000)+' secondi (internet lento o Gemini sovraccarico).');
+  if(/API key not valid|API_KEY_INVALID|PERMISSION_DENIED/i.test(M))throw new Error('La chiave Gemini non è valida o è stata disattivata: controllala in ⚙️ Opzioni.');
+  if(S.includes(429)||/quota|RESOURCE_EXHAUSTED|rate/i.test(M))throw new Error('Hai finito per adesso le richieste gratuite di Gemini (limite di Google, non dell’app). Riprova fra qualche minuto, oppure domani.');
+  if(S.includes(503)||/overloaded|UNAVAILABLE/i.test(M))throw new Error('Gemini è sovraccarico in questo momento (problema di Google). Riprova fra qualche minuto.');
+  throw new Error('Gemini ha risposto con un errore: '+M.slice(0,180));}
+ finally{clearTimeout(to);ctl.abort();}}
 window.v33WaShot=async inp=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)return;if(!getGeminiKey())return vst('🔑 Serve la chiave Gemini in ⚙️ Opzioni.');
  const L='📅 Lettura prenotazione';window._jobLabel=L;vst('⏳ Leggo lo screenshot…');
  try{const b64=await shrinkImage(f,1000),d=new Date(),GG=['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'],iso=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
-  const r=await quick([{inline_data:{mime_type:'image/jpeg',data:b64}},{text:`Oggi è ${iso} (${GG[d.getDay()]}). Questo è uno screenshot con la richiesta di prenotazione di un cliente di un ristorante. Può essere una chat WhatsApp (nome o numero del contatto in alto) oppure la scheda "Aggiungi ai contatti" o una rubrica. NELLA RUBRICA il campo Nome è scritto così: "Cliente <Nome> X <persone> <giorno> <mese> <ora>", per esempio "Cliente Techi X 2 12 Nov 20.00" significa nome Techi, 2 persone, 12 novembre, ore 20:00; il telefono è il numero mostrato. Rispondi SOLO JSON: {"nome":string|null,"telefono":string|null,"data":"YYYY-MM-DD"|null,"ora":"HH:MM"|null,"persone":number|null,"note":string|null}. In una chat: "stasera"/"oggi" = oggi, "domani" = domani, un giorno della settimana = il prossimo con quel nome; "alle 8" di sera = 20:00. Nelle note solo richieste utili (allergie, seggiolone, esterno, compleanno), brevi. Se l'anno manca usa il prossimo giorno futuro con quella data.`}],25000);
+  const r=await quick([{inline_data:{mime_type:'image/jpeg',data:b64}},{text:`Oggi è ${iso} (${GG[d.getDay()]}). Questo è uno screenshot con la richiesta di prenotazione di un cliente di un ristorante. Può essere una chat WhatsApp (nome o numero del contatto in alto) oppure la scheda "Aggiungi ai contatti" o una rubrica. NELLA RUBRICA il campo Nome è scritto così: "Cliente <Nome> X <persone> <giorno> <mese> <ora>", per esempio "Cliente Techi X 2 12 Nov 20.00" significa nome Techi, 2 persone, 12 novembre, ore 20:00; il telefono è il numero mostrato. Rispondi SOLO JSON: {"nome":string|null,"telefono":string|null,"data":"YYYY-MM-DD"|null,"ora":"HH:MM"|null,"persone":number|null,"note":string|null}. In una chat: "stasera"/"oggi" = oggi, "domani" = domani, un giorno della settimana = il prossimo con quel nome; "alle 8" di sera = 20:00. Nelle note solo richieste utili (allergie, seggiolone, esterno, compleanno), brevi. Se l'anno manca usa il prossimo giorno futuro con quella data.`}],40000);
   const o=JSON.parse(r.slice(r.indexOf('{'),r.lastIndexOf('}')+1));setF(o);await saveNow();}
  catch(e){vst('❌ '+escH(e.message||e)+'<br>Prova così: copia il nome del contatto e tocca <b>⚡ Incolla e salva</b>: funziona subito, senza Gemini.');}
  finally{setTimeout(()=>{if(window._jobLabel===L)window._jobLabel='';},2500);}};
@@ -1546,4 +1554,4 @@ window.v33WaShot=async inp=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)
 {const _p=window.v24Parse;if(_p)window.v24Parse=async function(){try{const ta=$('resMsg'),c=ta&&contactParse(ta.value);if(c){setF(c);vst('✅ Letto dal nome del contatto: controlla e salva.');return;}}catch(e){}return _p.apply(this,arguments);};}
 })();
 }catch(e){console.error("chef-extra v2.9.52",e);}
-try{(function(){const V='v2.9.52';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{(function(){const V='v2.9.53';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
