@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.65 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.67 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1564,10 +1564,10 @@ try{
 const $=id=>document.getElementById(id);const esc=s=>escH(s);
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
-st.textContent='#cuTabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 12px;position:sticky;top:0;z-index:5;padding:6px 0;background:inherit}#cuTabs button{border:2px solid rgba(0,0,0,.12);border-radius:14px;background:#fff;color:#062329;font-weight:900;padding:9px 2px;font-size:.78rem;line-height:1.15}#cuTabs button b{display:block;font-size:1.25rem}#cuTabs button.on{background:#7C3AED;color:#fff;border-color:#fff}body.dark #cuTabs button:not(.on){background:#1E293B;color:#E2E8F0;border-color:#334155}.cu-hide{display:none!important}.cu-k{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.cu-k div{border-radius:12px;padding:8px 4px;text-align:center;font-weight:800;font-size:.72rem;background:rgba(124,58,237,.1)}.cu-k b{display:block;font-size:1.25rem}.bc-src{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--border);font-weight:800;font-size:.86rem}.bc-src input{width:22px;height:22px;flex:none;margin-top:1px}.bc-src small{display:block;font-weight:600;opacity:.75;font-size:.74rem}.bc-chip{border:2px solid #7C3AED;border-radius:999px;background:transparent;color:inherit;font-weight:800;padding:5px 10px;font-size:.76rem;margin:0 6px 6px 0}.bc-row{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:6px 0;border-bottom:1px dashed var(--border);font-size:.82rem;font-weight:700}.bc-row.done{opacity:.5}.bc-row button{border:0;border-radius:9px;padding:5px 8px;font-weight:900;font-size:.74rem;background:rgba(0,0,0,.08);color:inherit}.bc-next{display:block;width:100%;border:0;border-radius:16px;padding:16px;font-weight:900;font-size:1.05rem;background:#25D366;color:#063A1E;margin:10px 0 6px}.bc-warn{border-radius:12px;padding:8px 10px;font-size:.78rem;font-weight:700;background:#FEF3C7;color:#78350F;margin:8px 0}';
+st.textContent='#cuTabs{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:0 0 12px;position:sticky;top:0;z-index:5;padding:6px 0;background:inherit}#cuTabs button{border:2px solid rgba(0,0,0,.12);border-radius:14px;background:#fff;color:#062329;font-weight:900;padding:9px 1px;font-size:.68rem;line-height:1.15}#cuTabs button b{display:block;font-size:1.25rem}#cuTabs button.on{background:#7C3AED;color:#fff;border-color:#fff}body.dark #cuTabs button:not(.on){background:#1E293B;color:#E2E8F0;border-color:#334155}.cu-hide{display:none!important}.cu-k{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.cu-k div{border-radius:12px;padding:8px 4px;text-align:center;font-weight:800;font-size:.72rem;background:rgba(124,58,237,.1)}.cu-k b{display:block;font-size:1.25rem}.bc-src{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--border);font-weight:800;font-size:.86rem}.bc-src input{width:22px;height:22px;flex:none;margin-top:1px}.bc-src small{display:block;font-weight:600;opacity:.75;font-size:.74rem}.bc-chip{border:2px solid #7C3AED;border-radius:999px;background:transparent;color:inherit;font-weight:800;padding:5px 10px;font-size:.76rem;margin:0 6px 6px 0}.bc-row{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:6px 0;border-bottom:1px dashed var(--border);font-size:.82rem;font-weight:700}.bc-row.done{opacity:.5}.bc-row button{border:0;border-radius:9px;padding:5px 8px;font-weight:900;font-size:.74rem;background:rgba(0,0,0,.08);color:inherit}.bc-next{display:block;width:100%;border:0;border-radius:16px;padding:16px;font-weight:900;font-size:1.05rem;background:#25D366;color:#063A1E;margin:10px 0 6px}.bc-warn{border-radius:12px;padding:8px 10px;font-size:.78rem;font-weight:700;background:#FEF3C7;color:#78350F;margin:8px 0}';
 document.head.appendChild(st);
 /* ---------- sezione unica: Prenotazioni · Rubrica · Club · Messaggio a tutti ---------- */
-const TABS=[['pren','📅','Prenota-<br>zioni'],['rub','📇','Rubrica'],['club','🎟️','Club'],['bc','📣','Messaggio<br>a tutti']];
+const TABS=[['pren','📅','Prenota-<br>zioni'],['rub','📇','Rubrica'],['club','🎟️','Club'],['buoni','🎁','Buoni<br>regalo'],['bc','📣','Messaggio<br>a tutti']];
 let TAB=localStorage.getItem('alicetta_cu_tab')||'pren';
 const kind=el=>{if(el.id==='cuTabs')return'tabs';if(el.id==='cuClub')return'club';if(el.id==='cuBc')return'bc';const h=(el.querySelector('h3,summary')||el).textContent||'';if(/Rubrica clienti/.test(h)||el.id==='ctCard')return'rub';return'pren';};
 function apply(){const host=$('resContent');if(!host)return;ensure(host);[...host.children].forEach(el=>{const k=kind(el);if(k==='tabs')return;el.classList.toggle('cu-hide',k!==TAB);if(k==='rub'&&TAB==='rub'){const d=el.matches('details')?el:el.querySelector('details');if(d&&!d.open)d.open=true;}});
@@ -1768,9 +1768,8 @@ st.textContent='.trash-btn{background:#FEE2E2!important;background-image:none!im
 document.head.appendChild(st);
 /* 1) elenco dei conti subito sotto gli incassi, nella prima pagina di Vendite */
 function place(){const P=$('payTotals'),C=$('contiList');if(!P||!C)return;if(P.nextElementSibling!==C)P.after(C);const I=$('invList');if(I&&C.nextElementSibling!==I)C.after(I);
- const pc=$('hub_sales_conti');if(pc&&pc.offsetParent&&!pc.contains(C)){const t=document.querySelector('#hubTabs_sales .hub-tab[data-p="oggi"]');if(t){t.click();setTimeout(()=>{try{C.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}},120);}}}
+ }
 setInterval(place,500);place();
-{const t=()=>{const b=document.querySelector('#hubTabs_sales .hub-tab[data-p="conti"]');if(b&&!b.dataset.v63){b.dataset.v63='1';b.textContent='🧾 Conti ↓';}};setInterval(t,2000);t();}
 /* 2) cestini rossi e ben visibili */
 function trash(){document.querySelectorAll('button').forEach(b=>{if(b.classList.contains('trash-btn'))return;const t=(b.textContent||'').trim();if(t==='🗑️'||t==='🗑'||/^🗑️?\s?(Elimina|Cancella)?$/.test(t))b.classList.add('trash-btn');});}
 let q=0;new MutationObserver(()=>{if(q)return;q=setTimeout(()=>{q=0;try{trash();}catch(e){}},200);}).observe(document.body,{childList:true,subtree:true});trash();
@@ -1860,7 +1859,7 @@ const $=id=>document.getElementById(id);const esc=s=>escH(s);
 const st=document.createElement('style');
 st.textContent=`.nt-box{border-radius:16px;padding:10px 12px;margin:0 0 10px;background:rgba(124,58,237,.14);border:2px solid rgba(124,58,237,.55)}.nt-row{display:grid;grid-template-columns:1fr auto;gap:8px}.nt-mic{border:0;border-radius:14px;padding:13px 10px;font-weight:900;font-size:1rem;background:#7C3AED;color:#fff;box-shadow:0 4px 0 #4C1D95}.nt-mic.rec{background:#DC2626;box-shadow:0 4px 0 #7F1D1D;animation:ntp 1s infinite}@keyframes ntp{50%{opacity:.6}}.nt-kb{border:0;border-radius:14px;padding:0 14px;font-weight:900;background:#1BE7FF;color:#062329;box-shadow:0 4px 0 #0E7490}.nt-live{font-size:.86rem;font-weight:700;margin-top:6px;min-height:1.1em}.nt-it{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;padding:7px 0;border-top:1px dashed rgba(148,163,184,.5);font-size:.88rem;font-weight:700}.nt-it.done span.t{text-decoration:line-through;opacity:.55}.nt-it small{display:block;opacity:.7;font-weight:600;font-size:.7rem}.nt-it .b{display:flex;gap:5px;flex:none}.nt-it button{border:0;border-radius:9px;padding:6px 8px;font-weight:900;font-size:.76rem;background:rgba(148,163,184,.3);color:inherit}.nt-it button.k{background:#FBBF24;color:#3B2A00}
 .bf-k{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.bf-k div{border-radius:12px;padding:8px 4px;text-align:center;font-weight:800;font-size:.72rem;background:rgba(27,231,255,.12)}.bf-k b{display:block;font-size:1.3rem}.bf-l{font-size:.86rem;font-weight:700;padding:5px 0;border-top:1px dashed rgba(148,163,184,.4)}.bf-al{background:#FEE2E2;color:#7F1D1D;border-radius:8px;padding:1px 7px;font-weight:900}
-.ag-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 8px}.ag-row button{border:2px solid rgba(124,58,237,.5);border-radius:14px;padding:9px 2px;font-weight:900;font-size:.78rem;background:transparent;color:inherit}.ag-row button b{display:block;font-size:1.2rem}.ag-row button.on{background:#7C3AED;color:#fff;border-color:#fff}.ag-hide{display:none!important}
+.ag-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 8px}.ag-row button{border:2px solid rgba(124,58,237,.5);border-radius:14px;padding:9px 2px;font-weight:900;font-size:.78rem;background:transparent;color:inherit}.ag-row button b{display:block;font-size:1.2rem}.ag-row button.on{background:#7C3AED;color:#fff;border-color:#fff}.ag-hide{display:none!important}
 .sc-ck{margin-top:8px;border-radius:12px;padding:10px;background:rgba(124,58,237,.12)}.sc-h{font-weight:900;margin:8px 0 4px}.sc-it{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-top:1px dashed rgba(148,163,184,.4);font-weight:700;font-size:.9rem}.sc-it input{width:24px;height:24px;flex:none}.sc-it.ok span{text-decoration:line-through;opacity:.55}.tu-res{display:inline-block;margin-top:4px;border-radius:999px;padding:2px 9px;font-size:.74rem;font-weight:900;background:#DBEAFE;color:#1E3A8A}`;
 document.head.appendChild(st);
 const cfg=()=>(state.staffCfg=state.staffCfg||{});const saveCfg=()=>{try{saveState(false,{staff:true});}catch(e){}};
@@ -1914,7 +1913,7 @@ ${out.length?`<div class="bf-l">⛔ Finiti: ${out.map(m=>esc(m.name)).join(' · 
 ${B.length?`<div class="bf-l">🎂 Compleanni Club: ${B.map(b=>`<b>${esc(b.n||'')}</b> ${b.df===0?'oggi':b.df===1?'domani':'il '+String(b.d).padStart(2,'0')+'/'+String(b.mo).padStart(2,'0')}`).join(' · ')}</div>`:''}
 <div style="text-align:right;margin-top:6px;"><button class="btn-note" style="padding:5px 12px;font-size:.76rem;" onclick="v65Brief()">🔄 Aggiorna</button></div></details>`;};
 /* ---------- F) schede AI raggruppate in 4 ---------- */
-const GRP=[['cucina','🍳','Cucina',['prev','chef','tempi','menu']],['sala','👥','Sala',['turni','chiedi']],['mkt','📣','Marketing',['post','rev']],['num','📊','Numeri',['report','costi','rank']]];
+const GRP=[['cucina','🍳','Cucina',['prev','chef','tempi','menu']],['chiedi','💬','Chiedi',['chiedi']],['mkt','📣','Marketing',['post','rev']]];
 let G=localStorage.getItem('alicetta_ai_grp')||'cucina';
 function grpApply(){const row=$('agRow'),T=[...document.querySelectorAll('#hubTabs_ai .hub-tab')];if(!row||!T.length)return;if(!row.children.length)row.innerHTML=GRP.map(g=>`<button data-g="${g[0]}" onclick="v65Grp('${g[0]}')"><b>${g[1]}</b>${g[2]}</button>`).join('');
  const act=T.find(t=>t.classList.contains('active'));if(act){const ag=GRP.find(g=>g[3].includes(act.dataset.p));if(ag&&ag[0]!==G){G=ag[0];localStorage.setItem('alicetta_ai_grp',G);}}
@@ -1935,4 +1934,72 @@ let bfDay='';
 setInterval(()=>{try{placeNotes();grpApply();sousCk();turniRes();const v=$('viewAi');if(v&&v.classList.contains('active')){const k=today()+'|'+Object.keys(state.res||{}).length;if(k!==bfDay&&$('bfBox')){bfDay=k;window.v65Brief();}}}catch(e){}},900);
 })();
 }catch(e){console.error("chef-extra v2.9.65",e);}
-try{(function(){const V='v2.9.65';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);
+const st=document.createElement('style');
+st.textContent=`#hubTabs_sales .hub-tab[data-p="buoni"]{display:none!important}#cuBuoni .hub-page,#cuBuoni #hub_sales_buoni{display:block!important}#cuBuoni{margin-top:10px}
+.gh-b{border-radius:14px;padding:10px 12px;margin:8px 0;background:#FEF3C7;color:#78350F;font-weight:800;font-size:.86rem;border:2px solid #F59E0B}.gh-b button{display:block;width:100%;margin-top:8px;border:0;border-radius:12px;padding:11px;font-weight:900;background:#F59E0B;color:#3B2A00}.gh-chip{display:block;margin-top:4px;font-size:.7rem;font-weight:900;background:#FEF3C7;color:#78350F;border-radius:999px;padding:2px 8px}
+.dup-chip{display:inline-block;margin-top:5px;font-size:.74rem;font-weight:900;background:#FEF3C7;color:#78350F;border-radius:8px;padding:3px 8px;border:1px solid #F59E0B}
+.vc-ov{position:fixed;inset:0;z-index:99990;background:rgba(2,6,23,.72);display:flex;align-items:center;justify-content:center;padding:14px}.vc-box{width:min(460px,100%);max-height:86vh;display:flex;flex-direction:column;border-radius:20px;padding:16px;background:#fff;color:#0F2933}body.dark .vc-box{background:#1E293B;color:#F1F5F9}.vc-l{overflow:auto;margin:10px 0;border-top:1px dashed rgba(148,163,184,.6)}.vc-l div{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px dashed rgba(148,163,184,.6);font-size:.86rem;font-weight:700}.vc-l small{opacity:.75;font-weight:700}`;
+document.head.appendChild(st);
+/* ---------- 1) Buoni regalo dentro Clienti ---------- */
+let lastS='';
+function buoniMove(){const v=$('viewRes'),rc=$('resContent'),pg=$('hub_sales_buoni');if(!v||!rc||!pg)return;let h=$('cuBuoni');if(!h){h=document.createElement('div');h.id='cuBuoni';rc.after(h);}if(pg.parentNode!==h)h.appendChild(pg);
+ const on=(localStorage.getItem('alicetta_cu_tab')||'pren')==='buoni';h.style.display=on?'':'none';
+ if(on&&v.classList.contains('active')){if(!pg.classList.contains('active'))pg.classList.add('active');if(!pg.dataset.ld){pg.dataset.ld='1';try{window.v211Show&&window.v211Show('sales','buoni');}catch(e){}}}else if(!on){pg.dataset.ld='';}
+ const tabs=[...document.querySelectorAll('#hubTabs_sales .hub-tab')],act=tabs.find(t=>t.classList.contains('active'));
+ if(act&&act.dataset.p==='buoni'&&$('viewSales')&&$('viewSales').classList.contains('active')){const i=tabs.indexOf(act),nx=tabs[i+1],pv=tabs[i-1];const go=(lastS&&nx&&lastS===nx.dataset.p)?pv:(nx||pv);if(go)go.click();}else if(act)lastS=act.dataset.p;}
+/* ---------- 2) tavolo "fantasma": già pagato ma tornato aperto ---------- */
+const ids=L=>new Set((L||[]).map(i=>String(i.lineId)));
+function paidTwin(t){if(!t||!t.items||!t.items.length)return null;const mine=ids(t.items),lim=Date.now()-18*36e5;
+ return (state.historyLog||[]).slice().reverse().find(e=>{if(!e||(e.ts||0)<lim||!e.items||!e.items.length)return false;const his=ids(e.items);for(const k of mine)if(!his.has(k))return false;return true;})||null;}
+window.v66Ghost=async()=>{const t=state.tables[state.activeTableId],e=paidTwin(t);if(!t||!e)return;if(!confirm(`Libero ${t.name} senza creare un altro conto?\nIl conto da € ${formatPrice(e.total||0)} delle ${e.time||''} resta com’è.`))return;
+ t.items=[];t.openedAt=0;t.invoice=null;t.preAt=0;t.copOff=0;t.copOffVal=0;t.copOffLog=[];t.customerName='';t.split=null;try{t.firedAt={};t.doneAt={};}catch(x){}
+ try{await saveState(false,{tables:[t.id]});}catch(x){}try{switchMainView('tables');renderTables();}catch(x){}try{toast('🧹 '+t.name+' liberato: nessun conto doppio');}catch(x){}};
+{const _o=renderOrderScreen;renderOrderScreen=function(){const r=_o.apply(this,arguments);try{document.querySelectorAll('.gh-b').forEach(x=>x.remove());const t=state.tables[state.activeTableId],e=paidTwin(t);if(e){const d=document.createElement('div');d.className='gh-b';d.innerHTML=`👻 Attenzione: questi piatti risultano <b>già pagati</b> alle ${esc(e.time||'')} (${esc(e.tableName||'')} · € ${formatPrice(e.total||0)}). Il tavolo è tornato aperto per un problema di sincronizzazione tra dispositivi: <b>non incassarlo di nuovo</b>.<button onclick="v66Ghost()">🧹 Libera il tavolo senza rifare il conto</button>`;
+  const host=document.querySelector('#viewOrder .cart-section')||$('viewOrder');if(host)host.prepend(d);}}catch(e){}return r;};}
+{const _r=renderTables;renderTables=function(){const r=_r.apply(this,arguments);try{document.querySelectorAll('#tablesContainer .table-card[data-tid]').forEach(c=>{const t=state.tables[c.dataset.tid];let e=c.querySelector('.gh-chip');const g=paidTwin(t);if(!g){if(e)e.remove();return;}if(!e){e=document.createElement('span');e.className='gh-chip';c.appendChild(e);}e.textContent='👻 già pagato alle '+(g.time||'');});}catch(e){}return r;};}
+/* nei conti: segnala i doppioni (stessi piatti dello stesso tavolo) */
+function dupMark(){const L=$('contiList');if(!L)return;const H=state.historyLog||[];L.querySelectorAll('details').forEach(d=>{if(d.dataset.dp)return;const b=d.querySelector('button[onclick]');const m=b&&String(b.getAttribute('onclick')).match(/\((\d{12,})/);if(!m)return;d.dataset.dp='1';const e=H.find(x=>x&&String(x.ts)===m[1]);if(!e||!e.items||!e.items.length)return;const mine=ids(e.items);
+ const tw=H.find(x=>x&&x!==e&&x.items&&x.items.length&&(x.ts||0)<(e.ts||0)&&(e.ts-x.ts)<24*36e5&&[...mine].every(k=>ids(x.items).has(k)));if(!tw)return;const s=d.querySelector('summary'),left=s&&s.firstElementChild;if(!left)return;const c=document.createElement('span');c.className='dup-chip';c.textContent=`⚠️ Possibile doppione del conto delle ${tw.time||''}: stessi piatti. Se SumUp ha un solo pagamento, apri ed elimina questo.`;left.appendChild(c);});}
+/* ---------- 3) anteprima dei contatti prima di importarli ---------- */
+if(typeof window.v64ClubVcf==='function'){const _v=window.v64ClubVcf;window.v64ClubVcf=function(){const L=((typeof fidCache!=='undefined'&&fidCache)||[]).filter(c=>c&&c.phone);if(!L.length)return _v.apply(this,arguments);
+ const num=p=>{let d=String(p||'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d[0]==='3')d='39'+d;return '+'+d.replace(/^(\d{2})(\d{3})(\d{3})(\d+)$/,'$1 $2 $3 $4');};
+ const o=document.createElement('div');o.className='vc-ov';o.innerHTML=`<div class="vc-box"><h3 style="margin:0 0 4px;">📇 Così verranno salvati nel telefono</h3><div style="font-size:.8rem;font-weight:700;opacity:.8;">${L.length} contatti. Il nome inizia con “Cliente”, così li ritrovi tutti insieme in rubrica e nelle liste di WhatsApp. Se un numero c’è già, Android di solito unisce i due contatti.</div>
+<div class="vc-l">${L.map(c=>`<div><span><b>Cliente ${esc(String(c.name||'').trim())}</b><br><small>Nota: Alicetta Club${c.mkt?' · accetta promo':''}</small></span><span style="white-space:nowrap;">${esc(num(c.phone))}</span></div>`).join('')}</div>
+<div style="display:grid;grid-template-columns:1fr 1.4fr;gap:8px;"><button class="btn-main btn-print" id="vcNo">Annulla</button><button class="btn-main btn-bill" id="vcOk">⬇️ Scarica e importa</button></div></div>`;
+ document.body.appendChild(o);o.querySelector('#vcNo').onclick=()=>o.remove();o.querySelector('#vcOk').onclick=()=>{o.remove();_v();};o.onclick=e=>{if(e.target===o)o.remove();};};}
+setInterval(()=>{try{buoniMove();dupMark();}catch(e){}},800);
+})();
+}catch(e){console.error("chef-extra v2.9.66",e);}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
+const HIDE=['club','turni','rank','costi','report'];
+const st=document.createElement('style');
+st.textContent=HIDE.map(k=>`#hubTabs_ai .hub-tab[data-p="${k}"]`).join(',')+'{display:none!important}#numBox .hub-page,#oreTurni .hub-page{display:block!important}#oreTurni{margin-top:12px}.num-d{margin-bottom:10px}.num-d>summary{list-style:none;cursor:pointer;font-weight:900;font-size:1.05rem;padding:13px 14px;border-radius:16px;background:rgba(77,124,15,.22);border:2px solid rgba(132,204,22,.6);display:flex;justify-content:space-between;align-items:center}.num-d>summary::after{content:"▾";font-size:1.1rem}.num-d[open]>summary::after{content:"▴"}.num-d[open]>summary{margin-bottom:8px}.ore-h{font-weight:900;font-size:1.1rem;margin:14px 2px 8px}';
+document.head.appendChild(st);
+const show=(k)=>{const n=$('hub_ai_'+k);if(!n)return;n.classList.add('active');try{window.v211Show&&window.v211Show('ai',k);}catch(e){}};
+/* ---------- Turni e costo del personale dentro Ore ---------- */
+let oreOn=false;
+function ore(){const v=$('viewTime'),tc=$('timeContent'),pg=$('hub_ai_turni');if(!v||!tc||!pg)return;let h=$('oreTurni');if(!h){h=document.createElement('div');h.id='oreTurni';h.innerHTML='<div class="ore-h">👥 Turni e costo del personale</div>';tc.after(h);}if(pg.parentNode!==h)h.appendChild(pg);
+ h.style.display=owner()?'':'none';const act=v.classList.contains('active')&&owner();if(act&&!oreOn){oreOn=true;show('turni');}else if(!act)oreOn=false;}
+/* ---------- Classifica, Costi e Report dentro Vendite › Numeri ---------- */
+const NUM=[['rank','🏆 Classifica dei piatti'],['costi','💰 Costi e margini'],['report','📰 Report della settimana']];
+function numeri(){const pc=$('hub_sales_conti');if(!pc)return;let b=$('numBox');if(!b){b=document.createElement('div');b.id='numBox';b.innerHTML=NUM.map(([k,l],i)=>`<details class="num-d" data-k="${k}" ${i===0?'open':''}><summary>${l}</summary><div class="num-c"></div></details>`).join('');pc.appendChild(b);
+  b.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)show(d.dataset.k);}));}
+ NUM.forEach(([k])=>{const n=$('hub_ai_'+k),c=b.querySelector(`details[data-k="${k}"] .num-c`);if(n&&c&&n.parentNode!==c)c.appendChild(n);});
+ const t=document.querySelector('#hubTabs_sales .hub-tab[data-p="conti"]');if(t&&t.textContent!=='📊 Numeri')t.textContent='📊 Numeri';
+ const vis=!!pc.offsetParent;if(vis&&!b.dataset.on){b.dataset.on='1';const o=b.querySelector('details[open]');if(o)show(o.dataset.k);}else if(!vis)b.dataset.on='';}
+/* il filtro "Pagati con carta/contanti" porta all'elenco dei conti nella pagina Oggi */
+if(typeof payFilter==='function'){const _p=payFilter;payFilter=function(m){const r=_p.apply(this,arguments);try{if(state.contiPay){const t=document.querySelector('#hubTabs_sales .hub-tab[data-p="oggi"]');if(t)t.click();setTimeout(()=>{const c=$('contiList');if(c)c.scrollIntoView({behavior:'smooth',block:'start'});},150);}}catch(e){}return r;};}
+/* nella barra AI: salta le schede spostate */
+let last='';
+function skip(){const v=$('viewAi');if(!v||!v.classList.contains('active'))return;const T=[...document.querySelectorAll('#hubTabs_ai .hub-tab')],a=T.find(t=>t.classList.contains('active'));if(!a)return;if(!HIDE.includes(a.dataset.p)){last=a.dataset.p;return;}
+ const i=T.indexOf(a),vis=t=>t&&!HIDE.includes(t.dataset.p);let f=T.slice(i+1).find(vis),bk=T.slice(0,i).reverse().find(vis);const li=T.findIndex(t=>t.dataset.p===last);const go=(li>i?bk:f)||f||bk;if(go)go.click();}
+setInterval(()=>{try{ore();numeri();skip();}catch(e){}},700);
+})();
+}catch(e){console.error("chef-extra v2.9.67",e);}
+try{(function(){const V='v2.9.67';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
