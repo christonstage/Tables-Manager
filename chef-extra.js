@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.64 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.65 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1807,8 +1807,10 @@ const icMode=()=>localStorage.getItem('alicetta_icons')||'';
 function icApply(){const S=SETS[icMode()];if(S)Object.keys(S.i).forEach(id=>{const b=$(id),i=b&&b.querySelector('.nv-i');if(i&&i.textContent!==S.i[id])i.textContent=S.i[id];});
  const c=$('iconCard'),ch=c&&c.querySelector('.chips');if(ch&&!ch.querySelector('[data-x]')){Object.keys(SETS).forEach(k=>{const b=document.createElement('button');b.className='chipb'+(icMode()===k?' on':'');b.dataset.x=k;b.textContent=SETS[k].l;b.onclick=()=>window.v221Icons&&window.v221Icons(k);ch.appendChild(b);});}}
 /* ---------- 4) recensioni da screenshot ---------- */
-let RVL=[];
-function rvDraw(){const box=$('rvShots');if(!box)return;box.innerHTML=RVL.length?`<div class="rv-list"><div style="font-weight:900;margin-bottom:6px;">Recensioni trovate: ${RVL.length} · tocca quella a cui rispondere</div>${RVL.map((r,i)=>`<div class="rv-it ${r.done?'done':''}"><b>${'★'.repeat(r.stelle||0)}${'☆'.repeat(5-(r.stelle||0))} ${escH(r.nome||'Cliente')}${r.done?' · ✅ fatta':''}</b><div class="t">${escH((r.testo||'(solo stelle, senza testo)').slice(0,260))}${(r.testo||'').length>260?'…':''}</div><button class="btn-note" style="padding:7px 12px;" onclick="v64RvUse(${i})">✍️ Rispondi a questa</button></div>`).join('')}</div>`:'';}
+let RVL=[];try{RVL=JSON.parse(localStorage.getItem('alicetta_rvl')||'[]')||[];}catch(e){}
+function rvDraw(){try{localStorage.setItem('alicetta_rvl',JSON.stringify(RVL.slice(0,80)));}catch(e){}const box=$('rvShots');if(!box)return;const todo=RVL.filter(r=>!r.done).length,done=RVL.length-todo;
+ box.innerHTML=RVL.length?`<div class="rv-list"><div style="font-weight:900;margin-bottom:6px;">📝 Da rispondere: ${todo} · ✅ Già risposte: ${done}</div>${RVL.map((r,i)=>[r,i]).sort((a,b)=>(a[0].done?1:0)-(b[0].done?1:0)).map(([r,i])=>`<div class="rv-it ${r.done?'done':''}"><b>${'★'.repeat(r.stelle||0)}${'☆'.repeat(5-(r.stelle||0))} ${escH(r.nome||'Cliente')}${r.done?' · ✅ risposta fatta':''}</b><div class="t">${escH((r.testo||'(solo stelle, senza testo)').slice(0,260))}${(r.testo||'').length>260?'…':''}</div><button class="btn-note" style="padding:7px 12px;" onclick="v64RvUse(${i})">${r.done?'✍️ Rispondi di nuovo':'✍️ Rispondi a questa'}</button> ${r.done?`<button class="btn-note" style="padding:7px 12px;" onclick="v64RvTodo(${i})">↩️ Da rifare</button>`:''} <button class="btn-note" style="padding:7px 10px;" onclick="v64RvDel(${i})">✖</button></div>`).join('')}</div>`:'';}
+window.v64RvTodo=i=>{if(RVL[i]){RVL[i].done=false;rvDraw();}};window.v64RvDel=i=>{if(RVL[i]&&confirm('Togliere questa recensione dall’elenco?')){RVL.splice(i,1);rvDraw();}};
 window.v64RvUse=i=>{const r=RVL[i];if(!r)return;r.done=true;try{v215Set('text',r.testo||'');v215Set('name',r.nome||'');}catch(e){}const t=$('rvText');if(t)t.value=r.testo||'';const n=document.querySelector('#hub_ai_rev input[placeholder^="Nome del cliente"]');if(n)n.value=r.nome||'';
  const sb=document.querySelectorAll('#hub_ai_rev .star-row button')[(r.stelle||5)-1];if(sb)sb.click();rvDraw();if(t)t.scrollIntoView({behavior:'smooth',block:'center'});try{toast('Recensione inserita: ora tocca “Scrivi le risposte”');}catch(e){}};
 window.v64RvShot=async inp=>{const F=[...(inp.files||[])].slice(0,6);inp.value='';if(!F.length)return;const m=$('rvShotSt');const say=t=>{if(m)m.textContent=t;};
@@ -1852,4 +1854,85 @@ setInterval(()=>{try{fidBtn();icApply();rvBtn();clubMove();}catch(e){}},700);
 setTimeout(()=>{try{fixColors();}catch(e){}},1500);
 })();
 }catch(e){console.error("chef-extra v2.9.64",e);}
-try{(function(){const V='v2.9.64';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);
+const st=document.createElement('style');
+st.textContent=`.nt-box{border-radius:16px;padding:10px 12px;margin:0 0 10px;background:rgba(124,58,237,.14);border:2px solid rgba(124,58,237,.55)}.nt-row{display:grid;grid-template-columns:1fr auto;gap:8px}.nt-mic{border:0;border-radius:14px;padding:13px 10px;font-weight:900;font-size:1rem;background:#7C3AED;color:#fff;box-shadow:0 4px 0 #4C1D95}.nt-mic.rec{background:#DC2626;box-shadow:0 4px 0 #7F1D1D;animation:ntp 1s infinite}@keyframes ntp{50%{opacity:.6}}.nt-kb{border:0;border-radius:14px;padding:0 14px;font-weight:900;background:#1BE7FF;color:#062329;box-shadow:0 4px 0 #0E7490}.nt-live{font-size:.86rem;font-weight:700;margin-top:6px;min-height:1.1em}.nt-it{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;padding:7px 0;border-top:1px dashed rgba(148,163,184,.5);font-size:.88rem;font-weight:700}.nt-it.done span.t{text-decoration:line-through;opacity:.55}.nt-it small{display:block;opacity:.7;font-weight:600;font-size:.7rem}.nt-it .b{display:flex;gap:5px;flex:none}.nt-it button{border:0;border-radius:9px;padding:6px 8px;font-weight:900;font-size:.76rem;background:rgba(148,163,184,.3);color:inherit}.nt-it button.k{background:#FBBF24;color:#3B2A00}
+.bf-k{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.bf-k div{border-radius:12px;padding:8px 4px;text-align:center;font-weight:800;font-size:.72rem;background:rgba(27,231,255,.12)}.bf-k b{display:block;font-size:1.3rem}.bf-l{font-size:.86rem;font-weight:700;padding:5px 0;border-top:1px dashed rgba(148,163,184,.4)}.bf-al{background:#FEE2E2;color:#7F1D1D;border-radius:8px;padding:1px 7px;font-weight:900}
+.ag-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 8px}.ag-row button{border:2px solid rgba(124,58,237,.5);border-radius:14px;padding:9px 2px;font-weight:900;font-size:.78rem;background:transparent;color:inherit}.ag-row button b{display:block;font-size:1.2rem}.ag-row button.on{background:#7C3AED;color:#fff;border-color:#fff}.ag-hide{display:none!important}
+.sc-ck{margin-top:8px;border-radius:12px;padding:10px;background:rgba(124,58,237,.12)}.sc-h{font-weight:900;margin:8px 0 4px}.sc-it{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-top:1px dashed rgba(148,163,184,.4);font-weight:700;font-size:.9rem}.sc-it input{width:24px;height:24px;flex:none}.sc-it.ok span{text-decoration:line-through;opacity:.55}.tu-res{display:inline-block;margin-top:4px;border-radius:999px;padding:2px 9px;font-size:.74rem;font-weight:900;background:#DBEAFE;color:#1E3A8A}`;
+document.head.appendChild(st);
+const cfg=()=>(state.staffCfg=state.staffCfg||{});const saveCfg=()=>{try{saveState(false,{staff:true});}catch(e){}};
+const today=()=>{try{return buildDateISO();}catch(e){return new Date().toISOString().slice(0,10);}};
+/* ---------- A) chiavi SumUp: copia di sicurezza condivisa, tornano da sole se il telefono le perde ---------- */
+function suSync(){try{const k=(localStorage.getItem('alicetta_sumup_key')||'').trim(),a=(localStorage.getItem('alicetta_sumup_app')||'').trim(),c=cfg(),cl=c.sumup||{};
+ if(k&&a){if(cl.key!==k||cl.app!==a){c.sumup={key:k,app:a,at:Date.now(),by:state.waiterName||''};saveCfg();}}
+ else if(cl.key&&cl.app){localStorage.setItem('alicetta_sumup_key',cl.key);localStorage.setItem('alicetta_sumup_app',cl.app);const i=$('sumupKey'),j=$('sumupApp');if(i)i.value=cl.key;if(j)j.value=cl.app;try{toast('🔑 Chiavi SumUp recuperate dalla copia di sicurezza');}catch(e){}}
+ const i=$('sumupKey');if(i&&!$('suEye')){const b=document.createElement('button');b.id='suEye';b.type='button';b.className='btn-note';b.style.cssText='margin-top:4px;padding:6px 10px;font-size:.78rem;';b.textContent='👁️ Mostra la chiave';b.onclick=()=>{i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'👁️ Mostra la chiave':'🙈 Nascondi la chiave';};i.after(b);
+  const n=document.createElement('div');n.id='suNote';n.style.cssText='font-size:.74rem;font-weight:700;opacity:.8;margin-top:4px;';i.parentNode.parentNode.appendChild(n);}
+ const n=$('suNote');if(n)n.textContent=(k&&a)?'✅ Chiavi presenti su questo dispositivo e salvate nella copia di sicurezza.':(cl.key?'':'⚠️ Chiavi mancanti: se un altro dispositivo le ha ancora, aprilo con questa versione e torneranno anche qui.');}catch(e){}}
+if(typeof saveSumup==='function'){const _s=saveSumup;saveSumup=function(){const r=_s.apply(this,arguments);setTimeout(suSync,300);return r;};}
+setInterval(suSync,8000);setTimeout(suSync,3500);
+/* ---------- B) note vocali (in app, condivise tra i dispositivi) + invio a Google Keep ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let rec=null,recHost='';
+const notes=()=>{const c=cfg();c.notes=Array.isArray(c.notes)?c.notes:[];return c.notes;};
+function addNote(t){t=String(t||'').trim();if(t.length<2)return;t=t.charAt(0).toUpperCase()+t.slice(1);const N=notes();N.unshift({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),ts:Date.now(),by:state.waiterName||'Staff',text:t});if(N.length>120)N.length=120;saveCfg();drawNotes();try{toast('📝 Nota salvata');}catch(e){}}
+window.v65Mic=host=>{if(rec){try{rec.stop();}catch(e){}return;}if(!SR){const t=prompt('Scrivi la nota:');if(t)addNote(t);return;}
+ const live=$('ntLive_'+host),btn=$('ntMic_'+host);let fin='';rec=new SR();recHost=host;rec.lang='it-IT';rec.interimResults=true;rec.continuous=true;
+ rec.onresult=e=>{let it='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)fin+=e.results[i][0].transcript+' ';else it+=e.results[i][0].transcript;}if(live)live.textContent='🎙️ '+fin+it;};
+ const end=()=>{const h=recHost;rec=null;const b=$('ntMic_'+h);if(b){b.classList.remove('rec');b.textContent='🎤 Nota vocale';}const l=$('ntLive_'+h);if(l)l.textContent='';if(fin.trim())addNote(fin);};
+ rec.onerror=e=>{if(live)live.textContent=e.error==='not-allowed'?'⚠️ Consenti il microfono per questo sito.':'⚠️ Non ho sentito: riprova.';};rec.onend=end;
+ try{rec.start();if(btn){btn.classList.add('rec');btn.textContent='⏹️ Tocca per finire';}if(live)live.textContent='🎙️ Parla pure…';}catch(e){rec=null;}};
+window.v65Type=()=>{const t=prompt('Scrivi la nota:');if(t)addNote(t);};
+window.v65Done=id=>{const n=notes().find(x=>x.id===id);if(!n)return;n.done=n.done?0:Date.now();saveCfg();drawNotes();};
+window.v65Del=id=>{const N=notes(),i=N.findIndex(x=>x.id===id);if(i<0)return;if(!confirm('Cancellare questa nota?'))return;N.splice(i,1);saveCfg();drawNotes();};
+window.v65Keep=async id=>{const n=notes().find(x=>x.id===id);if(!n)return;const text=n.text;try{if(navigator.share){await navigator.share({title:'Nota Alicetta',text});n.keep=Date.now();saveCfg();drawNotes();return;}}catch(e){if(e&&e.name==='AbortError')return;}
+ try{await navigator.clipboard.writeText(text);alert('📋 Nota copiata: apri Google Keep e incollala.');}catch(e){prompt('Copia la nota:',text);}};
+window.v65All=h=>{const o=$('ntList_'+h);if(o){o.dataset.all=o.dataset.all?'':'1';drawNotes();}};
+function noteHtml(h){const N=notes(),open=N.filter(n=>!n.done),box=$('ntList_'+h),all=box&&box.dataset.all,L=all?N:open.slice(0,4);
+ return L.map(n=>`<div class="nt-it ${n.done?'done':''}"><span class="t">${esc(n.text)}<small>${esc(n.by||'')} · ${new Date(n.ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}${n.keep?' · inviata a Keep':''}</small></span><span class="b"><button class="k" onclick="v65Keep('${n.id}')">📤 Keep</button><button onclick="v65Done('${n.id}')">${n.done?'↩️':'✅'}</button><button onclick="v65Del('${n.id}')">🗑️</button></span></div>`).join('')+((N.length>L.length||all)?`<div style="text-align:center;margin-top:6px;"><button class="btn-note" style="padding:5px 12px;font-size:.76rem;" onclick="v65All('${h}')">${all?'Mostra solo quelle da fare':'Vedi tutte ('+N.length+')'}</button></div>`:'');}
+let lastSig='';
+function drawNotes(){['ai','kds'].forEach(h=>{const b=$('ntList_'+h);if(b)b.innerHTML=noteHtml(h);const c=$('ntCnt_'+h);if(c){const o=notes().filter(n=>!n.done).length;c.textContent=o?o+(o===1?' nota da fare':' note da fare'):'Nessuna nota da fare';}});}
+function noteBox(h){return `<div class="nt-box" id="ntBox_${h}"><div class="nt-row"><button class="nt-mic" id="ntMic_${h}" onclick="v65Mic('${h}')">🎤 Nota vocale</button><button class="nt-kb" onclick="v65Type()">⌨️</button></div><div class="nt-live" id="ntLive_${h}"></div><div style="font-size:.76rem;font-weight:800;opacity:.85;" id="ntCnt_${h}"></div><div id="ntList_${h}"></div></div>`;}
+function placeNotes(){const t=$('hubTabs_ai');if(t&&!$('ntBox_ai')){const d=document.createElement('div');d.id='aiTop';d.innerHTML=noteBox('ai')+'<div id="bfBox"></div><div class="ag-row" id="agRow"></div>';t.before(d);drawNotes();}
+ const k=document.querySelector('#viewKds .kds-Banner');if(k&&!$('ntBox_kds')){const d=document.createElement('div');d.innerHTML=noteBox('kds');k.after(d.firstChild);drawNotes();}
+ const sig=JSON.stringify(notes().map(n=>[n.id,n.done?1:0,n.keep?1:0]));if(sig!==lastSig){lastSig=sig;drawNotes();}}
+/* ---------- E) briefing prima del servizio ---------- */
+let CLUB=null,clubAt=0;
+async function bdays(){if(!/^christian$/i.test((state.waiterName||'').trim()))return[];if(!CLUB||Date.now()-clubAt>36e5){try{const o=await fbGet('/fidelity/cards')||{};CLUB=Object.values(o);clubAt=Date.now();}catch(e){CLUB=CLUB||[];}}
+ const n=new Date(),out=[];CLUB.forEach(c=>{const m=String(c.bday||c.birthday||'').match(/(\d{2})[-\/](\d{2})$/);if(!m)return;let mo=+m[1],d=+m[2];if(/\//.test(c.bday||''))[d,mo]=[+m[1],+m[2]];let dt=new Date(n.getFullYear(),mo-1,d);const df=Math.round((dt-new Date(n.getFullYear(),n.getMonth(),n.getDate()))/864e5);if(df>=0&&df<=7)out.push({n:c.name,df,d,mo});});return out.sort((a,b)=>a.df-b.df);}
+const AL=/allerg|celiac|intoller|glutine|lattosio|vegan|vegetar|senza |crostace|frutta a guscio|arachid/i;
+window.v65Brief=async()=>{const el=$('bfBox');if(!el)return;const d=today(),R=Object.values(state.res||{}).filter(r=>r&&r.date===d&&!/cancel|noshow|no-show/i.test(r.status||'')).sort((a,b)=>String(a.time).localeCompare(String(b.time))),cov=R.reduce((s,r)=>s+(parseInt(r.covers,10)||0),0);
+ const out=(state.menu||[]).filter(m=>m&&!['1 Coperto','2 Bevande'].includes(m.cat)&&(m.soldOut||(typeof stockLeft==='function'&&stockLeft(m)===0)));const open=Object.values(state.tables||{}).filter(t=>t.items&&t.items.length).length;const al=R.filter(r=>AL.test(r.note||''));
+ let B=[];try{B=await bdays();}catch(e){}
+ el.innerHTML=`<details class="cart-section" style="margin-bottom:10px;" ${localStorage.getItem('alicetta_bf_open')==='0'?'':'open'} ontoggle="localStorage.setItem('alicetta_bf_open',this.open?'1':'0')"><summary style="font-weight:900;font-size:1.05rem;cursor:pointer;">📋 Briefing di oggi</summary>
+<div class="bf-k"><div>📅 Prenotazioni<b>${R.length}</b>${cov} coperti</div><div>⛔ Piatti finiti<b>${out.length}</b></div><div>🍽️ Tavoli aperti<b>${open}</b></div></div>
+${R.length?R.map(r=>`<div class="bf-l">🕒 ${esc(r.time||'')} · <b>${esc(r.name||'')}</b> · ${esc(String(r.covers||''))} pers.${(r.tables||[]).length?' · '+(r.tables||[]).map(i=>esc((state.tables[i]||{}).name||i)).join('+'):''}${r.status==='arrivato'?' · ✅ arrivati':''}${r.note?`<br>${AL.test(r.note)?'<span class="bf-al">⚠️ '+esc(r.note)+'</span>':'📝 '+esc(r.note)}`:''}</div>`).join(''):'<div class="bf-l">Nessuna prenotazione per oggi.</div>'}
+${al.length?`<div class="bf-l"><span class="bf-al">⚠️ ${al.length} ${al.length===1?'prenotazione con allergie o richieste':'prenotazioni con allergie o richieste'}: avvisa la cucina</span></div>`:''}
+${out.length?`<div class="bf-l">⛔ Finiti: ${out.map(m=>esc(m.name)).join(' · ')}</div>`:''}
+${B.length?`<div class="bf-l">🎂 Compleanni Club: ${B.map(b=>`<b>${esc(b.n||'')}</b> ${b.df===0?'oggi':b.df===1?'domani':'il '+String(b.d).padStart(2,'0')+'/'+String(b.mo).padStart(2,'0')}`).join(' · ')}</div>`:''}
+<div style="text-align:right;margin-top:6px;"><button class="btn-note" style="padding:5px 12px;font-size:.76rem;" onclick="v65Brief()">🔄 Aggiorna</button></div></details>`;};
+/* ---------- F) schede AI raggruppate in 4 ---------- */
+const GRP=[['cucina','🍳','Cucina',['prev','chef','tempi','menu']],['sala','👥','Sala',['turni','chiedi']],['mkt','📣','Marketing',['post','rev']],['num','📊','Numeri',['report','costi','rank']]];
+let G=localStorage.getItem('alicetta_ai_grp')||'cucina';
+function grpApply(){const row=$('agRow'),T=[...document.querySelectorAll('#hubTabs_ai .hub-tab')];if(!row||!T.length)return;if(!row.children.length)row.innerHTML=GRP.map(g=>`<button data-g="${g[0]}" onclick="v65Grp('${g[0]}')"><b>${g[1]}</b>${g[2]}</button>`).join('');
+ const act=T.find(t=>t.classList.contains('active'));if(act){const ag=GRP.find(g=>g[3].includes(act.dataset.p));if(ag&&ag[0]!==G){G=ag[0];localStorage.setItem('alicetta_ai_grp',G);}}
+ const cur=GRP.find(g=>g[0]===G)||GRP[0];T.forEach(t=>t.classList.toggle('ag-hide',t.dataset.p!=='club'&&!cur[3].includes(t.dataset.p)));row.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.g===G));const dots=$('hubDots_ai');if(dots)dots.style.display='none';}
+window.v65Grp=g=>{G=g;localStorage.setItem('alicetta_ai_grp',g);const cur=GRP.find(x=>x[0]===g),t=document.querySelector(`#hubTabs_ai .hub-tab[data-p="${cur[3][0]}"]`);if(t)t.click();grpApply();};
+/* ---------- C) Sous-Chef: lista con caselle da spuntare ---------- */
+function sousCk(){const box=$('sousChefBox');if(!box)return;const ai=[...box.children].find(d=>d.style&&/pre-wrap/.test(d.style.whiteSpace||''));if(!ai||ai.dataset.ck)return;const tx=(ai.textContent||'').trim();if(!tx||/^⏳/.test(tx)||tx.length<20)return;ai.dataset.ck='1';
+ const key='alicetta_sc_'+today();let done={};try{done=JSON.parse(localStorage.getItem(key)||'{}');}catch(e){}
+ const lines=tx.replace(/\*\*/g,'').split(/\n+/).map(l=>l.trim()).filter(Boolean);let i=0;
+ const h=lines.map(l=>{const m=l.match(/^(?:[*•\-–]|\d+[.)])\s+(.*)$/);if(m){const id=i++;return `<label class="sc-it ${done[id]?'ok':''}"><input type="checkbox" ${done[id]?'checked':''} onchange="v65Sc(${id},this)"><span>${esc(m[1])}</span></label>`;}return `<div class="sc-h">${esc(l)}</div>`;}).join('');
+ ai.style.display='none';const d=document.createElement('div');d.className='sc-ck';d.innerHTML='<div style="font-weight:900;">✅ Preparazione di oggi: spunta quello che hai fatto</div>'+h;ai.after(d);}
+window.v65Sc=(id,el)=>{const key='alicetta_sc_'+today();let done={};try{done=JSON.parse(localStorage.getItem(key)||'{}');}catch(e){}done[id]=el.checked?1:0;localStorage.setItem(key,JSON.stringify(done));el.closest('.sc-it').classList.toggle('ok',el.checked);};
+/* ---------- D) Turni: accanto ai coperti previsti, quelli già prenotati ---------- */
+function turniRes(){const P=$('tuPlan');if(!P)return;const y=new Date().getFullYear();P.querySelectorAll('div').forEach(c=>{if(c.dataset.tr||c.children.length<2||c.closest('[data-tr]')||((c.textContent||'').match(/\b\d{2}\/\d{2}\b/g)||[]).length!==1)return;const own=[...c.childNodes].filter(n=>n.nodeType===1);const m=(c.textContent||'').match(/\b(\d{2})\/(\d{2})\b/);if(!m||!/coperti previsti/.test(c.textContent||'')||c.querySelector('[data-tr]'))return;
+ if(!/coperti previsti/.test(own.map(n=>n.textContent).join(' ')))return;c.dataset.tr='1';const d=`${y}-${m[2]}-${m[1]}`;const R=Object.values(state.res||{}).filter(r=>r&&r.date===d&&!/cancel|noshow/i.test(r.status||''));const cov=R.reduce((s,r)=>s+(parseInt(r.covers,10)||0),0);if(!R.length)return;
+ const s=document.createElement('div');s.innerHTML=`<span class="tu-res">📅 Già prenotati: ${cov} coperti in ${R.length} ${R.length===1?'prenotazione':'prenotazioni'}</span>`;c.appendChild(s);});}
+let bfDay='';
+setInterval(()=>{try{placeNotes();grpApply();sousCk();turniRes();const v=$('viewAi');if(v&&v.classList.contains('active')){const k=today()+'|'+Object.keys(state.res||{}).length;if(k!==bfDay&&$('bfBox')){bfDay=k;window.v65Brief();}}}catch(e){}},900);
+})();
+}catch(e){console.error("chef-extra v2.9.65",e);}
+try{(function(){const V='v2.9.65';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
