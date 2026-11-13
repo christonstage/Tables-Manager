@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.69 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.70 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2027,7 +2027,7 @@ setInterval(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.69';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.70';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2068,6 +2068,7 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.70',['Tema chiaro più riposante: niente più bianco pieno.','📅 Chiusura della giornata in Vendite › Chiusura: numeri del giorno, racconto a voce e riassunto con Gemini; la sera l’app te la ricorda.','🛒 Lista spesa dalle note vocali, divisa per tipo, da mandare su WhatsApp.','Sous-Chef: le porzioni tengono conto anche delle prenotazioni di oggi.','🌍 Traduttore per parlare con i clienti stranieri (sul tavolo e in AI › Chiedi).']],
 ['v2.9.69',['Finestra 📲: ogni tasto ha un colore diverso.','Briefing di oggi anche sui Tavoli e sul KDS, con i piatti quasi finiti e il tasto 🔊 per leggerlo ad alta voce.','Note vocali smistate da sole in 🛒 Spesa, 🔧 Da fare e 📝 Nota.','Recensioni: le risposte citano i piatti veri del menù; quelle da 1-3★ diventano una nota per la brigata.','Chiedi: domande rapide e 🔊 risposta letta ad alta voce.','Post: 📸 foto del piatto → post Instagram e Facebook con prezzo e allergeni.','Questa finestra delle novità: la ritrovi in Opzioni.']],
 ['v2.9.68',['Soci salvati in rubrica come “Cliente Club …”.','Recensioni: stella scelta ben visibile e firma “⚓ la Ciurma di Alicetta”.']],
 ['v2.9.67',['Turni e costo del personale spostati in Ore.','Vendite › 📊 Numeri: Classifica, Costi e margini, Report.']],
@@ -2083,4 +2084,98 @@ setTimeout(whatsNew,3500);
 setInterval(()=>{try{qrCol();chiedi();post();notesCard();}catch(e){}},700);
 })();
 }catch(e){console.error("chef-extra v2.9.69",e);}
-try{(function(){const V='v2.9.69';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);
+const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
+const cfg=()=>(state.staffCfg=state.staffCfg||{});const saveCfg=()=>{try{saveState(false,{staff:true});}catch(e){}};
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const st=document.createElement('style');
+st.textContent=`
+/* ---- tema chiaro più riposante: niente bianco pieno ---- */
+body:not(.dark){--card:#EEE7FA}
+body:not(.dark) .cart-section,body:not(.dark) .receipt-box,body:not(.dark) .modal-box{background:#EEE7FA!important;border-color:#D9CCF2!important}
+body:not(.dark) .cart-section [style*="background:#fff"],body:not(.dark) .cart-section [style*="background:#FFF"],body:not(.dark) .cart-section [style*="background: #fff"],body:not(.dark) .receipt-box[style*="background:#fff"],body:not(.dark) .wn-box,body:not(.dark) .vc-box{background:#F5F0FC!important}
+body:not(.dark) input.form-control,body:not(.dark) textarea,body:not(.dark) .v14-in,body:not(.dark) .v14-ta,body:not(.dark) select{background:#F7F3FD!important;border-color:#D4C6EE!important;color:#1E1B2E!important}
+body:not(.dark) .chipb:not(.on),body:not(.dark) .cat-btn:not(.active),body:not(.dark) #cuTabs button:not(.on),body:not(.dark) .star-row button:not(.on),body:not(.dark) .seg{background:#E2D8F5!important;border-color:#CDBDEB!important;color:#2E1065!important}
+body:not(.dark) .hub-tabs{background:rgba(255,255,255,.18)!important}
+body:not(.dark) .table-card{filter:saturate(.9) brightness(.97)}
+/* ---- chiusura della giornata ---- */
+.dc-k{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.dc-k div{border-radius:12px;padding:8px 4px;text-align:center;font-weight:800;font-size:.72rem;background:rgba(124,58,237,.12)}.dc-k b{display:block;font-size:1.15rem}.dc-k .t b{color:var(--c-tot,#C81E1E)}.dc-l{font-size:.84rem;font-weight:700;padding:4px 0}.dc-rep{white-space:pre-wrap;border-radius:12px;padding:10px;margin:8px 0;background:rgba(34,197,94,.14);font-size:.88rem;font-weight:600}
+.dc-nudge{position:fixed;left:10px;right:10px;bottom:96px;z-index:9990;border-radius:18px;padding:12px 14px;background:#312E81;color:#fff;box-shadow:0 12px 30px rgba(0,0,0,.4);font-weight:800}.dc-nudge div{display:grid;grid-template-columns:1.4fr 1fr;gap:8px;margin-top:8px}.dc-nudge button{border:0;border-radius:12px;padding:11px;font-weight:900}.dc-nudge .a{background:#FBBF24;color:#3B2A00}.dc-nudge .b{background:rgba(255,255,255,.2);color:#fff}
+/* ---- lista spesa, traduttore ---- */
+.sp-btn{display:block;width:100%;margin-top:8px;border:0;border-radius:12px;padding:10px;font-weight:900;background:#DCFCE7;color:#14532D}
+.ov2{position:fixed;inset:0;z-index:99980;background:rgba(2,6,23,.75);display:flex;align-items:center;justify-content:center;padding:12px}.ov2-b{width:min(480px,100%);max-height:88vh;overflow:auto;border-radius:20px;padding:16px;background:#F5F0FC;color:#1E1B2E}body.dark .ov2-b{background:#1E293B;color:#F1F5F9}.ov2-b h3{margin:0 0 6px}
+.sp-g{font-weight:900;margin:10px 0 4px}.sp-i{padding:4px 0;font-weight:700;border-bottom:1px dashed rgba(148,163,184,.5)}
+.tr-l{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}.tr-l button{border:2px solid #7C3AED;border-radius:999px;padding:6px 11px;font-weight:900;background:transparent;color:inherit}.tr-l button.on{background:#7C3AED;color:#fff}
+.tr-big{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tr-big button{border:0;border-radius:16px;padding:16px 8px;font-weight:900;font-size:1rem;color:#fff}.tr-out{border-radius:14px;padding:12px;margin-top:10px;font-size:1.25rem;font-weight:800;line-height:1.3;background:rgba(124,58,237,.14);min-height:60px}.tr-out small{display:block;font-size:.78rem;opacity:.75;font-weight:700;margin-top:6px}
+.tr-fab{position:fixed;right:12px;bottom:170px;z-index:900;border:0;border-radius:999px;padding:11px 14px;font-weight:900;background:#7C3AED;color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.35)}`;
+document.head.appendChild(st);
+/* =================== CHIUSURA DELLA GIORNATA =================== */
+const iso=d=>{const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());};
+const svcDay=()=>{const n=new Date();if(n.getHours()<5)n.setDate(n.getDate()-1);return iso(n);};
+const dOf=e=>{try{return svcDate(e);}catch(x){return e.date;}};
+function dayStats(d){const L=(state.historyLog||[]).filter(e=>e&&dOf(e)===d);let tot=0,cop=0,card=0,cash=0,pr={n:0,t:0},ce={n:0,t:0};const D={};
+ L.forEach(e=>{const t=Number(e.total)||0;tot+=t;cop+=Number(e.coperti)||0;try{const p=payOf(e);card+=p.card||0;cash+=p.cash||0;}catch(x){}const h=new Date(e.ts||0).getHours();const s=(h>=5&&h<17)?pr:ce;s.n++;s.t+=t;(e.items||[]).forEach(i=>{if(!i||/Coperto/i.test(i.cat||i.name||''))return;D[i.name]=(D[i.name]||0)+(Number(i.qty)||0);});});
+ const top=Object.entries(D).sort((a,b)=>b[1]-a[1]).slice(0,5);return{L,n:L.length,tot,cop,card,cash,pr,ce,top};}
+const days=()=>{const c=cfg();c.days=c.days||{};return c.days;};
+let DC={note:'',busy:false};
+window.v70DcMic=()=>{if(!SR){const t=prompt('Com’è andata la giornata?',DC.note);if(t!=null){DC.note=t;drawDay();}return;}try{const r=new SR();r.lang='it-IT';r.continuous=true;r.interimResults=false;let txt='';r.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)txt+=e.results[i][0].transcript+' ';};r.onend=()=>{if(txt.trim()){DC.note=(DC.note?DC.note+' ':'')+txt.trim();drawDay();}};r.start();toast('🎤 Racconta pure, poi resta in silenzio qualche secondo');}catch(e){}};
+window.v70DcNote=v=>{DC.note=v;};
+window.v70DcClose=async()=>{const d=svcDay(),S=dayStats(d);DC.busy=true;drawDay();const base=`Giornata del ${d.split('-').reverse().join('/')}: ${S.n} conti, ${S.cop} coperti, incasso € ${formatPrice(S.tot)} (carta € ${formatPrice(S.card)}, contanti € ${formatPrice(S.cash)}). Pranzo: ${S.pr.n} conti € ${formatPrice(S.pr.t)}. Cena: ${S.ce.n} conti € ${formatPrice(S.ce.t)}. Più venduti: ${S.top.map(x=>x[0]+' ('+x[1]+')').join(', ')||'—'}.`;
+ let rep=base+(DC.note?'\nNote di Christian: '+DC.note:'');
+ if(getGeminiKey()&&navigator.onLine){try{rep=(await callGemini([{text:`Sei l'assistente di Alicetta Trattoria. Scrivi il riassunto della giornata per il titolare, in italiano semplice, massimo 8 righe: cosa è andato bene, cosa no, 2 cose da fare domani. Usa SOLO questi numeri e queste note, non inventare.\nNumeri: ${base}\nNote del titolare: ${DC.note||'nessuna'}`}],false,{timeout:45000,maxTokens:900})).trim();}catch(e){}}
+ days()[d]={at:Date.now(),by:state.waiterName||'',note:DC.note,report:rep,tot:S.tot,n:S.n,cop:S.cop};saveCfg();DC={note:'',busy:false};drawDay();try{toast('✅ Giornata chiusa e salvata');}catch(e){}const n=document.querySelector('.dc-nudge');if(n)n.remove();};
+window.v70DcShare=()=>{const r=days()[svcDay()];if(!r)return;const t='📅 '+r.report;if(navigator.share)navigator.share({text:t}).catch(()=>{});else window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');};
+window.v70DcReopen=()=>{const d=svcDay(),r=days()[d];if(!r||!confirm('Riaprire la giornata per rifare il riassunto?'))return;DC.note=r.note||'';delete days()[d];saveCfg();drawDay();};
+function drawDay(){const b=$('dcCard');if(!b)return;const d=svcDay(),S=dayStats(d),R=days()[d];const lbl=new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
+ b.innerHTML=`<div class="cs-h"><h3>📅 Chiusura della giornata</h3></div><div class="fc-sub">${esc(lbl)} · pranzo + cena. Dopo la chiusura cassa, chiudi anche la giornata: resta nello storico.</div>
+<div class="dc-k"><div class="t">💰 Incasso<b>€ ${formatPrice(S.tot)}</b></div><div>🧾 Conti<b>${S.n}</b></div><div>👥 Coperti<b>${S.cop}</b></div></div>
+<div class="dc-l">☀️ Pranzo: ${S.pr.n} conti · € ${formatPrice(S.pr.t)} &nbsp; 🌙 Cena: ${S.ce.n} conti · € ${formatPrice(S.ce.t)}</div>
+<div class="dc-l">💳 Carta € ${formatPrice(S.card)} · 💵 Contanti € ${formatPrice(S.cash)}</div>${S.top.length?`<div class="dc-l">🏆 ${S.top.map(x=>esc(x[0])+' ×'+x[1]).join(' · ')}</div>`:''}
+${R?`<div class="dc-rep">✅ Giornata chiusa alle ${new Date(R.at).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}\n\n${esc(R.report)}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-bill" onclick="v70DcShare()">📤 Condividi</button><button class="btn-main btn-print" onclick="v70DcReopen()">↩️ Rifai</button></div>`:
+`<div class="v14-lbl">Com’è andata? (facoltativo)</div><div style="display:grid;grid-template-columns:56px 1fr;gap:6px;"><button class="btn-note" style="font-size:1.2rem;" onclick="v70DcMic()">🎤</button><textarea class="v14-ta" rows="2" placeholder="es. tanta gente a cena, la frittura è finita presto…" oninput="v70DcNote(this.value)">${esc(DC.note)}</textarea></div>
+<button class="btn-main" style="width:100%;margin-top:8px;background:#7C3AED;color:#fff;" onclick="v70DcClose()" ${DC.busy?'disabled':''}>${DC.busy?'⏳ Preparo il riassunto…':'🌙 Chiudi la giornata'}</button>`}`;}
+function dayCard(){const pg=$('hub_sales_chiusura');if(!pg||!owner())return;let b=$('dcCard');if(!b){b=document.createElement('div');b.id='dcCard';b.className='cart-section';pg.prepend(b);drawDay();}else if(pg.firstElementChild!==b)pg.prepend(b);
+ if(pg.offsetParent){const k=svcDay()+'|'+(state.historyLog||[]).length+'|'+(days()[svcDay()]?1:0);if(b.dataset.k!==k&&!DC.busy&&!b.contains(document.activeElement)){b.dataset.k=k;drawDay();}}}
+window.v70DcGo=()=>{const n=document.querySelector('.dc-nudge');if(n)n.remove();try{switchMainView('sales');const t=document.querySelector('#hubTabs_sales .hub-tab[data-p="chiusura"]');if(t)t.click();setTimeout(()=>{const c=$('dcCard');if(c)c.scrollIntoView({behavior:'smooth',block:'start'});},300);}catch(e){}};
+window.v70DcLater=()=>{localStorage.setItem('alicetta_dc_snooze',String(Date.now()+45*6e4));const n=document.querySelector('.dc-nudge');if(n)n.remove();};
+function nudge(){if(!owner()||document.querySelector('.dc-nudge'))return;const h=new Date().getHours(),d=svcDay();if(!(h>=22||h<4))return;if(days()[d])return;if(Number(localStorage.getItem('alicetta_dc_snooze')||0)>Date.now())return;
+ if(!dayStats(d).n)return;if(Object.values(state.tables||{}).some(t=>t.items&&t.items.length))return;
+ const n=document.createElement('div');n.className='dc-nudge';n.innerHTML='🌙 Servizio finito: dopo la chiusura cassa, chiudi anche la giornata<div><button class="a" onclick="v70DcGo()">📅 Chiudi la giornata</button><button class="b" onclick="v70DcLater()">⏰ Più tardi</button></div>';document.body.appendChild(n);}
+/* =================== LISTA SPESA DALLE NOTE =================== */
+const GR=[['🐟 Pesce e frutti di mare',/pesce|alic|cozz|vongol|gamber|totan|calamar|polp|baccal|sgombr|naselo|nasello|orata|spigol|tonno|scamp/i],['🥬 Frutta e verdura',/verdur|frutt|insalat|pomodor|cipoll|patat|zucca|limon|rape|cicori|verza|erbe|prezzem|aglio|funghi|champignon/i],['🍷 Bevande',/vino|vini|birr|acqua|bibit|caff|liquor|amaro|spumant/i],['🥩 Carne e salumi',/carne|maial|pecor|salum|prosciut|ventricin|manzo|pollo/i],['🧀 Latticini e uova',/formagg|latte|burr|panna|uova|ricott|mozzar|pecorino/i],['🍞 Dispensa',/pane|farin|olio|sale|zucchero|pasta|riso|aceto|spezie|caper|olive|pangrattato/i]];
+const spesa=()=>((cfg().notes)||[]).filter(n=>n&&!n.done&&n.cat==='spesa');
+const clean=t=>String(t||'').replace(/^(ordinare|comprare|prendere|manca(no)?|serve|servono)\s+(il |lo |la |i |gli |le |l')?/i,'').replace(/\s+per\s+(oggi|domani|sabato|domenica|lunedì|martedì|mercoledì|giovedì|venerdì)\b.*$/i,'').trim();
+function groups(){const G={};spesa().forEach(n=>{const t=clean(n.text);const g=(GR.find(([,r])=>r.test(n.text))||['📦 Altro'])[0];(G[g]=G[g]||[]).push(t.charAt(0).toUpperCase()+t.slice(1));});return G;}
+const spText=()=>{const G=groups();return 'Ciao! Per Alicetta Trattoria ci servirebbe:\n'+Object.entries(G).map(([g,a])=>g+'\n'+a.map(x=>'• '+x).join('\n')).join('\n')+'\nGrazie!';};
+window.v70Spesa=()=>{const G=groups();if(!Object.keys(G).length)return alert('Nessuna nota 🛒 Spesa da fare.');const o=document.createElement('div');o.className='ov2';o.innerHTML=`<div class="ov2-b"><h3>🛒 Lista della spesa</h3><div style="font-size:.8rem;font-weight:700;opacity:.8;">Dalle note vocali “Spesa”, divise per tipo. Mandala al fornitore giusto su WhatsApp.</div>${Object.entries(G).map(([g,a])=>`<div class="sp-g">${g}</div>${a.map(x=>`<div class="sp-i">• ${esc(x)}</div>`).join('')}`).join('')}
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;"><button class="btn-main btn-bill" id="spWa">💬 WhatsApp</button><button class="btn-main btn-print" id="spCp">📋 Copia</button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;"><button class="btn-main btn-print" id="spOk">✅ Fatta: togli le note</button><button class="btn-main btn-print" id="spX">Chiudi</button></div></div>`;document.body.appendChild(o);
+ o.querySelector('#spWa').onclick=()=>window.open('https://wa.me/?text='+encodeURIComponent(spText()),'_blank');o.querySelector('#spCp').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(spText()).then(()=>toast('📋 Lista copiata'));};
+ o.querySelector('#spOk').onclick=()=>{if(!confirm('Segnare come fatte tutte le note della spesa?'))return;spesa().forEach(n=>n.done=Date.now());saveCfg();o.remove();try{toast('✅ Spesa fatta');}catch(e){}};o.querySelector('#spX').onclick=()=>o.remove();o.onclick=e=>{if(e.target===o)o.remove();};};
+function spBtns(){const n=spesa().length;['ai','kds'].forEach(h=>{const box=$('ntBox_'+h);if(!box)return;let b=box.querySelector('.sp-btn');if(!n){if(b)b.remove();return;}if(!b){b=document.createElement('button');b.className='sp-btn';b.onclick=window.v70Spesa;box.appendChild(b);}const t='🛒 Lista spesa ('+n+') · manda al fornitore';if(b.textContent!==t)b.textContent=t;});}
+/* =================== SOUS-CHEF CON LE PRENOTAZIONI DI OGGI =================== */
+const booked=()=>{const d=iso(new Date());return Object.values(state.res||{}).filter(r=>r&&r.date===d&&!/cancel|noshow/i.test(r.status||'')).reduce((s,r)=>s+(parseInt(r.covers,10)||0),0);};
+if(typeof sousChefStats==='function'){const _s=sousChefStats;sousChefStats=function(){const s=_s.apply(this,arguments);try{const b=booked();s.booked=b;const D={};(state.historyLog||[]).forEach(e=>{if(e&&e.date&&new Date(e.date+'T12:00:00').getDay()===s.wd)D[e.date]=(D[e.date]||0)+(Number(e.coperti)||0);});const dv=Object.values(D),base=dv.length?dv.reduce((a,c)=>a+c,0)/dv.length:0;const tgt=Math.max(s.cop||0,b);if(s.n&&base>0&&tgt>base*1.05){const f=tgt/base;s.f=f;s.cop=tgt;s.dish=s.dish.map(([a,v])=>[a,Math.round(v*f*10)/10]);s.cat=s.cat.map(([a,v])=>[a,Math.round(v*f*10)/10]);}}catch(e){}return s;};}
+if(typeof runSousChef==='function'){const _r=runSousChef;runSousChef=async function(){const r=_r.apply(this,arguments);try{const box=$('sousChefBox'),b=booked();if(box&&b){const d=document.createElement('div');d.style.cssText='margin-bottom:6px;font-weight:900;';d.textContent='📅 Prenotati oggi: '+b+' coperti — porzioni calcolate anche su questo numero.';box.prepend(d);}}catch(e){}return r;};}
+/* =================== TRADUTTORE PER LA SALA =================== */
+const LG=[['en','🇬🇧 Inglese','en-GB','inglese'],['de','🇩🇪 Tedesco','de-DE','tedesco'],['fr','🇫🇷 Francese','fr-FR','francese'],['es','🇪🇸 Spagnolo','es-ES','spagnolo'],['nl','🇳🇱 Olandese','nl-NL','olandese'],['pl','🇵🇱 Polacco','pl-PL','polacco']];
+let TL=localStorage.getItem('alicetta_tr_lang')||'en';
+const speak=(t,l)=>{try{const u=new SpeechSynthesisUtterance(t);u.lang=l;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}};
+function listen(lang,cb){if(!SR){const t=prompt('Scrivi la frase:');if(t)cb(t);return;}try{const r=new SR();r.lang=lang;r.interimResults=false;r.onresult=e=>cb(e.results[0][0].transcript);r.onerror=()=>toast('Non ho sentito: riprova');r.start();toast('🎤 Parla ora');}catch(e){}}
+async function tr(text,from,to){if(!getGeminiKey())throw new Error('Serve la chiave Gemini in ⚙️ Opzioni.');const r=await callGemini([{text:`Traduci dal ${from} al ${to} questa frase detta in un ristorante (trattoria di mare). Tono cortese e naturale. Rispondi SOLO con la traduzione.\n«${text}»`}],false,{timeout:30000,maxTokens:400});return String(r).replace(/^[«"“]|[»"”]$/g,'').trim();}
+window.v70Tr=()=>{const o=document.createElement('div');o.className='ov2';o.id='trOv';const draw=(out)=>{const L=LG.find(x=>x[0]===TL);o.innerHTML=`<div class="ov2-b"><h3>🌍 Parla con il cliente</h3><div style="font-size:.8rem;font-weight:700;opacity:.8;">Scegli la lingua, tocca e parla: l’app traduce, mostra la frase grande e la legge ad alta voce.</div>
+<div class="tr-l">${LG.map(x=>`<button class="${x[0]===TL?'on':''}" data-l="${x[0]}">${x[1]}</button>`).join('')}</div>
+<div class="tr-big"><button style="background:#16A34A;" id="trMe">🇮🇹 Parlo io<br><small>→ ${L[3]}</small></button><button style="background:#7C3AED;" id="trCl">${L[1].split(' ')[0]} Parla il cliente<br><small>→ italiano</small></button></div>
+<div class="tr-out" id="trOut">${out||'La traduzione comparirà qui.'}</div><button class="btn-main btn-print" style="width:100%;margin-top:10px;" id="trX">Chiudi</button></div>`;
+ o.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{TL=b.dataset.l;localStorage.setItem('alicetta_tr_lang',TL);draw();});o.querySelector('#trX').onclick=()=>o.remove();
+ o.querySelector('#trMe').onclick=()=>listen('it-IT',async t=>{const L2=LG.find(x=>x[0]===TL);draw('⏳ Traduco…<small>'+esc(t)+'</small>');try{const r=await tr(t,'italiano',L2[3]);draw(esc(r)+'<small>🇮🇹 '+esc(t)+'</small>');speak(r,L2[2]);}catch(e){draw('❌ '+esc(e.message||e));}});
+ o.querySelector('#trCl').onclick=()=>{const L2=LG.find(x=>x[0]===TL);listen(L2[2],async t=>{draw('⏳ Traduco…<small>'+esc(t)+'</small>');try{const r=await tr(t,L2[3],'italiano');draw('🇮🇹 '+esc(r)+'<small>'+esc(t)+'</small>');speak(r,'it-IT');}catch(e){draw('❌ '+esc(e.message||e));}});};};
+ draw();document.body.appendChild(o);o.addEventListener('click',e=>{if(e.target===o)o.remove();});};
+function trFab(){const v=$('viewOrder');let b=$('trFab');const on=v&&v.classList.contains('active');if(!on){if(b)b.remove();return;}if(!b){b=document.createElement('button');b.id='trFab';b.className='tr-fab';b.textContent='🌍 Traduci';b.onclick=window.v70Tr;document.body.appendChild(b);}
+ const ch=$('chQuick');if(ch&&!$('trChiedi')){const d=document.createElement('button');d.id='trChiedi';d.className='btn-main';d.style.cssText='width:100%;margin-top:10px;background:#7C3AED;color:#fff;';d.textContent='🌍 Traduttore per parlare con i clienti stranieri';d.onclick=window.v70Tr;ch.after(d);}}
+setInterval(()=>{try{dayCard();spBtns();trFab();const ch=$('chQuick');if(ch&&!$('trChiedi')){const d=document.createElement('button');d.id='trChiedi';d.className='btn-main';d.style.cssText='width:100%;margin-top:10px;background:#7C3AED;color:#fff;';d.textContent='🌍 Traduttore per parlare con i clienti stranieri';d.onclick=window.v70Tr;ch.after(d);}}catch(e){}},800);
+setInterval(()=>{try{nudge();}catch(e){}},60000);setTimeout(()=>{try{nudge();}catch(e){}},8000);
+})();
+}catch(e){console.error("chef-extra v2.9.70",e);}
+try{(function(){const V='v2.9.70';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
