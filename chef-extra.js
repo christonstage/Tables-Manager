@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.70 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.71 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -816,10 +816,11 @@ let rep='',repCss='';try{if(window.v2932Rep){const x=await v2932Rep(M);const st=
 <h2>1. Registro temperature e pulizie</h2>${rep||'<p>Nessun dato.</p>'}
 <h2 class="sec">2. SC1 – Accettazione prodotti deperibili</h2><table><tr><th>Data</th><th>N° fatt. o bolla</th><th>Fornitore</th><th>Prodotto conferito (lotto)</th><th>C</th><th>NC</th><th>Firma addetto</th></tr>${S1.map(([i,r])=>`<tr>${td(dmy(r.d))}${td(r.num)}${td(r.forn)}${td(r.prod)}<td class="c">${r.c?'X':''}</td><td class="c">${r.c?'':'X'}</td>${td(r.firma)}</tr>`).join('')||'<tr><td colspan="7">Nessuna accettazione registrata.</td></tr>'}</table>
 <h2 class="sec">3. SC8 – Abbattimento</h2><table><tr><th>Data arrivo</th><th>Alimento</th><th>C</th><th>NC</th><th>Fornitore / ns produzione</th><th>Data abbattimento</th><th>Peso / N° fatt</th><th>Ora ingresso</th><th>Ora uscita</th><th>Data uscita</th><th>Scadenza</th><th>Addetto</th></tr>${S8.map(([i,r])=>`<tr>${td(dmy(r.arr))}${td(r.al)}<td class="c">${r.c!==false?'X':''}</td><td class="c">${r.c!==false?'':'X'}</td>${td(r.forn)}${td(dmy(r.dab))}${td(r.peso)}${td(r.oin)}${td(r.oout)}${td(dmy(r.dout))}${td(dmy(r.scad))}${td(r.add)}</tr>`).join('')||'<tr><td colspan="12">Nessun abbattimento registrato.</td></tr>'}</table>
+${window.v71Sc2Sec?v71Sc2Sec(M):''}
 <h2 class="sec">4. Fatture e bolle fotografate</h2>${foto||'<p>Nessuna foto salvata per questo mese (le foto si salvano dalle bolle caricate da questa versione in poi).</p>'}
 </body></html>`;
 const name='fascicolo-haccp-alicetta-'+M+'.html',file=new File([html],name,{type:'text/html'});
-$('hxBox').innerHTML=`<h3>📤 Fascicolo HACCP · ${lbl}</h3><div class="fc-sub" style="margin-bottom:8px;">Contiene temperature e pulizie, SC1 con le foto delle fatture e SC8. Pronto da mostrare, stampare o inviare.</div>
+$('hxBox').innerHTML=`<h3>📤 Fascicolo HACCP · ${lbl}</h3><div class="fc-sub" style="margin-bottom:8px;">Contiene temperature e pulizie, SC1 con le foto delle fatture, SC2 prodotti non conformi e SC8. Pronto da mostrare, stampare o inviare.</div>
 <button class="btn-main btn-print" style="width:100%;" id="hxF1">🖨️ Stampa o salva PDF</button><button class="btn-main btn-bill" style="width:100%;margin-top:8px;" id="hxF2">📤 Invia (WhatsApp, email…)</button><button class="btn-note" style="width:100%;margin-top:8px;padding:10px;" id="hxF3">⬇️ Scarica il file</button>
 <div class="fc-sub" style="margin-top:8px;">Per l’email: tocca “Invia” e scegli Gmail, così il file è già allegato.</div><div class="modal-actions" style="margin-top:12px;"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('hxModal').classList.remove('active')">Chiudi</button></div>`;
 const dl=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000);};
@@ -2027,7 +2028,7 @@ setInterval(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.70';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.71';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2068,6 +2069,7 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.71',['Tema chiaro: celeste tenue con bordino verde acido.','Briefing: tasto ⏹️ Ferma per interrompere la lettura ad alta voce.','HACCP: nuova scheda SC2 Prodotti non conformi, compilata dai dati della bolla e stampabile uguale al modulo cartaceo.','HACCP: un tasto per stampare o condividere tutte le schede insieme.']],
 ['v2.9.70',['Tema chiaro più riposante: niente più bianco pieno.','📅 Chiusura della giornata in Vendite › Chiusura: numeri del giorno, racconto a voce e riassunto con Gemini; la sera l’app te la ricorda.','🛒 Lista spesa dalle note vocali, divisa per tipo, da mandare su WhatsApp.','Sous-Chef: le porzioni tengono conto anche delle prenotazioni di oggi.','🌍 Traduttore per parlare con i clienti stranieri (sul tavolo e in AI › Chiedi).']],
 ['v2.9.69',['Finestra 📲: ogni tasto ha un colore diverso.','Briefing di oggi anche sui Tavoli e sul KDS, con i piatti quasi finiti e il tasto 🔊 per leggerlo ad alta voce.','Note vocali smistate da sole in 🛒 Spesa, 🔧 Da fare e 📝 Nota.','Recensioni: le risposte citano i piatti veri del menù; quelle da 1-3★ diventano una nota per la brigata.','Chiedi: domande rapide e 🔊 risposta letta ad alta voce.','Post: 📸 foto del piatto → post Instagram e Facebook con prezzo e allergeni.','Questa finestra delle novità: la ritrovi in Opzioni.']],
 ['v2.9.68',['Soci salvati in rubrica come “Cliente Club …”.','Recensioni: stella scelta ben visibile e firma “⚓ la Ciurma di Alicetta”.']],
@@ -2178,4 +2180,93 @@ setInterval(()=>{try{dayCard();spBtns();trFab();const ch=$('chQuick');if(ch&&!$(
 setInterval(()=>{try{nudge();}catch(e){}},60000);setTimeout(()=>{try{nudge();}catch(e){}},8000);
 })();
 }catch(e){console.error("chef-extra v2.9.70",e);}
-try{(function(){const V='v2.9.70';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const pad=n=>String(n).padStart(2,'0');
+const st=document.createElement('style');
+st.textContent=`
+/* tema chiaro: celeste tenue con bordino verde acido */
+body:not(.dark){--card:#E4F3FB}
+body:not(.dark) .cart-section,body:not(.dark) .receipt-box,body:not(.dark) .modal-box,body:not(.dark) .hc-card,body:not(.dark) .ov2-b,body:not(.dark) .wn-box,body:not(.dark) .vc-box{background:#E4F3FB!important;border:2px solid #A3E635!important}
+body:not(.dark) .cart-section [style*="background:#fff"],body:not(.dark) .cart-section [style*="background:#FFF"],body:not(.dark) .cart-section [style*="background: #fff"],body:not(.dark) .receipt-box[style*="background:#fff"]{background:#EEF8FD!important}
+body:not(.dark) input.form-control,body:not(.dark) textarea,body:not(.dark) .v14-in,body:not(.dark) .v14-ta,body:not(.dark) select{background:#F1FAFE!important;border:2px solid #BEF264!important;color:#0F2933!important}
+body:not(.dark) .chipb:not(.on),body:not(.dark) .cat-btn:not(.active),body:not(.dark) #cuTabs button:not(.on),body:not(.dark) .star-row button:not(.on),body:not(.dark) .seg{background:#D3ECF8!important;border:2px solid #A3E635!important;color:#0F2933!important}
+body:not(.dark) .bf-k div,body:not(.dark) .dc-k div,body:not(.dark) .cu-k div{background:#D3ECF8!important}
+.bf-stop{border:0;border-radius:12px;padding:7px 12px;font-weight:900;background:#DC2626;color:#fff;margin-right:6px}
+.s2-row{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;padding:8px 0;border-top:1px dashed rgba(148,163,184,.5);font-size:.86rem;font-weight:700}.s2-row small{display:block;font-weight:600;opacity:.8}.s2-row button{border:0;border-radius:9px;padding:6px 9px;font-weight:900;background:rgba(148,163,184,.3);color:inherit}
+.s2-l{font-weight:900;font-size:.8rem;margin:10px 0 4px}.s2-ch{display:flex;flex-wrap:wrap;gap:6px}.s2-ch button{border:2px solid #DC2626;border-radius:999px;padding:6px 10px;font-weight:800;font-size:.8rem;background:transparent;color:inherit}.s2-ch button.on{background:#DC2626;color:#fff}.s2-in{width:100%;border-radius:12px;padding:10px;border:2px solid rgba(148,163,184,.6);font-weight:700;font-size:.9rem;background:transparent;color:inherit;box-sizing:border-box}.s2-g{display:grid;grid-template-columns:1fr 1fr;gap:8px}`;
+document.head.appendChild(st);
+/* ---------- stop alla lettura ad alta voce ---------- */
+window.v71Stop=()=>{try{speechSynthesis.cancel();}catch(e){}};
+function stopBtn(){document.querySelectorAll('.bf-say').forEach(b=>{if(b.nextElementSibling&&b.nextElementSibling.classList.contains('bf-stop'))return;const s=document.createElement('button');s.className='bf-stop';s.textContent='⏹️ Ferma';s.onclick=window.v71Stop;b.after(s);});
+ document.querySelectorAll('.ch-say').forEach(b=>{if(b.nextElementSibling&&b.nextElementSibling.classList.contains('bf-stop'))return;const s=document.createElement('button');s.className='bf-stop';s.style.marginLeft='6px';s.textContent='⏹️ Ferma';s.onclick=window.v71Stop;b.after(s);});}
+/* =================== SC2 · PRODOTTI NON CONFORMI =================== */
+const FULL=n=>{const t=String(n||'').trim();return /^alice$/i.test(t)?'Alice Di Mascio':/^christian$/i.test(t)?'Christian Carafa':t;};
+const MESI=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());};const dmy=s=>s?String(s).split('-').reverse().join('/'):'';
+let D={};try{D=JSON.parse(localStorage.getItem('alicetta_sc2')||'{}')||{};}catch(e){}
+const saveL=()=>{try{localStorage.setItem('alicetta_sc2',JSON.stringify(D));}catch(e){}};
+async function put(id,v){if(v)D[id]=v;else delete D[id];saveL();try{await fbSend('/costi/haccp/sc2/'+id,v?'PUT':'DELETE',v||undefined);}catch(e){try{toast('⚠️ Salvato sul telefono, lo invio quando c’è rete');}catch(x){}}draw();}
+let pulled=false;async function pull(){try{const r=await fbGet('/costi/haccp/sc2');if(r&&typeof r==='object'){D=Object.assign({},r,Object.fromEntries(Object.entries(D).filter(([k])=>!r[k]&&Date.now()-(D[k].ts||0)<864e5)));saveL();draw();}}catch(e){}}
+let M=today().slice(0,7);
+const rows=m=>Object.entries(D).filter(([i,r])=>r&&String(r.d||'').slice(0,7)===(m||M)).sort((a,b)=>String(a[1].d).localeCompare(String(b[1].d))||(a[1].ts||0)-(b[1].ts||0));
+const bolle=()=>{try{const C=window.v211Data?v211Data():null;return (C&&C.bolle)||{};}catch(e){return{};}};
+const NAT=['Data di scadenza','Aspetto esteriore','Temperatura'],AZ=['Reso al fornitore','Prodotto eliminato','Segnalazione al fornitore','Merce non accettata'];
+let E=null;
+function edDraw(){const o=$('s2Ov');if(!o||!E)return;const B=E.bolla,R=(B&&B.righe)||[];
+ o.innerHTML=`<div class="ov2-b"><h3>⛔ Prodotto non conforme</h3><div style="font-size:.8rem;font-weight:700;opacity:.8;">Scheda SC2. ${B?'Dati presi dalla bolla: controlla e completa.':'Compila i dati del prodotto.'}</div>
+${R.length?`<div class="s2-l">Quale prodotto della bolla?</div><div class="s2-ch">${R.map((r,i)=>`<button class="${E.pi===i?'on':''}" onclick="v71Pick(${i})">${esc(String(r.p||r.i||'').slice(0,34))}</button>`).join('')}</div>`:''}
+<div class="s2-g"><div><div class="s2-l">Data</div><input class="s2-in" type="date" value="${esc(E.r.d)}" onchange="v71F('d',this.value)"></div><div><div class="s2-l">Bolla n.</div><input class="s2-in" value="${esc(E.r.num||'')}" oninput="v71F('num',this.value)"></div></div>
+<div class="s2-l">Prodotto</div><input class="s2-in" value="${esc(E.r.prod||'')}" oninput="v71F('prod',this.value)">
+<div class="s2-g"><div><div class="s2-l">Lotto</div><input class="s2-in" value="${esc(E.r.lotto||'')}" oninput="v71F('lotto',this.value)"></div><div><div class="s2-l">Quantità</div><input class="s2-in" value="${esc(E.r.qta||'')}" oninput="v71F('qta',this.value)"></div></div>
+<div class="s2-l">Produttore / Fornitore</div><input class="s2-in" value="${esc(E.r.forn||'')}" oninput="v71F('forn',this.value)">
+<div class="s2-l">Natura della non conformità</div><div class="s2-ch">${NAT.map(n=>`<button class="${(E.r.nat||'').split(' – ').includes(n)?'on':''}" onclick="v71Nat('${n}')">${n}</button>`).join('')}</div><input class="s2-in" style="margin-top:6px;" placeholder="Dettaglio (es. arrivato a +9 °C, confezione rotta…)" value="${esc(E.r.natx||'')}" oninput="v71F('natx',this.value)">
+<div class="s2-l">Azione correttiva intrapresa</div><div class="s2-ch">${AZ.map(n=>`<button class="${E.r.az===n?'on':''}" onclick="v71Az('${n}')">${n}</button>`).join('')}</div><input class="s2-in" style="margin-top:6px;" placeholder="oppure scrivila" value="${esc(AZ.includes(E.r.az)?'':(E.r.az||''))}" oninput="v71F('az',this.value)">
+<div class="s2-l">Addetto al controllo</div><input class="s2-in" value="${esc(E.r.add||'')}" oninput="v71F('add',this.value)">
+<div class="s2-g" style="margin-top:12px;"><button class="btn-main btn-print" onclick="v71Close()">Annulla</button><button class="btn-main btn-bill" onclick="v71Save()">💾 Salva nella scheda</button></div>${E.id?`<button class="btn-note" style="width:100%;margin-top:8px;padding:9px;color:#B91C1C;" onclick="v71Del()">🗑️ Elimina questa riga</button>`:''}</div>`;}
+window.v71F=(k,v)=>{if(E)E.r[k]=v;};
+window.v71Nat=n=>{if(!E)return;const a=(E.r.nat||'').split(' – ').filter(Boolean);const i=a.indexOf(n);if(i>=0)a.splice(i,1);else a.push(n);E.r.nat=NAT.filter(x=>a.includes(x)).join(' – ');edDraw();};
+window.v71Az=n=>{if(!E)return;E.r.az=E.r.az===n?'':n;edDraw();};
+window.v71Pick=i=>{if(!E||!E.bolla)return;const r=E.bolla.righe[i];E.pi=i;E.r.prod=String(r.p||r.i||'').trim();E.r.lotto=r.l||'';E.r.qta=(r.q!=null&&r.q!==''?String(r.q).replace('.',','):'')+(r.u?' '+r.u:'');edDraw();};
+window.v71Close=()=>{const o=$('s2Ov');if(o)o.remove();E=null;};
+window.v71Save=async()=>{if(!E)return;const r=E.r;if(!String(r.prod||'').trim())return alert('Scrivi il prodotto.');if(!r.nat&&!r.natx)return alert('Indica la natura della non conformità.');if(!r.az)return alert('Indica l’azione correttiva.');const id=E.id||('n'+Date.now());r.ts=r.ts||Date.now();const isNew=!E.id;window.v71Close();await put(id,r);M=String(r.d).slice(0,7);draw();try{toast('✅ Salvato nella scheda SC2');if(isNew&&typeof ntfyPost==='function'&&!/^christian$/i.test((state.waiterName||'').trim()))ntfyPost('christian','⛔ Prodotto non conforme',r.prod+' · '+(r.forn||'')+' · '+(r.nat||r.natx),5);}catch(e){}};
+window.v71Del=async()=>{if(!E||!E.id||!confirm('Eliminare questa riga dalla scheda SC2?'))return;const id=E.id;window.v71Close();await put(id,null);};
+function open(r,bolla,id){E={r:Object.assign({d:today(),num:'',prod:'',lotto:'',qta:'',forn:'',nat:'',natx:'',az:'',add:FULL(state.waiterName)||'Alice Di Mascio'},r||{}),bolla:bolla||null,id:id||null,pi:-1};let o=$('s2Ov');if(!o){o=document.createElement('div');o.id='s2Ov';o.className='ov2';document.body.appendChild(o);}edDraw();if(bolla&&bolla.righe&&bolla.righe.length===1)window.v71Pick(0);}
+window.v71New=()=>open();
+window.v71Edit=id=>{const r=D[id];if(r)open(JSON.parse(JSON.stringify(r)),r.src?bolle()[r.src]:null,id);};
+window.v71FromBolla=bid=>{const b=bolle()[bid];if(!b)return;const p=$('s2Pick');if(p)p.remove();open({d:b.data||today(),num:b.num||'',forn:b.fornitore||'',src:bid},b);};
+window.v71Bolle=()=>{const L=Object.entries(bolle()).filter(([i,b])=>b&&b.tipo!=='scontrino').sort((a,b)=>String(b[1].data).localeCompare(String(a[1].data))).slice(0,20);if(!L.length)return alert('Nessuna bolla caricata: fotografala in Fornitori oppure usa “A mano”.');
+ const o=document.createElement('div');o.id='s2Pick';o.className='ov2';o.innerHTML=`<div class="ov2-b"><h3>📦 Da quale bolla?</h3>${L.map(([i,b])=>`<div class="s2-row" onclick="v71FromBolla('${i}')" style="cursor:pointer;"><span><b>${esc(dmy(b.data).slice(0,5))} · ${esc(b.fornitore||'')}</b>${b.num?' · n. '+esc(b.num):''}<small>${esc((b.righe||[]).map(r=>r.p||r.i).filter(Boolean).slice(0,5).join(', '))}</small></span><span>›</span></div>`).join('')}<button class="btn-main btn-print" style="width:100%;margin-top:10px;" onclick="document.getElementById('s2Pick').remove()">Chiudi</button></div>`;document.body.appendChild(o);o.onclick=e=>{if(e.target===o)o.remove();};};
+window.v71M=n=>{const d=new Date(M+'-15T12:00');d.setMonth(d.getMonth()+n);M=d.getFullYear()+'-'+pad(d.getMonth()+1);draw();};
+/* quando una merce accettata diventa "non conforme" si apre la scheda SC2 già compilata */
+{const w=()=>{if(typeof window.v2931C==='function'&&!window.v2931C._s2){const _c=window.v2931C;window.v2931C=function(id){const r=_c.apply(this,arguments);setTimeout(()=>{try{const S=JSON.parse(localStorage.getItem('alicetta_sc1')||'{}'),x=S[id];if(x&&x.c===false&&!Object.values(D).some(y=>y&&y.sc1===id)){const b=x.src?bolle()[x.src]:null;open({d:x.d||today(),num:x.num||'',forn:x.forn||'',prod:b?'':x.prod||'',src:x.src||'',sc1:id},b);}}catch(e){}},350);return r;};window.v2931C._s2=1;}};w();setTimeout(w,3000);}
+/* ---------- stampa identica al modulo cartaceo ---------- */
+const natTxt=r=>[r.nat,r.natx].filter(Boolean).join(': ');
+function sheet(R,perPage){perPage=perPage||20;const pages=Math.max(1,Math.ceil(R.length/perPage));let h='';for(let p=0;p<pages;p++){const L=R.slice(p*perPage,(p+1)*perPage);const tr=r=>`<tr><td>${r?esc(dmy(r.d)):''}</td><td>${r?esc(r.prod||''):''}</td><td>${r?esc(r.num||''):''}</td><td>${r?esc(r.lotto||''):''}</td><td>${r?esc(r.qta||''):''}</td><td>${r?esc(r.forn||''):''}</td><td>${r?esc(natTxt(r)):''}</td><td>${r?esc(r.az||''):''}</td><td>${r?esc(r.add||''):''}</td></tr>`;
+  h+=`<div class="pg"><table class="hd"><tr><td class="l"></td><td class="c"><div class="lg"><svg viewBox="0 0 60 18" width="34" height="10"><path d="M4 9 L16 3 L40 3 L52 9 L40 15 L16 15 Z M52 9 L58 4 L58 14 Z" fill="none" stroke="#D98C6A" stroke-width="1.6"/></svg><b>ALICETTA</b><i>TRATTORIA</i></div></td><td class="r">SCHEDE DI AUTOCONTROLLO HACCP</td></tr></table>
+<table class="sc"><colgroup><col style="width:7%"><col style="width:13%"><col style="width:6%"><col style="width:7%"><col style="width:8%"><col style="width:12%"><col style="width:25%"><col style="width:13%"><col style="width:9%"></colgroup>
+<tr><th colspan="9" class="tt">SC2 - SCHEDA PRODOTTI NON CONFORMI</th></tr>
+<tr class="h"><th>Data</th><th>Prodotto</th><th>Bolla<br>n.</th><th>Lotto</th><th>Quantità</th><th>Produttore/<br>Fornitore</th><th>Natura della Non Conformità<br>(Data di scadenza – Aspetto esteriore - Temperatura)</th><th>Azione correttiva intrapresa</th><th>Addetto al controllo</th></tr>
+${Array.from({length:perPage},(_,i)=>tr(L[i])).join('')}</table>
+<div class="ft"><span class="is"><b>IS</b><small>srl</small></span><span class="isn">ITALIA Safety srl</span><span class="ad">C/da Alboreto Zona Ind.le – 66026 Ortona (CH) – Tel./Fax. 085.9039196 - P.Iva 02391680697 – e.mail : italiasafety@pec.it</span></div></div>`;}return h;}
+const CSS=`@page{size:A4 landscape;margin:9mm}*{box-sizing:border-box}body{font-family:Calibri,Arial,sans-serif;color:#000;margin:0;background:#fff}.pg{page-break-after:always;height:190mm;display:flex;flex-direction:column}.pg:last-child{page-break-after:auto}table{border-collapse:collapse;width:100%}.hd td{border:1px solid #000;height:20mm;vertical-align:middle}.hd .l{width:8%}.hd .c{text-align:center}.hd .r{width:19%;text-align:center;font-weight:bold;font-size:10.5pt;padding:0 6px}.lg{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;background:#3D4B66;color:#D98C6A;width:22mm;height:17mm;line-height:1}.lg b{font-size:8.5pt;letter-spacing:1.5px;margin-top:2px}.lg i{font-size:4.5pt;font-style:normal;letter-spacing:2px;margin-top:2px}.sc{margin-top:3mm;flex:1}.sc td,.sc th{border:1px solid #000}.sc .tt{color:#1F5FBF;font-size:12pt;text-align:center;padding:5px;border-bottom:0}.sc .h th{font-size:9.5pt;padding:5px 3px;vertical-align:middle;border:1px solid #000!important;border-top:0!important}.sc td{height:6.4mm;font-size:8.5pt;padding:1px 3px;vertical-align:middle;overflow:hidden}.ft{display:flex;align-items:center;gap:10px;margin-top:4mm;font-size:8.5pt;color:#333}.is{display:inline-flex;align-items:baseline;border:1.5px solid #8A8F3C;border-radius:50% 50% 6px 6px;padding:2px 7px;color:#333}.is b{font-size:13pt}.is small{font-size:6pt}.isn{font-size:15pt;letter-spacing:.5px;color:#222;margin-right:14px}.ad{flex:1;text-align:center}`;
+const doc=(m)=>`<!DOCTYPE html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SC2 Prodotti non conformi ${MESI[+(m||M).slice(5,7)-1]} ${(m||M).slice(0,4)} – Alicetta Trattoria</title><style>${CSS}</style></head><body>${sheet(rows(m).map(x=>x[1]))}</body></html>`;
+window.v71Html=doc;
+window.v71Print=()=>{const html=doc(),w=window.open('','_blank');if(!w){return window.v71Share(true);}w.document.write(html);w.document.close();setTimeout(()=>{try{w.print();}catch(e){}},700);};
+window.v71Share=async dlOnly=>{const name='SC2-prodotti-non-conformi-'+M+'.html',file=new File([doc()],name,{type:'text/html'});const dl=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000);};
+ if(dlOnly!==true){try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'SC2 – Prodotti non conformi',text:'Scheda SC2 Alicetta Trattoria – '+MESI[+M.slice(5,7)-1]+' '+M.slice(0,4)});return;}}catch(e){if(e&&e.name==='AbortError')return;}}dl();try{toast('File scaricato: aprilo per stamparlo o allegalo');}catch(e){}};
+/* sezione SC2 dentro il fascicolo HACCP del mese */
+window.v71Sc2Sec=m=>{const R=rows(m).map(x=>x[1]);const td=v=>`<td>${esc(v==null?'':v)}</td>`;return `<h2 class="sec">SC2 – Prodotti non conformi</h2><table><tr><th>Data</th><th>Prodotto</th><th>Bolla n.</th><th>Lotto</th><th>Quantità</th><th>Produttore / Fornitore</th><th>Natura della non conformità</th><th>Azione correttiva</th><th>Addetto</th></tr>${R.map(r=>`<tr>${td(dmy(r.d))}${td(r.prod)}${td(r.num)}${td(r.lotto)}${td(r.qta)}${td(r.forn)}${td(natTxt(r))}${td(r.az)}${td(r.add)}</tr>`).join('')||'<tr><td colspan="9">Nessun prodotto non conforme nel mese.</td></tr>'}</table>`;};
+/* ---------- riquadro nella pagina HACCP ---------- */
+function card(){const R=rows(),lbl=MESI[+M.slice(5,7)-1]+' '+M.slice(0,4);return `<h3>⛔ Prodotti non conformi <span class="fc-sub">(scheda SC2)</span></h3><div class="fc-sub" style="margin:4px 0 8px;">Quando segni una merce come <b>NC</b> nell’accettazione qui sopra, questa scheda si apre già compilata con i dati della bolla: scegli il prodotto, il problema e cosa hai fatto.</div>
+<div class="hx-nav"><button class="btn-note" onclick="v71M(-1)">◀</button><b>${lbl}</b><button class="btn-note" onclick="v71M(1)">▶</button></div>
+<div class="hx-g"><button class="btn-main btn-print" onclick="v71Bolle()">📦 Da una bolla</button><button class="btn-main btn-bill" onclick="v71New()">✍️ A mano</button></div>
+${R.map(([id,r])=>`<div class="s2-row"><span onclick="v71Edit('${id}')" style="flex:1;cursor:pointer;"><b>${esc(dmy(r.d).slice(0,5))} · ${esc(r.prod)}</b>${r.qta?' · '+esc(r.qta):''}<small>${esc(r.forn||'')}${r.num?' · bolla n. '+esc(r.num):''}${r.lotto?' · lotto '+esc(r.lotto):''}</small><small>⚠️ ${esc(natTxt(r))} → ${esc(r.az||'')} · ✍️ ${esc(r.add||'')}</small></span><button onclick="v71Edit('${id}')">✏️</button></div>`).join('')||'<div class="fc-sub">Nessun prodotto non conforme in questo mese.</div>'}
+<div class="hx-g" style="margin-top:8px;"><button class="btn-note" style="padding:10px;" onclick="v71Print()">🖨️ Stampa scheda SC2</button><button class="btn-note" style="padding:10px;" onclick="v71Share()">📤 Condividi SC2</button></div>
+<button class="btn-main btn-bill" style="width:100%;margin-top:10px;" onclick="v2932Fasc&&v2932Fasc()">📤 Stampa o condividi TUTTE le schede HACCP<br><span style="font-size:.72rem;">temperature, pulizie, SC1, SC2, SC8 e foto delle bolle</span></button>`;}
+let sig='';
+function draw(){document.querySelectorAll('.hxHost').forEach(h=>{let c=h.querySelector('.s2Card');const html=card();if(!c){c=document.createElement('div');c.className='hc-card s2Card';h.appendChild(c);c.innerHTML=html;}else if(c.dataset.h!==html){c.innerHTML=html;}c.dataset.h=html;});}
+setInterval(()=>{try{stopBtn();if(document.querySelector('.hxHost')){if(!pulled){pulled=true;pull();}draw();}}catch(e){}},700);
+})();
+}catch(e){console.error("chef-extra v2.9.71",e);}
+try{(function(){const V='v2.9.71';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
