@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.67 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.68 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1797,8 +1797,8 @@ if(typeof window.v2930DayTot==='function'){const _d=window.v2930DayTot;window.v2
 /* ---------- 1) Club: salva tutti i soci nella rubrica del telefono ---------- */
 window.v64ClubVcf=()=>{const L=(typeof fidCache!=='undefined'&&fidCache)||[];const ok=L.filter(c=>c&&c.phone);if(!ok.length)return alert('Nessun cliente con il telefono.');
  const num=p=>{let d=String(p||'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d[0]==='3')d='39'+d;return '+'+d;};
- const v=ok.map(c=>{const n=String(c.name||'').replace(/[;,]/g,' ').trim();return['BEGIN:VCARD','VERSION:3.0','N:'+n+';Cliente;;;','FN:Cliente '+n,'TEL;TYPE=CELL:'+num(c.phone),'NOTE:Alicetta Club','END:VCARD'].join('\r\n');}).join('\r\n');
- const b=new Blob([v],{type:'text/vcard'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='Club Alicetta ('+ok.length+').vcf';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);try{toast('📇 Apri il file scaricato: salva '+ok.length+' clienti nella rubrica');}catch(e){}};
+ const v=ok.map(c=>{const n=String(c.name||'').replace(/[;,]/g,' ').trim();return['BEGIN:VCARD','VERSION:3.0','N:'+n+';Cliente Club;;;','FN:Cliente Club '+n,'TEL;TYPE=CELL:'+num(c.phone),'NOTE:Alicetta Club','END:VCARD'].join('\r\n');}).join('\r\n');
+ const b=new Blob([v],{type:'text/vcard'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='Club Alicetta ('+ok.length+').vcf';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);try{toast('📇 Apri il file scaricato: salva '+ok.length+' clienti Club nella rubrica');}catch(e){}};
 function fidBtn(){const l=$('fidList');if(!l)return;const m=l.closest('.modal-box')||l.parentNode;if(!m||m.querySelector('#fidVcf'))return;const csv=[...m.querySelectorAll('button')].find(b=>/CSV/.test(b.textContent||''));if(!csv)return;const b=document.createElement('button');b.id='fidVcf';b.className=csv.className;b.style.cssText=csv.style.cssText;b.textContent='📇 Salva tutti in rubrica';b.onclick=window.v64ClubVcf;csv.after(b);}
 /* ---------- 2) due set di icone in più ---------- */
 const SETS={tratt:{l:'🍝 Trattoria',i:{navTables:'🍝',navRes:'📒',navKds:'🍳',navTime:'🕰️',navHaccp:'❄️',navDishes:'📜',navSales:'💰',navAi:'🧠',navMenu:'🔧'}},mare:{l:'🌊 Mare',i:{navTables:'🐟',navRes:'⚓',navKds:'🦐',navTime:'⏳',navHaccp:'🧊',navDishes:'🐚',navSales:'🪙',navAi:'🐙',navMenu:'🧭'}}};
@@ -1966,8 +1966,8 @@ function dupMark(){const L=$('contiList');if(!L)return;const H=state.historyLog|
 /* ---------- 3) anteprima dei contatti prima di importarli ---------- */
 if(typeof window.v64ClubVcf==='function'){const _v=window.v64ClubVcf;window.v64ClubVcf=function(){const L=((typeof fidCache!=='undefined'&&fidCache)||[]).filter(c=>c&&c.phone);if(!L.length)return _v.apply(this,arguments);
  const num=p=>{let d=String(p||'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d[0]==='3')d='39'+d;return '+'+d.replace(/^(\d{2})(\d{3})(\d{3})(\d+)$/,'$1 $2 $3 $4');};
- const o=document.createElement('div');o.className='vc-ov';o.innerHTML=`<div class="vc-box"><h3 style="margin:0 0 4px;">📇 Così verranno salvati nel telefono</h3><div style="font-size:.8rem;font-weight:700;opacity:.8;">${L.length} contatti. Il nome inizia con “Cliente”, così li ritrovi tutti insieme in rubrica e nelle liste di WhatsApp. Se un numero c’è già, Android di solito unisce i due contatti.</div>
-<div class="vc-l">${L.map(c=>`<div><span><b>Cliente ${esc(String(c.name||'').trim())}</b><br><small>Nota: Alicetta Club${c.mkt?' · accetta promo':''}</small></span><span style="white-space:nowrap;">${esc(num(c.phone))}</span></div>`).join('')}</div>
+ const o=document.createElement('div');o.className='vc-ov';o.innerHTML=`<div class="vc-box"><h3 style="margin:0 0 4px;">📇 Così verranno salvati nel telefono</h3><div style="font-size:.8rem;font-weight:700;opacity:.8;">${L.length} contatti. Il nome inizia con “Cliente Club”, così li ritrovi tutti insieme in rubrica e nelle liste di WhatsApp. Se un numero c’è già, Android di solito unisce i due contatti.</div>
+<div class="vc-l">${L.map(c=>`<div><span><b>Cliente Club ${esc(String(c.name||'').trim())}</b><br><small>Nota: Alicetta Club${c.mkt?' · accetta promo':''}</small></span><span style="white-space:nowrap;">${esc(num(c.phone))}</span></div>`).join('')}</div>
 <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:8px;"><button class="btn-main btn-print" id="vcNo">Annulla</button><button class="btn-main btn-bill" id="vcOk">⬇️ Scarica e importa</button></div></div>`;
  document.body.appendChild(o);o.querySelector('#vcNo').onclick=()=>o.remove();o.querySelector('#vcOk').onclick=()=>{o.remove();_v();};o.onclick=e=>{if(e.target===o)o.remove();};};}
 setInterval(()=>{try{buoniMove();dupMark();}catch(e){}},800);
@@ -2002,4 +2002,18 @@ function skip(){const v=$('viewAi');if(!v||!v.classList.contains('active'))retur
 setInterval(()=>{try{ore();numeri();skip();}catch(e){}},700);
 })();
 }catch(e){console.error("chef-extra v2.9.67",e);}
-try{(function(){const V='v2.9.67';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const st=document.createElement('style');
+st.textContent='body .star-row button.on,body.dark .star-row button.on,body.dark #hub_ai_rev .star-row button.on{background:#F59E0B!important;color:#3B2A00!important;border-color:#FDE68A!important;transform:scale(1.06)}#rvStarAuto{font-size:.74rem;font-weight:800;opacity:.85;margin:-2px 0 6px}';document.head.appendChild(st);
+const SIG='la Ciurma di Alicetta';
+{const w=()=>{if(typeof window.v215Sig==='function'&&!window.v215Sig._c){const _s=window.v215Sig;window.v215Sig=function(s,b){localStorage.setItem('alicetta_rv_sig',s);const r=_s.apply(this,arguments);try{b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));}catch(e){}return r;};window.v215Sig._c=1;}};w();setTimeout(w,2000);}
+function sig(){const el=$('hub_ai_rev');if(!el)return;const ch=[...el.querySelectorAll('.chips')].find(c=>/Tutta la brigata/.test(c.textContent||''));if(!ch||ch.querySelector('[data-ciurma]'))return;
+ const b=document.createElement('button');b.className='chipb';b.dataset.ciurma='1';b.textContent='⚓ '+SIG;b.onclick=()=>window.v215Sig(SIG,b);const nes=[...ch.children].find(x=>/Nessuna/.test(x.textContent||''));ch.insertBefore(b,nes||null);
+ const saved=localStorage.getItem('alicetta_rv_sig');if(saved===SIG){ch.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));try{window.v215Sig(SIG,b);}catch(e){}}
+ const lb=[...el.querySelectorAll('.v14-lbl')].find(x=>/^Stelle/.test(x.textContent||''));if(lb&&!$('rvStarAuto')){const n=document.createElement('div');n.id='rvStarAuto';n.textContent='Con lo screenshot le stelle si scelgono da sole; qui servono solo se incolli il testo.';lb.after(n);}}
+setInterval(()=>{try{sig();}catch(e){}},700);
+})();
+}catch(e){console.error("chef-extra v2.9.68",e);}
+try{(function(){const V='v2.9.68';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
