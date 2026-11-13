@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.63 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.64 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1776,4 +1776,80 @@ function trash(){document.querySelectorAll('button').forEach(b=>{if(b.classList.
 let q=0;new MutationObserver(()=>{if(q)return;q=setTimeout(()=>{q=0;try{trash();}catch(e){}},200);}).observe(document.body,{childList:true,subtree:true});trash();
 })();
 }catch(e){console.error("chef-extra v2.9.63",e);}
-try{(function(){const V='v2.9.63';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const st=document.createElement('style');
+st.textContent=`body{--c-tot:#C81E1E;--c-loc:#A16207;--c-su:#15803D}body.dark{--c-tot:#FF6B6B;--c-loc:#FFD60A;--c-su:#4ADE80}
+.cx-tb th:nth-child(2),.cx-tb th:nth-child(3),.cx-tb td:nth-child(2),.cx-tb td:nth-child(3){color:var(--c-su)!important}
+.cx-tb th:nth-child(4),.cx-tb td:nth-child(4){color:var(--c-loc)!important}
+.cx-tb th:nth-child(5),.cx-tb td:nth-child(5),.cx-tb td:nth-child(5) b{color:var(--c-tot)!important}
+.cx-tb tr.tot td:first-child{color:var(--c-tot)!important}
+.cx-big b{color:var(--c-tot)!important}
+.cx-t>div:nth-child(1),.cx-t>div:nth-child(2){background:#DCFCE7!important;color:#14532D!important}
+.cx-t>div:nth-child(3){background:#FEF9C3!important;color:#713F12!important}
+.cx-su{background:#15803D!important;color:#fff!important}
+.k-tot{color:var(--c-tot)!important;font-weight:900}.k-loc{color:var(--c-loc)!important;font-weight:900}.k-su{color:var(--c-su)!important;font-weight:900}
+#hubTabs_ai .hub-tab[data-p="club"]{display:none!important}#cuClubAi .hub-page,#cuClubAi #hub_ai_club{display:block!important}#cuClubAi{margin-top:10px}
+.rv-list{margin:8px 0}.rv-it{border:2px solid rgba(124,58,237,.5);border-radius:14px;padding:9px 10px;margin-bottom:8px;font-size:.84rem}.rv-it b{display:block}.rv-it .t{opacity:.9;margin:4px 0 6px;white-space:pre-wrap}.rv-it.done{opacity:.55}`;
+document.head.appendChild(st);
+/* ---------- colori nel registro chiusure: totale rosso, cassa locale giallo, SumUp verde ---------- */
+if(typeof window.v2930DayTot==='function'){const _d=window.v2930DayTot;window.v2930DayTot=function(){let h=_d.apply(this,arguments)||'';return h.replace(/(Tot € [\d.,]+)/,'<span class="k-tot">$1</span>').replace(/(🏪 Cassa locale € [\d.,-]+)/,'<span class="k-loc">$1</span>').replace(/(🟦 SumUp € [\d.,-]+)/,'<span class="k-su">$1</span>');};}
+/* ---------- 1) Club: salva tutti i soci nella rubrica del telefono ---------- */
+window.v64ClubVcf=()=>{const L=(typeof fidCache!=='undefined'&&fidCache)||[];const ok=L.filter(c=>c&&c.phone);if(!ok.length)return alert('Nessun cliente con il telefono.');
+ const num=p=>{let d=String(p||'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d[0]==='3')d='39'+d;return '+'+d;};
+ const v=ok.map(c=>{const n=String(c.name||'').replace(/[;,]/g,' ').trim();return['BEGIN:VCARD','VERSION:3.0','N:'+n+';Cliente;;;','FN:Cliente '+n,'TEL;TYPE=CELL:'+num(c.phone),'NOTE:Alicetta Club','END:VCARD'].join('\r\n');}).join('\r\n');
+ const b=new Blob([v],{type:'text/vcard'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='Club Alicetta ('+ok.length+').vcf';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);try{toast('📇 Apri il file scaricato: salva '+ok.length+' clienti nella rubrica');}catch(e){}};
+function fidBtn(){const l=$('fidList');if(!l)return;const m=l.closest('.modal-box')||l.parentNode;if(!m||m.querySelector('#fidVcf'))return;const csv=[...m.querySelectorAll('button')].find(b=>/CSV/.test(b.textContent||''));if(!csv)return;const b=document.createElement('button');b.id='fidVcf';b.className=csv.className;b.style.cssText=csv.style.cssText;b.textContent='📇 Salva tutti in rubrica';b.onclick=window.v64ClubVcf;csv.after(b);}
+/* ---------- 2) due set di icone in più ---------- */
+const SETS={tratt:{l:'🍝 Trattoria',i:{navTables:'🍝',navRes:'📒',navKds:'🍳',navTime:'🕰️',navHaccp:'❄️',navDishes:'📜',navSales:'💰',navAi:'🧠',navMenu:'🔧'}},mare:{l:'🌊 Mare',i:{navTables:'🐟',navRes:'⚓',navKds:'🦐',navTime:'⏳',navHaccp:'🧊',navDishes:'🐚',navSales:'🪙',navAi:'🐙',navMenu:'🧭'}}};
+const icMode=()=>localStorage.getItem('alicetta_icons')||'';
+function icApply(){const S=SETS[icMode()];if(S)Object.keys(S.i).forEach(id=>{const b=$(id),i=b&&b.querySelector('.nv-i');if(i&&i.textContent!==S.i[id])i.textContent=S.i[id];});
+ const c=$('iconCard'),ch=c&&c.querySelector('.chips');if(ch&&!ch.querySelector('[data-x]')){Object.keys(SETS).forEach(k=>{const b=document.createElement('button');b.className='chipb'+(icMode()===k?' on':'');b.dataset.x=k;b.textContent=SETS[k].l;b.onclick=()=>window.v221Icons&&window.v221Icons(k);ch.appendChild(b);});}}
+/* ---------- 4) recensioni da screenshot ---------- */
+let RVL=[];
+function rvDraw(){const box=$('rvShots');if(!box)return;box.innerHTML=RVL.length?`<div class="rv-list"><div style="font-weight:900;margin-bottom:6px;">Recensioni trovate: ${RVL.length} · tocca quella a cui rispondere</div>${RVL.map((r,i)=>`<div class="rv-it ${r.done?'done':''}"><b>${'★'.repeat(r.stelle||0)}${'☆'.repeat(5-(r.stelle||0))} ${escH(r.nome||'Cliente')}${r.done?' · ✅ fatta':''}</b><div class="t">${escH((r.testo||'(solo stelle, senza testo)').slice(0,260))}${(r.testo||'').length>260?'…':''}</div><button class="btn-note" style="padding:7px 12px;" onclick="v64RvUse(${i})">✍️ Rispondi a questa</button></div>`).join('')}</div>`:'';}
+window.v64RvUse=i=>{const r=RVL[i];if(!r)return;r.done=true;try{v215Set('text',r.testo||'');v215Set('name',r.nome||'');}catch(e){}const t=$('rvText');if(t)t.value=r.testo||'';const n=document.querySelector('#hub_ai_rev input[placeholder^="Nome del cliente"]');if(n)n.value=r.nome||'';
+ const sb=document.querySelectorAll('#hub_ai_rev .star-row button')[(r.stelle||5)-1];if(sb)sb.click();rvDraw();if(t)t.scrollIntoView({behavior:'smooth',block:'center'});try{toast('Recensione inserita: ora tocca “Scrivi le risposte”');}catch(e){}};
+window.v64RvShot=async inp=>{const F=[...(inp.files||[])].slice(0,6);inp.value='';if(!F.length)return;const m=$('rvShotSt');const say=t=>{if(m)m.textContent=t;};
+ if(!getGeminiKey())return say('🔑 Serve la chiave Gemini in ⚙️ Opzioni.');say('⏳ Leggo '+(F.length===1?'lo screenshot':F.length+' screenshot')+'…');window._jobLabel='⭐ Lettura recensioni';
+ try{const parts=[];for(const f of F)parts.push({inline_data:{mime_type:'image/jpeg',data:await shrinkImage(f,1400)}});
+  parts.push({text:'Questi sono screenshot di recensioni di un ristorante (Google Maps, Tripadvisor o simili). Estrai TUTTE le recensioni leggibili. Per ognuna: nome di chi l’ha scritta, numero di stelle (1-5, conta le stelle piene), testo completo ESATTO nella lingua originale (se la recensione è tagliata con “Altro”, riporta la parte visibile). Ignora le risposte del proprietario, i pulsanti e la pubblicità. Se la stessa recensione compare in due screenshot, riportala una sola volta. Rispondi SOLO JSON: {"recensioni":[{"nome":string,"stelle":number,"testo":string}]}'});
+  const r=await callGemini(parts,true,{fast:true,timeout:60000,maxTokens:4096});let o=JSON.parse(r.slice(r.indexOf('{'),r.lastIndexOf('}')+1));const L=(o.recensioni||[]).filter(x=>x&&(x.testo||x.stelle)).map(x=>({nome:String(x.nome||'').trim(),stelle:Math.max(1,Math.min(5,Math.round(Number(x.stelle)||5))),testo:String(x.testo||'').trim()}));
+  if(!L.length)return say('⚠️ Non trovo recensioni in questi screenshot: prova con uno più nitido.');RVL=L.concat(RVL.filter(a=>!L.some(b=>b.nome===a.nome&&b.testo===a.testo)));rvDraw();say('✅ '+L.length+(L.length===1?' recensione letta.':' recensioni lette.'));if(L.length===1)window.v64RvUse(0);}
+ catch(e){say('❌ '+(e.message||e));}finally{setTimeout(()=>{if(window._jobLabel==='⭐ Lettura recensioni')window._jobLabel='';},2500);}};
+function rvBtn(){const el=$('hub_ai_rev');if(!el||el.querySelector('#rvShotBtn'))return;const p=[...el.querySelectorAll('button')].find(b=>/Incolla dagli appunti/.test(b.textContent||''));if(!p)return;const d=document.createElement('div');
+ d.innerHTML='<label id="rvShotBtn" class="btn-note" style="display:block;width:100%;padding:10px;margin-bottom:6px;text-align:center;cursor:pointer;">🖼️ Screenshot delle recensioni (anche più di uno)<input type="file" accept="image/*" multiple style="display:none" onchange="v64RvShot(this)"></label><div id="rvShotSt" style="font-size:.8rem;font-weight:800;margin-bottom:4px;"></div><div id="rvShots"></div>';p.after(d);rvDraw();}
+/* ---------- 5) Campagne Club dentro Clienti › Club ---------- */
+let lastAi='';
+function clubMove(){const v=$('viewRes'),rc=$('resContent'),pg=$('hub_ai_club');if(!v||!rc||!pg)return;let h=$('cuClubAi');if(!h){h=document.createElement('div');h.id='cuClubAi';rc.after(h);}if(pg.parentNode!==h)h.appendChild(pg);
+ const on=(localStorage.getItem('alicetta_cu_tab')||'pren')==='club';h.style.display=on?'':'none';
+ if(on&&v.classList.contains('active')&&!pg.dataset.ld&&window.v214ClubReload){pg.dataset.ld='1';try{window.v214ClubReload();}catch(e){}}
+ const tabs=[...document.querySelectorAll('#hubTabs_ai .hub-tab')],act=tabs.find(t=>t.classList.contains('active'));
+ if(act&&act.dataset.p==='club'&&$('viewAi')&&$('viewAi').classList.contains('active')){const i=tabs.indexOf(act),nx=tabs[i+1],pv=tabs[i-1];const go=(lastAi&&nx&&lastAi===nx.dataset.p)?pv:(nx||pv);if(go)go.click();}else if(act)lastAi=act.dataset.p;}
+/* ---------- controllo leggibilità: testo chiaro su fondo chiaro (o scuro su scuro) viene corretto ---------- */
+const P=c=>{const m=String(c||'').match(/rgba?\(([^)]+)\)/);if(!m)return null;const a=m[1].split(/[,\/\s]+/).filter(Boolean).map(Number);return[a[0],a[1],a[2],a.length>3?a[3]:1];};
+const L=c=>{const f=v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);};return .2126*f(c[0])+.7152*f(c[1])+.0722*f(c[2]);};
+const CR=(a,b)=>{const x=L(a),y=L(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
+const mix=(c,t,k)=>[0,1,2].map(i=>Math.round(c[i]*(1-k)+t[i]*k));
+function bgOf(el,cache){const chain=[];let e=el,res=null;while(e&&e.nodeType===1){if(cache.has(e)){res=cache.get(e);break;}chain.push(e);const cs=getComputedStyle(e),bi=cs.backgroundImage;
+  if(bi&&bi!=='none'){const m=bi.match(/rgba?\([^)]+\)/g);if(m){const cols=m.map(P).filter(c=>c&&c[3]>.5);if(cols.length){res=[0,1,2].map(i=>Math.round(cols.reduce((s,c)=>s+c[i],0)/cols.length));break;}}else if(/url\(/.test(bi)){res=null;chain.forEach(x=>cache.set(x,null));return null;}}
+  const b=P(cs.backgroundColor);if(b&&b[3]>.6){res=b.slice(0,3);break;}e=e.parentElement;}
+ if(!res&&!e)res=document.body.classList.contains('dark')?[15,19,34]:[255,247,239];chain.forEach(x=>cache.set(x,res));return res;}
+let themeKey='';
+function fixColors(){const tk=document.body.className;if(tk!==themeKey){themeKey=tk;document.querySelectorAll('[data-cfx]').forEach(e=>{e.style.removeProperty('color');delete e.dataset.cfx;});}
+ const roots=[...document.querySelectorAll('.screen.active,.modal-overlay.active,#dock,.topbar,#mpBar,#jobBar')];const cache=new Map();let n=0;
+ for(const r of roots){const all=r.querySelectorAll('*');for(const el of all){if(n>3500)return;if(el.dataset.cfx==='x'||el.closest('svg,canvas,[data-nofix]'))continue;
+   let has=false;for(const c of el.childNodes){if(c.nodeType===3&&/[A-Za-zÀ-ÿ0-9€]/.test(c.nodeValue)){has=true;break;}}if(!has&&!(/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)))continue;n++;
+   const cs=getComputedStyle(el);if(cs.display==='none'||cs.visibility==='hidden'||Number(cs.opacity)<.5)continue;const fg=P(cs.color);if(!fg)continue;const bg=bgOf(el,cache);if(!bg)continue;
+   const f=fg[3]<1?mix(bg,fg,fg[3]):fg.slice(0,3);if(CR(f,bg)>=2.7){continue;}
+   const dark=L(bg)<.32,tgt=dark?[255,255,255]:[8,22,28];let k=.5,c=mix(f,tgt,k);while(CR(c,bg)<4.2&&k<1){k+=.15;c=mix(f,tgt,Math.min(1,k));}
+   el.style.setProperty('color',`rgb(${c[0]},${c[1]},${c[2]})`,'important');el.dataset.cfx='1';}}}
+let fq=0;const sched=()=>{if(fq)return;fq=setTimeout(()=>{fq=0;try{fixColors();}catch(e){}},1200);};
+new MutationObserver(sched).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+setInterval(()=>{try{fidBtn();icApply();rvBtn();clubMove();}catch(e){}},700);
+{const w=()=>{if(typeof window.v221Icons==='function'&&!window.v221Icons._x){const _i=window.v221Icons;window.v221Icons=function(m){const r=_i.apply(this,arguments);try{icApply();const c=$('iconCard');if(c)c.querySelectorAll('[data-x]').forEach(b=>b.classList.toggle('on',b.dataset.x===m));}catch(e){}return r;};window.v221Icons._x=1;}};w();setTimeout(w,2000);}
+setTimeout(()=>{try{fixColors();}catch(e){}},1500);
+})();
+}catch(e){console.error("chef-extra v2.9.64",e);}
+try{(function(){const V='v2.9.64';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
