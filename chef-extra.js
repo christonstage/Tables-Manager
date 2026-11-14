@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.75 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.76 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2028,7 +2028,7 @@ setInterval(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.75';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.76';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2069,8 +2069,9 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
-['v2.9.75',['🎁 Il “−” su caffè e coperto ora chiede: Offerto (resta sullo scontrino come OFFERTO) oppure Errore (toglie del tutto).','⏳ Avviso “stanno per finire”: in base alle ultime serate, ti dice quali piatti con scorta finiranno e verso che ora (in Tavoli e sul KDS).','💌 Club › Grazie ai clienti di ieri sera: messaggio WhatsApp ai soci con consenso, anche scritto da Gemini.','🏷️ HACCP › Lotti e scadenze: foto dell’etichetta, Gemini legge lotto e scadenza, riempie la scheda SC1 e ti avvisa quando un prodotto sta per scadere.']],
-['v2.9.75',['🔁 Rimetti un piatto: dal tasto nella finestra “Aggiungi piatto” e sul KDS (🔁 RIMETTI PIATTO) trovi i piatti finiti e tutti quelli già fatti in passato, da rimettere con un tocco.','I piatti segnati FINITO sulla lavagnetta restano in lista come ESAURITI (non spariscono più), così il KDS può rimetterli.','📸 Chiusura cassa: foto dello scontrino Z o del report SumUp, Gemini legge i totali e verifica da solo.','🔎 Se i conti non tornano l’app indica il conto sospetto, e 🤖 Gemini lo spiega.']],
+['v2.9.76',['🖥️ KDS: le comande dei tavoli ora sono subito sotto la barra dei tasti; briefing, note vocali e avvisi sono più piccoli e stanno sotto.','🔔 Notifiche: chi manda l’avviso non lo riceve più. Ogni dispositivo ora ha UN solo argomento ntfy (il suo nome). Vedi Opzioni › Controllo notifiche per l’argomento giusto e le prove.','🔎 In Opzioni puoi provare la notifica e controllare se il server la riceve: se non suona, l’elenco ti dice cosa guardare nell’app ntfy.']],
+['v2.9.76',['🎁 Il “−” su caffè e coperto ora chiede: Offerto (resta sullo scontrino come OFFERTO) oppure Errore (toglie del tutto).','⏳ Avviso “stanno per finire”: in base alle ultime serate, ti dice quali piatti con scorta finiranno e verso che ora (in Tavoli e sul KDS).','💌 Club › Grazie ai clienti di ieri sera: messaggio WhatsApp ai soci con consenso, anche scritto da Gemini.','🏷️ HACCP › Lotti e scadenze: foto dell’etichetta, Gemini legge lotto e scadenza, riempie la scheda SC1 e ti avvisa quando un prodotto sta per scadere.']],
+['v2.9.74',['🔁 Rimetti un piatto: dal tasto nella finestra “Aggiungi piatto” e sul KDS (🔁 RIMETTI PIATTO) trovi i piatti finiti e tutti quelli già fatti in passato, da rimettere con un tocco.','I piatti segnati FINITO sulla lavagnetta restano in lista come ESAURITI (non spariscono più), così il KDS può rimetterli.','📸 Chiusura cassa: foto dello scontrino Z o del report SumUp, Gemini legge i totali e verifica da solo.','🔎 Se i conti non tornano l’app indica il conto sospetto, e 🤖 Gemini lo spiega.']],
 ['v2.9.73',['Vendite: ora vengono prima i conti, poi la 🧾 Chiusura cassa (con 🔍 Allinea i conti) e solo dopo le fatture da emettere.','Dopo "Verifica e salva chiusura" compare un grande riquadro animato: ✅ I CONTI TORNANO! (verde, con la spunta e i coriandoli) oppure ⚠️ I CONTI NON TORNANO (rosso).']],
 ['v2.9.72',['⭐ Recensioni ha un tasto tutto suo in cima alla sezione AI (prima era dentro Marketing).','Tema chiaro: celeste più deciso al posto del quasi bianco.','HACCP: 📚 Tutte le schede (SC1, SC2, SC3, SC4, SC6, SC8) uguali ai moduli di carta, da vedere, stampare e condividere.','📦 Tutte le bolle e fatture acquisite, con ricerca e foto del documento.']],
 ['v2.9.71',['Tema chiaro: celeste tenue con bordino verde acido.','Briefing: tasto ⏹️ Ferma per interrompere la lettura ad alta voce.','HACCP: nuova scheda SC2 Prodotti non conformi, compilata dai dati della bolla e stampabile uguale al modulo cartaceo.','HACCP: un tasto per stampare o condividere tutte le schede insieme.']],
@@ -2526,7 +2527,7 @@ window.v74Ai=async()=>{const out=$('v74ai');if(!out)return;if(!getGeminiKey()){o
 {const _r=ccResultHtml;ccResultHtml=function(sv,L){const h=_r.apply(this,arguments);try{return sv.ok?h:h+diag(sv,L);}catch(e){return h;}};}
 })();
 
-}catch(e){console.error("chef-extra v2.9.75",e);}
+}catch(e){console.error("chef-extra v2.9.74",e);}
 try{
 (function(){
 const $=id=>document.getElementById(id);const esc=s=>escH(s);const pad=n=>String(n).padStart(2,'0');
@@ -2644,5 +2645,68 @@ setTimeout(()=>lpull().then(warnScad),6000);
 window.v75Lots=lotsList;
 })();
 
-}catch(e){console.error("chef-extra v2.9.75",e);}
-try{(function(){const V='v2.9.75';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+}catch(e){console.error("chef-extra v2.9.76",e);}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const pad=n=>String(n).padStart(2,'0');
+const tst=m=>{try{__toast(m,3200,1);}catch(e){try{alert(m);}catch(x){}}};
+const nk=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+const code=()=>(localStorage.getItem('alicetta_ntfy')||'').trim();
+const ME=()=>nk(state.waiterName);
+const WAIT=['christian','alice','serena'],ALL=[...WAIT,'kdscucina'];
+/* ---------- 1) niente più suoni a chi ha mandato l'avviso; un solo argomento per dispositivo ---------- */
+function dest(t){t=nk(t);const L=t==='tutti'?ALL:t==='sala'?WAIT:[t];const me=ME();return L.filter(x=>x&&x!==me);}
+async function post(x,o){try{await fetch('https://ntfy.sh',{method:'POST',body:JSON.stringify(Object.assign({topic:code()+'-'+x},o))});return true;}catch(e){return false;}}
+ntfyPost=async function(target,title,msg,prio){if(!code()||!navigator.onLine)return;await Promise.all(dest(target).map(x=>post(x,{title,message:msg||' ',priority:prio||4,tags:['bell']})));};
+sendPush=async function(target,msg,from){if(!code())return;await Promise.all(dest(target).map(x=>post(x,{title:'🔔 Chiamata da '+(from||'Sala'),message:msg,priority:5,tags:['bell','rotating_light']})));};
+ntfyTopicsFor=function(wn){return [ntfyTopic(wn)];};
+try{if(!localStorage.getItem('alicetta_ntfy_v76')){localStorage.setItem('alicetta_ntfy_v76','1');localStorage.removeItem('alicetta_ntfy_ok2');setTimeout(()=>{try{checkNtfyNag();}catch(e){}},2500);}}catch(e){}
+/* ---------- 2) KDS: prima le comande dei tavoli ---------- */
+const st=document.createElement('style');
+st.textContent=`body.kdsd #viewKds.active{display:flex;flex-direction:column}
+body.kdsd #viewKds .kds-Banner{order:1;padding:6px 8px;margin:0 0 6px}
+body.kdsd #viewKds .kds-Banner>*:first-child:not(button){font-size:.7rem;margin:0 0 3px;opacity:.8}
+body.kdsd #viewKds .kds-Banner button{padding:6px 10px;font-size:.78rem;margin:2px}
+body.kdsd #viewKds .kds-Banner .btn-stock-big{font-size:.95rem;padding:8px 14px;box-shadow:0 3px 0 #062329}
+body.kdsd #kLoadK{order:2;margin:0 0 6px}
+body.kdsd #stockPanel{order:2}
+body.kdsd #kdsContainer{order:3}
+body.kdsd #resBoardKds{order:5}
+body.kdsd #ntBox_kds{order:6;margin:12px 0 4px;padding:6px 8px}
+body.kdsd #ntBox_kds .nt-mic{padding:8px;font-size:.82rem}body.kdsd #ntBox_kds .nt-kb{padding:0 10px}
+body.kdsd #bfKds{order:7}body.kdsd #bfKds details,body.kdsd #bfKds .hc-card{font-size:.8rem}
+body.kdsd #v75fk{order:4;margin:0 0 6px;padding:6px 10px;font-size:.78rem}
+body.kdsd #ntfyNag{display:none!important}
+body.kdsd .st-banner{top:auto!important;bottom:6px!important;left:auto!important;right:6px!important;transform:none!important;max-width:min(430px,60vw);padding:6px 10px!important;font-size:.78rem!important}
+body.kdsd .st-banner button{padding:5px 9px!important;font-size:.75rem!important}`;
+document.head.appendChild(st);
+setInterval(()=>{try{document.body.classList.toggle('kdsd',typeof isKdsDev==='function'&&isKdsDev());}catch(e){}},700);
+/* ---------- 3) controllo e prove delle notifiche (in Opzioni) ---------- */
+const NAMES=[['Christian','christian'],['Alice','alice'],['Serena','serena'],['KDS Cucina','kdscucina']];
+const dev=()=>{const w=String(state.waiterName||'').trim();return w||'(nessun nome)';};
+function card(){const inp=$('ntfyInput');const sec=inp&&inp.closest('.cart-section');if(!sec)return;let el=$('n76');if(!el){el=document.createElement('div');el.id='n76';el.className='cart-section';sec.after(el);}
+ if(el.dataset.k===code()+'|'+ME()&&el.dataset.ok)return;el.dataset.k=code()+'|'+ME();el.dataset.ok='1';
+ const me=ME(),mine=code()?code()+'-'+me:'';
+ el.innerHTML=`<h3 style="margin-bottom:6px;">🔔 Controllo notifiche di questo dispositivo</h3>
+ ${code()?`<div style="font-size:.85rem;font-weight:700;">Questo dispositivo è: <b>${esc(dev())}</b><br>Nell’app <b>ntfy</b> deve esserci <u>solo</u> questo argomento:</div><div style="font-family:monospace;font-weight:900;font-size:.95rem;background:#FEF3C7;color:#451A03;border:2px dashed #F59E0B;border-radius:10px;padding:8px;margin:6px 0;word-break:break-all;">${esc(mine)}</div><div style="font-size:.78rem;opacity:.85;margin-bottom:8px;">Tutti gli altri argomenti (…-sala, …-tutti, quelli degli altri) vanno tolti: non servono più e sono il motivo per cui ti suonava anche quando chiamavi tu.</div>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"><button class="btn-note" onclick="v76Test()">🔔 Prova su questo (5 s)</button><button class="btn-note" onclick="v76Srv()">🔎 Il server riceve?</button></div>
+ <div style="display:flex;gap:6px;margin-top:6px;"><select id="n76to" class="form-control">${NAMES.filter(n=>n[1]!==me).map(n=>`<option value="${n[1]}">${n[0]}</option>`).join('')}</select><button class="btn-note" onclick="v76To()">📲 Manda una prova</button></div>
+ <div id="n76st" style="margin-top:8px;font-size:.84rem;font-weight:800;"></div>`:'<div style="font-size:.85rem;">Manca il codice notifiche: inseriscilo qui sopra e premi Salva.</div>'}
+ <details style="margin-top:10px;"><summary style="font-weight:900;cursor:pointer;">📋 Se non suona: controlla l’app ntfy sul telefono</summary><div style="font-size:.82rem;line-height:1.5;margin-top:6px;">
+ <b>1. Notifiche silenziate (la causa più comune)</b><br>Apri ntfy. In alto a destra, se vedi una <b>campanella barrata</b>, le notifiche sono silenziate per tutti gli argomenti: toccala per riattivarle. Anche accanto a ogni argomento non deve esserci la campanella barrata: apri l’argomento, tocca ⋮ in alto e scegli “Riattiva notifiche”.<br>
+ <b>2. Suono e popup di Android</b><br>Impostazioni del telefono › App › ntfy › Notifiche. Nelle categorie “Urgenti” e “Alta priorità” attiva <b>suono</b> e <b>mostra come popup</b>.<br>
+ <b>3. Batteria</b><br>Impostazioni › App › ntfy › Batteria › <b>Senza restrizioni</b> (altrimenti Android lo addormenta a schermo spento).<br>
+ <b>4. Non disturbare</b><br>Nella categoria “Urgenti” attiva “Ignora Non disturbare”, così suona anche di sera col silenzioso.<br>
+ <b>5. Volume</b><br>Alza il volume delle notifiche (non solo quello della suoneria) e togli la modalità silenziosa.<br>
+ <b>6. Argomento giusto</b><br>Deve essere scritto <b>esattamente</b> come sopra, tutto minuscolo.</div></details>`;}
+setInterval(()=>{try{card();}catch(e){}},1500);
+const out=h=>{const e=$('n76st');if(e)e.innerHTML=h;};
+window.v76Test=async()=>{if(!code())return;out('⏳ Invio…');const ok=await post(ME(),{title:'🔔 Prova campanello',message:'Se la senti a schermo spento è tutto a posto ✅',priority:5,tags:['bell'],delay:'5s'});out(ok?'✅ Prova inviata. <b>Spegni lo schermo</b>: tra 5 secondi deve suonare. Se non suona, controlla l’elenco qui sotto (punto 1: campanella barrata).':'⚠️ Non riesco a contattare ntfy: serve internet.');};
+window.v76To=async()=>{const to=($('n76to')||{}).value;if(!to||!code())return;out('⏳ Invio…');const ok=await post(to,{title:'🔔 Prova da '+dev(),message:'Prova notifica: se la senti è tutto a posto ✅',priority:5,tags:['bell']});out(ok?'✅ Prova inviata a '+esc(to)+'. Chiedi se è suonata.':'⚠️ Non riesco a contattare ntfy: serve internet.');};
+window.v76Srv=async()=>{if(!code())return;out('⏳ Controllo…');try{const r=await fetch('https://ntfy.sh/'+code()+'-'+ME()+'/json?poll=1&since=6h');const t=await r.text();const L=t.split('\n').filter(Boolean).map(x=>{try{return JSON.parse(x);}catch(e){return null;}}).filter(x=>x&&x.event==='message');
+ if(!L.length){out('ℹ️ Nelle ultime 6 ore al server non è arrivato nulla per <b>'+esc(ME())+'</b>. Normale se nessuno ti ha chiamato: premi “Prova su questo” e ricontrolla.');return;}
+ const l=L[L.length-1],d=new Date(l.time*1000);out('✅ Il server ha ricevuto <b>'+L.length+'</b> messaggi in 6 ore. Ultimo alle <b>'+pad(d.getHours())+':'+pad(d.getMinutes())+'</b>: “'+esc(String(l.title||l.message||'').slice(0,60))+'”.<br>Se il telefono non suona, il problema è nelle impostazioni dell’app ntfy (apri l’elenco qui sotto, punto 1).');}catch(e){out('⚠️ Non riesco a leggere dal server: '+esc(e.message||e));}};
+})();
+
+}catch(e){console.error("chef-extra v2.9.76",e);}
+try{(function(){const V='v2.9.76';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
