@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.72 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.73 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -920,7 +920,7 @@ window.v2938Snooze=(min,ev)=>{if(ev)ev.stopPropagation();const t=Date.now()+min*
 {const b=$('ccBanner');if(b&&!b.querySelector('.snz'))b.insertAdjacentHTML('beforeend','<div class="snz"><button onclick="v2938Snooze(30,event)">⏰ Tra 30 min</button><button onclick="v2938Snooze(60,event)">⏰ Tra 1 ora</button></div>');}
 setInterval(snzApply,15000);snzApply();
 /* ---- Conti: prima i conti, poi le fatture ---- */
-function order(){const c=$('contiList'),i=$('invList');if(c&&i&&c.nextElementSibling!==i)c.after(i);}
+function order(){}
 order();setInterval(order,3000);
 /* ---- confronto con il terminale SumUp (giorno di calendario, come SumUp) ---- */
 const pad=n=>String(n).padStart(2,'0');const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
@@ -1768,7 +1768,7 @@ const st=document.createElement('style');
 st.textContent='.trash-btn{background:#FEE2E2!important;background-image:none!important;color:#B91C1C!important;border:2px solid #DC2626!important;box-shadow:0 3px 0 #991B1B!important;font-size:1.05rem!important;min-width:44px}.trash-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #991B1B!important}#contiList{margin-top:10px}#hub_sales_oggi #contiList .cx-wrap,#hub_sales_oggi #contiList .su-box{display:none!important}';
 document.head.appendChild(st);
 /* 1) elenco dei conti subito sotto gli incassi, nella prima pagina di Vendite */
-function place(){const P=$('payTotals'),C=$('contiList');if(!P||!C)return;if(P.nextElementSibling!==C)P.after(C);const I=$('invList');if(I&&C.nextElementSibling!==I)C.after(I);
+function place(){const P=$('payTotals'),C=$('contiList');if(!P||!C)return;if(P.nextElementSibling!==C)P.after(C);
  }
 setInterval(place,500);place();
 /* 2) cestini rossi e ben visibili */
@@ -2028,7 +2028,7 @@ setInterval(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.72';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.73';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2069,7 +2069,8 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
-['v2.9.72',['⭐ Recensioni ha un tasto tutto suo in cima alla sezione AI (prima era dentro Marketing).','Tema chiaro: celeste più deciso al posto del quasi bianco.','HACCP: 📚 Tutte le schede (SC1, SC2, SC3, SC4, SC6, SC8) uguali ai moduli di carta, da vedere, stampare e condividere.','📦 Tutte le bolle e fatture acquisite, con ricerca e foto del documento.']],
+['v2.9.73',['Vendite: ora vengono prima i conti, poi la 🧾 Chiusura cassa (con 🔍 Allinea i conti) e solo dopo le fatture da emettere.','Dopo "Verifica e salva chiusura" compare un grande riquadro animato: ✅ I CONTI TORNANO! (verde, con la spunta e i coriandoli) oppure ⚠️ I CONTI NON TORNANO (rosso).']],
+['v2.9.73',['⭐ Recensioni ha un tasto tutto suo in cima alla sezione AI (prima era dentro Marketing).','Tema chiaro: celeste più deciso al posto del quasi bianco.','HACCP: 📚 Tutte le schede (SC1, SC2, SC3, SC4, SC6, SC8) uguali ai moduli di carta, da vedere, stampare e condividere.','📦 Tutte le bolle e fatture acquisite, con ricerca e foto del documento.']],
 ['v2.9.71',['Tema chiaro: celeste tenue con bordino verde acido.','Briefing: tasto ⏹️ Ferma per interrompere la lettura ad alta voce.','HACCP: nuova scheda SC2 Prodotti non conformi, compilata dai dati della bolla e stampabile uguale al modulo cartaceo.','HACCP: un tasto per stampare o condividere tutte le schede insieme.']],
 ['v2.9.70',['Tema chiaro più riposante: niente più bianco pieno.','📅 Chiusura della giornata in Vendite › Chiusura: numeri del giorno, racconto a voce e riassunto con Gemini; la sera l’app te la ricorda.','🛒 Lista spesa dalle note vocali, divisa per tipo, da mandare su WhatsApp.','Sous-Chef: le porzioni tengono conto anche delle prenotazioni di oggi.','🌍 Traduttore per parlare con i clienti stranieri (sul tavolo e in AI › Chiedi).']],
 ['v2.9.69',['Finestra 📲: ogni tasto ha un colore diverso.','Briefing di oggi anche sui Tavoli e sul KDS, con i piatti quasi finiti e il tasto 🔊 per leggerlo ad alta voce.','Note vocali smistate da sole in 🛒 Spesa, 🔧 Da fare e 📝 Nota.','Recensioni: le risposte citano i piatti veri del menù; quelle da 1-3★ diventano una nota per la brigata.','Chiedi: domande rapide e 🔊 risposta letta ad alta voce.','Post: 📸 foto del piatto → post Instagram e Facebook con prezzo e allergeni.','Questa finestra delle novità: la ritrovi in Opzioni.']],
@@ -2381,6 +2382,46 @@ function hub(){document.querySelectorAll('.hxHost').forEach(h=>{if(h.querySelect
  const fo=$('hub_sales_forn');if(fo&&!fo.querySelector('.h72-bf')){const b=document.createElement('button');b.className='btn-main btn-bill h72-bf';b.style.cssText='width:100%;margin-bottom:10px;';b.textContent='📦 Consulta tutte le bolle e fatture acquisite';b.onclick=window.v72Bolle;fo.prepend(b);}}
 setInterval(()=>{try{hub();}catch(e){}},800);
 })();
-}catch(e){console.error("chef-extra v2.9.72",e);}
+}catch(e){console.error("chef-extra v2.9.73",e);}
 try{(function(){const w=()=>{if(typeof window.v217Ask==='function'&&!window.v217Ask._r){const _a=window.v217Ask;window.v217Ask=function(q){const t=String(q||(document.getElementById('chQ')||{}).value||'');if(/recension/i.test(t)&&window.v65Grp){v65Grp('rev');try{toast('⭐ Ecco le risposte alle recensioni');}catch(e){}return;}return _a.apply(this,arguments);};window.v217Ask._r=1;}};w();setTimeout(w,2500);})();}catch(e){}
-try{(function(){const V='v2.9.72';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const st=document.createElement('style');
+st.textContent=`
+.v73ok{position:relative;overflow:hidden;border-radius:18px;padding:16px 14px;margin:6px 0 12px;text-align:center;color:#fff;background:linear-gradient(135deg,#16A34A,#22C55E 55%,#84CC16);border:3px solid #A3E635;box-shadow:0 6px 0 #166534,0 10px 24px rgba(22,163,74,.45);animation:v73pop .6s cubic-bezier(.2,1.4,.4,1) both}
+.v73ok .v73c{width:74px;height:74px;margin:0 auto 6px;position:relative}
+.v73ok .v73c:before{content:'';position:absolute;inset:0;border-radius:50%;background:rgba(255,255,255,.35);animation:v73ring 1.4s ease-out infinite}
+.v73ok svg{position:relative;width:74px;height:74px}
+.v73ok svg circle{fill:#fff;}
+.v73ok svg path{fill:none;stroke:#16A34A;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:60;stroke-dashoffset:60;animation:v73draw .6s .35s ease-out forwards}
+.v73ok b.v73t{display:block;font-size:1.45rem;font-weight:900;letter-spacing:.2px;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.v73ok .v73s{font-size:.86rem;font-weight:800;margin-top:3px;text-shadow:0 1px 0 rgba(0,0,0,.25)}
+.v73ok i.v73d{position:absolute;top:-10px;width:9px;height:14px;border-radius:2px;opacity:0;animation:v73fall 1.9s ease-in forwards}
+.v73no{border-radius:18px;padding:14px;margin:6px 0 12px;text-align:center;color:#fff;background:linear-gradient(135deg,#B91C1C,#EF4444);border:3px solid #FCA5A5;box-shadow:0 6px 0 #7F1D1D;animation:v73shake .6s both}
+.v73no b{display:block;font-size:1.3rem;font-weight:900}.v73no span{font-size:.84rem;font-weight:800}
+@keyframes v73pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes v73ring{0%{transform:scale(.7);opacity:.9}100%{transform:scale(1.7);opacity:0}}
+@keyframes v73draw{to{stroke-dashoffset:0}}
+@keyframes v73fall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(190px) rotate(520deg);opacity:0}}
+@keyframes v73shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+@media(prefers-reduced-motion:reduce){.v73ok,.v73ok *,.v73no{animation:none!important}.v73ok svg path{stroke-dashoffset:0}}`;
+document.head.appendChild(st);
+const fmt=n=>(typeof formatPrice==='function'?formatPrice(n):Number(n).toFixed(2).replace('.',','));
+const COL=['#FDE047','#F472B6','#38BDF8','#FFFFFF','#FB923C'];
+function banner(sv){
+ const el=Date.now()-(sv.at||0);const fresh=el>=0&&el<3500;const dl=fresh?'-'+el+'ms':'-9s';
+ const a=sv.app||{};const n=[sv.rtCash,sv.rtEl,sv.pos,sv.suCash].filter(x=>x!=null).length;
+ if(sv.ok){let c='';if(fresh)for(let i=0;i<22;i++)c+=`<i class="v73d" style="left:${(i*4.6+Math.random()*3).toFixed(1)}%;background:${COL[i%5]};animation-delay:calc(${dl} + ${(Math.random()*.6).toFixed(2)}s)"></i>`;
+  return `<div class="v73ok" style="${fresh?'':'animation:none;'}">${c}<div class="v73c"><svg viewBox="0 0 74 74"><circle cx="37" cy="37" r="34"/><path d="M21 38 L33 50 L54 26" style="${fresh?'animation-delay:calc('+dl+' + .35s)':'animation:none;stroke-dashoffset:0'}"/></svg></div><b class="v73t">I CONTI TORNANO!</b><div class="v73s">App e SumUp coincidono · ${n} controlli ok<br>Incasso € ${fmt(a.tot||0)} · ${a.n||0} conti</div></div>`;}
+ return `<div class="v73no" style="${fresh?'':'animation:none;'}"><b>⚠️ I CONTI NON TORNANO</b><span>Guarda qui sotto cosa controllare, poi rifai la verifica</span></div>`;}
+if(typeof ccResultHtml==='function'){const _r=ccResultHtml;ccResultHtml=function(sv,L){const h=_r.apply(this,arguments);try{return banner(sv)+h;}catch(e){return h;}};}
+/* dopo il salvataggio porta in vista il risultato */
+if(typeof saveCashClose==='function'){const _s=saveCashClose;saveCashClose=function(){const r=_s.apply(this,arguments);try{setTimeout(()=>{const x=$('ccResult');if(x&&x.querySelector('.v73ok,.v73no'))x.scrollIntoView({behavior:'smooth',block:'center'});},120);const k=(state.staffCfg&&state.staffCfg.closures||{});}catch(e){}return r;};}
+/* ordine: conti, chiusura cassa (con Allinea conti), poi fatture da emettere */
+function order(){const c=$('contiList'),cc=$('cashClose'),i=$('invList');if(!c||!cc)return;if(c.nextElementSibling!==cc)c.after(cc);if(i&&cc.nextElementSibling!==i)cc.after(i);}
+window.v73Order=order;order();setInterval(order,400);
+})();
+
+}catch(e){console.error("chef-extra v2.9.73",e);}
+try{(function(){const V='v2.9.73';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
