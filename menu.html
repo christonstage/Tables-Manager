@@ -851,6 +851,42 @@ fetch(FBU+'/fidelity/pub/special.json?t='+Date.now(),{cache:'no-store'}).then(r=
  a.style.cssText='position:fixed;left:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:100000;background:#FF2E93;color:#fff;font-weight:900;font-size:1rem;padding:13px 18px;border-radius:999px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.35);border:3px solid #062329;font-family:inherit;';
  document.body.appendChild(a);}catch(e){}})();
 </script>
-<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.31</div>
+<script>
+/* ===== v2.9.78 · Banner "Traduzione automatica in 12 lingue" ===== */
+(function(){
+const LG=[['it','🇮🇹','Italiano'],['en','🇬🇧','English'],['fr','🇫🇷','Français'],['de','🇩🇪','Deutsch'],['es','🇪🇸','Español'],['pl','🇵🇱','Polski'],['zh','🇨🇳','中文'],['ru','🇷🇺','Русский'],['sq','🇦🇱','Shqip'],['ro','🇷🇴','Română'],['hr','🇭🇷','Hrvatski'],['sl','🇸🇮','Slovenščina']];
+const TX={it:['Menù tradotto automaticamente','12 lingue · tocca la tua bandiera'],en:['Automatically translated menu','12 languages · tap your flag'],fr:['Menu traduit automatiquement','12 langues · touchez votre drapeau'],de:['Automatisch übersetzte Karte','12 Sprachen · tippen Sie auf Ihre Flagge'],es:['Menú traducido automáticamente','12 idiomas · toca tu bandera'],pl:['Menu tłumaczone automatycznie','12 języków · dotknij swojej flagi'],zh:['菜单自动翻译','12 种语言 · 点击您的国旗'],ru:['Меню переведено автоматически','12 языков · нажмите на свой флаг'],sq:['Menu e përkthyer automatikisht','12 gjuhë · prekni flamurin tuaj'],ro:['Meniu tradus automat','12 limbi · atinge steagul tău'],hr:['Automatski prevedeni meni','12 jezika · dodirnite svoju zastavu'],sl:['Samodejno preveden meni','12 jezikov · tapnite svojo zastavo']};
+const sel=document.getElementById('language'),hd=document.querySelector('header');if(!sel||!hd)return;
+const st=document.createElement('style');st.textContent=`
+.tr78{position:relative;overflow:hidden;margin:12px 0 4px;border-radius:20px;padding:14px 12px 12px;color:#fff;text-align:center;background:linear-gradient(135deg,#0E4A5C,#0EA5B7 55%,#E8572E);background-size:200% 200%;animation:tr78bg 9s ease infinite;box-shadow:0 10px 26px rgba(14,165,183,.35)}
+.tr78::after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:tr78sh 4.5s ease-in-out infinite;pointer-events:none}
+.tr78 .t{font-weight:900;font-size:1.05rem;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:8px}
+.tr78 .g{display:inline-block;font-size:1.5rem;animation:tr78sp 7s linear infinite}
+.tr78 .s{font-weight:700;font-size:.78rem;opacity:.95;margin:2px 0 10px}
+.tr78 .f{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;position:relative;z-index:1}
+.tr78 button{border:2px solid rgba(255,255,255,.55);background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#fff;border-radius:999px;padding:5px 9px;font-size:1.15rem;line-height:1;cursor:pointer;transition:transform .15s,background .2s}
+.tr78 button:active{transform:scale(.9)}
+.tr78 button.on{background:#fff;border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.35);transform:scale(1.12)}
+.tr78 .n{margin-top:9px;font-weight:900;font-size:.8rem;position:relative;z-index:1}
+@keyframes tr78bg{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+@keyframes tr78sh{0%{left:-60%}55%,100%{left:130%}}
+@keyframes tr78sp{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.tr78,.tr78::after,.tr78 .g{animation:none}}`;
+document.head.appendChild(st);
+const box=document.createElement('div');box.className='tr78';
+const lang=()=>sel.value||'it';
+function paint(){const l=lang(),t=TX[l]||TX.en;
+ box.innerHTML='<div class="t"><span class="g">🌍</span><span>'+t[0]+'</span></div><div class="s">'+t[1]+'</div><div class="f">'+LG.map(x=>'<button type="button" data-l="'+x[0]+'" aria-label="'+x[2]+'" title="'+x[2]+'"'+(x[0]===l?' class="on"':'')+'>'+x[1]+'</button>').join('')+'</div><div class="n">'+(LG.find(x=>x[0]===l)||LG[1])[1]+' '+(LG.find(x=>x[0]===l)||LG[1])[2]+'</div>';
+ box.querySelectorAll('button').forEach(b=>b.onclick=()=>{sel.value=b.dataset.l;try{localStorage.setItem('alicetta_lang',b.dataset.l);}catch(e){}try{render(currentTab);}catch(e){}paint();});}
+const h1=hd.querySelector('h1');if(h1&&h1.nextSibling)hd.insertBefore(box,h1.nextSibling);else hd.prepend(box);
+/* la lingua del telefono viene scelta da sola alla prima visita */
+let first=true;try{const s=localStorage.getItem('alicetta_lang');if(s&&LG.some(x=>x[0]===s)){sel.value=s;first=false;}}catch(e){}
+if(first){const nl=(navigator.language||'it').slice(0,2).toLowerCase();if(LG.some(x=>x[0]===nl)&&nl!=='it'){sel.value=nl;}}
+sel.addEventListener('change',()=>{try{localStorage.setItem('alicetta_lang',sel.value);}catch(e){}paint();});
+try{render(currentTab);}catch(e){}paint();
+})();
+</script>
+
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.78</div>
 </body>
 </html>
