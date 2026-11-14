@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.78 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.79 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2028,7 +2028,7 @@ setInterval(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.78';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.79';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2069,6 +2069,7 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.79',['🔔 Chiamate: sulla notifica ci sono 3 tasti: Ricevuto, Arrivo, 5 minuti. Toccandone uno il suono si ferma e chi ha chiamato vede la risposta.','⏰ Se nessuno conferma entro 2 minuti, chi ha chiamato riceve un richiamo.','📞 Opzioni: nuovo registro “Chiamate di stasera” con orari, risposte e tempo medio.']],
 ['v2.9.78',['🌍 Menù dei clienti: nuovo banner animato “Menù tradotto automaticamente” con le 12 bandiere. Si sceglie la lingua con un tocco e, alla prima visita, si imposta da sola quella del telefono.','🔔 Chiamate: tornate a priorità urgente (suono + popup). Se un telefono vibra soltanto, in ntfy si controlla il suono di “Urgenti” (guida nuova al punto 8 in Opzioni).','✅ La conferma “ha ricevuto la chiamata” ora arriva con popup visibile, non solo con il suono.']],
 ['v2.9.77',['✅ Chiamate: sulla notifica c’è il tasto “Ricevuto”. Lo tocchi e il suono si ferma, e chi ha chiamato riceve “Serena ha ricevuto la chiamata”.','🔔 Le chiamate ora suonano a priorità alta (una volta sola) e toccando la notifica si apre l’app.']],
 ['v2.9.76',['🖥️ KDS: le comande dei tavoli ora sono subito sotto la barra dei tasti; briefing, note vocali e avvisi sono più piccoli e stanno sotto.','🔔 Notifiche: chi manda l’avviso non lo riceve più. Ogni dispositivo ora ha UN solo argomento ntfy (il suo nome). Vedi Opzioni › Controllo notifiche per l’argomento giusto e le prove.','🔎 In Opzioni puoi provare la notifica e controllare se il server la riceve: se non suona, l’elenco ti dice cosa guardare nell’app ntfy.']],
@@ -2718,48 +2719,40 @@ const code=()=>(localStorage.getItem('alicetta_ntfy')||'').trim();
 const ME=()=>nk(state.waiterName);
 const WAIT=['christian','alice','serena'],ALL=[...WAIT,'kdscucina'];
 const NAME={christian:'Christian',alice:'Alice',serena:'Serena',kdscucina:'KDS Cucina'};
+const ASC=s=>String(s||'').normalize('NFD').replace(/[^\x20-\x7E]/g,'');
 const dest=t=>{t=nk(t);const L=t==='tutti'?ALL:t==='sala'?WAIT:[t];return L.filter(x=>x&&x!==ME());};
 const APP=location.origin+location.pathname;
+const NT='https://ntfy.sh/';
 async function post(x,o){try{await fetch('https://ntfy.sh',{method:'POST',body:JSON.stringify(Object.assign({topic:code()+'-'+x},o))});return true;}catch(e){return false;}}
-/* chiamate: priorità alta (suona una volta), tocca = apre l'app, bottone "Ricevuto" = ferma il suono e avvisa chi ha chiamato */
-sendPush=async function(target,msg,from){if(!code())return;const caller=code()+'-'+(ME()||nk(from)||'sala');
- await Promise.all(dest(target).map(x=>post(x,{title:'🔔 Chiamata da '+(from||'Sala'),message:msg,priority:4,tags:['bell'],click:APP,
-  actions:[{action:'http',label:'✅ Ricevuto',url:'https://ntfy.sh/'+caller,method:'POST',headers:{Title:(NAME[x]||x)+' ha ricevuto la chiamata',Priority:'3',Tags:'white_check_mark'},body:'«'+String(msg||'').slice(0,90)+'»',clear:true}]})));};
-/* se il destinatario conferma dall'app, avviso anche chi ha chiamato */
-{const _t=triggerIncomingPagerAlert;triggerIncomingPagerAlert=function(ev){window._v77Call=ev;return _t.apply(this,arguments);};}
-{const _a=ackIncomingPage;ackIncomingPage=function(){const ev=window._v77Call;window._v77Call=null;const r=_a.apply(this,arguments);try{if(ev&&ev.from&&code()&&nk(ev.from)!==ME())post(nk(ev.from),{title:'✅ '+(NAME[ME()]||state.waiterName||'Qualcuno')+' ha ricevuto la chiamata',message:'«'+String(ev.msg||'').slice(0,90)+'»',priority:3,tags:['white_check_mark']});}catch(e){}return r;};}
-/* prove con la stessa priorità delle chiamate vere */
-const _o=window.v76Test;window.v76Test=async function(){const e=document.getElementById('n76st');if(!code())return;if(e)e.textContent='⏳ Invio…';const ok=await post(ME(),{title:'🔔 Prova campanello',message:'Se la senti a schermo spento è tutto a posto ✅',priority:4,tags:['bell'],delay:'5s',click:APP});if(e)e.innerHTML=ok?'✅ Prova inviata. <b>Spegni lo schermo</b>: tra 5 secondi deve suonare. Se non suona, controlla l’elenco qui sotto (punto 1: campanella barrata).':'⚠️ Non riesco a contattare ntfy: serve internet.';};
-const _p=window.v76To;window.v76To=async function(){const e=document.getElementById('n76st'),to=(document.getElementById('n76to')||{}).value;if(!to||!code())return;if(e)e.textContent='⏳ Invio…';const caller=code()+'-'+ME();const ok=await post(to,{title:'🔔 Prova da '+(state.waiterName||''),message:'Prova notifica: tocca ✅ Ricevuto per fermare il suono e avvisarmi.',priority:4,tags:['bell'],click:APP,actions:[{action:'http',label:'✅ Ricevuto',url:'https://ntfy.sh/'+caller,method:'POST',headers:{Title:(NAME[to]||to)+' ha ricevuto la prova',Priority:'3',Tags:'white_check_mark'},body:'Prova ricevuta',clear:true}]});if(e)e.innerHTML=ok?'✅ Prova inviata a '+(NAME[to]||to)+'. Quando tocca “Ricevuto” ti arriva la conferma.':'⚠️ Non riesco a contattare ntfy: serve internet.';};
-/* consiglio nell'elenco delle impostazioni */
-setInterval(()=>{try{const d=document.querySelector('#n76 details div');if(d&&!d.dataset.t7){d.dataset.t7='1';d.insertAdjacentHTML('beforeend','<br><b>7. Il suono non si ferma</b><br>Scorri via la notifica, oppure tocca <b>✅ Ricevuto</b> sulla notifica: si ferma e chi ha chiamato riceve la conferma. Se continua a lungo, in Impostazioni › App › ntfy › Notifiche scegli per “Alta priorità” e “Urgenti” un <b>suono breve di notifica</b> (non una suoneria o una sveglia).');}}catch(e){}},2000);
-})();
-
-}catch(e){console.error("chef-extra v2.9.77",e);}
-try{
-(function(){
-const nk=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
-const code=()=>(localStorage.getItem('alicetta_ntfy')||'').trim();
-const ME=()=>nk(state.waiterName);
-const WAIT=['christian','alice','serena'],ALL=[...WAIT,'kdscucina'];
-const NAME={christian:'Christian',alice:'Alice',serena:'Serena',kdscucina:'KDS Cucina'};
-const dest=t=>{t=nk(t);const L=t==='tutti'?ALL:t==='sala'?WAIT:[t];return L.filter(x=>x&&x!==ME());};
-const APP=location.origin+location.pathname;
-async function post(x,o){try{await fetch('https://ntfy.sh',{method:'POST',body:JSON.stringify(Object.assign({topic:code()+'-'+x},o))});return true;}catch(e){return false;}}
-/* v2.9.78 chiamate: priorità urgente (suona e fa il popup); conferma 'ricevuto' a priorità alta (popup visibile) */
-/* chiamate: priorità alta (suona una volta), tocca = apre l'app, bottone "Ricevuto" = ferma il suono e avvisa chi ha chiamato */
-sendPush=async function(target,msg,from){if(!code())return;const caller=code()+'-'+(ME()||nk(from)||'sala');
- await Promise.all(dest(target).map(x=>post(x,{title:'🔔 Chiamata da '+(from||'Sala'),message:msg,priority:5,tags:['bell'],click:APP,
-  actions:[{action:'http',label:'✅ Ricevuto',url:'https://ntfy.sh/'+caller,method:'POST',headers:{Title:(NAME[x]||x)+' ha ricevuto la chiamata',Priority:'4',Tags:'white_check_mark'},body:'«'+String(msg||'').slice(0,90)+'»',clear:true}]})));};
-/* se il destinatario conferma dall'app, avviso anche chi ha chiamato */
-{const _t=triggerIncomingPagerAlert;triggerIncomingPagerAlert=function(ev){window._v77Call=ev;return _t.apply(this,arguments);};}
-{const _a=ackIncomingPage;ackIncomingPage=function(){const ev=window._v77Call;window._v77Call=null;const r=_a.apply(this,arguments);try{if(ev&&ev.from&&code()&&nk(ev.from)!==ME())post(nk(ev.from),{title:'✅ '+(NAME[ME()]||state.waiterName||'Qualcuno')+' ha ricevuto la chiamata',message:'«'+String(ev.msg||'').slice(0,90)+'»',priority:4,tags:['white_check_mark'],click:APP});}catch(e){}return r;};}
+const day=ts=>{try{return isoD(svcBase(ts));}catch(e){return new Date(ts).toISOString().slice(0,10);}};
+const REPL={ok:['ha ricevuto la chiamata','white_check_mark','✅'],arrivo:['sta arrivando','running','🏃'],'5min':['arriva tra 5 minuti','hourglass_flowing_sand','⏱']};
+const act=(x,caller,id,k,msg)=>({action:'http',label:({ok:'✅ Ricevuto',arrivo:'🏃 Arrivo','5min':'⏱ 5 minuti'})[k],url:NT+caller+'/a'+id,method:'POST',headers:{Title:ASC(NAME[x]||x)+' '+REPL[k][0],Priority:'4',Tags:REPL[k][1]},body:'«'+String(msg||'').slice(0,90)+'»',clear:true});
+/* v2.9.79 chiamata: tasti Ricevuto/Arrivo/5 minuti, richiamo dopo 2 minuti a chi ha chiamato se nessuno conferma, registro serata */
+sendPush=async function(target,msg,from){if(!code())return;const ev=state.lastPagerEvent||{},id=ev.id||Date.now(),me=ME()||nk(from)||'sala',caller=code()+'-'+me,D=dest(target);
+ await Promise.all(D.map(x=>post(x,{title:'🔔 Chiamata da '+(from||'Sala'),message:msg,priority:5,tags:['bell'],click:APP,sequence_id:'c'+id,actions:[act(x,caller,id,'ok',msg),act(x,caller,id,'arrivo',msg),act(x,caller,id,'5min',msg)]})));
+ if(ME()&&D.length)post(me,{title:'⏰ Nessuna conferma dopo 2 minuti',message:'«'+String(msg||'').slice(0,90)+'» → '+D.map(x=>NAME[x]||x).join(', '),priority:4,tags:['alarm_clock'],click:APP,delay:'2m',sequence_id:'a'+id});
+ try{await fbSend('/costi/chiamate/'+day(id)+'/'+id,'PUT',{from:state.waiterName||from||'Sala',to:String(target||'').slice(0,30),msg:String(msg||'').slice(0,120),ts:id});}catch(e){}};
+async function reply(ev,k){if(!ev||!ev.id)return;const me=ME(),caller=nk(ev.from);
+ try{if(code()&&caller&&caller!==me)await fetch(NT+code()+'-'+caller+'/a'+ev.id,{method:'POST',headers:{Title:ASC(state.waiterName||'Qualcuno')+' '+REPL[k][0],Priority:'4',Tags:REPL[k][1]},body:'«'+String(ev.msg||'').slice(0,90)+'»'});}catch(e){}
+ try{if(code()&&me)await fetch(NT+code()+'-'+me+'/c'+ev.id+'/clear',{method:'PUT'});}catch(e){}
+ try{await fbSend('/costi/chiamate/'+day(ev.id)+'/'+ev.id+'/ack','PUT',{by:state.waiterName||'',kind:k,ts:Date.now()});}catch(e){}}
+{const _t=triggerIncomingPagerAlert;triggerIncomingPagerAlert=function(ev){window._v79Call=ev;return _t.apply(this,arguments);};}
+{const _a=ackIncomingPage;ackIncomingPage=function(k){const ev=window._v79Call;window._v79Call=null;const r=_a.apply(this,arguments);reply(ev,REPL[k]?k:'ok');return r;};}
+/* tasti rapidi nella finestra della chiamata */
+setInterval(()=>{try{const b=document.querySelector('#incomingPageModal .receipt-box');if(b&&!b.querySelector('.v79q')){const d=document.createElement('div');d.className='v79q';d.style.cssText='display:flex;gap:8px;margin-top:8px;';d.innerHTML='<button class="btn-main" style="flex:1;background:#fff;color:#000;" onclick="ackIncomingPage(\'arrivo\')">🏃 Arrivo</button><button class="btn-main" style="flex:1;background:#fff;color:#000;" onclick="ackIncomingPage(\'5min\')">⏱ 5 minuti</button>';b.appendChild(d);}}catch(e){}},1500);
 /* prove con la stessa priorità delle chiamate vere */
 const _o=window.v76Test;window.v76Test=async function(){const e=document.getElementById('n76st');if(!code())return;if(e)e.textContent='⏳ Invio…';const ok=await post(ME(),{title:'🔔 Prova campanello',message:'Se la senti a schermo spento è tutto a posto ✅',priority:5,tags:['bell'],delay:'5s',click:APP});if(e)e.innerHTML=ok?'✅ Prova inviata. <b>Spegni lo schermo</b>: tra 5 secondi deve suonare. Se non suona, controlla l’elenco qui sotto (punto 1: campanella barrata).':'⚠️ Non riesco a contattare ntfy: serve internet.';};
-const _p=window.v76To;window.v76To=async function(){const e=document.getElementById('n76st'),to=(document.getElementById('n76to')||{}).value;if(!to||!code())return;if(e)e.textContent='⏳ Invio…';const caller=code()+'-'+ME();const ok=await post(to,{title:'🔔 Prova da '+(state.waiterName||''),message:'Prova notifica: tocca ✅ Ricevuto per fermare il suono e avvisarmi.',priority:5,tags:['bell'],click:APP,actions:[{action:'http',label:'✅ Ricevuto',url:'https://ntfy.sh/'+caller,method:'POST',headers:{Title:(NAME[to]||to)+' ha ricevuto la prova',Priority:'4',Tags:'white_check_mark'},body:'Prova ricevuta',clear:true}]});if(e)e.innerHTML=ok?'✅ Prova inviata a '+(NAME[to]||to)+'. Quando tocca “Ricevuto” ti arriva la conferma.':'⚠️ Non riesco a contattare ntfy: serve internet.';};
+/* registro chiamate della serata (Opzioni) */
+async function draw(){const el=document.getElementById('n79');if(!el)return;const o=el.querySelector('.l');o.textContent='⏳ Carico…';let d=null;try{d=await fbGet('/costi/chiamate/'+day(Date.now()));}catch(e){o.textContent='⚠️ Non riesco a leggere il registro (serve internet).';return;}
+ const L=Object.values(d||{}).filter(x=>x&&x.ts).sort((a,b)=>a.ts-b.ts);if(!L.length){o.textContent='Nessuna chiamata stasera.';return;}
+ const hm=t=>new Date(t).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}),sec=x=>{const s=Math.round((x.ack.ts-x.ts)/1000);return s<90?s+' s':Math.round(s/60)+' min';};
+ const T=L.filter(x=>x.ack&&x.ack.ts).map(x=>(x.ack.ts-x.ts)/1000);const avg=T.length?Math.round(T.reduce((a,b)=>a+b,0)/T.length):0;
+ o.innerHTML=L.map(x=>'<div style="padding:6px 0;border-bottom:1px dashed var(--line,#ddd);font-size:.85rem;"><b>'+hm(x.ts)+'</b> '+escH(x.from)+' → '+escH(x.to)+'<br>«'+escH(x.msg)+'»<br>'+(x.ack?'✅ '+escH(x.ack.by||'')+' ('+({ok:'ricevuto',arrivo:'arrivo','5min':'5 minuti'})[x.ack.kind]+') dopo '+sec(x):'⏳ nessuna conferma')+'</div>').join('')+'<div style="margin-top:8px;font-weight:800;">Chiamate: '+L.length+' · confermate: '+T.length+(T.length?' · risposta media: '+(avg<90?avg+' s':Math.round(avg/60)+' min'):'')+'</div>';}
+window.v79Calls=draw;
+setInterval(()=>{try{const a=document.getElementById('n76');if(!a||document.getElementById('n79'))return;const el=document.createElement('div');el.id='n79';el.className='cart-section';el.innerHTML='<h3 style="margin:0 0 6px;">📞 Chiamate di stasera</h3><button class="btn-main" onclick="v79Calls()" style="width:100%;">🔄 Aggiorna elenco</button><div class="l" style="margin-top:8px;"></div>';a.after(el);draw();}catch(e){}},2000);
 /* consiglio nell'elenco delle impostazioni */
-setInterval(()=>{try{const d=document.querySelector('#n76 details div');if(d&&!d.dataset.t7){d.dataset.t7='1';d.insertAdjacentHTML('beforeend','<br><b>7. Il suono non si ferma</b><br>Scorri via la notifica, oppure tocca <b>✅ Ricevuto</b> sulla notifica: si ferma e chi ha chiamato riceve la conferma. Se continua a lungo, in Impostazioni › App › ntfy › Notifiche scegli per “Alta priorità” e “Urgenti” un <b>suono breve di notifica</b> (non una suoneria o una sveglia).<br><b>8. Suono e popup (importante)</b><br>In ntfy: Impostazioni › Notifiche. Per <b>Urgenti</b> scegli un suono breve e lascia attivi “Mostra in primo piano” e “Vibrazione”. Per <b>Alta priorità</b> scegli anche qui un suono (se è su “Nessuno” il telefono vibra soltanto) e lascia attivo il popup: serve a vedere “✅ ha ricevuto la chiamata”.');}}catch(e){}},2000);
+setInterval(()=>{try{const d=document.querySelector('#n76 details div');if(d&&!d.dataset.t9){d.dataset.t9='1';d.insertAdjacentHTML('beforeend','<br><b>7. Il suono non si ferma</b><br>Tocca <b>✅ Ricevuto</b> (o Arrivo / 5 minuti) sulla notifica: il suono si ferma e chi ha chiamato lo vede. Se nessuno conferma, dopo 2 minuti chi ha chiamato riceve un richiamo. Se il suono è troppo lungo, nel telefono: ntfy › Impostazioni › Notifiche › <b>Urgenti</b> › Suono: scegli una notifica breve (non una suoneria). Fai lo stesso per <b>Alta priorità</b>.');}}catch(e){}},2000);
 })();
 
-}catch(e){console.error("chef-extra v2.9.78",e);}
-try{(function(){const V='v2.9.78';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+}catch(e){console.error("chef-extra v2.9.79",e);}
+try{(function(){const V='v2.9.79';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
