@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.73 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.74 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2028,7 +2028,7 @@ setInterval(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.73';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.74';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2069,8 +2069,9 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
-['v2.9.73',['Vendite: ora vengono prima i conti, poi la 🧾 Chiusura cassa (con 🔍 Allinea i conti) e solo dopo le fatture da emettere.','Dopo "Verifica e salva chiusura" compare un grande riquadro animato: ✅ I CONTI TORNANO! (verde, con la spunta e i coriandoli) oppure ⚠️ I CONTI NON TORNANO (rosso).']],
-['v2.9.73',['⭐ Recensioni ha un tasto tutto suo in cima alla sezione AI (prima era dentro Marketing).','Tema chiaro: celeste più deciso al posto del quasi bianco.','HACCP: 📚 Tutte le schede (SC1, SC2, SC3, SC4, SC6, SC8) uguali ai moduli di carta, da vedere, stampare e condividere.','📦 Tutte le bolle e fatture acquisite, con ricerca e foto del documento.']],
+['v2.9.74',['🔁 Rimetti un piatto: dal tasto nella finestra “Aggiungi piatto” e sul KDS (🔁 RIMETTI PIATTO) trovi i piatti finiti e tutti quelli già fatti in passato, da rimettere con un tocco.','I piatti segnati FINITO sulla lavagnetta restano in lista come ESAURITI (non spariscono più), così il KDS può rimetterli.','📸 Chiusura cassa: foto dello scontrino Z o del report SumUp, Gemini legge i totali e verifica da solo.','🔎 Se i conti non tornano l’app indica il conto sospetto, e 🤖 Gemini lo spiega.']],
+['v2.9.74',['Vendite: ora vengono prima i conti, poi la 🧾 Chiusura cassa (con 🔍 Allinea i conti) e solo dopo le fatture da emettere.','Dopo "Verifica e salva chiusura" compare un grande riquadro animato: ✅ I CONTI TORNANO! (verde, con la spunta e i coriandoli) oppure ⚠️ I CONTI NON TORNANO (rosso).']],
+['v2.9.72',['⭐ Recensioni ha un tasto tutto suo in cima alla sezione AI (prima era dentro Marketing).','Tema chiaro: celeste più deciso al posto del quasi bianco.','HACCP: 📚 Tutte le schede (SC1, SC2, SC3, SC4, SC6, SC8) uguali ai moduli di carta, da vedere, stampare e condividere.','📦 Tutte le bolle e fatture acquisite, con ricerca e foto del documento.']],
 ['v2.9.71',['Tema chiaro: celeste tenue con bordino verde acido.','Briefing: tasto ⏹️ Ferma per interrompere la lettura ad alta voce.','HACCP: nuova scheda SC2 Prodotti non conformi, compilata dai dati della bolla e stampabile uguale al modulo cartaceo.','HACCP: un tasto per stampare o condividere tutte le schede insieme.']],
 ['v2.9.70',['Tema chiaro più riposante: niente più bianco pieno.','📅 Chiusura della giornata in Vendite › Chiusura: numeri del giorno, racconto a voce e riassunto con Gemini; la sera l’app te la ricorda.','🛒 Lista spesa dalle note vocali, divisa per tipo, da mandare su WhatsApp.','Sous-Chef: le porzioni tengono conto anche delle prenotazioni di oggi.','🌍 Traduttore per parlare con i clienti stranieri (sul tavolo e in AI › Chiedi).']],
 ['v2.9.69',['Finestra 📲: ogni tasto ha un colore diverso.','Briefing di oggi anche sui Tavoli e sul KDS, con i piatti quasi finiti e il tasto 🔊 per leggerlo ad alta voce.','Note vocali smistate da sole in 🛒 Spesa, 🔧 Da fare e 📝 Nota.','Recensioni: le risposte citano i piatti veri del menù; quelle da 1-3★ diventano una nota per la brigata.','Chiedi: domande rapide e 🔊 risposta letta ad alta voce.','Post: 📸 foto del piatto → post Instagram e Facebook con prezzo e allergeni.','Questa finestra delle novità: la ritrovi in Opzioni.']],
@@ -2382,7 +2383,7 @@ function hub(){document.querySelectorAll('.hxHost').forEach(h=>{if(h.querySelect
  const fo=$('hub_sales_forn');if(fo&&!fo.querySelector('.h72-bf')){const b=document.createElement('button');b.className='btn-main btn-bill h72-bf';b.style.cssText='width:100%;margin-bottom:10px;';b.textContent='📦 Consulta tutte le bolle e fatture acquisite';b.onclick=window.v72Bolle;fo.prepend(b);}}
 setInterval(()=>{try{hub();}catch(e){}},800);
 })();
-}catch(e){console.error("chef-extra v2.9.73",e);}
+}catch(e){console.error("chef-extra v2.9.72",e);}
 try{(function(){const w=()=>{if(typeof window.v217Ask==='function'&&!window.v217Ask._r){const _a=window.v217Ask;window.v217Ask=function(q){const t=String(q||(document.getElementById('chQ')||{}).value||'');if(/recension/i.test(t)&&window.v65Grp){v65Grp('rev');try{toast('⭐ Ecco le risposte alle recensioni');}catch(e){}return;}return _a.apply(this,arguments);};window.v217Ask._r=1;}};w();setTimeout(w,2500);})();}catch(e){}
 try{
 (function(){
@@ -2423,5 +2424,106 @@ function order(){const c=$('contiList'),cc=$('cashClose'),i=$('invList');if(!c||
 window.v73Order=order;order();setInterval(order,400);
 })();
 
-}catch(e){console.error("chef-extra v2.9.73",e);}
-try{(function(){const V='v2.9.73';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+}catch(e){console.error("chef-extra v2.9.74",e);}
+try{
+(function(){
+const $=id=>document.getElementById(id);const esc=s=>escH(s);
+const tst=m=>{try{__toast(m,2800,1);}catch(e){try{alert(m);}catch(x){}}};
+const nk=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');
+const SKIP=c=>c==='1 Coperto'||c==='2 Bevande';
+const st=document.createElement('style');
+st.textContent=`.v74b{width:100%;margin:0 0 10px;background:linear-gradient(135deg,#7C3AED,#C026D3);color:#fff;font-weight:900;border:2px solid #A3E635;border-radius:14px;padding:12px;font-size:1rem;box-shadow:0 4px 0 #581C87}
+.v74chip{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;margin:0 0 6px;padding:10px 12px;border-radius:12px;border:2px solid #A3E635;background:#D8EEFA;color:#1F2937;font-weight:800;font-size:.92rem;cursor:pointer}
+.v74chip small{display:block;font-weight:600;color:#4B5563;font-size:.72rem}.v74chip em{font-style:normal;font-weight:900;background:#16A34A;color:#fff;border-radius:10px;padding:5px 10px;white-space:nowrap}
+.v74chip.off em{background:#F59E0B;color:#422006}.v74h{font-weight:900;font-size:.85rem;margin:10px 0 6px;color:#9D174D}
+body.dark .v74chip{background:#1E293B;color:#F1F5F9;border-color:#84CC16}body.dark .v74chip small{color:#CBD5E1}body.dark .v74h{color:#F9A8D4}
+.v74k{background:#FEF3C7;border:2px solid #F59E0B;border-radius:12px;padding:10px;margin:8px 0;font-size:.84rem;color:#451A03}.v74k b{color:#92400E}
+.v74z{background:#EDE9FE;border:2px solid #8B5CF6;border-radius:14px;padding:10px;margin:0 0 10px;color:#2E1065;font-size:.8rem}
+.v74z .st{font-weight:800;margin-top:6px}`;
+document.head.appendChild(st);
+/* ---------- archivio piatti ---------- */
+const cfg=()=>{state.staffCfg=state.staffCfg||{};return state.staffCfg;};
+const arch=()=>{const c=cfg();c.menuArch=c.menuArch||{};return c.menuArch;};
+function snap(){try{if(!Array.isArray(state.menu)||!state.menu.length)return;const A=arch();let nw=0;state.menu.forEach(m=>{if(!m||!m.name||SKIP(m.cat))return;const k=nk(m.name);if(!k)return;const o=A[k];if(!o)nw++;if(!o||o.p!==m.price||o.c!==m.cat||(!o.al&&m.allergens)||(!o.tr&&m.tr&&Object.keys(m.tr).length)){A[k]={n:m.name,c:m.cat,p:Number(m.price)||0,al:m.allergens||(o&&o.al)||undefined,tr:(m.tr&&Object.keys(m.tr).length)?m.tr:(o&&o.tr)||undefined,t:Date.now()};if(!o)nw=nw||1;}else o.t=o.t||Date.now();});
+ const ks=Object.keys(A);if(ks.length>140){ks.sort((a,b)=>(A[a].t||0)-(A[b].t||0)).slice(0,ks.length-140).forEach(k=>delete A[k]);}
+ if(nw&&typeof saveState==='function')saveState(false,{staff:true});}catch(e){}}
+setInterval(snap,5000);setTimeout(snap,1500);
+function cands(){const M=new Map();const A=arch();Object.keys(A).forEach(k=>{const o=A[k];M.set(k,{k,n:o.n,c:o.c,p:o.p,al:o.al,tr:o.tr,t:o.t||0,cnt:0});});
+ try{(state.historyLog||[]).forEach(e=>{(e&&e.items||[]).forEach(i=>{const n=i&&i.name;if(!n||/^pane e coperto$/i.test(n))return;let c=i.cat||(typeof guessCategoryFromDishName==='function'?guessCategoryFromDishName(n,'AUTO'):'3 Antipasti');if(SKIP(c))return;const k=nk(n);if(!k)return;const o=M.get(k);if(o){o.cnt++;if((e.ts||0)>o.t)o.t=e.ts||0;}else M.set(k,{k,n,c,p:Number(i.price)||0,t:e.ts||0,cnt:1});});});}catch(e){}
+ return [...M.values()];}
+const inMenu=k=>(state.menu||[]).find(m=>nk(m.name)===k);
+/* ---------- rimettere un piatto ---------- */
+window.v74On=id=>{const m=(state.menu||[]).find(x=>x.id===id);if(!m)return;m.soldOut=false;if(state.stock&&state.stock[id]!==undefined)delete state.stock[id];saveState(false,{menu:true,stock:true});tst('✅ '+m.name+' è di nuovo disponibile');draw();try{renderStock();}catch(e){}try{renderDishList();}catch(e){}try{renderMenuGrid();}catch(e){}};
+window.v74Add=k=>{const c=cands().find(x=>x.k===k);if(!c)return;const ex=inMenu(k);if(ex){return v74On(ex.id);}
+ const id=Math.max(1000,...(state.menu||[]).map(x=>Number(x.id)||0))+1;const m={id,cat:c.c,name:c.n,price:Number(c.p)||0};if(c.al)m.allergens=c.al;if(c.tr)m.tr=c.tr;state.menu.push(m);
+ saveState(false,{menu:true});tst('➕ '+c.n+' rimesso in carta'+(c.p?' a '+formatPrice(c.p)+' €':' (controlla il prezzo)'));if(!c.tr&&typeof retranslateDish==='function')try{retranslateDish(m);}catch(e){}
+ draw();try{renderStock();}catch(e){}try{renderDishList();}catch(e){}try{renderMenuGrid();}catch(e){}};
+let Q='';
+function body(){const q=nk(Q);const off=(state.menu||[]).filter(m=>m.soldOut&&!SKIP(m.cat)&&(!q||nk(m.name).includes(q)));
+ const C=cands().filter(x=>!inMenu(x.k)&&(!q||x.k.includes(q))).sort((a,b)=>(q?0:(b.t-a.t))||b.cnt-a.cnt||a.n.localeCompare(b.n,'it')).slice(0,q?40:25);
+ let h='';
+ h+=`<div class="v74h">⛔ Finiti adesso (${off.length})</div>`+(off.length?off.map(m=>`<button class="v74chip off" onclick="v74On(${m.id})"><span>${esc(m.name)}<small>${esc(m.cat.replace(/^\d\s*/,''))} · ${formatPrice(m.price)} €</small></span><em>✅ Rimetti</em></button>`).join(''):'<div class="fc-sub" style="margin-bottom:4px;">Nessun piatto finito.</div>');
+ h+=`<div class="v74h">🔁 Già fatti in passato, non in carta${q?'':' (i più recenti)'}</div>`+(C.length?C.map(x=>`<button class="v74chip" onclick="v74Add('${x.k}')"><span>${esc(x.n)}<small>${esc(x.c.replace(/^\d\s*/,''))} · ${x.p?formatPrice(x.p)+' €':'prezzo da impostare'}${x.cnt?' · venduto '+x.cnt+' volte':''}</small></span><em>➕ Rimetti</em></button>`).join(''):'<div class="fc-sub">Nessun piatto trovato: scrivilo con “Aggiungi piatto”.</div>');
+ return h;}
+function draw(){const b=$('v74Body');if(b)b.innerHTML=body();}
+window.v74Pick=()=>{let ov=$('v74Ov');if(!ov){ov=document.createElement('div');ov.id='v74Ov';ov.className='modal-overlay';document.body.appendChild(ov);}
+ Q='';ov.innerHTML=`<div class="receipt-box" style="max-width:520px;max-height:90vh;overflow:auto;"><h3 style="color:var(--logo-coral);margin-bottom:6px;">🔁 Rimetti un piatto</h3><div class="fc-sub" style="margin-bottom:8px;">Tocca un piatto per rimetterlo subito in cassa, sul menù QR e in cucina. Cerca il nome per trovare anche quelli più vecchi.</div><input id="v74Q" class="form-control" placeholder="🔎 Cerca (es. cime di rape)" style="margin-bottom:6px;" oninput="v74Search(this.value)"><div id="v74Body"></div><div class="modal-actions"><button class="btn-modal" style="background:#334155;color:#fff;" onclick="document.getElementById('v74Ov').classList.remove('active')">Chiudi</button></div></div>`;
+ ov.classList.add('active');draw();};
+window.v74Search=v=>{Q=v||'';draw();};
+/* tasto nella finestra "Nuovo piatto al volo" */
+{const _o=openAddDish;openAddDish=function(){const r=_o.apply(this,arguments);try{const ov=$('addDishModal'),box=ov&&ov.querySelector('.receipt-box'),h=box&&box.querySelector('h3');if(h&&!box.querySelector('.v74b')){h.insertAdjacentHTML('afterend','<button class="v74b" onclick="document.getElementById(\'addDishModal\').classList.remove(\'active\');v74Pick()">🔁 Riaggiungi un piatto già fatto</button>');}}catch(e){}return r;};}
+/* KDS: tasto e riepilogo dei finiti nel pannello scorte */
+function kdsBtn(){const s=document.querySelector('#viewKds .kds-Banner button[onclick="toggleStock()"]');if(s&&!document.querySelector('#viewKds .v74kb')){const b=document.createElement('button');b.className='btn-stock-big v74kb';b.style.marginLeft='6px';b.textContent='🔁 RIMETTI PIATTO';b.onclick=v74Pick;s.after(b);}}
+setInterval(kdsBtn,1500);kdsBtn();
+{const _r=renderStock;renderStock=function(){const r=_r.apply(this,arguments);try{const p=$('stockPanel');if(p&&!p.querySelector('.v74top')){const off=(state.menu||[]).filter(m=>m.soldOut&&!SKIP(m.cat));p.insertAdjacentHTML('afterbegin',`<div class="v74top"><button class="v74b" onclick="v74Pick()">🔁 Rimetti un piatto finito o tolto dal menù</button>${off.length?`<div class="v74h">⛔ Finiti (${off.length})</div>`+off.map(m=>`<button class="v74chip off" onclick="v74On(${m.id})"><span>${esc(m.name)}</span><em>✅ Rimetti</em></button>`).join(''):''}</div>`);}}catch(e){}return r;};}
+/* la lavagnetta: i piatti segnati FINITO restano in lista come ESAURITI */
+let FIN=null;
+{const _f=chalkboardFinitoNames;chalkboardFinitoNames=function(){const r=_f.apply(this,arguments);try{if(r&&r.length)FIN={n:r.slice(),t:Date.now()};}catch(e){}return r;};}
+{const _s=syncChalkboardToStateMenu;syncChalkboardToStateMenu=function(list){snap();const old=(state.menu||[]).map(m=>({...m})),r=_s.apply(this,arguments);
+ try{if(FIN&&Date.now()-FIN.t<120000){const C=cands();FIN.n.forEach(nm=>{const k=nk(nm);if(!k||state.menu.some(m=>nk(m.name)===k))return;
+  const o=old.find(m=>!SKIP(m.cat)&&(nk(m.name)===k||(k.length>=10&&(nk(m.name).startsWith(k.slice(0,14))||k.startsWith(nk(m.name).slice(0,14))))));
+  const c=C.find(x=>x.k===k);const id=Math.max(1000,...state.menu.map(x=>Number(x.id)||0))+1;
+  if(o){state.menu.push({...o,id:(state.menu.some(x=>x.id===o.id)?id:o.id),soldOut:true});}
+  else{const cat=(c&&c.c)||(typeof guessCategoryFromDishName==='function'?guessCategoryFromDishName(nm,'AUTO'):'3 Antipasti');if(SKIP(cat))return;state.menu.push({id,cat,name:nm,price:(c&&Number(c.p))||14,soldOut:true,...(c&&c.al?{allergens:c.al}:{}),...(c&&c.tr?{tr:c.tr}:{})});}});FIN=null;}}catch(e){console.error(e);}
+ return r;};}
+/* ================= chiusura cassa: foto scontrino Z e sospetto ================= */
+const num=v=>{if(v==null||v==='')return null;if(typeof v==='number')return isFinite(v)?v:null;let s=String(v).replace(/[^\d,.\-]/g,'');if(!s)return null;if(s.includes(',')&&s.includes('.'))s=s.replace(/\./g,'').replace(',','.');else if(s.includes(','))s=s.replace(',','.');const n=parseFloat(s);return isFinite(n)?n:null;};
+const PROMPT='Questa è la foto di uno scontrino di chiusura giornaliera (chiusura Z del registratore di cassa telematico) oppure di un report giornaliero SumUp (terminale carte). Rispondi SOLO con un oggetto JSON: {"tipo":"registratore" oppure "sumup" oppure "altro","data":"AAAA-MM-GG" oppure null,"contanti":numero oppure null,"carte":numero oppure null,"totale":numero oppure null}. Regole: per il registratore "contanti" è il totale pagato in contanti e "carte" il totale dei pagamenti elettronici/carte/bancomat; per il report SumUp "carte" è il totale incassato con carta e "contanti" i pagamenti in contanti registrati su SumUp, se presenti. Numeri con il punto decimale (es. 123.50), senza simbolo euro. Se un valore non si legge con certezza metti null: non inventare.';
+function jp(t){const a=String(t||'');const i=a.indexOf('{'),j=a.lastIndexOf('}');if(i<0||j<i)throw new Error('risposta non leggibile');return JSON.parse(a.slice(i,j+1));}
+window.v74ReadZ=async inp=>{const fs=[...(inp.files||[])];inp.value='';if(!fs.length)return;const box=$('v74zst');if(!getGeminiKey()){if(box)box.textContent='⚠️ Manca la chiave Gemini (Opzioni).';return;}
+ const t0=Date.now();const tm=setInterval(()=>{if(box)box.textContent='⏳ Leggo la foto… '+Math.round((Date.now()-t0)/1000)+' s';},500);const got=[],bad=[];
+ try{for(const f of fs){try{const b64=await shrinkImage(f);const r=jp(await callGemini([{inline_data:{mime_type:'image/jpeg',data:b64}},{text:PROMPT}],true));got.push(r);}catch(e){bad.push(e.message||String(e));}}}finally{clearInterval(tm);}
+ const set=(id,v)=>{const e=$(id);if(e&&v!=null)e.value=String(Math.round(v*100)/100);};const said=[];let dateWarn='';const[a]=(typeof contiRange==='function'?contiRange():[null]);
+ got.forEach(r=>{const c=num(r.contanti),k=num(r.carte);if(r.data&&a&&r.data!==a)dateWarn=' ⚠️ La data sullo scontrino è '+r.data.split('-').reverse().join('/')+', ma stai chiudendo il '+a.split('-').reverse().join('/')+'.';
+  if(r.tipo==='registratore'){set('ccRtCash',c);set('ccRtEl',k);if(c!=null)said.push('registratore contanti € '+formatPrice(c));if(k!=null)said.push('registratore elettronico € '+formatPrice(k));}
+  else if(r.tipo==='sumup'){set('ccPos',k);set('ccSuCash',c);if(k!=null)said.push('SumUp carte € '+formatPrice(k));if(c!=null)said.push('SumUp contanti € '+formatPrice(c));}
+  else bad.push('non riconosco il tipo di scontrino');});
+ if(box)box.innerHTML=(said.length?'✅ Letto dalla foto: <b>'+esc(said.join(' · '))+'</b>.'+esc(dateWarn):'')+(bad.length?'<br>⚠️ '+esc(bad.join(' · '))+'. Riprova con una foto più dritta e luminosa.':'');
+ if(said.length&&!dateWarn){setTimeout(()=>{try{saveCashClose();}catch(e){}},500);}};
+{const _r=renderCashClose;renderCashClose=function(){const r=_r.apply(this,arguments);try{const el=$('cashClose');if(el&&el.querySelector('#ccRtCash')&&!el.querySelector('.v74z')){const lab=$('ccRtCash').previousElementSibling;const d=document.createElement('div');d.className='v74z';d.innerHTML='<b>📸 Leggi i totali dalla foto</b><br>Fotografa lo scontrino di chiusura Z del registratore e/o il report SumUp: Gemini compila i campi e verifica da solo.<label class="v74b" style="display:block;text-align:center;margin:8px 0 0;cursor:pointer;">📷 Scegli o scatta la foto<input type="file" accept="image/*" multiple style="display:none" onchange="v74ReadZ(this)"></label><div class="st" id="v74zst"></div>';if(lab)lab.before(d);}}catch(e){}return r;};}
+/* sospetto: quale conto non torna */
+function subset(arr,target,maxn){const R=[];const n=arr.length;if(n>16)arr=arr.slice(0,16);const go=(i,cur,sum)=>{if(R.length>=3)return;if(Math.abs(sum-target)<0.01&&cur.length>=2){R.push(cur.slice());return;}if(cur.length>=maxn||i>=arr.length)return;for(let j=i;j<arr.length;j++){cur.push(arr[j]);go(j+1,cur,sum+arr[j].a);cur.pop();}};go(0,[],0);return R;}
+function parts(L,kind){return L.map(e=>{const p=payOf(e);return{e,a:Math.round((kind==='cash'?p.cash:p.card)*100)/100};}).filter(x=>x.a>0.004);}
+const lbl=x=>esc(x.e.tableName||'Conto')+' ore '+esc(x.e.time||'')+' · € '+formatPrice(x.a);
+function diag(sv,L){const d=sv.diff||{};const out=[];const cash=d.cash||0,el=d.el||0,pos=d.pos==null?0:d.pos;const Pc=parts(L,'cash'),Pk=parts(L,'card');
+ const near=(P,t)=>{const ex=P.filter(x=>Math.abs(x.a-t)<0.01);if(ex.length)return {t:'one',l:ex};const s=subset(P,t,3);return s.length?{t:'sum',l:s}:null;};
+ const show=(r)=>r.t==='one'?r.l.map(lbl).join(' <i>oppure</i> '):r.l.map(g=>g.map(lbl).join(' + ')).join(' <i>oppure</i> ');
+ if(Math.abs(cash)>0.009&&Math.abs(el)>0.009&&Math.abs(cash+el)<0.01){const t=Math.abs(cash);const P=cash>0?Pk:Pc;const r=near(P,t);out.push(`Sul registratore i contanti sono ${cash>0?'+':'−'}€ ${formatPrice(t)} e l’elettronico ${el>0?'+':'−'}€ ${formatPrice(t)}: è un <b>pagamento segnato con la forma sbagliata</b>.${r?'<br>Sospetto: '+show(r)+' (era '+(cash>0?'carta, ma l’hai pagato in contanti':'contanti, ma è stato pagato con carta')+'?). Correggi con “✏️ Cambia pagamento”.':''}`);}
+ else{
+  if(Math.abs(cash)>0.009){const t=Math.abs(cash);if(cash<0){const r=near(Pc,t);out.push(`Contanti: sul registratore mancano <b>€ ${formatPrice(t)}</b>.${r?'<br>Sospetto scontrino non battuto: '+show(r):'<br>Nessun conto in contanti di questo importo: può essere un conto in parte contanti, o un incasso senza scontrino.'}`);}else{out.push(`Contanti: sul registratore ci sono <b>€ ${formatPrice(t)} in più</b> dell’app: probabile conto non chiuso nell’app o battuto in contanti anziché carta.`);}}
+  if(Math.abs(el)>0.009){const t=Math.abs(el);if(el<0){const r=near(Pk,t);out.push(`Elettronico: sul registratore mancano <b>€ ${formatPrice(t)}</b>.${r?'<br>Sospetto scontrino non battuto: '+show(r):''}`);}else out.push(`Elettronico: sul registratore ci sono <b>€ ${formatPrice(t)} in più</b> dell’app: probabile conto carta non chiuso nell’app.`);}
+  if(Math.abs(pos)>0.009){const t=Math.abs(pos);if(pos<0){const r=near(Pk,t);out.push(`SumUp carte: sul terminale mancano <b>€ ${formatPrice(t)}</b>.${r?'<br>Sospetto: '+show(r)+' (segnato carta ma non passato sul terminale?).':''}`);}else out.push(`SumUp carte: il terminale ha <b>€ ${formatPrice(t)} in più</b>: un pagamento passato su SumUp non è registrato come carta nell’app.`);}
+ }
+ if(!out.length)return '';
+ return `<div class="v74k"><b>🔎 Sospetti</b><br>${out.join('<hr style="border:0;border-top:1px dashed #D97706;margin:6px 0;">')}<button class="v74b" style="margin:8px 0 0;" onclick="v74Ai()">🤖 Chiedi a Gemini</button><div id="v74ai" style="margin-top:6px;white-space:pre-wrap;"></div></div>`;}
+window.v74Ai=async()=>{const out=$('v74ai');if(!out)return;if(!getGeminiKey()){out.textContent='⚠️ Manca la chiave Gemini (Opzioni).';return;}
+ const[a]=contiRange(),s=state.ccSvc,L=(state.historyLog||[]).filter(e=>e&&svcDate(e)===a&&(s==='giorno'||svcOf(e)===s)),sv=(state.staffCfg.closures||{})[ccKey(a,s)]||{};
+ const lines=L.map(e=>{const p=payOf(e);return `${e.tableName||'Conto'} ore ${e.time||'?'} totale ${formatPrice(e.total)} pagamento ${p.m} (contanti ${formatPrice(p.cash)}, carta ${formatPrice(p.card)})${e.pay&&e.pay.via?' via '+e.pay.via:''}`;}).join('\n');
+ const q=`Sei l'assistente di cassa di una trattoria. La chiusura cassa del ${a} non torna. Differenze (registratore/POS meno app, in euro): contanti ${(sv.diff||{}).cash||0}, elettronico ${(sv.diff||{}).el||0}, POS carte ${(sv.diff||{}).pos==null?'non inserito':sv.diff.pos}, SumUp contanti ${(sv.diff||{}).su==null?'non inserito':sv.diff.su}. Conti chiusi nell'app:\n${lines}\nIn italiano semplice, massimo 4 righe: indica il conto più sospetto (solo tra quelli elencati, non inventarne) e cosa controllare. Se non si può capire, dillo.`;
+ const t0=Date.now();const tm=setInterval(()=>{out.textContent='⏳ Gemini sta guardando i conti… '+Math.round((Date.now()-t0)/1000)+' s';},500);
+ try{const r=await callGemini([{text:q}]);out.textContent='🤖 '+String(r||'').trim();}catch(e){out.textContent='⚠️ Gemini non risponde: '+(e.message||e);}finally{clearInterval(tm);}};
+{const _r=ccResultHtml;ccResultHtml=function(sv,L){const h=_r.apply(this,arguments);try{return sv.ok?h:h+diag(sv,L);}catch(e){return h;}};}
+})();
+
+}catch(e){console.error("chef-extra v2.9.74",e);}
+try{(function(){const V='v2.9.74';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
