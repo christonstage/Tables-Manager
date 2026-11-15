@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.82 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.83 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2028,7 +2028,7 @@ setInterval(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.82';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.83';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2069,6 +2069,7 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.83',['⚠️ Il richiamo “comanda non inviata” ora compare solo a Christian, Alice e Serena: sul KDS e sul terminale timbrature non c’è più.','La barra rossa ha il tasto ✕ (la nasconde per 10 minuti) e ignora le bozze vecchie di oltre 3 ore.']],
 ['v2.9.82',['🚀 “Invia tutta la comanda” ora manda tutto rispettando le mandate: parte la 1ª, le altre aspettano il via, in sequenza.','🎙️ Briefing: tasto “Ascolta il briefing AI”, un riassunto parlato naturale.','💶 Opzioni › Prezzi suggeriti: scrivi il costo del piatto (o fallo stimare all’AI) e ti propongo il prezzo per il food cost scelto.','💬 Prenotazioni: tasto “Conferma” su WhatsApp e lettura AI del messaggio incollato del cliente.','🥃 Il testo “Offri l’amaro” ora dice da € 44.']],
 ['v2.9.81',['⚠️ Comanda non inviata: riquadro rosso lampeggiante in cima alla comanda, tasto INVIA che pulsa e barra rossa su tutte le schermate.','⏰ Se la comanda resta non inviata per 2 minuti: suono, vibrazione, avviso e notifica sul telefono, ripetuti ogni 2 minuti.','🥃 “Offri l’amaro” da € 44 a coperto in su.','🌞 Il tasto “Pranzo” ora è in fondo alle categorie.']],
 ['v2.9.80',['🚀 Comanda: tasto “INVIA TUTTO INSIEME” per mandare in cucina antipasti, primi e secondi in un’unica volta (i dolci restano per dopo).','🏢 Campanello: nuovo tasto “Vieni in Ufficio!”.']],
@@ -2806,13 +2807,14 @@ const st=document.createElement('style');st.textContent=`
 .v81card{background:#DC2626;color:#fff;border:3px solid #fff;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-weight:900;text-align:center;animation:v81p 1.4s infinite}`;
 document.head.appendChild(st);
 const bar=document.createElement('div');bar.id='v81bar';document.body.appendChild(bar);
-const seen={},rem={},pushed={};
+const seen={},rem={},pushed={},snooze={};
 function drafts(t){return (t&&t.items||[]).filter(i=>!isItemSent(t,i)&&!isCop(i));}
 function since(t,L){const now=Date.now();let m=now;L.forEach(i=>{const k=t.id+':'+i.lineId;if(!seen[k])seen[k]=now;let a=seen[k];if(i.lineId>1e12&&i.lineId<a)a=Math.floor(i.lineId);if(a<m)m=a;});return m;}
 const mm=ms=>{const s=Math.max(0,Math.round(ms/1000));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
 function tick(){try{
+ if(!['christian','alice','serena'].includes(ME())||(typeof isKdsDev==='function'&&isKdsDev())){bar.style.display='none';const cc=document.getElementById('v81card');if(cc)cc.remove();document.querySelectorAll('.btn-print.v81x').forEach(b=>b.classList.remove('v81x'));return;}
  const now=Date.now(),list=[];
- Object.values(state.tables||{}).forEach(t=>{const L=drafts(t);if(!L.length){if(pushed[t.id]){pushed[t.id]=0;if(code()&&ME())fetch('https://ntfy.sh/'+code()+'-'+ME()+'/u'+t.id+'/clear',{method:'PUT'}).catch(()=>{});}delete rem[t.id];return;}list.push({t,L,age:now-since(t,L)});});
+ Object.values(state.tables||{}).forEach(t=>{const L=drafts(t);if(!L.length){if(pushed[t.id]){pushed[t.id]=0;if(code()&&ME())fetch('https://ntfy.sh/'+code()+'-'+ME()+'/u'+t.id+'/clear',{method:'PUT'}).catch(()=>{});}delete rem[t.id];return;}const ag=now-since(t,L);if(ag>3*3600000||(snooze[t.id]||0)>now)return;list.push({t,L,age:ag});});
  const act=document.getElementById('viewOrder');const inOrder=act&&act.classList.contains('active');
  const cur=inOrder&&state.activeTableId?state.tables[state.activeTableId]:null;
  /* INVIA lampeggia se il tavolo aperto ha piatti non inviati */
@@ -2826,8 +2828,8 @@ function tick(){try{
  /* barra fissa su tutte le schermate */
  const worst=list.filter(x=>!(cur&&x.t===cur&&0)).sort((a,b)=>b.age-a.age)[0];
  if(worst&&!document.querySelector('.modal-overlay.active')){const n=worst.L.reduce((s,i)=>s+(Number(i.qty)||0),0);
-  bar.innerHTML='<b>⚠️ '+String(worst.t.name||'Tavolo').replace(/[<>&]/g,'')+': comanda NON inviata ('+n+' '+(n===1?'piatto':'piatti')+', da '+mm(worst.age)+')'+(list.length>1?' · altri '+(list.length-1)+' tavoli':'')+'</b><button type="button">Apri</button>';
-  bar.style.display=(inOrder&&cur===worst.t)?'none':'flex';bar.querySelector('button').onclick=()=>{try{state.activeTableId=worst.t.id;openTable?openTable(worst.t.id):0;}catch(e){}};}
+  bar.innerHTML='<b>⚠️ '+String(worst.t.name||'Tavolo').replace(/[<>&]/g,'')+': comanda NON inviata ('+n+' '+(n===1?'piatto':'piatti')+', da '+mm(worst.age)+')'+(list.length>1?' · altri '+(list.length-1)+' tavoli':'')+'</b><button type="button" class="v81o">Apri</button><button type="button" class="v81x2" aria-label="Chiudi">✕</button>';
+  bar.style.display=(inOrder&&cur===worst.t)?'none':'flex';bar.querySelector('.v81x2').onclick=()=>{snooze[worst.t.id]=Date.now()+10*60000;bar.style.display='none';};bar.querySelector('.v81o').onclick=()=>{try{state.activeTableId=worst.t.id;openTable?openTable(worst.t.id):0;}catch(e){}};}
  else bar.style.display='none';
  /* richiamo dopo 2 minuti, poi ogni 2 minuti */
  list.forEach(x=>{if(x.age<120000)return;if(now-(rem[x.t.id]||0)<120000)return;rem[x.t.id]=now;
@@ -2914,4 +2916,4 @@ setInterval(()=>{try{const a=$('n79')||$('n76');if(!a||$('n82'))return;const el=
 })();
 
 }catch(e){console.error("chef-extra v2.9.82",e);}
-try{(function(){const V='v2.9.82';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{(function(){const V='v2.9.83';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
