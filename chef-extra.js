@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.79 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.80 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2028,7 +2028,7 @@ setInterval(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.79';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.80';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2069,6 +2069,7 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.80',['🚀 Comanda: tasto “INVIA TUTTO INSIEME” per mandare in cucina antipasti, primi e secondi in un’unica volta (i dolci restano per dopo).','🏢 Campanello: nuovo tasto “Vieni in Ufficio!”.']],
 ['v2.9.79',['🔔 Chiamate: sulla notifica ci sono 3 tasti: Ricevuto, Arrivo, 5 minuti. Toccandone uno il suono si ferma e chi ha chiamato vede la risposta.','⏰ Se nessuno conferma entro 2 minuti, chi ha chiamato riceve un richiamo.','📞 Opzioni: nuovo registro “Chiamate di stasera” con orari, risposte e tempo medio.']],
 ['v2.9.78',['🌍 Menù dei clienti: nuovo banner animato “Menù tradotto automaticamente” con le 12 bandiere. Si sceglie la lingua con un tocco e, alla prima visita, si imposta da sola quella del telefono.','🔔 Chiamate: tornate a priorità urgente (suono + popup). Se un telefono vibra soltanto, in ntfy si controlla il suono di “Urgenti” (guida nuova al punto 8 in Opzioni).','✅ La conferma “ha ricevuto la chiamata” ora arriva con popup visibile, non solo con il suono.']],
 ['v2.9.77',['✅ Chiamate: sulla notifica c’è il tasto “Ricevuto”. Lo tocchi e il suono si ferma, e chi ha chiamato riceve “Serena ha ricevuto la chiamata”.','🔔 Le chiamate ora suonano a priorità alta (una volta sola) e toccando la notifica si apre l’app.']],
@@ -2755,4 +2756,31 @@ setInterval(()=>{try{const d=document.querySelector('#n76 details div');if(d&&!d
 })();
 
 }catch(e){console.error("chef-extra v2.9.79",e);}
-try{(function(){const V='v2.9.79';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+/* v2.9.80 · tasto "Invia tutto insieme" nella comanda + "Vieni in ufficio" nel campanello */
+window.v80SendAll=async function(){const t=state.tables[state.activeTableId];if(!t||!t.items)return;
+ const mv=t.items.filter(i=>!isItemSent(t,i)&&(i.mandata===2||i.mandata===3));
+ if(!confirm('Mandare in cucina TUTTO insieme (antipasti, primi e secondi), senza aspettare le mandate? I dolci restano per dopo.'))return;
+ mv.forEach(i=>{i.mandata=1;});
+ const oc=window.confirm;window.confirm=()=>true;try{await sendOrderToKitchen();}finally{window.confirm=oc;}};
+function paint(){try{
+ const v=document.getElementById('viewOrder');if(!v||!v.classList.contains('active'))return;
+ const t=state.tables[state.activeTableId];const old=document.getElementById('v80all');
+ const need=t&&(t.items||[]).some(i=>!isItemSent(t,i)&&(i.mandata===2||i.mandata===3));
+ if(!need){if(old)old.remove();return;}
+ if(old&&old.isConnected)return;
+ const fat=[...v.querySelectorAll('button')].find(b=>/vuole la fattura/i.test(b.textContent));
+ const b=document.createElement('button');b.id='v80all';b.className='btn-main';b.style.cssText='width:100%;margin:8px 0;background:linear-gradient(180deg,#FFB020,#F97316);color:#1a1a1a;font-weight:900;border-radius:14px;padding:14px;font-size:1rem;box-shadow:0 5px 0 #b45309;';b.textContent='🚀 INVIA TUTTO INSIEME';b.onclick=()=>v80SendAll();
+ if(fat&&fat.parentNode)fat.parentNode.insertBefore(b,fat.nextSibling);else v.prepend(b);
+}catch(e){}}
+{const _r=renderOrderScreen;renderOrderScreen=function(){const r=_r.apply(this,arguments);setTimeout(paint,0);return r;};}
+setInterval(paint,1500);
+/* campanello: Vieni in ufficio */
+setInterval(()=>{try{const m=document.getElementById('pagerModal');if(!m||m.querySelector('.v80u'))return;
+ const g=m.querySelector('div[style*="display:grid"]');if(!g)return;
+ const b=document.createElement('button');b.className='btn-main btn-print v80u';b.textContent='🏢 Vieni in Ufficio!';b.onclick=()=>sendPagerCall('🏢 Vieni in Ufficio!');g.appendChild(b);}catch(e){}},1500);
+})();
+
+}catch(e){console.error("chef-extra v2.9.80",e);}
+try{(function(){const V='v2.9.80';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
