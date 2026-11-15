@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.80 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.82 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2028,7 +2028,7 @@ setInterval(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.80';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.82';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2069,6 +2069,8 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.82',['🚀 “Invia tutta la comanda” ora manda tutto rispettando le mandate: parte la 1ª, le altre aspettano il via, in sequenza.','🎙️ Briefing: tasto “Ascolta il briefing AI”, un riassunto parlato naturale.','💶 Opzioni › Prezzi suggeriti: scrivi il costo del piatto (o fallo stimare all’AI) e ti propongo il prezzo per il food cost scelto.','💬 Prenotazioni: tasto “Conferma” su WhatsApp e lettura AI del messaggio incollato del cliente.','🥃 Il testo “Offri l’amaro” ora dice da € 44.']],
+['v2.9.81',['⚠️ Comanda non inviata: riquadro rosso lampeggiante in cima alla comanda, tasto INVIA che pulsa e barra rossa su tutte le schermate.','⏰ Se la comanda resta non inviata per 2 minuti: suono, vibrazione, avviso e notifica sul telefono, ripetuti ogni 2 minuti.','🥃 “Offri l’amaro” da € 44 a coperto in su.','🌞 Il tasto “Pranzo” ora è in fondo alle categorie.']],
 ['v2.9.80',['🚀 Comanda: tasto “INVIA TUTTO INSIEME” per mandare in cucina antipasti, primi e secondi in un’unica volta (i dolci restano per dopo).','🏢 Campanello: nuovo tasto “Vieni in Ufficio!”.']],
 ['v2.9.79',['🔔 Chiamate: sulla notifica ci sono 3 tasti: Ricevuto, Arrivo, 5 minuti. Toccandone uno il suono si ferma e chi ha chiamato vede la risposta.','⏰ Se nessuno conferma entro 2 minuti, chi ha chiamato riceve un richiamo.','📞 Opzioni: nuovo registro “Chiamate di stasera” con orari, risposte e tempo medio.']],
 ['v2.9.78',['🌍 Menù dei clienti: nuovo banner animato “Menù tradotto automaticamente” con le 12 bandiere. Si sceglie la lingua con un tocco e, alla prima visita, si imposta da sola quella del telefono.','🔔 Chiamate: tornate a priorità urgente (suono + popup). Se un telefono vibra soltanto, in ntfy si controlla il suono di “Urgenti” (guida nuova al punto 8 in Opzioni).','✅ La conferma “ha ricevuto la chiamata” ora arriva con popup visibile, non solo con il suono.']],
@@ -2783,4 +2785,133 @@ setInterval(()=>{try{const m=document.getElementById('pagerModal');if(!m||m.quer
 })();
 
 }catch(e){console.error("chef-extra v2.9.80",e);}
-try{(function(){const V='v2.9.80';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const nk=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+const code=()=>(localStorage.getItem('alicetta_ntfy')||'').trim();
+const ME=()=>nk(state.waiterName);
+const isCop=i=>i&&(i.cat==='1 Coperto'||/coperto/i.test(i.name||''));
+/* Offri l'amaro da 44 euro a coperto in su */
+amaroInfo=function(t){if(!t||!t.items||!t.items.length||t.amaroOk)return null;const c=copCount(t);if(c<1)return null;const pc=getTableTotal(t)/c;return pc>=44?{pc,c}:null;};
+/* il chip "Pranzo" va in fondo */
+{const _c=renderCategories;renderCategories=function(){const r=_c.apply(this,arguments);try{const b=document.querySelector('#catBar .lu-cat');if(b&&b.parentNode.lastElementChild!==b)b.parentNode.appendChild(b);}catch(e){}return r;};}
+/* comanda non inviata: avviso ben visibile + richiamo ogni 2 minuti */
+const st=document.createElement('style');st.textContent=`
+@keyframes v81p{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.75)}50%{box-shadow:0 0 0 12px rgba(220,38,38,0)}}
+@keyframes v81b{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+#v81bar{position:fixed;left:8px;right:8px;bottom:calc(104px + env(safe-area-inset-bottom,0px));z-index:9000;background:#DC2626;color:#fff;border:3px solid #fff;border-radius:16px;padding:10px 12px;font-weight:900;font-size:.95rem;display:none;animation:v81p 1.4s infinite;align-items:center;gap:8px}
+#v81bar b{flex:1;line-height:1.25}
+#v81bar button{border:0;border-radius:12px;padding:10px 12px;font-weight:900;background:#fff;color:#B91C1C;font-size:.9rem}
+.btn-print.v81x{background:#DC2626!important;color:#fff!important;animation:v81b 1s infinite}
+.v81card{background:#DC2626;color:#fff;border:3px solid #fff;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-weight:900;text-align:center;animation:v81p 1.4s infinite}`;
+document.head.appendChild(st);
+const bar=document.createElement('div');bar.id='v81bar';document.body.appendChild(bar);
+const seen={},rem={},pushed={};
+function drafts(t){return (t&&t.items||[]).filter(i=>!isItemSent(t,i)&&!isCop(i));}
+function since(t,L){const now=Date.now();let m=now;L.forEach(i=>{const k=t.id+':'+i.lineId;if(!seen[k])seen[k]=now;let a=seen[k];if(i.lineId>1e12&&i.lineId<a)a=Math.floor(i.lineId);if(a<m)m=a;});return m;}
+const mm=ms=>{const s=Math.max(0,Math.round(ms/1000));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
+function tick(){try{
+ const now=Date.now(),list=[];
+ Object.values(state.tables||{}).forEach(t=>{const L=drafts(t);if(!L.length){if(pushed[t.id]){pushed[t.id]=0;if(code()&&ME())fetch('https://ntfy.sh/'+code()+'-'+ME()+'/u'+t.id+'/clear',{method:'PUT'}).catch(()=>{});}delete rem[t.id];return;}list.push({t,L,age:now-since(t,L)});});
+ const act=document.getElementById('viewOrder');const inOrder=act&&act.classList.contains('active');
+ const cur=inOrder&&state.activeTableId?state.tables[state.activeTableId]:null;
+ /* INVIA lampeggia se il tavolo aperto ha piatti non inviati */
+ document.querySelectorAll('.btn-print').forEach(b=>{if(/INVIA/.test(b.textContent)&&!b.closest('#v81bar')&&!/TUTTO/.test(b.textContent))b.classList.toggle('v81x',!!(cur&&drafts(cur).length));});
+ /* riquadro in cima alla comanda */
+ const cart=document.getElementById('cartContainer');
+ if(cart){let c=document.getElementById('v81card');const L=cur?drafts(cur):[];
+  if(L.length){const n=L.reduce((s,i)=>s+(Number(i.qty)||0),0),a=list.find(x=>x.t===cur);const txt='⚠️ COMANDA NON INVIATA · '+n+(n===1?' piatto':' piatti')+' in bozza'+(a?' · da '+mm(a.age):'');
+   if(!c){c=document.createElement('div');c.id='v81card';c.className='v81card';cart.prepend(c);}else if(c.parentNode!==cart||cart.firstChild!==c)cart.prepend(c);c.textContent=txt;}
+  else if(c)c.remove();}
+ /* barra fissa su tutte le schermate */
+ const worst=list.filter(x=>!(cur&&x.t===cur&&0)).sort((a,b)=>b.age-a.age)[0];
+ if(worst&&!document.querySelector('.modal-overlay.active')){const n=worst.L.reduce((s,i)=>s+(Number(i.qty)||0),0);
+  bar.innerHTML='<b>⚠️ '+String(worst.t.name||'Tavolo').replace(/[<>&]/g,'')+': comanda NON inviata ('+n+' '+(n===1?'piatto':'piatti')+', da '+mm(worst.age)+')'+(list.length>1?' · altri '+(list.length-1)+' tavoli':'')+'</b><button type="button">Apri</button>';
+  bar.style.display=(inOrder&&cur===worst.t)?'none':'flex';bar.querySelector('button').onclick=()=>{try{state.activeTableId=worst.t.id;openTable?openTable(worst.t.id):0;}catch(e){}};}
+ else bar.style.display='none';
+ /* richiamo dopo 2 minuti, poi ogni 2 minuti */
+ list.forEach(x=>{if(x.age<120000)return;if(now-(rem[x.t.id]||0)<120000)return;rem[x.t.id]=now;
+  try{playKitchenBell();}catch(e){}try{if(navigator.vibrate)navigator.vibrate([300,120,300,120,300]);}catch(e){}
+  try{__toast('⏰ '+x.t.name+': comanda NON inviata da '+Math.floor(x.age/60000)+' min!',5000,0);}catch(e){}
+  if(code()&&ME()){pushed[x.t.id]=1;fetch('https://ntfy.sh',{method:'POST',body:JSON.stringify({topic:code()+'-'+ME(),title:'⏰ Comanda non inviata',message:x.t.name+': '+x.L.reduce((s,i)=>s+(Number(i.qty)||0),0)+' piatti in bozza da '+Math.floor(x.age/60000)+' min',priority:4,tags:['warning'],click:location.origin+location.pathname,sequence_id:'u'+x.t.id})}).catch(()=>{});}});
+}catch(e){}}
+setInterval(tick,1000);
+})();
+
+}catch(e){console.error("chef-extra v2.9.81",e);}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>escH(s);
+const toast=m=>{try{__toast(m,3000,0);}catch(e){}};
+const jobj=t=>{const a=String(t||''),i=a.indexOf('{'),j=a.lastIndexOf('}');if(i<0||j<i)throw new Error('risposta non leggibile');return JSON.parse(a.slice(i,j+1));};
+const hasKey=()=>{try{return !!getGeminiKey();}catch(e){return false;}};
+const today=()=>{try{return buildDateISO();}catch(e){return new Date().toISOString().slice(0,10);}};
+function modal(html){let o=$('v82m');if(o)o.remove();o=document.createElement('div');o.id='v82m';o.style.cssText='position:fixed;inset:0;z-index:99990;background:rgba(0,0,0,.6);overflow:auto;padding:calc(14px + env(safe-area-inset-top,0px)) 10px 30px;';o.innerHTML='<div style="max-width:560px;margin:0 auto;background:var(--card,#fff);color:var(--text,#062329);border-radius:18px;padding:14px;">'+html+'</div>';o.addEventListener('click',e=>{if(e.target===o)o.remove();});document.body.appendChild(o);return o;}
+window.v82Close=()=>{const o=$('v82m');if(o)o.remove();};
+const BTN='border:0;border-radius:12px;padding:12px;font-weight:900;font-size:.95rem;width:100%;margin-top:8px;';
+
+/* 0 · INVIA TUTTO: trasmette tutta la comanda e la cucina riceve le mandate in sequenza (parte la 1ª, le altre restano in attesa del via) */
+window.v80SendAll=async function(){const t=state.tables[state.activeTableId];if(!t)return;
+ if(!confirm('Inviare TUTTA la comanda? Parte la 1ª mandata; la 2ª e la 3ª restano in attesa e partono quando le dai il via, nella giusta sequenza.'))return;
+ await sendOrderToKitchen();};
+{const _paint=document.getElementById('v80all');}
+setInterval(()=>{try{const b=$('v80all');if(b)b.textContent='🚀 INVIA TUTTA LA COMANDA (in sequenza)';
+ const c=$('cartContainer');if(c){const w=document.createTreeWalker(c,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){if(/oltre i € 40\)/.test(n.nodeValue))n.nodeValue=n.nodeValue.replace('oltre i € 40)','da € 44 in su)');}}}catch(e){}},1200);
+
+/* 1 · Briefing parlato dall'AI */
+async function speakBrief(det){const facts=det.innerText.replace(/🔊|🎙️[^\n]*/g,'').trim();const st=det.querySelector('.v82bs');
+ const say=t=>{try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='it-IT';u.rate=1;speechSynthesis.speak(u);}catch(e){}};
+ if(st)st.textContent='⏳ Preparo il briefing…';let txt=facts;
+ try{if(hasKey())txt=await callGemini([{text:'Sei il sous-chef di una trattoria di pesce a Fossacesia (Alicetta). Trasforma questi dati in un briefing parlato per la brigata, circa 40 secondi, italiano naturale e diretto, senza elenchi né simboli, apri con "Buongiorno brigata", metti per prime le cose urgenti (piatti finiti o quasi finiti, prenotazioni importanti), chiudi con una frase di incoraggiamento breve. Non inventare nulla che non sia nei dati.\n\nDATI:\n'+facts.slice(0,2500)}]);}catch(e){if(st)st.textContent='⚠️ AI non disponibile, leggo i dati così come sono.';}
+ if(st&&!/AI non/.test(st.textContent))st.textContent='🔊 In lettura… (tocca di nuovo per fermare)';say(txt);}
+setInterval(()=>{try{document.querySelectorAll('details').forEach(d=>{const s=d.querySelector('summary');if(!s||!/Briefing di oggi/.test(s.textContent)||d.querySelector('.v82b'))return;
+ const w=document.createElement('div');w.className='v82b';w.style.cssText='margin:8px 0;';w.innerHTML='<button type="button" style="border:0;border-radius:12px;padding:12px;font-weight:900;width:100%;background:linear-gradient(135deg,#7C3AED,#EC4899);color:#fff;">🎙️ Ascolta il briefing AI</button><div class="v82bs" style="font-size:.8rem;font-weight:700;margin-top:4px;"></div>';
+ w.querySelector('button').onclick=e=>{e.stopPropagation();if(window.speechSynthesis&&speechSynthesis.speaking){speechSynthesis.cancel();w.querySelector('.v82bs').textContent='';return;}speakBrief(d);};
+ const k=d.querySelector('.bf-k');if(k)k.before(w);else d.appendChild(w);});}catch(e){}},2000);
+
+/* 2 · Prezzi suggeriti dal food cost */
+const TG=()=>{const v=Number(localStorage.getItem('alicetta_fc_target'));return v>5&&v<90?v:30;};
+const sug=(c,tg)=>c>0?Math.ceil((c/(tg/100))*2)/2:0;
+const eur=n=>'€ '+formatPrice(n);
+const dishes=()=>(state.menu||[]).filter(m=>m&&m.name&&!['1 Coperto','2 Bevande'].includes(m.cat));
+function drawP(){const tg=TG();const L=dishes();const rows=L.map(m=>{const fc=Number(m.fc)||0,pr=Number(m.price)||0,s=sug(fc,tg),pc=fc&&pr?Math.round(fc/pr*100):0,bad=pc>tg;
+ return '<div style="padding:8px 0;border-bottom:1px dashed #ccc;"><div style="font-weight:800;font-size:.9rem;">'+esc(m.name)+'</div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:.8rem;margin-top:4px;"><span>Prezzo '+eur(pr)+'</span><span>· costo €</span><input inputmode="decimal" data-id="'+esc(String(m.id))+'" value="'+(fc?String(fc).replace('.',','):'')+'" placeholder="0,00" style="width:70px;padding:6px;border-radius:8px;border:1px solid #999;" oninput="v82Fc(this)"><span style="font-weight:900;color:'+(bad?'#B91C1C':'#047857')+';">'+(fc&&pr?pc+'%':'')+'</span>'+(s&&Math.abs(s-pr)>=0.5?'<button type="button" onclick="v82Use(\''+esc(String(m.id))+'\')" style="border:0;border-radius:10px;padding:6px 9px;font-weight:900;background:#FDE047;">Suggerito '+eur(s)+(m.fcAi?' ✨':'')+' · usa</button>':(fc&&pr?'<span>✅ prezzo ok</span>':''))+'</div></div>';}).join('');
+ const o=$('v82m');if(!o)return;const y=o.scrollTop;o.firstChild.innerHTML='<h3 style="margin:0 0 6px;">💶 Prezzi suggeriti dal food cost</h3><div style="font-size:.8rem;font-weight:700;">Scrivi quanto ti costano gli ingredienti di una porzione: ti propongo il prezzo di vendita per restare sotto il food cost che scegli (di solito 28–35%).</div><div style="margin:8px 0;font-weight:800;">Food cost obiettivo: <input id="v82tg" inputmode="numeric" value="'+tg+'" style="width:54px;padding:6px;border-radius:8px;border:1px solid #999;" onchange="v82Tg(this.value)"> %</div><button type="button" style="'+BTN+'background:linear-gradient(135deg,#7C3AED,#EC4899);color:#fff;" onclick="v82Est()">✨ Stima i costi mancanti con l’AI</button><div id="v82st" style="font-size:.8rem;font-weight:700;margin:6px 0;"></div>'+rows+'<button type="button" style="'+BTN+'background:#E5E7EB;color:#111;" onclick="v82Close()">Chiudi</button>';o.scrollTop=y;}
+window.v82Tg=v=>{const n=parseFloat(String(v).replace(',','.'));if(n>5&&n<90){try{localStorage.setItem('alicetta_fc_target',String(n));}catch(e){}}drawP();};
+window.v82Fc=el=>{const m=(state.menu||[]).find(x=>String(x.id)===el.dataset.id);if(!m)return;const n=parseFloat(String(el.value).replace(',','.'));if(n>0){m.fc=Math.round(n*100)/100;delete m.fcAi;}else{delete m.fc;delete m.fcAi;}clearTimeout(window._v82t);window._v82t=setTimeout(()=>{saveState(false,{menu:true});drawP();},1200);};
+window.v82Use=id=>{const m=(state.menu||[]).find(x=>String(x.id)===String(id));if(!m)return;const s=sug(Number(m.fc)||0,TG());if(!s)return;if(!confirm('Cambiare il prezzo di “'+m.name+'” da '+eur(m.price)+' a '+eur(s)+'?'))return;m.price=s;saveState(false,{menu:true});try{renderMenuGrid&&renderMenuGrid();}catch(e){}drawP();toast('✅ Prezzo aggiornato');};
+window.v82Est=async function(){const st=$('v82st');if(!hasKey()){if(st)st.textContent='⚠️ Manca la chiave Gemini in Opzioni.';return;}
+ const L=dishes().filter(m=>!Number(m.fc)).slice(0,40);if(!L.length){if(st)st.textContent='Tutti i piatti hanno già un costo.';return;}
+ if(st)st.textContent='⏳ Stimo '+L.length+' piatti…';
+ try{const t=await callGemini([{text:'Per ognuno di questi piatti di una trattoria di pesce abruzzese, stima il costo in euro delle sole materie prime per UNA porzione, ai prezzi all\'ingrosso italiani di oggi. Rispondi SOLO con JSON: {"c":[{"i":<indice>,"c":<euro>}]}.\n'+L.map((m,i)=>i+': '+m.name+' ('+m.cat+')').join('\n')}],true);
+  const r=jobj(t).c||[];let n=0;r.forEach(x=>{const m=L[Number(x.i)];const c=Number(x.c);if(m&&c>0&&c<80){m.fc=Math.round(c*100)/100;m.fcAi=1;n++;}});
+  saveState(false,{menu:true});drawP();const s2=$('v82st');if(s2)s2.textContent='✨ '+n+' costi stimati: sono ipotesi, correggili con i tuoi costi veri.';}catch(e){if(st)st.textContent='⚠️ '+(e.message||e);}};
+function openP(){modal('');drawP();}
+window.v82Prices=openP;
+
+/* 3 · WhatsApp prenotazioni: conferma al cliente + lettura del messaggio incollato */
+const fixPh=p=>{let d=String(p||'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length<=10)d='39'+d;return d;};
+const dlong=iso=>{try{return new Date(iso+'T12:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});}catch(e){return iso;}};
+function tpl(r){return 'Ciao '+(r.name||'')+'! Confermiamo la prenotazione da Alicetta Trattoria (Fossacesia) per '+r.covers+(Number(r.covers)===1?' persona':' persone')+' '+dlong(r.date)+' alle '+(r.time||'')+'.'+(r.note?' Abbiamo annotato: '+r.note+'.':'')+' Se cambia qualcosa scrivici o chiamaci al 392 3279000. Vi aspettiamo! 🐟';}
+window.v82Wa=function(id){const r=(state.res||{})[id];if(!r)return;
+ const o=modal('<h3 style="margin:0 0 6px;">💬 Conferma a '+esc(r.name)+'</h3><textarea id="v82t" rows="7" style="width:100%;border-radius:10px;padding:8px;border:1px solid #999;font-size:.9rem;">'+esc(tpl(r))+'</textarea><button type="button" style="'+BTN+'background:linear-gradient(135deg,#7C3AED,#EC4899);color:#fff;" id="v82ai">✨ Riscrivilo con l’AI (più caldo)</button><button type="button" style="'+BTN+'background:#25D366;color:#fff;" id="v82go">📲 Apri WhatsApp</button><div id="v82ws" style="font-size:.8rem;font-weight:700;margin-top:6px;">'+(r.phone?'':'⚠️ Manca il telefono: potrai scegliere il contatto in WhatsApp.')+'</div><button type="button" style="'+BTN+'background:#E5E7EB;color:#111;" onclick="v82Close()">Chiudi</button>');
+ $('v82go').onclick=()=>{const tx=$('v82t').value;window.open('https://wa.me/'+(r.phone?fixPh(r.phone):'')+'?text='+encodeURIComponent(tx),'_blank');};
+ $('v82ai').onclick=async()=>{if(!hasKey()){$('v82ws').textContent='⚠️ Manca la chiave Gemini in Opzioni.';return;}$('v82ws').textContent='⏳ …';try{const t=await callGemini([{text:'Riscrivi questo messaggio WhatsApp di conferma prenotazione per una trattoria di pesce, tono caldo e familiare, massimo 3 frasi, massimo 2 emoji, tieni TUTTI i dati (nome, persone, giorno, ora, telefono) senza cambiarli. Rispondi solo con il messaggio.\n\n'+$('v82t').value}]);$('v82t').value=t.replace(/^["“]|["”]$/g,'');$('v82ws').textContent='✅ Pronto, controllalo prima di inviare.';}catch(e){$('v82ws').textContent='⚠️ '+(e.message||e);}};};
+async function readMsg(){const tx=($('v82pm')||{}).value||'',st=$('v82ps');if(tx.trim().length<8){if(st)st.textContent='Incolla prima il messaggio del cliente.';return;}if(!hasKey()){if(st)st.textContent='⚠️ Manca la chiave Gemini in Opzioni.';return;}
+ st.textContent='⏳ Leggo il messaggio…';
+ try{const t=await callGemini([{text:'Oggi è '+today()+' ('+dlong(today())+'). Un cliente ha scritto questo messaggio su WhatsApp a una trattoria per prenotare. Estrai i dati e scrivi una risposta breve, calorosa, in italiano (max 3 frasi, max 2 emoji) che chieda conferma di ciò che manca. Rispondi SOLO con JSON: {"name":"","phone":"","date":"YYYY-MM-DD o vuoto","time":"HH:MM o vuoto","covers":numero o 0,"note":"allergie, seggiolone, occasioni… o vuoto","reply":""}. Non inventare dati assenti.\n\nMESSAGGIO:\n'+tx.slice(0,1500)}],true);
+  const d=jobj(t);const set=(id,v)=>{const e=$(id);if(e&&v)e.value=v;};set('rName',d.name);set('rPhone',String(d.phone||'').replace(/[^\d+]/g,''));if(/^\d{4}-\d{2}-\d{2}$/.test(d.date||''))set('rDate',d.date);if(/^\d{1,2}:\d{2}$/.test(d.time||''))set('rTime',d.time.padStart(5,'0'));if(Number(d.covers)>0)set('rCov',String(Math.round(Number(d.covers))));set('rNote',d.note);
+  st.innerHTML='✅ Ho compilato il modulo qui sotto: controllalo e premi Salva. Risposta pronta per il cliente:';const r=$('v82pr');r.style.display='block';r.value=String(d.reply||'');$('v82pw').style.display='block';
+ }catch(e){st.textContent='⚠️ '+(e.message||e);}}
+function paintRes(){try{const v=$('viewRes');if(!v||!v.classList.contains('active'))return;
+ if(!$('v82paste')){const f=$('resForm');if(f&&f.parentNode){const w=document.createElement('div');w.id='v82paste';w.className='cart-section';w.innerHTML='<h3 style="margin-bottom:6px;">💬 Prenotazione da messaggio WhatsApp</h3><textarea id="v82pm" rows="3" placeholder="Incolla qui il messaggio del cliente…" style="width:100%;border-radius:10px;padding:8px;border:1px solid #999;"></textarea><button type="button" id="v82rd" style="'+BTN+'background:linear-gradient(135deg,#7C3AED,#EC4899);color:#fff;">✨ Leggi e compila la prenotazione</button><div id="v82ps" style="font-size:.8rem;font-weight:700;margin-top:6px;"></div><textarea id="v82pr" rows="4" style="display:none;width:100%;border-radius:10px;padding:8px;border:1px solid #999;margin-top:6px;"></textarea><button type="button" id="v82pw" style="'+BTN+'display:none;background:#25D366;color:#fff;">📲 Rispondi su WhatsApp</button>';f.parentNode.insertBefore(w,f);$('v82rd').onclick=readMsg;$('v82pw').onclick=()=>{const ph=($('rPhone')||{}).value||'';window.open('https://wa.me/'+(ph?fixPh(ph):'')+'?text='+encodeURIComponent($('v82pr').value),'_blank');};}}
+ v.querySelectorAll('button[onclick^="v40EditRes("]').forEach(b=>{if(b.parentNode.querySelector('.v82w'))return;const m=/v40EditRes\('([^']+)'\)/.exec(b.getAttribute('onclick'));if(!m)return;const n=document.createElement('button');n.className='btn-note v82w';n.textContent='💬 Conferma';n.onclick=()=>v82Wa(m[1]);b.parentNode.insertBefore(n,b);});
+}catch(e){}}
+setInterval(paintRes,1500);
+/* card in Opzioni */
+setInterval(()=>{try{const a=$('n79')||$('n76');if(!a||$('n82'))return;const el=document.createElement('div');el.id='n82';el.className='cart-section';el.innerHTML='<h3 style="margin:0 0 6px;">💶 Prezzi suggeriti</h3><div style="font-size:.8rem;font-weight:700;margin-bottom:6px;">Costo delle materie prime per piatto → prezzo di vendita consigliato.</div><button class="btn-main" style="width:100%;" onclick="v82Prices()">Apri</button>';a.after(el);}catch(e){}},2000);
+})();
+
+}catch(e){console.error("chef-extra v2.9.82",e);}
+try{(function(){const V='v2.9.82';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
