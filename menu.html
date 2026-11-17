@@ -887,6 +887,34 @@ try{render(currentTab);}catch(e){}paint();
 })();
 </script>
 
-<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.78</div>
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.90</div>
+<script>
+/* ===== v2.9.90 · Dividi il conto dal QR (?split=CODICE) ===== */
+(function(){const q=new URLSearchParams(location.search),code=(q.get('split')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length!==6)return;
+ const FBU='https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app';
+ const it=((localStorage.getItem('alicetta_lang')||navigator.language||'it').slice(0,2).toLowerCase())==='it';
+ const T=it?{h:'Dividi il conto',s:'Scegli i piatti che hai preso tu e invia: il cameriere vedrà la tua parte.',n:'Il tuo nome',tot:'La tua parte',send:'Invia la mia scelta',ok:'✅ Fatto! Il cameriere ha ricevuto la tua parte.',left:'rimasti',none:'Conto non trovato o scaduto. Chiedi al cameriere un nuovo QR.',nm:'Scrivi il tuo nome',pk:'Scegli almeno un piatto',err:'Connessione assente, riprova.',again:'Scegli per un\'altra persona',note:'Importo indicativo: coperto e sconti sono ripartiti in proporzione.'}:{h:'Split the bill',s:'Pick the dishes you had and send: the waiter will see your share.',n:'Your name',tot:'Your share',send:'Send my choice',ok:'✅ Done! The waiter received your share.',left:'left',none:'Bill not found or expired. Ask the waiter for a new QR.',nm:'Enter your name',pk:'Pick at least one dish',err:'No connection, please retry.',again:'Choose for another person',note:'Indicative amount: cover and discounts are shared proportionally.'};
+ const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const eur=n=>'€ '+(Math.round(n*100)/100).toFixed(2).replace('.',',');
+ const ov=document.createElement('div');ov.style.cssText='position:fixed;inset:0;z-index:99999;background:#8ED8EA;overflow:auto;font-family:system-ui,sans-serif;color:#062329;';document.body.appendChild(ov);
+ let D=null,P={};
+ const card=h=>`<div style="max-width:520px;margin:0 auto;padding:18px 14px 120px;"><div style="text-align:center;font-weight:900;font-size:1.5rem;margin:6px 0;">🧾 ${T.h}</div>${h}</div>`;
+ function draw(){if(!D){ov.innerHTML=card(`<div style="background:#fff;border-radius:18px;padding:16px;text-align:center;font-weight:800;">${T.none}</div>`);return;}
+  const tk=D.taken||{},items=D.items||[],sub=items.reduce((s,x)=>s+x.p*x.q,0),k=sub>0?(Number(D.tot)||sub)/sub:1;
+  const mine=Object.entries(P).reduce((s,[i,n])=>s+(items[i]?items[i].p*n:0),0)*k;
+  ov.innerHTML=card(`<div style="text-align:center;font-weight:800;margin-bottom:10px;">${esc(D.t||'')}<br><span style="font-weight:600;font-size:.9rem;">${T.s}</span></div><div style="background:#fff;border-radius:18px;padding:6px 12px;box-shadow:0 5px 0 rgba(6,35,41,.25);">`+items.map((x,i)=>{const r=Math.max(0,x.q-(tk[i]||0)),n=P[i]||0;return `<div style="display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px dashed #9CC;"><div style="flex:1;font-weight:800;">${esc(x.n)}<div style="font-weight:600;font-size:.8rem;color:#355;">${eur(x.p)} · ${r} ${T.left}</div></div><button data-m="${i}" style="width:40px;height:40px;border-radius:12px;border:0;background:#E2E8F0;font-size:1.3rem;font-weight:900;">−</button><b style="min-width:22px;text-align:center;font-size:1.1rem;">${n}</b><button data-p="${i}" ${n>=r?'disabled':''} style="width:40px;height:40px;border-radius:12px;border:0;background:${n>=r?'#CBD5E1':'#FF2D95'};color:#fff;font-size:1.3rem;font-weight:900;">+</button></div>`;}).join('')+`</div><input id="spN" placeholder="${T.n}" maxlength="30" style="width:100%;box-sizing:border-box;margin-top:12px;padding:14px;border-radius:14px;border:2px solid #062329;font-size:1rem;font-weight:700;" value="${esc(localStorage.getItem('alicetta_sp_name')||'')}"><div style="font-size:.75rem;font-weight:600;margin-top:6px;">${T.note}</div><div style="position:fixed;left:0;right:0;bottom:0;background:#062329;color:#fff;padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));"><div style="max-width:520px;margin:0 auto;display:flex;gap:10px;align-items:center;"><div style="flex:1;font-weight:900;">${T.tot}<br><span style="font-size:1.4rem;">${eur(mine)}</span></div><button id="spS" style="border:0;border-radius:14px;padding:14px 16px;font-weight:900;font-size:1rem;background:#FF2D95;color:#fff;">${T.send}</button></div><div id="spE" style="text-align:center;color:#FCA5A5;font-weight:800;font-size:.85rem;"></div></div>`);
+  ov.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{const i=b.dataset.p;P[i]=(P[i]||0)+1;draw();});
+  ov.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const i=b.dataset.m;P[i]=Math.max(0,(P[i]||0)-1);if(!P[i])delete P[i];draw();});
+  document.getElementById('spS').onclick=send;}
+ async function send(){const nm=document.getElementById('spN').value.trim(),e=document.getElementById('spE');if(!nm){e.textContent=T.nm;return;}if(!Object.keys(P).length){e.textContent=T.pk;return;}
+  try{localStorage.setItem('alicetta_sp_name',nm);}catch(x){}
+  try{const r=await fetch(FBU+'/fidelity/inbox.json',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'split',code,name:nm.slice(0,30),picks:P,ts:Date.now()})});if(!r.ok)throw 0;
+   ov.innerHTML=card(`<div style="background:#fff;border-radius:18px;padding:18px;text-align:center;font-weight:900;font-size:1.1rem;">${T.ok}</div><button id="spA" style="width:100%;margin-top:12px;border:0;border-radius:14px;padding:14px;font-weight:900;background:#062329;color:#fff;">${T.again}</button>`);
+   document.getElementById('spA').onclick=()=>{P={};try{localStorage.removeItem('alicetta_sp_name');}catch(x){}load();};}
+  catch(x){e.textContent=T.err;}}
+ async function load(){ov.innerHTML=card('<div style="text-align:center;font-weight:800;">⏳</div>');try{const r=await fetch(FBU+'/fidelity/pub/s_'+code+'.json?t='+Date.now(),{cache:'no-store'});D=r.ok?await r.json():null;if(D&&Date.now()-(Number(D.ts)||0)>6*3600000)D=null;}catch(x){D=null;}draw();}
+ load();setInterval(async()=>{if(!D)return;try{const r=await fetch(FBU+'/fidelity/pub/s_'+code+'/taken.json?t='+Date.now(),{cache:'no-store'});if(r.ok){const tk=await r.json()||{};if(JSON.stringify(tk)!==JSON.stringify(D.taken||{})){D.taken=tk;const items=D.items||[];Object.keys(P).forEach(i=>{const rem=Math.max(0,(items[i]?items[i].q:0)-(tk[i]||0));if(P[i]>rem)P[i]=rem;if(!P[i])delete P[i];});const a=document.activeElement&&document.activeElement.id==='spN';if(!a)draw();}}}catch(x){}},6000);
+})();
+</script>
 </body>
 </html>
