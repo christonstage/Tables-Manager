@@ -5,7 +5,7 @@ window.CBT=function(fn,ms){if(typeof fn!=='function')return ni(fn,ms);const id=+
 window.clearInterval=function(id){if(T.has(id))T.delete(id);else nc(id);};
 window.CBTinfo=()=>({attivi:T.size,tick:200});
 ni(()=>run(false),200);document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastHid=0;T.forEach(t=>{t.next=0;});run(false);}});})();
-/* Chef Bull Brigade - chef-extra.js v2.9.89 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.90 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2037,7 +2037,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.89';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.90';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2078,6 +2078,7 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.90',['🔊 KDS: la cucina sente le comande e i “via” delle mandate a voce (tasto 🔊 Voce ON/OFF sul KDS).','📸 Com’era il piatto?: foto del piatto prima che esca, Gemini la confronta con la foto di riferimento (AI › Sous-Chef e tasto 📸 sul KDS).','🧾 Dividi dal QR: dalla comanda il QR del conto; ogni commensale sceglie i suoi piatti dal telefono e tu vedi chi paga cosa.','🐟 Piatto del giorno dal pescato: foto della cassetta, Gemini incrocia meteo e vendite e propone piatto, prezzo e testo per la lavagnetta.','🕵️ Cliente misterioso: i tempi di ogni tavolo (comanda, mandate, conto) e cosa migliorare, nel Riepilogo del servizio.']],
 ['v2.9.89',['🍭 Nuovo set di icone “Gelatina classica”: l’effetto lucido della Gelatina con i disegni delle Classiche, ancora più grandi. È già attivo; puoi cambiarlo in Opzioni › Icone.','🧹 Pulizia profonda: tolte 13 vecchie funzioni doppie che non venivano più usate (cassa, ritardi, KDS, conti).','🔋 Orologio unico anche per gli ultimi 22 timer: ora tutta l’app gira su un solo timer.']],
 ['v2.9.88',['🎨 Barra in basso ridisegnata: più alta, con icone più grandi e un effetto vetro; l’icona attiva si alza.','🍬 6 nuovi set di icone 3D colorate: Gelatina, Bolle, Argilla, Neon, Cristallo, Sticker. Li scegli in Opzioni › Icone della barra in basso (con anteprima).']],
 ['v2.9.87',['🔋 Un solo orologio: i circa 60 timer dell’app ora girano su un unico timer (più leggero per batteria e telefono). Quando l’app è in secondo piano rallenta da sola.','🧹 Recensioni: le regole di Lei, varietà e personalizzazione sono ora in un unico blocco (prima erano in due).','📘 Nessuna funzione cambia: è una versione di pulizia.']],
@@ -3097,4 +3098,122 @@ apply();draw();CBT(()=>{try{apply();if($('iconCard')&&!$('iconCard').classList.c
 window.v88Test=(m)=>{localStorage.setItem('alicetta_icons',m);window.v221Icons(m);};
 })();
 }catch(e){console.error("chef-extra v2.9.88",e);}
-try{(function(){const V='v2.9.89';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const toast=m=>{try{__toast(m,3200,0);}catch(e){}};
+const who=()=>(state.waiterName||'').trim();
+const owner=()=>/^christian$/i.test(who());
+const kds=()=>typeof isKdsDev==='function'&&isKdsDev();
+const E=n=>'€ '+formatPrice(Math.round((Number(n)||0)*100)/100);
+const strip=h=>String(h||'').replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();
+const noKey=()=>typeof getGeminiKey==='function'&&!getGeminiKey();
+const st=document.createElement('style');st.textContent=`.v90ov{position:fixed;inset:0;z-index:9800;background:rgba(2,6,23,.72);display:flex;align-items:flex-end;justify-content:center}.v90bx{background:var(--card-bg,#E0F2FE);color:var(--text-main,#062329);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom,0px));box-sizing:border-box}.v90bx h3{margin:0 0 6px;color:var(--logo-coral,#FF5733)}.v90r{white-space:pre-wrap;line-height:1.5;font-weight:600;font-size:.92rem;background:rgba(124,58,237,.09);border-radius:12px;padding:10px;margin-top:8px}.v90g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.v90b{border:0;border-radius:14px;padding:12px;font-weight:900;font-size:.95rem;background:#7C3AED;color:#fff;width:100%}.v90b.alt{background:#0EA5E9}.v90b.gr{background:#16A34A}.v90b.gy{background:#475569}.v90img{width:100%;border-radius:12px;display:block}.v90row{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px dashed rgba(100,116,139,.5);font-weight:700;font-size:.88rem}.v90bad{color:#DC2626;font-weight:900}.v90ok{color:#16A34A;font-weight:900}#v90card .v90b{margin-top:6px}.v90kv{position:fixed;right:10px;top:calc(120px + env(safe-area-inset-top,0px));z-index:80;border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-size:.9rem;box-shadow:0 4px 0 rgba(0,0,0,.35)}`;document.head.appendChild(st);
+function ov(id,html){let o=$(id);if(o)o.remove();o=document.createElement('div');o.id=id;o.className='v90ov';o.innerHTML='<div class="v90bx">'+html+'<button class="v90b gy" style="margin-top:12px;" data-x="1">Chiudi</button></div>';o.onclick=e=>{if(e.target===o||(e.target.dataset&&e.target.dataset.x))o.remove();};document.body.appendChild(o);return o;}
+const pick=(cap)=>new Promise(ok=>{const i=document.createElement('input');i.type='file';i.accept='image/*';if(cap)i.capture='environment';i.onchange=()=>ok(i.files&&i.files[0]||null);i.click();});
+const img=b=>'data:image/jpeg;base64,'+b;
+const dishes=()=>(state.menu||[]).filter(m=>m&&m.name&&!['1 Coperto','2 Bevande'].includes(m.cat)).sort((a,b)=>String(a.cat).localeCompare(b.cat)||a.name.localeCompare(b.name));
+const dk=n=>String(n||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'_').slice(0,60);
+
+/* ===== 1 · KDS: la cucina sente le comande a voce ===== */
+const VK='alicetta_kds_voice';const vOn=()=>localStorage.getItem(VK)!=='0';
+const ORD=['','prima','seconda','terza','quarta','quinta'];
+function sayText(ev){let t=strip(ev.title).replace(/[^\p{L}\p{N}ªº'.,:\- ]/gu,' ');t=t.replace(/(\d)\s*[ªº]/g,(m,d)=>ORD[d]||d).replace(/\s*-\s*/g,', ').replace(/\s+/g,' ').trim().toLowerCase();
+ let s=strip(ev.kdsSummary||ev.summary||'').replace(/(\d+)\s*x\s*/gi,'$1 ').replace(/\((con la (\d)ª)\)/g,(m,a,d)=>'con la '+(ORD[d]||d));return (t+'. '+s).slice(0,400);}
+function speak(txt){try{if(!('speechSynthesis' in window))return;const u=new SpeechSynthesisUtterance(txt);u.lang='it-IT';u.rate=.95;u.pitch=1;const v=speechSynthesis.getVoices().find(x=>/^it/i.test(x.lang));if(v)u.voice=v;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
+window.v90Say=ev=>speak(sayText(ev));
+let lastEv=null;
+function voiceTick(){let b=$('v90kv');if(!kds()){if(b)b.remove();lastEv=null;return;}
+ if(!b){b=document.createElement('button');b.id='v90kv';b.className='v90kv';b.onclick=()=>{localStorage.setItem(VK,vOn()?'0':'1');if(vOn())speak('Voce attiva. Ti leggerò le comande.');voiceTick();};document.body.appendChild(b);}
+ b.textContent=vOn()?'🔊 Voce ON':'🔇 Voce OFF';b.style.background=vOn()?'#22C55E':'#64748B';b.style.color='#fff';b.style.display=($('viewKds')&&$('viewKds').classList.contains('active'))?'':'none';
+ const ev=state.lastOrderEvent;const id=ev&&ev.id;if(lastEv===null){lastEv=id||0;return;}
+ if(id&&id!==lastEv){lastEv=id;if(vOn()&&!ev.noKds&&!ev.sala&&Date.now()-id<120000)speak(sayText(ev));}}
+CBT(voiceTick,1000);
+
+/* ===== 2 · Com'era il piatto? Foto di controllo contro la foto di riferimento ===== */
+async function refGet(k){try{return await fbGet('/costi/piattifoto/'+k);}catch(e){return null;}}
+async function refPut(k,b,name){await fbSend('/costi/piattifoto/'+k,'PUT',{img:b,name,ts:Date.now(),by:who()});}
+window.v90Plate=function(){const L=dishes();const o=ov('v90pl',`<h3>📸 Com'era il piatto?</h3><div class="fc-sub" style="font-weight:700;">Scegli il piatto, poi fotografalo prima che esca. Gemini lo confronta con la foto di riferimento.</div><input class="form-control" id="v90q" placeholder="🔍 Cerca piatto…" style="margin-top:8px;"><div id="v90dl" style="max-height:52vh;overflow:auto;margin-top:6px;"></div>`);
+ const draw=()=>{const q=dk($('v90q').value);$('v90dl').innerHTML=L.filter(m=>!q||dk(m.name).includes(q)).map(m=>`<div class="v90row" data-n="${esc(m.name)}" style="cursor:pointer;"><span>${esc(m.name)}</span><span>›</span></div>`).join('')||'<div class="fc-sub">Nessun piatto.</div>';$('v90dl').querySelectorAll('[data-n]').forEach(r=>r.onclick=()=>plateDish(r.dataset.n));};$('v90q').oninput=draw;draw();};
+async function plateDish(name){const k=dk(name);const o=ov('v90pl',`<h3>📸 ${esc(name)}</h3><div id="v90pb">⏳ Cerco la foto di riferimento…</div>`);const ref=await refGet(k);const box=$('v90pb');if(!box)return;
+ box.innerHTML=(ref&&ref.img?`<div class="fc-sub" style="font-weight:800;">Riferimento${ref.ts?' del '+new Date(ref.ts).toLocaleDateString('it-IT'):''}</div><img class="v90img" src="${img(ref.img)}">`:'<div class="v90r">Non c\'è ancora una foto di riferimento per questo piatto. Fotografa il piatto fatto come vuoi tu: diventerà il modello.</div>')+`<div class="v90g"><button class="v90b" id="v90sh">📷 ${ref&&ref.img?'Foto di controllo':'Foto di riferimento'}</button><button class="v90b alt" id="v90gl">🖼️ Dalla galleria</button></div><div id="v90out"></div>`;
+ const go=async cap=>{const f=await pick(cap);if(!f)return;const b=await shrinkImage(f,900);const out=$('v90out');
+  if(!ref||!ref.img){await refPut(k,b,name);toast('✅ Foto di riferimento salvata');plateDish(name);return;}
+  out.innerHTML=`<img class="v90img" style="margin-top:8px;" src="${img(b)}"><div class="v90r">⏳ Gemini confronta i due piatti…</div>`;
+  if(noKey()){out.querySelector('.v90r').textContent='🔑 Inserisci la chiave Gemini in ⚙️ Opzioni.';return;}
+  try{const r=await callGemini([{text:`Sei il capo cuoco di Alicetta Trattoria. Confronta due foto dello stesso piatto, "${name}": la PRIMA è il riferimento (com'è giusto), la SECONDA è il piatto che sta per uscire. Giudica solo ciò che si vede: porzione (più, meno, uguale), impiattamento e disposizione, guarnizioni presenti o mancanti, pulizia del bordo del piatto, colore/cottura apparente. Non inventare ingredienti che non si vedono. Rispondi SOLO con JSON: {"voto":1-10,"esito":"ok"|"da sistemare","porzione":"uguale"|"più abbondante"|"più scarsa","differenze":["max 4 frasi brevi"],"consiglio":"una frase pratica"}`},{inline_data:{mime_type:'image/jpeg',data:ref.img}},{inline_data:{mime_type:'image/jpeg',data:b}}],true);
+   const j=typeof r==='string'?JSON.parse(r.replace(/```json|```/g,'')):r;const ok=j.esito==='ok'||Number(j.voto)>=8;
+   out.querySelector('.v90r').innerHTML=`<div style="font-size:1.15rem;" class="${ok?'v90ok':'v90bad'}">${ok?'✅ Può uscire':'⚠️ Da sistemare'} · ${esc(j.voto)}/10</div>🍽️ Porzione: <b>${esc(j.porzione||'-')}</b>${(j.differenze||[]).length?'<br>• '+(j.differenze||[]).map(esc).join('<br>• '):''}${j.consiglio?'<br>💡 '+esc(j.consiglio):''}`;
+   const nb=document.createElement('button');nb.className='v90b gy';nb.style.marginTop='8px';nb.textContent='⭐ Usa questa come nuovo riferimento';nb.onclick=async()=>{await refPut(k,b,name);toast('✅ Nuovo riferimento salvato');plateDish(name);};out.appendChild(nb);
+   try{const lg=JSON.parse(localStorage.getItem('alicetta_v90_plog')||'[]');lg.unshift({n:name,v:j.voto,ok,ts:Date.now(),by:who()});localStorage.setItem('alicetta_v90_plog',JSON.stringify(lg.slice(0,80)));}catch(e){}}
+  catch(e){out.querySelector('.v90r').textContent='⚠️ '+(e.message||e);}};
+ $('v90sh').onclick=()=>go(true);$('v90gl').onclick=()=>go(false);}
+
+/* ===== 3 · Il cliente si divide il conto dal QR ===== */
+const menuUrl=()=>location.origin+location.pathname.replace(/index\.html$/,'').replace(/\/?$/,'/')+'menu.html';
+const code6=()=>{const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<6;i++)s+=a[Math.floor(Math.random()*a.length)];return s;};
+async function splitMove(){try{const ib=await fbGet('/fidelity/inbox');if(!ib)return;for(const k of Object.keys(ib)){const v=ib[k];if(v&&v.type==='split'&&/^[A-Z0-9]{6}$/.test(v.code||'')){await fbSend('/costi/split/'+v.code+'/'+k,'PUT',{name:String(v.name||'').slice(0,30),picks:v.picks||{},ts:Number(v.ts)||Date.now()});await fbSend('/fidelity/inbox/'+k,'DELETE');}}}catch(e){}}
+if(typeof processFidelity==='function'){const _pf=processFidelity;processFidelity=async function(){await splitMove();return _pf.apply(this,arguments);};}
+let SP=null;
+window.v90Split=async function(){const t=state.tables[state.activeTableId];if(!t||!t.items||!t.items.length){toast('Il tavolo è vuoto');return;}
+ const items=[];t.items.forEach(i=>{if(Number(i.qty)>0&&Number(i.price)>=0)items.push({n:String(i.name).slice(0,50),q:Number(i.qty),p:Number(i.price)});});
+ let dsc=0;try{dsc=window.v25DiscAmt?v25DiscAmt(t):0;}catch(e){}
+ const code=(SP&&SP.tid===t.id&&Date.now()-SP.ts<4*3600000)?SP.code:code6();SP={code,tid:t.id,ts:Date.now(),items,tot:getTableTotal(t),dsc};
+ try{await fbSend('/fidelity/pub/s_'+code,'PUT',{t:t.name,items,tot:SP.tot,dsc,ts:Date.now(),taken:{}});}catch(e){toast('⚠️ Non riesco a pubblicare il conto: controlla la connessione');return;}
+ const u=menuUrl()+'?split='+code;
+ const o=ov('v90sp',`<h3>🧾 Dividi il conto dal QR · ${esc(t.name)}</h3><div class="fc-sub" style="font-weight:700;">Ogni commensale inquadra il QR, sceglie i suoi piatti e invia. Qui vedi chi ha preso cosa.</div><div id="v90qr" style="display:flex;justify-content:center;margin:10px 0;background:#fff;border-radius:14px;padding:10px;"></div><div class="v90g"><button class="v90b alt" id="v90cp">🔗 Copia link</button><button class="v90b" id="v90wa">💬 WhatsApp</button></div><div id="v90cl" style="margin-top:10px;">⏳ In attesa delle scelte…</div>`);
+ try{new QRCode($('v90qr'),{text:u,width:200,height:200,colorDark:'#062329',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}catch(e){$('v90qr').textContent=u;}
+ $('v90cp').onclick=async()=>{try{await navigator.clipboard.writeText(u);toast('📋 Link copiato');}catch(e){prompt('Copia il link',u);}};
+ $('v90wa').onclick=()=>window.open('https://wa.me/?text='+encodeURIComponent('🧾 Il conto del '+t.name+' da Alicetta: scegli i tuoi piatti qui '+u),'_blank');
+ const tick=async()=>{if(!$('v90sp')){clearInterval(tm);return;}await splitMove();let d={};try{d=await fbGet('/costi/split/'+code)||{};}catch(e){}
+  const C=Object.values(d).sort((a,b)=>a.ts-b.ts),taken={};C.forEach(c=>Object.entries(c.picks||{}).forEach(([i,q])=>{taken[i]=(taken[i]||0)+Number(q||0);}));
+  try{await fbSend('/fidelity/pub/s_'+code+'/taken','PUT',taken);}catch(e){}
+  const sub=SP.items.reduce((s,x)=>s+x.p*x.q,0),k=sub>0?SP.tot/sub:1;
+  const rows=C.map(c=>{const amt=Object.entries(c.picks||{}).reduce((s,[i,q])=>s+((SP.items[i]||{}).p||0)*Number(q||0),0)*k;return `<div class="v90row"><span>👤 ${esc(c.name||'Senza nome')}<br><small style="font-weight:600;">${Object.entries(c.picks||{}).filter(([i,q])=>q>0).map(([i,q])=>q+'× '+esc((SP.items[i]||{}).n||'?')).join(', ')}</small></span><span>${E(amt)}</span></div>`;}).join('');
+  const left=SP.items.map((x,i)=>({...x,r:x.q-(taken[i]||0)})).filter(x=>x.r>0);const leftAmt=left.reduce((s,x)=>s+x.p*x.r,0)*k;
+  const over=SP.items.some((x,i)=>(taken[i]||0)>x.q);
+  $('v90cl').innerHTML=(rows||'<div class="fc-sub">Ancora nessuno ha scelto.</div>')+(left.length?`<div class="v90row" style="color:#B45309;"><span>⏳ Da assegnare<br><small style="font-weight:600;">${left.map(x=>x.r+'× '+esc(x.n)).join(', ')}</small></span><span>${E(leftAmt)}</span></div>`:'<div class="v90ok" style="margin-top:6px;">✅ Tutto assegnato</div>')+(over?'<div class="v90bad" style="margin-top:6px;">⚠️ Qualcuno ha preso più porzioni di quelle sul conto: controlla.</div>':'')+`<div class="fc-sub" style="margin-top:6px;">Totale conto ${E(SP.tot)}${SP.dsc>0?' (sconto già ripartito)':''}. Coperto e bevande condivise si dividono come le altre voci.</div>`;};
+ const tm=setInterval(tick,5000);tick();};
+CBT(()=>{try{const pb=document.querySelector('#viewOrder [onclick="showPreBill()"]');if(pb&&!$('v90spb')){const b=document.createElement('button');b.id='v90spb';b.className=pb.className;b.style.cssText='background:#7C3AED;color:#fff;';b.textContent='🧾 DIVIDI DAL QR';b.onclick=()=>v90Split();pb.after(b);}}catch(e){}},1500);
+
+/* ===== 4 · Piatto del giorno dal pescato e dal meteo ===== */
+async function meteo(){try{const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=42.245&longitude=14.484&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode&timezone=Europe%2FRome&forecast_days=2');const d=await r.json();const x=d.daily;return{oggi:{max:x.temperature_2m_max[0],min:x.temperature_2m_min[0],pioggia:x.precipitation_probability_max[0]+'%',codice:x.weathercode[0]},domani:{max:x.temperature_2m_max[1],min:x.temperature_2m_min[1],pioggia:x.precipitation_probability_max[1]+'%'}};}catch(e){return null;}}
+function topSold(days){const lim=Date.now()-days*864e5,c={};(state.historyLog||[]).forEach(e=>{if(!e||(e.ts||0)<lim)return;(e.items||[]).forEach(i=>{if(!i||['1 Coperto','2 Bevande'].includes(i.cat))return;c[i.name]=(c[i.name]||0)+(Number(i.qty)||0);});});return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,12).map(([n,q])=>n+' ('+q+')');}
+window.v90Catch=function(){ov('v90ct',`<h3>🐟 Piatto del giorno dal pescato</h3><div class="fc-sub" style="font-weight:700;">Fotografa la cassetta del pesce arrivato (o la bolla). Gemini guarda meteo, vendite e menù e ti propone il piatto del giorno.</div><input class="form-control" id="v90nt" placeholder="Note facoltative (es. prezzo pagato, quantità, cosa vuoi evitare)" style="margin-top:8px;"><div class="v90g"><button class="v90b" id="v90c1">📷 Foto</button><button class="v90b alt" id="v90c2">🖼️ Galleria</button></div><button class="v90b gy" id="v90c3" style="margin-top:8px;">✍️ Senza foto, solo testo nelle note</button><div id="v90co"></div>`);
+ const go=async mode=>{let b=null;if(mode!=='t'){const f=await pick(mode==='c');if(!f)return;b=await shrinkImage(f,1400);}const nt=$('v90nt').value.trim();if(!b&&!nt){toast('Scrivi nelle note cosa è arrivato');return;}const out=$('v90co');out.innerHTML=(b?`<img class="v90img" style="margin-top:8px;" src="${img(b)}">`:'')+'<div class="v90r">⏳ Guardo meteo e vendite…</div>';
+  if(noKey()){out.querySelector('.v90r').textContent='🔑 Inserisci la chiave Gemini in ⚙️ Opzioni.';return;}
+  const W=await meteo(),M=dishes().map(m=>m.name+(m.price?' €'+m.price:'')).slice(0,80);
+  const data={giorno:new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'}),meteo_fossacesia:W,piu_venduti_30_giorni:topSold(30),menu_attuale:M,note_del_titolare:nt};
+  try{const r=await callGemini([{text:'Sei lo chef di Alicetta Trattoria a Fossacesia (trattoria di pesce, cucina abruzzese rivisitata). '+(b?'Nella foto c\'è il pesce/prodotto appena arrivato: riconosci specie e quantità indicative (se non sei sicuro dillo). ':'')+'Proponi 2 piatti del giorno che valorizzino il prodotto arrivato, adatti al meteo, coerenti con il menù e con ciò che vende di più, senza copiare un piatto già in carta. Prezzo in linea con i prezzi del menù. Rispondi SOLO con JSON: {"pescato":"cosa hai riconosciuto","proposte":[{"nome":"","descrizione":"max 20 parole, appetitosa","prezzo":0,"perche":"una frase: meteo/vendite","lavagnetta":"testo breve da scrivere sulla lavagna"}]}\n\nDATI: '+JSON.stringify(data)}].concat(b?[{inline_data:{mime_type:'image/jpeg',data:b}}]:[]),true);
+   const j=typeof r==='string'?JSON.parse(r.replace(/```json|```/g,'')):r;
+   out.querySelector('.v90r').outerHTML=`<div class="v90r">🔎 ${esc(j.pescato||'')}${W?`<br>🌦️ Oggi ${Math.round(W.oggi.min)}–${Math.round(W.oggi.max)}°, pioggia ${W.oggi.pioggia}`:''}</div>`+(j.proposte||[]).map((p,i)=>`<div class="cart-section" style="margin-top:8px;"><div style="font-weight:900;font-size:1.05rem;">${esc(p.nome)} · ${E(p.prezzo)}</div><div style="font-weight:600;margin:4px 0;">${esc(p.descrizione)}</div><div class="fc-sub">💡 ${esc(p.perche)}</div><div class="v90r">🖍️ ${esc(p.lavagnetta)}</div><button class="v90b alt" data-i="${i}">📋 Copia testo lavagnetta</button></div>`).join('');
+   out.querySelectorAll('[data-i]').forEach(btn=>btn.onclick=async()=>{const p=j.proposte[btn.dataset.i];const tx=p.lavagnetta+' – € '+p.prezzo;try{await navigator.clipboard.writeText(tx);toast('📋 Copiato');}catch(e){prompt('Copia',tx);}});}
+  catch(e){out.querySelector('.v90r').textContent='⚠️ '+(e.message||e);}};
+ $('v90c1').onclick=()=>go('c');$('v90c2').onclick=()=>go('g');$('v90c3').onclick=()=>go('t');};
+
+/* ===== 5 · Cliente misterioso: quale tavolo ha aspettato troppo ===== */
+const mi=ms=>Math.round(ms/60000);
+function tableTimes(e){const o=Number(e.opened)||0,f=e.fired||{},d=e.done||{},end=Number(e.ts)||0;const ph=[];let lastDone=0;
+ [1,2,3].forEach(m=>{const a=Number(f[m])||0,b=Number(d[m])||0;if(a&&b&&b>a){ph.push({m,att:mi(b-a)});lastDone=Math.max(lastDone,b);}});
+ const first=Number(f[1])||0;return{nome:e.tableName||e.name||'?',coperti:e.coperti||0,ora:e.time||'',totale_min:o&&end?mi(end-o):null,da_seduti_a_comanda_min:o&&first&&first>=o?mi(first-o):null,mandate:ph,da_ultimo_piatto_a_conto_min:lastDone&&end>lastDone?mi(end-lastDone):null};}
+window.v90Mystery=function(){const d=svcToday();const L=(state.historyLog||[]).filter(e=>{try{return svcDate(e)===d;}catch(x){return false;}}).map(tableTimes).filter(x=>x.totale_min!=null||x.mandate.length);
+ const bad=x=>x.mandate.some(p=>p.att>(p.m===1?25:p.m===2?30:25))||(x.da_ultimo_piatto_a_conto_min||0)>25||(x.da_seduti_a_comanda_min||0)>15;
+ const row=x=>`<div class="v90row"><span>${bad(x)?'🔴':'🟢'} ${esc(x.nome)} <small>${esc(x.ora)} · ${x.coperti} cop.</small><br><small style="font-weight:600;">${x.da_seduti_a_comanda_min!=null?'comanda dopo '+x.da_seduti_a_comanda_min+"' · ":''}${x.mandate.map(p=>p.m+'ª in '+p.att+"'").join(' · ')}${x.da_ultimo_piatto_a_conto_min!=null?' · conto dopo '+x.da_ultimo_piatto_a_conto_min+"'":''}</small></span><span>${x.totale_min!=null?x.totale_min+"'":''}</span></div>`;
+ ov('v90my',`<h3>🕵️ Cliente misterioso</h3><div class="fc-sub" style="font-weight:700;">I tempi di ogni tavolo di stasera: dal sedersi alla comanda, ogni mandata in cucina, dall'ultimo piatto al conto. 🔴 = ha aspettato troppo.</div><div style="margin-top:8px;">${L.map(row).join('')||'<div class="fc-sub">Nessun tavolo chiuso con i tempi registrati stasera.</div>'}</div>${L.length?'<button class="v90b" id="v90mya" style="margin-top:10px;">🤖 Cosa è andato storto e come evitarlo</button>':''}<div id="v90myo"></div>`);
+ const a=$('v90mya');if(a)a.onclick=async()=>{const out=$('v90myo');if(noKey()){out.innerHTML='<div class="v90r">🔑 Inserisci la chiave Gemini in ⚙️ Opzioni.</div>';return;}out.innerHTML='<div class="v90r">⏳ Gemini fa il cliente misterioso…</div>';
+  try{const t=await callGemini([{text:'Sei un cliente misterioso esperto di ristorazione. Ti do i tempi reali dei tavoli di stasera di Alicetta Trattoria (minuti). Soglie indicative: comanda entro 10-15 minuti dal sedersi, ogni mandata in cucina entro 20-25 minuti, conto entro 15 minuti dall\'ultimo piatto. Usa SOLO questi dati, niente invenzioni. Scrivi in italiano semplice, massimo 120 parole, senza asterischi: 1) 🔴 il tavolo che ha aspettato di più e in quale momento; 2) 📉 il punto della serata che rallenta più spesso (sala o cucina); 3) 🛠️ due azioni pratiche per il prossimo servizio.\n\nDATI: '+JSON.stringify(L)}],false);out.innerHTML='<div class="v90r">'+esc(String(t).replace(/\*\*/g,'').trim())+'</div>';}
+  catch(e){out.innerHTML='<div class="v90r">⚠️ '+esc(e.message||e)+'</div>';}};};
+
+/* ===== Dove trovarle ===== */
+function hooks(){
+ const pg=$('hub_ai_chef');if(pg&&!$('v90card')&&!kds()){const c=document.createElement('div');c.id='v90card';c.className='cart-section';c.innerHTML='<h3 style="margin:0 0 4px;">✨ Strumenti nuovi</h3><button class="v90b" onclick="v90Catch()">🐟 Piatto del giorno dal pescato</button><button class="v90b alt" onclick="v90Plate()">📸 Com\'era il piatto?</button>'+'<button class="v90b gy" id="v90m3" onclick="v90Mystery()">🕵️ Cliente misterioso di stasera</button>';pg.prepend(c);}
+ const m3=$('v90m3');if(m3)m3.style.display=owner()?'':'none';
+ const kv=$('viewKds');if(kv&&kds()&&kv.classList.contains('active')&&!$('v90kp')){const b=document.createElement('button');b.id='v90kp';b.className='v90kv';b.style.cssText='top:auto;bottom:calc(20px + env(safe-area-inset-bottom,0px));background:#7C3AED;color:#fff;';b.textContent='📸 Piatto';b.onclick=()=>v90Plate();document.body.appendChild(b);}
+ const kp=$('v90kp');if(kp)kp.style.display=(kds()&&kv&&kv.classList.contains('active'))?'':'none';
+ const o=$('v85Ov');if(o&&owner()&&!$('v90m1')){const box=o.querySelector('.vc-box > div');if(box){const b=document.createElement('button');b.id='v90m1';b.className='v90b gy';b.style.marginTop='8px';b.textContent='🕵️ Cliente misterioso: i tempi di ogni tavolo';b.onclick=()=>{o.remove();v90Mystery();};box.appendChild(b);}}
+ const cc=$('v85c');if(cc&&!$('v90m2')){const b=document.createElement('button');b.id='v90m2';b.className='v90b gy';b.style.marginTop='8px';b.textContent='🕵️ Cliente misterioso di stasera';b.onclick=()=>v90Mystery();cc.appendChild(b);}}
+CBT(()=>{try{hooks();}catch(e){}},1000);
+})();
+}catch(e){console.error("chef-extra v2.9.90",e);}
+try{(function(){const V='v2.9.90';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
