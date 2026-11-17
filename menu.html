@@ -890,7 +890,7 @@ try{render(currentTab);}catch(e){}paint();
 })();
 </script>
 
-<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.94</div>
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.95</div>
 <script>
 /* ===== v2.9.90 · Dividi il conto dal QR (?split=CODICE) ===== */
 (function(){const q=new URLSearchParams(location.search),code=(q.get('split')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length!==6)return;
@@ -920,8 +920,8 @@ try{render(currentTab);}catch(e){}paint();
 })();
 </script>
 <script>
-/* ===== v2.9.94 · Collegamento grande al menù del pranzo dalla pagina del menù (anche da NFC) ===== */
-(function(){const q=new URLSearchParams(location.search);if([...q.keys()].filter(k=>k!=='tb').length)return;
+/* ===== v2.9.95 · Collegamento grande al menù del pranzo dalla pagina del menù (anche da NFC) ===== */
+(function(){const q=new URLSearchParams(location.search);if(['pranzo','speciale','club','r','gift','split','rid'].some(k=>q.has(k)))return;
  const h=new Date().getHours();if(h<5||h>=16)return;
  const FBU='https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app';
  const L=((localStorage.getItem('alicetta_lang')||navigator.language||'it').slice(0,2)).toLowerCase();
