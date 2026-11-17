@@ -890,7 +890,7 @@ try{render(currentTab);}catch(e){}paint();
 })();
 </script>
 
-<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.91</div>
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.93</div>
 <script>
 /* ===== v2.9.90 · Dividi il conto dal QR (?split=CODICE) ===== */
 (function(){const q=new URLSearchParams(location.search),code=(q.get('split')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length!==6)return;
@@ -917,6 +917,24 @@ try{render(currentTab);}catch(e){}paint();
   catch(x){e.textContent=T.err;}}
  async function load(){ov.innerHTML=card('<div style="text-align:center;font-weight:800;">⏳</div>');try{const r=await fetch(FBU+'/fidelity/pub/s_'+code+'.json?t='+Date.now(),{cache:'no-store'});D=r.ok?await r.json():null;if(D&&Date.now()-(Number(D.ts)||0)>6*3600000)D=null;}catch(x){D=null;}draw();}
  load();setInterval(async()=>{if(!D)return;try{const r=await fetch(FBU+'/fidelity/pub/s_'+code+'/taken.json?t='+Date.now(),{cache:'no-store'});if(r.ok){const tk=await r.json()||{};if(JSON.stringify(tk)!==JSON.stringify(D.taken||{})){D.taken=tk;const items=D.items||[];Object.keys(P).forEach(i=>{const rem=Math.max(0,(items[i]?items[i].q:0)-(tk[i]||0));if(P[i]>rem)P[i]=rem;if(!P[i])delete P[i];});const a=document.activeElement&&document.activeElement.id==='spN';if(!a)draw();}}}catch(x){}},6000);
+})();
+</script>
+<script>
+/* ===== v2.9.93 · Collegamento grande al menù del pranzo dalla pagina del menù (anche da NFC) ===== */
+(function(){const q=new URLSearchParams(location.search);if([...q.keys()].filter(k=>k!=='tb').length)return;
+ const h=new Date().getHours();if(h<5||h>=16)return;
+ const FBU='https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app';
+ const L=((localStorage.getItem('alicetta_lang')||navigator.language||'it').slice(0,2)).toLowerCase();
+ const T={it:['🌞 MENÙ DEL PRANZO','3 formule: 35 € · 29 € · 25 € — tocca qui'],en:['🌞 LUNCH MENU','3 options: €35 · €29 · €25 — tap here'],de:['🌞 MITTAGSMENÜ','3 Angebote: 35 € · 29 € · 25 € — hier tippen'],fr:['🌞 MENU DU DÉJEUNER','3 formules : 35 € · 29 € · 25 € — touchez ici'],es:['🌞 MENÚ DEL ALMUERZO','3 opciones: 35 € · 29 € · 25 € — toca aquí']}[L]||null;
+ const tx=T||['🌞 LUNCH MENU','3 options: €35 · €29 · €25 — tap here'];
+ const d=new Date(),p=n=>String(n).padStart(2,'0'),iso=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
+ fetch(FBU+'/fidelity/pub/lunch.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
+  if(!v||!(v.secs||[]).some(s=>(s.items||[]).length))return;
+  const day=v.d||(v.ts?(()=>{const x=new Date(v.ts);return x.getFullYear()+'-'+p(x.getMonth()+1)+'-'+p(x.getDate());})():'');if(day&&day!==iso)return;
+  const a=document.createElement('a');a.id='lunchLinkBig';const tb=q.get('tb');a.href=location.pathname+'?pranzo=1'+(tb?'&tb='+encodeURIComponent(tb):'');
+  a.innerHTML='<span style="display:block;font-size:1.45rem;letter-spacing:.04em;">'+tx[0]+'</span><span style="display:block;font-size:.95rem;font-weight:800;margin-top:4px;">'+tx[1]+' ›</span>';
+  a.style.cssText='display:block;margin:12px 12px 6px;padding:18px 14px;border-radius:22px;text-align:center;text-decoration:none;font-weight:900;color:#062329;background:linear-gradient(160deg,#FDE047,#F59E0B 55%,#FF5733);border:3px solid #062329;box-shadow:0 6px 0 #062329,0 14px 24px rgba(0,0,0,.25);position:relative;z-index:5;';
+  document.body.insertBefore(a,document.body.firstChild);}).catch(()=>{});
 })();
 </script>
 </body>
