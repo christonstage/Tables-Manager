@@ -5,7 +5,7 @@ window.CBT=function(fn,ms){if(typeof fn!=='function')return ni(fn,ms);const id=+
 window.clearInterval=function(id){if(T.has(id))T.delete(id);else nc(id);};
 window.CBTinfo=()=>({attivi:T.size,tick:200});
 ni(()=>run(false),200);document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastHid=0;T.forEach(t=>{t.next=0;});run(false);}});})();
-/* Chef Bull Brigade - chef-extra.js v2.9.95 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.97 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2037,7 +2037,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.95';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.97';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2078,6 +2078,7 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.97',['🌞 Formule del pranzo con due prezzi: a sinistra turisti (35 · 29 · 25 €), a destra dipendenti in convenzione (30 · 25 · 22 €).','🧾 Nel conto la formula dei dipendenti compare con “· Dipendenti”, così la distingui nelle vendite.']],
 ['v2.9.95',['🧮 Controllo formule del pranzo: prima di inviare in cucina, se antipasti, primi o secondi non tornano con le formule inserite, l’app avvisa e chiede conferma.','🌞 Menù QR: il tasto grande del pranzo ora compare anche quando il menù si apre dalla carta NFC o da un link con altri parametri.']],
 ['v2.9.92',['🌞 Tolto il vecchio “Menu pranzo completo 30 €”: in “1 Coperto” ci sono le 3 formule (35 · 29 · 25 €).','🍽️ Toccando una formula scegli antipasto, primo e/o secondo tra quelli del giorno: la formula va nel conto, i piatti vanno in cucina a 0 € nella mandata giusta. C’è anche “Aggiungi e scegli per un’altra persona”.']],
 ['v2.9.91',['🌞 Menù pranzo con 3 formule: Menù Completo (Antipasto + Primo + Secondo) 35 €, Pranzo Veloce (Antipasto + Secondo) 29 €, Pranzo Veloce (Antipasto + Primo) 25 €. Coperto, 1 bottiglia d’acqua e caffè inclusi.','🧾 Nella comanda, categoria 🌞 Pranzo: tre tasti grandi, uno per formula. Poi tocchi i piatti scelti, che vanno in cucina a 0 €.','📱 Menù QR del pranzo: le 3 formule ben in vista e, su ogni portata, “scegli 1 di 2”.']],
@@ -3223,12 +3224,12 @@ try{
 (function(){
 const $=id=>document.getElementById(id);
 const LCAT='🌞 PRANZO';
-const OPTS=[{id:'L_MENU_COMPLETO',name:'🌞 Menù Completo (Antipasto + Primo + Secondo)',short:'Menù Completo',d:'Antipasto + Primo + Secondo',p:35},{id:'L_VELOCE_AS',name:'🌞 Pranzo Veloce (Antipasto + Secondo)',short:'Pranzo Veloce',d:'Antipasto + Secondo',p:29},{id:'L_VELOCE_AP',name:'🌞 Pranzo Veloce (Antipasto + Primo)',short:'Pranzo Veloce',d:'Antipasto + Primo',p:25}];
+const OPTS=[{id:'L_MENU_COMPLETO',name:'🌞 Menù Completo (Antipasto + Primo + Secondo)',short:'Menù Completo',d:'Antipasto + Primo + Secondo',p:35,p2:30},{id:'L_VELOCE_AS',name:'🌞 Pranzo Veloce (Antipasto + Secondo)',short:'Pranzo Veloce',d:'Antipasto + Secondo',p:29,p2:25},{id:'L_VELOCE_AP',name:'🌞 Pranzo Veloce (Antipasto + Primo)',short:'Pranzo Veloce',d:'Antipasto + Primo',p:25,p2:22}];
 window.v91Opts=OPTS;
 window.v91Add=i=>{const o=OPTS[i];if(!o)return;const old=state.currentMandata;state.currentMandata=0;try{addItemToTable({id:o.id,name:o.name,cat:'0 Menù pranzo',price:o.p});}finally{state.currentMandata=old;}};
-const st=document.createElement('style');st.textContent='.v91g{display:grid;grid-template-columns:1fr;gap:8px;grid-column:1/-1;margin-bottom:6px}.v91o{display:flex;align-items:center;gap:10px;border:3px solid #062329;border-radius:16px;padding:12px;background:#FDE047;color:#062329;box-shadow:0 4px 0 #062329;cursor:pointer;text-align:left}.v91o:nth-child(2){background:#A7F3D0}.v91o:nth-child(3){background:#BAE6FD}.v91o b{display:block;font-size:1.05rem}.v91o small{font-weight:800;font-size:.8rem}.v91o .p{margin-left:auto;font-weight:900;font-size:1.4rem;white-space:nowrap}.v91o:active{transform:translateY(3px);box-shadow:0 1px 0 #062329}.v91n{grid-column:1/-1;font-size:.78rem;font-weight:800;padding:2px 4px 6px}';document.head.appendChild(st);
-{const _g=renderMenuGrid;renderMenuGrid=function(){const r=_g.apply(this,arguments);try{const q=(($('menuSearch')||{}).value||'').trim();const fx=document.querySelector('#menuGrid .lu-fix');if(state.currentCategory===LCAT&&!q&&fx){const w=document.createElement('div');w.className='v91g';w.innerHTML=OPTS.map((o,i)=>`<button type="button" class="v91o" onclick="v91Add(${i})"><span><b>${o.short}</b><small>${o.d}</small></span><span class="p">${o.p} €</span></button>`).join('')+'<div class="v91n">Una formula per persona (coperto, 1 bottiglia d\'acqua e caffè inclusi). Poi tocca i piatti scelti: vanno in cucina a 0 €.</div>';fx.replaceWith(w);}}catch(e){}return r;};}
-{const _c=renderCategories;renderCategories=function(){const r=_c.apply(this,arguments);try{const b=document.querySelector('#catBar .lu-cat');if(b&&b.textContent!=='🌞 Pranzo 25-35 €')b.textContent='🌞 Pranzo 25-35 €';}catch(e){}return r;};}
+const st=document.createElement('style');st.textContent='.v91g{display:grid;grid-template-columns:1fr;gap:8px;grid-column:1/-1;margin-bottom:6px}.v91o{display:flex;align-items:center;gap:10px;border:3px solid #062329;border-radius:16px;padding:12px;background:#FDE047;color:#062329;box-shadow:0 4px 0 #062329;cursor:pointer;text-align:left}.v91o:nth-child(2){background:#A7F3D0}.v91o:nth-child(3){background:#BAE6FD}.v91o b{display:block;font-size:1.05rem}.v91o small{font-weight:800;font-size:.8rem}.v91o .p{margin-left:auto;font-weight:900;font-size:1.4rem;white-space:nowrap}.v91o:active{transform:translateY(3px);box-shadow:0 1px 0 #062329}.v91n{grid-column:1/-1;font-size:.78rem;font-weight:800;padding:2px 4px 6px}.v96o{display:block;cursor:default;padding:10px 10px 12px}.v96o:active{transform:none;box-shadow:0 4px 0 #062329}.v96t{margin:0 2px 8px}.v96p{display:grid;grid-template-columns:1fr 1fr;gap:8px}.v96b{border:3px solid #062329;border-radius:12px;background:#fff;color:#062329;padding:8px 6px;text-align:center;font-weight:900;box-shadow:0 3px 0 #062329;cursor:pointer}.v96b small{display:block;font-size:.78rem;font-weight:800}.v96b span{display:block;font-size:1.5rem;line-height:1.1}.v96b.v96d{background:#062329;color:#FDE047}.v96b:active{transform:translateY(3px);box-shadow:0 0 0 #062329}';document.head.appendChild(st);
+{const _g=renderMenuGrid;renderMenuGrid=function(){const r=_g.apply(this,arguments);try{const q=(($('menuSearch')||{}).value||'').trim();const fx=document.querySelector('#menuGrid .lu-fix');if(state.currentCategory===LCAT&&!q&&fx){const w=document.createElement('div');w.className='v91g';w.innerHTML=OPTS.map((o,i)=>'<div class="v91o v96o"><div class="v96t"><b>'+o.short+'</b><small>'+o.d+'</small></div><div class="v96p"><button type="button" class="v96b" onclick="v92Choose('+i+',0)"><small>👤 Turisti</small><span>'+o.p+' €</span></button><button type="button" class="v96b v96d" onclick="v92Choose('+i+',1)"><small>🏢 Dipendenti</small><span>'+o.p2+' €</span></button></div></div>').join('')+'<div class="v91n">Una formula per persona (coperto, 1 bottiglia d\'acqua e caffè inclusi). Poi tocca i piatti scelti: vanno in cucina a 0 €.</div>';fx.replaceWith(w);}}catch(e){}return r;};}
+{const _c=renderCategories;renderCategories=function(){const r=_c.apply(this,arguments);try{const b=document.querySelector('#catBar .lu-cat');if(b&&b.textContent!=='🌞 Pranzo 22-35 €')b.textContent='🌞 Pranzo 22-35 €';}catch(e){}return r;};}
 })();
 }catch(e){console.error("chef-extra v2.9.91",e);}
 try{
@@ -3243,7 +3244,7 @@ const OLD=/^\s*men[uù]\s+pranzo/i;
 const lu=()=>{try{return JSON.parse(localStorage.getItem('alicetta_lunch')||'null');}catch(e){return null;}};
 async function luFresh(){try{const d=await fbGet('/fidelity/pub/lunch');if(d&&typeof d==='object'){localStorage.setItem('alicetta_lunch',JSON.stringify(d));return d;}}catch(e){}return lu();}
 const st=document.createElement('style');st.textContent='.v92ov{position:fixed;inset:0;z-index:9800;background:rgba(2,6,23,.72);display:flex;align-items:flex-end;justify-content:center}.v92bx{background:var(--card-bg,#E0F2FE);color:var(--text-main,#062329);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom,0px));box-sizing:border-box}.v92h{font-weight:900;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;margin:12px 0 6px;background:#062329;color:#fff;border-radius:10px;padding:6px 10px}.v92c{display:block;width:100%;text-align:left;border:3px solid #94A3B8;background:#fff;color:#062329;border-radius:14px;padding:13px;margin-bottom:6px;font-weight:800;font-size:1rem}.v92c.on{border-color:#16A34A;background:#DCFCE7}.v92c.on::after{content:" ✅";}.v92b{border:0;border-radius:14px;padding:14px;font-weight:900;font-size:1rem;width:100%;margin-top:8px}';document.head.appendChild(st);
-async function chooser(i){const o=OPTS[i];if(!o)return;const t=state.tables[state.activeTableId];if(!t){toast('Apri prima un tavolo');return;}
+async function chooser(i,emp){const o0=OPTS[i];if(!o0)return;const o=emp?Object.assign({},o0,{id:o0.id+'_DIP',name:o0.name+' · Dipendenti',short:o0.short+' · Dipendenti',p:o0.p2}):o0;const t=state.tables[state.activeTableId];if(!t){toast('Apri prima un tavolo');return;}
  const L=await luFresh();const secs=(L&&L.secs)||[];const need=NEED[i];
  const groups=need.map(k=>{let si=secs.findIndex(s=>KIND[k][1].test(s.n||''));return{k,si,s:secs[si]};});
  const ok=groups.every(g=>g.s&&(g.s.items||[]).length);const sel={};
@@ -3259,7 +3260,7 @@ async function chooser(i){const o=OPTS[i];if(!o)return;const t=state.tables[stat
   $('v92add').onclick=()=>add(false);$('v92more').onclick=()=>add(true);$('v92x').onclick=()=>ov.remove();};
  draw();}
 window.v91Add=chooser;window.v92Choose=chooser;
-const block=()=>'<div class="v91g">'+OPTS.map((o,i)=>`<button type="button" class="v91o" onclick="v92Choose(${i})"><span><b>${o.short}</b><small>${o.d}</small></span><span class="p">${o.p} €</span></button>`).join('')+'<div class="v91n">Una formula per persona: tocca e scegli antipasto, primo e secondo. Coperto, 1 bottiglia d\'acqua e caffè inclusi.</div></div>';
+const block=()=>'<div class="v91g">'+OPTS.map((o,i)=>'<div class="v91o v96o"><div class="v96t"><b>'+o.short+'</b><small>'+o.d+'</small></div><div class="v96p"><button type="button" class="v96b" onclick="v92Choose('+i+',0)"><small>👤 Turisti</small><span>'+o.p+' €</span></button><button type="button" class="v96b v96d" onclick="v92Choose('+i+',1)"><small>🏢 Dipendenti</small><span>'+o.p2+' €</span></button></div></div>').join('')+'<div class="v91n">Una formula per persona: a sinistra prezzo pieno, a destra prezzo dipendenti in convenzione. Poi scegli antipasto, primo e secondo. Coperto, 1 bottiglia d\'acqua e caffè inclusi.</div></div>';
 {const _g=renderMenuGrid;renderMenuGrid=function(){const r=_g.apply(this,arguments);try{const g=$('menuGrid');if(!g)return r;
  g.querySelectorAll('.menu-item').forEach(el=>{const n=el.querySelector('.item-name');if(n&&OLD.test(n.textContent)&&!el.classList.contains('lu-fix'))el.remove();});
  const q=(($('menuSearch')||{}).value||'').trim();
@@ -3269,7 +3270,7 @@ const block=()=>'<div class="v91g">'+OPTS.map((o,i)=>`<button type="button" clas
 }catch(e){console.error("chef-extra v2.9.92",e);}
 try{
 (function(){
-const F={L_MENU_COMPLETO:['a','p','s'],L_VELOCE_AS:['a','s'],L_VELOCE_AP:['a','p']};
+const F={L_MENU_COMPLETO:['a','p','s'],L_VELOCE_AS:['a','s'],L_VELOCE_AP:['a','p'],L_MENU_COMPLETO_DIP:['a','p','s'],L_VELOCE_AS_DIP:['a','s'],L_VELOCE_AP_DIP:['a','p']};
 const K={'3 Antipasti':'a','4 Primi Piatti':'p','5 Secondi':'s'},N={a:'antipasti',p:'primi',s:'secondi'};
 window.v95Check=function(t){const need={a:0,p:0,s:0},have={a:0,p:0,s:0};let f=0;
  (t.items||[]).forEach(i=>{const q=Number(i.qty)||0;if(F[i.id]){f+=q;F[i.id].forEach(k=>need[k]+=q);}else if(String(i.id||'').startsWith('L_')&&Number(i.price)===0&&K[i.cat])have[K[i.cat]]+=q;});
@@ -3278,4 +3279,4 @@ window.v95Check=function(t){const need={a:0,p:0,s:0},have={a:0,p:0,s:0};let f=0;
 if(typeof sendOrderToKitchen==='function'){const _s=sendOrderToKitchen;sendOrderToKitchen=async function(){try{const t=state.tables[state.activeTableId];const msg=t&&v95Check(t);if(msg&&!confirm('🌞 Le formule del pranzo non tornano:\n'+msg+'\n\nInviare lo stesso in cucina?'))return;}catch(e){}return _s.apply(this,arguments);};}
 })();
 }catch(e){console.error("chef-extra v2.9.95",e);}
-try{(function(){const V='v2.9.95';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+try{(function(){const V='v2.9.97';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
