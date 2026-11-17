@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.83 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.84 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2028,7 +2028,7 @@ setInterval(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.83';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.84';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2069,7 +2069,8 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
-['v2.9.83',['⚠️ Il richiamo “comanda non inviata” ora compare solo a Christian, Alice e Serena: sul KDS e sul terminale timbrature non c’è più.','La barra rossa ha il tasto ✕ (la nasconde per 10 minuti) e ignora le bozze vecchie di oltre 3 ore.']],
+['v2.9.84',['✍️ Risposte alle recensioni più diverse: tre voci distinte, dettagli diversi e il cane solo in una risposta (e solo se lo cita la recensione).','🎟️ Club: toccando Iscritti, Accettano promo o Calici da dare si aprono i relativi clienti (con tasto “Mostra tutti”).','🖨️ Preconto più completo (logo, data e ora, coperti, tavolo, piatti, sconto, totale), senza la scritta fiscale.','🧪 Opzioni › Prova stampante (con scelta 58/80 mm) e avviso dopo ogni preconto con Riprova / Mostra a schermo.']],
+['v2.9.84',['⚠️ Il richiamo “comanda non inviata” ora compare solo a Christian, Alice e Serena: sul KDS e sul terminale timbrature non c’è più.','La barra rossa ha il tasto ✕ (la nasconde per 10 minuti) e ignora le bozze vecchie di oltre 3 ore.']],
 ['v2.9.82',['🚀 “Invia tutta la comanda” ora manda tutto rispettando le mandate: parte la 1ª, le altre aspettano il via, in sequenza.','🎙️ Briefing: tasto “Ascolta il briefing AI”, un riassunto parlato naturale.','💶 Opzioni › Prezzi suggeriti: scrivi il costo del piatto (o fallo stimare all’AI) e ti propongo il prezzo per il food cost scelto.','💬 Prenotazioni: tasto “Conferma” su WhatsApp e lettura AI del messaggio incollato del cliente.','🥃 Il testo “Offri l’amaro” ora dice da € 44.']],
 ['v2.9.81',['⚠️ Comanda non inviata: riquadro rosso lampeggiante in cima alla comanda, tasto INVIA che pulsa e barra rossa su tutte le schermate.','⏰ Se la comanda resta non inviata per 2 minuti: suono, vibrazione, avviso e notifica sul telefono, ripetuti ogni 2 minuti.','🥃 “Offri l’amaro” da € 44 a coperto in su.','🌞 Il tasto “Pranzo” ora è in fondo alle categorie.']],
 ['v2.9.80',['🚀 Comanda: tasto “INVIA TUTTO INSIEME” per mandare in cucina antipasti, primi e secondi in un’unica volta (i dolci restano per dopo).','🏢 Campanello: nuovo tasto “Vieni in Ufficio!”.']],
@@ -2916,4 +2917,51 @@ setInterval(()=>{try{const a=$('n79')||$('n76');if(!a||$('n82'))return;const el=
 })();
 
 }catch(e){console.error("chef-extra v2.9.82",e);}
-try{(function(){const V='v2.9.83';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const toast=m=>{try{__toast(m,3500,0);}catch(e){}};
+/* 1 · Recensioni: risposte più diverse, il cane in una sola risposta e solo se lo cita la recensione */
+const VAR='\n\nREGOLE DI VARIETÀ (hanno la precedenza su tutto il resto):\n- Le tre risposte devono sembrare scritte da tre persone diverse: la 1 calda e personale, la 2 semplice e diretta (poche parole, nessun giro), la 3 più allegra o spiritosa.\n- Ogni risposta valorizza un dettaglio DIVERSO della recensione (un piatto, l\'accoglienza, il vino o il liquore, la serata, una persona). Non ripetere lo stesso dettaglio in due risposte.\n- Il cane o cucciolo: puoi nominarlo in al massimo UNA risposta, e solo se la recensione ne parla. Le altre due NON devono nominarlo né alludervi (niente "cucciolo", "amico a quattro zampe", "peloso"). Se la recensione non ne parla, non nominarlo mai.\n- Non usare la stessa formula di chiusura in due risposte e non iniziare due risposte con la stessa parola.\nRispondi comunque SOLO con il JSON richiesto sopra.';
+{const _g=callGemini;callGemini=function(parts){try{if(parts&&parts[0]&&/Rispondi di persona a una recensione di Google/.test(parts[0].text||'')&&!/REGOLE DI VARIETÀ/.test(parts[0].text)){parts=[Object.assign({},parts[0],{text:parts[0].text+VAR})].concat(parts.slice(1));}}catch(e){}return _g.apply(this,[parts].concat([].slice.call(arguments,1)));};}
+
+/* 2 · Club: i tre riquadri aprono i relativi dati */
+const st=document.createElement('style');st.textContent='#cuClub .cu-k>div{cursor:pointer;position:relative}#cuClub .cu-k>div::after{content:"›";position:absolute;right:8px;top:6px;font-weight:900;opacity:.6}#cuClub .cu-k>div:active{transform:scale(.97)}.v84f{background:#FEF3C7;border:2px solid #F59E0B;border-radius:10px;padding:6px 8px;margin-bottom:6px;font-size:.8rem;font-weight:800;display:flex;justify-content:space-between;gap:6px;align-items:center}.v84f button{border:0;border-radius:8px;padding:5px 8px;font-weight:900}';document.head.appendChild(st);
+window.v84F=null;const FL={promo:['📣 Accettano promo',c=>!!c.mkt],cal:['🥂 Calici da consegnare',c=>Math.max(0,(c.earned||0)-(c.used||0))>0]};
+{const _r=renderFidList;renderFidList=function(){const full=fidCache,F=FL[window.v84F];if(F&&full)fidCache=full.filter(F[1]);try{_r.apply(this,arguments);}finally{fidCache=full;}
+ if(F){const el=$('fidList');if(el){const d=document.createElement('div');d.className='v84f';d.innerHTML='<span>🔎 '+F[0]+'</span><button type="button">Mostra tutti</button>';d.querySelector('button').onclick=()=>{window.v84F=null;renderFidList();};el.prepend(d);}}};}
+document.addEventListener('click',e=>{const d=e.target.closest&&e.target.closest('#cuClub .cu-k>div');if(!d)return;const i=[...d.parentNode.children].indexOf(d);window.v84F=i===1?'promo':i===2?'cal':null;try{openFidelity();}catch(x){}},true);
+
+/* 3 · Stampa: preconto completo, prova stampante, avviso dopo l'invio */
+const COLS=()=>{const n=Number(localStorage.getItem('alicetta_prt_cols'));return [32,42,48].includes(n)?n:32;};
+const san=s=>String(s==null?'':s).replace(/[–—]/g,'-').replace(/[’‘]/g,"'").replace(/[“”]/g,'"').replace(/€/g,'EUR').replace(/[^\x00-\xFF]/g,'');
+const ESC='\x1B',GS='\x1D';
+function lines(l,r,w){l=san(l);r=san(r);const room=Math.max(8,w-r.length-1),out=[];let rest=l;const first=rest.slice(0,room);rest=rest.slice(room);out.push(first.padEnd(room)+' '+r);while(rest.length){out.push('   '+rest.slice(0,w-3));rest=rest.slice(w-3);}return out;}
+function build(t){const w=COLS(),sep='-'.repeat(w),eq='='.repeat(w);let pv='',ep=ESC+'@'+ESC+'t\x10'+ESC+'a\x01'+ESC+'!\x30'+'ALICETTA\n'+ESC+'!\x00'+ESC+'!\x08'+'TRATTORIA - FOSSACESIA\n'+ESC+'!\x00'+'Tel. 392 3279000\n'+ESC+'a\x00';
+ const when=new Date().toLocaleDateString('it-IT')+' '+(typeof buildTimeStr==='function'?buildTimeStr():new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}));
+ const head='PRE-CONTO\n'+san(t.name||'')+'\n'+when+'\n';pv+=eq+'\n   ALICETTA TRATTORIA\n   PRE-CONTO '+san(t.name||'').toUpperCase()+'\n   '+when+'\n'+eq+'\n';
+ ep+=sep+'\n'+ESC+'a\x01'+ESC+'!\x08'+'PRE-CONTO '+san(t.name||'').toUpperCase()+'\n'+ESC+'!\x00'+when+'\n'+ESC+'a\x00';
+ let cop=0;try{cop=copCount(t);}catch(e){}if(cop>0){ep+='Coperti: '+cop+'\n';pv+='Coperti: '+cop+'\n';}if(state.waiterName){ep+='Cameriere: '+san(state.waiterName)+'\n';pv+='Cameriere: '+san(state.waiterName)+'\n';}ep+=sep+'\n';pv+=sep+'\n';
+ (t.items||[]).forEach(i=>{lines(i.qty+'x '+i.name,'EUR '+formatPrice(i.price*i.qty),w).forEach(l=>{ep+=l+'\n';pv+=l+'\n';});});
+ if(Number(t.copOff)>0){const l=lines(t.copOff+'x Pane e Coperto','OFFERTO',w);l.forEach(x=>{ep+=x+'\n';pv+=x+'\n';});}
+ try{const dsc=window.v25DiscAmt?v25DiscAmt(t):0;if(dsc>0){const l='SCONTO'+(t.disc&&t.disc.k==='pct'?' '+t.disc.v+'%':'')+'  -EUR '+formatPrice(dsc);ep+=l+'\n';pv+=l+'\n';}}catch(e){}
+ const tot=getTableTotal(t);ep+=sep+'\n'+ESC+'!\x30'+'TOTALE EUR '+formatPrice(tot)+'\n'+ESC+'!\x00'+sep+'\n'+ESC+'a\x01'+'Grazie e a presto!\n'+ESC+'a\x00'+'\n\n\n'+GS+'V\x42\x00';
+ pv+=sep+'\nTOTALE EUR '+formatPrice(tot)+'\n'+eq+'\nGrazie e a presto!\n';return{pv,ep};}
+let pbFlag=false;
+showPreBill=function(){const t=state.tables[state.activeTableId];if(!t||!t.items||!t.items.length)return;const o=build(t);pbFlag=true;dispatchPrint(o.pv,o.ep);};
+{const _d=dispatchPrint;dispatchPrint=function(pv,ep){const r=_d.apply(this,arguments);if(pbFlag){pbFlag=false;if(state.useRawBT)banner();}return r;};}
+function banner(){let b=$('v84pb');if(b)b.remove();b=document.createElement('div');b.id='v84pb';b.style.cssText='position:fixed;left:8px;right:8px;bottom:calc(104px + env(safe-area-inset-bottom,0px));z-index:9500;background:#062329;color:#fff;border:2px solid #1BE7FF;border-radius:14px;padding:10px 12px;font-weight:800;font-size:.85rem;';
+ b.innerHTML='🖨️ Preconto inviato a RawBT. Se non esce, controlla l’IP o l’accensione della stampante.<div style="display:flex;gap:6px;margin-top:8px;"><button type="button" data-a="r" style="flex:1;border:0;border-radius:10px;padding:9px;font-weight:900;background:#1BE7FF;color:#062329;">🔁 Riprova</button><button type="button" data-a="s" style="flex:1;border:0;border-radius:10px;padding:9px;font-weight:900;background:#fff;color:#062329;">📄 Mostra a schermo</button><button type="button" data-a="x" style="border:0;border-radius:10px;padding:9px 12px;font-weight:900;background:#334155;color:#fff;">✕</button></div>';
+ b.onclick=e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a)return;if(a==='r'){try{triggerRawBTFromModal();}catch(x){}}if(a==='s'){try{const ep=state.lastEscPosPayload||'';$('receiptText').textContent=ep.replace(/[\x00-\x08\x0B-\x1F]|\x1B.|\x1D.[\x00-\xFF]?/g,'').replace(/\x1B[@a!t][\x00-\xFF]?/g,'');$('receiptModal').classList.add('active');}catch(x){}}b.remove();};
+ document.body.appendChild(b);setTimeout(()=>{if(b.isConnected)b.remove();},25000);}
+/* Opzioni › Prova stampante */
+function drawP(){const el=$('n84');if(!el)return;const w=COLS();el.innerHTML='<h3 style="margin:0 0 6px;">🖨️ Prova stampante</h3><div style="font-size:.8rem;font-weight:700;margin-bottom:6px;">RawBT: '+(state.useRawBT?'✅ attivo':'⚠️ non attivo (il conto si apre solo a schermo)')+'</div>'+(state.useRawBT?'':'<button class="btn-main" style="width:100%;margin-bottom:6px;" id="v84on">Attiva RawBT</button>')+'<div style="font-weight:800;font-size:.85rem;margin:4px 0;">Larghezza carta</div><div style="display:flex;gap:6px;margin-bottom:8px;">'+[[32,'58 mm'],[42,'80 mm (42)'],[48,'80 mm (48)']].map(x=>'<button type="button" data-w="'+x[0]+'" class="btn-note" style="flex:1;'+(w===x[0]?'background:#FDE047;font-weight:900;':'')+'">'+x[1]+'</button>').join('')+'</div><button class="btn-main btn-print" style="width:100%;" id="v84t">🖨️ Stampa prova</button><div id="v84s" style="font-size:.8rem;font-weight:700;margin-top:8px;line-height:1.4;"></div>';
+ el.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{try{localStorage.setItem('alicetta_prt_cols',b.dataset.w);}catch(e){}drawP();});
+ const on=$('v84on');if(on)on.onclick=()=>{state.useRawBT=true;try{$('chkRawbt').checked=true;}catch(e){}saveState(false);drawP();};
+ $('v84t').onclick=()=>{const w=COLS(),sep='-'.repeat(w);const ep=ESC+'@'+ESC+'t\x10'+ESC+'a\x01'+ESC+'!\x30'+'PROVA\n'+ESC+'!\x00'+'Alicetta Trattoria\n'+new Date().toLocaleString('it-IT')+'\n'+ESC+'a\x00'+sep+'\n'+lines('2x Tagliere di salumi','EUR 36,00',w).join('\n')+'\n'+lines('1x Pennette alla Vodka con Venticina','EUR 15,00',w).join('\n')+'\n'+sep+'\n'+ESC+'!\x30'+'TOTALE EUR 51,00\n'+ESC+'!\x00'+'Accenti: à è ì ò ù\n'+sep+'\n'+ESC+'a\x01'+'Se leggi bene tutto,\nla stampante e pronta!\n\n\n'+GS+'V\x42\x00';
+  state.lastEscPosPayload=ep;window.location.href='rawbt:base64,'+encodeBase64UTF8(ep);$('v84s').innerHTML='📤 Inviata a RawBT. Se <b>non esce</b>: apri RawBT e premi “Test”. Se dà <b>ECONNREFUSED</b>, l’IP della stampante è cambiato o la stampante è spenta: stampa il foglio di stato (tieni FEED mentre la accendi) e correggi l’IP in RawBT.';};}
+setInterval(()=>{try{const a=$('n82')||$('n79')||$('n76');if(!a||$('n84'))return;const el=document.createElement('div');el.id='n84';el.className='cart-section';a.after(el);drawP();}catch(e){}},2000);
+})();
+
+}catch(e){console.error("chef-extra v2.9.84",e);}
+try{(function(){const V='v2.9.84';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
