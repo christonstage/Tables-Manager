@@ -1,4 +1,4 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.84 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.85 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -1568,7 +1568,7 @@ const st=document.createElement('style');
 st.textContent='#cuTabs{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:0 0 12px;position:sticky;top:0;z-index:5;padding:6px 0;background:inherit}#cuTabs button{border:2px solid rgba(0,0,0,.12);border-radius:14px;background:#fff;color:#062329;font-weight:900;padding:9px 1px;font-size:.68rem;line-height:1.15}#cuTabs button b{display:block;font-size:1.25rem}#cuTabs button.on{background:#7C3AED;color:#fff;border-color:#fff}body.dark #cuTabs button:not(.on){background:#1E293B;color:#E2E8F0;border-color:#334155}.cu-hide{display:none!important}.cu-k{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.cu-k div{border-radius:12px;padding:8px 4px;text-align:center;font-weight:800;font-size:.72rem;background:rgba(124,58,237,.1)}.cu-k b{display:block;font-size:1.25rem}.bc-src{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--border);font-weight:800;font-size:.86rem}.bc-src input{width:22px;height:22px;flex:none;margin-top:1px}.bc-src small{display:block;font-weight:600;opacity:.75;font-size:.74rem}.bc-chip{border:2px solid #7C3AED;border-radius:999px;background:transparent;color:inherit;font-weight:800;padding:5px 10px;font-size:.76rem;margin:0 6px 6px 0}.bc-row{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:6px 0;border-bottom:1px dashed var(--border);font-size:.82rem;font-weight:700}.bc-row.done{opacity:.5}.bc-row button{border:0;border-radius:9px;padding:5px 8px;font-weight:900;font-size:.74rem;background:rgba(0,0,0,.08);color:inherit}.bc-next{display:block;width:100%;border:0;border-radius:16px;padding:16px;font-weight:900;font-size:1.05rem;background:#25D366;color:#063A1E;margin:10px 0 6px}.bc-warn{border-radius:12px;padding:8px 10px;font-size:.78rem;font-weight:700;background:#FEF3C7;color:#78350F;margin:8px 0}';
 document.head.appendChild(st);
 /* ---------- sezione unica: Prenotazioni · Rubrica · Club · Messaggio a tutti ---------- */
-const TABS=[['pren','📅','Prenota-<br>zioni'],['rub','📇','Rubrica'],['club','🎟️','Club'],['buoni','🎁','Buoni<br>regalo'],['bc','📣','Messaggio<br>a tutti']];
+const TABS=[['pren','📅','Prenota-<br>zioni'],['rub','📇','Rubrica'],['club','🎟️','Club'],['buoni','🎁','Buoni<br>regalo'],['rev','⭐','Recen-<br>sioni'],['bc','📣','Messaggio<br>a tutti']];
 let TAB=localStorage.getItem('alicetta_cu_tab')||'pren';
 const kind=el=>{if(el.id==='cuTabs')return'tabs';if(el.id==='cuClub')return'club';if(el.id==='cuBc')return'bc';const h=(el.querySelector('h3,summary')||el).textContent||'';if(/Rubrica clienti/.test(h)||el.id==='ctCard')return'rub';return'pren';};
 function apply(){const host=$('resContent');if(!host)return;ensure(host);[...host.children].forEach(el=>{const k=kind(el);if(k==='tabs')return;el.classList.toggle('cu-hide',k!==TAB);if(k==='rub'&&TAB==='rub'){const d=el.matches('details')?el:el.querySelector('details');if(d&&!d.open)d.open=true;}});
@@ -1921,7 +1921,7 @@ ${B.length&&/^christian$/i.test((state.waiterName||'').trim())?`<div class="bf-l
  hosts.forEach(h=>{const v=html(h.id);if(h.dataset.h!==v){const op=h.querySelector('details');const was=op?op.open:null;h.innerHTML=v;if(was!==null){const d2=h.querySelector('details');if(d2)d2.open=was;}h.dataset.h=v;}});};
 window.v69Say=()=>{try{const u=new SpeechSynthesisUtterance(window._bfSay||'');u.lang='it-IT';u.rate=1;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){alert('Questo telefono non legge ad alta voce.');}};
 /* ---------- F) schede AI raggruppate in 4 ---------- */
-const GRP=[['cucina','🍳','Cucina',['prev','chef','tempi','menu']],['chiedi','💬','Chiedi',['chiedi']],['rev','⭐','Recensioni',['rev']],['mkt','📣','Post',['post']]];
+const GRP=[['cucina','🍳','Cucina',['prev','chef','tempi','menu']],['chiedi','💬','Chiedi',['chiedi']],['mkt','📣','Post',['post']]];
 let G=localStorage.getItem('alicetta_ai_grp')||'cucina';
 function grpApply(){const row=$('agRow'),T=[...document.querySelectorAll('#hubTabs_ai .hub-tab')];if(!row||!T.length)return;if(!row.children.length)row.innerHTML=GRP.map(g=>`<button data-g="${g[0]}" onclick="v65Grp('${g[0]}')"><b>${g[1]}</b>${g[2]}</button>`).join('');
  const act=T.find(t=>t.classList.contains('active'));if(act){const ag=GRP.find(g=>g[3].includes(act.dataset.p));if(ag&&ag[0]!==G){G=ag[0];localStorage.setItem('alicetta_ai_grp',G);}}
@@ -1987,7 +1987,7 @@ try{
 (function(){
 const $=id=>document.getElementById(id);
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
-const HIDE=['club','turni','rank','costi','report'];
+const HIDE=['club','turni','rank','costi','report','rev'];
 const st=document.createElement('style');
 st.textContent=HIDE.map(k=>`#hubTabs_ai .hub-tab[data-p="${k}"]`).join(',')+'{display:none!important}#numBox .hub-page,#oreTurni .hub-page{display:block!important}#oreTurni{margin-top:12px}.num-d{margin-bottom:10px}.num-d>summary{list-style:none;cursor:pointer;font-weight:900;font-size:1.05rem;padding:13px 14px;border-radius:16px;background:rgba(77,124,15,.22);border:2px solid rgba(132,204,22,.6);display:flex;justify-content:space-between;align-items:center}.num-d>summary::after{content:"▾";font-size:1.1rem}.num-d[open]>summary::after{content:"▴"}.num-d[open]>summary{margin-bottom:8px}.ore-h{font-weight:900;font-size:1.1rem;margin:14px 2px 8px}';
 document.head.appendChild(st);
@@ -2028,7 +2028,7 @@ setInterval(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.84';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.85';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2069,8 +2069,9 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
-['v2.9.84',['✍️ Risposte alle recensioni più diverse: tre voci distinte, dettagli diversi e il cane solo in una risposta (e solo se lo cita la recensione).','🎟️ Club: toccando Iscritti, Accettano promo o Calici da dare si aprono i relativi clienti (con tasto “Mostra tutti”).','🖨️ Preconto più completo (logo, data e ora, coperti, tavolo, piatti, sconto, totale), senza la scritta fiscale.','🧪 Opzioni › Prova stampante (con scelta 58/80 mm) e avviso dopo ogni preconto con Riprova / Mostra a schermo.']],
-['v2.9.84',['⚠️ Il richiamo “comanda non inviata” ora compare solo a Christian, Alice e Serena: sul KDS e sul terminale timbrature non c’è più.','La barra rossa ha il tasto ✕ (la nasconde per 10 minuti) e ignora le bozze vecchie di oltre 3 ore.']],
+['v2.9.85',['⭐ Le risposte alle recensioni ora danno del Lei in almeno due risposte su tre e riprendono parole e dettagli esatti della recensione.','👥 Le recensioni sono passate da AI a Clienti (nuovo tasto ⭐ Recensioni, solo per Christian).','🌙 Nuovo “Riepilogo del servizio”: incasso, coperti, scontrino per coperto, confronto con la media, podio dei piatti, sconti, amaro e prenotazioni di domani; con un tasto Gemini che scrive il commento e cosa preparare. Lo trovi a fine serata e in Vendite › Chiusura.']],
+['v2.9.85',['✍️ Risposte alle recensioni più diverse: tre voci distinte, dettagli diversi e il cane solo in una risposta (e solo se lo cita la recensione).','🎟️ Club: toccando Iscritti, Accettano promo o Calici da dare si aprono i relativi clienti (con tasto “Mostra tutti”).','🖨️ Preconto più completo (logo, data e ora, coperti, tavolo, piatti, sconto, totale), senza la scritta fiscale.','🧪 Opzioni › Prova stampante (con scelta 58/80 mm) e avviso dopo ogni preconto con Riprova / Mostra a schermo.']],
+['v2.9.83',['⚠️ Il richiamo “comanda non inviata” ora compare solo a Christian, Alice e Serena: sul KDS e sul terminale timbrature non c’è più.','La barra rossa ha il tasto ✕ (la nasconde per 10 minuti) e ignora le bozze vecchie di oltre 3 ore.']],
 ['v2.9.82',['🚀 “Invia tutta la comanda” ora manda tutto rispettando le mandate: parte la 1ª, le altre aspettano il via, in sequenza.','🎙️ Briefing: tasto “Ascolta il briefing AI”, un riassunto parlato naturale.','💶 Opzioni › Prezzi suggeriti: scrivi il costo del piatto (o fallo stimare all’AI) e ti propongo il prezzo per il food cost scelto.','💬 Prenotazioni: tasto “Conferma” su WhatsApp e lettura AI del messaggio incollato del cliente.','🥃 Il testo “Offri l’amaro” ora dice da € 44.']],
 ['v2.9.81',['⚠️ Comanda non inviata: riquadro rosso lampeggiante in cima alla comanda, tasto INVIA che pulsa e barra rossa su tutte le schermate.','⏰ Se la comanda resta non inviata per 2 minuti: suono, vibrazione, avviso e notifica sul telefono, ripetuti ogni 2 minuti.','🥃 “Offri l’amaro” da € 44 a coperto in su.','🌞 Il tasto “Pranzo” ora è in fondo alle categorie.']],
 ['v2.9.80',['🚀 Comanda: tasto “INVIA TUTTO INSIEME” per mandare in cucina antipasti, primi e secondi in un’unica volta (i dolci restano per dopo).','🏢 Campanello: nuovo tasto “Vieni in Ufficio!”.']],
@@ -2963,5 +2964,59 @@ function drawP(){const el=$('n84');if(!el)return;const w=COLS();el.innerHTML='<h
 setInterval(()=>{try{const a=$('n82')||$('n79')||$('n76');if(!a||$('n84'))return;const el=document.createElement('div');el.id='n84';el.className='cart-section';a.after(el);drawP();}catch(e){}},2000);
 })();
 
-}catch(e){console.error("chef-extra v2.9.84",e);}
-try{(function(){const V='v2.9.84';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+}catch(e){console.error("chef-extra v2.9.85",e);}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const E=n=>'€ '+(typeof formatPrice==='function'?formatPrice(n||0):(Math.round((n||0)*100)/100).toFixed(2));
+const st=document.createElement('style');st.textContent='#hubTabs_ai .hub-tab[data-p="rev"]{display:none!important}#cuRevAi .hub-page,#cuRevAi #hub_ai_rev{display:block!important}#cuRevAi{margin-top:10px}#cuTabs{grid-template-columns:repeat(3,1fr)!important}.v85k{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.v85k div{border-radius:12px;padding:8px 4px;text-align:center;font-weight:800;font-size:.72rem;background:rgba(124,58,237,.1)}.v85k b{display:block;font-size:1.1rem}.v85t{white-space:pre-wrap;line-height:1.5;font-weight:600;font-size:.9rem;background:rgba(124,58,237,.08);border-radius:12px;padding:10px;margin-top:8px}.v85p{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px dashed rgba(148,163,184,.6);font-weight:700;font-size:.86rem}';document.head.appendChild(st);
+/* ---------- 1) Recensioni: Lei + riferimenti al testo (sostituisce le regole di varietà v2.9.85) ---------- */
+const VAR2='\n\nREGOLE DI VARIETÀ E PERSONALIZZAZIONE (hanno la precedenza su tutto il resto):\n- Le tre risposte devono sembrare scritte da tre persone diverse: la 1 calda e personale, la 2 sobria e diretta, la 3 più allegra o spiritosa.\n- FORMA DI CORTESIA: nella lingua della recensione, la risposta 1 e la risposta 2 DEVONO dare del Lei al cliente (in italiano: "La ringraziamo", "Le è piaciuto", "La aspettiamo", "Suo marito"; in tedesco Sie, in francese vous, in spagnolo usted). La risposta 3 può dare del tu solo se la recensione è molto informale, altrimenti Lei anche lì. Non passare dal Lei al tu dentro la stessa risposta.\n- PERSONALIZZAZIONE: ogni risposta deve riprendere parole o dettagli ESATTI del testo originale (un piatto nominato, un aggettivo usato dal cliente, una persona, un momento, un\'occasione), in modo che si capisca che la recensione è stata letta per davvero. Ogni risposta riprende un dettaglio DIVERSO. Riporta fra virgolette anche un\'espressione breve del cliente, in almeno una risposta. Se la recensione è molto breve, riprendi comunque ciò che dice, senza inventare altro.\n- Il cane o cucciolo: puoi nominarlo in al massimo UNA risposta, e solo se la recensione ne parla. Le altre due NON devono nominarlo né alludervi.\n- Non usare la stessa formula di chiusura in due risposte e non iniziare due risposte con la stessa parola.\nRispondi comunque SOLO con il JSON richiesto sopra.';
+{const _g=callGemini;callGemini=function(parts){try{if(parts&&parts[0]&&/Rispondi di persona a una recensione di Google/.test(parts[0].text||'')){let t=parts[0].text;const i=t.indexOf('\n\nREGOLE DI VARIETÀ');if(i>0)t=t.slice(0,i);if(!/FORMA DI CORTESIA/.test(t))t+=VAR2;parts=[Object.assign({},parts[0],{text:t})].concat(parts.slice(1));}}catch(e){}return _g.apply(this,[parts].concat([].slice.call(arguments,1)));};}
+/* ---------- 2) Recensioni dentro Clienti ---------- */
+let lastR='';
+function revMove(){const v=$('viewRes'),rc=$('resContent'),pg=$('hub_ai_rev');if(!v||!rc||!pg)return;let h=$('cuRevAi');if(!h){h=document.createElement('div');h.id='cuRevAi';rc.after(h);}if(pg.parentNode!==h)h.appendChild(pg);
+ const tab=document.querySelector('#cuTabs button[data-t="rev"]');if(tab)tab.style.display=owner()?'':'none';
+ const on=(localStorage.getItem('alicetta_cu_tab')||'pren')==='rev'&&owner();h.style.display=on?'':'none';
+ if(on&&v.classList.contains('active')){if(!pg.classList.contains('active'))pg.classList.add('active');if(!pg.dataset.ld){pg.dataset.ld='1';try{window.v211Show&&window.v211Show('ai','rev');}catch(e){}}}else if(!on){pg.dataset.ld='';}
+ const tabs=[...document.querySelectorAll('#hubTabs_ai .hub-tab')],act=tabs.find(t=>t.classList.contains('active'));
+ if(act&&act.dataset.p==='rev'&&$('viewAi')&&$('viewAi').classList.contains('active')){const i=tabs.indexOf(act),nx=tabs[i+1],pv=tabs[i-1];const go=(lastR&&nx&&lastR===nx.dataset.p)?pv:(nx||pv);if(go)go.click();}else if(act)lastR=act.dataset.p;}
+try{if(localStorage.getItem('alicetta_ai_grp')==='rev')localStorage.setItem('alicetta_ai_grp','cucina');}catch(e){}
+/* ---------- 3) Riepilogo del servizio con Gemini ---------- */
+const DISHC=i=>i&&i.cat&&i.cat!=='1 Coperto'&&i.cat!=='2 Bevande'&&!/coperto|\bacqua\b/i.test(i.name||'');
+const dayL=d=>(state.historyLog||[]).filter(e=>{try{return e&&svcDate(e)===d;}catch(x){return false;}});
+function agg(L){const dish={};let tot=0,cop=0,disc=0,amaro=0,copOff=0;L.forEach(e=>{tot+=Number(e.total)||0;let c=0;try{c=(copOf(e)||{}).n||0;}catch(x){c=Number(e.coperti)||0;}cop+=c;if(e.disc&&e.disc.amt)disc+=Number(e.disc.amt)||0;if(e.amaro)amaro++;copOff+=Number(e.copOff)||0;(e.items||[]).forEach(i=>{if(!DISHC(i))return;const k=String(i.name||'').trim();if(k)dish[k]=(dish[k]||0)+(Number(i.qty)||0);});});return{tot,cop,n:L.length,disc,amaro,copOff,dish};}
+const addDay=(d,n)=>{const x=new Date(d+'T12:00');x.setDate(x.getDate()+n);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');};
+const dl=d=>{const x=new Date(d+'T12:00');return['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'][x.getDay()]+' '+x.getDate()+'/'+(x.getMonth()+1);};
+function pack(){const d=svcToday(),A=agg(dayL(d)),top=Object.entries(A.dish).sort((a,b)=>b[1]-a[1]),prev=[1,2,3,4].map(k=>agg(dayL(addDay(d,-7*k)))).filter(x=>x.n>0);
+ const avg=prev.length?{incasso:Math.round(prev.reduce((s,x)=>s+x.tot,0)/prev.length),coperti:Math.round(prev.reduce((s,x)=>s+x.cop,0)/prev.length),serate:prev.length}:null;
+ const R=Object.values(state.res||{}).filter(r=>r&&!/cancel/i.test(r.status||''));const tonight=R.filter(r=>r.date===d),tom=R.filter(r=>r.date===addDay(d,1));
+ const cv=L=>L.reduce((s,r)=>s+(parseInt(r.covers,10)||0),0);
+ return{A,top,avg,d,res:{stasera:{n:tonight.length,coperti:cv(tonight),non_arrivati:tonight.filter(r=>/noshow|no_show|non/i.test(r.status||'')).length},domani:{giorno:dl(addDay(d,1)),n:tom.length,coperti:cv(tom),note:tom.map(r=>r.note).filter(Boolean).slice(0,6)}}};}
+function localHtml(P){const A=P.A,sc=A.cop?A.tot/A.cop:0,dlt=P.avg&&P.avg.incasso?Math.round((A.tot-P.avg.incasso)/P.avg.incasso*100):null;
+ return `<div class="v85k"><div>Incasso<b>${E(A.tot)}</b></div><div>Coperti<b>${A.cop}</b></div><div>Per coperto<b>${E(sc)}</b></div></div>`+(dlt!=null?`<div class="fc-sub" style="font-weight:800;">${dlt>=0?'📈':'📉'} ${dlt>=0?'+':''}${dlt}% rispetto alla media degli ultimi ${P.avg.serate} ${dl(P.d).split(' ')[0]} (${E(P.avg.incasso)} · ${P.avg.coperti} coperti)</div>`:'')+
+ `<div style="font-weight:900;margin:10px 0 2px;">🏆 Podio di stasera</div>`+(P.top.slice(0,3).map(([n,q],i)=>`<div class="v85p"><span>${['🥇','🥈','🥉'][i]} ${esc(n)}</span><span>${q} porz.</span></div>`).join('')||'<div class="fc-sub">Nessun piatto venduto.</div>')+
+ `<div class="fc-sub" style="margin-top:8px;">${A.disc>0?'🏷️ Sconti: '+E(A.disc)+' · ':''}${A.copOff?'🍞 Coperti offerti: '+A.copOff+' · ':''}🥃 Amaro offerto: ${A.amaro} ${A.amaro===1?'volta':'volte'} su ${A.n} conti · 📅 Domani: ${P.res.domani.n} ${P.res.domani.n===1?'prenotazione':'prenotazioni'}, ${P.res.domani.coperti} coperti</div>`;}
+const KEY=d=>'alicetta_v85_sum_'+d;
+function ov(){let o=$('v85Ov');if(o)o.remove();o=document.createElement('div');o.id='v85Ov';o.className='vc-ov';o.onclick=e=>{if(e.target===o)o.remove();};document.body.appendChild(o);return o;}
+window.v85Open=function(){const P=pack(),o=ov();let saved='';try{saved=localStorage.getItem(KEY(P.d))||'';}catch(e){}
+ o.innerHTML=`<div class="vc-box"><h3 style="margin:0 0 2px;color:var(--logo-coral);">🌙 Riepilogo del servizio</h3><div class="fc-sub" style="font-weight:800;">${dl(P.d)}</div><div style="overflow:auto;">${localHtml(P)}<button class="btn-main" id="v85ai" style="width:100%;margin-top:10px;background:#7C3AED;color:#fff;">🤖 ${saved?'Rifai il commento':'Commento di Gemini e cosa preparare per domani'}</button><div id="v85out">${saved?'<div class="v85t">'+esc(saved)+'</div>':''}</div><div id="v85act" style="display:${saved?'grid':'none'};grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;"><button class="btn-note" id="v85cp">📋 Copia</button><button class="btn-note" id="v85sh">📤 Condividi</button></div></div><button class="btn-note" style="margin-top:10px;" onclick="document.getElementById('v85Ov').remove()">Chiudi</button></div>`;
+ const txt=()=>($('v85out').textContent||'').trim();
+ $('v85cp').onclick=async()=>{try{await navigator.clipboard.writeText(txt());toast('📋 Copiato');}catch(e){toast('Tieni premuto sul testo e copia');}};
+ $('v85sh').onclick=()=>{try{if(navigator.share)navigator.share({text:txt()});else window.open('https://wa.me/?text='+encodeURIComponent(txt()),'_blank');}catch(e){}};
+ $('v85ai').onclick=async()=>{if(typeof getGeminiKey==='function'&&!getGeminiKey()){$('v85out').innerHTML='<div class="v85t">🔑 Inserisci la chiave Gemini in ⚙️ Opzioni.</div>';return;}
+  const A=P.A,data={serata:dl(P.d),incasso:Math.round(A.tot),coperti:A.cop,conti:A.n,incasso_per_coperto:A.cop?Math.round(A.tot/A.cop*10)/10:null,media_stesso_giorno_ultime_settimane:P.avg,piatti_piu_venduti:P.top.slice(0,8).map(([n,q])=>({piatto:n,porzioni:q})),piatti_meno_venduti:(P.top.length>8?P.top.slice(-4):[]).map(([n,q])=>({piatto:n,porzioni:q})),sconti_euro:Math.round(A.disc),coperti_offerti:A.copOff,amaro_offerto_su_conti:A.amaro+' su '+A.n,prenotazioni:P.res};
+  $('v85out').innerHTML='<div class="v85t">⏳ Gemini sta guardando la serata…</div>';
+  try{const t=await callGemini([{text:'Sei il braccio destro di Christian, titolare di Alicetta Trattoria a Fossacesia (trattoria di pesce). Ti do i numeri della serata appena finita. Scrivi un riepilogo breve e concreto, in italiano semplice, come lo direbbe un collaboratore a fine servizio. Usa SOLO i dati forniti: non inventare numeri, cause o meteo. Struttura, 4 righe con emoji iniziale: 1) 📊 Com\'è andata (con il confronto con la media se c\'è); 2) 👍 Cosa ha funzionato (piatti o dati); 3) 🔧 Da migliorare (un solo punto pratico, es. piatti poco venduti, sconti, amaro, scontrino per coperto); 4) 📅 Per domani (prenotazioni e cosa preparare o spingere). Massimo 110 parole, niente elenchi lunghi, niente asterischi.\n\nDATI: '+JSON.stringify(data)}],false);
+   const c=String(t).replace(/\*\*/g,'').trim();try{localStorage.setItem(KEY(P.d),c);}catch(e){}$('v85out').innerHTML='<div class="v85t">'+esc(c)+'</div>';$('v85act').style.display='grid';$('v85ai').textContent='🤖 Rifai il commento';}
+  catch(e){$('v85out').innerHTML='<div class="v85t">⚠️ '+esc(e.message||e)+'</div>';}};};
+function hooks(){try{revMove();}catch(e){}
+ if(!owner())return;const eb=$('endBox');if(eb&&$('endModal')&&$('endModal').classList.contains('active')&&!$('v85e')){const b=document.createElement('button');b.id='v85e';b.className='btn-note';b.style.cssText='width:100%;margin-top:8px;padding:11px;background:#EDE9FE;color:#5B21B6;font-weight:900;';b.textContent='🌙 Riepilogo con Gemini';b.onclick=()=>{$('endModal').classList.remove('active');v85Open();};eb.appendChild(b);}
+ const pg=$('hub_sales_chiusura');if(pg&&!$('v85c')){const c=document.createElement('div');c.id='v85c';c.className='cart-section';c.innerHTML='<button class="btn-main" style="width:100%;background:#7C3AED;color:#fff;" onclick="v85Open()">🌙 Riepilogo del servizio con Gemini</button>';pg.prepend(c);}}
+setInterval(()=>{try{hooks();}catch(e){}},900);
+})();
+
+}catch(e){console.error("chef-extra v2.9.85",e);}
+try{(function(){const V='v2.9.85';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
