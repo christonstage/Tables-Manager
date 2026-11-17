@@ -5,7 +5,7 @@ window.CBT=function(fn,ms){if(typeof fn!=='function')return ni(fn,ms);const id=+
 window.clearInterval=function(id){if(T.has(id))T.delete(id);else nc(id);};
 window.CBTinfo=()=>({attivi:T.size,tick:200});
 ni(()=>run(false),200);document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastHid=0;T.forEach(t=>{t.next=0;});run(false);}});})();
-/* Chef Bull Brigade - chef-extra.js v2.9.92 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.95 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2037,7 +2037,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.92';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.95';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2078,11 +2078,12 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.95',['🧮 Controllo formule del pranzo: prima di inviare in cucina, se antipasti, primi o secondi non tornano con le formule inserite, l’app avvisa e chiede conferma.','🌞 Menù QR: il tasto grande del pranzo ora compare anche quando il menù si apre dalla carta NFC o da un link con altri parametri.']],
 ['v2.9.92',['🌞 Tolto il vecchio “Menu pranzo completo 30 €”: in “1 Coperto” ci sono le 3 formule (35 · 29 · 25 €).','🍽️ Toccando una formula scegli antipasto, primo e/o secondo tra quelli del giorno: la formula va nel conto, i piatti vanno in cucina a 0 € nella mandata giusta. C’è anche “Aggiungi e scegli per un’altra persona”.']],
 ['v2.9.91',['🌞 Menù pranzo con 3 formule: Menù Completo (Antipasto + Primo + Secondo) 35 €, Pranzo Veloce (Antipasto + Secondo) 29 €, Pranzo Veloce (Antipasto + Primo) 25 €. Coperto, 1 bottiglia d’acqua e caffè inclusi.','🧾 Nella comanda, categoria 🌞 Pranzo: tre tasti grandi, uno per formula. Poi tocchi i piatti scelti, che vanno in cucina a 0 €.','📱 Menù QR del pranzo: le 3 formule ben in vista e, su ogni portata, “scegli 1 di 2”.']],
 ['v2.9.90',['🔊 KDS: la cucina sente le comande e i “via” delle mandate a voce (tasto 🔊 Voce ON/OFF sul KDS).','📸 Com’era il piatto?: foto del piatto prima che esca, Gemini la confronta con la foto di riferimento (AI › Sous-Chef e tasto 📸 sul KDS).','🧾 Dividi dal QR: dalla comanda il QR del conto; ogni commensale sceglie i suoi piatti dal telefono e tu vedi chi paga cosa.','🐟 Piatto del giorno dal pescato: foto della cassetta, Gemini incrocia meteo e vendite e propone piatto, prezzo e testo per la lavagnetta.','🕵️ Cliente misterioso: i tempi di ogni tavolo (comanda, mandate, conto) e cosa migliorare, nel Riepilogo del servizio.']],
 ['v2.9.89',['🍭 Nuovo set di icone “Gelatina classica”: l’effetto lucido della Gelatina con i disegni delle Classiche, ancora più grandi. È già attivo; puoi cambiarlo in Opzioni › Icone.','🧹 Pulizia profonda: tolte 13 vecchie funzioni doppie che non venivano più usate (cassa, ritardi, KDS, conti).','🔋 Orologio unico anche per gli ultimi 22 timer: ora tutta l’app gira su un solo timer.']],
-['v2.9.92',['🎨 Barra in basso ridisegnata: più alta, con icone più grandi e un effetto vetro; l’icona attiva si alza.','🍬 6 nuovi set di icone 3D colorate: Gelatina, Bolle, Argilla, Neon, Cristallo, Sticker. Li scegli in Opzioni › Icone della barra in basso (con anteprima).']],
+['v2.9.88',['🎨 Barra in basso ridisegnata: più alta, con icone più grandi e un effetto vetro; l’icona attiva si alza.','🍬 6 nuovi set di icone 3D colorate: Gelatina, Bolle, Argilla, Neon, Cristallo, Sticker. Li scegli in Opzioni › Icone della barra in basso (con anteprima).']],
 ['v2.9.87',['🔋 Un solo orologio: i circa 60 timer dell’app ora girano su un unico timer (più leggero per batteria e telefono). Quando l’app è in secondo piano rallenta da sola.','🧹 Recensioni: le regole di Lei, varietà e personalizzazione sono ora in un unico blocco (prima erano in due).','📘 Nessuna funzione cambia: è una versione di pulizia.']],
 ['v2.9.86',['⭐ Recensioni: una recensione non risulta più “risposta fatta” solo perché la apri. Ogni risposta ha il tasto 🗺️ Pubblica su Google: copia il testo, apre Google e solo allora la recensione passa a “pubblicata”.','↩️ Le recensioni già segnate per errore tornano “da rispondere”; con “Da rifare” puoi sempre annullare.']],
 ['v2.9.85',['⭐ Le risposte alle recensioni ora danno del Lei in almeno due risposte su tre e riprendono parole e dettagli esatti della recensione.','👥 Le recensioni sono passate da AI a Clienti (nuovo tasto ⭐ Recensioni, solo per Christian).','🌙 Nuovo “Riepilogo del servizio”: incasso, coperti, scontrino per coperto, confronto con la media, podio dei piatti, sconti, amaro e prenotazioni di domani; con un tasto Gemini che scrive il commento e cosa preparare. Lo trovi a fine serata e in Vendite › Chiusura.']],
@@ -3099,7 +3100,7 @@ try{if(!localStorage.getItem('alicetta_v89_ic')){localStorage.setItem('alicetta_
 apply();draw();CBT(()=>{try{apply();if($('iconCard')&&!$('iconCard').classList.contains('v88card'))draw();}catch(e){}},1200);
 window.v88Test=(m)=>{localStorage.setItem('alicetta_icons',m);window.v221Icons(m);};
 })();
-}catch(e){console.error("chef-extra v2.9.92",e);}
+}catch(e){console.error("chef-extra v2.9.88",e);}
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -3266,4 +3267,15 @@ const block=()=>'<div class="v91g">'+OPTS.map((o,i)=>`<button type="button" clas
  if(q&&/pran|menu|formul|velo|complet/i.test(q)&&!g.querySelector('.v91g'))g.insertAdjacentHTML('afterbegin',block());}catch(e){}return r;};}
 })();
 }catch(e){console.error("chef-extra v2.9.92",e);}
-try{(function(){const V='v2.9.92';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+try{
+(function(){
+const F={L_MENU_COMPLETO:['a','p','s'],L_VELOCE_AS:['a','s'],L_VELOCE_AP:['a','p']};
+const K={'3 Antipasti':'a','4 Primi Piatti':'p','5 Secondi':'s'},N={a:'antipasti',p:'primi',s:'secondi'};
+window.v95Check=function(t){const need={a:0,p:0,s:0},have={a:0,p:0,s:0};let f=0;
+ (t.items||[]).forEach(i=>{const q=Number(i.qty)||0;if(F[i.id]){f+=q;F[i.id].forEach(k=>need[k]+=q);}else if(String(i.id||'').startsWith('L_')&&Number(i.price)===0&&K[i.cat])have[K[i.cat]]+=q;});
+ if(!f)return '';const bad=Object.keys(need).filter(k=>need[k]!==have[k]);if(!bad.length)return '';
+ return bad.map(k=>`• ${N[k]}: ${have[k]} in comanda, ${need[k]} secondo le formule`).join('\n');};
+if(typeof sendOrderToKitchen==='function'){const _s=sendOrderToKitchen;sendOrderToKitchen=async function(){try{const t=state.tables[state.activeTableId];const msg=t&&v95Check(t);if(msg&&!confirm('🌞 Le formule del pranzo non tornano:\n'+msg+'\n\nInviare lo stesso in cucina?'))return;}catch(e){}return _s.apply(this,arguments);};}
+})();
+}catch(e){console.error("chef-extra v2.9.95",e);}
+try{(function(){const V='v2.9.95';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
