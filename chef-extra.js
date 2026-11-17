@@ -1,4 +1,11 @@
-/* Chef Bull Brigade - chef-extra.js v2.9.85 - funzioni aggiuntive caricate da index.html */
+/* ====== Orologio unico (v2.9.87): un solo timer reale al posto di decine ====== */
+(function(){if(window.CBT)return;const T=new Map(),ni=window.setInterval.bind(window),nc=window.clearInterval.bind(window);let seq=1073741824,lastHid=0;
+function run(force){const now=Date.now(),h=document.hidden;if(h&&!force&&now-lastHid<5000)return;if(h)lastHid=now;T.forEach((t,id)=>{if(force||now>=t.next){t.next=now+t.ms;try{const r=t.fn.apply(window,t.args);if(r&&typeof r.catch==='function')r.catch(()=>{});}catch(e){}}});}
+window.CBT=function(fn,ms){if(typeof fn!=='function')return ni(fn,ms);const id=++seq;T.set(id,{fn,ms:Math.max(200,Number(ms)||200),next:Date.now()+Math.max(200,Number(ms)||200),args:[].slice.call(arguments,2)});return id;};
+window.clearInterval=function(id){if(T.has(id))T.delete(id);else nc(id);};
+window.CBTinfo=()=>({attivi:T.size,tick:200});
+ni(()=>run(false),200);document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastHid=0;T.forEach(t=>{t.next=0;});run(false);}});})();
+/* Chef Bull Brigade - chef-extra.js v2.9.87 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -18,7 +25,7 @@ function stat(){const c=$('wcCard');if(!c)return;let e=$('wcStat');if(!e){e=docu
 const W=(state.menu||[]).filter(m=>isWineItem(m)&&classifyWineItem(m.name)!=='calici'),full=W.filter(m=>m.uv&&m.alc).length;let L={};try{L=JSON.parse(localStorage.getItem('alicetta_wine_net')||'{}');}catch(x){}
 const t=L.at?new Date(L.at).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
 const h=`📋 Schede con uvaggio e gradazione: <b>${full} di ${W.length}</b>${t?' · ultima ricerca '+t:' · nessuna ricerca ancora'}${L.err?' · <span style="color:#B91C1C">⚠️ '+escH(String(L.err).slice(0,90))+'</span>':''}${L.toolErr?'<br>🔎 Ricerca Google non disponibile con la tua chiave: <span style="color:#B45309">'+escH(String(L.toolErr).slice(0,160))+'</span>. Schede preparate da Gemini: <b>da verificare</b>.':''}`;if(e.innerHTML!==h)e.innerHTML=h;}
-setInterval(()=>{try{stat();}catch(x){}},1500);
+CBT(()=>{try{stat();}catch(x){}},1500);
 })();
 }catch(e){console.error("chef-extra blocco 1",e);}
 try{
@@ -174,7 +181,7 @@ const parts=[];if(A.length)parts.push(`allergeni per ${A.length} ${A.length===1?
 say(`✅ Menù clienti aggiornato: ${(state.menu||[]).length} voci pubblicate${parts.length?' · '+parts.join(' · '):''}.${tr1?' <span style="color:#B45309">'+tr1+' traduzioni restano da fare: riprova fra poco.</span>':''} <a href="${qrUrl()}" target="_blank" rel="noopener">👀 Vedi il menù come il cliente</a>`);
 }catch(e){say('❌ '+esc(e.message||e));}finally{busy=false;paint();}};
 {const _s=window.saveAddDish;if(typeof _s==='function'){saveAddDish=function(){const r=_s.apply(this,arguments);setTimeout(paint,800);setTimeout(paint,6000);return r;};}}
-setInterval(()=>{try{place();}catch(e){}},1500);
+CBT(()=>{try{place();}catch(e){}},1500);
 })();
 }catch(e){console.error("chef-extra blocco 7",e);}
 try{
@@ -189,7 +196,7 @@ li.forEach(y=>{if(y&&y.lineId!=null&&!byId[y.lineId]&&y.sent===false)items.push(
 ['firedMandate','doneMandate'].forEach(k=>{const a=c[k]||{},b=l[k]||{};const r={};new Set([...Object.keys(a),...Object.keys(b)]).forEach(m=>{r[m]=!!(a[m]||b[m]);});out[k]=r;});
 ['firedAt','doneAt'].forEach(k=>{const a=c[k]||{},b=l[k]||{};const r={};new Set([...Object.keys(a),...Object.keys(b)]).forEach(m=>{const v=[a[m],b[m]].filter(Boolean).map(Number);if(v.length)r[m]=Math.min(...v);});out[k]=r;});
 if(!items.length&&ci.length===0&&li.length&&!c.openedAt)return l;return out;};
-setInterval(()=>{try{if(state.pushing>0&&window._pushSince&&Date.now()-window._pushSince>25000){state.pushing=0;window._pushSince=0;}}catch(e){}},5000);
+CBT(()=>{try{if(state.pushing>0&&window._pushSince&&Date.now()-window._pushSince>25000){state.pushing=0;window._pushSince=0;}}catch(e){}},5000);
 let busy=false;
 window.v53Reconnect=async()=>{if(busy)return;busy=true;const b=$('syncIndicator');toast('🔄 Mi ricollego al cloud…',20000);
 try{state.pushing=0;window._pushSince=0;let ok=false;
@@ -250,7 +257,7 @@ function inject(){document.querySelectorAll('#hcPage .hc-card, #hcModalBox .hc-c
 const d=document.createElement('div');d.className='hcph';d.innerHTML='<div class="hcph-g"><button class="btn-main btn-print" onclick="v2915Tph(true,this)">📷 Scatta foto</button><button class="btn-main btn-bill" onclick="v2915Tph(false,this)">🖼️ Foto o file</button></div><div class="fc-sub" style="margin-top:4px;">Fotografa la scheda cartacea (anche tutto il mese) oppure il display di un frigo: leggo i valori e tu confermi.</div>';seg.after(d);});}
 let it=0;const kick=()=>{clearTimeout(it);it=setTimeout(()=>{try{inject();}catch(e){}},60);};
 ['hcPage','hcModalBox'].forEach(id=>{const e=$(id);if(e)new MutationObserver(kick).observe(e,{childList:true});});
-setInterval(()=>{try{inject();}catch(e){}},2000);
+CBT(()=>{try{inject();}catch(e){}},2000);
 let TP=null;
 window.v2915Tph=(cam,btn)=>{let slot=new Date().getHours()<15?'m':'s';try{const b=btn.closest('.hc-card').querySelector('.seg button.on');if(b)slot=/Sera/.test(b.textContent)?'s':'m';}catch(e){}
 const i=document.createElement('input');i.type='file';if(cam){i.accept='image/*';i.capture='environment';}else{i.accept='image/*,application/pdf';i.multiple=true;}
@@ -415,7 +422,7 @@ const remain=()=>{let a=0,t=0;try{a=(state.menu||[]).filter(m=>FOOD.includes(m.c
 let active=0,S=null,idle=0,hideT=0,timer=0;
 function paint(cls,title,pct,sub){const b=$('mpBar');if(!b)return;b.className='on'+(cls?' '+cls:'');$('mpT').textContent=title;$('mpI').style.width=pct+'%';$('mpS').textContent=sub;}
 window.v2918MpClose=()=>{const b=$('mpBar');if(b)b.className='';clearTimeout(hideT);};
-function start(){if(S)return;S={peak:Math.max(1,remain().n),t0:Date.now(),worked:false};idle=0;clearTimeout(hideT);if(!timer)timer=setInterval(tick,600);tick();}
+function start(){if(S)return;S={peak:Math.max(1,remain().n),t0:Date.now(),worked:false};idle=0;clearTimeout(hideT);if(!timer)timer=CBT(tick,600);tick();}
 function end(r){const el=Date.now()-S.t0,worked=S.worked;S=null;clearInterval(timer);timer=0;
 if(r.n===0){if(worked||el>3500){const n=(state.menu||[]).length;paint('done','✅ Menù completo',100,n+' voci pronte: tutte con gli allergeni e tradotte in 12 lingue. I clienti le vedono già dal QR.');hideT=setTimeout(v2918MpClose,9000);}else v2918MpClose();}
 else paint('warn','⚠️ Elaborazione non finita',Math.round(100-r.n/Math.max(1,r.n+1)*100),'Restano '+r.n+' voci ('+r.a+' da controllare per gli allergeni, '+r.t+' da tradurre). Tocca “Aggiorna menù clienti, QR e allergeni” per completare.');}
@@ -473,7 +480,7 @@ window.v2919Close=async()=>{$('endModal').classList.remove('active');
 try{if(window.v22Close){const oc=window.confirm;window.confirm=()=>true;try{await v22Close();}finally{window.confirm=oc;}}else toast('🌙 Serata chiusa');}catch(e){}
 try{updateDailyStats();}catch(e){}};
 
-setInterval(()=>{if(document.visibilityState==='visible'){try{check();}catch(e){}}},5000);
+CBT(()=>{if(document.visibilityState==='visible'){try{check();}catch(e){}}},5000);
 window.v2919Check=check;
 })();
 }catch(e){console.error("chef-extra blocco 12",e);}
@@ -497,7 +504,7 @@ let T0=0,CUR=null,TICK=0;
 const fmtT=ms=>{const x=Math.floor(ms/1000);return Math.floor(x/60)+':'+String(x%60).padStart(2,'0');};
 const paintMp=()=>{const b=$('mpBar');if(!b||!CUR)return;b.className='on'+(CUR.cls?' '+CUR.cls:'');$('mpT').textContent=CUR.t;$('mpI').style.width=CUR.p+'%';$('mpS').textContent=CUR.sub+(T0&&CUR.cls!=='done'?' · da '+fmtT(Date.now()-T0):'');};
 const mp=(cls,t,p,sub)=>{CUR={cls,t,p,sub};paintMp();};
-const tstart=()=>{T0=Date.now();clearInterval(TICK);TICK=setInterval(paintMp,1000);};
+const tstart=()=>{T0=Date.now();clearInterval(TICK);TICK=CBT(paintMp,1000);};
 const tstop=()=>{T0=0;clearInterval(TICK);TICK=0;};
 const lim=(p,ms,msg)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error(msg)),ms))]);
 function statusBox(){if(busy)return`<div class="sp-st" style="background:#FEF3C7;border:2px solid #F59E0B;color:#78350F;"><b>⏳ Sto pubblicando…</b><div style="font-size:.78rem;font-weight:700;">Guarda la barra in basso: finché non compare ✅ non è ancora online.</div></div>`;
@@ -554,7 +561,7 @@ ok=true;busy=false;draw();
 if(!verified){SS[3]=0;show(100,'⚠️ Inviato, ma non riesco a controllarlo','Premi “Vedi come lo vedono i clienti” per verificare che sia online.','warn');tstop();return true;}
 if(!getGeminiKey()){SS[3]=3;show(100,'✅ PUBBLICATO (solo italiano)','Alle '+hm(data.ts)+' · online e controllato. Traduzioni non fatte: manca la chiave Gemini.','done');tstop();if(window.v22Confetti)v22Confetti(70);setTimeout(()=>{const b=$('mpBar');if(b&&b.classList.contains('done'))v2918MpClose();},15000);return true;}
 SS[3]=1;let p=70;show(p,'✅ Già online in italiano','I clienti lo vedono già. Ora traduco: se Gemini è lento resta in italiano.');
-creep=setInterval(()=>{if(p<95){p+=2;show(p,'✅ Già online in italiano','I clienti lo vedono già. Ora traduco: se Gemini è lento resta in italiano.');}},1500);
+creep=CBT(()=>{if(p<95){p+=2;show(p,'✅ Già online in italiano','I clienti lo vedono già. Ora traduco: se Gemini è lento resta in italiano.');}},1500);
 const names=[title,inc,note,...secs.map(s=>s.n),...secs.flatMap(s=>s.items.map(i=>i.n))];
 let T={};try{T=await lim(translate(names),45000,'timeout traduzioni')||{};}catch(e){T={};}
 clearInterval(creep);creep=0;
@@ -575,7 +582,7 @@ window.v2920Off=async()=>{if(!confirm('Togliere il menù speciale? Il QR mostrer
 window.v2920Copy=async()=>{try{await navigator.clipboard.writeText(link());toast('📋 Link copiato');}catch(e){prompt('Link:',link());}};
 window.v2920Print=()=>{const q=$('spQr'),cv=q&&q.querySelector('canvas'),src=cv?cv.toDataURL('image/png'):((q&&q.querySelector('img'))||{}).src;if(!src)return toast('QR non disponibile offline');const w=window.open('','_blank');if(!w)return;
 w.document.write(`<!DOCTYPE html><html><head><title>QR menù speciale</title><style>body{font-family:Arial,sans-serif;text-align:center;padding:30px}h1{color:#EA580C;margin:0 0 6px}h2{margin:0 0 20px}img{width:300px;height:300px}p{font-size:18px;color:#444}</style></head><body><h1>ALICETTA TRATTORIA</h1><h2>${esc(D.title||'Menù speciale')}</h2><img src="${src}"><p>Inquadra il QR per vedere il menù della serata</p><p style="font-size:14px">Scan to see tonight’s special menu</p></body></html>`);w.document.close();setTimeout(()=>{try{w.print();}catch(e){}},500);};
-setInterval(()=>{try{place();}catch(e){}},1500);
+CBT(()=>{try{place();}catch(e){}},1500);
 })();
 }catch(e){console.error("chef-extra blocco 13",e);}
 try{
@@ -663,7 +670,7 @@ window.v2928Go=()=>{const m=document.getElementById('endModal');if(m)m.classList
 {const _r=renderCashClose;renderCashClose=function(){const r=_r.apply(this,arguments);try{const el=document.getElementById('cashClose');if(el&&isOwner()&&!el.querySelector('.v2928rec')){const M=missing();if(M.length){const b=document.createElement('button');b.className='btn-main v2928rec';b.style.cssText='width:100%;margin:0 0 10px;background:#0369A1;color:#fff;';b.textContent='🔄 Ricostruisci '+M.length+(M.length===1?' chiusura mancante':' chiusure mancanti');b.onclick=v2928Recover;el.prepend(b);}}}catch(e){}return r;};}
 {const _s=saveCashClose;saveCashClose=function(){const r=_s.apply(this,arguments);try{if(window.v2928CcDone&&v2928CcDone()){const t=svcToday();dayBills(t).forEach(e=>{e.closedEvening=true;});saveState(false,{history:true});}}catch(e){}tick();return r;};}
 function tick(){const b=document.getElementById('ccBanner');if(!b)return;let on=false;try{const h=new Date().getHours(),t=svcToday();on=isOwner()&&(h>=21||h<5)&&!Object.values(state.tables||{}).some(x=>x&&x.items&&x.items.length)&&dayBills(t).length>0&&!(window.v2928CcDone&&v2928CcDone());}catch(e){}b.style.display=on?'block':'none';}
-setInterval(tick,5000);
+CBT(tick,5000);
 })();
 }catch(e){console.error("chef-extra blocco 17",e);}
 try{
@@ -688,7 +695,7 @@ window.v2929Day=n=>{const[a,b]=contiRange();let d=(a===b?a:svcToday());d=addD(d,
 {const _c=renderConti;renderConti=function(){const r=_c.apply(this,arguments);try{const T=$('payTotals');if(T&&!T.querySelector('.v2929nav')){const bar=T.querySelector('.cat-bar');const[a,b]=contiRange(),cur=a===b?a:null,isT=cur===svcToday();const d=document.createElement('div');d.className='v2929nav';d.style.cssText='display:grid;grid-template-columns:48px 1fr 48px;gap:6px;align-items:center;margin:4px 0 8px;';
 d.innerHTML=`<button class="btn-note" style="min-height:42px;font-size:1.1rem;" onclick="v2929Day(-1)" aria-label="Giorno prima">◀</button><div style="text-align:center;font-weight:900;font-size:.88rem;text-transform:capitalize;">${cur?lbl(cur)+(isT?' · oggi':''):'tocca ◀ per i singoli giorni'}</div><button class="btn-note" style="min-height:42px;font-size:1.1rem;${isT?'opacity:.3;':''}" ${isT?'disabled':''} onclick="v2929Day(1)" aria-label="Giorno dopo">▶</button>`;
 if(bar)bar.after(d);else T.prepend(d);}}catch(e){}return r;};}
-setInterval(()=>{try{const lu=$('luCard'),sp=$('spCard');if(lu&&sp&&(sp.compareDocumentPosition(lu)&Node.DOCUMENT_POSITION_FOLLOWING))sp.before(lu);}catch(e){}},1200);
+CBT(()=>{try{const lu=$('luCard'),sp=$('spCard');if(lu&&sp&&(sp.compareDocumentPosition(lu)&Node.DOCUMENT_POSITION_FOLLOWING))sp.before(lu);}catch(e){}},1200);
 })();
 }catch(e){console.error("chef-extra blocco 18",e);}
 try{
@@ -781,7 +788,7 @@ ${s1.map(([id,r])=>`<div class="hx-row"><div onclick="v2931Edit('sc1','${id}')" 
 ${s8.map(([id,r])=>`<div class="hx-row" onclick="v2931Edit('sc8','${id}')" style="cursor:pointer;"><div style="flex:1;"><b>${dmy(r.dab).slice(0,5)} · ${esc(r.al)}</b><div class="fc-sub">${esc(r.forn||'ns produzione')}${r.peso?' · '+esc(r.peso):''}${r.oin?' · '+esc(r.oin)+'→'+esc(r.oout||'…'):''}${r.scad?' · scade '+dmy(r.scad).slice(0,5):''}</div><div class="fc-sub">✍️ ${esc(r.add||'')}</div></div><span class="hx-c ${r.c!==false?'ok':'no'}">${r.c!==false?'C ✓':'NC ✗'}</span></div>`).join('')||'<div class="fc-sub">Nessun abbattimento in questo mese.</div>'}
 <button class="btn-note" style="width:100%;margin-top:8px;padding:10px;" onclick="v2931Print('sc8')">🖨️ Stampa scheda SC8 del mese</button></div>`;H.forEach(x=>x.innerHTML=__h);}
 let pulled=false;function place(){let n=false;[['hcPage','hxA'],['hcModalBox','hxB']].forEach(([p,id])=>{const e=$(p);if(e&&!$(id)){const d=document.createElement('div');d.id=id;d.className='hxHost';e.after(d);n=true;}});if(n){syncBolle();draw();if(!pulled){pulled=true;pull().then(()=>{syncBolle();draw();});}}}
-setInterval(()=>{try{place();}catch(e){}},1500);
+CBT(()=>{try{place();}catch(e){}},1500);
 window.v2931M=n=>{const d=new Date(M+'-15T12:00');d.setMonth(d.getMonth()+n);M=d.getFullYear()+'-'+pad(d.getMonth()+1);draw();};
 window.v2931Forn=()=>{try{switchMainView('sales');setHubPage('sales','forn');}catch(e){}};
 window.v2931C=id=>{const r=D.sc1[id];if(!r)return;put('sc1',id,{...r,c:!r.c});draw();};
@@ -836,7 +843,7 @@ $('hxBox').innerHTML=`<h3>📤 Lunedì: invia le fatture</h3><div class="fc-sub"
 $('hxShare').onclick=async()=>{if(navigator.share){try{await navigator.share({text:txt});return;}catch(e){}}window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');};$('hxModal').classList.add('active');};
 window.v2931MonLater=()=>{localStorage.setItem('alicetta_fattmon_snz',String(Date.now()+2*3600e3));$('hxModal').classList.remove('active');};
 window.v2931MonDone=wk=>{localStorage.setItem('alicetta_fattmon',wk);$('hxModal').classList.remove('active');toast('✅ Fatture della settimana segnate come inviate');};
-setInterval(()=>{try{const d=new Date();if(isOwner()&&d.getDay()===1&&d.getHours()>=9&&document.visibilityState==='visible')v2931Mon(false);}catch(e){}},60000);
+CBT(()=>{try{const d=new Date();if(isOwner()&&d.getDay()===1&&d.getHours()>=9&&document.visibilityState==='visible')v2931Mon(false);}catch(e){}},60000);
 {const _t=window.v216Temp;if(_t)window.v216Temp=async function(id){const inp=document.getElementById('hct_'+id),v=inp?inp.value:'';const r=await _t.apply(this,arguments);try{if(!meC()&&v&&typeof ntfyPost==='function'){const e=(window.v2916Eq?v2916Eq():[]).find(x=>x.id===id);ntfyPost('christian','🌡️ Temperatura registrata',(e?e.n+': ':'')+v+' °C · '+FULL(state.waiterName),3);}}catch(e){}return r;};}
 {const _w=window.v2916WriteDays;if(_w)window.v2916WriteDays=async function(ym,obj){const r=await _w.apply(this,arguments);try{if(!meC()&&typeof ntfyPost==='function')ntfyPost('christian','🌡️ Temperature dalla scheda',Object.keys(obj||{}).length+' valori registrati · '+FULL(state.waiterName),3);}catch(e){}return r;};}
 if(typeof addTime==='function'){const _a=addTime;addTime=async function(emp,type,ts){const r=await _a.apply(this,arguments);try{if(!meC()&&typeof ntfyPost==='function'&&Math.abs(Date.now()-(ts||0))<5*60000){const L={in:'🟢 Entrata',bstart:'☕ Inizio pausa',bend:'↩️ Fine pausa',out:'🔴 Uscita'};ntfyPost('christian',(L[type]||'⏱️ Timbratura')+': '+emp,'alle '+new Date(ts||Date.now()).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}),3);}}catch(e){}return r;};}
@@ -862,7 +869,7 @@ return r;};}
 window.v2933Test=()=>{const n=new Date().toLocaleString('it-IT');const ep=ESC+'@'+ESC+'a\x01'+ESC+'!\x38'+'PROVA\n'+ESC+'!\x00'+'Chef Bull Brigade\n'+n+'\n\n'+ESC+'a\x00'+'Accenti: à è é ì ò ù - Perché? Così!\n'+'Totale        EUR 12,50\n'+'-'.repeat(48)+'\n'+ESC+'a\x01'+'Se leggi bene gli accenti e vedi il QR,\nla stampante è pronta.\n\n'+qr('https://christonstage.github.io/Tables-Manager/menu.html',6)+'\n\n\n\n'+GS+'V\x42\x00';
 dispatchPrint('PROVA STAMPANTE\nAccenti: à è é ì ò ù\n[QR]',ep);};
 function testBtn(){const c=$('chkRawbt');if(!c||$('v2933t'))return;const b=document.createElement('button');b.id='v2933t';b.className='btn-main btn-print';b.style.cssText='width:100%;margin-top:8px;';b.textContent='🖨️ Prova stampante';b.onclick=v2933Test;const l=c.closest('label')||c.parentElement;(l||c).after(b);}
-setInterval(()=>{try{testBtn();}catch(e){}},1500);
+CBT(()=>{try{testBtn();}catch(e){}},1500);
 })();
 }catch(e){console.error("chef-extra blocco 21",e);}
 try{
@@ -894,7 +901,7 @@ $('jbX').onclick=e=>{e.stopPropagation();hid=true;bar.classList.remove('on');};
 bar.onclick=()=>{if(bar.classList.contains('ok')&&window._jobAfter){const f=window._jobAfter;window._jobAfter=null;bar.classList.remove('on','ok');try{f();}catch(x){}}};
 const det=()=>{for(const id of ['oneSt','invSt','ocrStatus','wcNetSt','v2918Prog','pubSt']){const e=$(id);const s=e&&(e.textContent||'').trim();if(s&&/⏳|…|\.\.\./.test(s))return s.slice(0,110);}return'';};
 function draw(){if(act&&Date.now()-lastB>150000){act=1;end();return;}if(hid||!act&&!bar.classList.contains('ok'))return;const el=(Date.now()-t0)/1000;if(act){pct=Math.max(pct,Math.min(96,96*(1-Math.exp(-el/(22+done*6)))));$('jbT').textContent='⏳ '+(lab||window._jobLabel||'🤖 Gemini al lavoro');const d=det();$('jbD').textContent=(d?d+' · ':'')+'da '+Math.round(el)+' s · puoi continuare a usare l’app';}$('jbP').style.width=pct+'%';bar.classList.add('on');}
-let lastB=0;function begin(){lastB=Date.now();clearTimeout(endT);if(!act&&!bar.classList.contains('busy')){t0=Date.now();done=0;pct=2;hid=false;lab=window._jobLabel||'';bar.classList.remove('ok');bar.classList.add('busy');window._jobAfter=null;}act++;if(window._jobLabel)lab=window._jobLabel;if(!tick)tick=setInterval(draw,500);draw();}
+let lastB=0;function begin(){lastB=Date.now();clearTimeout(endT);if(!act&&!bar.classList.contains('busy')){t0=Date.now();done=0;pct=2;hid=false;lab=window._jobLabel||'';bar.classList.remove('ok');bar.classList.add('busy');window._jobAfter=null;}act++;if(window._jobLabel)lab=window._jobLabel;if(!tick)tick=CBT(draw,500);draw();}
 function end(){act=Math.max(0,act-1);done++;if(act)return;endT=setTimeout(()=>{if(act)return;clearInterval(tick);tick=0;bar.classList.remove('busy');pct=100;$('jbT').textContent='✅ '+(lab||'Elaborazione')+': fatto';$('jbD').textContent=window._jobAfter?'Tocca qui per vedere il risultato':'In '+Math.round((Date.now()-t0)/1000)+' s';$('jbP').style.width='100%';bar.classList.add('ok');if(!hid)bar.classList.add('on');setTimeout(()=>{if(!act&&!window._jobAfter)bar.classList.remove('on','ok');},window._jobAfter?60000:4000);},1800);}
 const _f=window.fetch;window.fetch=function(u){let url='';try{url=String(u&&u.url||u);}catch(e){}if(!/generativelanguage\.googleapis\.com/.test(url))return _f.apply(this,arguments);begin();const p=_f.apply(this,arguments);p.then(end,end);return p;};
 const lbl=(name,L)=>{const o=window[name];if(typeof o!=='function')return;window[name]=async function(){window._jobLabel=L;lab=act?L:lab;try{return await o.apply(this,arguments);}finally{setTimeout(()=>{if(window._jobLabel===L)window._jobLabel='';},2500);}};};
@@ -918,10 +925,10 @@ const hm=ts=>new Date(ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-d
 function snzApply(){document.body.classList.toggle('cc-snz',Date.now()<snzUntil());}
 window.v2938Snooze=(min,ev)=>{if(ev)ev.stopPropagation();const t=Date.now()+min*60000;localStorage.setItem('alicetta_cc_snooze',String(t));localStorage.setItem('alicetta_endnag_t',String(t));snzApply();const m=$('endModal');if(m)m.classList.remove('active');try{toast('⏰ Ti ricordo la chiusura cassa alle '+hm(t));}catch(e){}};
 {const b=$('ccBanner');if(b&&!b.querySelector('.snz'))b.insertAdjacentHTML('beforeend','<div class="snz"><button onclick="v2938Snooze(30,event)">⏰ Tra 30 min</button><button onclick="v2938Snooze(60,event)">⏰ Tra 1 ora</button></div>');}
-setInterval(snzApply,15000);snzApply();
+CBT(snzApply,15000);snzApply();
 /* ---- Conti: prima i conti, poi le fatture ---- */
 function order(){}
-order();setInterval(order,3000);
+order();CBT(order,3000);
 /* ---- confronto con il terminale SumUp (giorno di calendario, come SumUp) ---- */
 const pad=n=>String(n).padStart(2,'0');const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 let suDay=iso(new Date()),suOpen=false;
@@ -1217,7 +1224,7 @@ st.textContent='body.al-mode #payTotals,body.al-mode #cashClose,body.al-mode #sp
 document.head.appendChild(st);
 /* barra in basso: niente Menù e Ore, sì Vendite */
 function nav(){const a=isAl();document.body.classList.toggle('al-mode',a);if(!a)return;let ch=false;[['navDishes','none'],['navTime','none'],['navSales','block']].forEach(([id,v])=>{const b=$(id);if(b&&b.style.display!==v){b.style.display=v;ch=true;}});if(ch&&window.v21UpdateDock)try{v21UpdateDock();}catch(e){}}
-setInterval(nav,1000);nav();
+CBT(nav,1000);nav();
 /* apertura di Vendite per Alice: solo Oggi e Fornitori */
 {const _s=switchMainView;switchMainView=function(v){if(v==='sales'&&isAl()){const w=state.waiterName;state.waiterName='Christian';let r;try{r=_s.apply(this,arguments);}finally{state.waiterName=w;}setTimeout(()=>{try{setHubPage('sales','oggi',0);}catch(e){}draw();},30);return r;}
  if((v==='dishes'||v==='time')&&isAl())return _s.call(this,'tables');return _s.apply(this,arguments);};}
@@ -1579,7 +1586,7 @@ window.v54Tab=t=>{TAB=t;localStorage.setItem('alicetta_cu_tab',t);apply();window
 {const _r=renderRes;renderRes=function(){const r=_r.apply(this,arguments);try{apply();}catch(e){}return r;};}
 let aq=0;new MutationObserver(()=>{if(aq)return;aq=setTimeout(()=>{aq=0;try{if($('viewRes')&&$('viewRes').classList.contains('active')){const host=$('resContent');if(host&&[...host.children].some(el=>kind(el)!=='tabs'&&!el.classList.contains('cu-hide')&&kind(el)!==TAB))apply();}}catch(e){}},120);}).observe(document.body,{childList:true,subtree:true});
 function label(){const b=$('navRes');const t=b&&b.querySelector('.nv-t');if(t&&t.textContent!=='Clienti'){t.textContent='Clienti';}}
-setInterval(label,2000);label();
+CBT(label,2000);label();
 /* ---------- dati: Club + rubrica prenotazioni ---------- */
 let CLUB=null,clubErr='';
 async function loadClub(force){if(CLUB&&!force)return CLUB;try{const o=await fbGet('/fidelity/cards')||{};CLUB=Object.entries(o).map(([id,c])=>({id,...c}));clubErr='';}catch(e){clubErr=e.message||String(e);CLUB=CLUB||[];}return CLUB;}
@@ -1679,7 +1686,7 @@ const FOOD=['3 Antipasti','4 Primi Piatti','5 Secondi','5 Contorni','6 Desserts'
 if(typeof window.algMerge==='function'){const _m=window.algMerge;window.algMerge=function(){const r=_m.apply(this,arguments);return Array.isArray(r)&&r.length?r:['nessuno'];};}
 function fixData(){try{let n=0;(state.menu||[]).forEach(m=>{if(m&&FOOD.includes(m.cat)&&Array.isArray(m.allergens)&&!m.allergens.length){m.allergens=['nessuno'];n++;}});
  if(n&&/^christian$/i.test((state.waiterName||'').trim())){saveState(false,{menu:true});}return n;}catch(e){return 0;}}
-setTimeout(fixData,4000);setInterval(fixData,20000);
+setTimeout(fixData,4000);CBT(fixData,20000);
 const pending=()=>{let a=0,t=0;try{a=(state.menu||[]).filter(m=>FOOD.includes(m.cat)&&!(Array.isArray(m.allergens)&&m.allergens.length)).length;}catch(e){}try{t=missingTrItems().length;}catch(e){}return a+t;};
 /* 2) barra "Sto elaborando il menù": secondi sempre visibili, e niente avviso vecchio se ormai è tutto fatto */
 let t0=0,lastCls='';
@@ -1688,10 +1695,10 @@ function mp(){const b=$('mpBar');if(!b)return;let s=$('mpSec');if(!s){s=document
  if(on&&!warn&&!done){if(!t0||lastCls!=='work')t0=Date.now();lastCls='work';s.textContent='⏱️ '+Math.round((Date.now()-t0)/1000)+' s';}
  else if(on){if(lastCls==='work'&&t0)s.textContent='Durata: '+Math.round((Date.now()-t0)/1000)+' s';lastCls=warn?'warn':'done';if(warn&&!fixData()&&pending()===0&&window.v2918MpClose)v2918MpClose();if(warn&&pending()===0&&window.v2918MpClose)v2918MpClose();}
  else{lastCls='';t0=0;s.textContent='';}}
-setInterval(mp,1000);
+CBT(mp,1000);
 /* 3) ogni messaggio "⏳ …" (lavagnetta, fattura, prenotazioni, foto SumUp…) mostra da quanti secondi sta lavorando */
 const T=new WeakMap();
-setInterval(()=>{document.querySelectorAll('#oneSt,#ocrStatus,#invSt,#resMsgSt,#bcSt,#bcSt2,#feSt,[data-sec]').forEach(el=>{const sp=el.querySelector(':scope > .v56s');const txt=(el.textContent||'').replace(sp?sp.textContent:'','').trim();
+CBT(()=>{document.querySelectorAll('#oneSt,#ocrStatus,#invSt,#resMsgSt,#bcSt,#bcSt2,#feSt,[data-sec]').forEach(el=>{const sp=el.querySelector(':scope > .v56s');const txt=(el.textContent||'').replace(sp?sp.textContent:'','').trim();
  if(/^⏳/.test(txt)){let r=T.get(el);if(!r||r.t!==txt.slice(0,40)){r={t:txt.slice(0,40),at:r&&/^⏳/.test(r.t)?r.at:Date.now()};T.set(el,r);}const v=' · ⏱️ '+Math.round((Date.now()-r.at)/1000)+' s';if(sp){if(sp.textContent!==v)sp.textContent=v;}else{const n=document.createElement('span');n.className='v56s';n.textContent=v;el.appendChild(n);}}
  else{if(sp)sp.remove();T.delete(el);}});},1000);
 })();
@@ -1711,7 +1718,7 @@ window.v57Fs=ev=>{if(ev){ev.stopPropagation();ev.preventDefault();}
 function paint(){const w=$('waiterDisplay');if(!w)return;let b=$('fsMini');if(!b||b.parentNode!==w){b=document.createElement('button');b.id='fsMini';b.type='button';b.onclick=window.v57Fs;w.appendChild(b);}
  const on=fsOn(),h=on?ICON_OUT:ICON_IN,t=on?'Esci dallo schermo intero':'Schermo intero';if(b.dataset.s!==String(on)){b.innerHTML=h;b.dataset.s=String(on);b.title=t;b.setAttribute('aria-label',t);}}
 document.addEventListener('fullscreenchange',paint);document.addEventListener('webkitfullscreenchange',paint);
-setInterval(paint,1000);paint();
+CBT(paint,1000);paint();
 })();
 }catch(e){console.error("chef-extra v2.9.57",e);}
 try{
@@ -1770,7 +1777,7 @@ document.head.appendChild(st);
 /* 1) elenco dei conti subito sotto gli incassi, nella prima pagina di Vendite */
 function place(){const P=$('payTotals'),C=$('contiList');if(!P||!C)return;if(P.nextElementSibling!==C)P.after(C);
  }
-setInterval(place,500);place();
+CBT(place,500);place();
 /* 2) cestini rossi e ben visibili */
 function trash(){document.querySelectorAll('button').forEach(b=>{if(b.classList.contains('trash-btn'))return;const t=(b.textContent||'').trim();if(t==='🗑️'||t==='🗑'||/^🗑️?\s?(Elimina|Cancella)?$/.test(t))b.classList.add('trash-btn');});}
 let q=0;new MutationObserver(()=>{if(q)return;q=setTimeout(()=>{q=0;try{trash();}catch(e){}},200);}).observe(document.body,{childList:true,subtree:true});trash();
@@ -1808,10 +1815,12 @@ function icApply(){const S=SETS[icMode()];if(S)Object.keys(S.i).forEach(id=>{con
  const c=$('iconCard'),ch=c&&c.querySelector('.chips');if(ch&&!ch.querySelector('[data-x]')){Object.keys(SETS).forEach(k=>{const b=document.createElement('button');b.className='chipb'+(icMode()===k?' on':'');b.dataset.x=k;b.textContent=SETS[k].l;b.onclick=()=>window.v221Icons&&window.v221Icons(k);ch.appendChild(b);});}}
 /* ---------- 4) recensioni da screenshot ---------- */
 let RVL=[];try{RVL=JSON.parse(localStorage.getItem('alicetta_rvl')||'[]')||[];}catch(e){}
+try{if(!localStorage.getItem('alicetta_rvl_v86')){RVL.forEach(r=>{r.done=false;});localStorage.setItem('alicetta_rvl_v86','1');localStorage.setItem('alicetta_rvl',JSON.stringify(RVL));}}catch(e){}
+window.v86Pub=()=>{const tx=((document.getElementById('rvText')||{}).value||'').trim();let i=window.v86Act;if(!(RVL[i]&&(RVL[i].testo||'').trim()===tx))i=tx?RVL.findIndex(r=>(r.testo||'').trim()===tx):-1;if(i>=0){RVL[i].done=true;RVL[i].pub=Date.now();rvDraw();return true;}return false;};
 function rvDraw(){try{localStorage.setItem('alicetta_rvl',JSON.stringify(RVL.slice(0,80)));}catch(e){}const box=$('rvShots');if(!box)return;const todo=RVL.filter(r=>!r.done).length,done=RVL.length-todo;
- box.innerHTML=RVL.length?`<div class="rv-list"><div style="font-weight:900;margin-bottom:6px;">📝 Da rispondere: ${todo} · ✅ Già risposte: ${done}</div>${RVL.map((r,i)=>[r,i]).sort((a,b)=>(a[0].done?1:0)-(b[0].done?1:0)).map(([r,i])=>`<div class="rv-it ${r.done?'done':''}"><b>${'★'.repeat(r.stelle||0)}${'☆'.repeat(5-(r.stelle||0))} ${escH(r.nome||'Cliente')}${r.done?' · ✅ risposta fatta':''}</b><div class="t">${escH((r.testo||'(solo stelle, senza testo)').slice(0,260))}${(r.testo||'').length>260?'…':''}</div><button class="btn-note" style="padding:7px 12px;" onclick="v64RvUse(${i})">${r.done?'✍️ Rispondi di nuovo':'✍️ Rispondi a questa'}</button> ${r.done?`<button class="btn-note" style="padding:7px 12px;" onclick="v64RvTodo(${i})">↩️ Da rifare</button>`:''} <button class="btn-note" style="padding:7px 10px;" onclick="v64RvDel(${i})">✖</button></div>`).join('')}</div>`:'';}
+ box.innerHTML=RVL.length?`<div class="rv-list"><div style="font-weight:900;margin-bottom:6px;">📝 Da rispondere: ${todo} · ✅ Pubblicate su Google: ${done}</div>${RVL.map((r,i)=>[r,i]).sort((a,b)=>(a[0].done?1:0)-(b[0].done?1:0)).map(([r,i])=>`<div class="rv-it ${r.done?'done':''}"><b>${'★'.repeat(r.stelle||0)}${'☆'.repeat(5-(r.stelle||0))} ${escH(r.nome||'Cliente')}${r.done?' · ✅ pubblicata':''}</b><div class="t">${escH((r.testo||'(solo stelle, senza testo)').slice(0,260))}${(r.testo||'').length>260?'…':''}</div><button class="btn-note" style="padding:7px 12px;" onclick="v64RvUse(${i})">${r.done?'✍️ Rispondi di nuovo':'✍️ Rispondi a questa'}</button> ${r.done?`<button class="btn-note" style="padding:7px 12px;" onclick="v64RvTodo(${i})">↩️ Da rifare</button>`:''} <button class="btn-note" style="padding:7px 10px;" onclick="v64RvDel(${i})">✖</button></div>`).join('')}</div>`:'';}
 window.v64RvTodo=i=>{if(RVL[i]){RVL[i].done=false;rvDraw();}};window.v64RvDel=i=>{if(RVL[i]&&confirm('Togliere questa recensione dall’elenco?')){RVL.splice(i,1);rvDraw();}};
-window.v64RvUse=i=>{const r=RVL[i];if(!r)return;r.done=true;try{v215Set('text',r.testo||'');v215Set('name',r.nome||'');}catch(e){}const t=$('rvText');if(t)t.value=r.testo||'';const n=document.querySelector('#hub_ai_rev input[placeholder^="Nome del cliente"]');if(n)n.value=r.nome||'';
+window.v64RvUse=i=>{const r=RVL[i];if(!r)return;window.v86Act=i;try{v215Set('text',r.testo||'');v215Set('name',r.nome||'');}catch(e){}const t=$('rvText');if(t)t.value=r.testo||'';const n=document.querySelector('#hub_ai_rev input[placeholder^="Nome del cliente"]');if(n)n.value=r.nome||'';
  const sb=document.querySelectorAll('#hub_ai_rev .star-row button')[(r.stelle||5)-1];if(sb)sb.click();rvDraw();if(t)t.scrollIntoView({behavior:'smooth',block:'center'});try{toast('Recensione inserita: ora tocca “Scrivi le risposte”');}catch(e){}};
 window.v64RvShot=async inp=>{const F=[...(inp.files||[])].slice(0,6);inp.value='';if(!F.length)return;const m=$('rvShotSt');const say=t=>{if(m)m.textContent=t;};
  if(!getGeminiKey())return say('🔑 Serve la chiave Gemini in ⚙️ Opzioni.');say('⏳ Leggo '+(F.length===1?'lo screenshot':F.length+' screenshot')+'…');window._jobLabel='⭐ Lettura recensioni';
@@ -1849,7 +1858,7 @@ function fixColors(){const tk=document.body.className;if(tk!==themeKey){themeKey
    el.style.setProperty('color',`rgb(${c[0]},${c[1]},${c[2]})`,'important');el.dataset.cfx='1';}}}
 let fq=0;const sched=()=>{if(fq)return;fq=setTimeout(()=>{fq=0;try{fixColors();}catch(e){}},1200);};
 new MutationObserver(sched).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
-setInterval(()=>{try{fidBtn();icApply();rvBtn();clubMove();}catch(e){}},700);
+CBT(()=>{try{fidBtn();icApply();rvBtn();clubMove();}catch(e){}},700);
 {const w=()=>{if(typeof window.v221Icons==='function'&&!window.v221Icons._x){const _i=window.v221Icons;window.v221Icons=function(m){const r=_i.apply(this,arguments);try{icApply();const c=$('iconCard');if(c)c.querySelectorAll('[data-x]').forEach(b=>b.classList.toggle('on',b.dataset.x===m));}catch(e){}return r;};window.v221Icons._x=1;}};w();setTimeout(w,2000);}
 setTimeout(()=>{try{fixColors();}catch(e){}},1500);
 })();
@@ -1873,7 +1882,7 @@ function suSync(){try{const k=(localStorage.getItem('alicetta_sumup_key')||'').t
   const n=document.createElement('div');n.id='suNote';n.style.cssText='font-size:.74rem;font-weight:700;opacity:.8;margin-top:4px;';i.parentNode.parentNode.appendChild(n);}
  const n=$('suNote');if(n)n.textContent=(k&&a)?'✅ Chiavi presenti su questo dispositivo e salvate nella copia di sicurezza.':(cl.key?'':'⚠️ Chiavi mancanti: se un altro dispositivo le ha ancora, aprilo con questa versione e torneranno anche qui.');}catch(e){}}
 if(typeof saveSumup==='function'){const _s=saveSumup;saveSumup=function(){const r=_s.apply(this,arguments);setTimeout(suSync,300);return r;};}
-setInterval(suSync,8000);setTimeout(suSync,3500);
+CBT(suSync,8000);setTimeout(suSync,3500);
 /* ---------- B) note vocali (in app, condivise tra i dispositivi) + invio a Google Keep ---------- */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let rec=null,recHost='';
 const notes=()=>{const c=cfg();c.notes=Array.isArray(c.notes)?c.notes:[];return c.notes;};
@@ -1941,7 +1950,7 @@ function turniRes(){const P=$('tuPlan');if(!P)return;const y=new Date().getFullY
 let bfDay='';
 function bfHosts(){const kb=$('ntBox_kds');if(kb&&!$('bfKds')){const d=document.createElement('div');d.id='bfKds';kb.after(d);}
  const vt=$('viewTables');if(vt&&!$('bfTav')){const d=document.createElement('div');d.id='bfTav';d.style.margin='0 0 10px';const ref=vt.querySelector('.room-tabs,.rooms,#roomTabs')||vt.firstElementChild;if(ref&&ref.parentNode===vt)vt.insertBefore(d,ref.nextSibling);else vt.prepend(d);}}
-setInterval(()=>{try{placeNotes();grpApply();sousCk();turniRes();bfHosts();const k=today()+'|'+JSON.stringify(Object.values(state.res||{}).map(r=>[r.time,r.covers,r.status,r.note]))+'|'+(state.menu||[]).map(m=>(m.soldOut?1:0)+':'+(typeof stockLeft==='function'?stockLeft(m):'')).join(',')+'|'+Math.floor(Date.now()/6e4);if(k!==bfDay&&['bfBox','bfKds','bfTav'].some(i=>$(i))){bfDay=k;window.v65Brief();}}catch(e){}},900);
+CBT(()=>{try{placeNotes();grpApply();sousCk();turniRes();bfHosts();const k=today()+'|'+JSON.stringify(Object.values(state.res||{}).map(r=>[r.time,r.covers,r.status,r.note]))+'|'+(state.menu||[]).map(m=>(m.soldOut?1:0)+':'+(typeof stockLeft==='function'?stockLeft(m):'')).join(',')+'|'+Math.floor(Date.now()/6e4);if(k!==bfDay&&['bfBox','bfKds','bfTav'].some(i=>$(i))){bfDay=k;window.v65Brief();}}catch(e){}},900);
 })();
 }catch(e){console.error("chef-extra v2.9.65",e);}
 try{
@@ -1980,7 +1989,7 @@ if(typeof window.v64ClubVcf==='function'){const _v=window.v64ClubVcf;window.v64C
 <div class="vc-l">${L.map(c=>`<div><span><b>Cliente Club ${esc(String(c.name||'').trim())}</b><br><small>Nota: Alicetta Club${c.mkt?' · accetta promo':''}</small></span><span style="white-space:nowrap;">${esc(num(c.phone))}</span></div>`).join('')}</div>
 <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:8px;"><button class="btn-main btn-print" id="vcNo">Annulla</button><button class="btn-main btn-bill" id="vcOk">⬇️ Scarica e importa</button></div></div>`;
  document.body.appendChild(o);o.querySelector('#vcNo').onclick=()=>o.remove();o.querySelector('#vcOk').onclick=()=>{o.remove();_v();};o.onclick=e=>{if(e.target===o)o.remove();};};}
-setInterval(()=>{try{buoniMove();dupMark();}catch(e){}},800);
+CBT(()=>{try{buoniMove();dupMark();}catch(e){}},800);
 })();
 }catch(e){console.error("chef-extra v2.9.66",e);}
 try{
@@ -2009,7 +2018,7 @@ if(typeof payFilter==='function'){const _p=payFilter;payFilter=function(m){const
 let last='';
 function skip(){const v=$('viewAi');if(!v||!v.classList.contains('active'))return;const T=[...document.querySelectorAll('#hubTabs_ai .hub-tab')],a=T.find(t=>t.classList.contains('active'));if(!a)return;if(!HIDE.includes(a.dataset.p)){last=a.dataset.p;return;}
  const i=T.indexOf(a),vis=t=>t&&!HIDE.includes(t.dataset.p);let f=T.slice(i+1).find(vis),bk=T.slice(0,i).reverse().find(vis);const li=T.findIndex(t=>t.dataset.p===last);const go=(li>i?bk:f)||f||bk;if(go)go.click();}
-setInterval(()=>{try{ore();numeri();skip();}catch(e){}},700);
+CBT(()=>{try{ore();numeri();skip();}catch(e){}},700);
 })();
 }catch(e){console.error("chef-extra v2.9.67",e);}
 try{
@@ -2023,12 +2032,12 @@ function sig(){const el=$('hub_ai_rev');if(!el)return;const ch=[...el.querySelec
  const b=document.createElement('button');b.className='chipb';b.dataset.ciurma='1';b.textContent='⚓ '+SIG;b.onclick=()=>window.v215Sig(SIG,b);const nes=[...ch.children].find(x=>/Nessuna/.test(x.textContent||''));ch.insertBefore(b,nes||null);
  const saved=localStorage.getItem('alicetta_rv_sig');if(saved===SIG){ch.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));try{window.v215Sig(SIG,b);}catch(e){}}
  const lb=[...el.querySelectorAll('.v14-lbl')].find(x=>/^Stelle/.test(x.textContent||''));if(lb&&!$('rvStarAuto')){const n=document.createElement('div');n.id='rvStarAuto';n.textContent='Con lo screenshot le stelle si scelgono da sole; qui servono solo se incolli il testo.';lb.after(n);}}
-setInterval(()=>{try{sig();}catch(e){}},700);
+CBT(()=>{try{sig();}catch(e){}},700);
 })();
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.85';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.87';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2069,8 +2078,10 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.87',['🔋 Un solo orologio: i circa 60 timer dell’app ora girano su un unico timer (più leggero per batteria e telefono). Quando l’app è in secondo piano rallenta da sola.','🧹 Recensioni: le regole di Lei, varietà e personalizzazione sono ora in un unico blocco (prima erano in due).','📘 Nessuna funzione cambia: è una versione di pulizia.']],
+['v2.9.87',['⭐ Recensioni: una recensione non risulta più “risposta fatta” solo perché la apri. Ogni risposta ha il tasto 🗺️ Pubblica su Google: copia il testo, apre Google e solo allora la recensione passa a “pubblicata”.','↩️ Le recensioni già segnate per errore tornano “da rispondere”; con “Da rifare” puoi sempre annullare.']],
 ['v2.9.85',['⭐ Le risposte alle recensioni ora danno del Lei in almeno due risposte su tre e riprendono parole e dettagli esatti della recensione.','👥 Le recensioni sono passate da AI a Clienti (nuovo tasto ⭐ Recensioni, solo per Christian).','🌙 Nuovo “Riepilogo del servizio”: incasso, coperti, scontrino per coperto, confronto con la media, podio dei piatti, sconti, amaro e prenotazioni di domani; con un tasto Gemini che scrive il commento e cosa preparare. Lo trovi a fine serata e in Vendite › Chiusura.']],
-['v2.9.85',['✍️ Risposte alle recensioni più diverse: tre voci distinte, dettagli diversi e il cane solo in una risposta (e solo se lo cita la recensione).','🎟️ Club: toccando Iscritti, Accettano promo o Calici da dare si aprono i relativi clienti (con tasto “Mostra tutti”).','🖨️ Preconto più completo (logo, data e ora, coperti, tavolo, piatti, sconto, totale), senza la scritta fiscale.','🧪 Opzioni › Prova stampante (con scelta 58/80 mm) e avviso dopo ogni preconto con Riprova / Mostra a schermo.']],
+['v2.9.84',['✍️ Risposte alle recensioni più diverse: tre voci distinte, dettagli diversi e il cane solo in una risposta (e solo se lo cita la recensione).','🎟️ Club: toccando Iscritti, Accettano promo o Calici da dare si aprono i relativi clienti (con tasto “Mostra tutti”).','🖨️ Preconto più completo (logo, data e ora, coperti, tavolo, piatti, sconto, totale), senza la scritta fiscale.','🧪 Opzioni › Prova stampante (con scelta 58/80 mm) e avviso dopo ogni preconto con Riprova / Mostra a schermo.']],
 ['v2.9.83',['⚠️ Il richiamo “comanda non inviata” ora compare solo a Christian, Alice e Serena: sul KDS e sul terminale timbrature non c’è più.','La barra rossa ha il tasto ✕ (la nasconde per 10 minuti) e ignora le bozze vecchie di oltre 3 ore.']],
 ['v2.9.82',['🚀 “Invia tutta la comanda” ora manda tutto rispettando le mandate: parte la 1ª, le altre aspettano il via, in sequenza.','🎙️ Briefing: tasto “Ascolta il briefing AI”, un riassunto parlato naturale.','💶 Opzioni › Prezzi suggeriti: scrivi il costo del piatto (o fallo stimare all’AI) e ti propongo il prezzo per il food cost scelto.','💬 Prenotazioni: tasto “Conferma” su WhatsApp e lettura AI del messaggio incollato del cliente.','🥃 Il testo “Offri l’amaro” ora dice da € 44.']],
 ['v2.9.81',['⚠️ Comanda non inviata: riquadro rosso lampeggiante in cima alla comanda, tasto INVIA che pulsa e barra rossa su tutte le schermate.','⏰ Se la comanda resta non inviata per 2 minuti: suono, vibrazione, avviso e notifica sul telefono, ripetuti ogni 2 minuti.','🥃 “Offri l’amaro” da € 44 a coperto in su.','🌞 Il tasto “Pranzo” ora è in fondo alle categorie.']],
@@ -2097,7 +2108,7 @@ function whatsNew(){const seen=localStorage.getItem('alicetta_seen_ver');if(seen
  const o=document.createElement('div');o.className='wn-ov';o.innerHTML=`<div class="wn-box"><h3>🆕 Cosa c’è di nuovo</h3><div style="font-size:.8rem;font-weight:700;opacity:.8;">Chef Bull Brigade ${CUR}. Ritrovi queste note in ⚙️ Opzioni › Novità.</div>${listHtml(L)}<button class="wn-ok">👍 Ho capito</button></div>`;document.body.appendChild(o);o.querySelector('.wn-ok').onclick=()=>o.remove();}
 function notesCard(){const v=$('viewMenuMgr');if(!v||$('wnCard'))return;const c=document.createElement('details');c.id='wnCard';c.className='cart-section';c.innerHTML=`<summary style="font-weight:900;font-size:1.05rem;cursor:pointer;">🆕 Novità delle versioni <span style="font-size:.78rem;opacity:.75;">(${CUR})</span></summary>${listHtml(LOG)}`;const t=v.querySelector('.screen-title');if(t)t.after(c);else v.prepend(c);}
 setTimeout(whatsNew,3500);
-setInterval(()=>{try{qrCol();chiedi();post();notesCard();}catch(e){}},700);
+CBT(()=>{try{qrCol();chiedi();post();notesCard();}catch(e){}},700);
 })();
 }catch(e){console.error("chef-extra v2.9.69",e);}
 try{
@@ -2190,8 +2201,8 @@ window.v70Tr=()=>{const o=document.createElement('div');o.className='ov2';o.id='
  draw();document.body.appendChild(o);o.addEventListener('click',e=>{if(e.target===o)o.remove();});};
 function trFab(){const v=$('viewOrder');let b=$('trFab');const on=v&&v.classList.contains('active');if(!on){if(b)b.remove();return;}if(!b){b=document.createElement('button');b.id='trFab';b.className='tr-fab';b.textContent='🌍 Traduci';b.onclick=window.v70Tr;document.body.appendChild(b);}
  const ch=$('chQuick');if(ch&&!$('trChiedi')){const d=document.createElement('button');d.id='trChiedi';d.className='btn-main';d.style.cssText='width:100%;margin-top:10px;background:#7C3AED;color:#fff;';d.textContent='🌍 Traduttore per parlare con i clienti stranieri';d.onclick=window.v70Tr;ch.after(d);}}
-setInterval(()=>{try{dayCard();spBtns();trFab();const ch=$('chQuick');if(ch&&!$('trChiedi')){const d=document.createElement('button');d.id='trChiedi';d.className='btn-main';d.style.cssText='width:100%;margin-top:10px;background:#7C3AED;color:#fff;';d.textContent='🌍 Traduttore per parlare con i clienti stranieri';d.onclick=window.v70Tr;ch.after(d);}}catch(e){}},800);
-setInterval(()=>{try{nudge();}catch(e){}},60000);setTimeout(()=>{try{nudge();}catch(e){}},8000);
+CBT(()=>{try{dayCard();spBtns();trFab();const ch=$('chQuick');if(ch&&!$('trChiedi')){const d=document.createElement('button');d.id='trChiedi';d.className='btn-main';d.style.cssText='width:100%;margin-top:10px;background:#7C3AED;color:#fff;';d.textContent='🌍 Traduttore per parlare con i clienti stranieri';d.onclick=window.v70Tr;ch.after(d);}}catch(e){}},800);
+CBT(()=>{try{nudge();}catch(e){}},60000);setTimeout(()=>{try{nudge();}catch(e){}},8000);
 })();
 }catch(e){console.error("chef-extra v2.9.70",e);}
 try{
@@ -2280,7 +2291,7 @@ ${R.map(([id,r])=>`<div class="s2-row"><span onclick="v71Edit('${id}')" style="f
 <button class="btn-main btn-bill" style="width:100%;margin-top:10px;" onclick="v2932Fasc&&v2932Fasc()">📤 Stampa o condividi TUTTE le schede HACCP<br><span style="font-size:.72rem;">temperature, pulizie, SC1, SC2, SC8 e foto delle bolle</span></button>`;}
 let sig='';
 function draw(){document.querySelectorAll('.hxHost').forEach(h=>{let c=h.querySelector('.s2Card');const html=card();if(!c){c=document.createElement('div');c.className='hc-card s2Card';h.appendChild(c);c.innerHTML=html;}else if(c.dataset.h!==html){c.innerHTML=html;}c.dataset.h=html;});}
-setInterval(()=>{try{stopBtn();if(document.querySelector('.hxHost')){if(!pulled){pulled=true;pull();}draw();}}catch(e){}},700);
+CBT(()=>{try{stopBtn();if(document.querySelector('.hxHost')){if(!pulled){pulled=true;pull();}draw();}}catch(e){}},700);
 })();
 }catch(e){console.error("chef-extra v2.9.71",e);}
 try{
@@ -2392,7 +2403,7 @@ window.v72Bolle=async()=>{let o=$('h72Ov');if(o)o.remove();o=document.createElem
 function hub(){document.querySelectorAll('.hxHost').forEach(h=>{if(h.querySelector('.h72-hub'))return;const d=document.createElement('div');d.className='h72-hub';d.innerHTML='<button style="background:#7C3AED" onclick="v72Sheets()">📚 Tutte le schede HACCP<br><small style="font-weight:700">frigoriferi, pulizie, merce, abbattimenti</small></button><button style="background:#0E7490" onclick="v72Bolle()">📦 Tutte le bolle<br><small style="font-weight:700">consulta i documenti acquisiti</small></button>';h.prepend(d);});
  const p=$('hcPage');if(p&&!p.querySelector('.h72-hub')&&!document.querySelector('.hxHost .h72-hub')){/* la pagina non è ancora pronta */}
  const fo=$('hub_sales_forn');if(fo&&!fo.querySelector('.h72-bf')){const b=document.createElement('button');b.className='btn-main btn-bill h72-bf';b.style.cssText='width:100%;margin-bottom:10px;';b.textContent='📦 Consulta tutte le bolle e fatture acquisite';b.onclick=window.v72Bolle;fo.prepend(b);}}
-setInterval(()=>{try{hub();}catch(e){}},800);
+CBT(()=>{try{hub();}catch(e){}},800);
 })();
 }catch(e){console.error("chef-extra v2.9.72",e);}
 try{(function(){const w=()=>{if(typeof window.v217Ask==='function'&&!window.v217Ask._r){const _a=window.v217Ask;window.v217Ask=function(q){const t=String(q||(document.getElementById('chQ')||{}).value||'');if(/recension/i.test(t)&&window.v65Grp){v65Grp('rev');try{toast('⭐ Ecco le risposte alle recensioni');}catch(e){}return;}return _a.apply(this,arguments);};window.v217Ask._r=1;}};w();setTimeout(w,2500);})();}catch(e){}
@@ -2432,7 +2443,7 @@ if(typeof ccResultHtml==='function'){const _r=ccResultHtml;ccResultHtml=function
 if(typeof saveCashClose==='function'){const _s=saveCashClose;saveCashClose=function(){const r=_s.apply(this,arguments);try{setTimeout(()=>{const x=$('ccResult');if(x&&x.querySelector('.v73ok,.v73no'))x.scrollIntoView({behavior:'smooth',block:'center'});},120);const k=(state.staffCfg&&state.staffCfg.closures||{});}catch(e){}return r;};}
 /* ordine: conti, chiusura cassa (con Allinea conti), poi fatture da emettere */
 function order(){const c=$('contiList'),cc=$('cashClose'),i=$('invList');if(!c||!cc)return;if(c.nextElementSibling!==cc)c.after(cc);if(i&&cc.nextElementSibling!==i)cc.after(i);}
-window.v73Order=order;order();setInterval(order,400);
+window.v73Order=order;order();CBT(order,400);
 })();
 
 }catch(e){console.error("chef-extra v2.9.73",e);}
@@ -2458,7 +2469,7 @@ const arch=()=>{const c=cfg();c.menuArch=c.menuArch||{};return c.menuArch;};
 function snap(){try{if(!Array.isArray(state.menu)||!state.menu.length)return;const A=arch();let nw=0;state.menu.forEach(m=>{if(!m||!m.name||SKIP(m.cat))return;const k=nk(m.name);if(!k)return;const o=A[k];if(!o)nw++;if(!o||o.p!==m.price||o.c!==m.cat||(!o.al&&m.allergens)||(!o.tr&&m.tr&&Object.keys(m.tr).length)){A[k]={n:m.name,c:m.cat,p:Number(m.price)||0,al:m.allergens||(o&&o.al)||undefined,tr:(m.tr&&Object.keys(m.tr).length)?m.tr:(o&&o.tr)||undefined,t:Date.now()};if(!o)nw=nw||1;}else o.t=o.t||Date.now();});
  const ks=Object.keys(A);if(ks.length>140){ks.sort((a,b)=>(A[a].t||0)-(A[b].t||0)).slice(0,ks.length-140).forEach(k=>delete A[k]);}
  if(nw&&typeof saveState==='function')saveState(false,{staff:true});}catch(e){}}
-setInterval(snap,5000);setTimeout(snap,1500);
+CBT(snap,5000);setTimeout(snap,1500);
 function cands(){const M=new Map();const A=arch();Object.keys(A).forEach(k=>{const o=A[k];M.set(k,{k,n:o.n,c:o.c,p:o.p,al:o.al,tr:o.tr,t:o.t||0,cnt:0});});
  try{(state.historyLog||[]).forEach(e=>{(e&&e.items||[]).forEach(i=>{const n=i&&i.name;if(!n||/^pane e coperto$/i.test(n))return;let c=i.cat||(typeof guessCategoryFromDishName==='function'?guessCategoryFromDishName(n,'AUTO'):'3 Antipasti');if(SKIP(c))return;const k=nk(n);if(!k)return;const o=M.get(k);if(o){o.cnt++;if((e.ts||0)>o.t)o.t=e.ts||0;}else M.set(k,{k,n,c,p:Number(i.price)||0,t:e.ts||0,cnt:1});});});}catch(e){}
  return [...M.values()];}
@@ -2485,7 +2496,7 @@ window.v74Search=v=>{Q=v||'';draw();};
 {const _o=openAddDish;openAddDish=function(){const r=_o.apply(this,arguments);try{const ov=$('addDishModal'),box=ov&&ov.querySelector('.receipt-box'),h=box&&box.querySelector('h3');if(h&&!box.querySelector('.v74b')){h.insertAdjacentHTML('afterend','<button class="v74b" onclick="document.getElementById(\'addDishModal\').classList.remove(\'active\');v74Pick()">🔁 Riaggiungi un piatto già fatto</button>');}}catch(e){}return r;};}
 /* KDS: tasto e riepilogo dei finiti nel pannello scorte */
 function kdsBtn(){const s=document.querySelector('#viewKds .kds-Banner button[onclick="toggleStock()"]');if(s&&!document.querySelector('#viewKds .v74kb')){const b=document.createElement('button');b.className='btn-stock-big v74kb';b.style.marginLeft='6px';b.textContent='🔁 RIMETTI PIATTO';b.onclick=v74Pick;s.after(b);}}
-setInterval(kdsBtn,1500);kdsBtn();
+CBT(kdsBtn,1500);kdsBtn();
 {const _r=renderStock;renderStock=function(){const r=_r.apply(this,arguments);try{const p=$('stockPanel');if(p&&!p.querySelector('.v74top')){const off=(state.menu||[]).filter(m=>m.soldOut&&!SKIP(m.cat));p.insertAdjacentHTML('afterbegin',`<div class="v74top"><button class="v74b" onclick="v74Pick()">🔁 Rimetti un piatto finito o tolto dal menù</button>${off.length?`<div class="v74h">⛔ Finiti (${off.length})</div>`+off.map(m=>`<button class="v74chip off" onclick="v74On(${m.id})"><span>${esc(m.name)}</span><em>✅ Rimetti</em></button>`).join(''):''}</div>`);}}catch(e){}return r;};}
 /* la lavagnetta: i piatti segnati FINITO restano in lista come ESAURITI */
 let FIN=null;
@@ -2502,7 +2513,7 @@ const num=v=>{if(v==null||v==='')return null;if(typeof v==='number')return isFin
 const PROMPT='Questa è la foto di uno scontrino di chiusura giornaliera (chiusura Z del registratore di cassa telematico) oppure di un report giornaliero SumUp (terminale carte). Rispondi SOLO con un oggetto JSON: {"tipo":"registratore" oppure "sumup" oppure "altro","data":"AAAA-MM-GG" oppure null,"contanti":numero oppure null,"carte":numero oppure null,"totale":numero oppure null}. Regole: per il registratore "contanti" è il totale pagato in contanti e "carte" il totale dei pagamenti elettronici/carte/bancomat; per il report SumUp "carte" è il totale incassato con carta e "contanti" i pagamenti in contanti registrati su SumUp, se presenti. Numeri con il punto decimale (es. 123.50), senza simbolo euro. Se un valore non si legge con certezza metti null: non inventare.';
 function jp(t){const a=String(t||'');const i=a.indexOf('{'),j=a.lastIndexOf('}');if(i<0||j<i)throw new Error('risposta non leggibile');return JSON.parse(a.slice(i,j+1));}
 window.v74ReadZ=async inp=>{const fs=[...(inp.files||[])];inp.value='';if(!fs.length)return;const box=$('v74zst');if(!getGeminiKey()){if(box)box.textContent='⚠️ Manca la chiave Gemini (Opzioni).';return;}
- const t0=Date.now();const tm=setInterval(()=>{if(box)box.textContent='⏳ Leggo la foto… '+Math.round((Date.now()-t0)/1000)+' s';},500);const got=[],bad=[];
+ const t0=Date.now();const tm=CBT(()=>{if(box)box.textContent='⏳ Leggo la foto… '+Math.round((Date.now()-t0)/1000)+' s';},500);const got=[],bad=[];
  try{for(const f of fs){try{const b64=await shrinkImage(f);const r=jp(await callGemini([{inline_data:{mime_type:'image/jpeg',data:b64}},{text:PROMPT}],true));got.push(r);}catch(e){bad.push(e.message||String(e));}}}finally{clearInterval(tm);}
  const set=(id,v)=>{const e=$(id);if(e&&v!=null)e.value=String(Math.round(v*100)/100);};const said=[];let dateWarn='';const[a]=(typeof contiRange==='function'?contiRange():[null]);
  got.forEach(r=>{const c=num(r.contanti),k=num(r.carte);if(r.data&&a&&r.data!==a)dateWarn=' ⚠️ La data sullo scontrino è '+r.data.split('-').reverse().join('/')+', ma stai chiudendo il '+a.split('-').reverse().join('/')+'.';
@@ -2531,7 +2542,7 @@ window.v74Ai=async()=>{const out=$('v74ai');if(!out)return;if(!getGeminiKey()){o
  const[a]=contiRange(),s=state.ccSvc,L=(state.historyLog||[]).filter(e=>e&&svcDate(e)===a&&(s==='giorno'||svcOf(e)===s)),sv=(state.staffCfg.closures||{})[ccKey(a,s)]||{};
  const lines=L.map(e=>{const p=payOf(e);return `${e.tableName||'Conto'} ore ${e.time||'?'} totale ${formatPrice(e.total)} pagamento ${p.m} (contanti ${formatPrice(p.cash)}, carta ${formatPrice(p.card)})${e.pay&&e.pay.via?' via '+e.pay.via:''}`;}).join('\n');
  const q=`Sei l'assistente di cassa di una trattoria. La chiusura cassa del ${a} non torna. Differenze (registratore/POS meno app, in euro): contanti ${(sv.diff||{}).cash||0}, elettronico ${(sv.diff||{}).el||0}, POS carte ${(sv.diff||{}).pos==null?'non inserito':sv.diff.pos}, SumUp contanti ${(sv.diff||{}).su==null?'non inserito':sv.diff.su}. Conti chiusi nell'app:\n${lines}\nIn italiano semplice, massimo 4 righe: indica il conto più sospetto (solo tra quelli elencati, non inventarne) e cosa controllare. Se non si può capire, dillo.`;
- const t0=Date.now();const tm=setInterval(()=>{out.textContent='⏳ Gemini sta guardando i conti… '+Math.round((Date.now()-t0)/1000)+' s';},500);
+ const t0=Date.now();const tm=CBT(()=>{out.textContent='⏳ Gemini sta guardando i conti… '+Math.round((Date.now()-t0)/1000)+' s';},500);
  try{const r=await callGemini([{text:q}]);out.textContent='🤖 '+String(r||'').trim();}catch(e){out.textContent='⚠️ Gemini non risponde: '+(e.message||e);}finally{clearInterval(tm);}};
 {const _r=ccResultHtml;ccResultHtml=function(sv,L){const h=_r.apply(this,arguments);try{return sv.ok?h:h+diag(sv,L);}catch(e){return h;}};}
 })();
@@ -2591,7 +2602,7 @@ function forecast(){const out=[];try{const now=new Date(),nm=now.getHours()*60+n
 const hm=x=>pad(Math.floor(x/60))+':'+pad(x%60);
 function drawF(){const W=forecast();[['viewTables','v75ft'],['viewKds','v75fk']].forEach(([v,id])=>{const host=$(v);if(!host)return;let el=$(id);if(!el){el=document.createElement('div');el.id=id;el.className='f75';const b=host.querySelector('.kds-Banner,.screen-title');if(b)b.after(el);else host.prepend(el);}
   if(!W.length){el.style.display='none';return;}el.style.display='block';el.innerHTML='⏳ <b>Stanno per finire</b><br>'+W.slice(0,3).map(w=>`• <b>${esc(String(w.m.name).slice(0,42))}</b>: ne restano <b>${w.l}</b>, di solito da qui a fine servizio se ne vendono <b>${w.avg}</b>${w.eta?' → finirà verso le <b>'+hm(w.eta)+'</b>':''}`).join('<br>')+`<br><button onclick="try{v28StockOpen()}catch(e){switchMainView('kds')}">📦 Apri le scorte</button>`;});}
-setInterval(drawF,30000);setTimeout(drawF,2500);window.v75Fc=forecast;window.v75Draw=drawF;
+CBT(drawF,30000);setTimeout(drawF,2500);window.v75Fc=forecast;window.v75Draw=drawF;
 /* ================= 3) grazie ai clienti del Club ================= */
 const norm=p=>{let d=String(p||'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d[0]==='3')d='39'+d;if((d.length===9||d.length===10)&&d[0]==='0')d='39'+d;return d.length>=11?d:'';};
 const first=n=>{const w=String(n||'').trim().split(/\s+/)[0]||'';return w?w[0].toUpperCase()+w.slice(1).toLowerCase():'';};
@@ -2616,10 +2627,10 @@ window.v75ThxReset=()=>{TX=DEF;localStorage.setItem('alicetta_thx_txt',TX);drawT
 window.v75ThxSend=(p,id)=>{const c=(CL||[]).find(x=>x.id===id);if(!c)return;const S=TS(),day=isoD(new Date());S[day]=S[day]||{};S[day][p]=1;Object.keys(S).sort().slice(0,-5).forEach(k=>delete S[k]);localStorage.setItem(TK,JSON.stringify(S));window.open(waLink(p,msg(c)),'_blank');setTimeout(drawT,600);};
 window.v75ThxAi=async()=>{const s=$('thxSt');if(!getGeminiKey()){if(s)s.textContent='⚠️ Manca la chiave Gemini (Opzioni).';return;}
  let top='';try{const m={},d=isoD(new Date(Date.now()-6*3600000));(state.historyLog||[]).filter(e=>e&&svcDate(e)===d||(e&&Date.now()-e.ts<30*3600000)).forEach(e=>(e.items||[]).forEach(i=>{if(i&&!/coperto|acqua|caff|vino|birra/i.test(i.name||''))m[i.name]=(m[i.name]||0)+(Number(i.qty)||0);}));top=Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]).join('; ');}catch(e){}
- const t0=Date.now(),tm=setInterval(()=>{if(s)s.textContent='⏳ Gemini scrive… '+Math.round((Date.now()-t0)/1000)+' s';},500);
+ const t0=Date.now(),tm=CBT(()=>{if(s)s.textContent='⏳ Gemini scrive… '+Math.round((Date.now()-t0)/1000)+' s';},500);
  try{const r=await callGemini([{text:'Scrivi un breve messaggio WhatsApp (massimo 3 frasi, tono caldo e familiare, italiano, al massimo 2 emoji) per ringraziare un cliente di una trattoria di pesce a Fossacesia (Alicetta Trattoria) che è stato a cena da noi. Inizia con "Ciao {nome}!" (lascia proprio il segnaposto {nome}). '+(top?'Puoi citare, se ti sembra naturale, uno di questi piatti serviti: '+top+'. ':'')+'Non promettere sconti né regali. Chiudi con la firma "La Ciurma di Alicetta" su una riga a parte. Rispondi SOLO con il testo del messaggio.'}]);
   const x=String(r||'').trim().replace(/^["“]|["”]$/g,'');if(x.length<10)throw new Error('risposta vuota');TX=x;localStorage.setItem('alicetta_thx_txt',x);drawT();}catch(e){if(s)s.textContent='⚠️ Gemini non risponde: '+(e.message||e);}finally{clearInterval(tm);}};
-setInterval(()=>{try{const h=$('cuClub');if(h&&h.offsetParent&&!$('cuThx'))drawT();}catch(e){}},1200);
+CBT(()=>{try{const h=$('cuClub');if(h&&h.offsetParent&&!$('cuThx'))drawT();}catch(e){}},1200);
 /* ================= 4) lotti e scadenze da foto etichetta ================= */
 const LK='alicetta_lotti';let LT=null;
 const lread=()=>{if(LT)return LT;try{LT=JSON.parse(localStorage.getItem(LK)||'{}')||{};}catch(e){LT={};}return LT;};
@@ -2637,7 +2648,7 @@ const LP='Questa è la foto di una o più etichette di prodotti alimentari (conf
 function jarr(t){const a=String(t||'');const i=a.indexOf('['),j=a.lastIndexOf(']');if(i<0||j<i)throw new Error('risposta non leggibile');return JSON.parse(a.slice(i,j+1));}
 let PEND=null;
 window.v75Lab=async inp=>{const fs=[...(inp.files||[])];inp.value='';if(!fs.length)return;const s=document.querySelector('#l75st');if(!getGeminiKey()){if(s)s.textContent='⚠️ Manca la chiave Gemini (Opzioni).';return;}
- const t0=Date.now(),tm=setInterval(()=>{document.querySelectorAll('#l75st').forEach(e=>e.textContent='⏳ Leggo l’etichetta… '+Math.round((Date.now()-t0)/1000)+' s');},500);const got=[],bad=[];
+ const t0=Date.now(),tm=CBT(()=>{document.querySelectorAll('#l75st').forEach(e=>e.textContent='⏳ Leggo l’etichetta… '+Math.round((Date.now()-t0)/1000)+' s');},500);const got=[],bad=[];
  try{for(const f of fs){try{const b64=await shrinkImage(f);const a=jarr(await callGemini([{inline_data:{mime_type:'image/jpeg',data:b64}},{text:LP}],true));a.forEach(x=>{if(x&&x.prodotto)got.push({p:String(x.prodotto).trim(),l:x.lotto?String(x.lotto).trim():'',s:/^\d{4}-\d{2}-\d{2}$/.test(x.scadenza||'')?x.scadenza:'',f:x.fornitore?String(x.fornitore).trim():''});});}catch(e){bad.push(e.message||String(e));}}}finally{clearInterval(tm);}
  document.querySelectorAll('#l75st').forEach(e=>e.textContent=got.length?'':'⚠️ '+(bad[0]||'Non ho letto nulla')+'. Riprova con una foto più vicina e luminosa.');if(!got.length)return;PEND=got;review();};
 function review(){let ov=$('l75Ov');if(!ov){ov=document.createElement('div');ov.id='l75Ov';ov.className='modal-overlay';document.body.appendChild(ov);}
@@ -2647,7 +2658,7 @@ function review(){let ov=$('l75Ov');if(!ov){ov=document.createElement('div');ov.
 window.v75LabSave=async()=>{const P=PEND||[];const rows=[];P.forEach((x,i)=>{const p=($('l75p'+i)||{}).value||'',l=($('l75l'+i)||{}).value||'',s=($('l75s'+i)||{}).value||'';if(p.trim())rows.push({p:p.trim(),l:l.trim(),s,f:x.f});});
  const sc=$('l75sc')&&$('l75sc').checked;$('l75Ov').classList.remove('active');if(!rows.length)return;rows.forEach((r,i)=>lsave('l'+Date.now()+i,{p:r.p,l:r.l,s:r.s,f:r.f,d:isoD(new Date()),by:FULLN(state.waiterName),ts:Date.now()}));drawL();tst('✅ '+rows.length+(rows.length===1?' lotto registrato':' lotti registrati'));
  if(sc&&typeof v2931Edit==='function'){const forn=[...new Set(rows.map(r=>r.f).filter(Boolean))].join(', ');setTimeout(()=>v2931Edit('sc1',null,{d:isoD(new Date()),num:'',forn,prod:rows.map(r=>r.p+(r.l?' (lotto '+r.l+(r.s?', scad. '+dmy(r.s):'')+')':(r.s?' (scad. '+dmy(r.s)+')':''))).join(', '),c:true,firma:FULLN(state.waiterName)||'Alice Di Mascio'}),300);}};
-setInterval(()=>{try{if(document.querySelector('.hxHost')&&!document.querySelector('.hxHost .l75')){lpull().then(drawL);drawL();}}catch(e){}},1500);
+CBT(()=>{try{if(document.querySelector('.hxHost')&&!document.querySelector('.hxHost .l75')){lpull().then(drawL);drawL();}}catch(e){}},1500);
 /* avviso scadenze (una volta al giorno, a chi apre l'app) */
 function warnScad(){try{const k='alicetta_scad_d',d=isoD(new Date());if(localStorage.getItem(k)===d)return;const L=lotsList().filter(x=>{const n=dleft(x.s);return n!=null&&n<=1;});if(!L.length)return;localStorage.setItem(k,d);tst('⚠️ In scadenza: '+L.slice(0,3).map(x=>x.p+(dleft(x.s)<0?' (scaduto)':dleft(x.s)===0?' (oggi)':' (domani)')).join(', ')+'. Guarda HACCP › Lotti.');}catch(e){}}
 setTimeout(()=>lpull().then(warnScad),6000);
@@ -2689,7 +2700,7 @@ body.kdsd #ntfyNag{display:none!important}
 body.kdsd .st-banner{top:auto!important;bottom:6px!important;left:auto!important;right:6px!important;transform:none!important;max-width:min(430px,60vw);padding:6px 10px!important;font-size:.78rem!important}
 body.kdsd .st-banner button{padding:5px 9px!important;font-size:.75rem!important}`;
 document.head.appendChild(st);
-setInterval(()=>{try{document.body.classList.toggle('kdsd',typeof isKdsDev==='function'&&isKdsDev());}catch(e){}},700);
+CBT(()=>{try{document.body.classList.toggle('kdsd',typeof isKdsDev==='function'&&isKdsDev());}catch(e){}},700);
 /* ---------- 3) controllo e prove delle notifiche (in Opzioni) ---------- */
 const NAMES=[['Christian','christian'],['Alice','alice'],['Serena','serena'],['KDS Cucina','kdscucina']];
 const dev=()=>{const w=String(state.waiterName||'').trim();return w||'(nessun nome)';};
@@ -2708,7 +2719,7 @@ function card(){const inp=$('ntfyInput');const sec=inp&&inp.closest('.cart-secti
  <b>4. Non disturbare</b><br>Nella categoria “Urgenti” attiva “Ignora Non disturbare”, così suona anche di sera col silenzioso.<br>
  <b>5. Volume</b><br>Alza il volume delle notifiche (non solo quello della suoneria) e togli la modalità silenziosa.<br>
  <b>6. Argomento giusto</b><br>Deve essere scritto <b>esattamente</b> come sopra, tutto minuscolo.</div></details>`;}
-setInterval(()=>{try{card();}catch(e){}},1500);
+CBT(()=>{try{card();}catch(e){}},1500);
 const out=h=>{const e=$('n76st');if(e)e.innerHTML=h;};
 window.v76Test=async()=>{if(!code())return;out('⏳ Invio…');const ok=await post(ME(),{title:'🔔 Prova campanello',message:'Se la senti a schermo spento è tutto a posto ✅',priority:5,tags:['bell'],delay:'5s'});out(ok?'✅ Prova inviata. <b>Spegni lo schermo</b>: tra 5 secondi deve suonare. Se non suona, controlla l’elenco qui sotto (punto 1: campanella barrata).':'⚠️ Non riesco a contattare ntfy: serve internet.');};
 window.v76To=async()=>{const to=($('n76to')||{}).value;if(!to||!code())return;out('⏳ Invio…');const ok=await post(to,{title:'🔔 Prova da '+dev(),message:'Prova notifica: se la senti è tutto a posto ✅',priority:5,tags:['bell']});out(ok?'✅ Prova inviata a '+esc(to)+'. Chiedi se è suonata.':'⚠️ Non riesco a contattare ntfy: serve internet.');};
@@ -2745,7 +2756,7 @@ async function reply(ev,k){if(!ev||!ev.id)return;const me=ME(),caller=nk(ev.from
 {const _t=triggerIncomingPagerAlert;triggerIncomingPagerAlert=function(ev){window._v79Call=ev;return _t.apply(this,arguments);};}
 {const _a=ackIncomingPage;ackIncomingPage=function(k){const ev=window._v79Call;window._v79Call=null;const r=_a.apply(this,arguments);reply(ev,REPL[k]?k:'ok');return r;};}
 /* tasti rapidi nella finestra della chiamata */
-setInterval(()=>{try{const b=document.querySelector('#incomingPageModal .receipt-box');if(b&&!b.querySelector('.v79q')){const d=document.createElement('div');d.className='v79q';d.style.cssText='display:flex;gap:8px;margin-top:8px;';d.innerHTML='<button class="btn-main" style="flex:1;background:#fff;color:#000;" onclick="ackIncomingPage(\'arrivo\')">🏃 Arrivo</button><button class="btn-main" style="flex:1;background:#fff;color:#000;" onclick="ackIncomingPage(\'5min\')">⏱ 5 minuti</button>';b.appendChild(d);}}catch(e){}},1500);
+CBT(()=>{try{const b=document.querySelector('#incomingPageModal .receipt-box');if(b&&!b.querySelector('.v79q')){const d=document.createElement('div');d.className='v79q';d.style.cssText='display:flex;gap:8px;margin-top:8px;';d.innerHTML='<button class="btn-main" style="flex:1;background:#fff;color:#000;" onclick="ackIncomingPage(\'arrivo\')">🏃 Arrivo</button><button class="btn-main" style="flex:1;background:#fff;color:#000;" onclick="ackIncomingPage(\'5min\')">⏱ 5 minuti</button>';b.appendChild(d);}}catch(e){}},1500);
 /* prove con la stessa priorità delle chiamate vere */
 const _o=window.v76Test;window.v76Test=async function(){const e=document.getElementById('n76st');if(!code())return;if(e)e.textContent='⏳ Invio…';const ok=await post(ME(),{title:'🔔 Prova campanello',message:'Se la senti a schermo spento è tutto a posto ✅',priority:5,tags:['bell'],delay:'5s',click:APP});if(e)e.innerHTML=ok?'✅ Prova inviata. <b>Spegni lo schermo</b>: tra 5 secondi deve suonare. Se non suona, controlla l’elenco qui sotto (punto 1: campanella barrata).':'⚠️ Non riesco a contattare ntfy: serve internet.';};
 /* registro chiamate della serata (Opzioni) */
@@ -2755,9 +2766,9 @@ async function draw(){const el=document.getElementById('n79');if(!el)return;cons
  const T=L.filter(x=>x.ack&&x.ack.ts).map(x=>(x.ack.ts-x.ts)/1000);const avg=T.length?Math.round(T.reduce((a,b)=>a+b,0)/T.length):0;
  o.innerHTML=L.map(x=>'<div style="padding:6px 0;border-bottom:1px dashed var(--line,#ddd);font-size:.85rem;"><b>'+hm(x.ts)+'</b> '+escH(x.from)+' → '+escH(x.to)+'<br>«'+escH(x.msg)+'»<br>'+(x.ack?'✅ '+escH(x.ack.by||'')+' ('+({ok:'ricevuto',arrivo:'arrivo','5min':'5 minuti'})[x.ack.kind]+') dopo '+sec(x):'⏳ nessuna conferma')+'</div>').join('')+'<div style="margin-top:8px;font-weight:800;">Chiamate: '+L.length+' · confermate: '+T.length+(T.length?' · risposta media: '+(avg<90?avg+' s':Math.round(avg/60)+' min'):'')+'</div>';}
 window.v79Calls=draw;
-setInterval(()=>{try{const a=document.getElementById('n76');if(!a||document.getElementById('n79'))return;const el=document.createElement('div');el.id='n79';el.className='cart-section';el.innerHTML='<h3 style="margin:0 0 6px;">📞 Chiamate di stasera</h3><button class="btn-main" onclick="v79Calls()" style="width:100%;">🔄 Aggiorna elenco</button><div class="l" style="margin-top:8px;"></div>';a.after(el);draw();}catch(e){}},2000);
+CBT(()=>{try{const a=document.getElementById('n76');if(!a||document.getElementById('n79'))return;const el=document.createElement('div');el.id='n79';el.className='cart-section';el.innerHTML='<h3 style="margin:0 0 6px;">📞 Chiamate di stasera</h3><button class="btn-main" onclick="v79Calls()" style="width:100%;">🔄 Aggiorna elenco</button><div class="l" style="margin-top:8px;"></div>';a.after(el);draw();}catch(e){}},2000);
 /* consiglio nell'elenco delle impostazioni */
-setInterval(()=>{try{const d=document.querySelector('#n76 details div');if(d&&!d.dataset.t9){d.dataset.t9='1';d.insertAdjacentHTML('beforeend','<br><b>7. Il suono non si ferma</b><br>Tocca <b>✅ Ricevuto</b> (o Arrivo / 5 minuti) sulla notifica: il suono si ferma e chi ha chiamato lo vede. Se nessuno conferma, dopo 2 minuti chi ha chiamato riceve un richiamo. Se il suono è troppo lungo, nel telefono: ntfy › Impostazioni › Notifiche › <b>Urgenti</b> › Suono: scegli una notifica breve (non una suoneria). Fai lo stesso per <b>Alta priorità</b>.');}}catch(e){}},2000);
+CBT(()=>{try{const d=document.querySelector('#n76 details div');if(d&&!d.dataset.t9){d.dataset.t9='1';d.insertAdjacentHTML('beforeend','<br><b>7. Il suono non si ferma</b><br>Tocca <b>✅ Ricevuto</b> (o Arrivo / 5 minuti) sulla notifica: il suono si ferma e chi ha chiamato lo vede. Se nessuno conferma, dopo 2 minuti chi ha chiamato riceve un richiamo. Se il suono è troppo lungo, nel telefono: ntfy › Impostazioni › Notifiche › <b>Urgenti</b> › Suono: scegli una notifica breve (non una suoneria). Fai lo stesso per <b>Alta priorità</b>.');}}catch(e){}},2000);
 })();
 
 }catch(e){console.error("chef-extra v2.9.79",e);}
@@ -2780,9 +2791,9 @@ function paint(){try{
  if(fat&&fat.parentNode)fat.parentNode.insertBefore(b,fat.nextSibling);else v.prepend(b);
 }catch(e){}}
 {const _r=renderOrderScreen;renderOrderScreen=function(){const r=_r.apply(this,arguments);setTimeout(paint,0);return r;};}
-setInterval(paint,1500);
+CBT(paint,1500);
 /* campanello: Vieni in ufficio */
-setInterval(()=>{try{const m=document.getElementById('pagerModal');if(!m||m.querySelector('.v80u'))return;
+CBT(()=>{try{const m=document.getElementById('pagerModal');if(!m||m.querySelector('.v80u'))return;
  const g=m.querySelector('div[style*="display:grid"]');if(!g)return;
  const b=document.createElement('button');b.className='btn-main btn-print v80u';b.textContent='🏢 Vieni in Ufficio!';b.onclick=()=>sendPagerCall('🏢 Vieni in Ufficio!');g.appendChild(b);}catch(e){}},1500);
 })();
@@ -2839,7 +2850,7 @@ function tick(){try{
   try{__toast('⏰ '+x.t.name+': comanda NON inviata da '+Math.floor(x.age/60000)+' min!',5000,0);}catch(e){}
   if(code()&&ME()){pushed[x.t.id]=1;fetch('https://ntfy.sh',{method:'POST',body:JSON.stringify({topic:code()+'-'+ME(),title:'⏰ Comanda non inviata',message:x.t.name+': '+x.L.reduce((s,i)=>s+(Number(i.qty)||0),0)+' piatti in bozza da '+Math.floor(x.age/60000)+' min',priority:4,tags:['warning'],click:location.origin+location.pathname,sequence_id:'u'+x.t.id})}).catch(()=>{});}});
 }catch(e){}}
-setInterval(tick,1000);
+CBT(tick,1000);
 })();
 
 }catch(e){console.error("chef-extra v2.9.81",e);}
@@ -2860,7 +2871,7 @@ window.v80SendAll=async function(){const t=state.tables[state.activeTableId];if(
  if(!confirm('Inviare TUTTA la comanda? Parte la 1ª mandata; la 2ª e la 3ª restano in attesa e partono quando le dai il via, nella giusta sequenza.'))return;
  await sendOrderToKitchen();};
 {const _paint=document.getElementById('v80all');}
-setInterval(()=>{try{const b=$('v80all');if(b)b.textContent='🚀 INVIA TUTTA LA COMANDA (in sequenza)';
+CBT(()=>{try{const b=$('v80all');if(b)b.textContent='🚀 INVIA TUTTA LA COMANDA (in sequenza)';
  const c=$('cartContainer');if(c){const w=document.createTreeWalker(c,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){if(/oltre i € 40\)/.test(n.nodeValue))n.nodeValue=n.nodeValue.replace('oltre i € 40)','da € 44 in su)');}}}catch(e){}},1200);
 
 /* 1 · Briefing parlato dall'AI */
@@ -2869,7 +2880,7 @@ async function speakBrief(det){const facts=det.innerText.replace(/🔊|🎙️[^
  if(st)st.textContent='⏳ Preparo il briefing…';let txt=facts;
  try{if(hasKey())txt=await callGemini([{text:'Sei il sous-chef di una trattoria di pesce a Fossacesia (Alicetta). Trasforma questi dati in un briefing parlato per la brigata, circa 40 secondi, italiano naturale e diretto, senza elenchi né simboli, apri con "Buongiorno brigata", metti per prime le cose urgenti (piatti finiti o quasi finiti, prenotazioni importanti), chiudi con una frase di incoraggiamento breve. Non inventare nulla che non sia nei dati.\n\nDATI:\n'+facts.slice(0,2500)}]);}catch(e){if(st)st.textContent='⚠️ AI non disponibile, leggo i dati così come sono.';}
  if(st&&!/AI non/.test(st.textContent))st.textContent='🔊 In lettura… (tocca di nuovo per fermare)';say(txt);}
-setInterval(()=>{try{document.querySelectorAll('details').forEach(d=>{const s=d.querySelector('summary');if(!s||!/Briefing di oggi/.test(s.textContent)||d.querySelector('.v82b'))return;
+CBT(()=>{try{document.querySelectorAll('details').forEach(d=>{const s=d.querySelector('summary');if(!s||!/Briefing di oggi/.test(s.textContent)||d.querySelector('.v82b'))return;
  const w=document.createElement('div');w.className='v82b';w.style.cssText='margin:8px 0;';w.innerHTML='<button type="button" style="border:0;border-radius:12px;padding:12px;font-weight:900;width:100%;background:linear-gradient(135deg,#7C3AED,#EC4899);color:#fff;">🎙️ Ascolta il briefing AI</button><div class="v82bs" style="font-size:.8rem;font-weight:700;margin-top:4px;"></div>';
  w.querySelector('button').onclick=e=>{e.stopPropagation();if(window.speechSynthesis&&speechSynthesis.speaking){speechSynthesis.cancel();w.querySelector('.v82bs').textContent='';return;}speakBrief(d);};
  const k=d.querySelector('.bf-k');if(k)k.before(w);else d.appendChild(w);});}catch(e){}},2000);
@@ -2912,9 +2923,9 @@ function paintRes(){try{const v=$('viewRes');if(!v||!v.classList.contains('activ
  if(!$('v82paste')){const f=$('resForm');if(f&&f.parentNode){const w=document.createElement('div');w.id='v82paste';w.className='cart-section';w.innerHTML='<h3 style="margin-bottom:6px;">💬 Prenotazione da messaggio WhatsApp</h3><textarea id="v82pm" rows="3" placeholder="Incolla qui il messaggio del cliente…" style="width:100%;border-radius:10px;padding:8px;border:1px solid #999;"></textarea><button type="button" id="v82rd" style="'+BTN+'background:linear-gradient(135deg,#7C3AED,#EC4899);color:#fff;">✨ Leggi e compila la prenotazione</button><div id="v82ps" style="font-size:.8rem;font-weight:700;margin-top:6px;"></div><textarea id="v82pr" rows="4" style="display:none;width:100%;border-radius:10px;padding:8px;border:1px solid #999;margin-top:6px;"></textarea><button type="button" id="v82pw" style="'+BTN+'display:none;background:#25D366;color:#fff;">📲 Rispondi su WhatsApp</button>';f.parentNode.insertBefore(w,f);$('v82rd').onclick=readMsg;$('v82pw').onclick=()=>{const ph=($('rPhone')||{}).value||'';window.open('https://wa.me/'+(ph?fixPh(ph):'')+'?text='+encodeURIComponent($('v82pr').value),'_blank');};}}
  v.querySelectorAll('button[onclick^="v40EditRes("]').forEach(b=>{if(b.parentNode.querySelector('.v82w'))return;const m=/v40EditRes\('([^']+)'\)/.exec(b.getAttribute('onclick'));if(!m)return;const n=document.createElement('button');n.className='btn-note v82w';n.textContent='💬 Conferma';n.onclick=()=>v82Wa(m[1]);b.parentNode.insertBefore(n,b);});
 }catch(e){}}
-setInterval(paintRes,1500);
+CBT(paintRes,1500);
 /* card in Opzioni */
-setInterval(()=>{try{const a=$('n79')||$('n76');if(!a||$('n82'))return;const el=document.createElement('div');el.id='n82';el.className='cart-section';el.innerHTML='<h3 style="margin:0 0 6px;">💶 Prezzi suggeriti</h3><div style="font-size:.8rem;font-weight:700;margin-bottom:6px;">Costo delle materie prime per piatto → prezzo di vendita consigliato.</div><button class="btn-main" style="width:100%;" onclick="v82Prices()">Apri</button>';a.after(el);}catch(e){}},2000);
+CBT(()=>{try{const a=$('n79')||$('n76');if(!a||$('n82'))return;const el=document.createElement('div');el.id='n82';el.className='cart-section';el.innerHTML='<h3 style="margin:0 0 6px;">💶 Prezzi suggeriti</h3><div style="font-size:.8rem;font-weight:700;margin-bottom:6px;">Costo delle materie prime per piatto → prezzo di vendita consigliato.</div><button class="btn-main" style="width:100%;" onclick="v82Prices()">Apri</button>';a.after(el);}catch(e){}},2000);
 })();
 
 }catch(e){console.error("chef-extra v2.9.82",e);}
@@ -2922,9 +2933,6 @@ try{
 (function(){
 const $=id=>document.getElementById(id);
 const toast=m=>{try{__toast(m,3500,0);}catch(e){}};
-/* 1 · Recensioni: risposte più diverse, il cane in una sola risposta e solo se lo cita la recensione */
-const VAR='\n\nREGOLE DI VARIETÀ (hanno la precedenza su tutto il resto):\n- Le tre risposte devono sembrare scritte da tre persone diverse: la 1 calda e personale, la 2 semplice e diretta (poche parole, nessun giro), la 3 più allegra o spiritosa.\n- Ogni risposta valorizza un dettaglio DIVERSO della recensione (un piatto, l\'accoglienza, il vino o il liquore, la serata, una persona). Non ripetere lo stesso dettaglio in due risposte.\n- Il cane o cucciolo: puoi nominarlo in al massimo UNA risposta, e solo se la recensione ne parla. Le altre due NON devono nominarlo né alludervi (niente "cucciolo", "amico a quattro zampe", "peloso"). Se la recensione non ne parla, non nominarlo mai.\n- Non usare la stessa formula di chiusura in due risposte e non iniziare due risposte con la stessa parola.\nRispondi comunque SOLO con il JSON richiesto sopra.';
-{const _g=callGemini;callGemini=function(parts){try{if(parts&&parts[0]&&/Rispondi di persona a una recensione di Google/.test(parts[0].text||'')&&!/REGOLE DI VARIETÀ/.test(parts[0].text)){parts=[Object.assign({},parts[0],{text:parts[0].text+VAR})].concat(parts.slice(1));}}catch(e){}return _g.apply(this,[parts].concat([].slice.call(arguments,1)));};}
 
 /* 2 · Club: i tre riquadri aprono i relativi dati */
 const st=document.createElement('style');st.textContent='#cuClub .cu-k>div{cursor:pointer;position:relative}#cuClub .cu-k>div::after{content:"›";position:absolute;right:8px;top:6px;font-weight:900;opacity:.6}#cuClub .cu-k>div:active{transform:scale(.97)}.v84f{background:#FEF3C7;border:2px solid #F59E0B;border-radius:10px;padding:6px 8px;margin-bottom:6px;font-size:.8rem;font-weight:800;display:flex;justify-content:space-between;gap:6px;align-items:center}.v84f button{border:0;border-radius:8px;padding:5px 8px;font-weight:900}';document.head.appendChild(st);
@@ -2961,10 +2969,10 @@ function drawP(){const el=$('n84');if(!el)return;const w=COLS();el.innerHTML='<h
  const on=$('v84on');if(on)on.onclick=()=>{state.useRawBT=true;try{$('chkRawbt').checked=true;}catch(e){}saveState(false);drawP();};
  $('v84t').onclick=()=>{const w=COLS(),sep='-'.repeat(w);const ep=ESC+'@'+ESC+'t\x10'+ESC+'a\x01'+ESC+'!\x30'+'PROVA\n'+ESC+'!\x00'+'Alicetta Trattoria\n'+new Date().toLocaleString('it-IT')+'\n'+ESC+'a\x00'+sep+'\n'+lines('2x Tagliere di salumi','EUR 36,00',w).join('\n')+'\n'+lines('1x Pennette alla Vodka con Venticina','EUR 15,00',w).join('\n')+'\n'+sep+'\n'+ESC+'!\x30'+'TOTALE EUR 51,00\n'+ESC+'!\x00'+'Accenti: à è ì ò ù\n'+sep+'\n'+ESC+'a\x01'+'Se leggi bene tutto,\nla stampante e pronta!\n\n\n'+GS+'V\x42\x00';
   state.lastEscPosPayload=ep;window.location.href='rawbt:base64,'+encodeBase64UTF8(ep);$('v84s').innerHTML='📤 Inviata a RawBT. Se <b>non esce</b>: apri RawBT e premi “Test”. Se dà <b>ECONNREFUSED</b>, l’IP della stampante è cambiato o la stampante è spenta: stampa il foglio di stato (tieni FEED mentre la accendi) e correggi l’IP in RawBT.';};}
-setInterval(()=>{try{const a=$('n82')||$('n79')||$('n76');if(!a||$('n84'))return;const el=document.createElement('div');el.id='n84';el.className='cart-section';a.after(el);drawP();}catch(e){}},2000);
+CBT(()=>{try{const a=$('n82')||$('n79')||$('n76');if(!a||$('n84'))return;const el=document.createElement('div');el.id='n84';el.className='cart-section';a.after(el);drawP();}catch(e){}},2000);
 })();
 
-}catch(e){console.error("chef-extra v2.9.85",e);}
+}catch(e){console.error("chef-extra v2.9.84",e);}
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2972,9 +2980,9 @@ const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const E=n=>'€ '+(typeof formatPrice==='function'?formatPrice(n||0):(Math.round((n||0)*100)/100).toFixed(2));
 const st=document.createElement('style');st.textContent='#hubTabs_ai .hub-tab[data-p="rev"]{display:none!important}#cuRevAi .hub-page,#cuRevAi #hub_ai_rev{display:block!important}#cuRevAi{margin-top:10px}#cuTabs{grid-template-columns:repeat(3,1fr)!important}.v85k{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.v85k div{border-radius:12px;padding:8px 4px;text-align:center;font-weight:800;font-size:.72rem;background:rgba(124,58,237,.1)}.v85k b{display:block;font-size:1.1rem}.v85t{white-space:pre-wrap;line-height:1.5;font-weight:600;font-size:.9rem;background:rgba(124,58,237,.08);border-radius:12px;padding:10px;margin-top:8px}.v85p{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px dashed rgba(148,163,184,.6);font-weight:700;font-size:.86rem}';document.head.appendChild(st);
-/* ---------- 1) Recensioni: Lei + riferimenti al testo (sostituisce le regole di varietà v2.9.85) ---------- */
+/* ---------- 1) Recensioni: regole di varietà, Lei e riferimenti al testo (unico strato, v2.9.87) ---------- */
 const VAR2='\n\nREGOLE DI VARIETÀ E PERSONALIZZAZIONE (hanno la precedenza su tutto il resto):\n- Le tre risposte devono sembrare scritte da tre persone diverse: la 1 calda e personale, la 2 sobria e diretta, la 3 più allegra o spiritosa.\n- FORMA DI CORTESIA: nella lingua della recensione, la risposta 1 e la risposta 2 DEVONO dare del Lei al cliente (in italiano: "La ringraziamo", "Le è piaciuto", "La aspettiamo", "Suo marito"; in tedesco Sie, in francese vous, in spagnolo usted). La risposta 3 può dare del tu solo se la recensione è molto informale, altrimenti Lei anche lì. Non passare dal Lei al tu dentro la stessa risposta.\n- PERSONALIZZAZIONE: ogni risposta deve riprendere parole o dettagli ESATTI del testo originale (un piatto nominato, un aggettivo usato dal cliente, una persona, un momento, un\'occasione), in modo che si capisca che la recensione è stata letta per davvero. Ogni risposta riprende un dettaglio DIVERSO. Riporta fra virgolette anche un\'espressione breve del cliente, in almeno una risposta. Se la recensione è molto breve, riprendi comunque ciò che dice, senza inventare altro.\n- Il cane o cucciolo: puoi nominarlo in al massimo UNA risposta, e solo se la recensione ne parla. Le altre due NON devono nominarlo né alludervi.\n- Non usare la stessa formula di chiusura in due risposte e non iniziare due risposte con la stessa parola.\nRispondi comunque SOLO con il JSON richiesto sopra.';
-{const _g=callGemini;callGemini=function(parts){try{if(parts&&parts[0]&&/Rispondi di persona a una recensione di Google/.test(parts[0].text||'')){let t=parts[0].text;const i=t.indexOf('\n\nREGOLE DI VARIETÀ');if(i>0)t=t.slice(0,i);if(!/FORMA DI CORTESIA/.test(t))t+=VAR2;parts=[Object.assign({},parts[0],{text:t})].concat(parts.slice(1));}}catch(e){}return _g.apply(this,[parts].concat([].slice.call(arguments,1)));};}
+{const _g=callGemini;callGemini=function(parts){try{if(parts&&parts[0]&&/Rispondi di persona a una recensione di Google/.test(parts[0].text||'')){let t=parts[0].text;if(!/FORMA DI CORTESIA/.test(t))t+=VAR2;parts=[Object.assign({},parts[0],{text:t})].concat(parts.slice(1));}}catch(e){}return _g.apply(this,[parts].concat([].slice.call(arguments,1)));};}
 /* ---------- 2) Recensioni dentro Clienti ---------- */
 let lastR='';
 function revMove(){const v=$('viewRes'),rc=$('resContent'),pg=$('hub_ai_rev');if(!v||!rc||!pg)return;let h=$('cuRevAi');if(!h){h=document.createElement('div');h.id='cuRevAi';rc.after(h);}if(pg.parentNode!==h)h.appendChild(pg);
@@ -3015,8 +3023,16 @@ window.v85Open=function(){const P=pack(),o=ov();let saved='';try{saved=localStor
 function hooks(){try{revMove();}catch(e){}
  if(!owner())return;const eb=$('endBox');if(eb&&$('endModal')&&$('endModal').classList.contains('active')&&!$('v85e')){const b=document.createElement('button');b.id='v85e';b.className='btn-note';b.style.cssText='width:100%;margin-top:8px;padding:11px;background:#EDE9FE;color:#5B21B6;font-weight:900;';b.textContent='🌙 Riepilogo con Gemini';b.onclick=()=>{$('endModal').classList.remove('active');v85Open();};eb.appendChild(b);}
  const pg=$('hub_sales_chiusura');if(pg&&!$('v85c')){const c=document.createElement('div');c.id='v85c';c.className='cart-section';c.innerHTML='<button class="btn-main" style="width:100%;background:#7C3AED;color:#fff;" onclick="v85Open()">🌙 Riepilogo del servizio con Gemini</button>';pg.prepend(c);}}
-setInterval(()=>{try{hooks();}catch(e){}},900);
+CBT(()=>{try{hooks();}catch(e){}},900);
 })();
 
 }catch(e){console.error("chef-extra v2.9.85",e);}
-try{(function(){const V='v2.9.85';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();setInterval(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const st=document.createElement('style');st.textContent='.v86p{width:100%;margin-top:8px;border:0;border-radius:14px;padding:13px;font-weight:900;font-size:1rem;background:#16A34A;color:#fff}.v86h{font-size:.74rem;font-weight:700;opacity:.8;margin-top:4px}';document.head.appendChild(st);
+window.v86Do=async i=>{try{await v215Copy(i);}catch(e){}const ok=window.v86Pub?v86Pub():false;try{window.open('https://business.google.com/reviews','_blank');}catch(e){}try{toast(ok?'✅ Copiata e segnata come pubblicata: incollala su Google':'📋 Copiata: incollala su Google');}catch(e){}};
+CBT(()=>{try{document.querySelectorAll('#cuRevAi .rv-card, #hub_ai_rev .rv-card').forEach((card,i)=>{if(card.querySelector('.v86p'))return;const b=document.createElement('button');b.type='button';b.className='v86p';b.textContent='🗺️ Pubblica su Google';b.onclick=()=>v86Do(i);const h=document.createElement('div');h.className='v86h';h.textContent='Copia la risposta e apre Google: incollala su “Rispondi”. Solo ora la recensione risulta pubblicata.';card.appendChild(b);card.appendChild(h);});}catch(e){}},1000);
+})();
+}catch(e){console.error("chef-extra v2.9.87",e);}
+try{(function(){const V='v2.9.87';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
