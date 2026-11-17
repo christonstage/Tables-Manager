@@ -1,11 +1,11 @@
-/* ====== Orologio unico (v2.9.87): un solo timer reale al posto di decine ====== */
+/* ====== Orologio unico (v2.9.88): un solo timer reale al posto di decine ====== */
 (function(){if(window.CBT)return;const T=new Map(),ni=window.setInterval.bind(window),nc=window.clearInterval.bind(window);let seq=1073741824,lastHid=0;
 function run(force){const now=Date.now(),h=document.hidden;if(h&&!force&&now-lastHid<5000)return;if(h)lastHid=now;T.forEach((t,id)=>{if(force||now>=t.next){t.next=now+t.ms;try{const r=t.fn.apply(window,t.args);if(r&&typeof r.catch==='function')r.catch(()=>{});}catch(e){}}});}
 window.CBT=function(fn,ms){if(typeof fn!=='function')return ni(fn,ms);const id=++seq;T.set(id,{fn,ms:Math.max(200,Number(ms)||200),next:Date.now()+Math.max(200,Number(ms)||200),args:[].slice.call(arguments,2)});return id;};
 window.clearInterval=function(id){if(T.has(id))T.delete(id);else nc(id);};
 window.CBTinfo=()=>({attivi:T.size,tick:200});
 ni(()=>run(false),200);document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastHid=0;T.forEach(t=>{t.next=0;});run(false);}});})();
-/* Chef Bull Brigade - chef-extra.js v2.9.87 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.88 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2037,7 +2037,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.87';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.88';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2078,8 +2078,9 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
-['v2.9.87',['🔋 Un solo orologio: i circa 60 timer dell’app ora girano su un unico timer (più leggero per batteria e telefono). Quando l’app è in secondo piano rallenta da sola.','🧹 Recensioni: le regole di Lei, varietà e personalizzazione sono ora in un unico blocco (prima erano in due).','📘 Nessuna funzione cambia: è una versione di pulizia.']],
-['v2.9.87',['⭐ Recensioni: una recensione non risulta più “risposta fatta” solo perché la apri. Ogni risposta ha il tasto 🗺️ Pubblica su Google: copia il testo, apre Google e solo allora la recensione passa a “pubblicata”.','↩️ Le recensioni già segnate per errore tornano “da rispondere”; con “Da rifare” puoi sempre annullare.']],
+['v2.9.88',['🎨 Barra in basso ridisegnata: più alta, con icone più grandi e un effetto vetro; l’icona attiva si alza.','🍬 6 nuovi set di icone 3D colorate: Gelatina, Bolle, Argilla, Neon, Cristallo, Sticker. Li scegli in Opzioni › Icone della barra in basso (con anteprima).']],
+['v2.9.88',['🔋 Un solo orologio: i circa 60 timer dell’app ora girano su un unico timer (più leggero per batteria e telefono). Quando l’app è in secondo piano rallenta da sola.','🧹 Recensioni: le regole di Lei, varietà e personalizzazione sono ora in un unico blocco (prima erano in due).','📘 Nessuna funzione cambia: è una versione di pulizia.']],
+['v2.9.86',['⭐ Recensioni: una recensione non risulta più “risposta fatta” solo perché la apri. Ogni risposta ha il tasto 🗺️ Pubblica su Google: copia il testo, apre Google e solo allora la recensione passa a “pubblicata”.','↩️ Le recensioni già segnate per errore tornano “da rispondere”; con “Da rifare” puoi sempre annullare.']],
 ['v2.9.85',['⭐ Le risposte alle recensioni ora danno del Lei in almeno due risposte su tre e riprendono parole e dettagli esatti della recensione.','👥 Le recensioni sono passate da AI a Clienti (nuovo tasto ⭐ Recensioni, solo per Christian).','🌙 Nuovo “Riepilogo del servizio”: incasso, coperti, scontrino per coperto, confronto con la media, podio dei piatti, sconti, amaro e prenotazioni di domani; con un tasto Gemini che scrive il commento e cosa preparare. Lo trovi a fine serata e in Vendite › Chiusura.']],
 ['v2.9.84',['✍️ Risposte alle recensioni più diverse: tre voci distinte, dettagli diversi e il cane solo in una risposta (e solo se lo cita la recensione).','🎟️ Club: toccando Iscritti, Accettano promo o Calici da dare si aprono i relativi clienti (con tasto “Mostra tutti”).','🖨️ Preconto più completo (logo, data e ora, coperti, tavolo, piatti, sconto, totale), senza la scritta fiscale.','🧪 Opzioni › Prova stampante (con scelta 58/80 mm) e avviso dopo ogni preconto con Riprova / Mostra a schermo.']],
 ['v2.9.83',['⚠️ Il richiamo “comanda non inviata” ora compare solo a Christian, Alice e Serena: sul KDS e sul terminale timbrature non c’è più.','La barra rossa ha il tasto ✕ (la nasconde per 10 minuti) e ignora le bozze vecchie di oltre 3 ore.']],
@@ -2980,7 +2981,7 @@ const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const E=n=>'€ '+(typeof formatPrice==='function'?formatPrice(n||0):(Math.round((n||0)*100)/100).toFixed(2));
 const st=document.createElement('style');st.textContent='#hubTabs_ai .hub-tab[data-p="rev"]{display:none!important}#cuRevAi .hub-page,#cuRevAi #hub_ai_rev{display:block!important}#cuRevAi{margin-top:10px}#cuTabs{grid-template-columns:repeat(3,1fr)!important}.v85k{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.v85k div{border-radius:12px;padding:8px 4px;text-align:center;font-weight:800;font-size:.72rem;background:rgba(124,58,237,.1)}.v85k b{display:block;font-size:1.1rem}.v85t{white-space:pre-wrap;line-height:1.5;font-weight:600;font-size:.9rem;background:rgba(124,58,237,.08);border-radius:12px;padding:10px;margin-top:8px}.v85p{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px dashed rgba(148,163,184,.6);font-weight:700;font-size:.86rem}';document.head.appendChild(st);
-/* ---------- 1) Recensioni: regole di varietà, Lei e riferimenti al testo (unico strato, v2.9.87) ---------- */
+/* ---------- 1) Recensioni: regole di varietà, Lei e riferimenti al testo (unico strato, v2.9.88) ---------- */
 const VAR2='\n\nREGOLE DI VARIETÀ E PERSONALIZZAZIONE (hanno la precedenza su tutto il resto):\n- Le tre risposte devono sembrare scritte da tre persone diverse: la 1 calda e personale, la 2 sobria e diretta, la 3 più allegra o spiritosa.\n- FORMA DI CORTESIA: nella lingua della recensione, la risposta 1 e la risposta 2 DEVONO dare del Lei al cliente (in italiano: "La ringraziamo", "Le è piaciuto", "La aspettiamo", "Suo marito"; in tedesco Sie, in francese vous, in spagnolo usted). La risposta 3 può dare del tu solo se la recensione è molto informale, altrimenti Lei anche lì. Non passare dal Lei al tu dentro la stessa risposta.\n- PERSONALIZZAZIONE: ogni risposta deve riprendere parole o dettagli ESATTI del testo originale (un piatto nominato, un aggettivo usato dal cliente, una persona, un momento, un\'occasione), in modo che si capisca che la recensione è stata letta per davvero. Ogni risposta riprende un dettaglio DIVERSO. Riporta fra virgolette anche un\'espressione breve del cliente, in almeno una risposta. Se la recensione è molto breve, riprendi comunque ciò che dice, senza inventare altro.\n- Il cane o cucciolo: puoi nominarlo in al massimo UNA risposta, e solo se la recensione ne parla. Le altre due NON devono nominarlo né alludervi.\n- Non usare la stessa formula di chiusura in due risposte e non iniziare due risposte con la stessa parola.\nRispondi comunque SOLO con il JSON richiesto sopra.';
 {const _g=callGemini;callGemini=function(parts){try{if(parts&&parts[0]&&/Rispondi di persona a una recensione di Google/.test(parts[0].text||'')){let t=parts[0].text;if(!/FORMA DI CORTESIA/.test(t))t+=VAR2;parts=[Object.assign({},parts[0],{text:t})].concat(parts.slice(1));}}catch(e){}return _g.apply(this,[parts].concat([].slice.call(arguments,1)));};}
 /* ---------- 2) Recensioni dentro Clienti ---------- */
@@ -3034,5 +3035,57 @@ const st=document.createElement('style');st.textContent='.v86p{width:100%;margin
 window.v86Do=async i=>{try{await v215Copy(i);}catch(e){}const ok=window.v86Pub?v86Pub():false;try{window.open('https://business.google.com/reviews','_blank');}catch(e){}try{toast(ok?'✅ Copiata e segnata come pubblicata: incollala su Google':'📋 Copiata: incollala su Google');}catch(e){}};
 CBT(()=>{try{document.querySelectorAll('#cuRevAi .rv-card, #hub_ai_rev .rv-card').forEach((card,i)=>{if(card.querySelector('.v86p'))return;const b=document.createElement('button');b.type='button';b.className='v86p';b.textContent='🗺️ Pubblica su Google';b.onclick=()=>v86Do(i);const h=document.createElement('div');h.className='v86h';h.textContent='Copia la risposta e apre Google: incollala su “Rispondi”. Solo ora la recensione risulta pubblicata.';card.appendChild(b);card.appendChild(h);});}catch(e){}},1000);
 })();
-}catch(e){console.error("chef-extra v2.9.87",e);}
-try{(function(){const V='v2.9.87';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+}catch(e){console.error("chef-extra v2.9.86",e);}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const GR={navTables:['#FF8A65','#F4511E'],navRes:['#64B5F6','#1E63D6'],navKds:['#FFCA4D','#F08C00'],navTime:['#4FD1C5','#0D9488'],navHaccp:['#5DD9F5','#0786A6'],navDishes:['#B5E550','#5E9E0B'],navSales:['#5BE38A','#139A43'],navAi:['#B197FC','#6D28D9'],navMenu:['#AEB8C6','#5B6575']};
+const IC={navTables:'<path d="M6 3v6a2 2 0 0 0 4 0V3M8 3v18M17 3c-2 2-3 4.5-3 8h3v10"/>',navRes:'<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/>',navKds:'<path d="M7 13.5V19a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-5.5M7 13.5a4 4 0 0 1-.6-7.9A4.5 4.5 0 0 1 12 3.5a4.5 4.5 0 0 1 5.6 2.1 4 4 0 0 1-.6 7.9M7 17h10"/>',navTime:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.2 2"/>',navHaccp:'<path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/><path d="M12 9v6"/>',navDishes:'<path d="M4 5.5C6.5 4 9.5 4 12 5.5c2.5-1.5 5.5-1.5 8 0V19c-2.5-1.5-5.5-1.5-8 0-2.5-1.5-5.5-1.5-8 0z"/><path d="M12 5.5V19"/>',navSales:'<rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.8"/>',navAi:'<path d="M11 3l1.9 5.1L18 10l-5.1 1.9L11 17l-1.9-5.1L4 10l5.1-1.9z"/><path d="M18.5 15l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/>',navMenu:'<path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h11M19 17h1"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="17" r="2"/>'};
+const SETS=[['gel','🍬','Gelatina'],['orb','🔮','Bolle'],['clay','🧸','Argilla'],['neon','🌃','Neon'],['glass','🧊','Cristallo'],['sticker','🏷️','Sticker']];
+const MINE=SETS.map(s=>s[0]);
+const css=`#dock{padding:9px 6px!important;border-radius:32px!important;background:linear-gradient(180deg,rgba(24,44,72,.9),rgba(7,20,34,.94))!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 12px 30px rgba(0,0,0,.5),inset 0 1.5px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.35)!important}
+#dockPill{top:6px!important;bottom:6px!important;border-radius:24px!important}
+#dock .btn-top{min-height:80px!important;gap:3px!important;justify-content:center}
+#dock .btn-top .nv-t{font-size:.62rem!important;font-weight:800!important;letter-spacing:.1px}
+#dock.many .btn-top .nv-t{font-size:.56rem!important}
+#dock .btn-top .nv-i{font-size:2.1rem!important;line-height:1;filter:drop-shadow(0 3px 3px rgba(0,0,0,.35))}
+#dock.many .btn-top .nv-i{font-size:1.95rem!important}
+#dock .btn-top.active .nv-i{transform:none!important}#dock .btn-top.active .nv-i .v88t{transform:scale(1.07);transition:transform .2s}
+body.has-dock{padding-bottom:146px!important}.mini-toast{bottom:132px!important}
+.v88t{--s:min(46px,11vw);display:flex;align-items:center;justify-content:center;width:var(--s);height:var(--s);position:relative;box-sizing:border-box}
+.v88t svg{width:64%;height:64%;fill:none;stroke-linecap:round;stroke-linejoin:round;position:relative;z-index:2;overflow:visible}
+.v88t .h{display:none}
+#dock .btn-top .nv-i .v88t{filter:none}
+.v88-gel{border-radius:31%;background:linear-gradient(180deg,var(--c1),var(--c2));box-shadow:0 4px 0 rgba(0,0,0,.4),0 8px 14px rgba(0,0,0,.35),inset 0 2px 2px rgba(255,255,255,.7),inset 0 -5px 7px rgba(0,0,0,.2)}
+.v88-gel::before{content:"";position:absolute;left:8%;right:8%;top:4%;height:44%;border-radius:60% 60% 50% 50%/80% 80% 40% 40%;background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,0));z-index:1}
+.v88-gel svg{stroke:#fff;stroke-width:2.5;filter:drop-shadow(0 1.5px 0 rgba(0,0,0,.28))}
+.v88-orb{border-radius:50%;background:radial-gradient(circle at 34% 26%,rgba(255,255,255,.95) 0 7%,var(--c1) 32%,var(--c2) 88%);box-shadow:0 5px 0 rgba(0,0,0,.32),0 9px 14px rgba(0,0,0,.35),inset 0 -6px 9px rgba(0,0,0,.28),inset 0 3px 4px rgba(255,255,255,.4)}
+.v88-orb::after{content:"";position:absolute;left:20%;top:9%;width:36%;height:20%;border-radius:50%;background:rgba(255,255,255,.75);transform:rotate(-24deg);filter:blur(.6px);z-index:1}
+.v88-orb svg{stroke:#fff;stroke-width:2.4;width:58%;height:58%;filter:drop-shadow(0 2px 1px rgba(0,0,0,.35))}
+.v88-clay{border-radius:38%;background:radial-gradient(circle at 30% 24%,#fff 0,var(--c1) 46%,var(--c2) 100%);box-shadow:0 7px 10px rgba(0,0,0,.34),inset -5px -7px 9px rgba(0,0,0,.22),inset 5px 6px 9px rgba(255,255,255,.75)}
+.v88-clay svg{stroke:#fff;stroke-width:2.9;filter:drop-shadow(0 2px 1px rgba(0,0,0,.3))}
+.v88-neon{border-radius:29%;background:radial-gradient(circle at 50% 30%,#1b2748,#070b18);border:2px solid var(--c1);box-shadow:0 0 12px var(--c1),0 0 2px #fff inset,inset 0 0 10px color-mix(in srgb,var(--c1) 55%,transparent)}
+.v88-neon svg{stroke:var(--c1);stroke-width:2.3;filter:drop-shadow(0 0 3px var(--c1)) drop-shadow(0 0 7px var(--c1))}
+.v88-glass{border-radius:31%;background:linear-gradient(145deg,color-mix(in srgb,var(--c1) 62%,rgba(255,255,255,.75)),color-mix(in srgb,var(--c2) 55%,rgba(255,255,255,.1)));-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1.5px solid rgba(255,255,255,.85);box-shadow:0 7px 14px rgba(0,0,0,.32),inset 0 2px 0 #fff,inset 0 -8px 12px color-mix(in srgb,var(--c2) 45%,transparent)}
+.v88-glass svg{stroke:#fff;stroke-width:2.6;filter:drop-shadow(0 1px 1px rgba(0,0,0,.45))}
+.v88-sticker{border-radius:36%;background:#fff;transform:rotate(-4deg);box-shadow:0 4px 0 rgba(0,0,0,.28),0 8px 12px rgba(0,0,0,.32),inset 0 0 0 2px rgba(0,0,0,.06)}
+.v88-sticker svg{width:68%;height:68%}
+.v88-sticker .gl{stroke:var(--c2);stroke-width:2.7;fill:color-mix(in srgb,var(--c1) 45%,transparent)}
+body[class*="icons-"] #dock .btn-top:not(.active) .nv-i .v88t{filter:saturate(.85) brightness(.95)}
+.v88card .gr{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:6px 0}
+.v88card .it{border:2px solid rgba(100,116,139,.45);border-radius:16px;padding:8px;background:rgba(15,23,42,.88);color:#fff;font-weight:900;font-size:.85rem;text-align:left}
+.v88card .it.on{border-color:#FACC15;box-shadow:0 0 0 2px #FACC15}.v88card .it .pv{display:flex;gap:4px;margin-top:6px}.v88card .it .v88t{--s:30px}`;
+const st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
+const tile=(set,id,small)=>{const g=GR[id];return `<span class="v88t v88-${set}" style="--c1:${g[0]};--c2:${g[1]}"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="h">${IC[id]}</g><g class="gl">${IC[id]}</g></svg></span>`;};
+const mode=()=>localStorage.getItem('alicetta_icons')||'ios';
+function apply(){const m=mode();MINE.forEach(s=>document.body.classList.toggle('icons-'+s,m===s));if(!MINE.includes(m))return;Object.keys(GR).forEach(id=>{const b=$(id),i=b&&b.querySelector('.nv-i');if(!i||i.dataset.v88===m)return;i.innerHTML=tile(m,id);i.dataset.v88=m;});try{window.v21UpdateDock&&v21UpdateDock();}catch(e){}}
+function draw(){const c=$('iconCard');if(!c)return;const m=mode();const base=[['ios','📱','Stile iOS'],['emoji','😀','Classiche'],['cbb','🐂','Chef Bull']];
+ const pv=s=>['navTables','navSales','navAi','navTime'].map(id=>tile(s,id)).join('');
+ c.className='cart-section v88card';c.innerHTML='<h3 style="margin-bottom:6px;">🎨 Icone della barra in basso</h3><div class="gr">'+SETS.map(s=>`<button type="button" class="it${m===s[0]?' on':''}" data-m="${s[0]}">${s[1]} ${s[2]}<div class="pv">${pv(s[0])}</div></button>`).join('')+'</div><div class="chips" style="margin:6px 0 2px;">'+base.map(s=>`<button type="button" class="chipb${m===s[0]?' on':''}" data-m="${s[0]}">${s[1]} ${s[2]}</button>`).join('')+'</div><div class="fc-sub">Vale solo per questo dispositivo.</div>';
+ c.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>window.v221Icons(b.dataset.m));}
+{const o=window.v221Icons;if(typeof o==='function'){window.v221Icons=function(m){const r=o.apply(this,arguments);try{document.querySelectorAll('.nv-i').forEach(i=>{delete i.dataset.v88;});apply();draw();}catch(e){}return r;};}}
+apply();draw();CBT(()=>{try{apply();if($('iconCard')&&!$('iconCard').classList.contains('v88card'))draw();}catch(e){}},1200);
+window.v88Test=(m)=>{localStorage.setItem('alicetta_icons',m);window.v221Icons(m);};
+})();
+}catch(e){console.error("chef-extra v2.9.88",e);}
+try{(function(){const V='v2.9.88';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
