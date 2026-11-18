@@ -5,7 +5,7 @@ window.CBT=function(fn,ms){if(typeof fn!=='function')return ni(fn,ms);const id=+
 window.clearInterval=function(id){if(T.has(id))T.delete(id);else nc(id);};
 window.CBTinfo=()=>({attivi:T.size,tick:200});
 ni(()=>run(false),200);document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastHid=0;T.forEach(t=>{t.next=0;});run(false);}});})();
-/* Chef Bull Brigade - chef-extra.js v2.9.97 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.98 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2037,7 +2037,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.97';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.98';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2078,6 +2078,7 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.98',['🌞 Formule del pranzo: la formula viene sempre aggiunta al tavolo, anche se non hai scelto tutti i piatti.','👆 I piatti del pranzo si selezionano con un tocco (diventano verdi ✅), anche mentre scorri la lista.']],
 ['v2.9.97',['🌞 Formule del pranzo con due prezzi: a sinistra turisti (35 · 29 · 25 €), a destra dipendenti in convenzione (30 · 25 · 22 €).','🧾 Nel conto la formula dei dipendenti compare con “· Dipendenti”, così la distingui nelle vendite.']],
 ['v2.9.95',['🧮 Controllo formule del pranzo: prima di inviare in cucina, se antipasti, primi o secondi non tornano con le formule inserite, l’app avvisa e chiede conferma.','🌞 Menù QR: il tasto grande del pranzo ora compare anche quando il menù si apre dalla carta NFC o da un link con altri parametri.']],
 ['v2.9.92',['🌞 Tolto il vecchio “Menu pranzo completo 30 €”: in “1 Coperto” ci sono le 3 formule (35 · 29 · 25 €).','🍽️ Toccando una formula scegli antipasto, primo e/o secondo tra quelli del giorno: la formula va nel conto, i piatti vanno in cucina a 0 € nella mandata giusta. C’è anche “Aggiungi e scegli per un’altra persona”.']],
@@ -3243,20 +3244,20 @@ const KIND={a:['Antipasto',/antipast|entr/i,1],p:['Primo',/prim/i,2],s:['Secondo
 const OLD=/^\s*men[uù]\s+pranzo/i;
 const lu=()=>{try{return JSON.parse(localStorage.getItem('alicetta_lunch')||'null');}catch(e){return null;}};
 async function luFresh(){try{const d=await fbGet('/fidelity/pub/lunch');if(d&&typeof d==='object'){localStorage.setItem('alicetta_lunch',JSON.stringify(d));return d;}}catch(e){}return lu();}
-const st=document.createElement('style');st.textContent='.v92ov{position:fixed;inset:0;z-index:9800;background:rgba(2,6,23,.72);display:flex;align-items:flex-end;justify-content:center}.v92bx{background:var(--card-bg,#E0F2FE);color:var(--text-main,#062329);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom,0px));box-sizing:border-box}.v92h{font-weight:900;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;margin:12px 0 6px;background:#062329;color:#fff;border-radius:10px;padding:6px 10px}.v92c{display:block;width:100%;text-align:left;border:3px solid #94A3B8;background:#fff;color:#062329;border-radius:14px;padding:13px;margin-bottom:6px;font-weight:800;font-size:1rem}.v92c.on{border-color:#16A34A;background:#DCFCE7}.v92c.on::after{content:" ✅";}.v92b{border:0;border-radius:14px;padding:14px;font-weight:900;font-size:1rem;width:100%;margin-top:8px}';document.head.appendChild(st);
+const st=document.createElement('style');st.textContent='.v92ov{position:fixed;inset:0;z-index:9800;background:rgba(2,6,23,.72);display:flex;align-items:flex-end;justify-content:center}.v92bx{background:var(--card-bg,#E0F2FE);color:var(--text-main,#062329);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom,0px));box-sizing:border-box}.v92h{font-weight:900;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;margin:12px 0 6px;background:#062329;color:#fff;border-radius:10px;padding:6px 10px}.v92c{display:block;width:100%;text-align:left;border:3px solid #94A3B8;background:#fff;color:#062329;border-radius:14px;padding:13px;margin-bottom:6px;font-weight:800;font-size:1rem}.v92c.on{border-color:#16A34A!important;background:#16A34A!important;color:#fff!important}.v92c.on::after{content:" ✅";}.v92b{border:0;border-radius:14px;padding:14px;font-weight:900;font-size:1rem;width:100%;margin-top:8px}';document.head.appendChild(st);
 async function chooser(i,emp){const o0=OPTS[i];if(!o0)return;const o=emp?Object.assign({},o0,{id:o0.id+'_DIP',name:o0.name+' · Dipendenti',short:o0.short+' · Dipendenti',p:o0.p2}):o0;const t=state.tables[state.activeTableId];if(!t){toast('Apri prima un tavolo');return;}
  const L=await luFresh();const secs=(L&&L.secs)||[];const need=NEED[i];
  const groups=need.map(k=>{let si=secs.findIndex(s=>KIND[k][1].test(s.n||''));return{k,si,s:secs[si]};});
  const ok=groups.every(g=>g.s&&(g.s.items||[]).length);const sel={};
- let ov=$('v92ov');if(ov)ov.remove();ov=document.createElement('div');ov.id='v92ov';ov.className='v92ov';document.body.appendChild(ov);ov.onclick=e=>{if(e.target===ov)ov.remove();};
+ let ov=$('v92ov');if(ov)ov.remove();ov=document.createElement('div');ov.id='v92ov';ov.className='v92ov';document.body.appendChild(ov);ov.onclick=e=>{if(e.target===ov){ov.remove();return;}const b=e.target.closest&&e.target.closest('.v92c[data-lk]');if(b)pick(b);};const pick=b=>{if(sel[b.dataset.lk]===Number(b.dataset.li)&&ov.querySelector('.v92c.on[data-lk="'+b.dataset.lk+'"]'))return;sel[b.dataset.lk]=Number(b.dataset.li);const bx=ov.querySelector('.v92bx'),sc=bx?bx.scrollTop:0;draw();const nb=ov.querySelector('.v92bx');if(nb)nb.scrollTop=sc;};let px=0,py=0;ov.addEventListener('pointerdown',e=>{px=e.clientX;py=e.clientY;});ov.addEventListener('pointerup',e=>{const b=e.target.closest&&e.target.closest('.v92c[data-lk]');if(b&&Math.abs(e.clientX-px)<14&&Math.abs(e.clientY-py)<14)pick(b);});
  const draw=()=>{ov.innerHTML='<div class="v92bx"><h3 style="margin:0;color:var(--logo-coral,#FF5733);">🌞 '+esc(o.short)+' · '+o.p+' €</h3><div style="font-weight:800;font-size:.9rem;">'+esc(o.d)+' · scegli una portata per tipo</div>'+
-  (ok?groups.map(g=>'<div class="v92h">'+KIND[g.k][0]+'</div>'+g.s.items.map((it,ii)=>`<button type="button" class="v92c${sel[g.k]===ii?' on':''}" data-k="${g.k}" data-i="${ii}">${esc(it.n)}</button>`).join('')).join(''):'<div style="background:#FEF3C7;border-radius:12px;padding:10px;font-weight:800;margin-top:10px;">⚠️ Il menù pranzo di oggi non è pubblicato (o manca una portata). Aggiungo solo la formula: i piatti li inserisci a mano.</div>')+
+  (ok?groups.map(g=>'<div class="v92h">'+KIND[g.k][0]+'</div>'+g.s.items.map((it,ii)=>`<button type="button" class="v92c${sel[g.k]===ii?' on':''}" data-lk="${g.k}" data-li="${ii}">${esc(it.n)}</button>`).join('')).join(''):'<div style="background:#FEF3C7;border-radius:12px;padding:10px;font-weight:800;margin-top:10px;">⚠️ Il menù pranzo di oggi non è pubblicato (o manca una portata). Aggiungo solo la formula: i piatti li inserisci a mano.</div>')+
   `<button type="button" class="v92b" id="v92add" style="background:#16A34A;color:#fff;">➕ Aggiungi al ${esc(t.name)}</button><button type="button" class="v92b" id="v92more" style="background:#0EA5E9;color:#fff;">➕ Aggiungi e scegli per un'altra persona</button><button type="button" class="v92b" id="v92x" style="background:#475569;color:#fff;">Annulla</button></div>`;
-  ov.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{sel[b.dataset.k]=Number(b.dataset.i);draw();});
-  const add=again=>{if(ok&&groups.some(g=>sel[g.k]==null)){toast('Scegli '+groups.filter(g=>sel[g.k]==null).map(g=>KIND[g.k][0].toLowerCase()).join(' e '));return;}
+  
+  const add=again=>{const miss=ok?groups.filter(g=>sel[g.k]==null).map(g=>KIND[g.k][0].toLowerCase()):[];if(miss.length&&!confirm('Non hai scelto: '+miss.join(', ')+'.\n\nOK = aggiungo comunque la formula al tavolo\nAnnulla = torno a scegliere'))return;
    const old=state.currentMandata;try{state.currentMandata=0;addItemToTable({id:o.id,name:o.name,cat:'0 Menù pranzo',price:o.p});}finally{state.currentMandata=old;}
-   if(ok)groups.forEach(g=>{const it=g.s.items[sel[g.k]];const id='L_'+String(it.n).toLowerCase().replace(/[^a-z0-9]+/g,'_').slice(0,40);const old2=state.currentMandata;try{state.currentMandata=KIND[g.k][2];addItemToTable({id,name:it.n,cat:({1:'3 Antipasti',2:'4 Primi Piatti',3:'5 Secondi'})[KIND[g.k][2]],price:0});}finally{state.currentMandata=old2;}});
-   toast('✅ '+o.short+' aggiunto');if(again){Object.keys(sel).forEach(k=>delete sel[k]);draw();}else ov.remove();};
+   if(ok)groups.forEach(g=>{if(sel[g.k]==null)return;const it=g.s.items[sel[g.k]];const id='L_'+String(it.n).toLowerCase().replace(/[^a-z0-9]+/g,'_').slice(0,40);const old2=state.currentMandata;try{state.currentMandata=KIND[g.k][2];addItemToTable({id,name:it.n,cat:({1:'3 Antipasti',2:'4 Primi Piatti',3:'5 Secondi'})[KIND[g.k][2]],price:0});}finally{state.currentMandata=old2;}});
+   toast(miss.length?'✅ '+o.short+' aggiunto · manca '+miss.join(' e '):'✅ '+o.short+' aggiunto');if(again){Object.keys(sel).forEach(k=>delete sel[k]);draw();}else ov.remove();};
   $('v92add').onclick=()=>add(false);$('v92more').onclick=()=>add(true);$('v92x').onclick=()=>ov.remove();};
  draw();}
 window.v91Add=chooser;window.v92Choose=chooser;
@@ -3279,4 +3280,4 @@ window.v95Check=function(t){const need={a:0,p:0,s:0},have={a:0,p:0,s:0};let f=0;
 if(typeof sendOrderToKitchen==='function'){const _s=sendOrderToKitchen;sendOrderToKitchen=async function(){try{const t=state.tables[state.activeTableId];const msg=t&&v95Check(t);if(msg&&!confirm('🌞 Le formule del pranzo non tornano:\n'+msg+'\n\nInviare lo stesso in cucina?'))return;}catch(e){}return _s.apply(this,arguments);};}
 })();
 }catch(e){console.error("chef-extra v2.9.95",e);}
-try{(function(){const V='v2.9.97';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+try{(function(){const V='v2.9.98';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
