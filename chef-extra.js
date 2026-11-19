@@ -5,7 +5,7 @@ window.CBT=function(fn,ms){if(typeof fn!=='function')return ni(fn,ms);const id=+
 window.clearInterval=function(id){if(T.has(id))T.delete(id);else nc(id);};
 window.CBTinfo=()=>({attivi:T.size,tick:200});
 ni(()=>run(false),200);document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastHid=0;T.forEach(t=>{t.next=0;});run(false);}});})();
-/* Chef Bull Brigade - chef-extra.js v2.9.102 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.103 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2037,7 +2037,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.102';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.103';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2078,8 +2078,9 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
-['v2.9.102',['🏷️ Sconto su un singolo piatto: tasto fucsia accanto a ✏️ Nota, con percentuale, euro, omaggio e testo modificabile (si vede sulla riga e sul preconto).','📋 Dopo INVIA torni al riepilogo del tavolo.','❓ Preconto che non esce: guida stampante dal banner, con promemoria dell’IP e stampa di prova.','🌞 Vendite: pranzi del mese divisi tra turisti e dipendenti, con il riepilogo da copiare per le aziende.']],
-['v2.9.102',['🌞 Pranzo: antipasto+primo e antipasto+secondo insieme fanno 2 mandate (antipasti, poi primo e secondo insieme). Le 3 mandate restano solo con il Menù Completo.']],
+['v2.9.103',['🌞 Le formule del pranzo compaiono solo a pranzo (fino alle 17): la sera apri il tavolo e vedi subito i piatti. Cercando “pranzo” le trovi comunque.','🖨️ PRE-CONTO dà sempre un segnale: se RawBT non si apre o c’è un errore compare un bug report da copiare, con “Riprova con l’altro metodo” e “Mostra a schermo”.']],
+['v2.9.103',['🏷️ Sconto su un singolo piatto: tasto fucsia accanto a ✏️ Nota, con percentuale, euro, omaggio e testo modificabile (si vede sulla riga e sul preconto).','📋 Dopo INVIA torni al riepilogo del tavolo.','❓ Preconto che non esce: guida stampante dal banner, con promemoria dell’IP e stampa di prova.','🌞 Vendite: pranzi del mese divisi tra turisti e dipendenti, con il riepilogo da copiare per le aziende.']],
+['v2.9.101',['🌞 Pranzo: antipasto+primo e antipasto+secondo insieme fanno 2 mandate (antipasti, poi primo e secondo insieme). Le 3 mandate restano solo con il Menù Completo.']],
 ['v2.9.100',['📋 Aprendo un tavolo con ordini vedi prima il riepilogo comanda, con il totale in grande e il tasto ➕ Aggiungi dal menù.','💶 Il totale speso del tavolo è sempre in evidenza (con i pezzi ancora da inviare in cucina).']],
 ['v2.9.99',['🌞 Pranzo: puoi aggiungere più formule (anche miste, turisti e dipendenti) e scegliere i piatti di tutti nella stessa schermata.']],
 ['v2.9.98',['🌞 Formule del pranzo: la formula viene sempre aggiunta al tavolo, anche se non hai scelto tutti i piatti.','👆 I piatti del pranzo si selezionano con un tocco (diventano verdi ✅), anche mentre scorri la lista.']],
@@ -3407,5 +3408,68 @@ window.v102Lunch=lunchCard;
 {const _v=switchMainView;switchMainView=function(){const r=_v.apply(this,arguments);try{setTimeout(lunchCard,50);}catch(e){}return r;};}
 if(typeof renderSalesCharts==='function'){const _c=renderSalesCharts;renderSalesCharts=function(){const r=_c.apply(this,arguments);try{lunchCard();}catch(e){}return r;};}
 })();
-}catch(e){console.error("chef-extra v2.9.102",e);}
-try{(function(){const V='v2.9.102';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+}catch(e){console.error("chef-extra v2.9.103",e);}
+try{(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toast=(m,ms)=>{try{__toast(m,ms||2600,0);}catch(e){}};
+const curT=()=>state.tables[state.activeTableId];
+const VER='v2.9.103';
+
+/* ── Menù pranzo solo a pranzo (5:00-16:59) ── */
+const lunch=()=>{const h=new Date().getHours();return h>=5&&h<17;};
+function lunchUi(){const L=lunch();const g=$('menuGrid');const q=(($('menuSearch')||{}).value||'').trim();
+ if(g&&!L&&!/pran|menu|formul|velo|complet/i.test(q))g.querySelectorAll('.v91g').forEach(e=>e.remove());
+ const cb=$('catBar');if(cb)cb.querySelectorAll('button,.cat-btn,.cat-chip').forEach(b=>{if(/Pranzo|Menù pranzo/i.test(b.textContent||''))b.style.display=L?'':'none';});}
+{const _g=renderMenuGrid;renderMenuGrid=function(){const r=_g.apply(this,arguments);try{lunchUi();}catch(e){}return r;};}
+{const _o=openTable;openTable=function(){const r=_o.apply(this,arguments);try{if(!lunch()&&/pranzo/i.test(String(state.currentCategory||''))){const b=[...document.querySelectorAll('#catBar button')].find(x=>x.style.display!=='none');if(b)b.click();}lunchUi();}catch(e){}return r;};}
+
+/* ── Preconto: segnale sempre, e bug report se qualcosa non va ── */
+const LOGK='alicetta_prt_log';
+const logA=A=>{try{const L=JSON.parse(localStorage.getItem(LOGK)||'[]');L.push(A);localStorage.setItem(LOGK,JSON.stringify(L.slice(-10)));}catch(e){}};
+const intentOn=()=>{try{return localStorage.getItem('alicetta_prt_intent')==='1';}catch(e){return false;}};
+const intentUrl=ep=>'intent:'+encodeBase64UTF8(ep)+'#Intent;scheme=rawbt;package=ru.a402d.rawbtprinter;end;';
+const fmtT=ts=>new Date(ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+function reportText(A){let L=[];try{L=JSON.parse(localStorage.getItem(LOGK)||'[]');}catch(e){}
+ return ['BUG REPORT PRECONTO · Chef Bull Brigade '+VER,'Quando: '+new Date(A.ts).toLocaleString('it-IT'),'Problema: '+A.msg,'Tavolo: '+(A.table||'-')+' · righe '+A.items+' · totale EUR '+formatPrice(A.tot||0),
+ 'Stampa con RawBT: '+(A.raw?'sì':'no')+' · metodo '+(A.how||'-')+' · dati '+(A.len||0)+' byte','App installata (PWA): '+(A.pwa?'sì':'no')+' · online: '+(navigator.onLine?'sì':'no'),
+ 'IP annotato: '+((()=>{try{return localStorage.getItem('alicetta_prt_ip')||'-';}catch(e){return'-';}})()),A.err?'Errore: '+A.err:'','Dispositivo: '+navigator.userAgent,'',
+ 'Ultimi tentativi:',...L.slice(-6).map(x=>'- '+fmtT(x.ts)+' '+(x.table||'')+' → '+x.res+(x.how?' ('+x.how+')':''))].filter(Boolean).join('\n');}
+function report(A,msg){A.msg=msg;const pb0=$('v84pb');if(pb0)pb0.remove();let ov=$('v103r');if(ov)ov.remove();ov=document.createElement('div');ov.id='v103r';ov.className='v92ov';ov.onclick=e=>{if(e.target===ov)ov.remove();};
+ const txt=reportText(A);
+ ov.innerHTML='<div class="v92bx"><h3 style="margin:0 0 4px;color:#DC2626;">🐞 Il preconto non è partito</h3><div style="font-weight:900;margin-bottom:6px;">'+esc(msg)+'</div>'+
+ '<pre style="white-space:pre-wrap;font-size:.72rem;background:#0F172A;color:#E2E8F0;border-radius:10px;padding:8px;max-height:34vh;overflow:auto;margin:0 0 6px;">'+esc(txt)+'</pre>'+
+ (A.raw&&A.ep?'<button type="button" class="v92b" data-a="alt" style="background:#0EA5E9;color:#fff;">🔁 Riprova con l’altro metodo ('+(A.how==='intent'?'rawbt:':'intent')+')</button>':'')+
+ '<button type="button" class="v92b" data-a="scr" style="background:#16A34A;color:#fff;">📄 Mostra il preconto a schermo</button>'+
+ '<button type="button" class="v92b" data-a="cp" style="background:#FDE047;color:#062329;">📋 Copia il bug report (mandalo a Claude)</button>'+
+ '<button type="button" class="v92b" data-a="g" style="background:#334155;color:#fff;">❓ Guida stampante</button><button type="button" class="v92b" data-a="x" style="background:#475569;color:#fff;">Chiudi</button></div>';
+ document.body.appendChild(ov);
+ ov.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const a=b.dataset.a;
+  if(a==='x')ov.remove();
+  if(a==='g'){ov.remove();try{v102PrtHelp();}catch(e){}}
+  if(a==='cp'){try{navigator.clipboard.writeText(txt).then(()=>toast('📋 Bug report copiato'),()=>prompt('Copia il testo:',txt));}catch(e){prompt('Copia il testo:',txt);}}
+  if(a==='scr'){ov.remove();try{const pv=A.pv||String(state.lastEscPosPayload||'').replace(/\x1B[@a!tE-][\x00-\xFF]?|\x1D[V!][\x00-\xFF]{0,2}|[\x00-\x08\x0B-\x1F]/g,'');$('receiptText').textContent=pv;$('receiptModal').classList.add('active');}catch(e){}}
+  if(a==='alt'){ov.remove();const how=A.how==='intent'?'rawbt':'intent';const B=Object.assign({},A,{ts:Date.now(),how:how,err:''});go(B,how);watch(B,how==='intent');}});}
+function go(A,how){if(how==='intent')window.location.href=intentUrl(A.ep);else window.location.href='rawbt:base64,'+encodeBase64UTF8(A.ep);}
+function watch(A,saveIntent){let hid=false;const h=()=>{if(document.hidden)hid=true;},bl=()=>{hid=true;};document.addEventListener('visibilitychange',h);window.addEventListener('blur',bl);
+ setTimeout(()=>{document.removeEventListener('visibilitychange',h);window.removeEventListener('blur',bl);
+  if(hid){A.res='RawBT aperto';logA(A);if(saveIntent){try{localStorage.setItem('alicetta_prt_intent','1');}catch(e){}toast('✅ Metodo intent salvato: lo uso da ora in poi',4000);}}
+  else{A.res='RawBT non si è aperto';logA(A);report(A,'RawBT non si è aperto entro 3 secondi. È installato? Prova l’altro metodo qui sotto.');}},3000);}
+// metodo intent come scelta salvata
+{const _d=dispatchPrint;dispatchPrint=function(pv,ep){if(state.useRawBT&&intentOn()){state.lastEscPosPayload=ep;window.__v103pv=pv;try{window.location.href=intentUrl(ep);}catch(e){}return;}window.__v103pv=pv;return _d.apply(this,arguments);};}
+{const _p=showPreBill;showPreBill=function(){const t=curT();
+ const A={ts:Date.now(),table:t&&t.name,items:t&&t.items?t.items.length:0,tot:0,raw:!!state.useRawBT,pwa:!!(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)};
+ try{A.tot=t?getTableTotal(t):0;}catch(e){}
+ if(!t){A.res='nessun tavolo';logA(A);return report(A,'Nessun tavolo aperto.');}
+ if(!t.items||!t.items.length){A.res='tavolo vuoto';logA(A);toast('🧾 Tavolo vuoto: niente da stampare');return;}
+ toast(state.useRawBT?'🖨️ Preconto in stampa…':'🧾 Preconto a schermo');
+ state.lastEscPosPayload=null;window.__v103pv=null;
+ try{_p.apply(this,arguments);}catch(e){A.res='errore';A.err=String(e&&(e.stack||e.message)||e).slice(0,500);logA(A);return report(A,'Errore mentre preparavo il preconto.');}
+ A.ep=state.lastEscPosPayload||'';A.pv=window.__v103pv||'';A.len=A.ep.length;A.how=intentOn()?'intent':'rawbt';
+ if(!A.ep){A.res='preconto non generato';logA(A);return report(A,'Il preconto non è stato generato (nessun dato da stampare).');}
+ if(!state.useRawBT){const ok=!!($('receiptModal')&&$('receiptModal').classList.contains('active'));A.how='schermo';A.res=ok?'a schermo ok':'finestra non aperta';logA(A);if(!ok)report(A,'La finestra del preconto non si è aperta.');return;}
+ watch(A,false);};}
+window.v103Log=()=>{try{return JSON.parse(localStorage.getItem(LOGK)||'[]');}catch(e){return[];}};
+})();
+}catch(e){console.error("chef-extra v2.9.103",e);}
+try{(function(){const V='v2.9.103';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
