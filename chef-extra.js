@@ -5,7 +5,7 @@ window.CBT=function(fn,ms){if(typeof fn!=='function')return ni(fn,ms);const id=+
 window.clearInterval=function(id){if(T.has(id))T.delete(id);else nc(id);};
 window.CBTinfo=()=>({attivi:T.size,tick:200});
 ni(()=>run(false),200);document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastHid=0;T.forEach(t=>{t.next=0;});run(false);}});})();
-/* Chef Bull Brigade - chef-extra.js v2.9.103 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.104 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2037,7 +2037,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.103';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.104';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2078,8 +2078,9 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
-['v2.9.103',['🌞 Le formule del pranzo compaiono solo a pranzo (fino alle 17): la sera apri il tavolo e vedi subito i piatti. Cercando “pranzo” le trovi comunque.','🖨️ PRE-CONTO dà sempre un segnale: se RawBT non si apre o c’è un errore compare un bug report da copiare, con “Riprova con l’altro metodo” e “Mostra a schermo”.']],
-['v2.9.103',['🏷️ Sconto su un singolo piatto: tasto fucsia accanto a ✏️ Nota, con percentuale, euro, omaggio e testo modificabile (si vede sulla riga e sul preconto).','📋 Dopo INVIA torni al riepilogo del tavolo.','❓ Preconto che non esce: guida stampante dal banner, con promemoria dell’IP e stampa di prova.','🌞 Vendite: pranzi del mese divisi tra turisti e dipendenti, con il riepilogo da copiare per le aziende.']],
+['v2.9.104',['🏷️ Vendite: “Sconti del mese” con totale, motivi, piatti più scontati, chi li ha fatti ed elenco completo.','🧾 Preconto: lo sconto del piatto va su una riga sua, sotto il piatto, senza parole spezzate.','🐞 Se il preconto non parte, il bug report arriva anche come notifica a Christian.']],
+['v2.9.104',['🌞 Le formule del pranzo compaiono solo a pranzo (fino alle 17): la sera apri il tavolo e vedi subito i piatti. Cercando “pranzo” le trovi comunque.','🖨️ PRE-CONTO dà sempre un segnale: se RawBT non si apre o c’è un errore compare un bug report da copiare, con “Riprova con l’altro metodo” e “Mostra a schermo”.']],
+['v2.9.102',['🏷️ Sconto su un singolo piatto: tasto fucsia accanto a ✏️ Nota, con percentuale, euro, omaggio e testo modificabile (si vede sulla riga e sul preconto).','📋 Dopo INVIA torni al riepilogo del tavolo.','❓ Preconto che non esce: guida stampante dal banner, con promemoria dell’IP e stampa di prova.','🌞 Vendite: pranzi del mese divisi tra turisti e dipendenti, con il riepilogo da copiare per le aziende.']],
 ['v2.9.101',['🌞 Pranzo: antipasto+primo e antipasto+secondo insieme fanno 2 mandate (antipasti, poi primo e secondo insieme). Le 3 mandate restano solo con il Menù Completo.']],
 ['v2.9.100',['📋 Aprendo un tavolo con ordini vedi prima il riepilogo comanda, con il totale in grande e il tasto ➕ Aggiungi dal menù.','💶 Il totale speso del tavolo è sempre in evidenza (con i pezzi ancora da inviare in cucina).']],
 ['v2.9.99',['🌞 Pranzo: puoi aggiungere più formule (anche miste, turisti e dipendenti) e scegliere i piatti di tutti nella stessa schermata.']],
@@ -3369,7 +3370,7 @@ function decorate(){const t=curT();if(!t||!t.items)return;document.querySelector
 {const _a=addItemToTable;addItemToTable=function(mi){const t=curT();const snap=t&&t.items?t.items.filter(i=>i.dsc).map(i=>[i,i.qty]):[];const r=_a.apply(this,arguments);
  try{let fixd=false;snap.forEach(([i,q])=>{if(i.qty>q){const extra=i.qty-q;i.qty=q;t.items.push({lineId:Date.now()+Math.random(),menuId:i.menuId,cat:i.cat,name:i.name,price:Number(i.dsc.p0)||0,qty:extra,mandata:i.mandata,waiter:state.waiterName||'Staff',note:'',sent:false,...(i.alVolo?{alVolo:true}:{})});fixd=true;}});if(fixd){saveLocalOnly();renderOrderScreen();}}catch(e){}return r;};}
 // sul preconto: testo dello sconto accanto al piatto
-{const _p=showPreBill;showPreBill=function(){const t=curT(),bk=[];try{(t&&t.items||[]).forEach(i=>{if(i.dsc){bk.push([i,i.name]);i.name=i.name+' ('+(i.dsc.why||'Sconto')+' '+lbl(i.dsc).replace('€ ','EUR ')+')';}});return _p.apply(this,arguments);}finally{bk.forEach(([i,n])=>{i.name=n;});}};}
+/* preconto: sconto gestito in v2.9.104 */
 
 /* ── 1 · Dopo INVIA torni al riepilogo ── */
 if(typeof sendOrderToKitchen==='function'){const _s=sendOrderToKitchen;sendOrderToKitchen=async function(){const r=await _s.apply(this,arguments);try{const t=curT();if(t&&t.items&&t.items.length&&t.items.every(i=>isItemSent(t,i))&&window.v100Mode){v100Mode(1);window.scrollTo(0,0);}}catch(e){}return r;};}
@@ -3408,13 +3409,13 @@ window.v102Lunch=lunchCard;
 {const _v=switchMainView;switchMainView=function(){const r=_v.apply(this,arguments);try{setTimeout(lunchCard,50);}catch(e){}return r;};}
 if(typeof renderSalesCharts==='function'){const _c=renderSalesCharts;renderSalesCharts=function(){const r=_c.apply(this,arguments);try{lunchCard();}catch(e){}return r;};}
 })();
-}catch(e){console.error("chef-extra v2.9.103",e);}
+}catch(e){console.error("chef-extra v2.9.102",e);}
 try{(function(){
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const toast=(m,ms)=>{try{__toast(m,ms||2600,0);}catch(e){}};
 const curT=()=>state.tables[state.activeTableId];
-const VER='v2.9.103';
+const VER='v2.9.104';
 
 /* ── Menù pranzo solo a pranzo (5:00-16:59) ── */
 const lunch=()=>{const h=new Date().getHours();return h>=5&&h<17;};
@@ -3436,7 +3437,7 @@ function reportText(A){let L=[];try{L=JSON.parse(localStorage.getItem(LOGK)||'[]
  'IP annotato: '+((()=>{try{return localStorage.getItem('alicetta_prt_ip')||'-';}catch(e){return'-';}})()),A.err?'Errore: '+A.err:'','Dispositivo: '+navigator.userAgent,'',
  'Ultimi tentativi:',...L.slice(-6).map(x=>'- '+fmtT(x.ts)+' '+(x.table||'')+' → '+x.res+(x.how?' ('+x.how+')':''))].filter(Boolean).join('\n');}
 function report(A,msg){A.msg=msg;const pb0=$('v84pb');if(pb0)pb0.remove();let ov=$('v103r');if(ov)ov.remove();ov=document.createElement('div');ov.id='v103r';ov.className='v92ov';ov.onclick=e=>{if(e.target===ov)ov.remove();};
- const txt=reportText(A);
+ const txt=reportText(A);try{if(window.v104Ntfy)v104Ntfy(txt);}catch(e){}
  ov.innerHTML='<div class="v92bx"><h3 style="margin:0 0 4px;color:#DC2626;">🐞 Il preconto non è partito</h3><div style="font-weight:900;margin-bottom:6px;">'+esc(msg)+'</div>'+
  '<pre style="white-space:pre-wrap;font-size:.72rem;background:#0F172A;color:#E2E8F0;border-radius:10px;padding:8px;max-height:34vh;overflow:auto;margin:0 0 6px;">'+esc(txt)+'</pre>'+
  (A.raw&&A.ep?'<button type="button" class="v92b" data-a="alt" style="background:#0EA5E9;color:#fff;">🔁 Riprova con l’altro metodo ('+(A.how==='intent'?'rawbt:':'intent')+')</button>':'')+
@@ -3471,5 +3472,52 @@ function watch(A,saveIntent){let hid=false;const h=()=>{if(document.hidden)hid=t
  watch(A,false);};}
 window.v103Log=()=>{try{return JSON.parse(localStorage.getItem(LOGK)||'[]');}catch(e){return[];}};
 })();
-}catch(e){console.error("chef-extra v2.9.103",e);}
-try{(function(){const V='v2.9.103';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+}catch(e){console.error("chef-extra v2.9.104",e);}
+try{(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const eur=n=>'€ '+formatPrice(Number(n)||0);
+const toast=(m,ms)=>{try{__toast(m,ms||2600,0);}catch(e){}};
+const curT=()=>state.tables[state.activeTableId];
+
+/* ── 30 · Preconto: sconto su una riga sua sotto il piatto ── */
+const W=()=>{const n=Number(localStorage.getItem('alicetta_prt_cols'));return [32,42,48].includes(n)?n:32;};
+const san=s=>String(s==null?'':s).replace(/[–—]/g,'-').replace(/[’‘]/g,"'").replace(/[“”]/g,'"').replace(/€/g,'EUR').replace(/[^\x00-\xFF]/g,'');
+const wrapW=(txt,w)=>{const words=san(txt).split(/\s+/).filter(Boolean),out=[];let cur='';words.forEach(x=>{while(x.length>w){if(cur){out.push(cur);cur='';}out.push(x.slice(0,w));x=x.slice(w);}if(!cur)cur=x;else if((cur+' '+x).length<=w)cur+=' '+x;else{out.push(cur);cur=x;}});if(cur)out.push(cur);return out;};
+const dl=d=>d.k==='pct'?(Number(d.v)>=100?'omaggio':'-'+d.v+'%'):'-EUR '+formatPrice(d.v)+' cad.';
+function post(s,items,w){if(!s)return s;let cur=0;items.forEach(i=>{const l=san(i.qty+'x '+i.name),r=san('EUR '+formatPrice(i.price*i.qty)),room=Math.max(8,w-r.length-1);const first=l.slice(0,room).padEnd(room)+' '+r;const k=s.indexOf(first,cur);if(k<0)return;
+ let end=s.indexOf('\n',k);end=end<0?s.length:end+1;let rest=l.slice(room);while(rest.length){const nl=s.indexOf('\n',end);if(nl<0)break;end=nl+1;rest=rest.slice(w-3);}
+ if(i.dsc){const ins=wrapW('Sconto: '+(i.dsc.why||'Sconto')+' '+dl(i.dsc)+' (era EUR '+formatPrice(Number(i.dsc.p0)*i.qty)+')',w-3).map(x=>'   '+x).join('\n')+'\n';s=s.slice(0,end)+ins+s.slice(end);end+=ins.length;}
+ cur=end;});return s;}
+let PB=null;
+{const _p=showPreBill;showPreBill=function(){const t=curT();PB=t&&t.items&&t.items.some(i=>i.dsc)?t.items.slice():null;try{return _p.apply(this,arguments);}finally{PB=null;}};}
+{const _d=dispatchPrint;dispatchPrint=function(pv,ep){if(PB){try{const w=W();pv=post(pv,PB,w);ep=post(ep,PB,w);}catch(e){}}return _d.call(this,pv,ep);};}
+
+/* ── 33 · Bug report anche come notifica ntfy a Christian ── */
+window.v104Ntfy=txt=>{try{if(typeof ntfyPost!=='function')return;ntfyPost('christian','🐞 Preconto non stampato · '+(state.waiterName||'?'),String(txt||'').slice(0,1500),4);}catch(e){}};
+
+/* ── 28 · Report sconti del mese ── */
+const mk=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+let SM=mk(new Date());
+function scData(mon){const D={n:0,eur:0,dish:{},why:{},who:{},tab:{n:0,eur:0},list:[]};
+ (state.historyLog||[]).forEach(e=>{if(!e||e.deleted||!e.ts||mk(new Date(e.ts))!==mon)return;
+  (e.items||[]).forEach(i=>{if(!i.dsc)return;const a=Math.max(0,(Number(i.dsc.p0)-Number(i.price))*(Number(i.qty)||0));if(!(a>0))return;D.n++;D.eur+=a;const w=i.dsc.why||'Sconto',b=i.dsc.by||'?';
+   D.dish[i.name]=D.dish[i.name]||[0,0];D.dish[i.name][0]+=Number(i.qty)||0;D.dish[i.name][1]+=a;D.why[w]=(D.why[w]||0)+a;D.who[b]=(D.who[b]||0)+a;D.list.push({ts:e.ts,t:e.tableName,d:i.name,w,a,b});});
+  if(e.disc&&Number(e.disc.amt)>0){const a=Number(e.disc.amt),w=e.disc.why||'Sconto sul conto',b=e.disc.by||'?';D.tab.n++;D.tab.eur+=a;D.why[w]=(D.why[w]||0)+a;D.who[b]=(D.who[b]||0)+a;D.list.push({ts:e.ts,t:e.tableName,d:'Sconto su tutto il conto'+(e.disc.k==='pct'?' '+e.disc.v+'%':''),w,a,b});}});return D;}
+const top=(o,n)=>Object.entries(o).sort((a,b)=>(Array.isArray(b[1])?b[1][1]:b[1])-(Array.isArray(a[1])?a[1][1]:a[1])).slice(0,n);
+function scCard(){const v=$('viewSales');if(!v||!v.classList.contains('active'))return;let c=$('v104sc');if(!c){c=document.createElement('div');c.id='v104sc';c.className='cart-section';const a=$('v102lr')||$('payTotals');if(a)a.after(c);else v.appendChild(c);}
+ const D=scData(SM),name=new Date(SM+'-15').toLocaleDateString('it-IT',{month:'long',year:'numeric'}),tot=D.eur+D.tab.eur;
+ const row=(l,r)=>'<div style="display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.1);font-size:.85rem;"><span>'+l+'</span><b>'+r+'</b></div>';
+ c.innerHTML='<div style="font-weight:900;font-size:1.05rem;">🏷️ Sconti del mese</div><div class="nav" style="display:flex;align-items:center;gap:8px;margin:6px 0;"><button type="button" data-m="-1" style="border:3px solid #062329;border-radius:10px;background:#fff;font-weight:900;padding:6px 12px;">◀</button><b style="flex:1;text-align:center;text-transform:capitalize;">'+name+'</b><button type="button" data-m="1" style="border:3px solid #062329;border-radius:10px;background:#fff;font-weight:900;padding:6px 12px;">▶</button></div>'+
+ '<div style="background:#FF1493;color:#fff;border-radius:12px;padding:10px;font-weight:900;text-align:center;">Totale scontato '+eur(tot)+'<div style="font-size:.8rem;font-weight:700;">'+D.n+' sconti su piatti ('+eur(D.eur)+') · '+D.tab.n+' sconti sul conto ('+eur(D.tab.eur)+')</div></div>'+
+ (tot>0?'<div style="font-weight:900;margin-top:8px;">Per motivo</div>'+top(D.why,6).map(([k,a])=>row(esc(k),eur(a))).join('')+
+ '<div style="font-weight:900;margin-top:8px;">Piatti più scontati</div>'+(top(D.dish,5).map(([k,a])=>row(esc(k)+' · '+a[0]+' pz',eur(a[1]))).join('')||'<div style="font-size:.85rem;">Nessuno</div>')+
+ '<div style="font-weight:900;margin-top:8px;">Chi ha fatto lo sconto</div>'+top(D.who,6).map(([k,a])=>row(esc(k),eur(a))).join('')+
+ '<details style="margin-top:8px;"><summary style="font-weight:900;">Elenco completo ('+D.list.length+')</summary>'+D.list.sort((a,b)=>b.ts-a.ts).map(x=>row(new Date(x.ts).toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit'})+' · '+esc(x.t||'')+' · '+esc(x.d)+' <small>('+esc(x.w)+', '+esc(x.b)+')</small>','−'+eur(x.a))).join('')+'</details>':'<div style="font-size:.85rem;font-weight:700;margin-top:6px;">Nessuno sconto in questo mese.</div>');
+ c.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const d=new Date(SM+'-15');d.setMonth(d.getMonth()+Number(b.dataset.m));SM=mk(d);scCard();});}
+window.v104Sc=scCard;
+{const _v=switchMainView;switchMainView=function(){const r=_v.apply(this,arguments);try{setTimeout(scCard,80);}catch(e){}return r;};}
+if(typeof renderSalesCharts==='function'){const _c=renderSalesCharts;renderSalesCharts=function(){const r=_c.apply(this,arguments);try{scCard();}catch(e){}return r;};}
+})();
+}catch(e){console.error("chef-extra v2.9.104",e);}
+try{(function(){const V='v2.9.104';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
