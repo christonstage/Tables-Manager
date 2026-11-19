@@ -5,7 +5,7 @@ window.CBT=function(fn,ms){if(typeof fn!=='function')return ni(fn,ms);const id=+
 window.clearInterval=function(id){if(T.has(id))T.delete(id);else nc(id);};
 window.CBTinfo=()=>({attivi:T.size,tick:200});
 ni(()=>run(false),200);document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastHid=0;T.forEach(t=>{t.next=0;});run(false);}});})();
-/* Chef Bull Brigade - chef-extra.js v2.9.101 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.102 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2037,7 +2037,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.101';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.102';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2078,8 +2078,9 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
-['v2.9.101',['🌞 Pranzo: antipasto+primo e antipasto+secondo insieme fanno 2 mandate (antipasti, poi primo e secondo insieme). Le 3 mandate restano solo con il Menù Completo.']],
-['v2.9.101',['📋 Aprendo un tavolo con ordini vedi prima il riepilogo comanda, con il totale in grande e il tasto ➕ Aggiungi dal menù.','💶 Il totale speso del tavolo è sempre in evidenza (con i pezzi ancora da inviare in cucina).']],
+['v2.9.102',['🏷️ Sconto su un singolo piatto: tasto fucsia accanto a ✏️ Nota, con percentuale, euro, omaggio e testo modificabile (si vede sulla riga e sul preconto).','📋 Dopo INVIA torni al riepilogo del tavolo.','❓ Preconto che non esce: guida stampante dal banner, con promemoria dell’IP e stampa di prova.','🌞 Vendite: pranzi del mese divisi tra turisti e dipendenti, con il riepilogo da copiare per le aziende.']],
+['v2.9.102',['🌞 Pranzo: antipasto+primo e antipasto+secondo insieme fanno 2 mandate (antipasti, poi primo e secondo insieme). Le 3 mandate restano solo con il Menù Completo.']],
+['v2.9.100',['📋 Aprendo un tavolo con ordini vedi prima il riepilogo comanda, con il totale in grande e il tasto ➕ Aggiungi dal menù.','💶 Il totale speso del tavolo è sempre in evidenza (con i pezzi ancora da inviare in cucina).']],
 ['v2.9.99',['🌞 Pranzo: puoi aggiungere più formule (anche miste, turisti e dipendenti) e scegliere i piatti di tutti nella stessa schermata.']],
 ['v2.9.98',['🌞 Formule del pranzo: la formula viene sempre aggiunta al tavolo, anche se non hai scelto tutti i piatti.','👆 I piatti del pranzo si selezionano con un tocco (diventano verdi ✅), anche mentre scorri la lista.']],
 ['v2.9.97',['🌞 Formule del pranzo con due prezzi: a sinistra turisti (35 · 29 · 25 €), a destra dipendenti in convenzione (30 · 25 · 22 €).','🧾 Nel conto la formula dei dipendenti compare con “· Dipendenti”, così la distingui nelle vendite.']],
@@ -2971,8 +2972,8 @@ let pbFlag=false;
 showPreBill=function(){const t=state.tables[state.activeTableId];if(!t||!t.items||!t.items.length)return;const o=build(t);pbFlag=true;dispatchPrint(o.pv,o.ep);};
 {const _d=dispatchPrint;dispatchPrint=function(pv,ep){const r=_d.apply(this,arguments);if(pbFlag){pbFlag=false;if(state.useRawBT)banner();}return r;};}
 function banner(){let b=$('v84pb');if(b)b.remove();b=document.createElement('div');b.id='v84pb';b.style.cssText='position:fixed;left:8px;right:8px;bottom:calc(104px + env(safe-area-inset-bottom,0px));z-index:9500;background:#062329;color:#fff;border:2px solid #1BE7FF;border-radius:14px;padding:10px 12px;font-weight:800;font-size:.85rem;';
- b.innerHTML='🖨️ Preconto inviato a RawBT. Se non esce, controlla l’IP o l’accensione della stampante.<div style="display:flex;gap:6px;margin-top:8px;"><button type="button" data-a="r" style="flex:1;border:0;border-radius:10px;padding:9px;font-weight:900;background:#1BE7FF;color:#062329;">🔁 Riprova</button><button type="button" data-a="s" style="flex:1;border:0;border-radius:10px;padding:9px;font-weight:900;background:#fff;color:#062329;">📄 Mostra a schermo</button><button type="button" data-a="x" style="border:0;border-radius:10px;padding:9px 12px;font-weight:900;background:#334155;color:#fff;">✕</button></div>';
- b.onclick=e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a)return;if(a==='r'){try{triggerRawBTFromModal();}catch(x){}}if(a==='s'){try{const ep=state.lastEscPosPayload||'';$('receiptText').textContent=ep.replace(/[\x00-\x08\x0B-\x1F]|\x1B.|\x1D.[\x00-\xFF]?/g,'').replace(/\x1B[@a!t][\x00-\xFF]?/g,'');$('receiptModal').classList.add('active');}catch(x){}}b.remove();};
+ b.innerHTML='🖨️ Preconto inviato a RawBT. Se non esce, controlla l’IP o l’accensione della stampante.<div style="display:flex;gap:6px;margin-top:8px;"><button type="button" data-a="r" style="flex:1;border:0;border-radius:10px;padding:9px;font-weight:900;background:#1BE7FF;color:#062329;">🔁 Riprova</button><button type="button" data-a="s" style="flex:1;border:0;border-radius:10px;padding:9px;font-weight:900;background:#fff;color:#062329;">📄 Mostra a schermo</button><button type="button" data-a="g" style="border:0;border-radius:10px;padding:9px 10px;font-weight:900;background:#FDE047;color:#062329;">❓</button><button type="button" data-a="x" style="border:0;border-radius:10px;padding:9px 12px;font-weight:900;background:#334155;color:#fff;">✕</button></div>';
+ b.onclick=e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a)return;if(a==='g'){try{v102PrtHelp();}catch(x){}}if(a==='r'){try{triggerRawBTFromModal();}catch(x){}}if(a==='s'){try{const ep=state.lastEscPosPayload||'';$('receiptText').textContent=ep.replace(/[\x00-\x08\x0B-\x1F]|\x1B.|\x1D.[\x00-\xFF]?/g,'').replace(/\x1B[@a!t][\x00-\xFF]?/g,'');$('receiptModal').classList.add('active');}catch(x){}}b.remove();};
  document.body.appendChild(b);setTimeout(()=>{if(b.isConnected)b.remove();},25000);}
 /* Opzioni › Prova stampante */
 function drawP(){const el=$('n84');if(!el)return;const w=COLS();el.innerHTML='<h3 style="margin:0 0 6px;">🖨️ Prova stampante</h3><div style="font-size:.8rem;font-weight:700;margin-bottom:6px;">RawBT: '+(state.useRawBT?'✅ attivo':'⚠️ non attivo (il conto si apre solo a schermo)')+'</div>'+(state.useRawBT?'':'<button class="btn-main" style="width:100%;margin-bottom:6px;" id="v84on">Attiva RawBT</button>')+'<div style="font-weight:800;font-size:.85rem;margin:4px 0;">Larghezza carta</div><div style="display:flex;gap:6px;margin-bottom:8px;">'+[[32,'58 mm'],[42,'80 mm (42)'],[48,'80 mm (48)']].map(x=>'<button type="button" data-w="'+x[0]+'" class="btn-note" style="flex:1;'+(w===x[0]?'background:#FDE047;font-weight:900;':'')+'">'+x[1]+'</button>').join('')+'</div><button class="btn-main btn-print" style="width:100%;" id="v84t">🖨️ Stampa prova</button><div id="v84s" style="font-size:.8rem;font-weight:700;margin-top:8px;line-height:1.4;"></div>';
@@ -3311,7 +3312,7 @@ const lab=[...v.children].find(e=>e.children.length===0&&/STAI INSERENDO/i.test(
 const bar=document.createElement('div');bar.id='v100bar';bar.innerHTML='<div class="v100t"><small>TOTALE TAVOLO</small><b id="v100tot">€ 0,00</b><span class="v100x" id="v100sub"></span></div><button type="button" id="v100go">➕ Aggiungi dal menù</button><button type="button" id="v100back">📋 Riepilogo</button>';
 const hd=v.querySelector('.order-header');if(hd)hd.after(bar);else v.prepend(bar);
 const mode=s=>{v.classList.toggle('v100s',!!s);const g=$('v100go'),b=$('v100back');if(g)g.style.display=s?'':'none';if(b)b.style.display=s?'none':'';};
-const top=()=>{try{window.scrollTo(0,0);v.scrollTop=0;}catch(e){}};
+window.v100Mode=s=>mode(s);const top=()=>{try{window.scrollTo(0,0);v.scrollTop=0;}catch(e){}};
 $('v100go').onclick=()=>{mode(0);top();};
 $('v100back').onclick=()=>{mode(1);top();};
 const paint=()=>{const t=state.tables[state.activeTableId];const has=!!(t&&t.items&&t.items.length);bar.classList.toggle('on',has);if(!has){mode(0);return;}
@@ -3320,5 +3321,91 @@ const paint=()=>{const t=state.tables[state.activeTableId];const has=!!(t&&t.ite
 {const _o=openTable;openTable=function(id){const r=_o.apply(this,arguments);try{const t=state.tables[id];mode(t&&t.items&&t.items.length?1:0);paint();top();}catch(e){}return r;};}
 {const _r=renderOrderScreen;renderOrderScreen=function(){const r=_r.apply(this,arguments);try{paint();}catch(e){}return r;};}
 })();
-}catch(e){console.error("chef-extra v2.9.101",e);}
-try{(function(){const V='v2.9.101';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+}catch(e){console.error("chef-extra v2.9.100",e);}
+try{(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toast=m=>{try{__toast(m,2600,0);}catch(e){}};
+const eur=n=>'€ '+formatPrice(Number(n)||0);
+const fx=n=>Math.round((Number(n)||0)*100)/100;
+const curT=()=>state.tables[state.activeTableId];
+const save=t=>{try{saveLocalOnly();}catch(e){}try{saveState(false,{tables:[t.id]});}catch(e){}};
+const st=document.createElement('style');st.textContent='.v102d{border:0;border-radius:10px;background:#FF1493;color:#fff;font-weight:900;min-width:38px;padding:6px 7px;margin:0 3px;box-shadow:0 3px 0 #A50D5E;font-size:.95rem;line-height:1}.v102d.on{background:#fff;color:#FF1493;outline:3px solid #FF1493}.v102d:active{transform:translateY(2px);box-shadow:none}.v102l{display:inline-block;margin-top:3px;font-size:.78rem;font-weight:900;color:#fff;background:#FF1493;border-radius:8px;padding:2px 8px}.v102l s{opacity:.8;font-weight:700}.v102in{width:100%;box-sizing:border-box;border:3px solid #062329;border-radius:12px;padding:11px;font-size:1rem;font-weight:800;margin:4px 0}.v102c{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.v102c button{border:3px solid #062329;border-radius:12px;background:#fff;color:#062329;font-weight:900;padding:8px 11px}.v102c button.on{background:#FF1493;color:#fff;border-color:#FF1493}.v102p{background:#062329;color:#fff;border-radius:12px;padding:10px;font-weight:900;margin:8px 0;text-align:center}.v102k{font-weight:900;font-size:.8rem;margin-top:8px}#v102lr table{width:100%;border-collapse:collapse;font-size:.85rem}#v102lr td,#v102lr th{padding:6px 4px;border-bottom:1px solid rgba(0,0,0,.12);text-align:right}#v102lr td:first-child,#v102lr th:first-child{text-align:left}#v102lr .nav{display:flex;align-items:center;gap:8px;margin:6px 0}#v102lr .nav button{border:3px solid #062329;border-radius:10px;background:#fff;font-weight:900;padding:6px 12px}';document.head.appendChild(st);
+
+/* ── A · Sconto sul singolo piatto ── */
+const unit=i=>{const d=i.dsc;if(!d)return Number(i.price)||0;const p0=Number(d.p0)||0;return fx(Math.max(0,d.k==='pct'?p0*(1-(Number(d.v)||0)/100):p0-(Number(d.v)||0)));};
+const lbl=d=>d?(d.k==='pct'?(Number(d.v)>=100?'omaggio':'-'+d.v+'%'):'-'+eur(d.v)+' a pezzo'):'';
+let DZ=null;
+function dzPrev(){const e=$('v102pv');if(!e||!DZ)return;const p0=DZ.p0,u=fx(Math.max(0,DZ.k==='pct'?p0*(1-(Number(DZ.v)||0)/100):p0-(Number(DZ.v)||0)));e.innerHTML='A pezzo '+eur(p0)+' → <b>'+eur(u)+'</b> · Riga: '+eur(u*DZ.q)+' (risparmio '+eur((p0-u)*DZ.q)+')';}
+function dzDraw(){const ov=$('v102ov');if(!ov)return;const t=curT(),it=t&&t.items.find(i=>String(i.lineId)===DZ.id);if(!it){ov.remove();return;}
+ ov.innerHTML='<div class="v92bx"><h3 style="margin:0;color:#FF1493;">🏷️ Sconto su questo piatto</h3><div style="font-weight:900;margin:4px 0 2px;">'+it.qty+'× '+esc(it.name)+'</div><div style="font-size:.85rem;font-weight:700;">Prezzo pieno '+eur(DZ.p0)+' a pezzo</div>'+
+ '<div class="v102k">Percentuale</div><div class="v102c">'+[10,20,30,50].map(p=>'<button type="button" data-p="'+p+'" class="'+(DZ.k==='pct'&&Number(DZ.v)===p?'on':'')+'">'+p+'%</button>').join('')+'<button type="button" data-p="100" class="'+(DZ.k==='pct'&&Number(DZ.v)>=100?'on':'')+'">🎁 Omaggio</button></div>'+
+ '<div class="v102k">Oppure in euro (a pezzo)</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"><input class="v102in" id="v102e" inputmode="decimal" placeholder="Sconto €"><input class="v102in" id="v102f" inputmode="decimal" placeholder="Prezzo finale €"></div>'+
+ '<div class="v102k">Testo dello sconto (si vede sulla riga e sul preconto)</div><input class="v102in" id="v102w" maxlength="40" placeholder="es. Cliente abituale" value="'+esc(DZ.why)+'">'+
+ '<div class="v102c">'+['Amici','Cliente abituale','Disservizio','Offerto dalla casa','Porzione piccola'].map(w=>'<button type="button" data-w="'+esc(w)+'">'+esc(w)+'</button>').join('')+'</div>'+
+ '<div class="v102p" id="v102pv"></div>'+
+ '<button type="button" class="v92b" id="v102ok" style="background:#FF1493;color:#fff;">✅ Applica lo sconto</button>'+(it.dsc?'<button type="button" class="v92b" id="v102rm" style="background:#FEE2E2;color:#991B1B;">🗑️ Togli lo sconto</button>':'')+'<button type="button" class="v92b" id="v102x" style="background:#475569;color:#fff;">Annulla</button></div>';
+ dzPrev();
+ const num=v=>{const n=parseFloat(String(v).replace(',','.'));return isNaN(n)?null:Math.max(0,n);};
+ $('v102e').oninput=e=>{const n=num(e.target.value);if(n==null)return;DZ.k='eur';DZ.v=Math.min(DZ.p0,n);ov.querySelectorAll('[data-p]').forEach(b=>b.classList.remove('on'));dzPrev();};
+ $('v102f').oninput=e=>{const n=num(e.target.value);if(n==null)return;DZ.k='eur';DZ.v=fx(Math.max(0,DZ.p0-Math.min(DZ.p0,n)));ov.querySelectorAll('[data-p]').forEach(b=>b.classList.remove('on'));dzPrev();};
+ $('v102w').oninput=e=>{DZ.why=e.target.value;};
+ ov.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{DZ.k='pct';DZ.v=Number(b.dataset.p);if(DZ.v>=100&&!DZ.why)DZ.why='Offerto dalla casa';dzDraw();});
+ ov.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{DZ.why=b.dataset.w;$('v102w').value=DZ.why;});
+ $('v102x').onclick=()=>ov.remove();
+ $('v102ok').onclick=()=>{const t=curT(),it=t&&t.items.find(i=>String(i.lineId)===DZ.id);if(!it)return ov.remove();if(!(Number(DZ.v)>0)){toast('Scegli quanto scontare');return;}
+  const p0=it.dsc?Number(it.dsc.p0):Number(it.price);it.dsc={k:DZ.k,v:Number(DZ.v),why:String(DZ.why||'').trim().slice(0,40)||'Sconto',p0:p0,by:state.waiterName||'',ts:Date.now()};it.price=unit(it);save(t);ov.remove();renderOrderScreen();toast('🏷️ Sconto applicato: '+it.name);};
+ const rm=$('v102rm');if(rm)rm.onclick=()=>{const t=curT(),it=t&&t.items.find(i=>String(i.lineId)===DZ.id);if(it&&it.dsc){it.price=Number(it.dsc.p0);delete it.dsc;save(t);}ov.remove();renderOrderScreen();toast('Sconto tolto');};}
+window.v102Disc=id=>{const t=curT(),it=t&&t.items.find(i=>String(i.lineId)===String(id));if(!it)return;const p0=it.dsc?Number(it.dsc.p0):Number(it.price)||0;if(!(p0>0)){toast('Piatto incluso nella formula: niente da scontare');return;}
+ DZ={id:String(it.lineId),p0:p0,q:Number(it.qty)||1,k:it.dsc?it.dsc.k:'pct',v:it.dsc?it.dsc.v:10,why:it.dsc?it.dsc.why:''};
+ let ov=$('v102ov');if(ov)ov.remove();ov=document.createElement('div');ov.id='v102ov';ov.className='v92ov';ov.onclick=e=>{if(e.target===ov)ov.remove();};document.body.appendChild(ov);dzDraw();};
+function decorate(){const t=curT();if(!t||!t.items)return;document.querySelectorAll('#cartContainer .cart-row').forEach(r=>{const nb=r.querySelector('.btn-note');if(!nb||r.querySelector('.v102d'))return;const m=String(nb.getAttribute('onclick')||'').match(/openNoteModal\(([^)]+)\)/);if(!m)return;const id=m[1].trim();const it=t.items.find(i=>String(i.lineId)===id);if(!it)return;
+ const has=!!it.dsc;if(!has&&!((Number(it.price)||0)>0))return;
+ const b=document.createElement('button');b.type='button';b.className='v102d'+(has?' on':'');b.title='Sconto su questo piatto';b.textContent='🏷️';b.onclick=e=>{e.stopPropagation();v102Disc(id);};nb.after(b);
+ if(has){const pr=r.querySelector('.cart-price');const h='<div><span class="v102l">🏷️ '+esc(it.dsc.why||'Sconto')+' · '+lbl(it.dsc)+' · <s>'+eur(it.dsc.p0*it.qty)+'</s></span></div>';if(pr)pr.insertAdjacentHTML('afterend',h);}});}
+{const _r=renderOrderScreen;renderOrderScreen=function(){const r=_r.apply(this,arguments);try{decorate();}catch(e){}return r;};}
+// un piatto scontato non si "fonde" con uno nuovo a prezzo pieno
+{const _a=addItemToTable;addItemToTable=function(mi){const t=curT();const snap=t&&t.items?t.items.filter(i=>i.dsc).map(i=>[i,i.qty]):[];const r=_a.apply(this,arguments);
+ try{let fixd=false;snap.forEach(([i,q])=>{if(i.qty>q){const extra=i.qty-q;i.qty=q;t.items.push({lineId:Date.now()+Math.random(),menuId:i.menuId,cat:i.cat,name:i.name,price:Number(i.dsc.p0)||0,qty:extra,mandata:i.mandata,waiter:state.waiterName||'Staff',note:'',sent:false,...(i.alVolo?{alVolo:true}:{})});fixd=true;}});if(fixd){saveLocalOnly();renderOrderScreen();}}catch(e){}return r;};}
+// sul preconto: testo dello sconto accanto al piatto
+{const _p=showPreBill;showPreBill=function(){const t=curT(),bk=[];try{(t&&t.items||[]).forEach(i=>{if(i.dsc){bk.push([i,i.name]);i.name=i.name+' ('+(i.dsc.why||'Sconto')+' '+lbl(i.dsc).replace('€ ','EUR ')+')';}});return _p.apply(this,arguments);}finally{bk.forEach(([i,n])=>{i.name=n;});}};}
+
+/* ── 1 · Dopo INVIA torni al riepilogo ── */
+if(typeof sendOrderToKitchen==='function'){const _s=sendOrderToKitchen;sendOrderToKitchen=async function(){const r=await _s.apply(this,arguments);try{const t=curT();if(t&&t.items&&t.items.length&&t.items.every(i=>isItemSent(t,i))&&window.v100Mode){v100Mode(1);window.scrollTo(0,0);}}catch(e){}return r;};}
+
+/* ── 2 · Preconto che non esce: guida stampante ── */
+window.v102PrtHelp=()=>{let ov=$('v102ph');if(ov)ov.remove();ov=document.createElement('div');ov.id='v102ph';ov.className='v92ov';ov.onclick=e=>{if(e.target===ov)ov.remove();};
+ let ip='';try{ip=localStorage.getItem('alicetta_prt_ip')||'';}catch(e){}
+ ov.innerHTML='<div class="v92bx"><h3 style="margin:0 0 6px;">🖨️ Il preconto non esce?</h3><ol style="padding-left:20px;font-weight:700;font-size:.92rem;line-height:1.4;margin:0;">'+
+ '<li>Stampante <b>accesa</b>, con carta e coperchio chiuso.</li>'+
+ '<li>Telefono e stampante sulla <b>stessa rete Wi‑Fi</b> (es. Alicetta Staff).</li>'+
+ '<li>In <b>RawBT</b> › stampante: IP uguale a quello del foglio di autotest (spegni, tieni premuto FEED, riaccendi), porta <b>9100</b>, driver <b>ESC/POS general</b>.</li>'+
+ '<li>Se il foglio dice <b>SimpleAP</b> e IP <b>172.16.10.1</b>, la stampante non è sul Wi‑Fi del locale: collegala da <b>http://172.16.10.1</b> o con un cavo di rete al router.</li>'+
+ '<li>“timeout at the end of the copy” con Inviati e Ricevuti 0: IP sbagliato o stampante su un’altra rete.</li></ol>'+
+ '<div class="v102k">IP della stampante (promemoria)</div><input class="v102in" id="v102ip" inputmode="decimal" placeholder="es. 192.168.1.50" value="'+esc(ip)+'">'+
+ '<button type="button" class="v92b" id="v102pt" style="background:#0EA5E9;color:#fff;">🖨️ Stampa di prova</button><button type="button" class="v92b" id="v102pc" style="background:#475569;color:#fff;">Chiudi</button></div>';
+ document.body.appendChild(ov);
+ $('v102ip').oninput=e=>{try{localStorage.setItem('alicetta_prt_ip',e.target.value.trim());}catch(x){}};
+ $('v102pt').onclick=()=>{try{v2933Test();}catch(e){toast('Prova non disponibile');}};$('v102pc').onclick=()=>ov.remove();};
+
+/* ── 3 · Report pranzi: turisti / dipendenti ── */
+const FN={L_MENU_COMPLETO:'Menù Completo',L_VELOCE_AS:'Veloce Ant.+Secondo',L_VELOCE_AP:'Veloce Ant.+Primo'};
+const mk=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+let LM=mk(new Date());
+function lunchData(mon){const R={};Object.keys(FN).forEach(k=>R[k]={t:[0,0],d:[0,0]});let bills=0;
+ (state.historyLog||[]).forEach(e=>{if(!e||e.deleted||!e.ts)return;if(mk(new Date(e.ts))!==mon)return;let hit=false;(e.items||[]).forEach(i=>{const id=String(i.menuId||i.id||''),b=id.replace(/_DIP$/,'');if(!R[b])return;hit=true;const k=/_DIP$/.test(id)?'d':'t',q=Number(i.qty)||0;R[b][k][0]+=q;R[b][k][1]+=q*(Number(i.price)||0);});if(hit)bills++;});return{R,bills};}
+function lunchCard(){const v=$('viewSales');if(!v||!v.classList.contains('active'))return;let c=$('v102lr');if(!c){c=document.createElement('div');c.id='v102lr';c.className='cart-section';const a=$('payTotals');if(a)a.after(c);else v.appendChild(c);}
+ const {R,bills}=lunchData(LM),M=new Date(LM+'-15');const name=M.toLocaleDateString('it-IT',{month:'long',year:'numeric'});let T=[0,0],D=[0,0];
+ const rows=Object.keys(FN).map(k=>{const r=R[k];T[0]+=r.t[0];T[1]+=r.t[1];D[0]+=r.d[0];D[1]+=r.d[1];return '<tr><td>'+FN[k]+'</td><td>'+r.t[0]+'</td><td>'+eur(r.t[1])+'</td><td>'+r.d[0]+'</td><td>'+eur(r.d[1])+'</td></tr>';}).join('');
+ c.innerHTML='<div style="font-weight:900;font-size:1.05rem;">🌞 Pranzi del mese · turisti e dipendenti</div><div class="nav"><button type="button" data-m="-1">◀</button><b style="flex:1;text-align:center;text-transform:capitalize;">'+name+'</b><button type="button" data-m="1">▶</button></div>'+
+ '<table><tr><th>Formula</th><th>👤 n.</th><th>👤 €</th><th>🏢 n.</th><th>🏢 €</th></tr>'+rows+'<tr style="font-weight:900;"><td>Totale</td><td>'+T[0]+'</td><td>'+eur(T[1])+'</td><td>'+D[0]+'</td><td>'+eur(D[1])+'</td></tr></table>'+
+ '<div style="font-size:.8rem;font-weight:700;margin-top:6px;">'+bills+' conti con formule · '+(T[0]+D[0])+' formule in tutto · incasso formule '+eur(T[1]+D[1])+'</div>'+
+ '<button type="button" class="btn-main btn-print" id="v102cp" style="width:100%;margin-top:8px;">📋 Copia riepilogo dipendenti</button>';
+ c.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const d=new Date(LM+'-15');d.setMonth(d.getMonth()+Number(b.dataset.m));LM=mk(d);lunchCard();});
+ $('v102cp').onclick=()=>{const txt='Alicetta Trattoria · pranzi in convenzione · '+name+'\n'+Object.keys(FN).filter(k=>R[k].d[0]).map(k=>'- '+FN[k]+': '+R[k].d[0]+' × '+eur(R[k].d[0]?R[k].d[1]/R[k].d[0]:0)+' = '+eur(R[k].d[1])).join('\n')+'\nTotale: '+D[0]+' pranzi · '+eur(D[1]);try{navigator.clipboard.writeText(txt).then(()=>toast('📋 Copiato'),()=>prompt('Copia il testo:',txt));}catch(e){prompt('Copia il testo:',txt);}};}
+window.v102Lunch=lunchCard;
+{const _v=switchMainView;switchMainView=function(){const r=_v.apply(this,arguments);try{setTimeout(lunchCard,50);}catch(e){}return r;};}
+if(typeof renderSalesCharts==='function'){const _c=renderSalesCharts;renderSalesCharts=function(){const r=_c.apply(this,arguments);try{lunchCard();}catch(e){}return r;};}
+})();
+}catch(e){console.error("chef-extra v2.9.102",e);}
+try{(function(){const V='v2.9.102';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
