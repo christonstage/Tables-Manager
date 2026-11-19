@@ -5,7 +5,7 @@ window.CBT=function(fn,ms){if(typeof fn!=='function')return ni(fn,ms);const id=+
 window.clearInterval=function(id){if(T.has(id))T.delete(id);else nc(id);};
 window.CBTinfo=()=>({attivi:T.size,tick:200});
 ni(()=>run(false),200);document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastHid=0;T.forEach(t=>{t.next=0;});run(false);}});})();
-/* Chef Bull Brigade - chef-extra.js v2.9.104 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.105 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2037,7 +2037,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.104';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.105';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2078,8 +2078,9 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
-['v2.9.104',['🏷️ Vendite: “Sconti del mese” con totale, motivi, piatti più scontati, chi li ha fatti ed elenco completo.','🧾 Preconto: lo sconto del piatto va su una riga sua, sotto il piatto, senza parole spezzate.','🐞 Se il preconto non parte, il bug report arriva anche come notifica a Christian.']],
-['v2.9.104',['🌞 Le formule del pranzo compaiono solo a pranzo (fino alle 17): la sera apri il tavolo e vedi subito i piatti. Cercando “pranzo” le trovi comunque.','🖨️ PRE-CONTO dà sempre un segnale: se RawBT non si apre o c’è un errore compare un bug report da copiare, con “Riprova con l’altro metodo” e “Mostra a schermo”.']],
+['v2.9.105',['🖨️ IP della stampante nell’app (già impostato 192.168.68.58): lo copi per RawBT e con un tocco apri la pagina della stampante per verificarlo. Lo trovi nella guida ❓ e in Opzioni › Prova stampante.']],
+['v2.9.105',['🏷️ Vendite: “Sconti del mese” con totale, motivi, piatti più scontati, chi li ha fatti ed elenco completo.','🧾 Preconto: lo sconto del piatto va su una riga sua, sotto il piatto, senza parole spezzate.','🐞 Se il preconto non parte, il bug report arriva anche come notifica a Christian.']],
+['v2.9.103',['🌞 Le formule del pranzo compaiono solo a pranzo (fino alle 17): la sera apri il tavolo e vedi subito i piatti. Cercando “pranzo” le trovi comunque.','🖨️ PRE-CONTO dà sempre un segnale: se RawBT non si apre o c’è un errore compare un bug report da copiare, con “Riprova con l’altro metodo” e “Mostra a schermo”.']],
 ['v2.9.102',['🏷️ Sconto su un singolo piatto: tasto fucsia accanto a ✏️ Nota, con percentuale, euro, omaggio e testo modificabile (si vede sulla riga e sul preconto).','📋 Dopo INVIA torni al riepilogo del tavolo.','❓ Preconto che non esce: guida stampante dal banner, con promemoria dell’IP e stampa di prova.','🌞 Vendite: pranzi del mese divisi tra turisti e dipendenti, con il riepilogo da copiare per le aziende.']],
 ['v2.9.101',['🌞 Pranzo: antipasto+primo e antipasto+secondo insieme fanno 2 mandate (antipasti, poi primo e secondo insieme). Le 3 mandate restano solo con il Menù Completo.']],
 ['v2.9.100',['📋 Aprendo un tavolo con ordini vedi prima il riepilogo comanda, con il totale in grande e il tasto ➕ Aggiungi dal menù.','💶 Il totale speso del tavolo è sempre in evidenza (con i pezzi ancora da inviare in cucina).']],
@@ -3370,7 +3371,7 @@ function decorate(){const t=curT();if(!t||!t.items)return;document.querySelector
 {const _a=addItemToTable;addItemToTable=function(mi){const t=curT();const snap=t&&t.items?t.items.filter(i=>i.dsc).map(i=>[i,i.qty]):[];const r=_a.apply(this,arguments);
  try{let fixd=false;snap.forEach(([i,q])=>{if(i.qty>q){const extra=i.qty-q;i.qty=q;t.items.push({lineId:Date.now()+Math.random(),menuId:i.menuId,cat:i.cat,name:i.name,price:Number(i.dsc.p0)||0,qty:extra,mandata:i.mandata,waiter:state.waiterName||'Staff',note:'',sent:false,...(i.alVolo?{alVolo:true}:{})});fixd=true;}});if(fixd){saveLocalOnly();renderOrderScreen();}}catch(e){}return r;};}
 // sul preconto: testo dello sconto accanto al piatto
-/* preconto: sconto gestito in v2.9.104 */
+/* preconto: sconto gestito in v2.9.105 */
 
 /* ── 1 · Dopo INVIA torni al riepilogo ── */
 if(typeof sendOrderToKitchen==='function'){const _s=sendOrderToKitchen;sendOrderToKitchen=async function(){const r=await _s.apply(this,arguments);try{const t=curT();if(t&&t.items&&t.items.length&&t.items.every(i=>isItemSent(t,i))&&window.v100Mode){v100Mode(1);window.scrollTo(0,0);}}catch(e){}return r;};}
@@ -3415,7 +3416,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const toast=(m,ms)=>{try{__toast(m,ms||2600,0);}catch(e){}};
 const curT=()=>state.tables[state.activeTableId];
-const VER='v2.9.104';
+const VER='v2.9.105';
 
 /* ── Menù pranzo solo a pranzo (5:00-16:59) ── */
 const lunch=()=>{const h=new Date().getHours();return h>=5&&h<17;};
@@ -3472,7 +3473,7 @@ function watch(A,saveIntent){let hid=false;const h=()=>{if(document.hidden)hid=t
  watch(A,false);};}
 window.v103Log=()=>{try{return JSON.parse(localStorage.getItem(LOGK)||'[]');}catch(e){return[];}};
 })();
-}catch(e){console.error("chef-extra v2.9.104",e);}
+}catch(e){console.error("chef-extra v2.9.103",e);}
 try{(function(){
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -3519,5 +3520,40 @@ window.v104Sc=scCard;
 {const _v=switchMainView;switchMainView=function(){const r=_v.apply(this,arguments);try{setTimeout(scCard,80);}catch(e){}return r;};}
 if(typeof renderSalesCharts==='function'){const _c=renderSalesCharts;renderSalesCharts=function(){const r=_c.apply(this,arguments);try{scCard();}catch(e){}return r;};}
 })();
-}catch(e){console.error("chef-extra v2.9.104",e);}
-try{(function(){const V='v2.9.104';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+}catch(e){console.error("chef-extra v2.9.105",e);}
+try{(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toast=(m,ms)=>{try{__toast(m,ms||2600,0);}catch(e){}};
+/* ── 34 · IP della stampante nell'app ── */
+const IPK='alicetta_prt_ip',DEF='192.168.68.58';
+try{if(!localStorage.getItem(IPK))localStorage.setItem(IPK,DEF);}catch(e){}
+const getIP=()=>{try{return (localStorage.getItem(IPK)||DEF).trim();}catch(e){return DEF;}};
+const setIP=v=>{try{localStorage.setItem(IPK,String(v||'').trim());}catch(e){}['v105ip','v105ip2'].forEach(id=>{const x=$(id);if(x&&document.activeElement!==x)x.value=String(v||'').trim();});};
+const okIP=ip=>/^\d{1,3}(\.\d{1,3}){3}$/.test(ip);
+const openIP=()=>{const ip=getIP();if(!okIP(ip))return toast('Scrivi un IP valido, es. 192.168.68.58');window.open('http://'+ip+'/','_blank');};
+const copyIP=()=>{const ip=getIP();try{navigator.clipboard.writeText(ip).then(()=>toast('📋 IP copiato: '+ip+' · incollalo in RawBT'),()=>prompt('IP della stampante:',ip));}catch(e){prompt('IP della stampante:',ip);}};
+window.v105OpenPrinter=openIP;window.v105CopyIP=copyIP;
+window.v102PrtHelp=()=>{let ov=$('v102ph');if(ov)ov.remove();ov=document.createElement('div');ov.id='v102ph';ov.className='v92ov';ov.onclick=e=>{if(e.target===ov)ov.remove();};const ip=getIP();
+ ov.innerHTML='<div class="v92bx"><h3 style="margin:0 0 6px;">🖨️ Il preconto non esce?</h3>'+
+ '<div class="v102k">IP della stampante</div><div style="display:flex;gap:6px;align-items:center;"><input class="v102in" id="v105ip" inputmode="decimal" value="'+esc(ip)+'" style="flex:1;"><button type="button" class="v92b" id="v105cp" style="width:auto;margin:0;padding:10px 12px;background:#FDE047;color:#062329;">📋</button></div>'+
+ '<button type="button" class="v92b" id="v105op" style="background:#0EA5E9;color:#fff;">🌐 Apri la pagina della stampante</button>'+
+ '<div style="font-size:.78rem;font-weight:700;margin:-2px 0 6px;">Se si apre la pagina EPSON, l’IP è giusto. Se non si apre niente, l’IP è sbagliato o il telefono è su un’altra rete.</div>'+
+ '<ol style="padding-left:20px;font-weight:700;font-size:.88rem;line-height:1.4;margin:6px 0;">'+
+ '<li>Stampante <b>accesa</b>, con carta, e <b>non</b> in modalità impostazioni (dopo i fogli “Next Action”, “WebConfig” o “SimpleAP” spegnila e riaccendila senza toccare FEED).</li>'+
+ '<li>Telefono sulla stessa rete Wi‑Fi della stampante (<b>Alicetta Staff</b>).</li>'+
+ '<li>In <b>RawBT</b>: IP qui sopra, porta <b>9100</b>, driver <b>ESC/POS general</b>.</li>'+
+ '<li><b>Connection refused</b>: la stampante c’è ma rifiuta. Spegnila e riaccendila; scollega altri telefoni/tablet collegati via Bluetooth o RawBT.</li>'+
+ '<li><b>Timeout</b> o niente: IP sbagliato o rete diversa.</li>'+
+ '<li>Carta da 80 mm: in Opzioni › Prova stampante scegli <b>80 mm (48)</b>.</li></ol>'+
+ '<button type="button" class="v92b" id="v105pt" style="background:#16A34A;color:#fff;">🖨️ Stampa di prova</button><button type="button" class="v92b" id="v105x" style="background:#475569;color:#fff;">Chiudi</button></div>';
+ document.body.appendChild(ov);
+ $('v105ip').oninput=e=>setIP(e.target.value);$('v105cp').onclick=copyIP;$('v105op').onclick=openIP;
+ $('v105pt').onclick=()=>{try{v2933Test();}catch(e){toast('Prova non disponibile');}};$('v105x').onclick=()=>ov.remove();};
+// riquadro IP anche in Opzioni › Prova stampante
+setInterval(()=>{try{const el=$('n84');if(!el||$('v105box'))return;const d=document.createElement('div');d.id='v105box';d.style.cssText='margin-top:10px;padding-top:8px;border-top:2px dashed rgba(0,0,0,.2);';
+ d.innerHTML='<div style="font-weight:800;font-size:.85rem;margin-bottom:4px;">IP della stampante</div><div style="display:flex;gap:6px;"><input id="v105ip2" inputmode="decimal" value="'+esc(getIP())+'" style="flex:1;border:3px solid #062329;border-radius:12px;padding:9px;font-weight:800;font-size:1rem;"><button type="button" class="btn-note" id="v105cp2">📋 Copia</button></div><div style="display:flex;gap:6px;margin-top:6px;"><button type="button" class="btn-main" style="flex:1;" id="v105op2">🌐 Apri pagina stampante</button><button type="button" class="btn-main" style="flex:1;" id="v105h2">❓ Guida</button></div>';
+ el.appendChild(d);$('v105ip2').oninput=e=>setIP(e.target.value);$('v105cp2').onclick=copyIP;$('v105op2').onclick=openIP;$('v105h2').onclick=()=>v102PrtHelp();}catch(e){}},1500);
+})();
+}catch(e){console.error("chef-extra v2.9.105",e);}
+try{(function(){const V='v2.9.105';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
