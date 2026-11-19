@@ -5,7 +5,7 @@ try{if(localStorage.getItem('alicetta_prt_v106')!=='1'){
  const ip=(localStorage.getItem('alicetta_prt_ip')||'').trim();if(!ip||ip==='192.168.68.58')localStorage.setItem('alicetta_prt_ip','192.168.68.59');
  localStorage.setItem('alicetta_prt_v106','1');}}catch(e){}
 })();
-}catch(e){console.error("chef-extra v2.9.106",e);}
+}catch(e){console.error("chef-extra v2.9.107",e);}
 /* ====== Orologio unico (v2.9.87): un solo timer reale al posto di decine ====== */
 (function(){if(window.CBT)return;const T=new Map(),ni=window.setInterval.bind(window),nc=window.clearInterval.bind(window);let seq=1073741824,lastHid=0;
 function run(force){const now=Date.now(),h=document.hidden;if(h&&!force&&now-lastHid<5000)return;if(h)lastHid=now;T.forEach((t,id)=>{if(force||now>=t.next){t.next=now+t.ms;try{const r=t.fn.apply(window,t.args);if(r&&typeof r.catch==='function')r.catch(()=>{});}catch(e){}}});}
@@ -13,7 +13,7 @@ window.CBT=function(fn,ms){if(typeof fn!=='function')return ni(fn,ms);const id=+
 window.clearInterval=function(id){if(T.has(id))T.delete(id);else nc(id);};
 window.CBTinfo=()=>({attivi:T.size,tick:200});
 ni(()=>run(false),200);document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastHid=0;T.forEach(t=>{t.next=0;});run(false);}});})();
-/* Chef Bull Brigade - chef-extra.js v2.9.106 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.107 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2045,7 +2045,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.106';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.107';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2086,8 +2086,9 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
-['v2.9.106',['🖨️ Epson TM-m30III: preconto in automatico su carta da 80 mm (48 colonne) e IP stampante aggiornato a 192.168.68.59. Se vuoi un’altra larghezza la scegli in Opzioni › Prova stampante.']],
-['v2.9.106',['🖨️ IP della stampante nell’app (già impostato 192.168.68.58): lo copi per RawBT e con un tocco apri la pagina della stampante per verificarlo. Lo trovi nella guida ❓ e in Opzioni › Prova stampante.']],
+['v2.9.107',['🖨️ Stampa diretta sulla Epson, senza RawBT: il preconto va alla stampante e l’app ti dice “✅ stampato” oppure l’errore preciso (carta finita, coperchio aperto, permesso mancante…). In Opzioni › Prova stampante puoi scegliere Diretta Epson o RawBT.']],
+['v2.9.107',['🖨️ Epson TM-m30III: preconto in automatico su carta da 80 mm (48 colonne) e IP stampante aggiornato a 192.168.68.59. Se vuoi un’altra larghezza la scegli in Opzioni › Prova stampante.']],
+['v2.9.105',['🖨️ IP della stampante nell’app (già impostato 192.168.68.58): lo copi per RawBT e con un tocco apri la pagina della stampante per verificarlo. Lo trovi nella guida ❓ e in Opzioni › Prova stampante.']],
 ['v2.9.104',['🏷️ Vendite: “Sconti del mese” con totale, motivi, piatti più scontati, chi li ha fatti ed elenco completo.','🧾 Preconto: lo sconto del piatto va su una riga sua, sotto il piatto, senza parole spezzate.','🐞 Se il preconto non parte, il bug report arriva anche come notifica a Christian.']],
 ['v2.9.103',['🌞 Le formule del pranzo compaiono solo a pranzo (fino alle 17): la sera apri il tavolo e vedi subito i piatti. Cercando “pranzo” le trovi comunque.','🖨️ PRE-CONTO dà sempre un segnale: se RawBT non si apre o c’è un errore compare un bug report da copiare, con “Riprova con l’altro metodo” e “Mostra a schermo”.']],
 ['v2.9.102',['🏷️ Sconto su un singolo piatto: tasto fucsia accanto a ✏️ Nota, con percentuale, euro, omaggio e testo modificabile (si vede sulla riga e sul preconto).','📋 Dopo INVIA torni al riepilogo del tavolo.','❓ Preconto che non esce: guida stampante dal banner, con promemoria dell’IP e stampa di prova.','🌞 Vendite: pranzi del mese divisi tra turisti e dipendenti, con il riepilogo da copiare per le aziende.']],
@@ -3425,7 +3426,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const toast=(m,ms)=>{try{__toast(m,ms||2600,0);}catch(e){}};
 const curT=()=>state.tables[state.activeTableId];
-const VER='v2.9.106';
+const VER='v2.9.107';
 
 /* ── Menù pranzo solo a pranzo (5:00-16:59) ── */
 const lunch=()=>{const h=new Date().getHours();return h>=5&&h<17;};
@@ -3463,7 +3464,7 @@ function report(A,msg){A.msg=msg;const pb0=$('v84pb');if(pb0)pb0.remove();let ov
   if(a==='alt'){ov.remove();const how=A.how==='intent'?'rawbt':'intent';const B=Object.assign({},A,{ts:Date.now(),how:how,err:''});go(B,how);watch(B,how==='intent');}});}
 function go(A,how){if(how==='intent')window.location.href=intentUrl(A.ep);else window.location.href='rawbt:base64,'+encodeBase64UTF8(A.ep);}
 function watch(A,saveIntent){let hid=false;const h=()=>{if(document.hidden)hid=true;},bl=()=>{hid=true;};document.addEventListener('visibilitychange',h);window.addEventListener('blur',bl);
- setTimeout(()=>{document.removeEventListener('visibilitychange',h);window.removeEventListener('blur',bl);
+ setTimeout(()=>{document.removeEventListener('visibilitychange',h);window.removeEventListener('blur',bl);if(window.__v107h){window.__v107h=false;return;}
   if(hid){A.res='RawBT aperto';logA(A);if(saveIntent){try{localStorage.setItem('alicetta_prt_intent','1');}catch(e){}toast('✅ Metodo intent salvato: lo uso da ora in poi',4000);}}
   else{A.res='RawBT non si è aperto';logA(A);report(A,'RawBT non si è aperto entro 3 secondi. È installato? Prova l’altro metodo qui sotto.');}},3000);}
 // metodo intent come scelta salvata
@@ -3564,5 +3565,62 @@ setInterval(()=>{try{const el=$('n84');if(!el||$('v105box'))return;const d=docum
  d.innerHTML='<div style="font-weight:800;font-size:.85rem;margin-bottom:4px;">IP della stampante</div><div style="display:flex;gap:6px;"><input id="v105ip2" inputmode="decimal" value="'+esc(getIP())+'" style="flex:1;border:3px solid #062329;border-radius:12px;padding:9px;font-weight:800;font-size:1rem;"><button type="button" class="btn-note" id="v105cp2">📋 Copia</button></div><div style="display:flex;gap:6px;margin-top:6px;"><button type="button" class="btn-main" style="flex:1;" id="v105op2">🌐 Apri pagina stampante</button><button type="button" class="btn-main" style="flex:1;" id="v105h2">❓ Guida</button></div>';
  el.appendChild(d);$('v105ip2').oninput=e=>setIP(e.target.value);$('v105cp2').onclick=copyIP;$('v105op2').onclick=openIP;$('v105h2').onclick=()=>v102PrtHelp();}catch(e){}},1500);
 })();
-}catch(e){console.error("chef-extra v2.9.106",e);}
-try{(function(){const V='v2.9.106';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+}catch(e){console.error("chef-extra v2.9.105",e);}
+try{(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toast=(m,ms)=>{try{__toast(m,ms||2600,0);}catch(e){}};
+/* ── Stampa diretta sulla Epson (ePOS-Print), senza RawBT ── */
+const MK='alicetta_prt_mode';
+const mode=()=>{try{return localStorage.getItem(MK)||'epos';}catch(e){return 'epos';}};
+const setMode=m=>{try{localStorage.setItem(MK,m);}catch(e){}};
+const ip=()=>{try{return (localStorage.getItem('alicetta_prt_ip')||'192.168.68.59').trim();}catch(e){return '192.168.68.59';}};
+const hex=s=>{let h='';for(let i=0;i<s.length;i++)h+=(s.charCodeAt(i)&0xFF).toString(16).padStart(2,'0');return h;};
+const body=ep=>'<?xml version="1.0" encoding="utf-8"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><epos-print xmlns="http://www.epson-pos.com/schemas/2011/03/epos-print"><command>'+hex(ep)+'</command></epos-print></s:Body></s:Envelope>';
+const HINT={EPTR_COVER_OPEN:'Coperchio della stampante aperto.',EPTR_REC_EMPTY:'Carta finita.',EPTR_AUTOCUTTER:'Taglierina bloccata.',EPTR_MECHANICAL:'Errore meccanico: spegni e riaccendi.',EPTR_UNRECOVERABLE:'Errore grave: spegni e riaccendi.',DeviceNotFound:'La stampante non è pronta (devid local_printer non trovato).',EX_TIMEOUT:'La stampante non ha risposto in tempo.',SchemaError:'Dati non validi.',PrintSystemError:'Errore interno della stampante.',EX_BADPORT:'Porta della stampante occupata.'};
+async function sendOnce(url,ep,lna){const ctl=new AbortController();const tm=setTimeout(()=>ctl.abort(),12000);
+ try{const opt={method:'POST',mode:'cors',headers:{'Content-Type':'text/xml; charset=utf-8','SOAPAction':'""','If-Modified-Since':'Thu, 01 Jan 1970 00:00:00 GMT'},body:body(ep),signal:ctl.signal};if(lna)opt.targetAddressSpace='local';
+  const r=await fetch(url,opt);const t=await r.text();const ok=/success="true"/.test(t);const code=(t.match(/code="([^"]*)"/)||[])[1]||'';const stt=(t.match(/status="([^"]*)"/)||[])[1]||'';
+  return{ok,http:r.status,code,status:stt,raw:t.slice(0,300)};}
+ catch(e){return{ok:false,err:(e&&e.name==='AbortError')?'timeout 12s':String(e&&e.message||e)};}finally{clearTimeout(tm);}}
+async function eposSend(ep){const I=ip(),q='/cgi-bin/epos/service.cgi?devid=local_printer&timeout=10000',T=[];
+ let r=await sendOnce('http://'+I+q,ep,true);T.push(['http',r]);if(r.ok||r.http)return{r,T};
+ r=await sendOnce('https://'+I+q,ep,false);T.push(['https',r]);return{r,T};}
+let busy=false;
+async function eposPrint(ep,label){if(busy)return;if(!ep){toast('Niente da stampare');return;}busy=true;toast('🖨️ Stampo sulla Epson '+ip()+'…',3000);
+ let res;try{res=await eposSend(ep);}finally{busy=false;}
+ if(res.r.ok){toast('✅ '+(label||'Stampato')+' sulla Epson',3000);try{const m=$('receiptModal');if(m)m.classList.remove('active');}catch(e){}return true;}
+ fail(res,ep,label);return false;}
+function fail(res,ep,label){const r=res.r;let why='';
+ if(r.code)why=HINT[r.code]||('Codice stampante: '+r.code);
+ else if(res.T.every(x=>x[1].err))why='Il browser non riesce a raggiungere la stampante. Di solito: permesso “dispositivi sulla rete locale” non dato a Chrome, servizio ePOS-Print spento sulla stampante, oppure telefono su un’altra rete.';
+ else why='Risposta inattesa dalla stampante (HTTP '+(r.http||'-')+').';
+ const txt=['BUG REPORT STAMPA DIRETTA EPSON · Chef Bull Brigade v2.9.107','Quando: '+new Date().toLocaleString('it-IT'),'Cosa: '+(label||'stampa'),'IP: '+ip(),'Esito: '+why,...res.T.map(x=>'- '+x[0]+': '+(x[1].err?('errore '+x[1].err):('HTTP '+x[1].http+' success='+x[1].ok+' code='+(x[1].code||'-')+' status='+(x[1].status||'-')))),'Online: '+(navigator.onLine?'sì':'no'),'Dispositivo: '+navigator.userAgent].join('\n');
+ try{if(window.v104Ntfy)v104Ntfy(txt);}catch(e){}
+ let ov=$('v107r');if(ov)ov.remove();ov=document.createElement('div');ov.id='v107r';ov.className='v92ov';ov.onclick=e=>{if(e.target===ov)ov.remove();};
+ ov.innerHTML='<div class="v92bx"><h3 style="margin:0 0 4px;color:#DC2626;">🐞 Non ho stampato sulla Epson</h3><div style="font-weight:900;margin-bottom:6px;">'+esc(why)+'</div>'+
+ '<pre style="white-space:pre-wrap;font-size:.72rem;background:#0F172A;color:#E2E8F0;border-radius:10px;padding:8px;max-height:30vh;overflow:auto;margin:0 0 6px;">'+esc(txt)+'</pre>'+
+ '<button type="button" class="v92b" data-a="r" style="background:#16A34A;color:#fff;">🔁 Riprova</button>'+
+ '<button type="button" class="v92b" data-a="c" style="background:#0EA5E9;color:#fff;">🔓 Apri la stampante e accetta il certificato</button>'+
+ '<button type="button" class="v92b" data-a="w" style="background:#7C3AED;color:#fff;">📤 Stampa con RawBT questa volta</button>'+
+ '<button type="button" class="v92b" data-a="cp" style="background:#FDE047;color:#062329;">📋 Copia il bug report</button><button type="button" class="v92b" data-a="x" style="background:#475569;color:#fff;">Chiudi</button></div>';
+ document.body.appendChild(ov);
+ ov.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const a=b.dataset.a;
+  if(a==='x')ov.remove();
+  if(a==='r'){ov.remove();eposPrint(ep,label);}
+  if(a==='c'){window.open('https://'+ip()+'/','_blank');}
+  if(a==='w'){ov.remove();window.location.href='rawbt:base64,'+encodeBase64UTF8(ep);}
+  if(a==='cp'){try{navigator.clipboard.writeText(txt).then(()=>toast('📋 Copiato'),()=>prompt('Copia:',txt));}catch(e){prompt('Copia:',txt);}}});}
+window.v107Print=eposPrint;window.v107Mode=mode;
+// tutte le stampe passano dalla Epson se la modalità è "diretta"
+{const _d=dispatchPrint;dispatchPrint=function(pv,ep){if(mode()==='epos'&&state.useRawBT){state.lastEscPosPayload=ep;window.__v103pv=pv;window.__v107h=true;eposPrint(ep,'Stampa');return;}return _d.apply(this,arguments);};}
+{const _t=triggerRawBTFromModal;triggerRawBTFromModal=function(){if(mode()==='epos'){return eposPrint(state.lastEscPosPayload,'Preconto');}return _t.apply(this,arguments);};}
+// riquadro in Opzioni › Prova stampante
+const testEp=()=>{const E='\x1B',G='\x1D';return E+'@'+E+'t\x10'+E+'a\x01'+E+'!\x30'+'PROVA\n'+E+'!\x00'+'Stampa diretta Epson\nChef Bull Brigade\n'+new Date().toLocaleString('it-IT')+'\n'+E+'a\x00'+'-'.repeat(48)+'\nSe leggi questo foglio, la stampa\ndiretta funziona: niente RawBT.\n\n\n\n'+G+'V\x42\x00';};
+setInterval(()=>{try{const box=$('v105box');if(!box||$('v107box'))return;const d=document.createElement('div');d.id='v107box';d.style.cssText='margin-top:10px;';
+ const draw=()=>{const m=mode();d.innerHTML='<div style="font-weight:800;font-size:.85rem;margin-bottom:4px;">Come stampare</div><div style="display:flex;gap:6px;"><button type="button" class="btn-note" data-m="epos" style="flex:1;'+(m==='epos'?'background:#FDE047;font-weight:900;':'')+'">🖨️ Diretta Epson</button><button type="button" class="btn-note" data-m="rawbt" style="flex:1;'+(m==='rawbt'?'background:#FDE047;font-weight:900;':'')+'">📤 RawBT</button></div><button type="button" class="btn-main btn-print" style="width:100%;margin-top:6px;" id="v107t">🖨️ Prova stampa diretta</button>';
+  d.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{setMode(b.dataset.m);draw();toast(b.dataset.m==='epos'?'Stampa diretta sulla Epson':'Stampa con RawBT');});$('v107t').onclick=()=>eposPrint(testEp(),'Prova');};
+ draw();box.appendChild(d);}catch(e){}},1500);
+})();
+}catch(e){console.error("chef-extra v2.9.107",e);}
+try{(function(){const V='v2.9.107';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
