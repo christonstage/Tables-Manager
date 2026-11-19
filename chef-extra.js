@@ -5,7 +5,7 @@ window.CBT=function(fn,ms){if(typeof fn!=='function')return ni(fn,ms);const id=+
 window.clearInterval=function(id){if(T.has(id))T.delete(id);else nc(id);};
 window.CBTinfo=()=>({attivi:T.size,tick:200});
 ni(()=>run(false),200);document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastHid=0;T.forEach(t=>{t.next=0;});run(false);}});})();
-/* Chef Bull Brigade - chef-extra.js v2.9.99 - funzioni aggiuntive caricate da index.html */
+/* Chef Bull Brigade - chef-extra.js v2.9.101 - funzioni aggiuntive caricate da index.html */
 try{
 (function(){
 const $=id=>document.getElementById(id);
@@ -2037,7 +2037,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.99';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.101';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2078,8 +2078,10 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.101',['🌞 Pranzo: antipasto+primo e antipasto+secondo insieme fanno 2 mandate (antipasti, poi primo e secondo insieme). Le 3 mandate restano solo con il Menù Completo.']],
+['v2.9.101',['📋 Aprendo un tavolo con ordini vedi prima il riepilogo comanda, con il totale in grande e il tasto ➕ Aggiungi dal menù.','💶 Il totale speso del tavolo è sempre in evidenza (con i pezzi ancora da inviare in cucina).']],
 ['v2.9.99',['🌞 Pranzo: puoi aggiungere più formule (anche miste, turisti e dipendenti) e scegliere i piatti di tutti nella stessa schermata.']],
-['v2.9.99',['🌞 Formule del pranzo: la formula viene sempre aggiunta al tavolo, anche se non hai scelto tutti i piatti.','👆 I piatti del pranzo si selezionano con un tocco (diventano verdi ✅), anche mentre scorri la lista.']],
+['v2.9.98',['🌞 Formule del pranzo: la formula viene sempre aggiunta al tavolo, anche se non hai scelto tutti i piatti.','👆 I piatti del pranzo si selezionano con un tocco (diventano verdi ✅), anche mentre scorri la lista.']],
 ['v2.9.97',['🌞 Formule del pranzo con due prezzi: a sinistra turisti (35 · 29 · 25 €), a destra dipendenti in convenzione (30 · 25 · 22 €).','🧾 Nel conto la formula dei dipendenti compare con “· Dipendenti”, così la distingui nelle vendite.']],
 ['v2.9.95',['🧮 Controllo formule del pranzo: prima di inviare in cucina, se antipasti, primi o secondi non tornano con le formule inserite, l’app avvisa e chiede conferma.','🌞 Menù QR: il tasto grande del pranzo ora compare anche quando il menù si apre dalla carta NFC o da un link con altri parametri.']],
 ['v2.9.92',['🌞 Tolto il vecchio “Menu pranzo completo 30 €”: in “1 Coperto” ci sono le 3 formule (35 · 29 · 25 €).','🍽️ Toccando una formula scegli antipasto, primo e/o secondo tra quelli del giorno: la formula va nel conto, i piatti vanno in cucina a 0 € nella mandata giusta. C’è anche “Aggiungi e scegli per un’altra persona”.']],
@@ -3259,7 +3261,7 @@ async function chooser(i,emp){if(!OPTS[i])return;const t=state.tables[state.acti
  const add=()=>{const miss=[];ppl.forEach((p,n)=>{if(!okOf(p.i))return;const m=grp(p.i).filter(x=>p.sel[x.k]==null).map(x=>KIND[x.k][0].toLowerCase());if(m.length)miss.push((ppl.length>1?'Persona '+(n+1)+': ':'')+m.join(', '));});
   if(miss.length&&!confirm('Non hai scelto:\n'+miss.join('\n')+'\n\nOK = aggiungo comunque al tavolo\nAnnulla = torno a scegliere'))return;
   ppl.forEach(p=>{const o=mk(p.i,p.emp);const old=state.currentMandata;try{state.currentMandata=0;addItemToTable({id:o.id,name:o.name,cat:'0 Menù pranzo',price:o.p});}finally{state.currentMandata=old;}
-   if(okOf(p.i))grp(p.i).forEach(g=>{if(p.sel[g.k]==null)return;const it=g.s.items[p.sel[g.k]];const id='L_'+String(it.n).toLowerCase().replace(/[^a-z0-9]+/g,'_').slice(0,40);const old2=state.currentMandata;try{state.currentMandata=KIND[g.k][2];addItemToTable({id,name:it.n,cat:({1:'3 Antipasti',2:'4 Primi Piatti',3:'5 Secondi'})[KIND[g.k][2]],price:0});}finally{state.currentMandata=old2;}});});
+   if(okOf(p.i))grp(p.i).forEach(g=>{if(p.sel[g.k]==null)return;const it=g.s.items[p.sel[g.k]];const id='L_'+String(it.n).toLowerCase().replace(/[^a-z0-9]+/g,'_').slice(0,40);const md=(g.k==='s'&&p.i!==0)?2:KIND[g.k][2];const old2=state.currentMandata;try{state.currentMandata=md;addItemToTable({id,name:it.n,cat:({1:'3 Antipasti',2:'4 Primi Piatti',3:'5 Secondi'})[KIND[g.k][2]],price:0});}finally{state.currentMandata=old2;}});});
   toast('✅ '+ppl.length+(ppl.length>1?' formule aggiunte':' formula aggiunta')+(miss.length?' · alcuni piatti mancano':''));ov.remove();};
  const act=b=>{if(b.dataset.lk!=null)return pick(b);
   if(b.dataset.ps!=null){cur=Number(b.dataset.ps);return keep(1);}
@@ -3300,4 +3302,23 @@ window.v95Check=function(t){const need={a:0,p:0,s:0},have={a:0,p:0,s:0};let f=0;
 if(typeof sendOrderToKitchen==='function'){const _s=sendOrderToKitchen;sendOrderToKitchen=async function(){try{const t=state.tables[state.activeTableId];const msg=t&&v95Check(t);if(msg&&!confirm('🌞 Le formule del pranzo non tornano:\n'+msg+'\n\nInviare lo stesso in cucina?'))return;}catch(e){}return _s.apply(this,arguments);};}
 })();
 }catch(e){console.error("chef-extra v2.9.95",e);}
-try{(function(){const V='v2.9.99';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+try{(function(){
+const $=id=>document.getElementById(id);
+const v=$('viewOrder');if(!v)return;
+const st=document.createElement('style');st.textContent='#viewOrder.v100s .v100m{display:none!important}#v100bar{display:none;align-items:center;gap:10px;margin:6px 0 8px;padding:10px 12px;border:3px solid #062329;border-radius:16px;background:#FDE047;color:#062329;box-shadow:0 4px 0 #062329}#v100bar.on{display:flex}#v100bar .v100t{flex:1;min-width:0}#v100bar small{display:block;font-weight:900;font-size:.72rem;letter-spacing:.05em}#v100bar b{display:block;font-size:1.9rem;line-height:1.05;font-weight:900}#v100bar .v100x{display:block;font-weight:800;font-size:.78rem}#v100bar button{border:3px solid #062329;border-radius:14px;background:#062329;color:#FDE047;font-weight:900;font-size:.95rem;padding:12px 10px;box-shadow:0 3px 0 rgba(0,0,0,.4);max-width:48%}#v100bar button:active{transform:translateY(3px);box-shadow:none}';document.head.appendChild(st);
+const lab=[...v.children].find(e=>e.children.length===0&&/STAI INSERENDO/i.test(e.textContent||''));
+[lab,v.querySelector('.mandata-bar'),$('voloBtn'),$('catBar'),v.querySelector('.search-wrap'),$('menuGrid')].forEach(e=>{if(e)e.classList.add('v100m');});
+const bar=document.createElement('div');bar.id='v100bar';bar.innerHTML='<div class="v100t"><small>TOTALE TAVOLO</small><b id="v100tot">€ 0,00</b><span class="v100x" id="v100sub"></span></div><button type="button" id="v100go">➕ Aggiungi dal menù</button><button type="button" id="v100back">📋 Riepilogo</button>';
+const hd=v.querySelector('.order-header');if(hd)hd.after(bar);else v.prepend(bar);
+const mode=s=>{v.classList.toggle('v100s',!!s);const g=$('v100go'),b=$('v100back');if(g)g.style.display=s?'':'none';if(b)b.style.display=s?'none':'';};
+const top=()=>{try{window.scrollTo(0,0);v.scrollTop=0;}catch(e){}};
+$('v100go').onclick=()=>{mode(0);top();};
+$('v100back').onclick=()=>{mode(1);top();};
+const paint=()=>{const t=state.tables[state.activeTableId];const has=!!(t&&t.items&&t.items.length);bar.classList.toggle('on',has);if(!has){mode(0);return;}
+ const tot=getTableTotal(t),pz=t.items.reduce((s,i)=>s+(Number(i.qty)||0),0),dis=t.items.filter(i=>!isItemSent(t,i)).reduce((s,i)=>s+(Number(i.qty)||0),0);
+ $('v100tot').textContent='€ '+formatPrice(tot);$('v100sub').textContent=pz+' '+(pz===1?'pezzo':'pezzi')+(dis?' · ⚠️ '+dis+' da inviare in cucina':' · tutto inviato');};
+{const _o=openTable;openTable=function(id){const r=_o.apply(this,arguments);try{const t=state.tables[id];mode(t&&t.items&&t.items.length?1:0);paint();top();}catch(e){}return r;};}
+{const _r=renderOrderScreen;renderOrderScreen=function(){const r=_r.apply(this,arguments);try{paint();}catch(e){}return r;};}
+})();
+}catch(e){console.error("chef-extra v2.9.101",e);}
+try{(function(){const V='v2.9.101';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
