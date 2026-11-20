@@ -890,7 +890,7 @@ try{render(currentTab);}catch(e){}paint();
 })();
 </script>
 
-<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.113</div>
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.114</div>
 <script>
 /* ===== v2.9.90 · Dividi il conto dal QR (?split=CODICE) ===== */
 (function(){const q=new URLSearchParams(location.search),code=(q.get('split')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length!==6)return;
@@ -963,11 +963,6 @@ try{render(currentTab);}catch(e){}paint();
  const J=p=>fetch(FBU+p+'.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
  const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
  const B='display:block;box-sizing:border-box;width:100%;margin:8px 0 0;padding:15px;border-radius:16px;font-weight:900;font-size:1.05rem;text-align:center;text-decoration:none;border:3px solid #062329;box-shadow:0 5px 0 #062329;cursor:pointer;';
- /* carta NFC unica: scegli il tavolo */
- if(q.has('hub')&&!q.has('club')&&!q.has('r')){J('/fidelity/pub/pcl').then(d=>{const L2=Object.entries(d||{}).filter(([k,v])=>v&&Date.now()-(Number(v.ts)||0)<3*3600000).sort((a,b)=>String(a[1].t).localeCompare(String(b[1].t),'it',{numeric:true}));if(!L2.length)return;
-  const box=document.createElement('div');box.id='pcPick';box.style.cssText='margin:0 0 14px;padding:12px;border-radius:20px;background:linear-gradient(160deg,#7C3AED,#FF2D95);border:3px solid #062329;box-shadow:0 6px 0 #062329;color:#fff;';
-  box.innerHTML='<div style="font-weight:900;font-size:1.15rem;text-align:center;margin-bottom:6px;">'+T.pick+'</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">'+L2.map(([k,v])=>'<a href="'+location.pathname+'?pc='+encodeURIComponent(k)+'" style="display:block;padding:14px 6px;border-radius:14px;background:#fff;color:#062329;font-weight:900;text-align:center;text-decoration:none;font-size:1.05rem;">'+esc(v.t)+' ›</a>').join('')+'</div>';
-  const put=()=>{const mn=document.querySelector('main')||document.body;if(mn.firstChild!==box)mn.insertBefore(box,mn.firstChild);};put();[400,1200,3000,6000].forEach(t=>setTimeout(put,t));});}
  /* paga dal telefono, nella pagina del preconto */
  if(q.has('pc')){const id=(q.get('pc')||'').replace(/[^A-Za-z0-9_]/g,'').slice(0,20);let cfg=null,pc=null,done=false;
   Promise.all([J('/fidelity/pub/paycfg'),J('/fidelity/pub/pc_'+id)]).then(([c,p])=>{cfg=c;pc=p;});
@@ -979,6 +974,36 @@ try{render(currentTab);}catch(e){}paint();
  if(q.has('r')){const rid=(q.get('r')||'').replace(/[^a-z0-9]/gi,'').slice(0,20);J('/ricevute/'+rid).then(R=>{if(!R||!Array.isArray(R.it))return;const dish=R.it.filter(x=>x&&!/coperto|acqua|caff|vino|birra|bibit|bevand|amaro|limoncell|calice|bottigl/i.test(x.n||'')).sort((a,b)=>(Number(b.p)||0)-(Number(a.p)||0))[0];
   const go=()=>{const c=document.getElementById('cReview'),p=document.getElementById('pRev'),bill=document.getElementById('cBill');if(!c||!p)return false;if(dish)p.textContent=T.rv(dish.n);if(bill&&c.previousElementSibling!==bill&&bill.parentNode===c.parentNode)bill.parentNode.insertBefore(c,bill.nextSibling);c.style.border='3px solid #FBBF24';return true;};
   let n=0;const iv=setInterval(()=>{go();if(++n>24)clearInterval(iv);},500);});}
+})();
+</script>
+<script>
+/* ===== v2.9.114 · Carta NFC intelligente: ultimo preconto · menù del pranzo a pranzo · abbinamento vini ===== */
+(function(){const q=new URLSearchParams(location.search);const FBU='https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app';
+ const J=p=>fetch(FBU+p+'.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
+ const L=((localStorage.getItem('alicetta_lang')||(document.getElementById('language')||{}).value||navigator.language||'it').slice(0,2)).toLowerCase();
+ const TT={it:{pc:'🧾 Il tuo preconto',w:'🍷 Che vino abbino?',wh:'🍷 Abbina il vino',ws:'Tocca i piatti che hai scelto: ti consigliamo il vino della nostra carta.',wn:'Scegli almeno un piatto.',wx:'Chiudi',wb:'Chiedi al cameriere: te lo portiamo subito.',gl:'calice/bottiglia'},en:{pc:'🧾 Your bill',w:'🍷 Which wine?',wh:'🍷 Wine pairing',ws:'Tap the dishes you chose: we suggest a wine from our list.',wn:'Pick at least one dish.',wx:'Close',wb:'Ask your waiter: we will bring it right away.',gl:'glass/bottle'},de:{pc:'🧾 Ihre Rechnung',w:'🍷 Welcher Wein?',wh:'🍷 Weinempfehlung',ws:'Tippen Sie auf Ihre Gerichte: wir empfehlen einen Wein aus unserer Karte.',wn:'Wählen Sie mindestens ein Gericht.',wx:'Schließen',wb:'Fragen Sie den Kellner: wir bringen ihn sofort.',gl:'Glas/Flasche'},fr:{pc:'🧾 Votre addition',w:'🍷 Quel vin ?',wh:'🍷 Accord mets-vin',ws:'Touchez les plats choisis : nous vous conseillons un vin de notre carte.',wn:'Choisissez au moins un plat.',wx:'Fermer',wb:'Demandez au serveur : nous vous l’apportons tout de suite.',gl:'verre/bouteille'},es:{pc:'🧾 Tu cuenta',w:'🍷 ¿Qué vino?',wh:'🍷 Maridaje',ws:'Toca los platos que elegiste: te sugerimos un vino de nuestra carta.',wn:'Elige al menos un plato.',wx:'Cerrar',wb:'Pide al camarero: te lo traemos enseguida.',gl:'copa/botella'}};const T=TT[L]||TT.en;
+ const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));const eur=n=>'€ '+(Math.round((Number(n)||0)*100)/100).toFixed(2).replace('.',',');
+ const special=['pranzo','speciale','club','r','gift','split','rid','pc','nr'].some(k=>q.has(k));
+ /* 19 · Carta NFC che sa l'ora (carta unica e tag dei tavoli) */
+ if((q.has('hub')||q.has('tb'))&&!special){
+  Promise.all([J('/fidelity/pub/pcl'),J('/fidelity/pub/lunch')]).then(([pcl,lu])=>{
+   const last=Object.entries(pcl||{}).filter(([k,v])=>v&&Number(v.ts)).sort((a,b)=>b[1].ts-a[1].ts)[0];const age=last?Date.now()-last[1].ts:Infinity;
+   if(last&&age<10*60000){location.replace(location.pathname+'?pc='+encodeURIComponent(last[0]));return;}
+   const h=new Date().getHours(),lunchOk=lu&&(lu.secs||[]).some(s=>(s.items||[]).length);
+   if(h>=11&&h<16&&lunchOk&&!sessionStorage.getItem('alicetta_lunch_seen')){try{sessionStorage.setItem('alicetta_lunch_seen','1');}catch(e){}location.replace(location.pathname+'?pranzo=1'+(q.get('tb')?'&tb='+encodeURIComponent(q.get('tb')):''));return;}
+   if(last&&age<30*60000&&!document.getElementById('pcLinkBig')){const a=document.createElement('a');a.id='pcLast';a.href=location.pathname+'?pc='+encodeURIComponent(last[0]);a.innerHTML='<span style="display:block;font-size:1.3rem;">'+T.pc+' ›</span>';a.style.cssText='display:block;margin:0 0 14px;padding:16px 14px;border-radius:22px;text-align:center;text-decoration:none;font-weight:900;color:#fff;background:linear-gradient(160deg,#7C3AED,#FF2D95);border:3px solid #062329;box-shadow:0 6px 0 #062329;';
+    const put=()=>{const mn=document.querySelector('main')||document.body;if(mn.firstChild!==a)mn.insertBefore(a,mn.firstChild);};put();[400,1500,4000].forEach(t=>setTimeout(put,t));}});}
+ /* 21 · Abbinamento vini (preparato da Gemini dal titolare, qui solo letto) */
+ if(special)return;
+ J('/fidelity/pub/winepair').then(W=>{if(!W||!W.pairs||!Object.keys(W.pairs).length)return;
+  const btn=document.createElement('button');btn.type='button';btn.id='wpBtn';btn.textContent=T.w;btn.style.cssText='position:fixed;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:9000;border:3px solid #062329;border-radius:999px;padding:12px 16px;font-weight:900;font-size:1rem;background:#7F1D1D;color:#fff;box-shadow:0 5px 0 #062329,0 10px 20px rgba(0,0,0,.3);';document.body.appendChild(btn);
+  const dishes=Object.keys(W.pairs).sort((a,b)=>a.localeCompare(b,'it'));const sel=new Set();
+  const trn=n=>(typeof TRANSLATIONS!=='undefined'&&TRANSLATIONS[n]&&(TRANSLATIONS[n][L]||(L!=='it'?TRANSLATIONS[n].en:'')))||n;
+  btn.onclick=()=>{const ov=document.createElement('div');ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(2,6,23,.7);display:flex;align-items:flex-end;justify-content:center;font-family:system-ui,sans-serif;';document.body.appendChild(ov);ov.onclick=e=>{if(e.target===ov)ov.remove();};
+   const draw=()=>{const score={};sel.forEach(d=>(W.pairs[d]||[]).forEach((x,i)=>{const s=score[x.w]=score[x.w]||{n:0,why:[]};s.n+=2-i;const why=x[L]||x.en||x.it;if(why)s.why.push(trn(d)+': '+why);}));
+    const top=Object.entries(score).sort((a,b)=>b[1].n-a[1].n).slice(0,3);
+    ov.innerHTML='<div style="background:#FFF7ED;color:#062329;width:100%;max-width:520px;max-height:88vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom,0px));box-sizing:border-box;"><div style="font-weight:900;font-size:1.3rem;">'+T.wh+'</div><div style="font-weight:600;font-size:.9rem;margin:4px 0 10px;">'+T.ws+'</div><div style="display:flex;flex-wrap:wrap;gap:6px;">'+dishes.map((d,i)=>'<button type="button" data-i="'+i+'" style="border:2px solid #062329;border-radius:999px;padding:8px 12px;font-weight:800;font-size:.85rem;background:'+(sel.has(d)?'#062329':'#fff')+';color:'+(sel.has(d)?'#fff':'#062329')+';">'+esc(trn(d))+'</button>').join('')+'</div><div style="margin-top:12px;">'+(top.length?top.map(([w,s],i)=>{const v=(W.wines||{})[w]||{};return '<div style="background:#fff;border:3px solid '+(i?'#94A3B8':'#7F1D1D')+';border-radius:16px;padding:12px;margin-bottom:8px;"><div style="font-weight:900;font-size:1.05rem;">'+(i?'🍷 ':'🏆 ')+esc(w)+(v.p?' <span style="float:right;">'+eur(v.p)+'</span>':'')+'</div>'+(v.t?'<div style="font-weight:700;font-size:.8rem;opacity:.8;">'+esc(v.t)+'</div>':'')+'<div style="font-weight:600;font-size:.85rem;margin-top:4px;">'+s.why.slice(0,2).map(esc).join('<br>')+'</div></div>';}).join('')+'<div style="font-weight:700;font-size:.85rem;text-align:center;">'+T.wb+'</div>':'<div style="font-weight:700;opacity:.7;">'+T.wn+'</div>')+'</div><button type="button" data-x="1" style="display:block;width:100%;margin-top:10px;border:0;border-radius:14px;padding:13px;font-weight:900;background:#062329;color:#fff;">'+T.wx+'</button></div>';
+    ov.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{const d=dishes[b.dataset.i];sel.has(d)?sel.delete(d):sel.add(d);draw();});ov.querySelector('[data-x]').onclick=()=>ov.remove();};draw();};});
 })();
 </script>
 </body>
