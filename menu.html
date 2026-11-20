@@ -890,7 +890,7 @@ try{render(currentTab);}catch(e){}paint();
 })();
 </script>
 
-<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.112</div>
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.113</div>
 <script>
 /* ===== v2.9.90 · Dividi il conto dal QR (?split=CODICE) ===== */
 (function(){const q=new URLSearchParams(location.search),code=(q.get('split')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length!==6)return;
@@ -953,6 +953,32 @@ try{render(currentTab);}catch(e){}paint();
   a.innerHTML='<span style="display:block;font-size:1.35rem;">'+T.b+'</span><span style="display:block;font-size:1.05rem;margin-top:4px;">'+esc(d.t)+' · '+eur(d.tot)+' ›</span>';
   a.style.cssText='display:block;margin:0 0 14px;padding:16px 14px;border-radius:22px;text-align:center;text-decoration:none;font-weight:900;color:#fff;background:linear-gradient(160deg,#7C3AED,#FF2D95);border:3px solid #062329;box-shadow:0 6px 0 #062329;';
   const put=()=>{const mn=document.querySelector('main')||document.body;if(mn.firstChild!==a)mn.insertBefore(a,mn.firstChild);};put();[400,1200,3000,6000].forEach(t=>setTimeout(put,t));});
+})();
+</script>
+<script>
+/* ===== v2.9.113 · Carta NFC unica (scegli il tavolo) · Paga dal telefono · Recensione col tuo piatto ===== */
+(function(){const q=new URLSearchParams(location.search);const FBU='https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app';
+ const L=((localStorage.getItem('alicetta_lang')||(document.getElementById('language')||{}).value||navigator.language||'it').slice(0,2)).toLowerCase();
+ const TT={it:{pick:'🧾 Il tuo preconto: scegli il tuo tavolo',pay:'💳 Paga ora con il telefono',paid:'✅ Ho pagato',paidOk:'Grazie! Abbiamo avvisato il cameriere 🙏',rv:d=>'Ti è piaciuto «'+d+'»? Raccontalo su Google: per una piccola trattoria ogni recensione conta tantissimo 🙏'},en:{pick:'🧾 Your bill: choose your table',pay:'💳 Pay now with your phone',paid:'✅ I have paid',paidOk:'Thank you! We have told your waiter 🙏',rv:d=>'Did you enjoy «'+d+'»? Tell others on Google: for a small trattoria every review means a lot 🙏'},de:{pick:'🧾 Ihre Rechnung: wählen Sie Ihren Tisch',pay:'💳 Jetzt mit dem Handy bezahlen',paid:'✅ Ich habe bezahlt',paidOk:'Danke! Wir haben den Kellner informiert 🙏',rv:d=>'Hat Ihnen «'+d+'» geschmeckt? Erzählen Sie es auf Google: für eine kleine Trattoria zählt jede Bewertung 🙏'},fr:{pick:'🧾 Votre addition : choisissez votre table',pay:'💳 Payer maintenant avec le téléphone',paid:"✅ J'ai payé",paidOk:'Merci ! Nous avons prévenu le serveur 🙏',rv:d=>'Vous avez aimé «'+d+'» ? Dites-le sur Google : pour une petite trattoria, chaque avis compte 🙏'},es:{pick:'🧾 Tu cuenta: elige tu mesa',pay:'💳 Paga ahora con el móvil',paid:'✅ He pagado',paidOk:'¡Gracias! Hemos avisado al camarero 🙏',rv:d=>'¿Te gustó «'+d+'»? Cuéntalo en Google: para una pequeña trattoria cada reseña cuenta mucho 🙏'}};const T=TT[L]||TT.en;
+ const J=p=>fetch(FBU+p+'.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
+ const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const B='display:block;box-sizing:border-box;width:100%;margin:8px 0 0;padding:15px;border-radius:16px;font-weight:900;font-size:1.05rem;text-align:center;text-decoration:none;border:3px solid #062329;box-shadow:0 5px 0 #062329;cursor:pointer;';
+ /* carta NFC unica: scegli il tavolo */
+ if(q.has('hub')&&!q.has('club')&&!q.has('r')){J('/fidelity/pub/pcl').then(d=>{const L2=Object.entries(d||{}).filter(([k,v])=>v&&Date.now()-(Number(v.ts)||0)<3*3600000).sort((a,b)=>String(a[1].t).localeCompare(String(b[1].t),'it',{numeric:true}));if(!L2.length)return;
+  const box=document.createElement('div');box.id='pcPick';box.style.cssText='margin:0 0 14px;padding:12px;border-radius:20px;background:linear-gradient(160deg,#7C3AED,#FF2D95);border:3px solid #062329;box-shadow:0 6px 0 #062329;color:#fff;';
+  box.innerHTML='<div style="font-weight:900;font-size:1.15rem;text-align:center;margin-bottom:6px;">'+T.pick+'</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">'+L2.map(([k,v])=>'<a href="'+location.pathname+'?pc='+encodeURIComponent(k)+'" style="display:block;padding:14px 6px;border-radius:14px;background:#fff;color:#062329;font-weight:900;text-align:center;text-decoration:none;font-size:1.05rem;">'+esc(v.t)+' ›</a>').join('')+'</div>';
+  const put=()=>{const mn=document.querySelector('main')||document.body;if(mn.firstChild!==box)mn.insertBefore(box,mn.firstChild);};put();[400,1200,3000,6000].forEach(t=>setTimeout(put,t));});}
+ /* paga dal telefono, nella pagina del preconto */
+ if(q.has('pc')){const id=(q.get('pc')||'').replace(/[^A-Za-z0-9_]/g,'').slice(0,20);let cfg=null,pc=null,done=false;
+  Promise.all([J('/fidelity/pub/paycfg'),J('/fidelity/pub/pc_'+id)]).then(([c,p])=>{cfg=c;pc=p;});
+  setInterval(()=>{const a=[...document.querySelectorAll('a')].find(x=>/menu\.html$|\/$/.test(x.getAttribute('href')||'')&&x.closest('div[style*="max-width:520px"]'));if(!a||!pc||document.getElementById('pcPay'))return;
+   const amt=(Math.round((Number(pc.tot)||0)*100)/100).toFixed(2);const d=document.createElement('div');d.id='pcPay';
+   d.innerHTML=(cfg&&cfg.url&&/^https:\/\//i.test(cfg.url)?'<a target="_blank" rel="noopener" href="'+esc(cfg.url.replace(/\{importo\}/g,amt))+'" style="'+B+'background:#22C55E;color:#fff;">'+T.pay+' · € '+amt.replace('.',',')+'</a><button type="button" id="pcPaid" style="'+B+'background:#fff;color:#062329;">'+T.paid+'</button>':'');
+   a.parentNode.insertBefore(d,a);const pb=document.getElementById('pcPaid');if(pb)pb.onclick=async()=>{if(done)return;done=true;try{await fetch(FBU+'/fidelity/inbox.json',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'paid',tid:id,amt:Number(amt),ts:Date.now()})});pb.textContent=T.paidOk;pb.style.background='#DCFCE7';}catch(e){done=false;}};},800);}
+ /* recensione col piatto del cliente, dopo il pagamento */
+ if(q.has('r')){const rid=(q.get('r')||'').replace(/[^a-z0-9]/gi,'').slice(0,20);J('/ricevute/'+rid).then(R=>{if(!R||!Array.isArray(R.it))return;const dish=R.it.filter(x=>x&&!/coperto|acqua|caff|vino|birra|bibit|bevand|amaro|limoncell|calice|bottigl/i.test(x.n||'')).sort((a,b)=>(Number(b.p)||0)-(Number(a.p)||0))[0];
+  const go=()=>{const c=document.getElementById('cReview'),p=document.getElementById('pRev'),bill=document.getElementById('cBill');if(!c||!p)return false;if(dish)p.textContent=T.rv(dish.n);if(bill&&c.previousElementSibling!==bill&&bill.parentNode===c.parentNode)bill.parentNode.insertBefore(c,bill.nextSibling);c.style.border='3px solid #FBBF24';return true;};
+  let n=0;const iv=setInterval(()=>{go();if(++n>24)clearInterval(iv);},500);});}
 })();
 </script>
 </body>
