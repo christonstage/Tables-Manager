@@ -890,7 +890,7 @@ try{render(currentTab);}catch(e){}paint();
 })();
 </script>
 
-<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.95</div>
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.112</div>
 <script>
 /* ===== v2.9.90 · Dividi il conto dal QR (?split=CODICE) ===== */
 (function(){const q=new URLSearchParams(location.search),code=(q.get('split')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length!==6)return;
@@ -921,7 +921,7 @@ try{render(currentTab);}catch(e){}paint();
 </script>
 <script>
 /* ===== v2.9.95 · Collegamento grande al menù del pranzo dalla pagina del menù (anche da NFC) ===== */
-(function(){const q=new URLSearchParams(location.search);if(['pranzo','speciale','club','r','gift','split','rid'].some(k=>q.has(k)))return;
+(function(){const q=new URLSearchParams(location.search);if(['pranzo','speciale','club','r','gift','split','rid','pc'].some(k=>q.has(k)))return;
  const h=new Date().getHours();if(h<5||h>=16)return;
  const FBU='https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app';
  const L=((localStorage.getItem('alicetta_lang')||navigator.language||'it').slice(0,2)).toLowerCase();
@@ -934,7 +934,25 @@ try{render(currentTab);}catch(e){}paint();
   const a=document.createElement('a');a.id='lunchLinkBig';const tb=q.get('tb');a.href=location.pathname+'?pranzo=1'+(tb?'&tb='+encodeURIComponent(tb):'');
   a.innerHTML='<span style="display:block;font-size:1.45rem;letter-spacing:.04em;">'+tx[0]+'</span><span style="display:block;font-size:.95rem;font-weight:800;margin-top:4px;">'+tx[1]+' ›</span>';
   a.style.cssText='display:block;margin:12px 12px 6px;padding:18px 14px;border-radius:22px;text-align:center;text-decoration:none;font-weight:900;color:#062329;background:linear-gradient(160deg,#FDE047,#F59E0B 55%,#FF5733);border:3px solid #062329;box-shadow:0 6px 0 #062329,0 14px 24px rgba(0,0,0,.25);position:relative;z-index:5;';
-  document.body.insertBefore(a,document.body.firstChild);}).catch(()=>{});
+  a.style.margin='0 0 14px';const put=()=>{const mn=document.querySelector('main')||document.body;if(mn.firstChild!==a)mn.insertBefore(a,mn.firstChild);};put();[300,1000,2500,5000].forEach(t=>setTimeout(put,t));}).catch(()=>{});
+})();
+</script>
+<script>
+/* ===== v2.9.112 · Preconto sul telefono del cliente (?pc=TAVOLO) e dal tag NFC del tavolo ===== */
+(function(){const q=new URLSearchParams(location.search);const FBU='https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app';
+ const L=((localStorage.getItem('alicetta_lang')||(document.getElementById('language')||{}).value||navigator.language||'it').slice(0,2)).toLowerCase();
+ const TT={it:{h:'Il tuo preconto',b:'🧾 Il tuo preconto',tot:'Totale',cop:'coperti',n:'Il conto si paga al tavolo o alla cassa.',x:'Preconto non disponibile: chiedi al cameriere.',menu:'📖 Torna al menù',sc:'Sconto'},en:{h:'Your bill preview',b:'🧾 Your bill preview',tot:'Total',cop:'covers',n:'Please pay at the table or at the till.',x:'Bill not available: please ask your waiter.',menu:'📖 Back to the menu',sc:'Discount'},de:{h:'Ihre Rechnungsvorschau',b:'🧾 Ihre Rechnungsvorschau',tot:'Gesamt',cop:'Gedecke',n:'Bezahlung am Tisch oder an der Kasse.',x:'Rechnung nicht verfügbar: fragen Sie bitte den Kellner.',menu:'📖 Zurück zur Karte',sc:'Rabatt'},fr:{h:'Votre pré-addition',b:'🧾 Votre pré-addition',tot:'Total',cop:'couverts',n:'Réglez à table ou à la caisse.',x:'Addition indisponible : demandez au serveur.',menu:'📖 Retour au menu',sc:'Remise'},es:{h:'Tu precuenta',b:'🧾 Tu precuenta',tot:'Total',cop:'cubiertos',n:'Se paga en la mesa o en caja.',x:'Cuenta no disponible: pregunta al camarero.',menu:'📖 Volver al menú',sc:'Descuento'}};const T=TT[L]||TT.en;
+ const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));const eur=n=>'€ '+(Math.round((Number(n)||0)*100)/100).toFixed(2).replace('.',',');
+ const id=(q.get('pc')||q.get('tb')||'').replace(/[^A-Za-z0-9_]/g,'').slice(0,20);if(!id)return;
+ const get=()=>fetch(FBU+'/fidelity/pub/pc_'+id+'.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>d&&Date.now()-(Number(d.ts)||0)<3*3600000?d:null).catch(()=>null);
+ if(q.has('pc')){const ov=document.createElement('div');ov.style.cssText='position:fixed;inset:0;z-index:99999;background:#8ED8EA;overflow:auto;font-family:system-ui,sans-serif;color:#062329;';document.body.appendChild(ov);
+  const draw=d=>{ov.innerHTML='<div style="max-width:520px;margin:0 auto;padding:18px 14px 40px;"><div style="text-align:center;font-weight:900;font-size:1.5rem;margin:6px 0;">🧾 '+T.h+'</div>'+(d?'<div style="text-align:center;font-weight:800;margin-bottom:10px;">Alicetta Trattoria · '+esc(d.t)+(d.cop?' · '+d.cop+' '+T.cop:'')+'<br><span style="font-weight:600;font-size:.85rem;">'+new Date(d.ts).toLocaleString(L==='it'?'it-IT':undefined,{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</span></div><div style="background:#fff;border-radius:18px;padding:6px 14px;box-shadow:0 5px 0 rgba(6,35,41,.25);">'+(d.items||[]).map(x=>'<div style="display:flex;gap:8px;padding:9px 0;border-bottom:1px dashed #9CC;font-weight:700;"><span style="flex:1;">'+x.q+'× '+esc(x.n)+'</span><span style="white-space:nowrap;">'+eur(x.p*x.q)+'</span></div>').join('')+(Number(d.sub)-Number(d.tot)>0.009?'<div style="display:flex;padding:9px 0;font-weight:800;color:#B45309;"><span style="flex:1;">'+T.sc+'</span><span>− '+eur(d.sub-d.tot)+'</span></div>':'')+'<div style="display:flex;padding:12px 0 8px;font-weight:900;font-size:1.4rem;"><span style="flex:1;">'+T.tot+'</span><span>'+eur(d.tot)+'</span></div></div><div style="font-size:.8rem;font-weight:600;margin-top:10px;text-align:center;">'+T.n+'</div>':'<div style="background:#fff;border-radius:18px;padding:16px;text-align:center;font-weight:800;">'+T.x+'</div>')+'<a href="'+location.pathname+'" style="display:block;margin-top:14px;text-align:center;background:#062329;color:#fff;border-radius:14px;padding:13px;font-weight:900;text-decoration:none;">'+T.menu+'</a></div>';};
+  ov.innerHTML='<div style="text-align:center;padding:40px;font-weight:900;">⏳</div>';get().then(draw);setInterval(()=>get().then(d=>{if(d)draw(d);}),20000);return;}
+ if(['club','r','pranzo','split','gift','speciale'].some(k=>q.has(k)))return;
+ get().then(d=>{if(!d)return;const a=document.createElement('a');a.id='pcLinkBig';a.href=location.pathname+'?pc='+encodeURIComponent(id);
+  a.innerHTML='<span style="display:block;font-size:1.35rem;">'+T.b+'</span><span style="display:block;font-size:1.05rem;margin-top:4px;">'+esc(d.t)+' · '+eur(d.tot)+' ›</span>';
+  a.style.cssText='display:block;margin:0 0 14px;padding:16px 14px;border-radius:22px;text-align:center;text-decoration:none;font-weight:900;color:#fff;background:linear-gradient(160deg,#7C3AED,#FF2D95);border:3px solid #062329;box-shadow:0 6px 0 #062329;';
+  const put=()=>{const mn=document.querySelector('main')||document.body;if(mn.firstChild!==a)mn.insertBefore(a,mn.firstChild);};put();[400,1200,3000,6000].forEach(t=>setTimeout(put,t));});
 })();
 </script>
 </body>
