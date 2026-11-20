@@ -2045,7 +2045,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.111';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.112';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2086,6 +2086,7 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.112',['📱 Preconto sul telefono del cliente: dalla comanda (sotto “Stampa pre-conto”) o tenendo premuto il tavolo. Il cliente inquadra il QR o avvicina il telefono al tag NFC del tavolo e vede il preconto nella sua lingua. Si cancella da solo quando liberi il tavolo.','🕓 Chi ha toccato il tavolo: accanto al nome del tavolo, la cronologia di chi ha aggiunto, tolto, inviato e quando.','👆 Tieni premuta la card di un tavolo: stampa preconto, preconto sul telefono o cronologia, senza aprire la comanda.','🧹 Vendite › Chiusura: elenco dei tavoli ancora aperti, con “Libera tutti” per quelli senza nulla inviato in cucina.','⏰ Tavolo dimenticato: se un tavolo è fermo da 40 minuti, al suo cameriere (e a Christian) arriva un avviso con un consiglio (dolce, caffè, conto, via alla mandata), scritto da Gemini se c’è la chiave.']],
 ['v2.9.111',['👻 Tavoli fantasma: le voci mai inviate rimaste su un telefono non riaprono più un tavolo già chiuso (né quelle più vecchie di 4 ore). Se un tavolo ha solo voci mai inviate da più di 20 minuti, sulla sua card compare “👻 Mai inviato · Libera” con chi le ha inserite.','🖨️ La comanda NON si stampa più a ogni INVIA né al “Dai il via” (c’è il KDS). Se vuoi riattivarla: Opzioni › Prova stampante.','🐞 Il riquadro “Non ho stampato sulla Epson” compare solo quando provi tu a stampare (preconto o prova), mai per le comande.']],
 ['v2.9.110',['🌞 Formule pranzo: se al tavolo ci sono formule, antipasti, primi e secondi presi anche dal menù normale diventano inclusi (0 €) fino a quanti ne coprono le formule, e vanno da soli nella mandata giusta (antipasti 1ª, primi 2ª, secondi 2ª o 3ª col Completo). I piatti in più restano a pagamento. I tavoli già aperti si sistemano appena li apri.','📊 Chiusura: confronto per piatto con lo stesso giorno della settimana scorsa.','🔮 Chiusura: previsione per domani con coperti attesi (prenotati + senza prenotazione) e porzioni da preparare.']],
 ['v2.9.110',['💧 L’acqua non entra più nella classifica della chiusura della giornata.','📊 Chiusura della giornata: confronto con lo stesso giorno della settimana scorsa (incasso, coperti, conti, per coperto, pranzo e cena) con frecce di andamento, grafico dell’incasso ora per ora e barre degli ultimi 6 giorni uguali. Il confronto entra anche nel riassunto da condividere.']],
@@ -2102,7 +2103,7 @@ const LOG=[
 ['v2.9.98',['🌞 Formule del pranzo: la formula viene sempre aggiunta al tavolo, anche se non hai scelto tutti i piatti.','👆 I piatti del pranzo si selezionano con un tocco (diventano verdi ✅), anche mentre scorri la lista.']],
 ['v2.9.97',['🌞 Formule del pranzo con due prezzi: a sinistra turisti (35 · 29 · 25 €), a destra dipendenti in convenzione (30 · 25 · 22 €).','🧾 Nel conto la formula dei dipendenti compare con “· Dipendenti”, così la distingui nelle vendite.']],
 ['v2.9.95',['🧮 Controllo formule del pranzo: prima di inviare in cucina, se antipasti, primi o secondi non tornano con le formule inserite, l’app avvisa e chiede conferma.','🌞 Menù QR: il tasto grande del pranzo ora compare anche quando il menù si apre dalla carta NFC o da un link con altri parametri.']],
-['v2.9.111',['🌞 Tolto il vecchio “Menu pranzo completo 30 €”: in “1 Coperto” ci sono le 3 formule (35 · 29 · 25 €).','🍽️ Toccando una formula scegli antipasto, primo e/o secondo tra quelli del giorno: la formula va nel conto, i piatti vanno in cucina a 0 € nella mandata giusta. C’è anche “Aggiungi e scegli per un’altra persona”.']],
+['v2.9.92',['🌞 Tolto il vecchio “Menu pranzo completo 30 €”: in “1 Coperto” ci sono le 3 formule (35 · 29 · 25 €).','🍽️ Toccando una formula scegli antipasto, primo e/o secondo tra quelli del giorno: la formula va nel conto, i piatti vanno in cucina a 0 € nella mandata giusta. C’è anche “Aggiungi e scegli per un’altra persona”.']],
 ['v2.9.91',['🌞 Menù pranzo con 3 formule: Menù Completo (Antipasto + Primo + Secondo) 35 €, Pranzo Veloce (Antipasto + Secondo) 29 €, Pranzo Veloce (Antipasto + Primo) 25 €. Coperto, 1 bottiglia d’acqua e caffè inclusi.','🧾 Nella comanda, categoria 🌞 Pranzo: tre tasti grandi, uno per formula. Poi tocchi i piatti scelti, che vanno in cucina a 0 €.','📱 Menù QR del pranzo: le 3 formule ben in vista e, su ogni portata, “scegli 1 di 2”.']],
 ['v2.9.90',['🔊 KDS: la cucina sente le comande e i “via” delle mandate a voce (tasto 🔊 Voce ON/OFF sul KDS).','📸 Com’era il piatto?: foto del piatto prima che esca, Gemini la confronta con la foto di riferimento (AI › Sous-Chef e tasto 📸 sul KDS).','🧾 Dividi dal QR: dalla comanda il QR del conto; ogni commensale sceglie i suoi piatti dal telefono e tu vedi chi paga cosa.','🐟 Piatto del giorno dal pescato: foto della cassetta, Gemini incrocia meteo e vendite e propone piatto, prezzo e testo per la lavagnetta.','🕵️ Cliente misterioso: i tempi di ogni tavolo (comanda, mandate, conto) e cosa migliorare, nel Riepilogo del servizio.']],
 ['v2.9.89',['🍭 Nuovo set di icone “Gelatina classica”: l’effetto lucido della Gelatina con i disegni delle Classiche, ancora più grandi. È già attivo; puoi cambiarlo in Opzioni › Icone.','🧹 Pulizia profonda: tolte 13 vecchie funzioni doppie che non venivano più usate (cassa, ritardi, KDS, conti).','🔋 Orologio unico anche per gli ultimi 22 timer: ora tutta l’app gira su un solo timer.']],
@@ -3349,7 +3350,7 @@ const block=()=>'<div class="v91g">'+OPTS.map((o,i)=>'<div class="v91o v96o"><di
  if(!q&&state.currentCategory==='1 Coperto'&&!g.querySelector('.v91g'))g.insertAdjacentHTML('afterbegin',block());
  if(q&&/pran|menu|formul|velo|complet/i.test(q)&&!g.querySelector('.v91g'))g.insertAdjacentHTML('afterbegin',block());}catch(e){}return r;};}
 })();
-}catch(e){console.error("chef-extra v2.9.111",e);}
+}catch(e){console.error("chef-extra v2.9.92",e);}
 try{
 (function(){
 const F={L_MENU_COMPLETO:['a','p','s'],L_VELOCE_AS:['a','s'],L_VELOCE_AP:['a','p'],L_MENU_COMPLETO_DIP:['a','p','s'],L_VELOCE_AS_DIP:['a','s'],L_VELOCE_AP_DIP:['a','p']};
@@ -3766,4 +3767,92 @@ CBT(()=>{try{const v=$('viewTables');if(!v||!v.classList.contains('active'))retu
  const h='👻 Mai inviato · Libera<small>'+g.min+'′ · '+String(g.who).replace(/[<>&]/g,'')+'</small>';if(b.innerHTML!==h)b.innerHTML=h;});}catch(e){}},2000);
 })();
 }catch(e){console.error("chef-extra v2.9.111",e);}
-try{(function(){const V='v2.9.111';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const toast=(m,ms)=>{try{__toast(m,ms||3000,0);}catch(e){}};
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const who=()=>(state.waiterName||'').trim()||'Staff';
+const owner=()=>/^christian$/i.test(who());
+const kds=()=>typeof isKdsDev==='function'&&isKdsDev();
+const E=n=>'€ '+formatPrice(Math.round((Number(n)||0)*100)/100);
+const its=i=>{const n=Math.floor(Number(i&&i.lineId)||0);return n>1.6e12&&n<4e12?n:0;};
+const st=document.createElement('style');st.textContent='.v112ov{position:fixed;inset:0;z-index:9800;background:rgba(2,6,23,.72);display:flex;align-items:flex-end;justify-content:center}.v112bx{background:var(--card-bg,#E0F2FE);color:var(--text-main,#062329);width:100%;max-width:560px;max-height:90vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom,0px));box-sizing:border-box}.v112bx h3{margin:0 0 6px;color:var(--logo-coral,#FF5733)}.v112b{display:block;width:100%;border:0;border-radius:14px;padding:13px;font-weight:900;font-size:1rem;margin-top:8px;color:#fff;background:#7C3AED}.v112b.g{background:#16A34A}.v112b.s{background:#0EA5E9}.v112b.x{background:#475569}.v112r{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px dashed rgba(100,116,139,.5);font-weight:700;font-size:.86rem}.v112fl{position:fixed;left:8px;right:8px;top:calc(8px + env(safe-area-inset-top,0px));z-index:9600;background:#062329;color:#fff;border:3px solid #FDE047;border-radius:16px;padding:10px 12px;font-weight:800;font-size:.9rem;box-shadow:0 10px 24px rgba(0,0,0,.4)}.v112fl .row{display:flex;gap:6px;margin-top:8px}.v112fl button{flex:1;border:0;border-radius:10px;padding:9px;font-weight:900}';document.head.appendChild(st);
+function ov(id,html){let o=$(id);if(o)o.remove();o=document.createElement('div');o.id=id;o.className='v112ov';o.innerHTML='<div class="v112bx">'+html+'<button class="v112b x" data-x="1">Chiudi</button></div>';o.onclick=e=>{if(e.target===o||(e.target.dataset&&e.target.dataset.x))o.remove();};document.body.appendChild(o);return o;}
+
+/* ═══ 12 · Cronologia del tavolo: chi ha aggiunto, tolto, inviato, quando ═══ */
+function log(t,txt){try{if(!t)return;t.log=Array.isArray(t.log)?t.log:[];t.log.push({ts:Date.now(),by:who(),a:String(txt).slice(0,90)});if(t.log.length>60)t.log=t.log.slice(-60);}catch(e){}}
+window.v112Log=log;
+const cur=()=>state.tables[state.activeTableId];
+{const _a=addItemToTable;addItemToTable=function(mi){const t=cur();const r=_a.apply(this,arguments);try{log(t,'➕ '+(mi&&mi.name||'?'));}catch(e){}return r;};}
+{const _c=changeItemQty;changeItemQty=function(lid,d){const t=cur(),it=t&&(t.items||[]).find(i=>i.lineId===lid),nm=it&&it.name,q0=it?it.qty:0;const r=_c.apply(this,arguments);try{const it2=t&&(t.items||[]).find(i=>i.lineId===lid),q1=it2?it2.qty:0;if(q1!==q0)log(t,(q1>q0?'➕ ':'➖ ')+nm+(q1?' (ora '+q1+')':' (tolto)'));}catch(e){}return r;};}
+{const _s=sendOrderToKitchen;sendOrderToKitchen=async function(){const t=cur();const n=t?(t.items||[]).filter(i=>!isItemSent(t,i)).reduce((s,i)=>s+(Number(i.qty)||0),0):0;const r=await _s.apply(this,arguments);try{if(t&&n)log(t,'📤 INVIA in cucina ('+n+' pezzi)');try{saveState(false,{tables:[t.id]});}catch(e){}}catch(e){}return r;};}
+if(typeof fireMandataTicket==='function'){const _f=fireMandataTicket;fireMandataTicket=async function(){const t=cur();const r=await _f.apply(this,arguments);try{log(t,'🔥 Dai il via');}catch(e){}return r;};}
+{const _p=showPreBill;showPreBill=function(){try{log(cur(),'🧾 Preconto stampato');}catch(e){}return _p.apply(this,arguments);};}
+{const _r=resetTableObj;resetTableObj=function(t){const id=t&&t.id;const r=_r.apply(this,arguments);try{t.log=[];if(id)fbSend('/fidelity/pub/pc_'+id,'DELETE').catch(()=>{});}catch(e){}return r;};}
+window.v112Hist=function(id){const t=state.tables[id||state.activeTableId];if(!t)return;const L=(t.log||[]).slice().reverse();
+ const items=(t.items||[]).map(i=>({ts:its(i),by:i.waiter||'?',a:(isItemSent(t,i)?'✅ ':'📝 ')+i.qty+'× '+i.name}));
+ ov('v112h',`<h3>🕓 Chi ha toccato ${esc(t.name)}</h3>${L.length?L.map(x=>`<div class="v112r"><span>${esc(x.a)}<br><small style="font-weight:600;">${esc(x.by)}</small></span><span>${new Date(x.ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}</span></div>`).join(''):'<div style="font-weight:700;">Nessun movimento registrato (la cronologia parte da questa versione).</div>'}<div style="font-weight:900;margin-top:12px;">Voci in comanda</div>${items.map(x=>`<div class="v112r"><span>${esc(x.a)}<br><small style="font-weight:600;">inserito da ${esc(x.by)}</small></span><span>${x.ts?new Date(x.ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}):''}</span></div>`).join('')||'<div style="font-weight:700;">Tavolo vuoto.</div>'}`);};
+
+/* ═══ Preconto sul telefono del cliente (QR + tag NFC del tavolo) ═══ */
+const menuUrl=()=>location.origin+location.pathname.replace(/index\.html$/,'').replace(/\/?$/,'/')+'menu.html';
+window.v112Digital=async function(id){const t=state.tables[id||state.activeTableId];if(!t||!(t.items||[]).length){toast('Il tavolo è vuoto');return;}
+ const items=(t.items||[]).filter(i=>Number(i.qty)>0).map(i=>({n:String(i.name).slice(0,60),q:Number(i.qty),p:Math.round(Number(i.price)*100)/100}));
+ const sub=items.reduce((s,x)=>s+x.p*x.q,0);let tot=getTableTotal(t);try{const d=window.v25DiscAmt?v25DiscAmt(t):0;if(d>0&&Math.abs(sub-tot)<0.01)tot=sub-d;}catch(e){}
+ const cop=(t.items||[]).filter(i=>i.cat==='1 Coperto'||/coperto/i.test(i.name||'')).reduce((s,i)=>s+(Number(i.qty)||0),0)+(Number(t.copOff)||0);
+ try{await fbSend('/fidelity/pub/pc_'+t.id,'PUT',{t:t.name,items,sub:Math.round(sub*100)/100,tot:Math.round(tot*100)/100,cop,ts:Date.now()});}catch(e){toast('⚠️ Non riesco a pubblicare il preconto: controlla la connessione');return;}
+ log(t,'📱 Preconto sul telefono del cliente');try{t.preAt=Date.now();saveState(false,{tables:[t.id]});}catch(e){}
+ const u=menuUrl()+'?pc='+encodeURIComponent(t.id);
+ const o=ov('v112pc',`<h3>📱 Preconto sul telefono · ${esc(t.name)}</h3><div style="font-weight:700;font-size:.9rem;">Il cliente inquadra il QR <b>oppure avvicina il telefono al tag NFC del tavolo</b>: vede il preconto nella sua lingua. Totale <b>${E(tot)}</b>.</div><div id="v112qr" style="display:flex;justify-content:center;margin:10px 0;background:#fff;border-radius:14px;padding:10px;"></div><button class="v112b s" id="v112wa">💬 Mandalo su WhatsApp</button><button class="v112b g" id="v112cp">🔗 Copia link</button>`);
+ try{new QRCode($('v112qr'),{text:u,width:220,height:220,colorDark:'#062329',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}catch(e){$('v112qr').textContent=u;}
+ $('v112wa').onclick=()=>window.open('https://wa.me/?text='+encodeURIComponent('🧾 Il preconto del '+t.name+' da Alicetta: '+u),'_blank');
+ $('v112cp').onclick=async()=>{try{await navigator.clipboard.writeText(u);toast('📋 Link copiato');}catch(e){prompt('Copia il link',u);}};};
+CBT(()=>{try{const v=$('viewOrder');if(!v||!v.classList.contains('active'))return;
+ if(!$('v112dg'))[...v.querySelectorAll('button')].filter(b=>/pre-?conto/i.test(b.textContent)&&b.closest('.cart-section')&&!b.dataset.v112).slice(0,1).forEach(b=>{b.dataset.v112='1';const n=document.createElement('button');n.id='v112dg';n.dataset.v112='1';n.type='button';n.className=b.className;n.style.cssText='background:#7C3AED;color:#fff;';n.textContent='📱 Preconto sul telefono del cliente';n.onclick=()=>v112Digital();b.after(n);});
+ const hd=$('activeTableName');if(hd&&!$('v112hb')){const b=document.createElement('button');b.id='v112hb';b.type='button';b.textContent='🕓';b.title='Cronologia';b.style.cssText='margin-left:6px;border:0;border-radius:10px;padding:2px 8px;font-size:1rem;background:rgba(124,58,237,.15);vertical-align:middle;';b.onclick=e=>{e.stopPropagation();v112Hist();};hd.after(b);}}catch(e){}},1200);
+
+/* ═══ 13 · Pressione lunga sulla card del tavolo: preconto senza aprire la comanda ═══ */
+let lpT=null,lpFired=false;
+document.addEventListener('pointerdown',e=>{const c=e.target.closest&&e.target.closest('#tablesContainer .table-card[data-tid]');if(!c)return;{const bt=e.target.closest('button');if(bt&&bt!==c&&c.contains(bt))return;}lpFired=false;clearTimeout(lpT);const x0=e.clientX,y0=e.clientY;
+ const mv=ev=>{if(Math.abs(ev.clientX-x0)>12||Math.abs(ev.clientY-y0)>12){clearTimeout(lpT);document.removeEventListener('pointermove',mv);}};document.addEventListener('pointermove',mv);
+ lpT=setTimeout(()=>{document.removeEventListener('pointermove',mv);const id=c.dataset.tid,t=state.tables[id];if(!t||!(t.items||[]).length)return;lpFired=true;try{navigator.vibrate&&navigator.vibrate(30);}catch(x){}
+  ov('v112lp',`<h3>${esc(t.name)} · ${E(getTableTotal(t))}</h3><button class="v112b" id="v112p1">🖨️ Stampa preconto</button><button class="v112b s" id="v112p2">📱 Preconto sul telefono del cliente</button><button class="v112b g" id="v112p3">🕓 Chi ha toccato il tavolo</button>`);
+  $('v112p1').onclick=()=>{$('v112lp').remove();const old=state.activeTableId;state.activeTableId=id;try{showPreBill();}finally{if(!$('viewOrder').classList.contains('active'))state.activeTableId=old;}};
+  $('v112p2').onclick=()=>{$('v112lp').remove();v112Digital(id);};$('v112p3').onclick=()=>{$('v112lp').remove();v112Hist(id);};},600);},true);
+['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,()=>clearTimeout(lpT),true));
+document.addEventListener('click',e=>{if(lpFired&&e.target.closest&&e.target.closest('#tablesContainer .table-card')){e.stopPropagation();e.preventDefault();lpFired=false;}},true);
+document.addEventListener('contextmenu',e=>{if(e.target.closest&&e.target.closest('#tablesContainer .table-card'))e.preventDefault();},true);
+
+/* ═══ 11 · Fine serata: tavoli rimasti aperti senza nulla inviato ═══ */
+function openList(){return Object.values(state.tables||{}).filter(t=>t&&(t.items||[]).length);}
+window.v112FreeAll=()=>{const L=openList().filter(t=>!(t.items||[]).some(i=>isItemSent(t,i)));if(!L.length)return;if(!confirm('Liberare '+L.length+' '+(L.length===1?'tavolo':'tavoli')+' senza nulla inviato in cucina?\n'+L.map(t=>'• '+t.name).join('\n')))return;
+ L.forEach(t=>{try{resetTableObj(t);}catch(e){t.items=[];t.openedAt=0;}});try{saveState(false,{tables:L.map(t=>t.id)});}catch(e){}toast('✅ Liberati: '+L.map(t=>t.name).join(', '));try{renderTables();}catch(e){}drawClose(true);};
+function drawClose(force){const pg=$('hub_sales_chiusura');if(!pg)return;const L=openList();let c=$('v112cl');
+ const sig=L.map(t=>t.id+':'+(t.items||[]).length).join('|');if(c&&!force&&c.dataset.sig===sig)return;
+ if(!L.length){if(c)c.remove();return;}if(!c){c=document.createElement('div');c.id='v112cl';c.className='cart-section';pg.prepend(c);}c.dataset.sig=sig;
+ const ghost=L.filter(t=>!(t.items||[]).some(i=>isItemSent(t,i))),live=L.filter(t=>(t.items||[]).some(i=>isItemSent(t,i)));
+ c.innerHTML='<h3 style="margin:0 0 4px;">🧹 Tavoli ancora aperti</h3>'+(ghost.length?'<div style="font-weight:800;font-size:.85rem;">Senza nulla inviato in cucina (probabili fantasmi):</div>'+ghost.map(t=>`<div class="v112r"><span>👻 ${esc(t.name)}<br><small style="font-weight:600;">${(t.items||[]).map(i=>i.qty+'× '+esc(i.name)).join(', ')} · ${esc([...new Set((t.items||[]).map(i=>i.waiter||'?'))].join(', '))}</small></span><span>${E(getTableTotal(t))}</span></div>`).join('')+'<button class="v112b g" onclick="v112FreeAll()">🧹 Libera '+(ghost.length===1?'questo tavolo':'tutti i '+ghost.length)+'</button>':'')+(live.length?'<div style="font-weight:800;font-size:.85rem;margin-top:10px;">Con comande inviate (da incassare o liberare a mano):</div>'+live.map(t=>`<div class="v112r"><span>🍽️ ${esc(t.name)}</span><span>${E(getTableTotal(t))}</span></div>`).join(''):'');}
+CBT(()=>{try{const v=$('viewSales');if(v&&v.classList.contains('active'))drawClose(false);}catch(e){}},1500);
+
+/* ═══ 14 · Tavolo dimenticato: avviso al cameriere con un consiglio ═══ */
+const LK='alicetta_v112_fg';
+function lastAct(t){let m=Number(t.openedAt)||0;(t.items||[]).forEach(i=>{m=Math.max(m,its(i));});['firedAt','doneAt'].forEach(k=>Object.values(t[k]||{}).forEach(v=>{m=Math.max(m,Number(v)||0);}));(t.log||[]).forEach(x=>{m=Math.max(m,Number(x.ts)||0);});m=Math.max(m,Number(t.preAt)||0);return m;}
+function tip(t){const it=t.items||[],has=re=>it.some(i=>re.test(String(i.cat||'')+' '+String(i.name||'')));
+ const pend=[1,2,3,4].filter(m=>it.some(i=>i.mandata===m&&i.name!=='Pane e Coperto')&&!(t.firedMandate||{})[m]);
+ if(pend.length)return'🔥 La '+pend[0]+'ª mandata non è ancora partita: chiedi se possono dare il via.';
+ if(!has(/dolc|dessert|tiramis|semifredd|torta/i))return'🍰 Proponi il dolce o un amaro.';
+ if(!has(/caff/i))return'☕ Proponi il caffè.';return'🧾 Probabilmente aspettano il conto: porta il preconto.';}
+function owners(t){const c={};(t.items||[]).forEach(i=>{const w=i.waiter||'';if(w)c[w]=(c[w]||0)+(Number(i.qty)||0);});return Object.keys(c);}
+async function aiTip(t,base){try{if(typeof getGeminiKey!=='function'||!getGeminiKey())return base;const r=await callGemini([{text:'Sei il maître di una trattoria. Un tavolo è fermo da '+Math.round((Date.now()-lastAct(t))/60000)+' minuti. Voci ordinate: '+(t.items||[]).map(i=>i.qty+'x '+i.name).join(', ')+'. Suggerimento di base: "'+base+'". Scrivi UN solo consiglio pratico per il cameriere, massimo 15 parole, in italiano, con un’emoji iniziale. Solo il testo.'}],false);const s=String(r||'').replace(/\*/g,'').trim().split('\n')[0];return s&&s.length<140?s:base;}catch(e){return base;}}
+let busy=false;
+async function forgot(){if(busy||kds())return;const me=who();if(!['christian','alice','serena'].includes(me.toLowerCase()))return;if($('v112fg'))return;
+ let seen={};try{seen=JSON.parse(localStorage.getItem(LK)||'{}');}catch(e){}const now=Date.now();
+ const t=Object.values(state.tables||{}).find(t=>{if(!t||!(t.items||[]).some(i=>isItemSent(t,i)))return false;const la=lastAct(t);if(!la||now-la<40*60000)return false;if(seen[t.id]&&now-seen[t.id]<20*60000)return false;const o=owners(t);return owner()||o.some(w=>w.toLowerCase()===me.toLowerCase());});
+ if(!t)return;busy=true;seen[t.id]=now;try{localStorage.setItem(LK,JSON.stringify(seen));}catch(e){}
+ const base=tip(t),s=await aiTip(t,base);busy=false;
+ const b=document.createElement('div');b.id='v112fg';b.className='v112fl';b.innerHTML=`⏰ <b>${esc(t.name)}</b> è fermo da ${Math.round((now-lastAct(t))/60000)} minuti.<br>${esc(s)}<div class="row"><button style="background:#FDE047;color:#062329;" data-a="o">Apri tavolo</button><button style="background:#7C3AED;color:#fff;" data-a="p">📱 Preconto</button><button style="background:#334155;color:#fff;" data-a="x">✕</button></div>`;
+ b.onclick=e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a)return;b.remove();if(a==='o')try{openTable(t.id);}catch(x){}if(a==='p')v112Digital(t.id);};document.body.appendChild(b);try{navigator.vibrate&&navigator.vibrate([80,60,80]);}catch(e){}setTimeout(()=>{if(b.isConnected)b.remove();},60000);}
+CBT(()=>{forgot().catch(()=>{busy=false;});},60000);
+})();
+}catch(e){console.error("chef-extra v2.9.112",e);}
+try{(function(){const V='v2.9.112';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
