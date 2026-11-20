@@ -2045,7 +2045,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.113';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.114';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2086,6 +2086,7 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.114',['📇 Carta NFC intelligente: se hai mandato un preconto negli ultimi 10 minuti, la carta apre direttamente l’ultimo preconto (niente scelta del tavolo); fino a 30 minuti compare in cima. Dalle 11 alle 16, se c’è il menù del pranzo, la carta apre il pranzo; la sera il menù del giorno.','🍷 Abbinamento vini sul menù QR: in AI › Sous-Chef premi “Prepara gli abbinamenti vino”; i clienti nel menù toccano “🍷 Che vino abbino?”, scelgono i loro piatti e vedono i vini consigliati della tua carta, nella loro lingua.']],
 ['v2.9.113',['📇 Una sola carta NFC per tutto il locale: con la carta unica il cliente vede “Il tuo preconto: scegli il tuo tavolo” con i tavoli che hanno un preconto pronto.','💳 Paga dal telefono: in Opzioni incolli il tuo link di pagamento (SumUp, PayPal.me…); nel preconto sul telefono il cliente trova “Paga ora” con l’importo e “Ho pagato”, che avvisa te e il cameriere.','⭐ Recensione al momento giusto: dopo il pagamento la pagina del cliente cita il piatto che ha preso e mette in evidenza la recensione Google.','🔊 Riassunto di fine serata letto ad alta voce sul KDS: dal Riepilogo del servizio (“Fai leggere sul KDS”) o con il tasto 🎙️ sul tablet.','⏱️ Vendite › Chiusura: tempi medi per cameriere degli ultimi 30 giorni (seduti → comanda, ultimo piatto → conto, tavolo in tutto).']],
 ['v2.9.112',['📱 Preconto sul telefono del cliente: dalla comanda (sotto “Stampa pre-conto”) o tenendo premuto il tavolo. Il cliente inquadra il QR o avvicina il telefono al tag NFC del tavolo e vede il preconto nella sua lingua. Si cancella da solo quando liberi il tavolo.','🕓 Chi ha toccato il tavolo: accanto al nome del tavolo, la cronologia di chi ha aggiunto, tolto, inviato e quando.','👆 Tieni premuta la card di un tavolo: stampa preconto, preconto sul telefono o cronologia, senza aprire la comanda.','🧹 Vendite › Chiusura: elenco dei tavoli ancora aperti, con “Libera tutti” per quelli senza nulla inviato in cucina.','⏰ Tavolo dimenticato: se un tavolo è fermo da 40 minuti, al suo cameriere (e a Christian) arriva un avviso con un consiglio (dolce, caffè, conto, via alla mandata), scritto da Gemini se c’è la chiave.']],
 ['v2.9.111',['👻 Tavoli fantasma: le voci mai inviate rimaste su un telefono non riaprono più un tavolo già chiuso (né quelle più vecchie di 4 ore). Se un tavolo ha solo voci mai inviate da più di 20 minuti, sulla sua card compare “👻 Mai inviato · Libera” con chi le ha inserite.','🖨️ La comanda NON si stampa più a ogni INVIA né al “Dai il via” (c’è il KDS). Se vuoi riattivarla: Opzioni › Prova stampante.','🐞 Il riquadro “Non ho stampato sulla Epson” compare solo quando provi tu a stampare (preconto o prova), mai per le comande.']],
@@ -3913,4 +3914,27 @@ function tCard(){const pg=$('hub_sales_chiusura');if(!pg||!owner())return;let c=
 CBT(()=>{try{const v=$('viewSales');if(v&&v.classList.contains('active'))tCard();}catch(e){}},2000);
 })();
 }catch(e){console.error("chef-extra v2.9.113",e);}
-try{(function(){const V='v2.9.113';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const toast=(m,ms)=>{try{__toast(m,ms||3200,0);}catch(e){}};
+const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
+const FOOD=['3 Antipasti','4 Primi Piatti','5 Secondi','5 Contorni','6 Desserts'];
+const isWine=m=>m&&m.cat==='2 Bevande'&&(m.wtype||/vino|calice|bottiglia|\bdoc\b|\bigt\b|docg|bianco|rosso|rosé|rosato|bollicin|spumant|prosecco|trebbiano|pecorino|montepulciano|cerasuolo|passerina|cococciola/i.test(m.name||''))&&!/acqua|birra|coca|caff|amaro/i.test(m.name||'');
+window.v114Pair=async function(btn){if(typeof getGeminiKey==='function'&&!getGeminiKey()){toast('🔑 Inserisci la chiave Gemini in ⚙️ Opzioni');return;}
+ const dishes=(state.menu||[]).filter(m=>m&&FOOD.includes(m.cat)&&!m.soldOut&&!/^L_/.test(m.id||'')).map(m=>m.name);
+ const wines=(state.menu||[]).filter(m=>isWine(m)&&!m.soldOut).map(m=>({n:m.name,p:Number(m.price)||0,t:[m.wtype,m.uv,m.annata].filter(Boolean).join(' · ')}));
+ if(!dishes.length||!wines.length){toast('Servono piatti e vini nel menù');return;}
+ if(btn){btn.disabled=true;btn.textContent='⏳ Gemini abbina '+dishes.length+' piatti con '+wines.length+' vini…';}
+ try{const r=await callGemini([{text:'Sei il sommelier di Alicetta Trattoria a Fossacesia (pesce, cucina abruzzese). Per OGNI piatto scegli 1 o 2 vini SOLO dalla carta qui sotto, usando il nome del vino ESATTAMENTE come scritto. Per ogni scelta scrivi il motivo in massimo 12 parole in italiano, inglese, tedesco, francese e spagnolo. Rispondi SOLO con JSON: {"Nome piatto":[{"w":"nome vino esatto","it":"","en":"","de":"","fr":"","es":""}]}\n\nPIATTI: '+JSON.stringify(dishes)+'\n\nCARTA DEI VINI: '+JSON.stringify(wines)}],true);
+  const j=typeof r==='string'?JSON.parse(r.replace(/```json|```/g,'')):r;const ok=new Set(wines.map(w=>w.n));const pairs={};
+  Object.keys(j||{}).forEach(d=>{if(!dishes.includes(d))return;const l=(j[d]||[]).filter(x=>x&&ok.has(x.w)).slice(0,2).map(x=>({w:x.w,it:String(x.it||'').slice(0,120),en:String(x.en||'').slice(0,120),de:String(x.de||'').slice(0,120),fr:String(x.fr||'').slice(0,120),es:String(x.es||'').slice(0,120)}));if(l.length)pairs[d]=l;});
+  const wm={};wines.forEach(w=>{wm[w.n]={p:w.p,t:w.t};});
+  await fbSend('/fidelity/pub/winepair','PUT',{ts:Date.now(),pairs,wines:wm});try{localStorage.setItem('alicetta_v114_wp',String(Date.now()));}catch(e){}
+  toast('✅ Abbinamenti pronti per '+Object.keys(pairs).length+' piatti: i clienti li vedono nel menù QR');}
+ catch(e){toast('⚠️ '+(e.message||e),5000);}finally{if(btn){btn.disabled=false;draw();}}};
+function draw(){const c=$('v114c');if(!c)return;let ts=0;try{ts=Number(localStorage.getItem('alicetta_v114_wp'))||0;}catch(e){}c.innerHTML='<button class="v90b" style="background:#7F1D1D;" id="v114b">🍷 Prepara gli abbinamenti vino per il menù QR</button><div class="fc-sub" style="font-weight:700;margin-top:4px;">'+(ts?'Ultimo aggiornamento: '+new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'. Rifallo quando cambi menù o carta dei vini.':'I clienti vedranno nel menù il tasto “🍷 Che vino abbino?”.')+'</div>';$('v114b').onclick=e=>v114Pair(e.target);}
+CBT(()=>{try{const card=$('v90card');if(!card||!owner()||$('v114c'))return;const c=document.createElement('div');c.id='v114c';card.appendChild(c);draw();}catch(e){}},1500);
+})();
+}catch(e){console.error("chef-extra v2.9.114",e);}
+try{(function(){const V='v2.9.114';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
