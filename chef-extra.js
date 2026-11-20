@@ -2045,7 +2045,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.109';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.110';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2086,8 +2086,9 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
-['v2.9.109',['💧 L’acqua non entra più nella classifica della chiusura della giornata.','📊 Chiusura della giornata: confronto con lo stesso giorno della settimana scorsa (incasso, coperti, conti, per coperto, pranzo e cena) con frecce di andamento, grafico dell’incasso ora per ora e barre degli ultimi 6 giorni uguali. Il confronto entra anche nel riassunto da condividere.']],
-['v2.9.109',['🧾 A ogni INVIA la comanda per la cucina esce sulla Epson con i soli piatti nuovi (con scritta AGGIUNTA quando il tavolo aveva già ordinato), divisi per mandata, con note e coperti. Anche “Dai il via” stampa il suo foglio. Si spegne in Opzioni › Prova stampante.']],
+['v2.9.110',['🌞 Formule pranzo: se al tavolo ci sono formule, antipasti, primi e secondi presi anche dal menù normale diventano inclusi (0 €) fino a quanti ne coprono le formule, e vanno da soli nella mandata giusta (antipasti 1ª, primi 2ª, secondi 2ª o 3ª col Completo). I piatti in più restano a pagamento. I tavoli già aperti si sistemano appena li apri.','📊 Chiusura: confronto per piatto con lo stesso giorno della settimana scorsa.','🔮 Chiusura: previsione per domani con coperti attesi (prenotati + senza prenotazione) e porzioni da preparare.']],
+['v2.9.110',['💧 L’acqua non entra più nella classifica della chiusura della giornata.','📊 Chiusura della giornata: confronto con lo stesso giorno della settimana scorsa (incasso, coperti, conti, per coperto, pranzo e cena) con frecce di andamento, grafico dell’incasso ora per ora e barre degli ultimi 6 giorni uguali. Il confronto entra anche nel riassunto da condividere.']],
+['v2.9.108',['🧾 A ogni INVIA la comanda per la cucina esce sulla Epson con i soli piatti nuovi (con scritta AGGIUNTA quando il tavolo aveva già ordinato), divisi per mandata, con note e coperti. Anche “Dai il via” stampa il suo foglio. Si spegne in Opzioni › Prova stampante.']],
 ['v2.9.107',['🖨️ Stampa diretta sulla Epson, senza RawBT: il preconto va alla stampante e l’app ti dice “✅ stampato” oppure l’errore preciso (carta finita, coperchio aperto, permesso mancante…). In Opzioni › Prova stampante puoi scegliere Diretta Epson o RawBT.']],
 ['v2.9.106',['🖨️ Epson TM-m30III: preconto in automatico su carta da 80 mm (48 colonne) e IP stampante aggiornato a 192.168.68.59. Se vuoi un’altra larghezza la scegli in Opzioni › Prova stampante.']],
 ['v2.9.105',['🖨️ IP della stampante nell’app (già impostato 192.168.68.58): lo copi per RawBT e con un tocco apri la pagina della stampante per verificarlo. Lo trovi nella guida ❓ e in Opzioni › Prova stampante.']],
@@ -2171,20 +2172,20 @@ const svcDay=()=>{const n=new Date();if(n.getHours()<5)n.setDate(n.getDate()-1);
 const dOf=e=>{try{return svcDate(e);}catch(x){return e.date;}};
 function dayStats(d){const L=(state.historyLog||[]).filter(e=>e&&dOf(e)===d);let tot=0,cop=0,card=0,cash=0,pr={n:0,t:0},ce={n:0,t:0};const D={};
  L.forEach(e=>{const t=Number(e.total)||0;tot+=t;cop+=Number(e.coperti)||0;try{const p=payOf(e);card+=p.card||0;cash+=p.cash||0;}catch(x){}const h=new Date(e.ts||0).getHours();const s=(h>=5&&h<17)?pr:ce;s.n++;s.t+=t;(e.items||[]).forEach(i=>{if(!i||/Coperto/i.test(i.cat||i.name||'')||/\bacqu[ae]\b/i.test(i.name||''))return;D[i.name]=(D[i.name]||0)+(Number(i.qty)||0);});});
- const top=Object.entries(D).sort((a,b)=>b[1]-a[1]).slice(0,5);return{L,n:L.length,tot,cop,card,cash,pr,ce,top};}
+ const top=Object.entries(D).sort((a,b)=>b[1]-a[1]).slice(0,5);return{L,n:L.length,tot,cop,card,cash,pr,ce,top,D};}
 const days=()=>{const c=cfg();c.days=c.days||{};return c.days;};
 let DC={note:'',busy:false};
 window.v70DcMic=()=>{if(!SR){const t=prompt('Com’è andata la giornata?',DC.note);if(t!=null){DC.note=t;drawDay();}return;}try{const r=new SR();r.lang='it-IT';r.continuous=true;r.interimResults=false;let txt='';r.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)txt+=e.results[i][0].transcript+' ';};r.onend=()=>{if(txt.trim()){DC.note=(DC.note?DC.note+' ':'')+txt.trim();drawDay();}};r.start();toast('🎤 Racconta pure, poi resta in silenzio qualche secondo');}catch(e){}};
 window.v70DcNote=v=>{DC.note=v;};
-window.v70DcClose=async()=>{const d=svcDay(),S=dayStats(d);DC.busy=true;drawDay();const base=`Giornata del ${d.split('-').reverse().join('/')}: ${S.n} conti, ${S.cop} coperti, incasso € ${formatPrice(S.tot)} (carta € ${formatPrice(S.card)}, contanti € ${formatPrice(S.cash)}). Pranzo: ${S.pr.n} conti € ${formatPrice(S.pr.t)}. Cena: ${S.ce.n} conti € ${formatPrice(S.ce.t)}. Più venduti: ${S.top.map(x=>x[0]+' ('+x[1]+')').join(', ')||'—'}.`+cmpText(d);
+window.v70DcClose=async()=>{const d=svcDay(),S=dayStats(d);DC.busy=true;drawDay();const base=`Giornata del ${d.split('-').reverse().join('/')}: ${S.n} conti, ${S.cop} coperti, incasso € ${formatPrice(S.tot)} (carta € ${formatPrice(S.card)}, contanti € ${formatPrice(S.cash)}). Pranzo: ${S.pr.n} conti € ${formatPrice(S.pr.t)}. Cena: ${S.ce.n} conti € ${formatPrice(S.ce.t)}. Più venduti: ${S.top.map(x=>x[0]+' ('+x[1]+')').join(', ')||'—'}.`+cmpText(d)+fcText(d);
  let rep=base+(DC.note?'\nNote di Christian: '+DC.note:'');
  if(getGeminiKey()&&navigator.onLine){try{rep=(await callGemini([{text:`Sei l'assistente di Alicetta Trattoria. Scrivi il riassunto della giornata per il titolare, in italiano semplice, massimo 8 righe: cosa è andato bene, cosa no, 2 cose da fare domani. Usa SOLO questi numeri e queste note, non inventare.\nNumeri: ${base}\nNote del titolare: ${DC.note||'nessuna'}`}],false,{timeout:45000,maxTokens:900})).trim();}catch(e){}}
  days()[d]={at:Date.now(),by:state.waiterName||'',note:DC.note,report:rep,tot:S.tot,n:S.n,cop:S.cop};saveCfg();DC={note:'',busy:false};drawDay();try{toast('✅ Giornata chiusa e salvata');}catch(e){}const n=document.querySelector('.dc-nudge');if(n)n.remove();};
 window.v70DcShare=()=>{const r=days()[svcDay()];if(!r)return;const t='📅 '+r.report;if(navigator.share)navigator.share({text:t}).catch(()=>{});else window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');};
 window.v70DcReopen=()=>{const d=svcDay(),r=days()[d];if(!r||!confirm('Riaprire la giornata per rifare il riassunto?'))return;DC.note=r.note||'';delete days()[d];saveCfg();drawDay();};
-/* v2.9.109 · confronto con lo stesso giorno della settimana scorsa */
+/* v2.9.110 · confronto con lo stesso giorno della settimana scorsa */
 const C9=(()=>{const st=document.createElement('style');st.textContent='.c9{margin-top:10px;border-top:2px dashed rgba(148,163,184,.5);padding-top:8px}.c9 h4{margin:0 0 6px;font-size:.95rem}.c9g{display:grid;grid-template-columns:1.2fr 1fr 1fr .9fr;gap:2px 6px;font-size:.82rem;align-items:center}.c9g .h{font-weight:900;opacity:.7;font-size:.72rem}.c9g b{font-weight:900}.c9u{color:#16A34A;font-weight:900}.c9d{color:#DC2626;font-weight:900}.c9e{opacity:.6;font-weight:900}.c9s{width:100%;height:auto;display:block;margin-top:8px}.c9l{display:flex;gap:12px;font-size:.75rem;font-weight:800;margin-top:2px}.c9l i{display:inline-block;width:14px;height:4px;border-radius:2px;vertical-align:middle;margin-right:4px}';document.head.appendChild(st);return 1;})();
-const GGc=['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
+const GGc=['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];const GGp=['domeniche','lunedì','martedì','mercoledì','giovedì','venerdì','sabati'];
 const addDc=(d,n)=>{const x=new Date(d+'T12:00');x.setDate(x.getDate()+n);return iso(x);};
 const pct=(a,b)=>b>0?Math.round((a-b)/b*100):(a>0?null:0);
 const arrow=(a,b,money)=>{const p=pct(a,b);if(p===null)return '<span class="c9u">nuovo</span>';if(Math.abs(p)<1)return '<span class="c9e">= 0%</span>';return '<span class="'+(p>0?'c9u':'c9d')+'">'+(p>0?'▲ +':'▼ ')+p+'%</span>';};
@@ -2199,20 +2200,35 @@ function cmpSvg(C){const a=cmpCurve(C.A,C.d),b=cmpCurve(C.B,C.p);const all=a.con
  return '<svg class="c9s" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Incasso progressivo per ora">'+g+path(b,1,'#94A3B8')+path(a,0,'#FF5733')+'</svg><div class="c9l"><span><i style="background:#FF5733"></i>'+GGc[new Date(C.d+'T12:00').getDay()]+' '+C.d.slice(8)+'/'+C.d.slice(5,7)+'</span><span><i style="background:#94A3B8"></i>'+GGc[new Date(C.p+'T12:00').getDay()]+' '+C.p.slice(8)+'/'+C.p.slice(5,7)+'</span><span style="opacity:.7">incasso progressivo per ora</span></div>';}
 function cmpBars(d){const D=[];for(let k=5;k>=0;k--){const x=addDc(d,-7*k);D.push([x,dayStats(x).tot]);}const mx=Math.max(1,...D.map(x=>x[1]));const W=320,H=96,bw=40,gap=(W-6*bw)/7;
  const bars=D.map(([x,v],i)=>{const h=Math.round(v/mx*58),xx=gap+i*(bw+gap);return '<rect x="'+xx.toFixed(1)+'" y="'+(70-h)+'" width="'+bw+'" height="'+h+'" rx="5" fill="'+(i===5?'#FF5733':'#94A3B8')+'" fill-opacity="'+(i===5?1:.55)+'"/><text x="'+(xx+bw/2).toFixed(1)+'" y="'+(66-h)+'" font-size="9" text-anchor="middle" fill="currentColor" font-weight="700">'+(v?Math.round(v):'–')+'</text><text x="'+(xx+bw/2).toFixed(1)+'" y="86" font-size="9" text-anchor="middle" fill="currentColor" fill-opacity=".7">'+x.slice(8)+'/'+x.slice(5,7)+'</text>';}).join('');
- const v=D.map(x=>x[1]).filter(x=>x>0);let tr='';if(v.length>=3){const n=v.length,last=v[n-1],prev=v.slice(0,-1).reduce((a,b)=>a+b,0)/(n-1),p=pct(last,prev);tr=p==null?'':'<div class="fc-sub" style="font-weight:800;">'+(p>=0?'📈 ':'📉 ')+(p>=0?'+':'')+p+'% rispetto alla media dei '+(n-1)+' '+GGc[new Date(d+'T12:00').getDay()]+' precedenti</div>';}
- return '<div style="font-weight:900;font-size:.85rem;margin-top:10px;">Andamento degli ultimi 6 '+GGc[new Date(d+'T12:00').getDay()]+'</div><svg class="c9s" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Incasso degli ultimi sei giorni uguali">'+bars+'</svg>'+tr;}
+ const v=D.map(x=>x[1]).filter(x=>x>0);let tr='';if(v.length>=3){const n=v.length,last=v[n-1],prev=v.slice(0,-1).reduce((a,b)=>a+b,0)/(n-1),p=pct(last,prev);tr=p==null?'':'<div class="fc-sub" style="font-weight:800;">'+(p>=0?'📈 ':'📉 ')+(p>=0?'+':'')+p+'% rispetto alla media '+((n-1)===1?'del ':'dei ')+(n-1)+' '+GGp[new Date(d+'T12:00').getDay()]+' precedenti</div>';}
+ return '<div style="font-weight:900;font-size:.85rem;margin-top:10px;">Andamento degli ultimi 6 '+GGp[new Date(d+'T12:00').getDay()]+'</div><svg class="c9s" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Incasso degli ultimi sei giorni uguali">'+bars+'</svg>'+tr;}
 function cmpHtml(d){const C=cmpData(d),A=C.A,B=C.B,g=GGc[new Date(C.p+'T12:00').getDay()];
  if(!B.n&&!A.n)return '';
  const row=(l,a,b,f)=>'<span>'+l+'</span><b>'+f(a)+'</b><span style="opacity:.75">'+f(b)+'</span>'+arrow(a,b);
  const e=v=>'€ '+formatPrice(v),n=v=>String(v);
- return '<div class="c9"><h4>📊 Confronto con '+g+' scorso ('+C.p.slice(8)+'/'+C.p.slice(5,7)+')</h4>'+(B.n?'<div class="c9g"><span class="h"></span><span class="h">Oggi</span><span class="h">'+g.slice(0,3)+' scorso</span><span class="h">Andamento</span>'+row('💰 Incasso',A.tot,B.tot,e)+row('👥 Coperti',A.cop,B.cop,n)+row('🧾 Conti',A.n,B.n,n)+row('🍽️ Per coperto',C.scA,C.scB,e)+row('☀️ Pranzo',A.pr.t,B.pr.t,e)+row('🌙 Cena',A.ce.t,B.ce.t,e)+'</div>'+cmpSvg(C):'<div class="fc-sub">'+g+' scorso non ci sono incassi registrati.</div>')+cmpBars(d)+'</div>';}
+ return '<div class="c9"><h4>📊 Confronto con '+g+' scorso ('+C.p.slice(8)+'/'+C.p.slice(5,7)+')</h4>'+(B.n?'<div class="c9g"><span class="h"></span><span class="h">Oggi</span><span class="h">'+g.slice(0,3)+' scorso</span><span class="h">Andamento</span>'+row('💰 Incasso',A.tot,B.tot,e)+row('👥 Coperti',A.cop,B.cop,n)+row('🧾 Conti',A.n,B.n,n)+row('🍽️ Per coperto',C.scA,C.scB,e)+row('☀️ Pranzo',A.pr.t,B.pr.t,e)+row('🌙 Cena',A.ce.t,B.ce.t,e)+'</div>'+cmpSvg(C):'<div class="fc-sub">'+g+' scorso non ci sono incassi registrati.</div>')+dishCmp(C)+cmpBars(d)+'</div>';}
 function cmpText(d){const C=cmpData(d),A=C.A,B=C.B;if(!B.n)return '';const g=GGc[new Date(C.p+'T12:00').getDay()];const s=(a,b)=>{const p=pct(a,b);return p==null?'nuovo':(p>=0?'+':'')+p+'%';};
  return ` Rispetto a ${g} scorso (${C.p.split('-').reverse().join('/')}): incasso € ${formatPrice(B.tot)} → € ${formatPrice(A.tot)} (${s(A.tot,B.tot)}), coperti ${B.cop} → ${A.cop} (${s(A.cop,B.cop)}), per coperto € ${formatPrice(C.scB)} → € ${formatPrice(C.scA)}.`;}
+/* v2.9.110 · 40 confronto per piatto · 41 previsione di domani */
+function dishCmp(C){const a=C.A.D||{},b=C.B.D||{};const K=[...new Set(Object.keys(a).concat(Object.keys(b)))].map(k=>[k,a[k]||0,b[k]||0]).filter(x=>x[1]!==x[2]).sort((x,y)=>Math.abs(y[1]-y[2])-Math.abs(x[1]-x[2])||y[1]-x[1]).slice(0,8);
+ if(!K.length||!C.B.n)return '';return '<div style="font-weight:900;font-size:.85rem;margin-top:10px;">🍽️ Piatti: cosa è salito e cosa è sceso</div><div class="c9g" style="grid-template-columns:2.2fr .6fr .6fr .8fr;">'+K.map(([k,x,y])=>{const d=x-y;return '<span>'+esc(k.length>34?k.slice(0,32)+'…':k)+'</span><b>'+x+'</b><span style="opacity:.75">'+y+'</span><span class="'+(d>0?'c9u':'c9d')+'">'+(d>0?'▲ +':'▼ ')+d+'</span>';}).join('')+'</div>';}
+function fcData(d){const t1=addDc(d,1),R=Object.values(state.res||{}).filter(r=>r&&!/cancel/i.test(r.status||''));const rc=(x,lun)=>R.filter(r=>r.date===x&&(lun==null||((parseInt(String(r.time||'').slice(0,2),10)||20)<17)===lun)).reduce((s,r)=>s+(parseInt(r.covers,10)||0),0);
+ const H=[];for(let k=1;k<=4;k++){const x=addDc(t1,-7*k),S=dayStats(x);if(S.n)H.push({x,S,res:rc(x),walk:Math.max(0,S.cop-rc(x))});}
+ const res1=rc(t1),resL=rc(t1,true),resD=rc(t1,false),avg=f=>H.length?H.reduce((s,h)=>s+f(h),0)/H.length:0;
+ const walk=Math.round(avg(h=>h.walk)),cov=res1+walk,avgCov=avg(h=>h.S.cop),lo=H.length?Math.min(...H.map(h=>h.S.cop)):cov,hi=H.length?Math.max(...H.map(h=>h.S.cop)):cov;
+ const share=avgCov>0?cov/avgCov:1,dish={};H.forEach(h=>Object.entries(h.S.D||{}).forEach(([k,q])=>dish[k]=(dish[k]||0)+q));
+ const prep=Object.entries(dish).map(([k,q])=>[k,Math.ceil(q/H.length*share)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,8);
+ const inc=Math.round(avg(h=>h.S.cop?h.S.tot/h.S.cop:0)*cov);return{t1,H,res1,resL,resD,walk,cov,lo,hi,prep,inc,nR:R.filter(r=>r.date===t1).length};}
+function fcHtml(d){const F=fcData(d),g=GGc[new Date(F.t1+'T12:00').getDay()];
+ return '<div class="c9"><h4>🔮 Previsione per domani · '+g+' '+F.t1.slice(8)+'/'+F.t1.slice(5,7)+'</h4><div class="dc-k"><div class="t">👥 Coperti attesi<b>~'+F.cov+'</b></div><div>📅 Prenotati<b>'+F.res1+'</b></div><div>🚶 Senza prenot.<b>~'+F.walk+'</b></div></div>'+
+ '<div class="fc-sub" style="font-weight:800;">'+F.nR+' prenotazioni ('+F.resL+' coperti a pranzo · '+F.resD+' a cena)'+(F.H.length?' · negli ultimi '+F.H.length+' '+GGp[new Date(F.t1+'T12:00').getDay()]+' da '+F.lo+' a '+F.hi+' coperti · incasso stimato ~€ '+formatPrice(F.inc):' · non ci sono ancora '+GGp[new Date(F.t1+'T12:00').getDay()]+' passati per confrontare')+'</div>'+
+ (F.prep.length?'<div style="font-weight:900;font-size:.85rem;margin-top:8px;">🔪 Da preparare (stima porzioni)</div>'+F.prep.map(([k,q])=>'<div class="dc-l" style="display:flex;justify-content:space-between;gap:8px;"><span>'+esc(k)+'</span><b>~'+q+'</b></div>').join(''):'')+'</div>';}
+function fcText(d){const F=fcData(d),g=GGc[new Date(F.t1+'T12:00').getDay()];return ` Previsione per domani (${g}): circa ${F.cov} coperti (${F.res1} prenotati + ~${F.walk} senza prenotazione)${F.prep.length?'; da preparare: '+F.prep.slice(0,5).map(x=>x[0]+' ~'+x[1]).join(', '):''}.`;}
 function drawDay(){const b=$('dcCard');if(!b)return;const d=svcDay(),S=dayStats(d),R=days()[d];const lbl=new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
  b.innerHTML=`<div class="cs-h"><h3>📅 Chiusura della giornata</h3></div><div class="fc-sub">${esc(lbl)} · pranzo + cena. Dopo la chiusura cassa, chiudi anche la giornata: resta nello storico.</div>
 <div class="dc-k"><div class="t">💰 Incasso<b>€ ${formatPrice(S.tot)}</b></div><div>🧾 Conti<b>${S.n}</b></div><div>👥 Coperti<b>${S.cop}</b></div></div>
 <div class="dc-l">☀️ Pranzo: ${S.pr.n} conti · € ${formatPrice(S.pr.t)} &nbsp; 🌙 Cena: ${S.ce.n} conti · € ${formatPrice(S.ce.t)}</div>
-<div class="dc-l">💳 Carta € ${formatPrice(S.card)} · 💵 Contanti € ${formatPrice(S.cash)}</div>${S.top.length?`<div class="dc-l">🏆 ${S.top.map(x=>esc(x[0])+' ×'+x[1]).join(' · ')}</div>`:''}${cmpHtml(d)}
+<div class="dc-l">💳 Carta € ${formatPrice(S.card)} · 💵 Contanti € ${formatPrice(S.cash)}</div>${S.top.length?`<div class="dc-l">🏆 ${S.top.map(x=>esc(x[0])+' ×'+x[1]).join(' · ')}</div>`:''}${cmpHtml(d)}${fcHtml(d)}
 ${R?`<div class="dc-rep">✅ Giornata chiusa alle ${new Date(R.at).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}\n\n${esc(R.report)}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button class="btn-main btn-bill" onclick="v70DcShare()">📤 Condividi</button><button class="btn-main btn-print" onclick="v70DcReopen()">↩️ Rifai</button></div>`:
 `<div class="v14-lbl">Com’è andata? (facoltativo)</div><div style="display:grid;grid-template-columns:56px 1fr;gap:6px;"><button class="btn-note" style="font-size:1.2rem;" onclick="v70DcMic()">🎤</button><textarea class="v14-ta" rows="2" placeholder="es. tanta gente a cena, la frittura è finita presto…" oninput="v70DcNote(this.value)">${esc(DC.note)}</textarea></div>
 <button class="btn-main" style="width:100%;margin-top:8px;background:#7C3AED;color:#fff;" onclick="v70DcClose()" ${DC.busy?'disabled':''}>${DC.busy?'⏳ Preparo il riassunto…':'🌙 Chiudi la giornata'}</button>`}`;}
@@ -3454,7 +3470,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const toast=(m,ms)=>{try{__toast(m,ms||2600,0);}catch(e){}};
 const curT=()=>state.tables[state.activeTableId];
-const VER='v2.9.109';
+const VER='v2.9.110';
 
 /* ── Menù pranzo solo a pranzo (5:00-16:59) ── */
 const lunch=()=>{const h=new Date().getHours();return h>=5&&h<17;};
@@ -3686,5 +3702,39 @@ setInterval(()=>{try{const box=$('v107box');if(!box||$('v108box'))return;const d
   d.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{try{localStorage.setItem(KK,b.dataset.k);}catch(e){}draw();toast(b.dataset.k==='on'?'La comanda si stampa a ogni INVIA':'Comanda: niente stampa');});};
  draw();box.appendChild(d);}catch(e){}},1500);
 })();
-}catch(e){console.error("chef-extra v2.9.109",e);}
-try{(function(){const V='v2.9.109';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+}catch(e){console.error("chef-extra v2.9.108",e);}
+try{(function(){
+const toast=(m,ms)=>{try{__toast(m,ms||3000,0);}catch(e){}};
+/* ── Formule pranzo: piatti inclusi e mandate giuste anche se presi dal menù normale ── */
+const FN={L_MENU_COMPLETO:'aps',L_MENU_PRANZO:'aps',L_VELOCE_AS:'as',L_VELOCE_AP:'ap'};
+const fk=id=>FN[String(id||'').replace(/_DIP$/,'')]||'';
+const course=i=>{const c=String(i.cat||'');if(/antipast/i.test(c))return 'a';if(/primi/i.test(c))return 'p';if(/secondi/i.test(c))return 's';return '';};
+const nrm=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'');
+const lunchNames=()=>{try{const L=JSON.parse(localStorage.getItem('alicetta_lunch')||'{}');const S=new Set();(L.secs||[]).forEach(s=>(s.items||[]).forEach(it=>S.add(nrm(it.n))));return S;}catch(e){return new Set();}};
+function slots(t){const S={a:0,p:0,s:0,full:0,as:0};(t.items||[]).forEach(i=>{const k=fk(i.menuId);if(!k)return;const q=Number(i.qty)||0;for(const c of k)S[c]+=q;if(k==='aps')S.full+=q;if(k==='as')S.as+=q;});return S;}
+const hasF=t=>!!(t&&t.items&&t.items.some(i=>fk(i.menuId)));
+const MD={a:1,p:2};
+function reconcile(t){if(!t||!t.items)return 0;const S=slots(t),LN=lunchNames();let ch=0;
+ ['a','p','s'].forEach(c=>{let free=S[c];
+  const L=t.items.filter(i=>course(i)===c&&!fk(i.menuId)&&!i.dsc&&(i.lunchInc||String(i.menuId||'').startsWith('L_')||(Number(i.price)||0)>0));
+  L.sort((x,y)=>{const sx=(x.lunchInc||String(x.menuId||'').startsWith('L_')?0:LN.has(nrm(x.name))?1:2),sy=(y.lunchInc||String(y.menuId||'').startsWith('L_')?0:LN.has(nrm(y.name))?1:2);if(sx!==sy)return sx-sy;const px=x.lunchInc?x.lunchP0:x.price,py=y.lunchInc?y.lunchP0:y.price;return (Number(px)||0)-(Number(py)||0);});
+  let sMid=S.as;// secondi del Veloce A+S: con i primi (2ª); quelli del Completo: 3ª
+  L.forEach(i=>{const q=Number(i.qty)||0,p0=i.lunchInc?Number(i.lunchP0)||0:(String(i.menuId||'').startsWith('L_')&&!(Number(i.price)>0)?0:Number(i.price)||0);
+   const inc=Math.min(q,Math.max(0,free));free-=inc;
+   if(inc<q&&inc>0){const extra=Object.assign({},i,{lineId:Date.now()+Math.random(),qty:q-inc,price:p0});delete extra.lunchInc;delete extra.lunchP0;i.qty=inc;t.items.splice(t.items.indexOf(i)+1,0,extra);ch++;}
+   if(inc>0){if(!i.lunchInc||Number(i.price)!==0){if(!String(i.menuId||'').startsWith('L_')||p0>0){i.lunchInc=true;i.lunchP0=p0;}if(Number(i.price)!==0){i.price=0;ch++;}}
+    if(!isItemSent(t,i)&&!i.alVolo){let m=MD[c];if(c==='s'){m=sMid>0?2:3;}if(c==='s')sMid-=Math.min(sMid,inc);if(m&&i.mandata!==m){i.mandata=m;ch++;}}else if(c==='s')sMid-=Math.min(sMid,inc);}
+   else if(i.lunchInc){i.price=Number(i.lunchP0)||0;delete i.lunchInc;delete i.lunchP0;ch++;}});});
+ // righe uguali da unire dopo gli spostamenti (non inviate)
+ return ch;}
+let busy=false;
+function fix(){if(busy)return;const t=state.tables&&state.tables[state.activeTableId];if(!hasF(t))return;busy=true;try{const n=reconcile(t);if(n){try{saveLocalOnly();}catch(e){}try{saveState(false,{tables:[t.id]});}catch(e){}renderOrderScreen();if(!window.__v110t||Date.now()-window.__v110t>4000){window.__v110t=Date.now();toast('🌞 Formule pranzo: piatti inclusi e mandate sistemate');}}}finally{busy=false;}}
+{const _a=addItemToTable;addItemToTable=function(mi){const t=state.tables[state.activeTableId];let old=null;
+ try{if(hasF(t)&&mi&&!fk(mi.id)&&!state.alVolo){const c=course(mi);if(c){const S=slots(t);const used=t.items.filter(i=>course(i)===c&&(i.lunchInc||(String(i.menuId||'').startsWith('L_')&&!(Number(i.price)>0)))).reduce((s,i)=>s+(Number(i.qty)||0),0);
+  if(used<S[c]){let m=MD[c];if(c==='s'){const s2=t.items.filter(i=>course(i)==='s'&&i.mandata===2&&(i.lunchInc||String(i.menuId||'').startsWith('L_'))).reduce((s,i)=>s+(Number(i.qty)||0),0);m=s2<S.as?2:3;}old=state.currentMandata;state.currentMandata=m;}}}}catch(e){}
+ try{return _a.apply(this,arguments);}finally{if(old!==null)state.currentMandata=old;setTimeout(fix,0);}};}
+{const _r=renderOrderScreen;renderOrderScreen=function(){const r=_r.apply(this,arguments);if(!busy)setTimeout(fix,0);return r;};}
+window.v110Fix=fix;
+})();
+}catch(e){console.error("chef-extra v2.9.110",e);}
+try{(function(){const V='v2.9.110';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
