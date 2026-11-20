@@ -2045,7 +2045,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.110';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.111';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2086,6 +2086,7 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.111',['👻 Tavoli fantasma: le voci mai inviate rimaste su un telefono non riaprono più un tavolo già chiuso (né quelle più vecchie di 4 ore). Se un tavolo ha solo voci mai inviate da più di 20 minuti, sulla sua card compare “👻 Mai inviato · Libera” con chi le ha inserite.','🖨️ La comanda NON si stampa più a ogni INVIA né al “Dai il via” (c’è il KDS). Se vuoi riattivarla: Opzioni › Prova stampante.','🐞 Il riquadro “Non ho stampato sulla Epson” compare solo quando provi tu a stampare (preconto o prova), mai per le comande.']],
 ['v2.9.110',['🌞 Formule pranzo: se al tavolo ci sono formule, antipasti, primi e secondi presi anche dal menù normale diventano inclusi (0 €) fino a quanti ne coprono le formule, e vanno da soli nella mandata giusta (antipasti 1ª, primi 2ª, secondi 2ª o 3ª col Completo). I piatti in più restano a pagamento. I tavoli già aperti si sistemano appena li apri.','📊 Chiusura: confronto per piatto con lo stesso giorno della settimana scorsa.','🔮 Chiusura: previsione per domani con coperti attesi (prenotati + senza prenotazione) e porzioni da preparare.']],
 ['v2.9.110',['💧 L’acqua non entra più nella classifica della chiusura della giornata.','📊 Chiusura della giornata: confronto con lo stesso giorno della settimana scorsa (incasso, coperti, conti, per coperto, pranzo e cena) con frecce di andamento, grafico dell’incasso ora per ora e barre degli ultimi 6 giorni uguali. Il confronto entra anche nel riassunto da condividere.']],
 ['v2.9.108',['🧾 A ogni INVIA la comanda per la cucina esce sulla Epson con i soli piatti nuovi (con scritta AGGIUNTA quando il tavolo aveva già ordinato), divisi per mandata, con note e coperti. Anche “Dai il via” stampa il suo foglio. Si spegne in Opzioni › Prova stampante.']],
@@ -2101,7 +2102,7 @@ const LOG=[
 ['v2.9.98',['🌞 Formule del pranzo: la formula viene sempre aggiunta al tavolo, anche se non hai scelto tutti i piatti.','👆 I piatti del pranzo si selezionano con un tocco (diventano verdi ✅), anche mentre scorri la lista.']],
 ['v2.9.97',['🌞 Formule del pranzo con due prezzi: a sinistra turisti (35 · 29 · 25 €), a destra dipendenti in convenzione (30 · 25 · 22 €).','🧾 Nel conto la formula dei dipendenti compare con “· Dipendenti”, così la distingui nelle vendite.']],
 ['v2.9.95',['🧮 Controllo formule del pranzo: prima di inviare in cucina, se antipasti, primi o secondi non tornano con le formule inserite, l’app avvisa e chiede conferma.','🌞 Menù QR: il tasto grande del pranzo ora compare anche quando il menù si apre dalla carta NFC o da un link con altri parametri.']],
-['v2.9.92',['🌞 Tolto il vecchio “Menu pranzo completo 30 €”: in “1 Coperto” ci sono le 3 formule (35 · 29 · 25 €).','🍽️ Toccando una formula scegli antipasto, primo e/o secondo tra quelli del giorno: la formula va nel conto, i piatti vanno in cucina a 0 € nella mandata giusta. C’è anche “Aggiungi e scegli per un’altra persona”.']],
+['v2.9.111',['🌞 Tolto il vecchio “Menu pranzo completo 30 €”: in “1 Coperto” ci sono le 3 formule (35 · 29 · 25 €).','🍽️ Toccando una formula scegli antipasto, primo e/o secondo tra quelli del giorno: la formula va nel conto, i piatti vanno in cucina a 0 € nella mandata giusta. C’è anche “Aggiungi e scegli per un’altra persona”.']],
 ['v2.9.91',['🌞 Menù pranzo con 3 formule: Menù Completo (Antipasto + Primo + Secondo) 35 €, Pranzo Veloce (Antipasto + Secondo) 29 €, Pranzo Veloce (Antipasto + Primo) 25 €. Coperto, 1 bottiglia d’acqua e caffè inclusi.','🧾 Nella comanda, categoria 🌞 Pranzo: tre tasti grandi, uno per formula. Poi tocchi i piatti scelti, che vanno in cucina a 0 €.','📱 Menù QR del pranzo: le 3 formule ben in vista e, su ogni portata, “scegli 1 di 2”.']],
 ['v2.9.90',['🔊 KDS: la cucina sente le comande e i “via” delle mandate a voce (tasto 🔊 Voce ON/OFF sul KDS).','📸 Com’era il piatto?: foto del piatto prima che esca, Gemini la confronta con la foto di riferimento (AI › Sous-Chef e tasto 📸 sul KDS).','🧾 Dividi dal QR: dalla comanda il QR del conto; ogni commensale sceglie i suoi piatti dal telefono e tu vedi chi paga cosa.','🐟 Piatto del giorno dal pescato: foto della cassetta, Gemini incrocia meteo e vendite e propone piatto, prezzo e testo per la lavagnetta.','🕵️ Cliente misterioso: i tempi di ogni tavolo (comanda, mandate, conto) e cosa migliorare, nel Riepilogo del servizio.']],
 ['v2.9.89',['🍭 Nuovo set di icone “Gelatina classica”: l’effetto lucido della Gelatina con i disegni delle Classiche, ancora più grandi. È già attivo; puoi cambiarlo in Opzioni › Icone.','🧹 Pulizia profonda: tolte 13 vecchie funzioni doppie che non venivano più usate (cassa, ritardi, KDS, conti).','🔋 Orologio unico anche per gli ultimi 22 timer: ora tutta l’app gira su un solo timer.']],
@@ -3348,7 +3349,7 @@ const block=()=>'<div class="v91g">'+OPTS.map((o,i)=>'<div class="v91o v96o"><di
  if(!q&&state.currentCategory==='1 Coperto'&&!g.querySelector('.v91g'))g.insertAdjacentHTML('afterbegin',block());
  if(q&&/pran|menu|formul|velo|complet/i.test(q)&&!g.querySelector('.v91g'))g.insertAdjacentHTML('afterbegin',block());}catch(e){}return r;};}
 })();
-}catch(e){console.error("chef-extra v2.9.92",e);}
+}catch(e){console.error("chef-extra v2.9.111",e);}
 try{
 (function(){
 const F={L_MENU_COMPLETO:['a','p','s'],L_VELOCE_AS:['a','s'],L_VELOCE_AP:['a','p'],L_MENU_COMPLETO_DIP:['a','p','s'],L_VELOCE_AS_DIP:['a','s'],L_VELOCE_AP_DIP:['a','p']};
@@ -3636,7 +3637,7 @@ async function eposPrint0(ep,label){if(!ep){toast('Niente da stampare');return;}
  let res;try{res=await eposSend(ep);}finally{busy=false;}
  if(res.r.ok){toast('✅ '+(label||'Stampato')+' sulla Epson',3000);try{const m=$('receiptModal');if(m)m.classList.remove('active');}catch(e){}return true;}
  fail(res,ep,label);return false;}
-function fail(res,ep,label){const r=res.r;let why='';
+function fail(res,ep,label){if(/^(Comanda|Via)/i.test(String(label||'')))return;const r=res.r;let why='';
  if(r.code)why=HINT[r.code]||('Codice stampante: '+r.code);
  else if(res.T.every(x=>x[1].err))why='Il browser non riesce a raggiungere la stampante. Di solito: permesso “dispositivi sulla rete locale” non dato a Chrome, servizio ePOS-Print spento sulla stampante, oppure telefono su un’altra rete.';
  else why='Risposta inattesa dalla stampante (HTTP '+(r.http||'-')+').';
@@ -3672,8 +3673,8 @@ try{(function(){
 const $=id=>document.getElementById(id);
 const toast=(m,ms)=>{try{__toast(m,ms||2600,0);}catch(e){}};
 /* ── 37 · Comanda cucina sulla Epson a ogni INVIA (solo i piatti nuovi) ── */
-const KK='alicetta_kt';
-const ktOn=()=>{try{return localStorage.getItem(KK)!=='off';}catch(e){return true;}};
+const KK='alicetta_kt2';
+const ktOn=()=>{try{return localStorage.getItem(KK)==='on';}catch(e){return false;}};
 const W=()=>{const n=Number(localStorage.getItem('alicetta_prt_cols'));return [32,42,48].includes(n)?n:48;};
 const san=s=>String(s==null?'':s).replace(/[–—]/g,'-').replace(/[’‘]/g,"'").replace(/[“”]/g,'"').replace(/€/g,'EUR').replace(/[^\x00-\xFF]/g,'');
 const LBL={0:'SUBITO / BEVANDE',1:'1a MANDATA (MARCIA)',2:'2a MANDATA',3:'3a MANDATA',4:'4a MANDATA (DOLCI/CAFFE)'};
@@ -3737,4 +3738,32 @@ function fix(){if(busy)return;const t=state.tables&&state.tables[state.activeTab
 window.v110Fix=fix;
 })();
 }catch(e){console.error("chef-extra v2.9.110",e);}
-try{(function(){const V='v2.9.110';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+try{
+(function(){
+const $=id=>document.getElementById(id);
+const toast=(m,ms)=>{try{__toast(m,ms||3000,0);}catch(e){}};
+/* ── 1 · Niente più tavoli fantasma: le bozze vecchie o di tavoli già chiusi non risorgono ── */
+const its=i=>{const n=Math.floor(Number(i&&i.lineId)||0);return n>1.6e12&&n<4e12?n:0;};
+const MAXAGE=4*3600e3;
+window.v111Ghosts=[];
+{const _n=normalizeTablesStructure;normalizeTablesStructure=function(obj){try{if(obj&&typeof obj==='object'&&state&&state.tables&&obj!==state.tables){
+ Object.keys(state.tables).forEach(k=>{const lt=state.tables[k],rr=obj[k];if(!lt||!Array.isArray(lt.items)||!lt.items.length)return;
+  const ca=Number(rr&&rr.closedAt)||0,cs=Number(rr&&rr.closedSess)||0,now=Date.now();
+  const keep=lt.items.filter(i=>{if(isItemSent(lt,i))return true;const t0=its(i);if(t0&&now-t0>MAXAGE)return false;if(ca&&t0&&t0<ca)return false;if(!t0&&cs&&lt.openedAt&&lt.openedAt<=cs)return false;return true;});
+  if(keep.length!==lt.items.length){v111Ghosts.unshift({t:lt.name,n:lt.items.length-keep.length,ts:now});v111Ghosts=v111Ghosts.slice(0,20);lt.items=keep;if(!keep.length)lt.openedAt=0;}});}}catch(e){}
+ return _n.apply(this,arguments);};}
+/* ── 2 · Tavolo con solo bozze ferme da più di 20 minuti: tasto 👻 Libera sulla card ── */
+const st=document.createElement('style');st.textContent='.v111g{display:block;width:calc(100% - 12px);margin:6px auto 0;border:2px solid #062329;border-radius:12px;padding:6px 4px;font-weight:900;font-size:.78rem;background:#F1F5F9;color:#062329;line-height:1.2}.v111g small{display:block;font-weight:700;font-size:.68rem}';document.head.appendChild(st);
+function ghostInfo(t){if(!t||!Array.isArray(t.items)||!t.items.length)return null;if(t.items.some(i=>isItemSent(t,i)))return null;
+ const ts=t.items.map(its).filter(Boolean),old=ts.length?Math.min(...ts):(Number(t.openedAt)||0);if(!old||Date.now()-old<20*60000)return null;
+ const who=[...new Set(t.items.map(i=>i.waiter||'?'))].join(', ');return{min:Math.round((Date.now()-old)/60000),who};}
+window.v111Free=id=>{const t=state.tables[id];if(!t)return;const g=ghostInfo(t);if(!confirm(`👻 ${t.name}: ci sono solo voci mai inviate${g?' da '+g.min+' minuti, inserite da '+g.who:''}.\n\nLiberare il tavolo?`))return;
+ try{resetTableObj(t);}catch(e){t.items=[];t.openedAt=0;t.closedAt=Date.now();}
+ try{saveState(false,{tables:[id]});}catch(e){}try{renderTables();}catch(e){}toast('✅ '+t.name+' liberato');};
+CBT(()=>{try{const v=$('viewTables');if(!v||!v.classList.contains('active'))return;document.querySelectorAll('#tablesContainer .table-card[data-tid]').forEach(c=>{const id=c.dataset.tid,t=state.tables[id],g=ghostInfo(t);let b=c.querySelector('.v111g');
+ if(!g){if(b)b.remove();return;}
+ if(!b){b=document.createElement('button');b.type='button';b.className='v111g';b.onclick=e=>{e.stopPropagation();e.preventDefault();v111Free(id);};c.appendChild(b);}
+ const h='👻 Mai inviato · Libera<small>'+g.min+'′ · '+String(g.who).replace(/[<>&]/g,'')+'</small>';if(b.innerHTML!==h)b.innerHTML=h;});}catch(e){}},2000);
+})();
+}catch(e){console.error("chef-extra v2.9.111",e);}
+try{(function(){const V='v2.9.111';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
