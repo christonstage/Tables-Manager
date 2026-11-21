@@ -2045,7 +2045,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.115';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.118';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2086,6 +2086,9 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.118',['🗑️ Tavolo: tasto “Togli tutti i coperti” in cima al conto (con avviso rosso se ci sono più righe di coperti, per esempio 6+6). Resta scritto nella cronologia del tavolo.','📲 Tag NFC: sabato e domenica a pranzo si apre la carta; da martedì a venerdì a pranzo si apre subito il menù del pranzo.']],
+['v2.9.117',['⏱️ KDS: il cronometro di ogni tavolo parte dall’INVIA della 1ª mandata (non da quando il tavolo è stato aperto). Quando la mandata è FATTA e parte la successiva, il cronometro riparte da zero dall’INVIA di quella (con l’indicazione 2ª, 3ª, 4ª).']],
+['v2.9.116',['⏱️ KDS: la 1ª mandata appena inviata non risulta più “in ritardo”. Il cronometro della cucina parte dal momento dell’INVIA, non da quando il tavolo è stato aperto o da un orario vecchio rimasto (tavoli uniti, tavoli riaperti).']],
 ['v2.9.115',['🛠️ KDS: il tasto “🎙️ Riassunto serata” era diventato un rettangolo enorme che copriva metà schermo (anche AGGIUNGI SCORTE): ogni tocco faceva ripartire “serata finita”. Ora è un tastino in basso accanto a 📸 Piatto; toccandolo di nuovo la voce si ferma.']],
 ['v2.9.114',['📇 Carta NFC intelligente: se hai mandato un preconto negli ultimi 10 minuti, la carta apre direttamente l’ultimo preconto (niente scelta del tavolo); fino a 30 minuti compare in cima. Dalle 11 alle 16, se c’è il menù del pranzo, la carta apre il pranzo; la sera il menù del giorno.','🍷 Abbinamento vini sul menù QR: in AI › Sous-Chef premi “Prepara gli abbinamenti vino”; i clienti nel menù toccano “🍷 Che vino abbino?”, scelgono i loro piatti e vedono i vini consigliati della tua carta, nella loro lingua.']],
 ['v2.9.113',['📇 Una sola carta NFC per tutto il locale: con la carta unica il cliente vede “Il tuo preconto: scegli il tuo tavolo” con i tavoli che hanno un preconto pronto.','💳 Paga dal telefono: in Opzioni incolli il tuo link di pagamento (SumUp, PayPal.me…); nel preconto sul telefono il cliente trova “Paga ora” con l’importo e “Ho pagato”, che avvisa te e il cameriere.','⭐ Recensione al momento giusto: dopo il pagamento la pagina del cliente cita il piatto che ha preso e mette in evidenza la recensione Google.','🔊 Riassunto di fine serata letto ad alta voce sul KDS: dal Riepilogo del servizio (“Fai leggere sul KDS”) o con il tasto 🎙️ sul tablet.','⏱️ Vendite › Chiusura: tempi medi per cameriere degli ultimi 30 giorni (seduti → comanda, ultimo piatto → conto, tavolo in tutto).']],
@@ -3938,4 +3941,64 @@ function draw(){const c=$('v114c');if(!c)return;let ts=0;try{ts=Number(localStor
 CBT(()=>{try{const card=$('v90card');if(!card||!owner()||$('v114c'))return;const c=document.createElement('div');c.id='v114c';card.appendChild(c);draw();}catch(e){}},1500);
 })();
 }catch(e){console.error("chef-extra v2.9.114",e);}
-try{(function(){const V='v2.9.115';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+try{
+(function(){
+/* La 1ª mandata parte da quando la invii, non da quando il tavolo è stato aperto o da un vecchio orario rimasto */
+const real=i=>i&&i.name!=='Pane e Coperto'&&Number(i.mandata)===1;
+{const _s=sendOrderToKitchen;sendOrderToKitchen=async function(){const t=state.tables[state.activeTableId];let had=true,nw=false;
+ try{if(t){had=(t.items||[]).some(i=>real(i)&&isItemSent(t,i));nw=(t.items||[]).some(i=>real(i)&&!isItemSent(t,i));}}catch(e){}
+ const r=await _s.apply(this,arguments);
+ try{if(t&&nw&&!had&&(t.items||[]).some(i=>real(i)&&isItemSent(t,i))){const now=Date.now();t.firedAt=t.firedAt||{};t.firedAt[1]=now;t.firedMandate=t.firedMandate||{};t.firedMandate[1]=true;t.doneMandate=t.doneMandate||{};t.doneMandate[1]=false;if(t.doneAt)delete t.doneAt[1];saveState(false,{tables:[t.id]});}}catch(e){}
+ return r;};}
+})();
+}catch(e){console.error("chef-extra v2.9.116",e);}
+try{(function(){
+const real=(t,m)=>(t.items||[]).some(i=>i&&i.name!=='Pane e Coperto'&&Number(i.mandata)===m&&isItemSent(t,i));
+window.v117Clock=function(t){
+ // cronometro della comanda: parte dall'INVIA della mandata in corso; quando è FATTA riparte dalla successiva
+ try{if(!t||!t.sentOnce)return null;
+ for(const m of [1,2,3,4]){
+  if(!real(t,m))continue;
+  if(t.doneMandate&&t.doneMandate[m])continue;
+  if(m>1&&!(t.firedMandate&&t.firedMandate[m]))continue;
+  let at=Number(t.firedAt&&t.firedAt[m])||0;
+  if(!at&&m===1)at=Number(t.openedAt)||0;
+  if(at)return{m,at};
+ }}catch(e){}
+ return null;};
+const fmt=ms=>{const s=Math.max(0,Math.floor(ms/1000));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');};
+const paint=()=>{try{
+ document.querySelectorAll('[id^="kds_timer_"]').forEach(el=>{
+  const id=el.id.slice(10),t=state.tables&&state.tables[id];if(!t)return;
+  const c=v117Clock(t);
+  const txt=c?('⏱️ '+fmt(Date.now()-c.at)+(c.m>1?' · '+c.m+'ª':'')):'⏱️ --:--';
+  if(el.textContent!==txt)el.textContent=txt;});
+}catch(e){}};
+if(typeof renderKds==='function'){const _k=renderKds;renderKds=function(){const r=_k.apply(this,arguments);paint();return r;};}
+CBT(paint,1000);
+})();}catch(e){console.error("chef-extra v2.9.117",e);}
+try{(function(){
+const isC=i=>i&&(i.cat==='1 Coperto'||/pane e coperto/i.test(i.name||''))&&!i.offered;
+const cnt=t=>(t&&t.items||[]).filter(isC).reduce((s,i)=>s+(Number(i.qty)||0),0);
+window.v118DelCop=async function(){
+ const t=state.tables[state.activeTableId];if(!t)return;
+ const n=cnt(t),rows=(t.items||[]).filter(isC).length;if(!n)return;
+ if(!confirm('Togliere TUTTI i coperti ('+n+') da '+t.name+'?\nDopo puoi rimetterli giusti.'))return;
+ t.items=(t.items||[]).filter(i=>!isC(i));
+ try{v112Log&&v112Log(t,'🗑️ Tolti tutti i coperti ('+n+')');}catch(e){}
+ try{await saveState(false,{tables:[t.id]});}catch(e){}
+ try{renderOrderScreen();}catch(e){}try{renderTables();}catch(e){}
+};
+const paint=()=>{try{
+ const cart=document.getElementById('cartContainer'),t=state.tables&&state.tables[state.activeTableId];
+ let b=document.getElementById('v118cop');
+ const n=cnt(t),rows=t?(t.items||[]).filter(isC).length:0;
+ if(!cart||!t||!n){if(b)b.remove();return;}
+ if(!b){b=document.createElement('div');b.id='v118cop';cart.insertBefore(b,cart.firstChild);}
+ const html='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:'+(rows>1?'#FEE2E2':'#FFF1F7')+';border:2px solid '+(rows>1?'#DC2626':'#C2186F')+';border-radius:12px;padding:8px 10px;margin-bottom:10px;"><span style="flex:1;min-width:130px;font-size:.82rem;font-weight:800;color:#1F2937;">'+(rows>1?'⚠️ '+rows+' righe di coperti ('+n+' in tutto)':'🍞 Coperti: '+n)+'</span><button type="button" id="v118btn" style="border:2px solid #7F1D1D;background:#fff;color:#7F1D1D;border-radius:999px;padding:8px 14px;font-weight:900;font-size:.85rem;">🗑️ Togli tutti i coperti</button></div>';
+ if(b.dataset.h!==html){b.dataset.h=html;b.innerHTML=html;const x=document.getElementById('v118btn');if(x)x.onclick=()=>v118DelCop();}
+}catch(e){}};
+{const _r=renderOrderScreen;renderOrderScreen=function(){const r=_r.apply(this,arguments);try{paint();}catch(e){}return r;};}
+CBT(paint,1500);
+})();}catch(e){console.error("chef-extra v2.9.118",e);}
+try{(function(){const V='v2.9.118';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
