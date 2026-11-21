@@ -890,7 +890,7 @@ try{render(currentTab);}catch(e){}paint();
 })();
 </script>
 
-<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.114</div>
+<div style="text-align:center;font-size:10px;opacity:.55;margin:6px 0 14px;">menù v2.9.118</div>
 <script>
 /* ===== v2.9.90 · Dividi il conto dal QR (?split=CODICE) ===== */
 (function(){const q=new URLSearchParams(location.search),code=(q.get('split')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length!==6)return;
@@ -922,7 +922,7 @@ try{render(currentTab);}catch(e){}paint();
 <script>
 /* ===== v2.9.95 · Collegamento grande al menù del pranzo dalla pagina del menù (anche da NFC) ===== */
 (function(){const q=new URLSearchParams(location.search);if(['pranzo','speciale','club','r','gift','split','rid','pc'].some(k=>q.has(k)))return;
- const h=new Date().getHours();if(h<5||h>=16)return;
+ const h=new Date().getHours();if(h<5||h>=16)return;{const w=new Date().getDay();if(w===0||w===6)return;}
  const FBU='https://alicetta-tables-default-rtdb.europe-west1.firebasedatabase.app';
  const L=((localStorage.getItem('alicetta_lang')||navigator.language||'it').slice(0,2)).toLowerCase();
  const T={it:['🌞 MENÙ DEL PRANZO','3 formule: 35 € · 29 € · 25 € — tocca qui'],en:['🌞 LUNCH MENU','3 options: €35 · €29 · €25 — tap here'],de:['🌞 MITTAGSMENÜ','3 Angebote: 35 € · 29 € · 25 € — hier tippen'],fr:['🌞 MENU DU DÉJEUNER','3 formules : 35 € · 29 € · 25 € — touchez ici'],es:['🌞 MENÚ DEL ALMUERZO','3 opciones: 35 € · 29 € · 25 € — toca aquí']}[L]||null;
@@ -990,7 +990,8 @@ try{render(currentTab);}catch(e){}paint();
    const last=Object.entries(pcl||{}).filter(([k,v])=>v&&Number(v.ts)).sort((a,b)=>b[1].ts-a[1].ts)[0];const age=last?Date.now()-last[1].ts:Infinity;
    if(last&&age<10*60000){location.replace(location.pathname+'?pc='+encodeURIComponent(last[0]));return;}
    const h=new Date().getHours(),lunchOk=lu&&(lu.secs||[]).some(s=>(s.items||[]).length);
-   if(h>=11&&h<16&&lunchOk&&!sessionStorage.getItem('alicetta_lunch_seen')){try{sessionStorage.setItem('alicetta_lunch_seen','1');}catch(e){}location.replace(location.pathname+'?pranzo=1'+(q.get('tb')?'&tb='+encodeURIComponent(q.get('tb')):''));return;}
+   const dw=new Date().getDay();/* mar-ven a pranzo: menù del pranzo; sabato e domenica: carta */
+   if(dw>=2&&dw<=5&&h>=11&&h<16&&lunchOk&&!sessionStorage.getItem('alicetta_lunch_seen')){try{sessionStorage.setItem('alicetta_lunch_seen','1');}catch(e){}location.replace(location.pathname+'?pranzo=1'+(q.get('tb')?'&tb='+encodeURIComponent(q.get('tb')):''));return;}
    if(last&&age<30*60000&&!document.getElementById('pcLinkBig')){const a=document.createElement('a');a.id='pcLast';a.href=location.pathname+'?pc='+encodeURIComponent(last[0]);a.innerHTML='<span style="display:block;font-size:1.3rem;">'+T.pc+' ›</span>';a.style.cssText='display:block;margin:0 0 14px;padding:16px 14px;border-radius:22px;text-align:center;text-decoration:none;font-weight:900;color:#fff;background:linear-gradient(160deg,#7C3AED,#FF2D95);border:3px solid #062329;box-shadow:0 6px 0 #062329;';
     const put=()=>{const mn=document.querySelector('main')||document.body;if(mn.firstChild!==a)mn.insertBefore(a,mn.firstChild);};put();[400,1500,4000].forEach(t=>setTimeout(put,t));}});}
  /* 21 · Abbinamento vini (preparato da Gemini dal titolare, qui solo letto) */
