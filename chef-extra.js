@@ -2045,7 +2045,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.118';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.120';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2086,6 +2086,8 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.120',['🔐 Opzioni: i campi dell’account Firebase e delle chiavi non fanno più comparire il banner “Usare la password salvata?” (restano nascosti con i pallini).','💶 Sulle card dei tavoli e nel totale del tavolo compare la spesa a coperto (totale ÷ coperti, offerti inclusi).','📦 Scorte anche per vini (bottiglie) e bevande: nel pannello Scorte, sotto ai piatti, con lo stesso +/− e “esaurito” automatico a zero.']],
+['v2.9.119',['🍞 Coperti: sulla riga dei coperti ci sono ora “−” (toglie un coperto: offerto oppure errore), “🎁 Offerti” (tutti i coperti diventano offerti: non si pagano ma contano come presenze) e “🗑️ Tutti”. Se i coperti sono ancora in bozza compare l’avviso: gli altri telefoni li vedono solo dopo INVIA.']],
 ['v2.9.118',['🗑️ Tavolo: tasto “Togli tutti i coperti” in cima al conto (con avviso rosso se ci sono più righe di coperti, per esempio 6+6). Resta scritto nella cronologia del tavolo.','📲 Tag NFC: sabato e domenica a pranzo si apre la carta; da martedì a venerdì a pranzo si apre subito il menù del pranzo.']],
 ['v2.9.117',['⏱️ KDS: il cronometro di ogni tavolo parte dall’INVIA della 1ª mandata (non da quando il tavolo è stato aperto). Quando la mandata è FATTA e parte la successiva, il cronometro riparte da zero dall’INVIA di quella (con l’indicazione 2ª, 3ª, 4ª).']],
 ['v2.9.116',['⏱️ KDS: la 1ª mandata appena inviata non risulta più “in ritardo”. Il cronometro della cucina parte dal momento dell’INVIA, non da quando il tavolo è stato aperto o da un orario vecchio rimasto (tavoli uniti, tavoli riaperti).']],
@@ -3989,16 +3991,66 @@ window.v118DelCop=async function(){
  try{await saveState(false,{tables:[t.id]});}catch(e){}
  try{renderOrderScreen();}catch(e){}try{renderTables();}catch(e){}
 };
+window.v118One=function(){const t=state.tables[state.activeTableId];if(!t)return;const L=(t.items||[]).filter(isC);if(!L.length)return;const it=L.find(i=>!(typeof isItemSent==='function'&&isItemSent(t,i)))||L[L.length-1];changeItemQty(it.lineId,-1);};
+window.v118AllOff=async function(){
+ const t=state.tables[state.activeTableId];if(!t)return;const L=(t.items||[]).filter(isC),n=cnt(t);if(!n)return;
+ if(!confirm('🎁 Segnare TUTTI i '+n+' coperti come OFFERTI?\nNon si pagano, ma restano contati come presenze.'))return;
+ const val=L.reduce((a,i)=>a+(Number(i.qty)||0)*(Number(i.price)||0),0);
+ t.copOff=(Number(t.copOff)||0)+n;t.copOffVal=Math.round(((Number(t.copOffVal)||0)+val)*100)/100;
+ (t.copOffLog=t.copOffLog||[]).push({ts:Date.now(),by:state.waiterName||'Staff',n:n});
+ t.items=(t.items||[]).filter(i=>!isC(i));
+ try{v112Log&&v112Log(t,'🎁 Tutti i coperti offerti ('+n+')');}catch(e){}
+ try{await saveState(false,{tables:[t.id]});}catch(e){}
+ try{renderOrderScreen();}catch(e){}try{renderTables();}catch(e){}
+};
 const paint=()=>{try{
  const cart=document.getElementById('cartContainer'),t=state.tables&&state.tables[state.activeTableId];
  let b=document.getElementById('v118cop');
  const n=cnt(t),rows=t?(t.items||[]).filter(isC).length:0;
  if(!cart||!t||!n){if(b)b.remove();return;}
  if(!b){b=document.createElement('div');b.id='v118cop';cart.insertBefore(b,cart.firstChild);}
- const html='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:'+(rows>1?'#FEE2E2':'#FFF1F7')+';border:2px solid '+(rows>1?'#DC2626':'#C2186F')+';border-radius:12px;padding:8px 10px;margin-bottom:10px;"><span style="flex:1;min-width:130px;font-size:.82rem;font-weight:800;color:#1F2937;">'+(rows>1?'⚠️ '+rows+' righe di coperti ('+n+' in tutto)':'🍞 Coperti: '+n)+'</span><button type="button" id="v118btn" style="border:2px solid #7F1D1D;background:#fff;color:#7F1D1D;border-radius:999px;padding:8px 14px;font-weight:900;font-size:.85rem;">🗑️ Togli tutti i coperti</button></div>';
- if(b.dataset.h!==html){b.dataset.h=html;b.innerHTML=html;const x=document.getElementById('v118btn');if(x)x.onclick=()=>v118DelCop();}
+ const dr=(t.items||[]).some(i=>isC(i)&&!(typeof isItemSent==='function'&&isItemSent(t,i)));
+ const bs='border:2px solid #7F1D1D;background:#fff;color:#7F1D1D;border-radius:999px;padding:8px 12px;font-weight:900;font-size:.85rem;';
+ const html='<div style="background:'+(rows>1?'#FEE2E2':'#FFF1F7')+';border:2px solid '+(rows>1?'#DC2626':'#C2186F')+';border-radius:12px;padding:8px 10px;margin-bottom:10px;"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="flex:1;min-width:110px;font-size:.85rem;font-weight:900;color:#1F2937;">'+(rows>1?'⚠️ '+rows+' righe · ':'🍞 ')+'Coperti: '+n+'</span><button type="button" id="v118m" style="'+bs+'min-width:46px;font-size:1.1rem;">−</button><button type="button" id="v118off" style="'+bs+'color:#78350F;border-color:#B45309;">🎁 Offerti</button><button type="button" id="v118btn" style="'+bs+'">🗑️ Tutti</button></div>'+(dr?'<div style="margin-top:6px;font-size:.75rem;font-weight:800;color:#991B1B;">⚠️ Coperti ancora in bozza: gli altri telefoni non li vedono finché non premi INVIA.</div>':'')+'</div>';
+ if(b.dataset.h!==html){b.dataset.h=html;b.innerHTML=html;const x=document.getElementById('v118btn');if(x)x.onclick=()=>v118DelCop();const y=document.getElementById('v118m');if(y)y.onclick=()=>v118One();const z=document.getElementById('v118off');if(z)z.onclick=()=>v118AllOff();}
 }catch(e){}};
 {const _r=renderOrderScreen;renderOrderScreen=function(){const r=_r.apply(this,arguments);try{paint();}catch(e){}return r;};}
 CBT(paint,1500);
-})();}catch(e){console.error("chef-extra v2.9.118",e);}
-try{(function(){const V='v2.9.118';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+})();}catch(e){console.error("chef-extra v2.9.118-119",e);}
+try{(function(){
+/* 1) niente banner "Usare la password salvata?": i campi accesso/chiavi non sono più riconosciuti come password */
+const ids=['fbPass','fbEmail','sumupKey','geminiKeyInput','fbApiKey'];
+const fix=()=>{try{ids.forEach(id=>{const e=document.getElementById(id);if(!e||e.dataset.v120)return;e.dataset.v120='1';
+ if(e.type==='password'){e.type='text';e.style.webkitTextSecurity='disc';e.style.textSecurity='disc';}
+ e.setAttribute('autocomplete','off');e.setAttribute('autocorrect','off');e.setAttribute('autocapitalize','off');e.setAttribute('spellcheck','false');
+ e.setAttribute('data-lpignore','true');e.setAttribute('data-1p-ignore','true');e.setAttribute('data-form-type','other');e.name='cbb_'+id;});}catch(x){}};
+fix();document.addEventListener('DOMContentLoaded',fix);CBT(fix,1500);
+/* 2) spesa a coperto sulle card dei tavoli e sul totale del tavolo */
+const cov=t=>(t.items||[]).filter(i=>i&&(i.cat==='1 Coperto'||/pane e coperto/i.test(i.name||''))&&!i.offered).reduce((s,i)=>s+(Number(i.qty)||0),0)+(Number(t.copOff)||0);
+const perCov=t=>{try{const c=cov(t),tot=getTableTotal(t);if(!c||!(tot>0))return null;return{c,v:tot/c};}catch(e){return null;}};
+const paintCards=()=>{try{document.querySelectorAll('#tablesContainer .table-card[data-tid]').forEach(c=>{const t=state.tables[c.dataset.tid];const tt=c.querySelector('.table-total');let e=c.querySelector('.v120pc');const p=t&&t.items&&t.items.length?perCov(t):null;
+ if(!p||!tt){if(e)e.remove();return;}
+ const txt='€ '+formatPrice(p.v)+' a coperto';
+ if(!e){e=document.createElement('div');e.className='v120pc';e.style.cssText='margin-top:2px;font-size:.78rem;font-weight:900;opacity:.95;';tt.insertAdjacentElement('afterend',e);}
+ if(e.textContent!==txt)e.textContent=txt;});}catch(x){}};
+const paintBox=()=>{try{const sub=document.getElementById('v100sub');if(!sub)return;const t=state.tables[state.activeTableId];const p=t&&perCov(t);let e=document.getElementById('v120pc2');
+ if(!p){if(e)e.remove();return;}
+ const txt='🍞 '+p.c+(p.c===1?' coperto':' coperti')+' · € '+formatPrice(p.v)+' a coperto';
+ if(!e){e=document.createElement('div');e.id='v120pc2';e.style.cssText='font-size:.95rem;font-weight:900;margin-top:2px;';sub.insertAdjacentElement('afterend',e);}
+ if(e.textContent!==txt)e.textContent=txt;}catch(x){}};
+if(typeof renderTables==='function'){const _t=renderTables;renderTables=function(){const r=_t.apply(this,arguments);paintCards();return r;};}
+if(typeof renderOrderScreen==='function'){const _o=renderOrderScreen;renderOrderScreen=function(){const r=_o.apply(this,arguments);setTimeout(paintBox,50);return r;};}
+CBT(()=>{paintCards();paintBox();},1500);
+/* 3) scorte anche per vini e bevande */
+const byName=(x,y)=>String(x.name||'').localeCompare(String(y.name||''),'it',{sensitivity:'base',numeric:true});
+const isVino=m=>(Number(m.price)||0)>=14&&!/birra|liquore|caff|calice/i.test(m.name||'');
+const rowD=(m,u)=>{const l=stockLeft(m);return`<div class="cart-row"><div class="cart-info"><b>${escH(m.name)}</b></div><div class="cart-controls"><button class="btn-qty" onclick="adjStock(${m.id},-1)">-</button><button class="btn-note" style="min-width:104px;${l===0?'background:#FEE2E2;color:#991B1B;':l!==null?'background:#FDE047;color:#422006;':''}" onclick="askStock(${m.id})">${l===null?'∞ senza limite':(l===0?'0 · finito':'❗ '+l+' '+u)}</button><button class="btn-qty" onclick="adjStock(${m.id},1)">+</button></div></div>`;};
+{const _s=renderStock;renderStock=function(){const r=_s.apply(this,arguments);try{const p=document.getElementById('stockPanel');if(!p)return r;const old=p.querySelector('.v120d');if(old)old.remove();
+ const dr=(state.menu||[]).filter(m=>m.cat==='2 Bevande');if(!dr.length)return r;
+ const vini=dr.filter(isVino).sort(byName),alt=dr.filter(m=>!isVino(m)).sort(byName);
+ const g=(lbl,it,u,cn)=>{if(!it.length)return'';const c=it.filter(m=>{const x=stockLeft(m);return x!==null&&x>0;}).length,f=it.filter(m=>stockLeft(m)===0).length;return`<h4 class="st-gh">${lbl}<span>${it.length} ${cn}${c?' · ❗ '+c+' contati':''}${f?' · '+f+' finiti':''}</span></h4><div class="st-grp">${it.map(m=>rowD(m,u)).join('')}</div>`;};
+ const w=document.createElement('div');w.className='v120d';w.innerHTML='<div style="font-size:0.75rem;color:var(--muted);margin:10px 0 6px;">🍷 Per vini e bevande il numero indica le <b>bottiglie o i pezzi rimasti</b>. A zero compaiono come esauriti in cassa e sul menù QR.</div>'+g('🍷 Vini (bottiglie)',vini,'bott.','vini')+g('🥤 Bevande, calici e caffè',alt,'pz','voci');
+ p.appendChild(w);}catch(e){}return r;};}
+try{renderStock();}catch(e){}
+})();}catch(e){console.error("chef-extra v2.9.120",e);}
+try{(function(){const V='v2.9.120';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
