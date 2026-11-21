@@ -1254,7 +1254,10 @@ function draw(){if(!isAl())return;const host=$('hub_sales_oggi');if(!host)return
  const s={card:0,cash:0,loc:0,n:L.length,cop:0};L.forEach(e=>{s.cop+=Number(e.coperti)||0;(window.v41Parts?v41Parts(e):[]).forEach(x=>{s[x.k]+=x.a;});});const tot=s.card+s.cash+s.loc;
  const R={};L.forEach(e=>(e.items||[]).forEach(i=>{if(!i||NOPE.test(i.name||'')||i.cat==='1 Coperto')return;const k=i.name;R[k]=R[k]||{q:0,v:0,c:i.cat||''};R[k].q+=Number(i.qty)||0;R[k].v+=(Number(i.price)||0)*(Number(i.qty)||0);}));
  const isDrink=c=>/bevand|vin|birr|caff|amar|bibit/i.test(c||'');
- const top=(f)=>Object.entries(R).filter(([k,v])=>f(v)).sort((x,y)=>y[1].q-x[1].q).slice(0,10);
+ const top=(f)=>Object.entries(R).filter(([k,v])=>f(v,k)).sort((x,y)=>y[1].q-x[1].q).slice(0,10);
+ const isW=(k,v)=>v.q>0&&(v.v/v.q)>=14&&!/birra|liquore|caff|calice/i.test(k||'');
+ const rkW=(list)=>{const mx=list.length?list[0][1].q:1;return list.map(([k,v],i)=>`<div class="al-rk"><span class="n">${i+1}</span><div>${esc(k.length>46?k.slice(0,44)+'…':k)}<i style="width:${Math.max(6,Math.round(v.q/mx*100))}%"></i></div><b>${v.q}× · ${eur(v.v)}</b></div>`).join('')||'<div class="al-row"><span>Nessun vino venduto.</span></div>';};
+ const calici=Object.entries(R).filter(([k,v])=>/calice/i.test(k)).reduce((a,[k,v])=>a+v.q,0);
  const rk=(list)=>{const mx=list.length?list[0][1].q:1;return list.map(([k,v],i)=>`<div class="al-rk"><span class="n">${i+1}</span><div>${esc(k.length>46?k.slice(0,44)+'…':k)}<i style="width:${Math.max(6,Math.round(v.q/mx*100))}%"></i></div><b>${v.q}×</b></div>`).join('')||'<div class="al-row"><span>Nessun piatto venduto.</span></div>';};
  let rows='';if(A.m!=='g'){const by={};L.forEach(e=>{const d=svcDate(e);(by[d]=by[d]||[]).push(e);});const D=[];for(let d=a;d<=b&&d<=t;d=addD(d,1))D.push(d);rows=`<h4>📅 Giorno per giorno</h4>`+D.reverse().map(d=>{const l=by[d]||[];let tt=0;l.forEach(e=>(window.v41Parts?v41Parts(e):[]).forEach(x=>tt+=x.a));return `<div class="al-row" onclick="v45D('${d}')" style="cursor:pointer;${tt?'':'opacity:.45'}"><span>${new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'short'})} ${d.slice(8)}/${d.slice(5,7)} · ${l.length} conti ›</span><b>${eur(tt)}</b></div>`;}).join('');}
  box.innerHTML=`<div class="al"><div class="al-tabs">${[['g','Giorno'],['s','Settimana'],['m','Mese']].map(([k,l])=>`<button class="${A.m===k?'on':''}" onclick="v45M('${k}')">${l}</button>`).join('')}</div>
@@ -1264,7 +1267,7 @@ function draw(){if(!isAl())return;const host=$('hub_sales_oggi');if(!host)return
 <div class="al-t"><div style="background:#DBEAFE;color:#1E3A8A;">💳 Carta<br>SumUp<b>${eur(s.card)}</b></div><div style="background:#E0F2FE;color:#075985;">💵 Contanti<br>SumUp<b>${eur(s.cash)}</b></div><div style="background:#DCFCE7;color:#14532D;">🏪 Contanti<br>cassa locale<b>${eur(s.loc)}</b></div></div>
 ${rows}
 <h4>🏆 Piatti più venduti</h4>${rk(top(v=>!isDrink(v.c)))}
-<h4>🍷 Bevande più vendute</h4>${rk(top(v=>isDrink(v.c)).slice(0,5))}
+<h4>🍾 Vini più venduti</h4>${rkW(top((v,k)=>isDrink(v.c)&&isW(k,v)).slice(0,5))}${calici?`<div class="al-row"><span>🥂 Calici venduti</span><b>${calici}</b></div>`:''}<h4>🥤 Altre bevande più vendute</h4>${rk(top((v,k)=>isDrink(v.c)&&!isW(k,v)&&!/calice/i.test(k)).slice(0,5))}
 <button class="btn-main btn-bill" style="width:100%;margin-top:12px;" onclick="setHubPage('sales','forn')">📦 Fornitori · 📷 fotografa una fattura</button></div>`;}
 {const _r=renderConti;renderConti=function(){const r=_r.apply(this,arguments);try{if(isAl())draw();}catch(e){}return r;};}
 })();
@@ -2045,7 +2048,7 @@ CBT(()=>{try{sig();}catch(e){}},700);
 }catch(e){console.error("chef-extra v2.9.68",e);}
 try{
 (function(){
-const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.120';
+const $=id=>document.getElementById(id);const esc=s=>escH(s);const CUR='v2.9.122';
 const owner=()=>/^christian$/i.test((state.waiterName||'').trim());
 const st=document.createElement('style');
 st.textContent=`.qr-c1{background:#FF5A36!important;color:#fff!important;box-shadow:0 4px 0 #B3361A!important}.qr-c2{background:#FDE047!important;color:#3B2A00!important;box-shadow:0 4px 0 #CA8A04!important}.qr-c3{background:#22C55E!important;color:#052E16!important;box-shadow:0 4px 0 #15803D!important}.qr-c4{background:#1BE7FF!important;color:#062329!important;box-shadow:0 4px 0 #0E7490!important}.qr-c5{background:#7C3AED!important;color:#fff!important;box-shadow:0 4px 0 #4C1D95!important}.qr-c6{background:#EC4899!important;color:#fff!important;box-shadow:0 4px 0 #9D174D!important}.qr-c1,.qr-c2,.qr-c3,.qr-c4,.qr-c5,.qr-c6{-webkit-text-fill-color:currentColor!important;text-shadow:none!important;border:0!important}
@@ -2086,6 +2089,8 @@ ${R&&R.err?`<div class="pp-res">❌ ${esc(R.err)}</div>`:''}${R&&!R.err?`<div cl
 function post(){const el=$('hub_ai_post');if(!el||$('ppBox'))return;const s=el.querySelector('.cart-section');if(!s)return;const d=document.createElement('div');d.id='ppBox';d.className='cart-section pp-box';el.insertBefore(d,s);drawPP();}
 /* ---------- 5) novità della versione ---------- */
 const LOG=[
+['v2.9.122',['🛒 Lista spesa: nuova sezione sul KDS e tasto “🛒 Spesa” nella schermata Tavoli. Si scrive cosa serve, si spunta quando è comprato, e la vedono tutti (Cucina, Alice, Christian); chi non l’ha aggiunta riceve la notifica. Tasto per aggiungere in un colpo le bevande in esaurimento e tasto 📲 WhatsApp per mandare la lista.']],
+['v2.9.121',['🔊 KDS: tolto il tasto per silenziare la voce: le comande si sentono sempre.','🍾 Vendite: nuova classifica “Vini più venduti” (bottiglie e incasso, con il vino numero 1 in evidenza) e conteggio calici, per il periodo scelto.','🍞 Coperti: appena li inserisci compaiono subito sugli altri telefoni, senza aspettare l’INVIA. Se il tavolo ha già dei coperti (inseriti da un altro o poco fa) ti avvisa prima di aggiungerne.','🍾 KDS: avviso “In esaurimento” (e voce) per vini e bevande con scorta sotto 2.']],
 ['v2.9.120',['🔐 Opzioni: i campi dell’account Firebase e delle chiavi non fanno più comparire il banner “Usare la password salvata?” (restano nascosti con i pallini).','💶 Sulle card dei tavoli e nel totale del tavolo compare la spesa a coperto (totale ÷ coperti, offerti inclusi).','📦 Scorte anche per vini (bottiglie) e bevande: nel pannello Scorte, sotto ai piatti, con lo stesso +/− e “esaurito” automatico a zero.']],
 ['v2.9.119',['🍞 Coperti: sulla riga dei coperti ci sono ora “−” (toglie un coperto: offerto oppure errore), “🎁 Offerti” (tutti i coperti diventano offerti: non si pagano ma contano come presenze) e “🗑️ Tutti”. Se i coperti sono ancora in bozza compare l’avviso: gli altri telefoni li vedono solo dopo INVIA.']],
 ['v2.9.118',['🗑️ Tavolo: tasto “Togli tutti i coperti” in cima al conto (con avviso rosso se ci sono più righe di coperti, per esempio 6+6). Resta scritto nella cronologia del tavolo.','📲 Tag NFC: sabato e domenica a pranzo si apre la carta; da martedì a venerdì a pranzo si apre subito il menù del pranzo.']],
@@ -3193,16 +3198,14 @@ const dishes=()=>(state.menu||[]).filter(m=>m&&m.name&&!['1 Coperto','2 Bevande'
 const dk=n=>String(n||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'_').slice(0,60);
 
 /* ===== 1 · KDS: la cucina sente le comande a voce ===== */
-const VK='alicetta_kds_voice';const vOn=()=>localStorage.getItem(VK)!=='0';
+const VK='alicetta_kds_voice';const vOn=()=>true;/* v2.9.121: la voce è sempre attiva, niente tasto per silenziarla */
 const ORD=['','prima','seconda','terza','quarta','quinta'];
 function sayText(ev){let t=strip(ev.title).replace(/[^\p{L}\p{N}ªº'.,:\- ]/gu,' ');t=t.replace(/(\d)\s*[ªº]/g,(m,d)=>ORD[d]||d).replace(/\s*-\s*/g,', ').replace(/\s+/g,' ').trim().toLowerCase();
  let s=strip(ev.kdsSummary||ev.summary||'').replace(/(\d+)\s*x\s*/gi,'$1 ').replace(/\((con la (\d)ª)\)/g,(m,a,d)=>'con la '+(ORD[d]||d));return (t+'. '+s).slice(0,400);}
 function speak(txt){try{if(!('speechSynthesis' in window))return;const u=new SpeechSynthesisUtterance(txt);u.lang='it-IT';u.rate=.95;u.pitch=1;const v=speechSynthesis.getVoices().find(x=>/^it/i.test(x.lang));if(v)u.voice=v;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
 window.v90Say=ev=>speak(sayText(ev));
 let lastEv=null;
-function voiceTick(){let b=$('v90kv');if(!kds()){if(b)b.remove();lastEv=null;return;}
- if(!b){b=document.createElement('button');b.id='v90kv';b.className='v90kv';b.onclick=()=>{localStorage.setItem(VK,vOn()?'0':'1');if(vOn())speak('Voce attiva. Ti leggerò le comande.');voiceTick();};document.body.appendChild(b);}
- b.textContent=vOn()?'🔊 Voce ON':'🔇 Voce OFF';b.style.background=vOn()?'#22C55E':'#64748B';b.style.color='#fff';b.style.display=($('viewKds')&&$('viewKds').classList.contains('active'))?'':'none';
+function voiceTick(){{const b=$('v90kv');if(b)b.remove();}if(!kds()){lastEv=null;return;}
  const ev=state.lastOrderEvent;const id=ev&&ev.id;if(lastEv===null){lastEv=id||0;return;}
  if(id&&id!==lastEv){lastEv=id;if(vOn()&&!ev.noKds&&!ev.sala&&Date.now()-id<120000)speak(sayText(ev));}}
 CBT(voiceTick,1000);
@@ -4053,4 +4056,104 @@ const rowD=(m,u)=>{const l=stockLeft(m);return`<div class="cart-row"><div class=
  p.appendChild(w);}catch(e){}return r;};}
 try{renderStock();}catch(e){}
 })();}catch(e){console.error("chef-extra v2.9.120",e);}
-try{(function(){const V='v2.9.120';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
+try{(function(){
+const $=id=>document.getElementById(id);
+const isC=i=>i&&(i.cat==='1 Coperto'||/pane e coperto/i.test(i.name||''))&&!i.offered;
+const covN=t=>(t.items||[]).filter(isC).reduce((s,i)=>s+(Number(i.qty)||0),0);
+const sentF=(t,i)=>typeof isItemSent==='function'?isItemSent(t,i):!!i.sent;
+/* 26 · i coperti non sono comande per la cucina: si sincronizzano subito con gli altri telefoni, senza aspettare l'INVIA */
+function pushCop(t){try{(t.items||[]).forEach(i=>{if(isC(i)&&i.sent!==true)i.sent=true;});
+ const bozze=(t.items||[]).some(i=>!isC(i)&&!sentF(t,i));
+ if(!t.openedAt)t.openedAt=Date.now();
+ if(!bozze)saveState(false,{tables:[t.id]});else saveLocalOnly();}catch(e){}}
+window.v121PushCop=pushCop;
+{const _a=addItemToTable;addItemToTable=function(mi){const t=state.tables[state.activeTableId];
+ const c=!!(mi&&(mi.cat==='1 Coperto'||/pane e coperto/i.test(mi.name||'')));
+ if(c&&t){
+  const ex=(t.items||[]).filter(isC);
+  /* 25 · avviso: coperti già presenti, inseriti da qualcun altro o poco fa */
+  if(ex.length){const now=Date.now(),me=state.waiterName||'Staff';
+   const last=Math.max(0,...ex.map(i=>Math.floor(Number(i.lineId)||0)).filter(n=>n>1.6e12&&n<4e12));
+   const mine=ex.every(i=>(i.waiter||'Staff')===me),recent=last&&now-last<90000&&mine;
+   if(!recent){const who=[...new Set(ex.map(i=>i.waiter||'Staff'))].join(', ');
+    if(!confirm('⚠️ '+t.name+' ha già '+covN(t)+' coperti (inseriti da '+who+').\nVuoi aggiungerne altri?\n\nOK = aggiungi · Annulla = lascia come sta'))return;}}
+  const m=state.currentMandata,line=(t.items||[]).find(i=>isC(i)&&i.menuId===mi.id&&i.mandata===m&&!i.note&&!i.alVolo);
+  if(line){line.qty=(Number(line.qty)||0)+1;line.sent=true;saveLocalOnly();try{renderOrderScreen();}catch(e){}try{window.v112Log&&v112Log(t,'➕ '+(mi.name||'Coperto'));}catch(e){}pushCop(t);return;}
+ }
+ const r=_a.apply(this,arguments);
+ if(c&&t)pushCop(t);
+ return r;};}
+/* 23 · Vendite (titolare): classifica dei vini più venduti nel periodo scelto */
+(function(){
+const E=n=>'€ '+formatPrice(Math.round((Number(n)||0)*100)/100);
+const esc=x=>String(x==null?'':x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function wines(){const el=document.getElementById('salesCharts');if(!el)return;let a,b;try{[a,b]=contiRange();}catch(e){return;}
+ const R={};(state.historyLog||[]).filter(e=>e&&salesDay(e)>=a&&salesDay(e)<=b).forEach(e=>(e.items||[]).forEach(it=>{if(!it||it.cat!=='2 Bevande')return;const k=it.name||'?';R[k]=R[k]||{q:0,v:0};R[k].q+=Number(it.qty)||0;R[k].v+=(Number(it.price)||0)*(Number(it.qty)||0);}));
+ const isW=(k,v)=>v.q>0&&(v.v/v.q)>=14&&!/birra|liquore|caff|calice/i.test(k);
+ const W=Object.entries(R).filter(([k,v])=>isW(k,v)).sort((x,y)=>y[1].q-x[1].q||y[1].v-x[1].v).slice(0,8);
+ const cal=Object.entries(R).filter(([k])=>/calice/i.test(k)).reduce((s,[k,v])=>s+v.q,0);
+ const mx=W.length?W[0][1].q:1;
+ el.insertAdjacentHTML('beforeend','<h3 style="margin:14px 0 6px;">🍾 Vini più venduti</h3><div style="font-size:.75rem;font-weight:800;color:var(--muted);margin-bottom:6px;">stesso periodo del grafico · bottiglie e incasso</div>'+(W.length?W.map(([k,v],i)=>'<div style="display:flex;align-items:center;gap:8px;margin:5px 0;font-size:.85rem;"><span style="font-weight:900;min-width:22px;">'+(i===0?'🏆':(i+1))+'</span><div style="flex:1;min-width:0;"><div style="font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+esc(k)+'</div><div style="height:6px;border-radius:4px;background:#BE185D;width:'+Math.max(6,Math.round(v.q/mx*100))+'%;"></div></div><b style="white-space:nowrap;">'+v.q+' × · '+E(v.v)+'</b></div>').join(''):'<div style="font-size:.85rem;color:var(--muted);">Nessun vino venduto nel periodo.</div>')+(cal?'<div style="margin-top:8px;font-size:.85rem;font-weight:800;">🥂 Calici venduti: '+cal+'</div>':''));}
+if(typeof renderSalesCharts==='function'){const _r=renderSalesCharts;renderSalesCharts=function(){const r=_r.apply(this,arguments);try{wines();}catch(e){}return r;};}
+})();
+/* 27 · KDS: avviso bottiglie e bevande in esaurimento (scorta sotto 2) */
+const low=()=>{const L=[];(state.menu||[]).forEach(m=>{if(m.cat!=='2 Bevande')return;let l=null;try{l=stockLeft(m);}catch(e){}if(l!==null&&l<2)L.push({m,l});});return L.sort((a,b)=>a.l-b.l||String(a.m.name).localeCompare(String(b.m.name),'it'));};
+const paint=()=>{try{const sp=$('stockPanel'),kv=$('viewKds');let b=$('v121low');
+ const L=low();
+ if(!sp||!kv||!L.length){if(b)b.remove();return;}
+ if(!b){b=document.createElement('div');b.id='v121low';b.style.cssText='background:#FEF3C7;border:3px solid #B45309;border-radius:14px;padding:10px 12px;margin:8px 0;color:#451A03;font-weight:800;';sp.insertAdjacentElement('beforebegin',b);}
+ const nm=x=>String(x.m.name).replace(/\s+/g,' ');
+ const html='<div style="font-size:1rem;font-weight:900;">🍾 In esaurimento</div><div style="font-size:.9rem;margin-top:4px;">'+L.map(x=>nm(x)+' · '+(x.l===0?'<b style="color:#B91C1C">finito</b>':'ne resta <b>'+x.l+'</b>')).join('<br>')+'</div><button type="button" id="v121lb" style="margin-top:8px;border:2px solid #7C2D12;background:#fff;color:#7C2D12;border-radius:999px;padding:7px 14px;font-weight:900;">📦 Apri le scorte</button> <button type="button" onclick="v122AddLow()" style="margin-top:8px;border:2px solid #166534;background:#22C55E;color:#fff;border-radius:999px;padding:7px 14px;font-weight:900;">🛒 Metti in lista spesa</button>';
+ if(b.dataset.h!==html){b.dataset.h=html;b.innerHTML=html;const x=$('v121lb');if(x)x.onclick=()=>{try{toggleStock();}catch(e){}};}
+ /* una volta sola per bottiglia e per livello: lo dice anche a voce sul KDS */
+ try{if(typeof isKdsDev==='function'&&isKdsDev()&&window.v90Say){const d=new Date().toISOString().slice(0,10);L.forEach(x=>{const k='alicetta_low_'+d+'_'+x.m.id+'_'+x.l;if(!localStorage.getItem(k)){localStorage.setItem(k,'1');v90Say({title:'Attenzione, '+x.m.name+(x.l===0?' finito':' in esaurimento'),summary:''});}});}}catch(e){}
+}catch(e){}};
+if(typeof renderKds==='function'){const _k=renderKds;renderKds=function(){const r=_k.apply(this,arguments);paint();return r;};}
+CBT(paint,2500);
+})();}catch(e){console.error("chef-extra v2.9.121",e);}
+try{(function(){
+const $=id=>document.getElementById(id);
+const esc=x=>String(x==null?'':x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const me=()=>(state.waiterName||'').trim();
+const kdsD=()=>typeof isKdsDev==='function'&&isKdsDev();
+const noUser=()=>!me()||/^timbrature$/i.test(me());
+let SP={},loaded=false,busy=false;
+const st=document.createElement('style');st.textContent='.v122ov{position:fixed;inset:0;z-index:9800;background:rgba(2,6,23,.72);display:flex;align-items:flex-end;justify-content:center}.v122bx{background:var(--card-bg,#E0F2FE);color:var(--text-main,#062329);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom,0px));box-sizing:border-box}.v122r{display:flex;align-items:center;gap:8px;padding:8px 6px;border-bottom:1px solid rgba(0,0,0,.12)}.v122r b{flex:1;font-size:1rem}.v122r small{display:block;font-weight:700;opacity:.7}.v122r.ok b{text-decoration:line-through;opacity:.5}.v122c{width:44px;height:44px;border-radius:12px;border:3px solid #166534;background:#fff;font-size:1.3rem;font-weight:900;color:#166534}.v122r.ok .v122c{background:#22C55E;color:#fff}.v122x{border:0;background:transparent;font-size:1.3rem;padding:6px 10px}.v122b{border:2px solid #062329;border-radius:999px;padding:9px 14px;font-weight:900;background:#fff;color:#062329;margin:4px 4px 0 0;font-size:.9rem}.v122in{display:flex;gap:6px;margin:8px 0}.v122in input{flex:1;font-size:1rem;padding:10px;border-radius:12px;border:2px solid #062329;min-width:0}';document.head.appendChild(st);
+const sorted=()=>Object.entries(SP).filter(([k,v])=>v&&v.n).sort((a,b)=>(a[1].ok?1:0)-(b[1].ok?1:0)||(a[1].ts||0)-(b[1].ts||0));
+const todo=()=>sorted().filter(([k,v])=>!v.ok);
+async function load(){if(busy)return;busy=true;try{const d=await fbGet('/costi/spesa');SP=d||{};loaded=true;}catch(e){}busy=false;paintAll();}
+const newId=()=>'s'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+function notify(txt){try{if(typeof ntfyPost!=='function')return;['christian','alice'].forEach(t=>{if(me().toLowerCase()!==t)ntfyPost(t,'🛒 Lista spesa',txt,3);});}catch(e){}}
+async function add(names,note){const out=[];const ex=new Set(todo().map(([k,v])=>String(v.n).toLowerCase()));
+ for(const raw of names){const n=String(raw||'').trim().slice(0,60);if(!n||ex.has(n.toLowerCase()))continue;ex.add(n.toLowerCase());const id=newId(),o={n,q:note&&note[n]||'',by:me()||'?',ts:Date.now(),ok:0};SP[id]=o;out.push(n);try{await fbSend('/costi/spesa/'+id,'PUT',o);}catch(e){}}
+ if(out.length)notify((me()||'Staff')+' ha aggiunto: '+out.join(', '));paintAll();return out.length;}
+async function toggle(id){const o=SP[id];if(!o)return;o.ok=o.ok?0:1;o.okBy=o.ok?me():'';try{await fbSend('/costi/spesa/'+id,'PUT',o);}catch(e){}paintAll();}
+async function del(id){delete SP[id];try{await fbSend('/costi/spesa/'+id,'DELETE');}catch(e){}paintAll();}
+async function clearOk(){const ids=sorted().filter(([k,v])=>v.ok).map(x=>x[0]);if(!ids.length)return;if(!confirm('Togliere dalla lista i '+ids.length+' articoli già comprati?'))return;for(const id of ids){delete SP[id];try{await fbSend('/costi/spesa/'+id,'DELETE');}catch(e){}}paintAll();}
+const lowList=()=>{const L=[];(state.menu||[]).forEach(m=>{if(m.cat!=='2 Bevande')return;let l=null;try{l=stockLeft(m);}catch(e){}if(l!==null&&l<2)L.push({n:m.name,q:l===0?'finito':'ne resta 1'});});return L;};
+window.v122AddLow=async function(){const L=lowList();if(!L.length)return alert('Nessuna bevanda in esaurimento.');const note={};L.forEach(x=>note[x.n]=x.q);const n=await add(L.map(x=>x.n),note);try{__toast(n?'🛒 Aggiunte '+n+' voci alla lista spesa':'Erano già tutte in lista',2800,1);}catch(e){}};
+function waText(){const d=new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});const L=todo();return '🛒 Lista spesa Alicetta · '+d+'\n'+(L.length?L.map(([k,v])=>'• '+v.n+(v.q?' ('+v.q+')':'')).join('\n'):'(vuota)');}
+window.v122Wa=()=>{if(!todo().length)return alert('La lista è vuota.');window.open('https://wa.me/?text='+encodeURIComponent(waText()),'_blank');};
+window.v122Add=inp=>{const i=$(inp);if(!i)return;const v=i.value.trim();if(!v)return;i.value='';add([v]);};
+window.v122T=id=>toggle(id);window.v122D=id=>del(id);window.v122Clr=()=>clearOk();window.v122Rel=()=>{load();};
+function body(pre){const L=sorted(),n=todo().length,lw=lowList().length;
+ return '<div class="v122in"><input id="'+pre+'in" placeholder="Scrivi cosa serve…" onkeydown="if(event.key===\'Enter\')v122Add(\''+pre+'in\')"><button type="button" class="v122b" style="background:#22C55E;color:#fff;" onclick="v122Add(\''+pre+'in\')">➕</button></div>'
+ +'<div>'+(lw?'<button type="button" class="v122b" style="border-color:#B45309;color:#78350F;" onclick="v122AddLow()">🍾 Aggiungi le '+lw+' in esaurimento</button>':'')+'<button type="button" class="v122b" onclick="v122Wa()">📲 WhatsApp</button><button type="button" class="v122b" onclick="v122Clr()">🧹 Togli i comprati</button></div>'
+ +'<div style="margin-top:6px;">'+(L.length?L.map(([id,v])=>'<div class="v122r'+(v.ok?' ok':'')+'"><button type="button" class="v122c" onclick="v122T(\''+id+'\')">'+(v.ok?'✓':'')+'</button><b>'+esc(v.n)+'<small>'+(v.q?esc(v.q)+' · ':'')+esc(v.by||'')+'</small></b><button type="button" class="v122x" onclick="v122D(\''+id+'\')">✖</button></div>').join(''):'<div style="padding:14px 6px;font-weight:700;opacity:.7;">'+(loaded?'La lista è vuota.':'⏳ Carico la lista…')+'</div>')+'</div>';}
+function paintKds(){try{const sp=$('stockPanel'),kv=$('viewKds');let b=$('v122kds');if(!sp||!kv||!kdsD()){if(b)b.remove();return;}
+ if(!b){b=document.createElement('div');b.id='v122kds';b.className='cart-section';sp.insertAdjacentElement('beforebegin',b);}
+ const f=document.activeElement;if(f&&f.id==='v122kin'&&b.dataset.h)return;
+ const h='<h3 style="margin-bottom:6px;">🛒 Lista spesa <span style="font-size:.8rem;opacity:.7;">('+todo().length+' da comprare · la vedono anche Alice e Christian)</span></h3>'+body('v122k');
+ if(b.dataset.h!==h){b.dataset.h=h;b.innerHTML=h;}}catch(e){}}
+function paintBtn(){try{if(kdsD()||noUser())return;const row=document.querySelector('#viewTables .tools-row');if(!row)return;let b=$('btnSpesa');
+ if(!b){b=document.createElement('button');b.className='btn-wl';b.id='btnSpesa';b.style.background='linear-gradient(180deg,#BBF7D0,#4ADE80)';b.onclick=()=>openOv();row.appendChild(b);}
+ const t='<span style="font-size:1.4rem;">🛒</span><br>Spesa'+(todo().length?' · '+todo().length:'');if(b.dataset.h!==t){b.dataset.h=t;b.innerHTML=t;}}catch(e){}}
+function openOv(){let o=$('v122ov');if(o)o.remove();o=document.createElement('div');o.id='v122ov';o.className='v122ov';o.onclick=e=>{if(e.target===o)o.remove();};document.body.appendChild(o);load();drawOv();}
+function drawOv(){const o=$('v122ov');if(!o)return;const f=document.activeElement;if(f&&f.id==='v122oin'&&o.firstChild)return;o.innerHTML='<div class="v122bx"><h3 style="margin:0 0 6px;color:var(--logo-coral,#FF5733);">🛒 Lista spesa</h3>'+body('v122o')+'<button type="button" class="v122b" style="width:100%;margin-top:12px;" onclick="document.getElementById(\'v122ov\').remove()">Chiudi</button></div>';}
+function paintAll(){paintKds();paintBtn();drawOv();}
+if(typeof renderKds==='function'){const _k=renderKds;renderKds=function(){const r=_k.apply(this,arguments);paintKds();return r;};}
+if(typeof renderTables==='function'){const _t=renderTables;renderTables=function(){const r=_t.apply(this,arguments);paintBtn();return r;};}
+CBT(()=>{if(me()&&!document.hidden)load();},25000);
+CBT(()=>{if(me()&&!loaded)load();paintBtn();},3000);
+})();}catch(e){console.error("chef-extra v2.9.122",e);}
+try{(function(){const V='v2.9.122';const f=()=>{document.querySelectorAll('.version-badge').forEach(e=>{if(e.textContent!==V)e.textContent=V;});if(document.title!=='Chef Bull Brigade - '+V)document.title='Chef Bull Brigade - '+V;};f();CBT(f,5000);})();}catch(e){}
